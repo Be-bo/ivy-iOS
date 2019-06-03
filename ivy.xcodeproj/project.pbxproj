@@ -20,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		46403A912E4B2F88821B6AAC /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
+		960049E017597DC7D7CE5391 /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Pods/Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
+		A5C01D03722829FAD0FB4C12 /* Pods-ivy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ivy/Pods-ivy.debug.xcconfig"; sourceTree = "<group>"; };
 		A90D266122A4B1FF005E8965 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A90D266422A4B214005E8965 /* cordiabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordiabold.ttf; sourceTree = "<group>"; };
 		A90D266522A4B215005E8965 /* cordia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordia.ttf; sourceTree = "<group>"; };
@@ -68,6 +70,8 @@
 			children = (
 				B1390004A4C8D933F49EAFBB /* Pods-ivy.debug.xcconfig */,
 				46403A912E4B2F88821B6AAC /* Pods-ivy.release.xcconfig */,
+				A5C01D03722829FAD0FB4C12 /* Pods-ivy.debug.xcconfig */,
+				960049E017597DC7D7CE5391 /* Pods-ivy.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -207,7 +211,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -232,7 +236,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -387,7 +391,7 @@
 		};
 		FA60591922A4B12E00383F9F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1390004A4C8D933F49EAFBB /* Pods-ivy.debug.xcconfig */;
+			baseConfigurationReference = A5C01D03722829FAD0FB4C12 /* Pods-ivy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -406,7 +410,7 @@
 		};
 		FA60591A22A4B12E00383F9F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46403A912E4B2F88821B6AAC /* Pods-ivy.release.xcconfig */;
+			baseConfigurationReference = 960049E017597DC7D7CE5391 /* Pods-ivy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
