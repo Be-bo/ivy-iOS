@@ -211,7 +211,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -236,7 +236,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -391,7 +391,7 @@
 		};
 		FA60591922A4B12E00383F9F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A5C01D03722829FAD0FB4C12 /* Pods-ivy.debug.xcconfig */;
+			baseConfigurationReference = B1390004A4C8D933F49EAFBB /* Pods-ivy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -410,7 +410,7 @@
 		};
 		FA60591A22A4B12E00383F9F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 960049E017597DC7D7CE5391 /* Pods-ivy.release.xcconfig */;
+			baseConfigurationReference = 46403A912E4B2F88821B6AAC /* Pods-ivy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
