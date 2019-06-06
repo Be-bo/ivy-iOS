@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ChX-yV-Md2">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,6 +9,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="cordia.ttf">
+            <string>CordiaNew</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -32,6 +37,94 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-57" y="141"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="oaJ-t8-2t3">
+            <objects>
+                <viewController id="ChX-yV-Md2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xIt-mY-eno">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="Hk1-pP-4PR">
+                                <rect key="frame" x="132" y="124" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="9HN-uc-h9d"/>
+                                    <constraint firstAttribute="height" constant="150" id="fYb-Ff-ZAO"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to ivy!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9v-dI-Hxv">
+                                <rect key="frame" x="116" y="304" width="182" height="45"/>
+                                <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="39"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Your univeresity email address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dt8-YV-agO">
+                                <rect key="frame" x="50" y="447.5" width="314" height="36"/>
+                                <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your university email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3gX-Mw-n8k">
+                                <rect key="frame" x="50" y="493.5" width="314" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AUz-EA-nNM">
+                                <rect key="frame" x="50" y="528.5" width="314" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUz-r1-D0t">
+                                <rect key="frame" x="50" y="608.5" width="314" height="30"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We'll help you build your personalized profile in the following easy steps:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haW-Fz-ivF">
+                                <rect key="frame" x="50" y="369" width="314" height="48.5"/>
+                                <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ii6-sA-lA2" firstAttribute="trailing" secondItem="3gX-Mw-n8k" secondAttribute="trailing" constant="50" id="8Cd-bp-2ab"/>
+                            <constraint firstItem="e9v-dI-Hxv" firstAttribute="top" secondItem="Hk1-pP-4PR" secondAttribute="bottom" constant="30" id="9hu-hZ-Hdd"/>
+                            <constraint firstItem="Hk1-pP-4PR" firstAttribute="centerX" secondItem="xIt-mY-eno" secondAttribute="centerX" id="AbI-EC-pj3"/>
+                            <constraint firstItem="AUz-EA-nNM" firstAttribute="top" secondItem="3gX-Mw-n8k" secondAttribute="bottom" constant="5" id="DTu-j0-j7g"/>
+                            <constraint firstItem="Ii6-sA-lA2" firstAttribute="trailing" secondItem="CUz-r1-D0t" secondAttribute="trailing" constant="50" id="EZd-wy-P7J"/>
+                            <constraint firstItem="3gX-Mw-n8k" firstAttribute="top" secondItem="dt8-YV-agO" secondAttribute="bottom" constant="10" id="F1R-to-DdA"/>
+                            <constraint firstItem="haW-Fz-ivF" firstAttribute="leading" secondItem="xIt-mY-eno" secondAttribute="leading" constant="50" id="Gwe-fJ-sj8"/>
+                            <constraint firstItem="AUz-EA-nNM" firstAttribute="leading" secondItem="Ii6-sA-lA2" secondAttribute="leading" constant="50" id="Hbn-Fv-W0h"/>
+                            <constraint firstItem="Ii6-sA-lA2" firstAttribute="trailing" secondItem="dt8-YV-agO" secondAttribute="trailing" constant="50" id="Khd-Qe-Taj"/>
+                            <constraint firstItem="CUz-r1-D0t" firstAttribute="leading" secondItem="Ii6-sA-lA2" secondAttribute="leading" constant="50" id="MVt-af-ckw"/>
+                            <constraint firstItem="3gX-Mw-n8k" firstAttribute="top" secondItem="dt8-YV-agO" secondAttribute="bottom" constant="10" id="QTv-1W-zSf"/>
+                            <constraint firstItem="e9v-dI-Hxv" firstAttribute="centerX" secondItem="xIt-mY-eno" secondAttribute="centerX" id="Qrj-wT-GEv"/>
+                            <constraint firstItem="dt8-YV-agO" firstAttribute="leading" secondItem="Ii6-sA-lA2" secondAttribute="leading" constant="50" id="TJv-zS-Fc1"/>
+                            <constraint firstItem="dt8-YV-agO" firstAttribute="top" secondItem="haW-Fz-ivF" secondAttribute="bottom" constant="30" id="VND-kP-rAD"/>
+                            <constraint firstItem="CUz-r1-D0t" firstAttribute="top" secondItem="AUz-EA-nNM" secondAttribute="bottom" constant="50" id="fF4-Tp-JZ4"/>
+                            <constraint firstItem="Ii6-sA-lA2" firstAttribute="bottom" secondItem="CUz-r1-D0t" secondAttribute="bottom" constant="220" id="fRw-mp-c5j"/>
+                            <constraint firstAttribute="trailing" secondItem="haW-Fz-ivF" secondAttribute="trailing" constant="50" id="jJi-9T-Liz"/>
+                            <constraint firstItem="3gX-Mw-n8k" firstAttribute="leading" secondItem="Ii6-sA-lA2" secondAttribute="leading" constant="50" id="mmy-7A-nxi"/>
+                            <constraint firstItem="e9v-dI-Hxv" firstAttribute="top" secondItem="Hk1-pP-4PR" secondAttribute="bottom" constant="30" id="oMa-cz-sJG"/>
+                            <constraint firstItem="Ii6-sA-lA2" firstAttribute="trailing" secondItem="AUz-EA-nNM" secondAttribute="trailing" constant="50" id="q57-B6-eTV"/>
+                            <constraint firstItem="CUz-r1-D0t" firstAttribute="top" secondItem="AUz-EA-nNM" secondAttribute="bottom" constant="50" id="saZ-n6-x8u"/>
+                            <constraint firstItem="AUz-EA-nNM" firstAttribute="top" secondItem="3gX-Mw-n8k" secondAttribute="bottom" constant="5" id="vAq-EK-ETe"/>
+                            <constraint firstItem="haW-Fz-ivF" firstAttribute="top" secondItem="e9v-dI-Hxv" secondAttribute="bottom" constant="20" id="xCe-s4-Icr"/>
+                            <constraint firstItem="Hk1-pP-4PR" firstAttribute="top" secondItem="Ii6-sA-lA2" secondAttribute="top" constant="80" id="yxS-xh-mM1"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ii6-sA-lA2"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z5a-3x-727" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1153.6231884057972" y="140.625"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Image" width="500" height="500"/>
+    </resources>
 </document>
