@@ -1,5 +1,6 @@
 //
-//  ViewController.swift
+//  Login.swift
+
 //  ivy
 //
 //  Created by Robert on 2019-06-02.
@@ -8,7 +9,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class Login: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

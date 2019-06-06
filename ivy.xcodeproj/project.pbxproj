@@ -12,10 +12,11 @@
 		A90D266722A4B215005E8965 /* cordia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266522A4B215005E8965 /* cordia.ttf */; };
 		E961C50C0C369FCC925C44B9 /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3478AFE0020D038D65D9930 /* Pods_ivy.framework */; };
 		FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590922A4B12C00383F9F /* AppDelegate.swift */; };
-		FA60590C22A4B12C00383F9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590B22A4B12C00383F9F /* ViewController.swift */; };
+		FA60590C22A4B12C00383F9F /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590B22A4B12C00383F9F /* Login.swift */; };
 		FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA60590D22A4B12C00383F9F /* Main.storyboard */; };
 		FA60591122A4B12E00383F9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA60591022A4B12E00383F9F /* Assets.xcassets */; };
 		FA60591422A4B12E00383F9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */; };
+		FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D86922A898020055FCE7 /* Reg1UserEmail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,11 +30,12 @@
 		D3478AFE0020D038D65D9930 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA60590622A4B12C00383F9F /* ivy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ivy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA60590922A4B12C00383F9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FA60590B22A4B12C00383F9F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FA60590B22A4B12C00383F9F /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		FA60590E22A4B12C00383F9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA60591022A4B12E00383F9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA60591322A4B12E00383F9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA60591522A4B12E00383F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA90D86922A898020055FCE7 /* Reg1UserEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg1UserEmail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +99,9 @@
 		FA60590822A4B12C00383F9F /* ivy */ = {
 			isa = PBXGroup;
 			children = (
+				FA90D86822A897AC0055FCE7 /* LoginRegister */,
 				A90D266322A4B205005E8965 /* fonts */,
 				FA60590922A4B12C00383F9F /* AppDelegate.swift */,
-				FA60590B22A4B12C00383F9F /* ViewController.swift */,
 				FA60590D22A4B12C00383F9F /* Main.storyboard */,
 				FA60591022A4B12E00383F9F /* Assets.xcassets */,
 				FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */,
@@ -107,6 +109,15 @@
 				A90D266122A4B1FF005E8965 /* GoogleService-Info.plist */,
 			);
 			path = ivy;
+			sourceTree = "<group>";
+		};
+		FA90D86822A897AC0055FCE7 /* LoginRegister */ = {
+			isa = PBXGroup;
+			children = (
+				FA60590B22A4B12C00383F9F /* Login.swift */,
+				FA90D86922A898020055FCE7 /* Reg1UserEmail.swift */,
+			);
+			path = LoginRegister;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,7 +257,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA60590C22A4B12C00383F9F /* ViewController.swift in Sources */,
+				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
+				FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */,
 				FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
