@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ChX-yV-Md2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YF4-uU-cr4">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -60,7 +60,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Your univeresity email address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dt8-YV-agO">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Your university email address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dt8-YV-agO">
                                 <rect key="frame" x="50" y="447.5" width="314" height="36"/>
                                 <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                 <nil key="textColor"/>
@@ -107,7 +107,6 @@
                             <constraint firstItem="Ii6-sA-lA2" firstAttribute="bottom" secondItem="CUz-r1-D0t" secondAttribute="bottom" constant="220" id="fRw-mp-c5j"/>
                             <constraint firstAttribute="trailing" secondItem="haW-Fz-ivF" secondAttribute="trailing" constant="50" id="jJi-9T-Liz"/>
                             <constraint firstItem="3gX-Mw-n8k" firstAttribute="leading" secondItem="Ii6-sA-lA2" secondAttribute="leading" constant="50" id="mmy-7A-nxi"/>
-                            <constraint firstItem="e9v-dI-Hxv" firstAttribute="top" secondItem="Hk1-pP-4PR" secondAttribute="bottom" constant="30" id="oMa-cz-sJG"/>
                             <constraint firstItem="Ii6-sA-lA2" firstAttribute="trailing" secondItem="AUz-EA-nNM" secondAttribute="trailing" constant="50" id="q57-B6-eTV"/>
                             <constraint firstItem="CUz-r1-D0t" firstAttribute="top" secondItem="AUz-EA-nNM" secondAttribute="bottom" constant="50" id="saZ-n6-x8u"/>
                             <constraint firstItem="haW-Fz-ivF" firstAttribute="top" secondItem="e9v-dI-Hxv" secondAttribute="bottom" constant="20" id="xCe-s4-Icr"/>
@@ -119,6 +118,47 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z5a-3x-727" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1153.6231884057972" y="140.625"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ZxL-H8-iJq">
+            <objects>
+                <viewController id="YF4-uU-cr4" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nmc-yR-7Zu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="cP7-p6-3Ig">
+                                <rect key="frame" x="132" y="124" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="Qwc-d0-xgj"/>
+                                    <constraint firstAttribute="width" constant="150" id="dZm-oo-0mb"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2. Create a STRONG password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xu1-pQ-C1y">
+                                <rect key="frame" x="50" y="294" width="314" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(Try to include a capital letter, a number and a special symbol)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Rs-oQ-bBV">
+                                <rect key="frame" x="32" y="352" width="350" height="130"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="cP7-p6-3Ig" firstAttribute="top" secondItem="77q-Rf-dza" secondAttribute="top" constant="80" id="0ok-Et-TEH"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="77q-Rf-dza"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gAj-vm-NQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2063.768115942029" y="140.625"/>
         </scene>
     </scenes>
     <resources>
