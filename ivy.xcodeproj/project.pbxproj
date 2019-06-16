@@ -10,6 +10,11 @@
 		A90D266222A4B1FF005E8965 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A90D266122A4B1FF005E8965 /* GoogleService-Info.plist */; };
 		A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266422A4B214005E8965 /* cordiabold.ttf */; };
 		A90D266722A4B215005E8965 /* cordia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266522A4B215005E8965 /* cordia.ttf */; };
+		A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DB22B5D2E2008B35AA /* StandardButton.swift */; };
+		A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DC22B5D2E2008B35AA /* LoadingWheel.swift */; };
+		A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */; };
+		A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */; };
+		A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E322B5D2F8008B35AA /* Constants.swift */; };
 		E961C50C0C369FCC925C44B9 /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3478AFE0020D038D65D9930 /* Pods_ivy.framework */; };
 		FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590922A4B12C00383F9F /* AppDelegate.swift */; };
 		FA60590C22A4B12C00383F9F /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590B22A4B12C00383F9F /* Login.swift */; };
@@ -27,6 +32,11 @@
 		A90D266122A4B1FF005E8965 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A90D266422A4B214005E8965 /* cordiabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordiabold.ttf; sourceTree = "<group>"; };
 		A90D266522A4B215005E8965 /* cordia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordia.ttf; sourceTree = "<group>"; };
+		A9BB05DB22B5D2E2008B35AA /* StandardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
+		A9BB05DC22B5D2E2008B35AA /* LoadingWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingWheel.swift; sourceTree = "<group>"; };
+		A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
+		A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
+		A9BB05E322B5D2F8008B35AA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B1390004A4C8D933F49EAFBB /* Pods-ivy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.debug.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.debug.xcconfig"; sourceTree = "<group>"; };
 		D3478AFE0020D038D65D9930 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA60590622A4B12C00383F9F /* ivy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ivy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +79,17 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		A9BB05DA22B5D2E2008B35AA /* UIElements */ = {
+			isa = PBXGroup;
+			children = (
+				A9BB05DB22B5D2E2008B35AA /* StandardButton.swift */,
+				A9BB05DC22B5D2E2008B35AA /* LoadingWheel.swift */,
+				A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */,
+				A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */,
+			);
+			path = UIElements;
+			sourceTree = "<group>";
+		};
 		AB71219703D1BBDED6353DAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +122,8 @@
 		FA60590822A4B12C00383F9F /* ivy */ = {
 			isa = PBXGroup;
 			children = (
+				A9BB05E322B5D2F8008B35AA /* Constants.swift */,
+				A9BB05DA22B5D2E2008B35AA /* UIElements */,
 				FA90D86822A897AC0055FCE7 /* LoginRegister */,
 				A90D266322A4B205005E8965 /* fonts */,
 				FA60590922A4B12C00383F9F /* AppDelegate.swift */,
@@ -260,10 +283,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */,
 				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
+				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
+				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
+				A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */,
 				FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */,
 				FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */,
 				FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */,
+				A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

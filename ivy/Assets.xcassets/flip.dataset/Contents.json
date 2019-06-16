@@ -6,7 +6,8 @@
   "data" : [
     {
       "idiom" : "universal",
-      "filename" : "ivy_logo.svg"
+      "filename" : "flip.svg",
+      "universal-type-identifier" : "public.svg-image"
     }
   ]
 }
