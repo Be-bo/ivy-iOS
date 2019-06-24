@@ -17,6 +17,9 @@
 		A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E322B5D2F8008B35AA /* Constants.swift */; };
 		A9BB05E622C04A06008B35AA /* registerPageSeven.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E522C04A06008B35AA /* registerPageSeven.swift */; };
 		E961C50C0C369FCC925C44B9 /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3478AFE0020D038D65D9930 /* Pods_ivy.framework */; };
+		FA06DE3922C0658100B07EDC /* DegreeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA06DE3822C0658100B07EDC /* DegreeCell.swift */; };
+		FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA06DE3A22C0659900B07EDC /* DegreeCell.xib */; };
+		FA06DE3D22C0687F00B07EDC /* Reg5UserDegree.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA06DE3C22C0687F00B07EDC /* Reg5UserDegree.swift */; };
 		FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590922A4B12C00383F9F /* AppDelegate.swift */; };
 		FA60590C22A4B12C00383F9F /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590B22A4B12C00383F9F /* Login.swift */; };
 		FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA60590D22A4B12C00383F9F /* Main.storyboard */; };
@@ -41,6 +44,9 @@
 		A9BB05E522C04A06008B35AA /* registerPageSeven.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPageSeven.swift; sourceTree = "<group>"; };
 		B1390004A4C8D933F49EAFBB /* Pods-ivy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.debug.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.debug.xcconfig"; sourceTree = "<group>"; };
 		D3478AFE0020D038D65D9930 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA06DE3822C0658100B07EDC /* DegreeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeCell.swift; sourceTree = "<group>"; };
+		FA06DE3A22C0659900B07EDC /* DegreeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DegreeCell.xib; sourceTree = "<group>"; };
+		FA06DE3C22C0687F00B07EDC /* Reg5UserDegree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg5UserDegree.swift; sourceTree = "<group>"; };
 		FA60590622A4B12C00383F9F /* ivy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ivy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA60590922A4B12C00383F9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA60590B22A4B12C00383F9F /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -145,6 +151,9 @@
 				FA60590B22A4B12C00383F9F /* Login.swift */,
 				FA90D86922A898020055FCE7 /* Reg1UserEmail.swift */,
 				A9BB05E522C04A06008B35AA /* registerPageSeven.swift */,
+				FA06DE3822C0658100B07EDC /* DegreeCell.swift */,
+				FA06DE3A22C0659900B07EDC /* DegreeCell.xib */,
+				FA06DE3C22C0687F00B07EDC /* Reg5UserDegree.swift */,
 			);
 			path = LoginRegister;
 			sourceTree = "<group>";
@@ -215,6 +224,7 @@
 				A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */,
 				FA60591122A4B12E00383F9F /* Assets.xcassets in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
+				FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */,
+				FA06DE3D22C0687F00B07EDC /* Reg5UserDegree.swift in Sources */,
 				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
@@ -294,6 +305,7 @@
 				FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */,
 				FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */,
 				FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */,
+				FA06DE3922C0658100B07EDC /* DegreeCell.swift in Sources */,
 				A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */,
 				A9BB05E622C04A06008B35AA /* registerPageSeven.swift in Sources */,
 			);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aks-XR-PZt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nFK-ej-XQ3">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -424,7 +424,7 @@
         <!--registerPageFive-->
         <scene sceneID="Azw-M8-sEz">
             <objects>
-                <viewController title="IntroRegisterScreen" id="nFK-ej-XQ3" userLabel="registerPageFive" sceneMemberID="viewController">
+                <viewController title="IntroRegisterScreen" id="nFK-ej-XQ3" userLabel="registerPageFive" customClass="Reg5UserDegree" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M7f-Gk-tDg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -432,18 +432,29 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3H-IB-Hst" userLabel="MidSectionView">
                                 <rect key="frame" x="0.0" y="270" width="414" height="626"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85T-vu-tc0" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="144" width="300" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85T-vu-tc0" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
+                                        <rect key="frame" x="57" y="316" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="9Rg-b1-al3"/>
                                             <constraint firstAttribute="height" constant="50" id="z4Q-u7-9ES"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                     </button>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vrm-ps-NJQ">
+                                        <rect key="frame" x="57" y="8" width="300" height="300"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="1ZX-qB-3eS"/>
+                                            <constraint firstAttribute="height" constant="300" id="V0i-3J-jfT"/>
+                                        </constraints>
+                                    </tableView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="85T-vu-tc0" firstAttribute="top" secondItem="Vrm-ps-NJQ" secondAttribute="bottom" constant="8" id="FmH-v6-vlS"/>
                                     <constraint firstItem="85T-vu-tc0" firstAttribute="centerX" secondItem="a3H-IB-Hst" secondAttribute="centerX" id="Hzh-54-b0K"/>
+                                    <constraint firstItem="Vrm-ps-NJQ" firstAttribute="top" secondItem="a3H-IB-Hst" secondAttribute="top" constant="8" id="RWv-jy-gUN"/>
+                                    <constraint firstItem="Vrm-ps-NJQ" firstAttribute="centerX" secondItem="a3H-IB-Hst" secondAttribute="centerX" id="g2o-Sy-hYF"/>
                                     <constraint firstAttribute="height" constant="626" id="hK6-qV-9jv"/>
                                 </constraints>
                             </view>
@@ -491,6 +502,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zz1-gk-ZME"/>
                     </view>
+                    <connections>
+                        <outlet property="degreeTableView" destination="Vrm-ps-NJQ" id="K82-Y8-1mG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dVh-Vl-Itt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
