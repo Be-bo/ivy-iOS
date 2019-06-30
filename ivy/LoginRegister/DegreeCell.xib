@@ -55,9 +55,9 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="checkImageView" destination="eIo-30-YpZ" id="RaD-DK-2fG"/>
-                <outlet property="degreeImageView" destination="XJJ-jp-XVF" id="9Pf-JV-zfa"/>
-                <outlet property="degreeLabel" destination="2qM-3v-DMG" id="bUf-5d-tGk"/>
+                <outlet property="checkImageView" destination="eIo-30-YpZ" id="yUf-cZ-7hf"/>
+                <outlet property="degreeImageView" destination="XJJ-jp-XVF" id="gKZ-bQ-Jcw"/>
+                <outlet property="degreeLabel" destination="2qM-3v-DMG" id="7N0-uZ-FD9"/>
             </connections>
         </tableViewCell>
     </objects>
