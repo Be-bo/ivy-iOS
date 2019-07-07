@@ -13,6 +13,8 @@
 		A9990C6E22C9571200E95B2C /* Reg8InterestsChosen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */; };
 		A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */; };
 		A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */; };
+		A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7322C986AA00E95B2C /* Reg2Password.swift */; };
+		A9990C7822C9A2F600E95B2C /* RegisterInfoStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7722C9A2F600E95B2C /* RegisterInfoStruct.swift */; };
 		A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DB22B5D2E2008B35AA /* StandardButton.swift */; };
 		A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DC22B5D2E2008B35AA /* LoadingWheel.swift */; };
 		A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */; };
@@ -42,6 +44,8 @@
 		A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg8InterestsChosen.swift; sourceTree = "<group>"; };
 		A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterInterestsCell.xib; sourceTree = "<group>"; };
 		A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestsCell.swift; sourceTree = "<group>"; };
+		A9990C7322C986AA00E95B2C /* Reg2Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg2Password.swift; sourceTree = "<group>"; };
+		A9990C7722C9A2F600E95B2C /* RegisterInfoStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInfoStruct.swift; sourceTree = "<group>"; };
 		A9BB05DB22B5D2E2008B35AA /* StandardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
 		A9BB05DC22B5D2E2008B35AA /* LoadingWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingWheel.swift; sourceTree = "<group>"; };
 		A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
@@ -163,6 +167,8 @@
 				A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */,
 				A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */,
 				A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */,
+				A9990C7322C986AA00E95B2C /* Reg2Password.swift */,
+				A9990C7722C9A2F600E95B2C /* RegisterInfoStruct.swift */,
 			);
 			path = LoginRegister;
 			sourceTree = "<group>";
@@ -313,7 +319,9 @@
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
 				A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */,
 				FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */,
+				A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */,
 				FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */,
+				A9990C7822C9A2F600E95B2C /* RegisterInfoStruct.swift in Sources */,
 				A9990C6E22C9571200E95B2C /* Reg8InterestsChosen.swift in Sources */,
 				FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */,
 				A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */,

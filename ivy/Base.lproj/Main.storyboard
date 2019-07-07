@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fFK-KT-tjU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Pyi-Q3-SUE">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -22,13 +22,13 @@
         <!--IntroRegisterScreen-->
         <scene sceneID="oaJ-t8-2t3">
             <objects>
-                <viewController title="IntroRegisterScreen" id="ChX-yV-Md2" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" title="IntroRegisterScreen" id="ChX-yV-Md2" customClass="Reg1UserEmail" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xIt-mY-eno">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h9x-aY-iTa" userLabel="MidSectionView">
-                                <rect key="frame" x="0.0" y="270" width="414" height="626"/>
+                                <rect key="frame" x="0.0" y="270" width="414" height="538"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="We'll help you build your personalized profile in the following easy steps:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haW-Fz-ivF">
                                         <rect key="frame" x="57" y="0.0" width="300" height="48.5"/>
@@ -75,11 +75,15 @@
                                             <constraint firstAttribute="width" constant="300" id="vPo-9T-Ksb"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="onClickContinue:" destination="ChX-yV-Md2" eventType="touchUpInside" id="KGX-Gp-AX7"/>
+                                            <segue destination="Xfa-fD-0xT" kind="show" identifier="emailToPassSegue" id="tN2-u7-L1c"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="626" id="761-cg-DM8"/>
+                                    <constraint firstAttribute="height" constant="538" id="9Ev-bO-UBX"/>
                                     <constraint firstItem="CUz-r1-D0t" firstAttribute="centerX" secondItem="h9x-aY-iTa" secondAttribute="centerX" id="B4K-oQ-mzr"/>
                                     <constraint firstItem="dt8-YV-agO" firstAttribute="top" secondItem="haW-Fz-ivF" secondAttribute="bottom" constant="20" id="BKJ-qu-nIr"/>
                                     <constraint firstItem="AUz-EA-nNM" firstAttribute="centerX" secondItem="h9x-aY-iTa" secondAttribute="centerX" id="K4l-wS-egq"/>
@@ -132,17 +136,22 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ii6-sA-lA2"/>
                     </view>
+                    <navigationItem key="navigationItem" id="WAd-rl-uBD"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="emailLabel" destination="3gX-Mw-n8k" id="eQl-fr-uuG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z5a-3x-727" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1238" y="102"/>
+            <point key="canvasLocation" x="2113.0434782608695" y="101.78571428571428"/>
         </scene>
         <!--registerPageTwo-->
         <scene sceneID="X7F-i0-d13">
             <objects>
-                <viewController title="IntroRegisterScreen" id="Xfa-fD-0xT" userLabel="registerPageTwo" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Crl-HN-cTD">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                <viewController id="Xfa-fD-0xT" userLabel="registerPageTwo" customClass="Reg2Password" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="Crl-HN-cTD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mZR-Nz-KCb" userLabel="MidSectionView">
@@ -245,7 +254,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2M-me-OzC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2138" y="102"/>
+            <point key="canvasLocation" x="3047.826086956522" y="101.78571428571428"/>
         </scene>
         <!--registerPageThree-->
         <scene sceneID="dkj-Dc-CsJ">
@@ -344,7 +353,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qhu-Bd-xjy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2986.9565217391305" y="101.78571428571428"/>
+            <point key="canvasLocation" x="3897.1014492753625" y="101.78571428571428"/>
         </scene>
         <!--registerPageFour-->
         <scene sceneID="Z1X-N3-BPE">
@@ -419,7 +428,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lse-WD-Nbh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3917" y="102"/>
+            <point key="canvasLocation" x="4826.0869565217399" y="101.78571428571428"/>
         </scene>
         <!--registerPageFive-->
         <scene sceneID="Azw-M8-sEz">
@@ -508,7 +517,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dVh-Vl-Itt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4865" y="102"/>
+            <point key="canvasLocation" x="5773.913043478261" y="101.78571428571428"/>
         </scene>
         <!--registerPageSix-->
         <scene sceneID="c8W-Ky-uyh">
@@ -603,7 +612,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4iP-7Z-5hZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5757" y="102"/>
+            <point key="canvasLocation" x="6666.666666666667" y="101.78571428571428"/>
         </scene>
         <!--registerPageSeven-->
         <scene sceneID="Ygz-ck-3CM">
@@ -707,7 +716,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LZv-ZA-qFZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6734.7826086956529" y="101.78571428571428"/>
+            <point key="canvasLocation" x="7644.9275362318849" y="101.78571428571428"/>
         </scene>
         <!--registerPageEight-->
         <scene sceneID="tiM-zf-iqz">
@@ -796,7 +805,26 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="7738" y="102"/>
+            <point key="canvasLocation" x="8647.826086956522" y="101.78571428571428"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Q2L-pb-QJK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Pyi-Q3-SUE" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="aJD-1W-m1s">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ChX-yV-Md2" kind="relationship" relationship="rootViewController" id="52b-Yx-rwc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UJJ-qe-Csz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1202.8985507246377" y="101.78571428571428"/>
         </scene>
     </scenes>
     <resources>
@@ -805,4 +833,5 @@
             <color red="0.16862745098039217" green="0.59215686274509804" blue="0.12941176470588237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <color key="tintColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
