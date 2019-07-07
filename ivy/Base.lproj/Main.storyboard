@@ -77,9 +77,18 @@
                                         <state key="normal" title="Button"/>
                                         <connections>
                                             <action selector="onClickContinue:" destination="ChX-yV-Md2" eventType="touchUpInside" id="KGX-Gp-AX7"/>
-                                            <segue destination="Xfa-fD-0xT" kind="show" identifier="emailToPassSegue" id="tN2-u7-L1c"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIF-55-KlF">
+                                        <rect key="frame" x="107" y="286" width="200" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="B2W-fx-Wlg"/>
+                                            <constraint firstAttribute="height" constant="30" id="NNL-Pc-H3U"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -91,7 +100,9 @@
                                     <constraint firstItem="dt8-YV-agO" firstAttribute="centerX" secondItem="h9x-aY-iTa" secondAttribute="centerX" id="PZg-Gy-MFU"/>
                                     <constraint firstItem="AUz-EA-nNM" firstAttribute="top" secondItem="3gX-Mw-n8k" secondAttribute="bottom" constant="8" id="ZF8-Sm-Odj"/>
                                     <constraint firstItem="CUz-r1-D0t" firstAttribute="top" secondItem="AUz-EA-nNM" secondAttribute="bottom" constant="8" id="fhN-WE-gn4"/>
+                                    <constraint firstItem="uIF-55-KlF" firstAttribute="top" secondItem="CUz-r1-D0t" secondAttribute="bottom" constant="7.5" id="jjG-b5-5We"/>
                                     <constraint firstItem="3gX-Mw-n8k" firstAttribute="top" secondItem="dt8-YV-agO" secondAttribute="bottom" constant="8" id="lvX-ei-qI1"/>
+                                    <constraint firstItem="uIF-55-KlF" firstAttribute="centerX" secondItem="h9x-aY-iTa" secondAttribute="centerX" id="pEg-6R-vBv"/>
                                     <constraint firstItem="haW-Fz-ivF" firstAttribute="centerX" secondItem="h9x-aY-iTa" secondAttribute="centerX" id="qYY-MW-abL"/>
                                     <constraint firstItem="haW-Fz-ivF" firstAttribute="top" secondItem="h9x-aY-iTa" secondAttribute="top" id="wsM-DG-AgQ"/>
                                 </constraints>
@@ -139,7 +150,10 @@
                     <navigationItem key="navigationItem" id="WAd-rl-uBD"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="confirmEmailLabel" destination="AUz-EA-nNM" id="06Q-Wx-a9j"/>
                         <outlet property="emailLabel" destination="3gX-Mw-n8k" id="eQl-fr-uuG"/>
+                        <outlet property="errorLabel" destination="uIF-55-KlF" id="ioQ-IH-QYg"/>
+                        <segue destination="Xfa-fD-0xT" kind="presentation" identifier="emailToPassSegue" id="kaI-Sy-Y0n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z5a-3x-727" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -150,7 +164,7 @@
         <scene sceneID="X7F-i0-d13">
             <objects>
                 <viewController id="Xfa-fD-0xT" userLabel="registerPageTwo" customClass="Reg2Password" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="Crl-HN-cTD">
+                    <view key="view" contentMode="scaleToFill" id="Crl-HN-cTD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -251,6 +265,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UB9-FV-yrQ"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2M-me-OzC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -721,7 +736,6 @@
         <!--registerPageEight-->
         <scene sceneID="tiM-zf-iqz">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jV5-Re-xfD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="IntroRegisterScreen" id="fFK-KT-tjU" userLabel="registerPageEight" customClass="Reg8InterestsChocen" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WGe-9g-BKA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -804,6 +818,7 @@
                         <outlet property="tableView" destination="h4y-Kc-DJY" id="AwC-i6-tgB"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jV5-Re-xfD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8647.826086956522" y="101.78571428571428"/>
         </scene>
@@ -828,9 +843,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ivy_logo" width="500" height="500"/>
+        <image name="ivy_logo" width="240" height="240"/>
         <namedColor name="ivyGreen">
-            <color red="0.16862745098039217" green="0.59215686274509804" blue="0.12941176470588237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.16899999976158142" green="0.59200000762939453" blue="0.1289999932050705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <color key="tintColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

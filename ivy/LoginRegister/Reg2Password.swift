@@ -11,11 +11,12 @@ import UIKit
 
 class Reg2Password: UIViewController {
     
-    var registerInfoStruct: RegisterInfoStruct?
-    
+
+    var secondStruct = UserProfile(email:"") //initializer which will be overidden by the email actually passed in
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("register info struct", registerInfoStruct)
+        print("password screen", secondStruct.email)
         
     }
     

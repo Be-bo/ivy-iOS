@@ -10,11 +10,16 @@
 		A90D266222A4B1FF005E8965 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A90D266122A4B1FF005E8965 /* GoogleService-Info.plist */; };
 		A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266422A4B214005E8965 /* cordiabold.ttf */; };
 		A90D266722A4B215005E8965 /* cordia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266522A4B215005E8965 /* cordia.ttf */; };
+		A920C4E522D281B60088DD58 /* CardBack.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E422D281B60088DD58 /* CardBack.xib */; };
+		A920C4E722D281C20088DD58 /* CardFront.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E622D281C20088DD58 /* CardFront.xib */; };
+		A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4E822D281D60088DD58 /* Reg10Recap.swift */; };
+		A920C4EC22D281D60088DD58 /* CardBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4E922D281D60088DD58 /* CardBack.swift */; };
+		A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4EA22D281D60088DD58 /* CardFront.swift */; };
 		A9990C6E22C9571200E95B2C /* Reg8InterestsChosen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */; };
 		A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */; };
 		A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */; };
 		A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7322C986AA00E95B2C /* Reg2Password.swift */; };
-		A9990C7822C9A2F600E95B2C /* RegisterInfoStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7722C9A2F600E95B2C /* RegisterInfoStruct.swift */; };
+		A9990C7822C9A2F600E95B2C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7722C9A2F600E95B2C /* UserProfile.swift */; };
 		A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DB22B5D2E2008B35AA /* StandardButton.swift */; };
 		A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DC22B5D2E2008B35AA /* LoadingWheel.swift */; };
 		A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */; };
@@ -41,11 +46,16 @@
 		A90D266122A4B1FF005E8965 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A90D266422A4B214005E8965 /* cordiabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordiabold.ttf; sourceTree = "<group>"; };
 		A90D266522A4B215005E8965 /* cordia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordia.ttf; sourceTree = "<group>"; };
+		A920C4E422D281B60088DD58 /* CardBack.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardBack.xib; sourceTree = "<group>"; };
+		A920C4E622D281C20088DD58 /* CardFront.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardFront.xib; sourceTree = "<group>"; };
+		A920C4E822D281D60088DD58 /* Reg10Recap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reg10Recap.swift; sourceTree = "<group>"; };
+		A920C4E922D281D60088DD58 /* CardBack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardBack.swift; sourceTree = "<group>"; };
+		A920C4EA22D281D60088DD58 /* CardFront.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardFront.swift; sourceTree = "<group>"; };
 		A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg8InterestsChosen.swift; sourceTree = "<group>"; };
 		A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterInterestsCell.xib; sourceTree = "<group>"; };
 		A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestsCell.swift; sourceTree = "<group>"; };
 		A9990C7322C986AA00E95B2C /* Reg2Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg2Password.swift; sourceTree = "<group>"; };
-		A9990C7722C9A2F600E95B2C /* RegisterInfoStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInfoStruct.swift; sourceTree = "<group>"; };
+		A9990C7722C9A2F600E95B2C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		A9BB05DB22B5D2E2008B35AA /* StandardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
 		A9BB05DC22B5D2E2008B35AA /* LoadingWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingWheel.swift; sourceTree = "<group>"; };
 		A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
@@ -158,6 +168,11 @@
 		FA90D86822A897AC0055FCE7 /* LoginRegister */ = {
 			isa = PBXGroup;
 			children = (
+				A920C4E922D281D60088DD58 /* CardBack.swift */,
+				A920C4EA22D281D60088DD58 /* CardFront.swift */,
+				A920C4E822D281D60088DD58 /* Reg10Recap.swift */,
+				A920C4E622D281C20088DD58 /* CardFront.xib */,
+				A920C4E422D281B60088DD58 /* CardBack.xib */,
 				FA60590B22A4B12C00383F9F /* Login.swift */,
 				FA90D86922A898020055FCE7 /* Reg1UserEmail.swift */,
 				A9BB05E522C04A06008B35AA /* registerPageSeven.swift */,
@@ -168,7 +183,7 @@
 				A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */,
 				A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */,
 				A9990C7322C986AA00E95B2C /* Reg2Password.swift */,
-				A9990C7722C9A2F600E95B2C /* RegisterInfoStruct.swift */,
+				A9990C7722C9A2F600E95B2C /* UserProfile.swift */,
 			);
 			path = LoginRegister;
 			sourceTree = "<group>";
@@ -238,8 +253,10 @@
 				A90D266222A4B1FF005E8965 /* GoogleService-Info.plist in Resources */,
 				A90D266722A4B215005E8965 /* cordia.ttf in Resources */,
 				A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */,
+				A920C4E722D281C20088DD58 /* CardFront.xib in Resources */,
 				FA60591122A4B12E00383F9F /* Assets.xcassets in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
+				A920C4E522D281B60088DD58 /* CardBack.xib in Resources */,
 				FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,7 +329,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A920C4EC22D281D60088DD58 /* CardBack.swift in Sources */,
 				A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */,
+				A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */,
 				FA06DE3D22C0687F00B07EDC /* Reg5UserDegree.swift in Sources */,
 				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
@@ -320,8 +339,9 @@
 				A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */,
 				FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */,
 				A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */,
+				A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */,
 				FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */,
-				A9990C7822C9A2F600E95B2C /* RegisterInfoStruct.swift in Sources */,
+				A9990C7822C9A2F600E95B2C /* UserProfile.swift in Sources */,
 				A9990C6E22C9571200E95B2C /* Reg8InterestsChosen.swift in Sources */,
 				FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */,
 				A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */,
