@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="270" width="414" height="538"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="We'll help you build your personalized profile in the following easy steps:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haW-Fz-ivF">
-                                        <rect key="frame" x="57" y="0.0" width="300" height="48.5"/>
+                                        <rect key="frame" x="57" y="0.0" width="300" height="73.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="Jm4-2I-NCX"/>
                                         </constraints>
@@ -40,7 +40,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Your university email address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dt8-YV-agO">
-                                        <rect key="frame" x="57" y="68.5" width="300" height="36"/>
+                                        <rect key="frame" x="57" y="93.5" width="300" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="z77-Es-jtA"/>
                                         </constraints>
@@ -49,7 +49,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AUz-EA-nNM" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="170.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="195.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="bdD-qI-9oB"/>
                                             <constraint firstAttribute="height" constant="50" id="teV-da-mnQ"/>
@@ -59,7 +59,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your university email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3gX-Mw-n8k" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="112.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="137.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Jwi-gD-ZvP"/>
                                             <constraint firstAttribute="width" constant="300" id="mA6-Vv-Tpp"/>
@@ -69,24 +69,23 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUz-r1-D0t" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="228.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="253.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="T8q-Yw-bzM"/>
                                             <constraint firstAttribute="width" constant="300" id="vPo-9T-Ksb"/>
                                         </constraints>
-                                        <state key="normal" title="Button"/>
+                                        <state key="normal" title="Continue"/>
                                         <connections>
                                             <action selector="onClickContinue:" destination="ChX-yV-Md2" eventType="touchUpInside" id="KGX-Gp-AX7"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIF-55-KlF">
-                                        <rect key="frame" x="107" y="286" width="200" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIF-55-KlF">
+                                        <rect key="frame" x="57" y="311" width="300" height="0.0"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="B2W-fx-Wlg"/>
-                                            <constraint firstAttribute="height" constant="30" id="NNL-Pc-H3U"/>
+                                            <constraint firstAttribute="width" constant="300" id="LLM-or-v1Y"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" name="ivyNotification"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -111,7 +110,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="270"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to ivy!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9v-dI-Hxv">
-                                        <rect key="frame" x="115" y="224.5" width="184" height="43"/>
+                                        <rect key="frame" x="69.5" y="224.5" width="275.5" height="45.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew-Bold" family="Cordia New" pointSize="39"/>
                                         <color key="textColor" name="ivyGreen"/>
                                         <nil key="highlightedColor"/>
@@ -153,7 +152,7 @@
                         <outlet property="confirmEmailLabel" destination="AUz-EA-nNM" id="06Q-Wx-a9j"/>
                         <outlet property="emailLabel" destination="3gX-Mw-n8k" id="eQl-fr-uuG"/>
                         <outlet property="errorLabel" destination="uIF-55-KlF" id="ioQ-IH-QYg"/>
-                        <segue destination="Xfa-fD-0xT" kind="presentation" identifier="emailToPassSegue" id="kaI-Sy-Y0n"/>
+                        <segue destination="Xfa-fD-0xT" kind="show" identifier="emailToPassSegue" id="kaI-Sy-Y0n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z5a-3x-727" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -169,10 +168,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mZR-Nz-KCb" userLabel="MidSectionView">
-                                <rect key="frame" x="0.0" y="270" width="414" height="626"/>
+                                <rect key="frame" x="0.0" y="270" width="414" height="538"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="(Try to include a capital letter, a number and a special symbol)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgH-FY-Y8h">
-                                        <rect key="frame" x="57" y="8" width="300" height="48.5"/>
+                                        <rect key="frame" x="57" y="8" width="300" height="49"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="FMK-bx-qHN"/>
                                         </constraints>
@@ -181,7 +180,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EdN-3j-6oL" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="122.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="123" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="YNa-mO-Pxa"/>
                                             <constraint firstAttribute="width" constant="300" id="zrS-JF-t54"/>
@@ -191,7 +190,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-OR-aKr" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="64.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="65" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="VDb-Yk-27J"/>
                                             <constraint firstAttribute="height" constant="50" id="mc5-FM-kYF"/>
@@ -201,12 +200,15 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ8-tv-ZCY" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="180.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="181" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="0zC-wf-Djt"/>
                                             <constraint firstAttribute="height" constant="50" id="aCy-Rc-HfD"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="onClickContinue:" destination="Xfa-fD-0xT" eventType="touchUpInside" id="AUc-fL-R6F"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -219,7 +221,7 @@
                                     <constraint firstItem="VfI-OR-aKr" firstAttribute="centerX" secondItem="mZR-Nz-KCb" secondAttribute="centerX" id="RXO-s0-eEJ"/>
                                     <constraint firstItem="fJ8-tv-ZCY" firstAttribute="top" secondItem="EdN-3j-6oL" secondAttribute="bottom" constant="8" id="Zh9-tR-EcY"/>
                                     <constraint firstItem="VfI-OR-aKr" firstAttribute="top" secondItem="EgH-FY-Y8h" secondAttribute="bottom" constant="8" id="bae-F9-exf"/>
-                                    <constraint firstAttribute="height" constant="626" id="f99-cQ-MGy"/>
+                                    <constraint firstAttribute="height" constant="538" id="dvn-E5-eR9"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Of-04-P6D" userLabel="TopSectionView">
@@ -266,6 +268,10 @@
                         <viewLayoutGuide key="safeArea" id="UB9-FV-yrQ"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="passwordConfirmLabel" destination="EdN-3j-6oL" id="jFN-Kj-Ivd"/>
+                        <outlet property="passwordLabel" destination="VfI-OR-aKr" id="Sqi-aC-WVS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2M-me-OzC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -333,7 +339,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. What's your first and last name?" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZr-VS-HbW">
-                                        <rect key="frame" x="57" y="236.5" width="300" height="33.5"/>
+                                        <rect key="frame" x="57" y="202" width="300" height="68"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="6lm-VO-ZdY"/>
                                         </constraints>
@@ -692,7 +698,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7. Care to share some extra info about yourself?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxX-sS-EdN">
-                                        <rect key="frame" x="57" y="213" width="300" height="67"/>
+                                        <rect key="frame" x="57" y="212" width="300" height="68"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="mDQ-Ki-dvf"/>
                                         </constraints>
@@ -846,6 +852,9 @@
         <image name="ivy_logo" width="240" height="240"/>
         <namedColor name="ivyGreen">
             <color red="0.16899999976158142" green="0.59200000762939453" blue="0.1289999932050705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ivyNotification">
+            <color red="0.99599999189376831" green="0.23499999940395355" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <color key="tintColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
