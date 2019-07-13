@@ -1,28 +1,25 @@
 //
-//  CardBack.swift
+//  StandardGreenLabel.swift
 //  ivy
 //
 //  Created by Robert on 2019-07-07.
 //  Copyright © 2019 ivy social network. All rights reserved.
 //
-
 import UIKit
 
-class CardBack: UIView{
-    
-    
-    
+class StandardGreenLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        awakeFromNib()
+        setUp()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        awakeFromNib()
+        setUp()
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    private func setUp(){
+        self.font = UIFont(name: "Cordia New", size: 25)
+        self.textColor = Colors.ivy_green
     }
 }

@@ -29,3 +29,24 @@ extension UIColor {
     static let ivyNotification = UIColor(displayP3Red: 254, green: 60, blue: 0, alpha: 1)
     static let ivyHint = UIColor(displayP3Red: 213, green: 213, blue: 213, alpha: 1)
 }
+
+extension UIFont {
+    
+    func withTraits(traits:UIFontDescriptor.SymbolicTraits...) -> UIFont {
+        let descriptor = self.fontDescriptor.withSymbolicTraits(UIFontDescriptor.SymbolicTraits(traits))!
+        return UIFont(descriptor: descriptor, size: 0)
+    }
+    
+    func bold() -> UIFont {
+        return withTraits(traits: .traitBold)
+    }
+    
+    func italic() -> UIFont {
+        return withTraits(traits: .traitItalic)
+    }
+    
+    func boldItalic() -> UIFont {
+        return withTraits(traits: .traitBold, .traitItalic)
+    }
+    
+}

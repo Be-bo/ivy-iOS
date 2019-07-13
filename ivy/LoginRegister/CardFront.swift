@@ -10,4 +10,20 @@ import UIKit
 
 class CardFront: UIView {
     
+    
+    @IBOutlet weak var img: UIImageView!
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        awakeFromNib()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        awakeFromNib()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }

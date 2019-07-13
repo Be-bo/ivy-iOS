@@ -13,40 +13,23 @@ class Reg10Recap: UIViewController {
     
     private var showingBack = false
     @IBOutlet weak var cardContainer: UIView!
-    private let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
-    private let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
+    let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
+    let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let frontImage = UIImage(named: "front")
-        let backImage = UIImage(named: "back")
-        
+        setUpContainer()
+        let frontImage = UIImage(named: "nic")
         front.frame = cardContainer.bounds
         back.frame = cardContainer.bounds
         
-        if (Float((frontImage?.size.width)!) > Float((frontImage?.size.height)!)) {
-            front.contentMode = .scaleAspectFit
-        } else {
-            front.contentMode = .scaleAspectFill
-        }
-        
-        if (Float((backImage?.size.width)!) > Float((backImage?.size.height)!)) {
-            back.contentMode = .scaleAspectFit
-        } else {
-            back.contentMode = .scaleAspectFill
-        }
-        back.clipsToBounds = true
-        front.clipsToBounds = true
-        
-//        back.imgView.image = backImage
-//        front.imgView.image = frontImage
+        front.img.image = frontImage
         cardContainer.addSubview(front)
         
-        
-//        let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
-//        singleTap.numberOfTapsRequired = 1
-//        cardContainer.addGestureRecognizer(singleTap)
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
+        singleTap.numberOfTapsRequired = 1
+        cardContainer.addGestureRecognizer(singleTap)
     }
     
     @objc func flip() {
@@ -55,6 +38,15 @@ class Reg10Recap: UIViewController {
         UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight, completion: nil)
         showingBack = !showingBack
         
+    }
+    
+    func setUpContainer(){
+        cardContainer.layer.shadowPath = UIBezierPath(roundedRect: cardContainer.bounds, cornerRadius: cardContainer.layer.cornerRadius).cgPath
+        cardContainer.layer.shadowColor = UIColor.black.cgColor
+        cardContainer.layer.shadowOpacity = 0.25
+        cardContainer.layer.shadowOffset = CGSize(width: 2, height: 2)
+        cardContainer.layer.shadowRadius = 3
+        cardContainer.layer.masksToBounds = false
     }
     
 }
