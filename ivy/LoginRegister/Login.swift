@@ -8,13 +8,19 @@
 //
 
 import UIKit
+import Firebase
 
 class Login: UIViewController {
 
+    @IBOutlet weak var emailField: StandardTextField!
+    @IBOutlet weak var passwordField: StandardTextField!
+    @IBOutlet weak var loginButton: StandardButton!
+    @IBOutlet weak var signupLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        var brah = "nuhbruh"
+        
     }
 
 

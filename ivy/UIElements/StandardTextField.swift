@@ -22,7 +22,8 @@ class StandardTextField: UITextField{
     
     private func setUp(){
         setShadow()
-        self.textColor = Colors.ivy_hint
+        self.attributedPlaceholder = NSAttributedString(string: self.placeholder!, attributes: [NSAttributedString.Key.foregroundColor: Colors.ivy_hint])
+        self.textColor = Colors.ivy_light_grey
         self.font = UIFont(name: "Cordia New", size: 25)
         self.backgroundColor = UIColor.white
         self.layer.borderWidth = 1
