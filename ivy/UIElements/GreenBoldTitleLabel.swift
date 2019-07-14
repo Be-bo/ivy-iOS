@@ -19,6 +19,7 @@ class GreenBoldTitleLabel: UILabel {
     }
     
     private func setUp(){
+        self.numberOfLines = 0
         self.font = UIFont(name: "Cordia New", size: 40)?.bold()
         self.textColor = Colors.ivy_green
     }

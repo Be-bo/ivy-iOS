@@ -20,6 +20,7 @@ class StandardLabel: UILabel {
     }
     
     private func setUp(){
+        self.numberOfLines = 0
         self.font = UIFont(name: "Cordia New", size: 25)
         self.textColor = Colors.ivy_grey
     }

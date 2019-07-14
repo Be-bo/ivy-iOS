@@ -20,6 +20,7 @@ class ErrorLabel: UILabel {
     }
     
     private func setUp(){
+        self.numberOfLines = 0
         self.textAlignment = .center
         self.font = UIFont(name: "Cordia New", size: 25)
         self.textColor = Colors.ivy_notification

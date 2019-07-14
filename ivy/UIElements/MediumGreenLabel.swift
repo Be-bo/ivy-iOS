@@ -19,6 +19,7 @@ class MediumGreenLabel: UILabel {
     }
     
     private func setUp(){
+        self.numberOfLines = 0
         self.font = UIFont(name: "Cordia New", size: 35)
         self.textColor = Colors.ivy_green
     }
