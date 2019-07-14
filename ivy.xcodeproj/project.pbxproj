@@ -16,6 +16,9 @@
 		A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4EA22D281D60088DD58 /* CardFront.swift */; };
 		A920C4F122D2A8190088DD58 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A920C4F022D2A8190088DD58 /* GoogleService-Info.plist */; };
 		A920C4F322DAC78D0088DD58 /* Reg3FirstLastName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F222DAC78D0088DD58 /* Reg3FirstLastName.swift */; };
+		A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F422DB99B10088DD58 /* Reg4Gender.swift */; };
+		A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F622DBA1270088DD58 /* Checkbox.swift */; };
+		A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */; };
 		A9990C6E22C9571200E95B2C /* Reg8InterestsChosen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */; };
 		A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */; };
 		A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */; };
@@ -59,6 +62,9 @@
 		A920C4EA22D281D60088DD58 /* CardFront.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardFront.swift; sourceTree = "<group>"; };
 		A920C4F022D2A8190088DD58 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A920C4F222DAC78D0088DD58 /* Reg3FirstLastName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg3FirstLastName.swift; sourceTree = "<group>"; };
+		A920C4F422DB99B10088DD58 /* Reg4Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg4Gender.swift; sourceTree = "<group>"; };
+		A920C4F622DBA1270088DD58 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
+		A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg6Birthday.swift; sourceTree = "<group>"; };
 		A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg8InterestsChosen.swift; sourceTree = "<group>"; };
 		A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterInterestsCell.xib; sourceTree = "<group>"; };
 		A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestsCell.swift; sourceTree = "<group>"; };
@@ -205,6 +211,9 @@
 				A9990C7322C986AA00E95B2C /* Reg2Password.swift */,
 				A9990C7722C9A2F600E95B2C /* UserProfile.swift */,
 				A920C4F222DAC78D0088DD58 /* Reg3FirstLastName.swift */,
+				A920C4F422DB99B10088DD58 /* Reg4Gender.swift */,
+				A920C4F622DBA1270088DD58 /* Checkbox.swift */,
+				A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */,
 			);
 			path = LoginRegister;
 			sourceTree = "<group>";
@@ -354,16 +363,19 @@
 				FA6D733B22DA8146009020B5 /* MediumLabel.swift in Sources */,
 				A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */,
 				A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */,
+				A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */,
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
 				FA06DE3D22C0687F00B07EDC /* Reg5UserDegree.swift in Sources */,
 				A920C4F322DAC78D0088DD58 /* Reg3FirstLastName.swift in Sources */,
 				FA6D733522DA80FE009020B5 /* GreenBoldTitleLabel.swift in Sources */,
 				FA6D733922DA812D009020B5 /* MediumGreenLabel.swift in Sources */,
 				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
+				A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
 				A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */,
 				FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */,
+				A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */,
 				A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */,
 				FA6D733F22DA8172009020B5 /* StandardGreenLabel.swift in Sources */,
 				FA6D733722DA8117009020B5 /* LargeLabel.swift in Sources */,

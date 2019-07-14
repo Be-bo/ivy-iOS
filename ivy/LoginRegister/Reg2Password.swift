@@ -20,14 +20,13 @@ class Reg2Password: UIViewController {
     //initializers
     var password = ""
     var confirmPassword = ""
-    var secondStruct = UserProfile(email:"", first: "", last: "") //initializer which will be overidden by the email actually passed in
+    var registerInfoStruct = UserProfile(email:"") //will be overidden by the actual data
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
     
     
     //outlets
     @IBOutlet weak var passwordLabel: StandardTextField!
     @IBOutlet weak var passwordConfirmLabel: StandardTextField!
-
     @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
@@ -44,9 +43,8 @@ class Reg2Password: UIViewController {
     //called every single time a segway is called
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! Reg3FirstLastName
-        vc.thirdStruct.email = self.secondStruct.email ?? "no email"
-        //wont be setting password here though
-        
+        vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
+        //wont be setting password here though since we don't wanna save that to our register info object
     }
     
     
@@ -67,8 +65,6 @@ class Reg2Password: UIViewController {
             errorLabel.text = "The password needs to be at least six characters long."
             errorLabel.isHidden = false
         }
-        
-        
     }
     
     
