@@ -1,5 +1,5 @@
 //
-//  Reg1UserEmail.swift
+//  Reg1Email.swift
 //  ivy
 //
 //  Created by Paul Dan on 2019-06-05.
@@ -12,7 +12,7 @@ import Firebase
 import FirebaseCore
 import FirebaseFirestore
 
-class Reg1UserEmail: UIViewController {
+class Reg1Email: UIViewController {
     
 
     //initializers
@@ -85,7 +85,7 @@ class Reg1UserEmail: UIViewController {
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     print("Document data: \(dataDescription)")
                     self.registerInfoStruct.email = self.emailInput //set struct email info to be that input for the label
-                    self.performSegue(withIdentifier: "emailToPassSegue" , sender: self) //pass data over to passsword screen
+                    self.performSegue(withIdentifier: "reg1ToReg2Segue" , sender: self) //pass data over to passsword screen
                 } else {    //prompt the user informing that they must use a valid university email domain
                     print("Document does not exist")
                     self.errorLabel.text = "Please use a valid university email address"

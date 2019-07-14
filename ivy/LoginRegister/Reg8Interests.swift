@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Reg8InterestsChocen: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     let iconNames = ["Reading"];

@@ -15,11 +15,11 @@
 		A920C4EC22D281D60088DD58 /* CardBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4E922D281D60088DD58 /* CardBack.swift */; };
 		A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4EA22D281D60088DD58 /* CardFront.swift */; };
 		A920C4F122D2A8190088DD58 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A920C4F022D2A8190088DD58 /* GoogleService-Info.plist */; };
-		A920C4F322DAC78D0088DD58 /* Reg3FirstLastName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F222DAC78D0088DD58 /* Reg3FirstLastName.swift */; };
+		A920C4F322DAC78D0088DD58 /* Reg3Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F222DAC78D0088DD58 /* Reg3Name.swift */; };
 		A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F422DB99B10088DD58 /* Reg4Gender.swift */; };
 		A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F622DBA1270088DD58 /* Checkbox.swift */; };
 		A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */; };
-		A9990C6E22C9571200E95B2C /* Reg8InterestsChosen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */; };
+		A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C6D22C9571200E95B2C /* Reg8Interests.swift */; };
 		A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */; };
 		A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */; };
 		A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7322C986AA00E95B2C /* Reg2Password.swift */; };
@@ -29,11 +29,11 @@
 		A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */; };
 		A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */; };
 		A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E322B5D2F8008B35AA /* Constants.swift */; };
-		A9BB05E622C04A06008B35AA /* registerPageSeven.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E522C04A06008B35AA /* registerPageSeven.swift */; };
+		A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E522C04A06008B35AA /* Reg7Bio.swift */; };
 		E961C50C0C369FCC925C44B9 /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3478AFE0020D038D65D9930 /* Pods_ivy.framework */; };
 		FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */; };
 		FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA06DE3A22C0659900B07EDC /* DegreeCell.xib */; };
-		FA06DE3D22C0687F00B07EDC /* Reg5UserDegree.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA06DE3C22C0687F00B07EDC /* Reg5UserDegree.swift */; };
+		FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */; };
 		FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590922A4B12C00383F9F /* AppDelegate.swift */; };
 		FA60590C22A4B12C00383F9F /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590B22A4B12C00383F9F /* Login.swift */; };
 		FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA60590D22A4B12C00383F9F /* Main.storyboard */; };
@@ -45,7 +45,7 @@
 		FA6D733B22DA8146009020B5 /* MediumLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D733A22DA8146009020B5 /* MediumLabel.swift */; };
 		FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D733C22DA815C009020B5 /* StandardBoldLabel.swift */; };
 		FA6D733F22DA8172009020B5 /* StandardGreenLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D733E22DA8172009020B5 /* StandardGreenLabel.swift */; };
-		FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D86922A898020055FCE7 /* Reg1UserEmail.swift */; };
+		FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D86922A898020055FCE7 /* Reg1Email.swift */; };
 		FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D87022A8A3BD0055FCE7 /* Extensions.swift */; };
 		FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACD8FFD22C710060066F109 /* DegreeCell.swift */; };
 /* End PBXBuildFile section */
@@ -62,11 +62,11 @@
 		A920C4E922D281D60088DD58 /* CardBack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardBack.swift; sourceTree = "<group>"; };
 		A920C4EA22D281D60088DD58 /* CardFront.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardFront.swift; sourceTree = "<group>"; };
 		A920C4F022D2A8190088DD58 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A920C4F222DAC78D0088DD58 /* Reg3FirstLastName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg3FirstLastName.swift; sourceTree = "<group>"; };
+		A920C4F222DAC78D0088DD58 /* Reg3Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg3Name.swift; sourceTree = "<group>"; };
 		A920C4F422DB99B10088DD58 /* Reg4Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg4Gender.swift; sourceTree = "<group>"; };
 		A920C4F622DBA1270088DD58 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg6Birthday.swift; sourceTree = "<group>"; };
-		A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg8InterestsChosen.swift; sourceTree = "<group>"; };
+		A9990C6D22C9571200E95B2C /* Reg8Interests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg8Interests.swift; sourceTree = "<group>"; };
 		A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterInterestsCell.xib; sourceTree = "<group>"; };
 		A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestsCell.swift; sourceTree = "<group>"; };
 		A9990C7322C986AA00E95B2C /* Reg2Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg2Password.swift; sourceTree = "<group>"; };
@@ -76,12 +76,12 @@
 		A9BB05DD22B5D2E2008B35AA /* StandardLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
 		A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
 		A9BB05E322B5D2F8008B35AA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		A9BB05E522C04A06008B35AA /* registerPageSeven.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerPageSeven.swift; sourceTree = "<group>"; };
+		A9BB05E522C04A06008B35AA /* Reg7Bio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg7Bio.swift; sourceTree = "<group>"; };
 		B1390004A4C8D933F49EAFBB /* Pods-ivy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.debug.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.debug.xcconfig"; sourceTree = "<group>"; };
 		D3478AFE0020D038D65D9930 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
 		FA06DE3A22C0659900B07EDC /* DegreeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DegreeCell.xib; sourceTree = "<group>"; };
-		FA06DE3C22C0687F00B07EDC /* Reg5UserDegree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg5UserDegree.swift; sourceTree = "<group>"; };
+		FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg5Degree.swift; sourceTree = "<group>"; };
 		FA60590622A4B12C00383F9F /* ivy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ivy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA60590922A4B12C00383F9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA60590B22A4B12C00383F9F /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 		FA6D733A22DA8146009020B5 /* MediumLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumLabel.swift; sourceTree = "<group>"; };
 		FA6D733C22DA815C009020B5 /* StandardBoldLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardBoldLabel.swift; sourceTree = "<group>"; };
 		FA6D733E22DA8172009020B5 /* StandardGreenLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardGreenLabel.swift; sourceTree = "<group>"; };
-		FA90D86922A898020055FCE7 /* Reg1UserEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg1UserEmail.swift; sourceTree = "<group>"; };
+		FA90D86922A898020055FCE7 /* Reg1Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg1Email.swift; sourceTree = "<group>"; };
 		FA90D87022A8A3BD0055FCE7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FACD8FFD22C710060066F109 /* DegreeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -203,17 +203,17 @@
 				A920C4E622D281C20088DD58 /* CardFront.xib */,
 				A920C4E422D281B60088DD58 /* CardBack.xib */,
 				FA60590B22A4B12C00383F9F /* Login.swift */,
-				FA90D86922A898020055FCE7 /* Reg1UserEmail.swift */,
-				A9BB05E522C04A06008B35AA /* registerPageSeven.swift */,
+				FA90D86922A898020055FCE7 /* Reg1Email.swift */,
+				A9BB05E522C04A06008B35AA /* Reg7Bio.swift */,
 				FA06DE3A22C0659900B07EDC /* DegreeCell.xib */,
-				FA06DE3C22C0687F00B07EDC /* Reg5UserDegree.swift */,
+				FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */,
 				FACD8FFD22C710060066F109 /* DegreeCell.swift */,
-				A9990C6D22C9571200E95B2C /* Reg8InterestsChosen.swift */,
+				A9990C6D22C9571200E95B2C /* Reg8Interests.swift */,
 				A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */,
 				A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */,
 				A9990C7322C986AA00E95B2C /* Reg2Password.swift */,
 				A9990C7722C9A2F600E95B2C /* UserProfile.swift */,
-				A920C4F222DAC78D0088DD58 /* Reg3FirstLastName.swift */,
+				A920C4F222DAC78D0088DD58 /* Reg3Name.swift */,
 				A920C4F422DB99B10088DD58 /* Reg4Gender.swift */,
 				A920C4F622DBA1270088DD58 /* Checkbox.swift */,
 				A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */,
@@ -368,8 +368,8 @@
 				A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */,
 				A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */,
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
-				FA06DE3D22C0687F00B07EDC /* Reg5UserDegree.swift in Sources */,
-				A920C4F322DAC78D0088DD58 /* Reg3FirstLastName.swift in Sources */,
+				FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */,
+				A920C4F322DAC78D0088DD58 /* Reg3Name.swift in Sources */,
 				FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */,
 				FA6D733522DA80FE009020B5 /* GreenBoldTitleLabel.swift in Sources */,
 				FA6D733922DA812D009020B5 /* MediumGreenLabel.swift in Sources */,
@@ -378,7 +378,7 @@
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
 				A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */,
-				FA90D86A22A898020055FCE7 /* Reg1UserEmail.swift in Sources */,
+				FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */,
 				A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */,
 				A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */,
 				FA6D733F22DA8172009020B5 /* StandardGreenLabel.swift in Sources */,
@@ -386,12 +386,12 @@
 				A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */,
 				FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */,
 				A9990C7822C9A2F600E95B2C /* UserProfile.swift in Sources */,
-				A9990C6E22C9571200E95B2C /* Reg8InterestsChosen.swift in Sources */,
+				A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */,
 				FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */,
 				A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */,
 				FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */,
 				A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */,
-				A9BB05E622C04A06008B35AA /* registerPageSeven.swift in Sources */,
+				A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

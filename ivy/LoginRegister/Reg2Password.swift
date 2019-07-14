@@ -42,7 +42,7 @@ class Reg2Password: UIViewController {
     
     //called every single time a segway is called
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! Reg3FirstLastName
+        let vc = segue.destination as! Reg3Name
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
         //wont be setting password here though since we don't wanna save that to our register info object
     }
@@ -54,7 +54,7 @@ class Reg2Password: UIViewController {
         self.confirmPassword = passwordConfirmLabel.text!    //grab confirm email
         if(password.count > 5){
             if(password.isEqual(confirmPassword)){//passwords match so continue to next screen
-                self.performSegue(withIdentifier: "passwordToPassSegue" , sender: self) //pass data over to
+                self.performSegue(withIdentifier: "reg2ToReg3Segue" , sender: self) //pass data over to
             }else{
                 //allowInteraction();
                 errorLabel.text = "The passwords don't match."
@@ -66,17 +66,4 @@ class Reg2Password: UIViewController {
             errorLabel.isHidden = false
         }
     }
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
 }

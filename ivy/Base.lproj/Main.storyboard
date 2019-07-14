@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KKY-MS-y0m">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Pyi-Q3-SUE">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -19,10 +19,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--IntroRegisterScreen-->
+        <!--reg1EmailScreen-->
         <scene sceneID="oaJ-t8-2t3">
             <objects>
-                <viewController autoresizesArchivedViewToFullSize="NO" title="IntroRegisterScreen" id="ChX-yV-Md2" customClass="Reg1UserEmail" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" title="reg1EmailScreen" id="ChX-yV-Md2" customClass="Reg1Email" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xIt-mY-eno">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -56,7 +56,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your university email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3gX-Mw-n8k" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
                                         <rect key="frame" x="57" y="112.5" width="300" height="50"/>
@@ -66,7 +66,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUz-r1-D0t" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
                                         <rect key="frame" x="57" y="228.5" width="300" height="50"/>
@@ -152,17 +152,17 @@
                         <outlet property="confirmEmailLabel" destination="AUz-EA-nNM" id="06Q-Wx-a9j"/>
                         <outlet property="emailLabel" destination="3gX-Mw-n8k" id="eQl-fr-uuG"/>
                         <outlet property="errorLabel" destination="uIF-55-KlF" id="ioQ-IH-QYg"/>
-                        <segue destination="Xfa-fD-0xT" kind="show" identifier="emailToPassSegue" id="kaI-Sy-Y0n"/>
+                        <segue destination="Xfa-fD-0xT" kind="show" identifier="reg1ToReg2Segue" id="kaI-Sy-Y0n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z5a-3x-727" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2113.0434782608695" y="101.78571428571428"/>
         </scene>
-        <!--registerPageTwo-->
+        <!--reg2Password-->
         <scene sceneID="X7F-i0-d13">
             <objects>
-                <viewController id="Xfa-fD-0xT" userLabel="registerPageTwo" customClass="Reg2Password" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Xfa-fD-0xT" userLabel="reg2Password" customClass="Reg2Password" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Crl-HN-cTD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -171,7 +171,7 @@
                                 <rect key="frame" x="0.0" y="270" width="414" height="538"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="(Try to include a capital letter, a number and a special symbol)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgH-FY-Y8h">
-                                        <rect key="frame" x="57" y="8" width="300" height="49"/>
+                                        <rect key="frame" x="57" y="8" width="300" height="48.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="FMK-bx-qHN"/>
                                         </constraints>
@@ -180,27 +180,27 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EdN-3j-6oL" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="123" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="122.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="YNa-mO-Pxa"/>
                                             <constraint firstAttribute="width" constant="300" id="zrS-JF-t54"/>
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-OR-aKr" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="65" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="64.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="VDb-Yk-27J"/>
                                             <constraint firstAttribute="height" constant="50" id="mc5-FM-kYF"/>
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ8-tv-ZCY" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="181" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="180.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="0zC-wf-Djt"/>
                                             <constraint firstAttribute="height" constant="50" id="aCy-Rc-HfD"/>
@@ -211,7 +211,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-nx-3Ur" userLabel="Error Label">
-                                        <rect key="frame" x="57" y="238.5" width="300" height="0.0"/>
+                                        <rect key="frame" x="57" y="238" width="300" height="0.0"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="Ktm-Td-T1N"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="NjV-n3-Eh9"/>
@@ -284,17 +284,17 @@
                         <outlet property="errorLabel" destination="qbU-nx-3Ur" id="gte-0k-PZf"/>
                         <outlet property="passwordConfirmLabel" destination="EdN-3j-6oL" id="jFN-Kj-Ivd"/>
                         <outlet property="passwordLabel" destination="VfI-OR-aKr" id="Sqi-aC-WVS"/>
-                        <segue destination="P8R-cV-DJU" kind="show" identifier="passwordToPassSegue" id="l0H-fe-uii"/>
+                        <segue destination="P8R-cV-DJU" kind="show" identifier="reg2ToReg3Segue" id="l0H-fe-uii"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2M-me-OzC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2997" y="102"/>
         </scene>
-        <!--registerPageThree-->
+        <!--reg3Name-->
         <scene sceneID="dkj-Dc-CsJ">
             <objects>
-                <viewController id="P8R-cV-DJU" userLabel="registerPageThree" customClass="Reg3FirstLastName" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="P8R-cV-DJU" userLabel="reg3Name" customClass="Reg3Name" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7se-Qz-w3W">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -404,17 +404,17 @@
                         <outlet property="errorLabel" destination="2Gk-qy-oOj" id="ZdM-GF-w2Z"/>
                         <outlet property="firstNameLabel" destination="uG6-KG-rpE" id="7RQ-M5-DUg"/>
                         <outlet property="lastNameLabel" destination="5HV-a5-knm" id="86j-jl-XAp"/>
-                        <segue destination="5eq-1s-Rc2" kind="show" identifier="firstAndLastSegue" id="EmO-Zq-sLw"/>
+                        <segue destination="5eq-1s-Rc2" kind="show" identifier="reg3ToReg4Segue" id="EmO-Zq-sLw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qhu-Bd-xjy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3923" y="102"/>
         </scene>
-        <!--registerPageFour-->
+        <!--reg4Gender-->
         <scene sceneID="Z1X-N3-BPE">
             <objects>
-                <viewController id="5eq-1s-Rc2" userLabel="registerPageFour" customClass="Reg4Gender" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5eq-1s-Rc2" userLabel="reg4Gender" customClass="Reg4Gender" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yW3-tK-UIN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -574,17 +574,17 @@
                         <outlet property="femaleCheckbox" destination="X1Q-h0-Prw" id="ioy-7V-78l"/>
                         <outlet property="maleCheckbox" destination="Ctd-2G-eev" id="Fqb-bf-Qgn"/>
                         <outlet property="otherCheckbox" destination="6Ma-NV-xkP" id="Xtc-yj-KEc"/>
-                        <segue destination="nFK-ej-XQ3" kind="show" identifier="genderSegue" id="fKg-Np-MLY"/>
+                        <segue destination="nFK-ej-XQ3" kind="show" identifier="reg4ToReg5Segue" id="fKg-Np-MLY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lse-WD-Nbh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4846" y="86"/>
         </scene>
-        <!--registerPageFive-->
+        <!--reg5Degree-->
         <scene sceneID="Azw-M8-sEz">
             <objects>
-                <viewController id="nFK-ej-XQ3" userLabel="registerPageFive" customClass="Reg5UserDegree" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="nFK-ej-XQ3" userLabel="reg5Degree" customClass="Reg5Degree" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M7f-Gk-tDg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -680,17 +680,17 @@
                     <connections>
                         <outlet property="degreeTableView" destination="Vrm-ps-NJQ" id="K82-Y8-1mG"/>
                         <outlet property="errorLabel" destination="9TW-XY-Jh4" id="YdH-nc-3VG"/>
-                        <segue destination="nTP-De-Hg1" kind="show" identifier="degreeSegue" id="2AL-vA-zji"/>
+                        <segue destination="nTP-De-Hg1" kind="show" identifier="reg5ToReg6Segue" id="2AL-vA-zji"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dVh-Vl-Itt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5773.913043478261" y="85.714285714285708"/>
         </scene>
-        <!--registerPageSix-->
+        <!--reg6Birthday-->
         <scene sceneID="c8W-Ky-uyh">
             <objects>
-                <viewController id="nTP-De-Hg1" userLabel="registerPageSix" customClass="Reg6Birthday" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="nTP-De-Hg1" userLabel="reg6Birthday" customClass="Reg6Birthday" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bwT-Rx-aj4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -783,10 +783,10 @@
             </objects>
             <point key="canvasLocation" x="6667" y="86"/>
         </scene>
-        <!--registerPageSeven-->
+        <!--reg7Bio-->
         <scene sceneID="Ygz-ck-3CM">
             <objects>
-                <viewController title="IntroRegisterScreen" id="Aks-XR-PZt" userLabel="registerPageSeven" customClass="registerPageSeven" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="IntroRegisterScreen" id="Aks-XR-PZt" userLabel="reg7Bio" customClass="Reg7Bio" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SIc-ql-5Zf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -887,10 +887,10 @@
             </objects>
             <point key="canvasLocation" x="7644.9275362318849" y="101.78571428571428"/>
         </scene>
-        <!--registerPageEight-->
+        <!--reg8Interests-->
         <scene sceneID="tiM-zf-iqz">
             <objects>
-                <viewController title="IntroRegisterScreen" id="fFK-KT-tjU" userLabel="registerPageEight" customClass="Reg8InterestsChocen" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="IntroRegisterScreen" id="fFK-KT-tjU" userLabel="reg8Interests" customClass="Reg8Interests" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WGe-9g-BKA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -988,47 +988,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="ChX-yV-Md2" kind="relationship" relationship="rootViewController" id="52b-Yx-rwc"/>
+                        <segue destination="KKY-MS-y0m" kind="relationship" relationship="rootViewController" id="HZ8-MH-3bE"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UJJ-qe-Csz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1332" y="102"/>
-        </scene>
-        <!--Reg10 Recap-->
-        <scene sceneID="EzR-du-4WP">
-            <objects>
-                <viewController id="AoW-iH-V4v" customClass="Reg10Recap" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="pLu-5A-7LR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WRL-bB-LqG">
-                                <rect key="frame" x="15" y="74" width="384" height="738"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="WRL-bB-LqG" firstAttribute="leading" secondItem="jni-vD-RuR" secondAttribute="leading" constant="15" id="2si-yE-oGS"/>
-                            <constraint firstItem="jni-vD-RuR" firstAttribute="bottom" secondItem="WRL-bB-LqG" secondAttribute="bottom" constant="50" id="9CS-rm-tSU"/>
-                            <constraint firstItem="WRL-bB-LqG" firstAttribute="top" secondItem="jni-vD-RuR" secondAttribute="top" constant="30" id="OhI-X8-iF3"/>
-                            <constraint firstItem="jni-vD-RuR" firstAttribute="trailing" secondItem="WRL-bB-LqG" secondAttribute="trailing" constant="15" id="Pty-Bm-PPd"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="jni-vD-RuR"/>
-                    </view>
-                    <connections>
-                        <outlet property="cardContainer" destination="WRL-bB-LqG" id="BNd-VZ-7qu"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FXq-1M-J5h" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="9688" y="102"/>
+            <point key="canvasLocation" x="-30" y="102"/>
         </scene>
         <!--loginScreen-->
         <scene sceneID="u5w-4a-xaI">
@@ -1048,7 +1013,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yTP-4Y-hh1" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="20" width="354" height="60"/>
@@ -1204,6 +1169,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QhC-WG-iAD"/>
                     </view>
+                    <navigationItem key="navigationItem" id="D0h-Mu-hG6"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="bottomContainer" destination="igZ-uK-KIQ" id="YKO-tv-84h"/>
                         <outlet property="emailField" destination="yTP-4Y-hh1" id="Bo8-LX-y2r"/>
@@ -1212,11 +1179,12 @@
                         <outlet property="middleContainer" destination="BDg-OG-FWr" id="vwn-2l-XlM"/>
                         <outlet property="passwordField" destination="Ezn-zm-AsL" id="LwM-8P-RHS"/>
                         <outlet property="signupLabel" destination="dEe-um-2Oh" id="kqH-hp-pov"/>
+                        <segue destination="ChX-yV-Md2" kind="show" identifier="loginToReg1Segue" id="Wrq-Ad-zXp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vgX-fk-cIa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-417" y="102"/>
+            <point key="canvasLocation" x="1097" y="102"/>
         </scene>
     </scenes>
     <resources>

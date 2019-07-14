@@ -39,7 +39,7 @@ class Reg4Gender: UIViewController {
     
     //called every single time a segway is called
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! Reg5UserDegree
+        let vc = segue.destination as! Reg5Degree
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
         vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
         vc.registerInfoStruct.last = self.registerInfoStruct.last ?? "no last name"
@@ -50,7 +50,7 @@ class Reg4Gender: UIViewController {
     func attemptToContinue() {
         //make sure there is a value that exists for gender or else prompt to choose a gender
         if(self.gender != ""){
-            self.performSegue(withIdentifier: "genderSegue", sender: self) //pass data over to
+            self.performSegue(withIdentifier: "reg4ToReg5Segue", sender: self) //pass data over to
         }else{
             errorLabel.text = "Please select a gender before continuing"
             errorLabel.isHidden = false //error label should be hidden by defualt

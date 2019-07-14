@@ -12,7 +12,7 @@ import Firebase
 import FirebaseCore
 import FirebaseFirestore
 
-class Reg5UserDegree: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class Reg5Degree: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
     var registerInfoStruct = UserProfile(email:"", first: "", last: "", gender:"") //will be overidden by the actual data
@@ -128,7 +128,7 @@ class Reg5UserDegree: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func attemptToContinue() {
         if (currentDegree != "") {
-            self.performSegue(withIdentifier: "degreeSegue", sender: self) //pass data over to
+            self.performSegue(withIdentifier: "reg5ToReg6Segue", sender: self) //pass data over to
 
         }else { //prompt to choose a degree
             errorLabel.text = "Please choose a degree"

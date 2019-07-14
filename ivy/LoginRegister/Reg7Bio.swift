@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class registerPageSeven: UIViewController, UITextViewDelegate {
+class Reg7Bio: UIViewController, UITextViewDelegate {
     
     
     @IBOutlet weak var bioTextView: UITextView!

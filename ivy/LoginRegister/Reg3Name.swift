@@ -12,7 +12,7 @@ import Firebase
 import FirebaseCore
 import FirebaseFirestore
 
-class Reg3FirstLastName: UIViewController {
+class Reg3Name: UIViewController {
 
     //initializers
     var firstName = ""
@@ -49,7 +49,7 @@ class Reg3FirstLastName: UIViewController {
         self.firstName = firstNameLabel.text!  //grab emaail from email label
         self.lastName = lastNameLabel.text!    //grab confirm email
         if(firstName.count > 1 && lastName.count > 1){
-            self.performSegue(withIdentifier: "firstAndLastSegue", sender: self) //pass data over to
+            self.performSegue(withIdentifier: "reg3ToReg4Segue", sender: self) //pass data over to
             //allowInteraction();
         }else{
             //allowInteraction();

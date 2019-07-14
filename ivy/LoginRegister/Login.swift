@@ -44,10 +44,10 @@ class Login: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAutoLogin()
-        setUp()
+        setUpSignUpTap()
     }
     
-    func setUp(){
+    func setUpSignUpTap(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(Login.startRegistration))
         signupLabel.isUserInteractionEnabled = true
         signupLabel.addGestureRecognizer(tap)
@@ -97,7 +97,7 @@ class Login: UIViewController {
     // MARK: Other Functions
     
     @objc func startRegistration(sender: UITapGestureRecognizer){
-        
+        self.performSegue(withIdentifier: "loginToReg1Segue" , sender: self)
     }
     
     func saveLocalData(){
