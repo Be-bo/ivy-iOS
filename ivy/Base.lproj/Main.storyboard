@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KKY-MS-y0m">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Pyi-Q3-SUE">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -210,6 +210,16 @@
                                             <action selector="onClickContinue:" destination="Xfa-fD-0xT" eventType="touchUpInside" id="AUc-fL-R6F"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-nx-3Ur" userLabel="Error Label">
+                                        <rect key="frame" x="57" y="238" width="300" height="0.0"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="Ktm-Td-T1N"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="NjV-n3-Eh9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" name="ivyNotification"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -219,8 +229,10 @@
                                     <constraint firstItem="EdN-3j-6oL" firstAttribute="centerX" secondItem="mZR-Nz-KCb" secondAttribute="centerX" id="MMb-HT-Ndh"/>
                                     <constraint firstItem="EdN-3j-6oL" firstAttribute="top" secondItem="VfI-OR-aKr" secondAttribute="bottom" constant="8" id="PjQ-dt-yym"/>
                                     <constraint firstItem="VfI-OR-aKr" firstAttribute="centerX" secondItem="mZR-Nz-KCb" secondAttribute="centerX" id="RXO-s0-eEJ"/>
+                                    <constraint firstItem="qbU-nx-3Ur" firstAttribute="centerX" secondItem="mZR-Nz-KCb" secondAttribute="centerX" id="VSm-za-12d"/>
                                     <constraint firstItem="fJ8-tv-ZCY" firstAttribute="top" secondItem="EdN-3j-6oL" secondAttribute="bottom" constant="8" id="Zh9-tR-EcY"/>
                                     <constraint firstItem="VfI-OR-aKr" firstAttribute="top" secondItem="EgH-FY-Y8h" secondAttribute="bottom" constant="8" id="bae-F9-exf"/>
+                                    <constraint firstItem="qbU-nx-3Ur" firstAttribute="top" secondItem="fJ8-tv-ZCY" secondAttribute="bottom" constant="7.5" id="cVz-bJ-T9F"/>
                                     <constraint firstAttribute="height" constant="538" id="dvn-E5-eR9"/>
                                 </constraints>
                             </view>
@@ -269,20 +281,22 @@
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="errorLabel" destination="qbU-nx-3Ur" id="gte-0k-PZf"/>
                         <outlet property="passwordConfirmLabel" destination="EdN-3j-6oL" id="jFN-Kj-Ivd"/>
                         <outlet property="passwordLabel" destination="VfI-OR-aKr" id="Sqi-aC-WVS"/>
+                        <segue destination="P8R-cV-DJU" kind="show" identifier="passwordToPassSegue" id="l0H-fe-uii"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2M-me-OzC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3047.826086956522" y="101.78571428571428"/>
+            <point key="canvasLocation" x="2997" y="102"/>
         </scene>
         <!--registerPageThree-->
         <scene sceneID="dkj-Dc-CsJ">
             <objects>
-                <viewController title="IntroRegisterScreen" id="P8R-cV-DJU" userLabel="registerPageThree" sceneMemberID="viewController">
+                <viewController id="P8R-cV-DJU" userLabel="registerPageThree" customClass="Reg3FirstLastName" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7se-Qz-w3W">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egS-4x-4Cc" userLabel="MidSectionView">
@@ -371,6 +385,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8wA-rz-3Mr"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qhu-Bd-xjy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -11,8 +11,13 @@ import Foundation
 //global struct which will hold all the information required for a user to register
 struct UserProfile {
     var email: String?
+    var first: String?
+    var last: String?
+
     
-    init(email:String? = nil) {
-        self.email = email
+    init(email:String? = nil, first:String? = nil, last:String? = nil) {
+        self.email = email;
+        self.first = first;
+        self.last = last;
     }
 }
