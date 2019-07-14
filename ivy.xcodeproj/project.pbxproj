@@ -19,6 +19,7 @@
 		A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F422DB99B10088DD58 /* Reg4Gender.swift */; };
 		A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F622DBA1270088DD58 /* Checkbox.swift */; };
 		A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */; };
+		A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */; };
 		A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C6D22C9571200E95B2C /* Reg8Interests.swift */; };
 		A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */; };
 		A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */; };
@@ -66,6 +67,7 @@
 		A920C4F422DB99B10088DD58 /* Reg4Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg4Gender.swift; sourceTree = "<group>"; };
 		A920C4F622DBA1270088DD58 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg6Birthday.swift; sourceTree = "<group>"; };
+		A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg9Photo.swift; sourceTree = "<group>"; };
 		A9990C6D22C9571200E95B2C /* Reg8Interests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg8Interests.swift; sourceTree = "<group>"; };
 		A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterInterestsCell.xib; sourceTree = "<group>"; };
 		A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestsCell.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				A920C4F422DB99B10088DD58 /* Reg4Gender.swift */,
 				A920C4F622DBA1270088DD58 /* Checkbox.swift */,
 				A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */,
+				A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */,
 			);
 			path = LoginRegister;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */,
 				A9990C7822C9A2F600E95B2C /* UserProfile.swift in Sources */,
 				A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */,
+				A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */,
 				FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */,
 				A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */,
 				FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */,

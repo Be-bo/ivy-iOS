@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="270" width="414" height="538"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="We'll help you build your personalized profile in the following easy steps:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haW-Fz-ivF">
-                                        <rect key="frame" x="57" y="0.0" width="300" height="48.5"/>
+                                        <rect key="frame" x="57" y="0.0" width="300" height="73.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="Jm4-2I-NCX"/>
                                         </constraints>
@@ -40,7 +40,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Your university email address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dt8-YV-agO">
-                                        <rect key="frame" x="57" y="68.5" width="300" height="36"/>
+                                        <rect key="frame" x="57" y="93.5" width="300" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="z77-Es-jtA"/>
                                         </constraints>
@@ -49,7 +49,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AUz-EA-nNM" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="170.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="195.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="bdD-qI-9oB"/>
                                             <constraint firstAttribute="height" constant="50" id="teV-da-mnQ"/>
@@ -59,7 +59,7 @@
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your university email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3gX-Mw-n8k" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="112.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="137.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Jwi-gD-ZvP"/>
                                             <constraint firstAttribute="width" constant="300" id="mA6-Vv-Tpp"/>
@@ -69,7 +69,7 @@
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUz-r1-D0t" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="228.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="253.5" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="T8q-Yw-bzM"/>
                                             <constraint firstAttribute="width" constant="300" id="vPo-9T-Ksb"/>
@@ -80,7 +80,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIF-55-KlF">
-                                        <rect key="frame" x="57" y="286" width="300" height="0.0"/>
+                                        <rect key="frame" x="57" y="311" width="300" height="0.0"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="LLM-or-v1Y"/>
                                         </constraints>
@@ -110,7 +110,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="270"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to ivy!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9v-dI-Hxv">
-                                        <rect key="frame" x="115" y="224.5" width="184" height="43"/>
+                                        <rect key="frame" x="69.5" y="224.5" width="275.5" height="45.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew-Bold" family="Cordia New" pointSize="39"/>
                                         <color key="textColor" name="ivyGreen"/>
                                         <nil key="highlightedColor"/>
@@ -171,7 +171,7 @@
                                 <rect key="frame" x="0.0" y="270" width="414" height="538"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="(Try to include a capital letter, a number and a special symbol)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgH-FY-Y8h">
-                                        <rect key="frame" x="57" y="8" width="300" height="48.5"/>
+                                        <rect key="frame" x="57" y="8" width="300" height="49"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="FMK-bx-qHN"/>
                                         </constraints>
@@ -180,7 +180,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EdN-3j-6oL" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="122.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="123" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="YNa-mO-Pxa"/>
                                             <constraint firstAttribute="width" constant="300" id="zrS-JF-t54"/>
@@ -190,7 +190,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-OR-aKr" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="64.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="65" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="VDb-Yk-27J"/>
                                             <constraint firstAttribute="height" constant="50" id="mc5-FM-kYF"/>
@@ -200,7 +200,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ8-tv-ZCY" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="57" y="180.5" width="300" height="50"/>
+                                        <rect key="frame" x="57" y="181" width="300" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="0zC-wf-Djt"/>
                                             <constraint firstAttribute="height" constant="50" id="aCy-Rc-HfD"/>
@@ -211,7 +211,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-nx-3Ur" userLabel="Error Label">
-                                        <rect key="frame" x="57" y="238" width="300" height="0.0"/>
+                                        <rect key="frame" x="57" y="238.5" width="300" height="0.0"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="Ktm-Td-T1N"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="NjV-n3-Eh9"/>
@@ -367,7 +367,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. What's your first and last name?" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZr-VS-HbW">
-                                        <rect key="frame" x="57" y="236.5" width="300" height="33.5"/>
+                                        <rect key="frame" x="57" y="202" width="300" height="68"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="6lm-VO-ZdY"/>
                                         </constraints>
@@ -705,8 +705,11 @@
                                             <constraint firstAttribute="height" constant="50" id="dlF-P2-uW1"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="onClickContinue:" destination="nTP-De-Hg1" eventType="touchUpInside" id="2Iu-9q-THV"/>
+                                        </connections>
                                     </button>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="O8v-7X-Wmo">
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8v-7X-Wmo">
                                         <rect key="frame" x="57" y="8" width="300" height="162"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="Ce0-Js-NMj"/>
@@ -778,6 +781,10 @@
                         <viewLayoutGuide key="safeArea" id="GoM-5c-evp"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="dataPicker" destination="O8v-7X-Wmo" id="hNE-N9-CsJ"/>
+                        <segue destination="Aks-XR-PZt" kind="show" identifier="reg6ToReg7Segue" id="Vzi-Dc-I4x"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4iP-7Z-5hZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -786,9 +793,9 @@
         <!--reg7Bio-->
         <scene sceneID="Ygz-ck-3CM">
             <objects>
-                <viewController title="IntroRegisterScreen" id="Aks-XR-PZt" userLabel="reg7Bio" customClass="Reg7Bio" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Aks-XR-PZt" userLabel="reg7Bio" customClass="Reg7Bio" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SIc-ql-5Zf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sl3-ij-INN" userLabel="MidSectionView">
@@ -821,6 +828,9 @@
                                             <constraint firstAttribute="width" constant="300" id="aTn-jf-xxz"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="onClickContinue:" destination="Aks-XR-PZt" eventType="touchUpInside" id="vBY-AB-AbE"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -878,21 +888,23 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DwN-9P-HUq"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="bioTextView" destination="mtz-QX-MKA" id="NUT-Rx-p4n"/>
                         <outlet property="characterCountLabel" destination="wbt-Yd-UFU" id="0Ej-Wt-z9h"/>
+                        <segue destination="fFK-KT-tjU" kind="show" identifier="reg7ToReg8Segue" id="lle-NI-9eA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LZv-ZA-qFZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7644.9275362318849" y="101.78571428571428"/>
+            <point key="canvasLocation" x="7651" y="86"/>
         </scene>
         <!--reg8Interests-->
         <scene sceneID="tiM-zf-iqz">
             <objects>
-                <viewController title="IntroRegisterScreen" id="fFK-KT-tjU" userLabel="reg8Interests" customClass="Reg8Interests" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="WGe-9g-BKA">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                <viewController id="fFK-KT-tjU" userLabel="reg8Interests" customClass="Reg8Interests" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="WGe-9g-BKA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o9X-tb-8qN" userLabel="MidSectionView">
@@ -905,6 +917,9 @@
                                             <constraint firstAttribute="width" constant="300" id="fVl-q5-5FA"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="onClickContinue:" destination="fFK-KT-tjU" eventType="touchUpInside" id="wGH-zE-D74"/>
+                                        </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="h4y-Kc-DJY">
                                         <rect key="frame" x="57" y="8" width="300" height="300"/>
@@ -968,13 +983,31 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="u4Y-Nr-6Z6"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="tableView" destination="h4y-Kc-DJY" id="AwC-i6-tgB"/>
+                        <segue destination="pc8-a3-zxT" kind="show" identifier="reg8ToReg9Segue" id="Eeb-mf-2T7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jV5-Re-xfD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8647.826086956522" y="101.78571428571428"/>
+            <point key="canvasLocation" x="8646" y="86"/>
+        </scene>
+        <!--reg9Photo-->
+        <scene sceneID="gfm-CM-dtk">
+            <objects>
+                <viewController id="pc8-a3-zxT" userLabel="reg9Photo" customClass="Reg9Photo" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1Re-wB-ImQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="UvH-5q-PMg"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="69W-r7-5Kx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="9600" y="86"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Q2L-pb-QJK">
@@ -1056,7 +1089,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="323"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ivy_logo" translatesAutoresizingMaskIntoConstraints="NO" id="0d1-b6-AhD">
-                                        <rect key="frame" x="132" y="41.5" width="150" height="240"/>
+                                        <rect key="frame" x="132" y="153.5" width="150" height="16"/>
                                         <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="150" id="Uus-gF-Een"/>
