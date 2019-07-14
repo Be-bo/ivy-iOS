@@ -13,25 +13,44 @@ import FirebaseAuth
 
 class Login: UIViewController {
     
-    // MARK: Variables and Constant
-
-    @IBOutlet weak var emailField: StandardTextField!
-    @IBOutlet weak var passwordField: StandardTextField!
-    @IBOutlet weak var loginButton: StandardButton!
-    @IBOutlet weak var signupLabel: UILabel!
-    // TODO: Error Text
+    // MARK: Variables and Constants
     
     private let authInstance = Auth.auth()
     private var thisUni = ""
     
     
     
+    // MARK: IBOutlets and IBActions
+
+    @IBOutlet weak var emailField: StandardTextField!
+    @IBOutlet weak var passwordField: StandardTextField!
+    @IBOutlet weak var signupLabel: UILabel!
+    @IBOutlet weak var errorLabel: ErrorLabel!
+    @IBOutlet weak var middleContainer: StandardButton!
+    @IBOutlet weak var bottomContainer: UIView!
+    @IBOutlet weak var ivyLogo: UIImageView!
     
-    // MARK: Override Functions
+    @IBAction func loginClicked(_ sender: Any) {
+        attemptLogin()
+    }
+    
+
+    
+    
+    
+    
+    // MARK: Override and Base Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAutoLogin()
+        setUp()
+    }
+    
+    func setUp(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(Login.startRegistration))
+        signupLabel.isUserInteractionEnabled = true
+        signupLabel.addGestureRecognizer(tap)
     }
     
     
@@ -41,14 +60,35 @@ class Login: UIViewController {
     // MARK: Login Functions
     
     func attemptLogin(){
+        errorLabel.text = ""
         if(fieldsOk()){
-            
+            barInteraction()
+            let email = emailField.text!
+            let password = passwordField.text!
+            authInstance.signIn(withEmail: email, password: password) { (result, error) in
+                if(error == nil){
+                    if let range = email.range(of: "@") {
+                        self.thisUni = String(email[range.upperBound...])
+                        self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines)
+                        print("logging in with domain: "+self.thisUni)
+                    }
+                    self.saveLocalData()
+                    // TODO: segue w/ data
+                }else{
+                    self.errorLabel.text = "Login failed, invalid email or password."
+                    self.allowInteraction()
+                }
+            }
         }
     }
     
     func checkAutoLogin(){
-        if(getLocalData()){
-            
+        if(getLocalData() && authInstance.currentUser != nil){
+            barInteraction()
+            hideElems()
+            // TODO: segue w/ data
+        }else{
+            //errorLabel.text = "Couldn't perform auto-login, please log in manually."
         }
     }
     
@@ -56,7 +96,7 @@ class Login: UIViewController {
     
     // MARK: Other Functions
     
-    func startRegistration(){
+    @objc func startRegistration(sender: UITapGestureRecognizer){
         
     }
     
@@ -67,7 +107,7 @@ class Login: UIViewController {
     
     func getLocalData() -> Bool{
         let defaults = UserDefaults.standard
-        if thisUni == defaults.string(forKey: "thisUni") as! String{
+        if thisUni == defaults.string(forKey: "thisUni"){
             return true
         }else{
             return false
@@ -77,39 +117,54 @@ class Login: UIViewController {
     
     
     // MARK: UI Related Functions
-    // TODO: bool var to return (cuz the standard way doesn't work)
+    
     func fieldsOk() -> Bool{
         let email = emailField.text
         let password = passwordField.text
+        var retVal = true
         
-        if(email != nil && password != nil){
+        if(email != "" && password != ""){
             if(!(email?.contains("@"))! || !(email?.contains("."))! || email!.count < 5){
-                // TODO: error text
-                return false
+                errorLabel.text = "Your email is incorrect."
+                retVal = false
             }
-            if(password!.count < 6) {
-                // TODO: error text
-                return false
+            else if(password!.count < 6) {
+                errorLabel.text = "Your password is not long enough. Are you sure you entered it correctly?"
+                retVal = false
             }
         }else{
-            // TODO: error text
-            return false
+            errorLabel.text = "Neither field can be empty."
+            retVal = false
         }
-        return false
+        return retVal
     }
     
     func barInteraction(){
+        self.view.isUserInteractionEnabled = false
         
+        let animationGroup = CAAnimationGroup()
+        animationGroup.duration = 1.3
+        animationGroup.repeatCount = .infinity
+        let easeOut = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+        
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotationAnimation.fromValue = 0.0
+        rotationAnimation.toValue = 2*Double.pi
+        rotationAnimation.duration = 0.3
+        rotationAnimation.timingFunction = easeOut
+        animationGroup.animations = [rotationAnimation]
+        
+        ivyLogo.layer.add(animationGroup, forKey: "rotation")
     }
     
     func allowInteraction(){
-        
+        self.view.isUserInteractionEnabled = true
+        ivyLogo.layer.removeAllAnimations()
     }
     
     func hideElems(){
-        
+        middleContainer.isHidden = true
+        bottomContainer.isHidden = true
     }
-
-
 }
 
