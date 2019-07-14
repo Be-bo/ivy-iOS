@@ -42,7 +42,7 @@ class Reg1UserEmail: UIViewController {
     //called every single time a segway is called
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! Reg2Password
-        vc.secondStruct.email = self.registerInfoStruct.email ?? "no email"
+        vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
     }
     
     
