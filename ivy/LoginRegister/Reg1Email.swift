@@ -31,6 +31,7 @@ class Reg1Email: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         errorLabel.isHidden = true //error label should be hidden by defualt
     }
     
