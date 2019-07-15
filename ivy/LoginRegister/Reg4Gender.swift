@@ -52,7 +52,7 @@ class Reg4Gender: UIViewController {
         if(self.gender != ""){
             self.performSegue(withIdentifier: "reg4ToReg5Segue", sender: self) //pass data over to
         }else{
-            errorLabel.text = "Please select a gender before continuing"
+            errorLabel.text = "Please select a gender before continuing."
             errorLabel.isHidden = false //error label should be hidden by defualt
         }
     }

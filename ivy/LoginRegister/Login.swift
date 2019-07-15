@@ -44,13 +44,14 @@ class Login: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAutoLogin()
-        setUpSignUpTap()
+        setUp()
     }
     
-    func setUpSignUpTap(){
+    func setUp(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(Login.startRegistration))
         signupLabel.isUserInteractionEnabled = true
         signupLabel.addGestureRecognizer(tap)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     
