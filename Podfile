@@ -12,5 +12,6 @@ target 'ivy' do
   pod 'Firebase/Storage'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
+  pod 'CropViewController'
 
 end

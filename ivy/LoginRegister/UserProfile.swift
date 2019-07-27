@@ -18,9 +18,10 @@ struct UserProfile {
     var birthday: String?
     var bio: String?
     var interests: Array<String>?
+    var imageByteArray :Array<NSData>?
 
     
-    init(email:String? = nil, first:String? = nil, last:String? = nil , gender:String? = nil, degree:String? = nil, birthday:String? = nil, bio:String?=nil, interests:Array<String>?=nil) {
+    init(email:String? = nil, first:String? = nil, last:String? = nil , gender:String? = nil, degree:String? = nil, birthday:String? = nil, bio:String?=nil, interests:Array<String>?=nil, imageByteArray:Array<NSData>?=nil) {
         self.email = email;
         self.first = first;
         self.last = last;
@@ -29,6 +30,7 @@ struct UserProfile {
         self.birthday = birthday;
         self.bio = bio;
         self.interests = interests;
+        self.imageByteArray = imageByteArray;
         
     }
 }
