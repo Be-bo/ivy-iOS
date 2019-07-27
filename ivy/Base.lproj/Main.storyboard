@@ -47,7 +47,7 @@
                                 <rect key="frame" x="32" y="260" width="350" height="370"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to ivy!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9v-dI-Hxv" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="45.666666666666664"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="43"/>
                                         <fontDescription key="fontDescription" name="CordiaNew-Bold" family="Cordia New" pointSize="39"/>
                                         <color key="textColor" name="ivyGreen"/>
                                         <nil key="highlightedColor"/>
@@ -156,6 +156,7 @@
                         <outlet property="confirmEmailLabel" destination="AUz-EA-nNM" id="06Q-Wx-a9j"/>
                         <outlet property="emailLabel" destination="3gX-Mw-n8k" id="eQl-fr-uuG"/>
                         <outlet property="errorLabel" destination="uIF-55-KlF" id="ioQ-IH-QYg"/>
+                        <outlet property="ivyLogo" destination="4W7-CC-VcN" id="G25-97-6Mh"/>
                         <segue destination="Xfa-fD-0xT" kind="show" identifier="reg1ToReg2Segue" id="kaI-Sy-Y0n"/>
                     </connections>
                 </viewController>
@@ -287,6 +288,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="errorLabel" destination="qbU-nx-3Ur" id="gte-0k-PZf"/>
+                        <outlet property="ivyLogo" destination="93S-HZ-3a8" id="nJD-Jh-KFz"/>
                         <outlet property="passwordConfirmLabel" destination="EdN-3j-6oL" id="jFN-Kj-Ivd"/>
                         <outlet property="passwordLabel" destination="VfI-OR-aKr" id="Sqi-aC-WVS"/>
                         <segue destination="P8R-cV-DJU" kind="show" identifier="reg2ToReg3Segue" id="l0H-fe-uii"/>
@@ -413,6 +415,7 @@
                     <connections>
                         <outlet property="errorLabel" destination="2Gk-qy-oOj" id="ZdM-GF-w2Z"/>
                         <outlet property="firstNameLabel" destination="uG6-KG-rpE" id="7RQ-M5-DUg"/>
+                        <outlet property="ivyLogo" destination="ued-Tq-1ZS" id="tz3-OI-Jh1"/>
                         <outlet property="lastNameLabel" destination="5HV-a5-knm" id="86j-jl-XAp"/>
                         <segue destination="5eq-1s-Rc2" kind="show" identifier="reg3ToReg4Segue" id="EmO-Zq-sLw"/>
                     </connections>
@@ -745,8 +748,8 @@
                                         <date key="minimumDate" timeIntervalSinceReferenceDate="-1609419600">
                                             <!--1950-01-01 11:00:00 +0000-->
                                         </date>
-                                        <date key="maximumDate" timeIntervalSinceReferenceDate="631105200">
-                                            <!--2020-12-31 11:00:00 +0000-->
+                                        <date key="maximumDate" timeIntervalSinceReferenceDate="157719600">
+                                            <!--2005-12-31 11:00:00 +0000-->
                                         </date>
                                         <locale key="locale" localeIdentifier="en_CA"/>
                                     </datePicker>
@@ -839,7 +842,7 @@
                                             <constraint firstAttribute="height" constant="50" id="Ilr-AT-J2N"/>
                                             <constraint firstAttribute="width" constant="300" id="aTn-jf-xxz"/>
                                         </constraints>
-                                        <state key="normal" title="Button"/>
+                                        <state key="normal" title="Continue"/>
                                         <connections>
                                             <action selector="onClickContinue:" destination="Aks-XR-PZt" eventType="touchUpInside" id="vBY-AB-AbE"/>
                                         </connections>

@@ -11,11 +11,11 @@ import UIKit
 
 class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    //initializers
+    // MARK: Variables and Constants
+    
+    var interestChosen: String = "" //specific interest that has been chosen, empty at first
+    var interestsChosen = [String]()   //hold number of interests they choose
     var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "", birthday: "", bio: "") //will be overidden by the actual data
-
-    @IBOutlet weak var tableView: UITableView!
-    let iconNames = ["Reading"];
     let labels = [            "Reading",
                               "Cooking",
                               "Sports",
@@ -98,25 +98,30 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
                               "Design",
                               "Fashion",
                               "Fashion Design" ]
+
     
     
-    var interestChosen: String = "" //specific interest that has been chosen, empty at first
-    var interestsChosen = [String]()   //hold number of interests they choose
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //TODO delete this commented stuff if it works correctley in configure table view
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.register(UINib(nibName: "RegisterInterestsCell", bundle: nil), forCellReuseIdentifier: "RegisterInterestsCell")
-        configureTableView()
-    }
+    // MARK: IBOutlets and IBActions
     
+    @IBOutlet weak var tableView: UITableView!
     @IBAction func onClickContinue(_ sender: Any) {
         attemptToContinue()
     }
-    //called every single time a segway is called
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+    
+    
+    
+    
+    
+    // MARK: Base and Override Functions
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureTableView()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg9Photo
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
         vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
@@ -128,22 +133,34 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
         vc.registerInfoStruct.interests = self.interestsChosen
     }
     
-    
     func attemptToContinue() {
-        //if they press continue they must have chosen atleast one interest
-        if (interestsChosen.isEmpty == false){
+        if (interestsChosen.isEmpty == false){ //if they press continue they must have chosen atleast one interest
             self.performSegue(withIdentifier: "reg8ToReg9Segue" , sender: self) //pass data over to
         }else {
         }
     }
     
     
+    
+    
+    
+    
+    
+    // MARK: TableView Methods
+    
+    func configureTableView(){
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "RegisterInterestsCell", bundle: nil), forCellReuseIdentifier: "RegisterInterestsCell")
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 70
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return labels.count
     }
     
-    // called for every single cell thats displayed on screen
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen
         let cell = tableView.dequeueReusableCell(withIdentifier: "RegisterInterestsCell", for: indexPath) as! RegisterInterestsCell
         cell.label.text = labels[indexPath.row]
         
@@ -155,16 +172,7 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return cell
     }
     
-    func configureTableView(){
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "RegisterInterestsCell", bundle: nil), forCellReuseIdentifier: "RegisterInterestsCell")
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 70
-    }
-    
-    // triggered when individual cells clicked -> covers cases where you can see the check mark (and select a different cell)
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //triggered when individual cells clicked -> covers cases where you can see the check mark (and select a different cell)
         let cl = tableView.cellForRow(at: indexPath) as! RegisterInterestsCell
         //if they click on the same interest again then remove ir from the array and get rid of checkmark
         if(interestsChosen.contains(cl.label.text!) ){
@@ -177,9 +185,4 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
             cl.imgView.image = UIImage(named: "check")
         }
     }
-    
-    
-
-    
-
 }

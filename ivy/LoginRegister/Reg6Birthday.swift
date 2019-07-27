@@ -14,13 +14,27 @@ import FirebaseFirestore
 
 class Reg6Birthday: UIViewController {
 
-    //initializers
+    // MARK: Variables and Constants
+    
     var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "") //will be overidden by the actual data
     var dateFormatter = DateFormatter()
     var selectedDate = ""
     
-    @IBOutlet weak var dataPicker: UIDatePicker!
     
+    // MARK: IBOutlets and IBActions
+    
+    @IBOutlet weak var dataPicker: UIDatePicker!
+    @IBAction func onClickContinue(_ sender: Any) {
+        attemptToContinue()
+    }
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Base Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +43,7 @@ class Reg6Birthday: UIViewController {
         print("birthday screen ", registerInfoStruct)
     }
     
-    
-    @IBAction func onClickContinue(_ sender: Any) {
-        attemptToContinue()
-    }
-    
-    //called every single time a segway is called
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg7Bio
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
         vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
@@ -44,7 +52,6 @@ class Reg6Birthday: UIViewController {
         vc.registerInfoStruct.degree = self.registerInfoStruct.degree ?? "no degree"
         vc.registerInfoStruct.birthday = self.selectedDate
     }
-    
     
     func attemptToContinue() {
         self.selectedDate = self.dateFormatter.string(from: dataPicker.date) //extract date in right format

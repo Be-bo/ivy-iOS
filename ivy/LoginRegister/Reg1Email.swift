@@ -12,75 +12,69 @@ import Firebase
 import FirebaseCore
 import FirebaseFirestore
 
-class Reg1Email: UIViewController {
+class Reg1Email: UIViewController, UITextFieldDelegate {
     
 
-    //initializers
+    // MARK: Varibles and Constants
+    
     var domain = ""
     var emailInput = ""
     var confirmEmailInput = ""
     var registerInfoStruct = UserProfile()
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
     
+    
 
-    //outlets for labels
+    // MARK: IBOutlets and IBActions
+    
+    @IBOutlet weak var ivyLogo: UIImageView!
     @IBOutlet weak var emailLabel: StandardTextField!
     @IBOutlet weak var confirmEmailLabel: StandardTextField!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBAction func onClickContinue(_ sender: Any) {
+        attemptToContinue()
+    }
     
+    
+    
+    
+    
+    
+    // MARK: Base and Override Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        errorLabel.isHidden = true //error label should be hidden by defualt
+        self.navigationController?.setNavigationBarHidden(false, animated: false) //show navigation bar
+        emailLabel.delegate = self //set this view controller to delegate the text fields
+        confirmEmailLabel.delegate = self
+        emailLabel.tag = 0 //give both texfields order in which they're supposed to be edited
+        confirmEmailLabel.tag = 1
     }
     
-    //when user clicks button to continue and outlet for the button
-    @IBAction func onClickContinue(_ sender: Any) {
-        attemptToContinue() //check if emails match, domain, etc..
-    }
-    
-    //called every single time a segway is called
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg2Password
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
     }
     
-    
-    
-    //check if we can continue onto the next registration screen
-    func attemptToContinue() {
-        self.emailInput = emailLabel.text!  //grab emaail from email label
-        self.confirmEmailInput = confirmEmailLabel.text!    //grab confirm email
-        
-        if(emailInput.count>5 && emailInput.contains("@")){
-            if(emailInput.isEqual(confirmEmailInput)){  //if emails match check against database to ensure domains match
-                //extract domain
-                if let range = emailInput.range(of: "@") {
-                    domain = String(emailInput[range.upperBound...])
-                    domain = domain.trimmingCharacters(in: .whitespacesAndNewlines)
-
-                }
-
-                checkDomain(domain: domain, emailInput: emailInput)
-            }else { //no match, show error, display label
-                errorLabel.text = "The emails don't match."
-                errorLabel.isHidden = false
-                //allowInteraction();
-            }
-        }else{//domains dont match or is not long enough, show error, display label
-            errorLabel.text = "The email must contain an \"@\" and be at least six characters long."
-            errorLabel.isHidden = false
-            //allowInteraction();
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { //a function that handles return key press on user's keyboard
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField { //move to the next text field in order
+            nextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder() //remove keyboard if no other fields to go to
         }
+        return false
     }
     
     
-    //check the domain to make sure its a valid domain
-    func checkDomain(domain:String, emailInput:String) {
-        
-        //if domain is empty dont even check
-        if (domain != ""){
+    
+    
+    
+    
+    
+    // MARK: Database Functions
+    
+    func checkDomain(domain:String, emailInput:String) { //check the domain to make sure its a valid domain
+        if (domain != ""){//if domain is empty dont even check
             baseDatabaseReference.collection("universities").document(domain).getDocument { (document, error) in
                 if let document = document, document.exists {
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -101,5 +95,58 @@ class Reg1Email: UIViewController {
     }
     
     
+    
+    
+    
+    
+    
+    
+    // MARK: UI Related Functions
+    
+    func attemptToContinue() { //check if we can continue onto the next registration screen
+        barInteraction()
+        self.emailInput = emailLabel.text!
+        self.confirmEmailInput = confirmEmailLabel.text!
+        if(emailInput.count>5 && emailInput.contains("@")){
+            if(emailInput.isEqual(confirmEmailInput)){  //if emails match check against database to ensure domains match
+                if let range = emailInput.range(of: "@") { //extract domain from user's input
+                    domain = String(emailInput[range.upperBound...])
+                    domain = domain.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+                checkDomain(domain: domain, emailInput: emailInput)
+            }else { //no match display error label with error
+                errorLabel.text = "The emails don't match."
+                errorLabel.isHidden = false
+                allowInteraction();
+            }
+        }else{//domains dont match or is not long enough, show error, display label
+            errorLabel.text = "The email must contain an \"@\" and be at least six characters long."
+            errorLabel.isHidden = false
+            allowInteraction();
+        }
+    }
+    
+    func barInteraction(){ //disable user interaction and start loading animation (rotating the ivy logo)
+        self.view.isUserInteractionEnabled = false
+        
+        let animationGroup = CAAnimationGroup()
+        animationGroup.duration = 1.3
+        animationGroup.repeatCount = .infinity
+        let easeOut = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+        
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotationAnimation.fromValue = 0.0
+        rotationAnimation.toValue = 2*Double.pi
+        rotationAnimation.duration = 0.3
+        rotationAnimation.timingFunction = easeOut
+        animationGroup.animations = [rotationAnimation]
+        
+        ivyLogo.layer.add(animationGroup, forKey: "rotation")
+    }
+    
+    func allowInteraction(){ //enable interaction again
+        self.view.isUserInteractionEnabled = true
+        ivyLogo.layer.removeAllAnimations()
+    }
 }
 

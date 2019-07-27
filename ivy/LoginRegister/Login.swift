@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
-class Login: UIViewController {
+class Login: UIViewController, UITextFieldDelegate {
     
     // MARK: Variables and Constants
     
@@ -48,78 +48,34 @@ class Login: UIViewController {
     }
     
     func setUp(){
-        let tap = UITapGestureRecognizer(target: self, action: #selector(Login.startRegistration))
+        emailField.delegate = self //set a delegate to the text fields (which is this view controller)
+        passwordField.delegate = self
+        emailField.tag = 0 //and give the text fields an order via tags
+        passwordField.tag = 1
+        let tap = UITapGestureRecognizer(target: self, action: #selector(Login.startRegistration)) //make a tap event handler that starts registration and attach it to the sign up label
         signupLabel.isUserInteractionEnabled = true
         signupLabel.addGestureRecognizer(tap)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.setNavigationBarHidden(true, animated: false) //hide navigation bar for this view controller
     }
     
-    
-    
-    
-    
-    // MARK: Login Functions
-    
-    func attemptLogin(){
-        errorLabel.text = ""
-        if(fieldsOk()){
-            barInteraction()
-            let email = emailField.text!
-            let password = passwordField.text!
-            authInstance.signIn(withEmail: email, password: password) { (result, error) in
-                if(error == nil){
-                    if let range = email.range(of: "@") {
-                        self.thisUni = String(email[range.upperBound...])
-                        self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines)
-                        print("logging in with domain: "+self.thisUni)
-                    }
-                    self.saveLocalData()
-                    // TODO: segue w/ data
-                }else{
-                    self.errorLabel.text = "Login failed, invalid email or password."
-                    self.allowInteraction()
-                }
-            }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { //a function that handles return key press on user's keyboard
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField { //move to the next text field in order
+            nextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder() //remove keyboard if no other fields to go to
         }
-    }
-    
-    func checkAutoLogin(){
-        if(getLocalData() && authInstance.currentUser != nil){
-            barInteraction()
-            hideElems()
-            // TODO: segue w/ data
-        }else{
-            //errorLabel.text = "Couldn't perform auto-login, please log in manually."
-        }
+        return false
     }
     
     
     
-    // MARK: Other Functions
     
-    @objc func startRegistration(sender: UITapGestureRecognizer){
-        self.performSegue(withIdentifier: "loginToReg1Segue" , sender: self)
-    }
-    
-    func saveLocalData(){
-        let defaults = UserDefaults.standard
-        defaults.set(thisUni, forKey: "thisUni")
-    }
-    
-    func getLocalData() -> Bool{
-        let defaults = UserDefaults.standard
-        if thisUni == defaults.string(forKey: "thisUni"){
-            return true
-        }else{
-            return false
-        }
-    }
     
     
     
     // MARK: UI Related Functions
     
-    func fieldsOk() -> Bool{
+    func fieldsOk() -> Bool{ //input checking for both text fields, if something's wrong with the input set an appropriate text to the error label
         let email = emailField.text
         let password = passwordField.text
         var retVal = true
@@ -140,7 +96,7 @@ class Login: UIViewController {
         return retVal
     }
     
-    func barInteraction(){
+    func barInteraction(){ //disable user interaction and start loading animation (rotating the ivy logo)
         self.view.isUserInteractionEnabled = false
         
         let animationGroup = CAAnimationGroup()
@@ -158,14 +114,78 @@ class Login: UIViewController {
         ivyLogo.layer.add(animationGroup, forKey: "rotation")
     }
     
-    func allowInteraction(){
+    func allowInteraction(){ //enable interaction again
         self.view.isUserInteractionEnabled = true
         ivyLogo.layer.removeAllAnimations()
     }
     
-    func hideElems(){
+    func hideElems(){ //in a case of auto login hide everything except the top container (which contains the ivy logo so that we can still display the loading animation)
         middleContainer.isHidden = true
         bottomContainer.isHidden = true
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Authentication Functions
+    
+    func attemptLogin(){
+        errorLabel.text = ""
+        if(fieldsOk()){
+            barInteraction()
+            let email = emailField.text!
+            let password = passwordField.text!
+            authInstance.signIn(withEmail: email, password: password) { (result, error) in //try to authenticate user in Firebase Auth with their email and password
+                if(error == nil){
+                    if let range = email.range(of: "@") { //extract the domain the user's entered
+                        self.thisUni = String(email[range.upperBound...])
+                        self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines)
+                    }
+                    self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
+                    // TODO: segue w/ data
+                }else{
+                    self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label
+                    self.allowInteraction()
+                }
+            }
+        }
+    }
+    
+    func checkAutoLogin(){ //check if we the necessary local data and if the user has logged in in the past to attempt an auto login
+        if(getLocalData() && authInstance.currentUser != nil){
+            barInteraction()
+            hideElems()
+            // TODO: segue w/ data
+        }else{
+            //errorLabel.text = "Couldn't perform auto-login, please log in manually."
+        }
+    }
+    
+    
+    
+    
+    // MARK: Other Functions
+    
+    @objc func startRegistration(sender: UITapGestureRecognizer){ //move to the first registration view controller
+        self.performSegue(withIdentifier: "loginToReg1Segue" , sender: self)
+    }
+    
+    func saveLocalData(){ //save this user's university domain locally
+        let defaults = UserDefaults.standard
+        defaults.set(thisUni, forKey: "thisUni")
+    }
+    
+    func getLocalData() -> Bool{ //get locally saved data
+        let defaults = UserDefaults.standard
+        if thisUni == defaults.string(forKey: "thisUni"){
+            return true
+        }else{
+            return false
+        }
+    } 
 }
 
