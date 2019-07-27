@@ -11,6 +11,9 @@ import UIKit
 
 class Reg10Recap: UIViewController {
     
+    var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "", birthday: "", bio:"", interests: [""], imageByteArray: [] ) //will be overidden by the actual data
+
+    
     private var showingBack = false
     @IBOutlet weak var cardContainer: UIView!
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront

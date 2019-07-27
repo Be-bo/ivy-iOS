@@ -47,7 +47,7 @@
                                 <rect key="frame" x="32" y="36" width="350" height="370"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to ivy!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9v-dI-Hxv" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="43"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="45.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew-Bold" family="Cordia New" pointSize="39"/>
                                         <color key="textColor" name="ivyGreen"/>
                                         <nil key="highlightedColor"/>
@@ -809,7 +809,7 @@
         <scene sceneID="Ygz-ck-3CM">
             <objects>
                 <viewController id="Aks-XR-PZt" userLabel="reg7Bio" customClass="Reg7Bio" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="SIc-ql-5Zf">
+                    <view key="view" contentMode="scaleToFill" id="SIc-ql-5Zf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -1027,7 +1027,7 @@
                                     <action selector="clickAddPhoto:" destination="pc8-a3-zxT" eventType="touchUpInside" id="hhg-A9-p0W"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_people" translatesAutoresizingMaskIntoConstraints="NO" id="aFO-Ot-Uuu">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aFO-Ot-Uuu">
                                 <rect key="frame" x="87" y="68" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="eZf-q9-8CO"/>
@@ -1052,11 +1052,38 @@
                     <connections>
                         <outlet property="actualFinalImage" destination="qSQ-Vb-umz" id="bry-Gh-TUh"/>
                         <outlet property="finalImageView" destination="aFO-Ot-Uuu" id="vhp-cS-Hzp"/>
+                        <segue destination="Ku9-Go-LBU" kind="show" id="nrE-Xm-OGv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="69W-r7-5Kx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="9592.753623188406" y="101.78571428571428"/>
+        </scene>
+        <!--Reg10Recap-->
+        <scene sceneID="tk8-dx-giW">
+            <objects>
+                <viewController id="Ku9-Go-LBU" userLabel="Reg10Recap" customClass="Reg10Recap" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3MW-ff-4Gg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LdJ-dL-OpN">
+                                <rect key="frame" x="20" y="137" width="374" height="534"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="MyR-rR-mgb"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="cardContainer" destination="LdJ-dL-OpN" id="cle-uZ-yfA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qUr-AS-7R2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="10460.869565217392" y="101.78571428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Q2L-pb-QJK">
@@ -1270,7 +1297,6 @@
     </scenes>
     <resources>
         <image name="add_file" width="240" height="240"/>
-        <image name="add_people" width="240" height="240"/>
         <image name="ivy_logo" width="240" height="240"/>
         <namedColor name="ivyGreen">
             <color red="0.16899999976158142" green="0.59200000762939453" blue="0.1289999932050705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

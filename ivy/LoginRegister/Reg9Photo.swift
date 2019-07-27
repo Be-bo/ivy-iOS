@@ -32,14 +32,16 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     
     //when they click on add photo take them to which photo they should choose
     @IBAction func clickAddPhoto(_ sender: Any) {
-        presentCropViewController()
-//        showImagePickerController()
+//        presentCropViewController()
+        showImagePickerController()
     }
     
     func presentCropViewController() {
-        var image: UIImage? = finalImageView.image // Load an image
+        
+        var image: UIImage? = self.actualFinalImage.image // Load an image
         let cropViewController = CropViewController(image: image!)
         cropViewController.delegate = self
+        
         present(cropViewController, animated: true, completion: nil)
     }
     
@@ -50,7 +52,33 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         actualFinalImage.image = image
         dismiss(animated: true, completion: nil)
         let byteArray = image.jpegData(compressionQuality: 1.0)
-        print("This is the byte array", byteArray)
+        
+    }
+    
+    func showImagePickerController() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.modalPresentationStyle = .popover
+        imagePicker.preferredContentSize = CGSize(width: 320, height: 568)
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = false
+        imagePicker.delegate = self
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    //when they actually choose an image
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+//        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{ //extract the "edited" image from our info
+//            finalImageView.image = editedImage //set it in whatever place we want
+//        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{ //extract the non "edited" image from our info
+//            finalImageView.image = originalImage
+//        }
+        if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{ //extract the non "edited" image from our info
+            self.actualFinalImage.image = originalImage
+        }
+        
+        dismiss(animated: true, completion: nil)    //dismiss the imagepickercontroller view
+        presentCropViewController()
     }
     
 }
