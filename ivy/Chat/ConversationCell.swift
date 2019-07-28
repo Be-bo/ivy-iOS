@@ -8,26 +8,19 @@
 
 import UIKit
 
-class ConversationCell: UIView {
+class ConversationCell: UITableViewCell {
     
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var name: MediumGreenLabel!
     @IBOutlet weak var lastMessage: StandardLabel!
     
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        awakeFromNib()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        awakeFromNib()
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         setUp()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
     }
     
     func setUp(){
