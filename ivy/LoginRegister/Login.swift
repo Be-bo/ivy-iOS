@@ -146,7 +146,7 @@ class Login: UIViewController, UITextFieldDelegate {
                         self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines)
                     }
                     self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
-                    // TODO: segue w/ data
+                    self.performSegue(withIdentifier: "loginToMain" , sender: self)
                 }else{
                     self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label
                     self.allowInteraction()
