@@ -22,12 +22,12 @@ extension UIButton {
 }
 
 extension UIColor {
-    static let ivyGreen = UIColor(displayP3Red: 43, green: 151, blue: 33, alpha: 1)
-    static let ivyGrey = UIColor(displayP3Red: 105, green: 105, blue: 105, alpha: 1)
-    static let ivyLightGrey = UIColor(displayP3Red: 144, green: 144, blue: 144, alpha: 1)
-    static let ivyVeryLightGrey = UIColor(displayP3Red: 237, green: 237, blue: 237, alpha: 1)
-    static let ivyNotification = UIColor(displayP3Red: 254, green: 60, blue: 0, alpha: 1)
-    static let ivyHint = UIColor(displayP3Red: 213, green: 213, blue: 213, alpha: 1)
+    static let ivyGreen = UIColor(displayP3Red: 43/255, green: 151/255, blue: 33/255, alpha: 1)
+    static let ivyGrey = UIColor(displayP3Red: 105/255, green: 105/255, blue: 105/255, alpha: 1)
+    static let ivyLightGrey = UIColor(displayP3Red: 144/255, green: 144/255, blue: 144/255, alpha: 1)
+    static let ivyVeryLightGrey = UIColor(displayP3Red: 237/255, green: 237/255, blue: 237/255, alpha: 1)
+    static let ivyNotification = UIColor(displayP3Red: 254/255, green: 60/255, blue: 0, alpha: 1)
+    static let ivyHint = UIColor(displayP3Red: 213/255, green: 213/255, blue: 213/255, alpha: 1)
 }
 
 extension UIFont {
