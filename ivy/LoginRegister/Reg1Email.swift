@@ -17,7 +17,7 @@ class Reg1Email: UIViewController, UITextFieldDelegate {
 
     // MARK: Varibles and Constants
     
-    var domain = ""
+    var uni_domain = ""
     var emailInput = ""
     var confirmEmailInput = ""
     var registerInfoStruct = UserProfile()
@@ -110,10 +110,10 @@ class Reg1Email: UIViewController, UITextFieldDelegate {
         if(emailInput.count>5 && emailInput.contains("@")){
             if(emailInput.isEqual(confirmEmailInput)){  //if emails match check against database to ensure domains match
                 if let range = emailInput.range(of: "@") { //extract domain from user's input
-                    domain = String(emailInput[range.upperBound...])
-                    domain = domain.trimmingCharacters(in: .whitespacesAndNewlines)
+                    uni_domain = String(emailInput[range.upperBound...])
+                    uni_domain = uni_domain.trimmingCharacters(in: .whitespacesAndNewlines)
                 }
-                checkDomain(domain: domain, emailInput: emailInput)
+                checkDomain(domain: uni_domain, emailInput: emailInput)
             }else { //no match display error label with error
                 errorLabel.text = "The emails don't match."
                 errorLabel.isHidden = false

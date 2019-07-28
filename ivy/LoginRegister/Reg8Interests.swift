@@ -12,10 +12,10 @@ import UIKit
 class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: Variables and Constants
-    
+    var password = ""   //carried over
     var interestChosen: String = "" //specific interest that has been chosen, empty at first
     var interestsChosen = [String]()   //hold number of interests they choose
-    var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "", birthday: "", bio: "") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(age: "", banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "") //will be overidden by the actual data
     let labels = [            "Reading",
                               "Cooking",
                               "Sports",
@@ -124,13 +124,15 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg9Photo
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
-        vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
-        vc.registerInfoStruct.last = self.registerInfoStruct.last ?? "no last name"
+        vc.registerInfoStruct.first_name = self.registerInfoStruct.first_name ?? "no first name"
+        vc.registerInfoStruct.last_name = self.registerInfoStruct.last_name ?? "no last name"
         vc.registerInfoStruct.gender = self.registerInfoStruct.gender ?? "no gender"
         vc.registerInfoStruct.degree = self.registerInfoStruct.degree ?? "no degree"
-        vc.registerInfoStruct.birthday = self.registerInfoStruct.birthday ?? "no birthday"
+        vc.registerInfoStruct.birth_time = self.registerInfoStruct.birth_time ?? nil
         vc.registerInfoStruct.bio = self.registerInfoStruct.bio ?? "no bio"
         vc.registerInfoStruct.interests = self.interestsChosen
+        vc.password = self.password //set the password
+
     }
     
     func attemptToContinue() {

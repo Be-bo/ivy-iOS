@@ -19,7 +19,9 @@ class Reg3Name: UIViewController, UITextFieldDelegate {
     var firstName = ""
     var lastName = ""
     var registerInfoStruct = UserProfile(email:"") //will be overidden by the actual data
+    var password = ""   //carried over
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
+    
 
     
     // MARK: IBOutlets and IBActions
@@ -51,8 +53,10 @@ class Reg3Name: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg4Gender
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
-        vc.registerInfoStruct.first = self.firstName
-        vc.registerInfoStruct.last = self.lastName
+        vc.registerInfoStruct.first_name = self.firstName
+        vc.registerInfoStruct.last_name = self.lastName
+        vc.password = self.password //set the password
+
     }
     
     func attemptToContinue() {//check if we can continue onto the next registration screen

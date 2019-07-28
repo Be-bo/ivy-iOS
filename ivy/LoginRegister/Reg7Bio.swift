@@ -13,8 +13,9 @@ class Reg7Bio: UIViewController, UITextViewDelegate {
     
     // MARK: Variables and Constants
     
-    var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "", birthday: "") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile( age: "", banned: nil, bio: "", birth_time: nil, degree: "", email:"") //will be overidden by the actual data
     var bio = ""
+    var password = ""   //carried over
 
     
     
@@ -40,12 +41,14 @@ class Reg7Bio: UIViewController, UITextViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segway is called
         let vc = segue.destination as! Reg8Interests
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
-        vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
-        vc.registerInfoStruct.last = self.registerInfoStruct.last ?? "no last name"
+        vc.registerInfoStruct.first_name = self.registerInfoStruct.first_name ?? "no first name"
+        vc.registerInfoStruct.last_name = self.registerInfoStruct.last_name ?? "no last name"
         vc.registerInfoStruct.gender = self.registerInfoStruct.gender ?? "no gender"
         vc.registerInfoStruct.degree = self.registerInfoStruct.degree ?? "no degree"
-        vc.registerInfoStruct.birthday = self.registerInfoStruct.birthday ?? "no birthday"
+        vc.registerInfoStruct.birth_time = self.registerInfoStruct.birth_time ?? nil
         vc.registerInfoStruct.bio = self.bio
+        vc.password = self.password //set the password
+
     }
     
     func attemptToContinue() {

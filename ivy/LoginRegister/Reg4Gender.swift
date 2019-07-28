@@ -17,8 +17,9 @@ class Reg4Gender: UIViewController {
     // MARK: Variables and Constants
     
     var gender = ""
-    var registerInfoStruct = UserProfile(email:"", first: "", last: "") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(email:"", first_name: "", last_name: "") //will be overidden by the actual data
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
+    var password = ""   //carried over
 
 
     
@@ -50,9 +51,11 @@ class Reg4Gender: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg5Degree
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
-        vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
-        vc.registerInfoStruct.last = self.registerInfoStruct.last ?? "no last name"
+        vc.registerInfoStruct.first_name = self.registerInfoStruct.first_name ?? "no first name"
+        vc.registerInfoStruct.last_name = self.registerInfoStruct.last_name ?? "no last name"
         vc.registerInfoStruct.gender = self.gender
+        vc.password = self.password //set the password
+
     }
     
     func attemptToContinue() {

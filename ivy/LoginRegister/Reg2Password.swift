@@ -52,6 +52,7 @@ class Reg2Password: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segway is called
         let vc = segue.destination as! Reg3Name
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
+        vc.password = self.password //set the password
         //wont be setting password here though since we don't wanna save that to our register info object
     }
     

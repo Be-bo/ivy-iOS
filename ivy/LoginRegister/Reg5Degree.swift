@@ -15,9 +15,9 @@ import FirebaseFirestore
 class Reg5Degree: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     // MARK: Variables and Constants
-    
+    var password = ""   //carried over
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
-    var registerInfoStruct = UserProfile(email:"", first: "", last: "", gender:"") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(age:"", banned: nil, bio: "", birth_time:nil) //will be overidden by the actual data
     var currentDegree = "Accounting"
     let iconNames = [
         "accounting",
@@ -84,10 +84,12 @@ class Reg5Degree: UIViewController, UITableViewDelegate, UITableViewDataSource{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg6Birthday
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
-        vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
-        vc.registerInfoStruct.last = self.registerInfoStruct.last ?? "no last name"
+        vc.registerInfoStruct.first_name = self.registerInfoStruct.first_name ?? "no first name"
+        vc.registerInfoStruct.last_name = self.registerInfoStruct.last_name ?? "no last name"
         vc.registerInfoStruct.gender = self.registerInfoStruct.gender ?? "no gender"
         vc.registerInfoStruct.degree = self.currentDegree
+        vc.password = self.password //set the password
+
     }
     
     func attemptToContinue() {

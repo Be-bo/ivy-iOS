@@ -16,11 +16,11 @@ class Reg6Birthday: UIViewController {
 
     // MARK: Variables and Constants
     
-    var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(age: "", banned: nil, bio: "", birth_time: nil, degree: "") //will be overidden by the actual data
     var dateFormatter = DateFormatter()
     var selectedDate = ""
-    
-    
+    var password = ""   //user passwordhe wishes to use
+    var millis = ""
     // MARK: IBOutlets and IBActions
     
     @IBOutlet weak var dataPicker: UIDatePicker!
@@ -46,15 +46,18 @@ class Reg6Birthday: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg7Bio
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
-        vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
-        vc.registerInfoStruct.last = self.registerInfoStruct.last ?? "no last name"
+        vc.registerInfoStruct.first_name = self.registerInfoStruct.first_name ?? "no first name"
+        vc.registerInfoStruct.last_name = self.registerInfoStruct.last_name ?? "no last name"
         vc.registerInfoStruct.gender = self.registerInfoStruct.gender ?? "no gender"
         vc.registerInfoStruct.degree = self.registerInfoStruct.degree ?? "no degree"
-        vc.registerInfoStruct.birthday = self.selectedDate
+        vc.registerInfoStruct.birth_time = Int64(self.millis)
+        vc.password = self.password
     }
     
     func attemptToContinue() {
         self.selectedDate = self.dateFormatter.string(from: dataPicker.date) //extract date in right format
+        let seconds = dataPicker.date.timeIntervalSince1970
+        millis = String(seconds * 1000)
         if (selectedDate != ""){
             self.performSegue(withIdentifier: "reg6ToReg7Segue", sender: self) //pass data over to
 
