@@ -48,6 +48,7 @@ class Reg10Recap: UIViewController {
         let fromView = showingBack ? back : front
         UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight, completion: nil)
         showingBack = !showingBack
+        setUpContainer()
         
     }
     
@@ -56,7 +57,8 @@ class Reg10Recap: UIViewController {
         cardContainer.layer.shadowColor = UIColor.black.cgColor
         cardContainer.layer.shadowOpacity = 0.25
         cardContainer.layer.shadowOffset = CGSize(width: 2, height: 2)
-        cardContainer.layer.shadowRadius = 3
+        cardContainer.layer.shadowRadius = 5
+        cardContainer.layer.cornerRadius = 5
         cardContainer.layer.masksToBounds = false
     }
     

@@ -1147,13 +1147,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LdJ-dL-OpN">
-                                <rect key="frame" x="20" y="137" width="374" height="534"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LdJ-dL-OpN">
+                                <rect key="frame" x="32" y="40" width="350" height="567"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZU-n6-nPr" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
+                                <rect key="frame" x="32" y="639" width="350" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="7XZ-dc-iTv"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="QER-mX-SPz"/>
+                                </constraints>
+                                <state key="normal" title="Register"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xZU-n6-nPr" firstAttribute="top" secondItem="LdJ-dL-OpN" secondAttribute="bottom" constant="32" id="1EO-jJ-dXx"/>
+                            <constraint firstItem="LdJ-dL-OpN" firstAttribute="leading" secondItem="MyR-rR-mgb" secondAttribute="leading" constant="32" id="1L5-DH-ot3"/>
+                            <constraint firstItem="MyR-rR-mgb" firstAttribute="trailing" secondItem="xZU-n6-nPr" secondAttribute="trailing" constant="32" id="6eZ-4x-aay"/>
+                            <constraint firstItem="LdJ-dL-OpN" firstAttribute="top" secondItem="MyR-rR-mgb" secondAttribute="top" constant="40" id="A2x-FZ-yf2"/>
+                            <constraint firstItem="MyR-rR-mgb" firstAttribute="bottom" secondItem="xZU-n6-nPr" secondAttribute="bottom" constant="75" id="KPF-L6-9pT"/>
+                            <constraint firstItem="xZU-n6-nPr" firstAttribute="leading" secondItem="MyR-rR-mgb" secondAttribute="leading" constant="32" id="eL4-5W-2TQ"/>
+                            <constraint firstItem="MyR-rR-mgb" firstAttribute="trailing" secondItem="LdJ-dL-OpN" secondAttribute="trailing" constant="32" id="fWO-CC-Ws0"/>
+                            <constraint firstItem="LdJ-dL-OpN" firstAttribute="centerX" secondItem="3MW-ff-4Gg" secondAttribute="centerX" id="n4r-Fe-qOF"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="MyR-rR-mgb"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
