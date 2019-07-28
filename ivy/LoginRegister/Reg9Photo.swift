@@ -16,8 +16,8 @@ import CropViewController
 class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     // MARK: Variables and Constants
-    
-    var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "", birthday: "", bio:"", interests: [""]) //will be overidden by the actual data
+    var password = ""   //carried over
+    var registerInfoStruct = UserProfile(age:"", banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "", gender: "") //will be overidden by the actual data
     private var croppedRect = CGRect.zero
     private var croppedAngle = 0
     private var byteArray:NSData? =  nil
@@ -63,14 +63,16 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         let vc = segue.destination as! Reg10Recap
         vc.registerInfoStruct.email = self.registerInfoStruct.email ?? "no email"
-        vc.registerInfoStruct.first = self.registerInfoStruct.first ?? "no first name"
-        vc.registerInfoStruct.last = self.registerInfoStruct.last ?? "no last name"
+        vc.registerInfoStruct.first_name = self.registerInfoStruct.first_name ?? "no first name"
+        vc.registerInfoStruct.last_name = self.registerInfoStruct.last_name ?? "no last name"
         vc.registerInfoStruct.gender = self.registerInfoStruct.gender ?? "no gender"
         vc.registerInfoStruct.degree = self.registerInfoStruct.degree ?? "no degree"
-        vc.registerInfoStruct.birthday = self.registerInfoStruct.birthday ?? "no birthday"
+        vc.registerInfoStruct.birth_time = self.registerInfoStruct.birth_time ?? nil
         vc.registerInfoStruct.bio = self.registerInfoStruct.bio ?? "no bio"
         vc.registerInfoStruct.interests = self.registerInfoStruct.interests ?? ["no interests chosen"]
-        vc.registerInfoStruct.imageByteArray = self.byteArray
+        vc.imageByteArray = self.byteArray
+        vc.password = self.password //set the password
+
     }
     
     
