@@ -15,32 +15,48 @@ import CropViewController
 
 class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    //initializers
+    // MARK: Variables and Constants
+    
     var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "", birthday: "", bio:"", interests: [""]) //will be overidden by the actual data
     private var croppedRect = CGRect.zero
     private var croppedAngle = 0
     private var byteArray:NSData? =  nil
 
-    //outlets
-    @IBOutlet weak var finalImageView: UIImageView! //where the final iamge will be placed to display to the user
+    
+    
+    
+    
+    // MARK: IBOutlets and IBActions
+    
     @IBOutlet weak var actualFinalImage: UIImageView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    
-    //////////////////////////////////////////SEGUE//////////////////////////////////////////
     @IBAction func onClickContinue(_ sender: Any) {
         print("attempt to continue")
         attemptToContinue()
+    }
+    @IBAction func clickAddPhoto(_ sender: Any) { //when they click on add photo take them to which photo they should choose
+        showImagePickerController()
+    }
+    
+    
+    
+    
+    
+    
+    // MARK: Base Functions
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.actualFinalImage.layer.masksToBounds = true;
+        self.actualFinalImage.layer.borderColor = UIColor.ivyGrey.cgColor
+        self.actualFinalImage.layer.borderWidth = 1.0;    //thickness
+        self.actualFinalImage.layer.cornerRadius = 10.0;  //rounded corner
     }
     
     func attemptToContinue() {
         if (self.actualFinalImage.image == nil){ //if they press continue they must have chosen an image
         }else {
             self.performSegue(withIdentifier: "reg9ToReg10Segue" , sender: self) //pass data over to
-
+            
         }
     }
     
@@ -56,35 +72,33 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         vc.registerInfoStruct.interests = self.registerInfoStruct.interests ?? ["no interests chosen"]
         vc.registerInfoStruct.imageByteArray = self.byteArray
     }
-    //////////////////////////////////////////SEGUE//////////////////////////////////////////
     
-    //////////////////////////////////////////IMAGE CHOOSING & CROPPING//////////////////////////////////////////
-    //when they click on add photo take them to which photo they should choose
-    @IBAction func clickAddPhoto(_ sender: Any) {
-        showImagePickerController()
-    }
     
-    //pop up the TOCropViewController editor to allow editing of the image thats chosen
-    func presentCropViewController() {
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Image Cropping Methods
+    
+    func presentCropViewController() { //pop up the TOCropViewController editor to allow editing of the image thats chosen
         var image: UIImage? = self.actualFinalImage.image // Load an image
         let cropViewController = CropViewController(image: image!)
         cropViewController.delegate = self
         present(cropViewController, animated: true, completion: nil)
     }
     
-    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        // 'image' is the newly cropped version of the original image
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) { // 'image' is the newly cropped version of the original image
         self.croppedRect = cropRect
         self.croppedAngle = angle
         actualFinalImage.image = image
         dismiss(animated: true, completion: nil)
         self.byteArray = (image.jpegData(compressionQuality: 1.0)!) as NSData
-//        print("byte array", self.byteArray)
-        
     }
     
-    //present the imagepicker controller which allows users to choose what image they want from the gallery
-    func showImagePickerController() {
+    func showImagePickerController() { //present the imagepicker controller which allows users to choose what image they want from the gallery
         let imagePicker = UIImagePickerController()
         imagePicker.modalPresentationStyle = .popover
         imagePicker.preferredContentSize = CGSize(width: 320, height: 568)
@@ -98,11 +112,9 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{ //extract the non "edited" image from our info
             self.actualFinalImage.image = originalImage
+            self.actualFinalImage.layer.borderWidth = 0.0;    //get rid of the image border
         }
         dismiss(animated: true, completion: nil)    //dismiss the imagepickercontroller view
         presentCropViewController()
     }
-    //////////////////////////////////////////IMAGE CHOOSING & CROPPING//////////////////////////////////////////
-
-    
 }

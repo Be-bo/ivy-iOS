@@ -28,6 +28,7 @@ extension UIColor {
     static let ivyVeryLightGrey = UIColor(displayP3Red: 237/255, green: 237/255, blue: 237/255, alpha: 1)
     static let ivyNotification = UIColor(displayP3Red: 254/255, green: 60/255, blue: 0, alpha: 1)
     static let ivyHint = UIColor(displayP3Red: 213/255, green: 213/255, blue: 213/255, alpha: 1)
+    static let ivyButtonOpacity = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 0.75)
 }
 
 extension UIFont {
