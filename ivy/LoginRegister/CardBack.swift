@@ -10,6 +10,11 @@ import UIKit
 
 class CardBack: UIView{
     
+    @IBOutlet weak var name: MediumGreenLabel!
+    @IBOutlet weak var age: MediumGreenLabel!
+    @IBOutlet weak var degree: MediumLabel!
+    @IBOutlet weak var bio: StandardLabel!
+    
     
     
     override init(frame: CGRect) {

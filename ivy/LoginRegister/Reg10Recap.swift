@@ -11,7 +11,7 @@ import UIKit
 
 class Reg10Recap: UIViewController {
     
-    var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "", birthday: "", bio:"", interests: [""], imageByteArray: [] ) //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(email: "", first: "", last: "", gender: "", degree: "", birthday: "", bio:"", interests: [""], imageByteArray: nil ) //will be overidden by the actual data
 
     
     private var showingBack = false
@@ -22,13 +22,21 @@ class Reg10Recap: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         setUpContainer()
-        let frontImage = UIImage(named: "nic")
+        let frontImage = UIImage(data: self.registerInfoStruct.imageByteArray! as Data,scale: 1.0)
         front.frame = cardContainer.bounds
         back.frame = cardContainer.bounds
         
         front.img.image = frontImage
         cardContainer.addSubview(front)
+        
+        var firstAndLast = self.registerInfoStruct.first! + " " + self.registerInfoStruct.last!
+        var age = "10"
+        back.age.text = age
+        back.name.text = firstAndLast
+        back.degree.text = self.registerInfoStruct.degree!
+        back.bio.text = self.registerInfoStruct.bio!
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
         singleTap.numberOfTapsRequired = 1

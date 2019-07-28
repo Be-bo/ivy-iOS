@@ -76,6 +76,13 @@
                     <integer key="value" value="10"/>
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="age" destination="bPs-XX-uwv" id="hsl-E4-5e9"/>
+                <outlet property="bio" destination="H3J-pi-GiN" id="BZV-c1-aDW"/>
+                <outlet property="degree" destination="Cut-qw-SWe" id="JxK-fQ-enx"/>
+                <outlet property="name" destination="mb4-UP-fn2" id="Fe9-5f-vYj"/>
+            </connections>
+            <point key="canvasLocation" x="194" y="157"/>
         </view>
     </objects>
 </document>
