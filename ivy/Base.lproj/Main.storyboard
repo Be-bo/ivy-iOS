@@ -1285,6 +1285,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="cardContainer" destination="LdJ-dL-OpN" id="cle-uZ-yfA"/>
+                        <segue destination="KKY-MS-y0m" kind="show" identifier="reg10ToLogin" id="9RO-mD-LBY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qUr-AS-7R2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1619,5 +1620,8 @@
             <color red="0.99599999189376831" green="0.23499999940395355" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="9RO-mD-LBY"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

@@ -75,8 +75,6 @@ class Reg10Recap: UIViewController {
     
     //crdating the user using firebase auth.
     func createUser() {
-        print("User profile structure", self.registerInfoStruct)
-        print("User profile password", self.password)
         Auth.auth().createUser(withEmail: self.registerInfoStruct.email!, password: self.password) { authResult, error in
             if ((error) != nil){
                 print("There was an error creating the user in the database", error)
@@ -130,7 +128,7 @@ class Reg10Recap: UIViewController {
 //            self.getPreviewBytes()
             let previewImage = UIImage(data: self.imageByteArray! as Data,scale: 0.25)  //compress the image with the scale
             let previewImageBytes = (previewImage!.jpegData(compressionQuality: 0.25)!) as NSData//convert the compressed image back to bytes
-            self.registerInfoStruct.picture_references?.append(contentsOf: picArray)
+            self.registerInfoStruct.picture_references = picArray
             self.registerInfoStruct.profile_picture = storagePath    //storage path where users profile pic is stored
             self.registerInfoStruct.registration_millis = String(CACurrentMediaTime() * 1000)    //seconds * 1000 = milliseconds
             self.registerInfoStruct.last_post_id = "" ///initialize
@@ -138,6 +136,7 @@ class Reg10Recap: UIViewController {
             self.registerInfoStruct.profile_hidden = false //not hidden by default
             self.baseDatabaseReference.collection("universities").document(self.domain).collection("userprofiles").document(self.registerInfoStruct.id!).setData(self.registerInfoStruct.dictionary)
             storageRef.child("userimages").child(self.registerInfoStruct.id!).child("preview.jpg").putData(previewImageBytes as Data)
+            self.leaveForLogin()
         }
         
         //upload task failed
@@ -162,17 +161,19 @@ class Reg10Recap: UIViewController {
                 }
             }
         }
-        
-        
-        
     }
 
+    
 //    //get the preview ofthe profile picture so that we don't have to load the entire image each time....optimizzation
 //    func getPreviewBytes() {
 //
 //
 //    }
 //
+    func leaveForLogin() {
+        self.performSegue(withIdentifier: "reg10ToLogin" , sender: self) //pass data over to
+    }
+    
     @objc func flip() {
         let toView = showingBack ? front : back
         let fromView = showingBack ? back : front

@@ -20,7 +20,7 @@ class Reg6Birthday: UIViewController {
     var dateFormatter = DateFormatter()
     var selectedDate = ""
     var password = ""   //user passwordhe wishes to use
-    var millis = ""
+    var millis:Int64? = nil
     // MARK: IBOutlets and IBActions
     
     @IBOutlet weak var dataPicker: UIDatePicker!
@@ -50,14 +50,15 @@ class Reg6Birthday: UIViewController {
         vc.registerInfoStruct.last_name = self.registerInfoStruct.last_name ?? "no last name"
         vc.registerInfoStruct.gender = self.registerInfoStruct.gender ?? "no gender"
         vc.registerInfoStruct.degree = self.registerInfoStruct.degree ?? "no degree"
-        vc.registerInfoStruct.birth_time = Int64(self.millis)
+        vc.registerInfoStruct.birth_time = self.millis
         vc.password = self.password
     }
     
     func attemptToContinue() {
         self.selectedDate = self.dateFormatter.string(from: dataPicker.date) //extract date in right format
         let seconds = dataPicker.date.timeIntervalSince1970
-        millis = String(seconds * 1000)
+        millis = Int64(seconds) * 1000
+        print("milli seconds", millis)
         if (selectedDate != ""){
             self.performSegue(withIdentifier: "reg6ToReg7Segue", sender: self) //pass data over to
 
