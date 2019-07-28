@@ -46,7 +46,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     func configureTableView(){
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "RegisterInterestsCell", bundle: nil), forCellReuseIdentifier: "RegisterInterestsCell")
+        tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "ConversationCell")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 70
     }
@@ -56,9 +56,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RegisterInterestsCell", for: indexPath) as! RegisterInterestsCell
-        cell.label.text = conversations[indexPath.row]
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationCell
+        cell.name.text = conversations[indexPath.row]
+        cell.img.image = UIImage(named: "nic")
 
         return cell
     }
