@@ -20,6 +20,7 @@
 		A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F622DBA1270088DD58 /* Checkbox.swift */; };
 		A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */; };
 		A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */; };
+		A97A660F22F3A6D9004A6BBE /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97A660E22F3A6D9004A6BBE /* ChatRoom.swift */; };
 		A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C6D22C9571200E95B2C /* Reg8Interests.swift */; };
 		A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */; };
 		A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */; };
@@ -75,6 +76,7 @@
 		A920C4F622DBA1270088DD58 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg6Birthday.swift; sourceTree = "<group>"; };
 		A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg9Photo.swift; sourceTree = "<group>"; };
+		A97A660E22F3A6D9004A6BBE /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		A9990C6D22C9571200E95B2C /* Reg8Interests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg8Interests.swift; sourceTree = "<group>"; };
 		A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterInterestsCell.xib; sourceTree = "<group>"; };
 		A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestsCell.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				FA121C1D22EE420300C175F7 /* Chat.swift */,
 				FA121C2B22EE4C2B00C175F7 /* ConversationCell.swift */,
 				FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */,
+				A97A660E22F3A6D9004A6BBE /* ChatRoom.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				FA121C2422EE450B00C175F7 /* Board.swift in Sources */,
 				A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */,
 				A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */,
+				A97A660F22F3A6D9004A6BBE /* ChatRoom.swift in Sources */,
 				FA121C2A22EE455700C175F7 /* Explore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
