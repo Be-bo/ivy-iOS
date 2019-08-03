@@ -41,24 +41,29 @@ class MainTabController: UITabBarController {
             return
         }
         print("preping VCs")
-        for vc in ventureCapitalists {
-            if let exploreNVC = vc as? ExploreNavigationController{
+        for nvc in ventureCapitalists {
+            if let exploreNVC = nvc as? ExploreNavigationController{
                 if let explore = exploreNVC.visibleViewController as? Explore{
-                    print("proper explore")
                     explore.updateProfile(updatedProfile: thisUserProfile)
                 }
             }
-            if let boardVC = vc as? Board{
-                print("board")
+            if let boardNVC = nvc as? BoardNavigationViewController{
+                if let board = boardNVC.visibleViewController as? Board{
+                    board.updateProfile(updatedProfile: thisUserProfile)
+                }
             }
-            if let quadVC = vc as? Quad{
-                print("quad")
+            if let quadNVC = nvc as? QuadNavigationViewController{
+                if let quad = quadNVC.visibleViewController as? Quad{
+                    quad.updateProfile(updatedProfile: thisUserProfile)
+                }
             }
-            if let chatVC = vc as? Chat{
+            if let chatVC = nvc as? Chat{
                 print("chat")
             }
-            if let profileVC = vc as? Profile{
-                print("profile")
+            if let profileNVC = nvc as? ProfileNavigationViewController{
+                if let profile = profileNVC.visibleViewController as? Profile{
+                    profile.updateProfile(updatedProfile: thisUserProfile)
+                }
             }
         }
     }
