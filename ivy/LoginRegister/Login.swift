@@ -67,9 +67,12 @@ class Login: UIViewController, UITextFieldDelegate {
         return false
     }
     
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! MainTabController
-        vc.thisUniDomain = thisUni
+        if let vc = segue.destination as? MainTabController{
+            vc.thisUniDomain = thisUni
+        }
+
     }
     
     

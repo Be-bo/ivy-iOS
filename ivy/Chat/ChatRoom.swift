@@ -15,11 +15,14 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     //initializers
     let baseDatabaseReference = Firestore.firestore()   //reference to the database
-    let baseStorageReference = Storage.storage()    //reference to storage
-    var uid = ""    //user id for the authenticated user
-    var conversationID = "" //holds the conversation id of the currentley active conversation.
-    var messages: [Dictionary<String, Any>] = []//holds all the message DOCUMENTS for this specific conversation
-
+    let baseStorageReference = Storage.storage()         //reference to storage
+    var uid = ""                                        //user id for the authenticated user
+    var messages: [Dictionary<String, Any>] = []        //holds all the message DOCUMENTS for this specific conversation
+    var thisUserProfile = Dictionary<String, Any>()     //holds the current user profile
+    var thisConversation = Dictionary<String, Any>()    //this current conversationboject
+    var firstDataAquisition = true                      //to esnure we only load the converesation object once
+    var conversationID = ""                             //hold the id of the current conversation
+    
     //outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
@@ -29,21 +32,15 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //make sure the user is signed in before trying to get data
-        if Auth.auth().currentUser != nil {
-            print()
-            let user = Auth.auth().currentUser  //get the object representing the user
-            if let user = user {
-                uid = user.uid
-                if(conversationID !=  nil && conversationID != "") {startListeningToChangesInThisConversation()}
-            }
-        } else {
-            print("no user signed in")
-        }
+        
+        print("THIS USER PROFILE", self.thisUserProfile)
+        self.startListeningToChangesInThisConversation()
         
         
         
     }
+    
+ 
     
     //when the user clicks the send message button
     @IBAction func onClickSendMessage(_ sender: Any) {
@@ -56,17 +53,69 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         if(inputMessage != ""){ //if not empty
             messageTextField.text = "" //reset the message field to be empty
             var message = Dictionary<String, Any>()
+            message["author_first_name"] = self.thisUserProfile["first_name"]
+            message["author_last_name"] = self.thisUserProfile["last_name"]
+            message["author_id"] = self.thisUserProfile["id"] as! String
+            message["conversation_id"] = self.thisConversation["id"] as! String
+            message["creation_time"] =  String(CACurrentMediaTime() * 1000)    //seconds * 1000 = milliseconds
+            message["message_text"] = inputMessage
+            message["is_text_only"] = true
+            message["file_reference"] = ""
+            message["id"] =  NSUUID().uuidString
+            
+            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            print("message object", message)
+            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        
+            baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).collection("messages").document(message["id"] as! String).setData(message)
+            baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).updateData(["last_message_millis": CLong(message["creation_time"] as! String) ])
+            baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).updateData(["last_message": message["message_text"] as! String])
+            baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).updateData(["last_message_author": message["author_id"] as! String])
+            baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).updateData(["message_count": self.messages.count + 1])
+            
+            let thisUserPos = locateUser(id: thisUserProfile["id"] as! String) //get the position of the user in the array of participants to modify
+            if (thisUserPos != 1) {
+                var lastMsgCounts = thisConversation["last_message_counts"] as! Array<CLong>
+                if(lastMsgCounts != nil) {
+                    lastMsgCounts[thisUserPos] = self.messages.count + 1
+                    self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["last_message_counts": lastMsgCounts])
+                }
+            }
+            
+            //TODO: decide if need to compensatefor listener bug here (Check android for code)
             
             
         }
         
     }
     
-    //used to get the messages that are present within the current conversation
+    //listen and retrun the up to date conversation object
     func startListeningToChangesInThisConversation() {
-//        baseDatabaseReference.collection("conversations").document(self.conversationID).addSnapshotListener(DocumentSnapshot, error)
-        print("self.conversationID", conversationID)
-        baseDatabaseReference.collection("conversations").document(self.conversationID).collection("messages").order(by: "creation_time", descending: false).addSnapshotListener(){ (querySnapshot, err) in
+        let thisConversationRegistration = baseDatabaseReference.collection("conversations").document(self.conversationID).addSnapshotListener(){ (querySnapshot, err) in
+            
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(err!)")
+                return
+            }
+            
+            if (snapshot.exists) {
+                self.thisConversation = snapshot.data()!
+                print("self.thisconversation", self.thisConversation)
+                
+                if(self.firstDataAquisition) {
+                    print("first data acquisition ")
+                    self.startRetrievingMessages()
+                    self.firstDataAquisition = false
+                }
+                //TODO: decide if setUpActionBar() needs to be called here or not
+            }
+        }
+    }
+    
+    
+    //used to get the messages that are present within the current conversation
+    func startRetrievingMessages() {
+        baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).collection("messages").order(by: "creation_time", descending: false).addSnapshotListener(){ (querySnapshot, err) in
             
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(err!)")
@@ -100,19 +149,16 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     // called for every single cell thats displayed on screen/on reload
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationCell
-        
-        
-        var lastMessage = self.messages[indexPath.row]["message_text"] as! String
-        var lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
+        let lastMessage = self.messages[indexPath.row]["message_text"] as! String
+        print("index path.row", indexPath.row)
+        let lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
         var lastMessageAuthor = ""
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
         
-        //        print("last message sender id:", lastMessageSenderID)
         
         //use ID to extract name of author
-        var lastMessafeRef =  baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(lastMessageSenderID)
+        let lastMessafeRef =  baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(lastMessageSenderID)
         lastMessafeRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 
@@ -120,16 +166,14 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 authorProfilePicLoc = document.get("profile_picture") as! String //location of profile pic in storage
                 
                 // Create a storage reference from our storage service
-                var storageRef = self.baseStorageReference.reference()
-                var storageImageRef = storageRef.child(authorProfilePicLoc)
-                var lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who sent it attached with what message they sent.
-                
-                //                print("storage image reference", storageImageRef)
+                let storageRef = self.baseStorageReference.reference()
+                let storageImageRef = storageRef.child(authorProfilePicLoc)
+                let lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who sent it attached with what message they sent.
                 
                 // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
                 storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
                     if let error = error {
-                        // Uh-oh, an error occurred!
+                        print("error", error)
                     } else {
                         //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
                         cell.name.text = self.messages[indexPath.row]["author_first_name"] as! String     //name of the chat this user is involved in
@@ -146,7 +190,29 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
+    func locateUser(id: String) -> Int {
+        var position = 0
+        var participants = [String]()
+        participants = self.thisConversation["participants"] as! [String]
+        for (index, chat) in participants.enumerated(){    //for every chat the user is part of
+            if(id == chat){  //if the chat has the same id as the modifiedID passed in
+                position = index    //now I have the correct index corresponding to this specific modified chat from all the chats
+            }
+        }
+        print("position to modify", position)
+        return position
+    }
 
+//    //function used to located the index of the conversation from the activeChats array
+//    func locateIndexOfConvo (id:String) -> Int {
+//        var position = 0
+//        for (index, chat) in self.activeChats.enumerated(){    //for every chat the user is part of
+//            if(id == chat["id"] as! String){  //if the chat has the same id as the modifiedID passed in
+//                position = index    //now I have the correct index corresponding to this specific modified chat from all the chats
+//            }
+//        }
+//        return position
+//    }
 
 
 }

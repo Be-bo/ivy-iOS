@@ -22,39 +22,27 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     var conversationID = ""
     var userAuthFirstName = ""  //first name of the authenticated user
     var userProfilePic = ""
-    
+    private var thisUserProfile = Dictionary<String, Any>()
+
     //outlets
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //load the conversations that are active for the current user
-        if Auth.auth().currentUser != nil {
-            let user = Auth.auth().currentUser  //get the object representing the user
-            if let user = user {
-                uid = user.uid
-                
-                //get the authenticated users first name for later extraction from participant array
-                let userNameDocRef = baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(self.uid)
-                userNameDocRef.getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        self.userAuthFirstName =  document.get("first_name") as! String
-                        self.userProfilePic = document.get("profile_picture") as! String //location of profile pic in storage
-                        self.loadData() //load the data this user has present in their conversation
-                    } else {
-                        print("Document does not exist")
-                    }
-                }
-                
-            }
-        } else {
-            print("no user signed in")
-        }
+        
+        self.userAuthFirstName = thisUserProfile["first_name"] as! String
+        self.userProfilePic = thisUserProfile["profile_picture"] as! String
+        self.uid = thisUserProfile["id"] as! String
+        self.loadData()
+        
+    }
+    
+    //user profile thats logged in
+    func updateProfile(updatedProfile: Dictionary<String, Any>){
+        thisUserProfile = updatedProfile
     }
     
     
-    
-//    var count = 0   //count since its always the third document thats the most recentley changed one
 
     //load data realtime from the conversations collection, if any changes are made then execute the chode inside snapshotListener
     func loadData() {   //get all the conversations where this current user is a participant of, add
@@ -192,7 +180,13 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                                 print("Error getting documents: \(err)")
                             } else {
                                 for document in querySnapshot!.documents {
+
                                     storageImageRef = storageRef.child(document.get("profile_picture") as! String)
+                                    
+    
+//                                    var previewImageRef = storageRef.child(document.get("id") as! String)
+//                                    
+//                                    previewImageRef = "userimages/" + String(previewImageRef) + "/preview.jpg"
                                     
                                     // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
                                     storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
@@ -250,6 +244,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! ChatRoom
         vc.conversationID = self.conversationID //set the conversation id of chatRoom.swift to contain the one the user clicked on
+        vc.thisUserProfile = self.thisUserProfile   //pass the user profile object 
     }
     
 }

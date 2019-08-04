@@ -1573,7 +1573,7 @@
         <!--Chat-->
         <scene sceneID="3Jz-s5-OBn">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cod-Wq-fT9" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cod-Wq-fT9" customClass="ChatNavigationController" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Chat" image="chat" id="Tnw-nQ-KcB"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WsF-RO-gVI">

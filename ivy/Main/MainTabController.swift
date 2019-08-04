@@ -57,9 +57,10 @@ class MainTabController: UITabBarController {
                     quad.updateProfile(updatedProfile: thisUserProfile)
                 }
             }
-            if let chatVC = nvc as? Chat{
-                print("chat")
-            }
+            if let chatNVC = nvc as? ChatNavigationController{
+                if let chat = chatNVC.visibleViewController as? Chat{
+                    chat.updateProfile(updatedProfile: thisUserProfile)
+                }            }
             if let profileNVC = nvc as? ProfileNavigationViewController{
                 if let profile = profileNVC.visibleViewController as? Profile{
                     profile.updateProfile(updatedProfile: thisUserProfile)
