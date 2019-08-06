@@ -52,6 +52,16 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="GSd-UE-5hs">
+                    <rect key="frame" x="16" y="137" width="368" height="463"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="goB-78-MUS">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -61,9 +71,13 @@
                 <constraint firstItem="Cut-qw-SWe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Mue-f3-qnu"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="H3J-pi-GiN" secondAttribute="trailing" constant="24" id="RmK-9R-YyJ"/>
                 <constraint firstItem="bPs-XX-uwv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Sx6-xD-AKj"/>
+                <constraint firstItem="GSd-UE-5hs" firstAttribute="top" secondItem="a06-AD-Xed" secondAttribute="bottom" constant="8" id="VKY-7m-TF2"/>
+                <constraint firstAttribute="bottom" secondItem="GSd-UE-5hs" secondAttribute="bottom" id="X0e-sp-hIY"/>
                 <constraint firstItem="H3J-pi-GiN" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="XNb-mV-sBH"/>
                 <constraint firstItem="mb4-UP-fn2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="YkD-24-8We"/>
+                <constraint firstItem="GSd-UE-5hs" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="ZTp-fn-6a3"/>
                 <constraint firstItem="H3J-pi-GiN" firstAttribute="top" secondItem="0CC-lN-EPL" secondAttribute="bottom" id="ca2-B2-BvS"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="GSd-UE-5hs" secondAttribute="trailing" constant="16" id="v4t-Xn-ZaJ"/>
                 <constraint firstItem="Cut-qw-SWe" firstAttribute="top" secondItem="mb4-UP-fn2" secondAttribute="bottom" id="wJT-O9-YOA"/>
                 <constraint firstItem="0CC-lN-EPL" firstAttribute="top" secondItem="Cut-qw-SWe" secondAttribute="bottom" constant="8" id="wgf-Bt-stL"/>
                 <constraint firstItem="bPs-XX-uwv" firstAttribute="leading" secondItem="mb4-UP-fn2" secondAttribute="trailing" constant="8" id="yCq-b9-Whe"/>
@@ -80,6 +94,7 @@
                 <outlet property="age" destination="bPs-XX-uwv" id="hsl-E4-5e9"/>
                 <outlet property="bio" destination="H3J-pi-GiN" id="BZV-c1-aDW"/>
                 <outlet property="degree" destination="Cut-qw-SWe" id="JxK-fQ-enx"/>
+                <outlet property="interestestCollectionView" destination="GSd-UE-5hs" id="9eJ-h9-BCo"/>
                 <outlet property="name" destination="mb4-UP-fn2" id="Fe9-5f-vYj"/>
             </connections>
             <point key="canvasLocation" x="192.75362318840581" y="156.69642857142856"/>

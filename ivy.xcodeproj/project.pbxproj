@@ -46,6 +46,8 @@
 		FA121C2A22EE455700C175F7 /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA121C2922EE455700C175F7 /* Explore.swift */; };
 		FA121C2C22EE4C2B00C175F7 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA121C2B22EE4C2B00C175F7 /* ConversationCell.swift */; };
 		FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */; };
+		FA13E59322F9D04000F8FFA1 /* CardInterestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13E59122F9D04000F8FFA1 /* CardInterestCell.swift */; };
+		FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA13E59222F9D04000F8FFA1 /* CardInterestCell.xib */; };
 		FA14D5A022F8BCB000331E82 /* MainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */; };
 		FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */; };
 		FA1B412422F4AC6F005817C5 /* BoardNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1B412322F4AC6F005817C5 /* BoardNavigationViewController.swift */; };
@@ -115,6 +117,8 @@
 		FA121C2922EE455700C175F7 /* Explore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explore.swift; sourceTree = "<group>"; };
 		FA121C2B22EE4C2B00C175F7 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
+		FA13E59122F9D04000F8FFA1 /* CardInterestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInterestCell.swift; sourceTree = "<group>"; };
+		FA13E59222F9D04000F8FFA1 /* CardInterestCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardInterestCell.xib; sourceTree = "<group>"; };
 		FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainNavigationBar.xib; sourceTree = "<group>"; };
 		FA1B412322F4AC6F005817C5 /* BoardNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardNavigationViewController.swift; sourceTree = "<group>"; };
@@ -213,6 +217,8 @@
 				FA1FE3F322F7563900C36E6B /* Card.xib */,
 				FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */,
 				FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */,
+				FA13E59122F9D04000F8FFA1 /* CardInterestCell.swift */,
+				FA13E59222F9D04000F8FFA1 /* CardInterestCell.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -404,6 +410,7 @@
 				FA60591122A4B12E00383F9F /* Assets.xcassets in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
 				A920C4F122D2A8190088DD58 /* GoogleService-Info.plist in Resources */,
+				FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */,
 				FA1FE3F522F7563900C36E6B /* Card.xib in Resources */,
 				A920C4E522D281B60088DD58 /* CardBack.xib in Resources */,
 				FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */,
@@ -508,6 +515,7 @@
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
 				A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */,
 				FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */,
+				FA13E59322F9D04000F8FFA1 /* CardInterestCell.swift in Sources */,
 				FA121C1E22EE420300C175F7 /* Chat.swift in Sources */,
 				A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */,
 				A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */,

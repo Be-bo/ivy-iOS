@@ -56,6 +56,20 @@ class Card: UICollectionViewCell {
     // MARK: Card Functions
     
     func setUp(user: Dictionary<String, Any>){ //set all the variables from user's profile to display on the card
+    
+        if(firstSetup){ //if it's the first time this xib is being created set up the subviews (front and back cards need to have the dimensions of the card container)
+            front.frame = cardContainer.bounds
+            back.frame = cardContainer.bounds
+            cardContainer.addSubview(back)
+            cardContainer.addSubview(front)
+            
+            let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip)) //and set the on click listener to the card
+            singleTap.numberOfTapsRequired = 1
+            shadowOuterContainer.addGestureRecognizer(singleTap)
+            
+            firstSetup = false
+        }
+        
         if let ref = user["profile_picture"] as? String{ //profile picture
             baseStorageReference.child(ref).getData(maxSize: 2 * 1024 * 1024) { (data, e) in
                 if let e = e {
@@ -77,19 +91,7 @@ class Card: UICollectionViewCell {
         back.degree.text = user["degree"] as? String
         back.age.text = user["age"] as? String
         back.bio.text = user["bio"] as? String
-        
-        if(firstSetup){ //if it's the first time this xib is being created set up the subviews (front and back cards need to have the dimensions of the card container)
-            front.frame = cardContainer.bounds
-            back.frame = cardContainer.bounds
-            cardContainer.addSubview(back)
-            cardContainer.addSubview(front)
-            
-            let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip)) //and set the on click listener to the card
-            singleTap.numberOfTapsRequired = 1
-            shadowOuterContainer.addGestureRecognizer(singleTap)
-            
-            firstSetup = false
-        }
+        back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
     }
     
     @objc func flip() { //a method that flips the card

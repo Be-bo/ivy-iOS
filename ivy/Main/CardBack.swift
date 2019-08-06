@@ -8,14 +8,15 @@
 
 import UIKit
 
-class CardBack: UIView{
+class CardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var name: MediumGreenLabel!
     @IBOutlet weak var age: MediumGreenLabel!
     @IBOutlet weak var degree: MediumLabel!
     @IBOutlet weak var bio: StandardLabel!
-    
-    
+    @IBOutlet weak var interestestCollectionView: UICollectionView!
+    var interests = [String]()
+    let cellId = "InterestCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +30,32 @@ class CardBack: UIView{
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.translatesAutoresizingMaskIntoConstraints = true
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.interestestCollectionView.delegate = self
+        self.interestestCollectionView.dataSource = self
+        self.interestestCollectionView.register(UINib(nibName: "CardInterestCell", bundle: nil), forCellWithReuseIdentifier: cellId)
+    }
+    
+    func setUpInterests(interests: [String]){
+        self.interests = interests
+        self.interestestCollectionView.reloadData()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return interests.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let interestCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CardInterestCell
+        interestCell.interestLabel.text = interests[indexPath.item]
+        return interestCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellSize = CGSize(width: self.interestestCollectionView.frame.size.width/2 - 10, height: 80)
+        return cellSize
     }
 }
