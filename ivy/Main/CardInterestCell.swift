@@ -28,7 +28,7 @@ class CardInterestCell: UICollectionViewCell {
     func setUp(){
         self.layer.cornerRadius = 5
         self.layer.borderWidth = 2
-        self.layer.borderColor = UIColor.ivyGrey.cgColor
+        self.layer.borderColor = UIColor.ivyGreen.cgColor
     }
 
 }
