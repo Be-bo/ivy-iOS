@@ -27,6 +27,10 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     //outlets
     @IBOutlet weak var tableView: UITableView!
     
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +40,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.loadData()
         
     }
+    
+    
     
     //user profile thats logged in
     func updateProfile(updatedProfile: Dictionary<String, Any>){
@@ -115,12 +121,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         return position
     }
     
-
-
-    
-    
-    
-    
     
     func configureTableView(){
 
@@ -131,9 +131,17 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         tableView.estimatedRowHeight = 70
     }
     
+    
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.activeChats.count
     }
+    
+    
+    
+    
+    
     
     // called for every single cell thats displayed on screen/on reload
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -145,6 +153,15 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         var lastMessageAuthor = "" 
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
         
+        //check to know if bold message or not
+        var posInConversation = locateIndexOfConvo(id: self.thisUserProfile["id"] as! String)
+        var thisUsersLastCount = 0
+        
+        
+        
+        
+        
+        
         
         //use ID to extract name of author
         let lastMessafeRef =  baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(lastMessageSenderID)
@@ -152,17 +169,17 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             if let document = document, document.exists {
                 
                 lastMessageAuthor =  document.get("first_name") as! String //first name of last message author
-                authorProfilePicLoc = document.get("profile_picture") as! String //location of profile pic in storage
-               
+//                authorProfilePicLoc = document.get("profile_picture") as! String //location of profile pic in storage
+                authorProfilePicLoc = "userimages/" + (document.get("id") as! String) + "/preview.jpg"
+                
                 // Create a storage reference from our storage service
                 let storageRef = self.baseStorageReference.reference()
                 var storageImageRef = storageRef.child(authorProfilePicLoc)
                 let lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who sent it attached with what message they sent.
 
-
-                
                 //extract participant names if its a base conversation
                 if (isBaseConversation) {
+                    
                     //extraction
                     var participantNamesArray = [String]()
                     participantNamesArray = self.activeChats[indexPath.row]["participant_names"] as! [String]
@@ -180,14 +197,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                                 print("Error getting documents: \(err)")
                             } else {
                                 for document in querySnapshot!.documents {
-
-                                    storageImageRef = storageRef.child(document.get("profile_picture") as! String)
-                                    
-    
-//                                    var previewImageRef = storageRef.child(document.get("id") as! String)
-//                                    
-//                                    previewImageRef = "userimages/" + String(previewImageRef) + "/preview.jpg"
-                                    
+                                    var childString = "userimages/" + (document.get("id") as! String) + "/preview.jpg"
+                                    storageImageRef = storageRef.child(childString)
                                     // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
                                     storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
                                         if let error = error {
@@ -200,11 +211,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                                 }
                             }
                     }
-                    
                     cell.name.text = nameToSet      //name of the chat this user is involved in
-                    
                 }else {
-                    
                     // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
                     storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
                         if let error = error {
@@ -217,9 +225,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     let nameToSet = self.activeChats[indexPath.row]["name"] as? String
                     cell.name.text = nameToSet      //name of the chat this user is involved in
                 }
-                
-
-                
             } else {
                 print("Document does not exist")
             }
@@ -231,12 +236,18 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     
+    
+    
+    
     //triggered when you actually click a conversation from the tableview
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.conversationID = self.activeChats[indexPath.row]["id"] as! String    //use currentley clicked index to get conversation id
         //pass the conversationID through and intent
         self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
     }
+    
+    
+    
     
     
     

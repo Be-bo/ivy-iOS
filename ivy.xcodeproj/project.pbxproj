@@ -22,6 +22,7 @@
 		A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */; };
 		A97A660F22F3A6D9004A6BBE /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97A660E22F3A6D9004A6BBE /* ChatRoom.swift */; };
 		A97A661122F643A6004A6BBE /* ChatNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97A661022F643A6004A6BBE /* ChatNavigationController.swift */; };
+		A97A661722F7755A004A6BBE /* addParticipantPopUPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97A661622F7755A004A6BBE /* addParticipantPopUPViewController.swift */; };
 		A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C6D22C9571200E95B2C /* Reg8Interests.swift */; };
 		A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */; };
 		A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */; };
@@ -89,6 +90,7 @@
 		A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg9Photo.swift; sourceTree = "<group>"; };
 		A97A660E22F3A6D9004A6BBE /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		A97A661022F643A6004A6BBE /* ChatNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNavigationController.swift; sourceTree = "<group>"; };
+		A97A661622F7755A004A6BBE /* addParticipantPopUPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addParticipantPopUPViewController.swift; sourceTree = "<group>"; };
 		A9990C6D22C9571200E95B2C /* Reg8Interests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg8Interests.swift; sourceTree = "<group>"; };
 		A9990C6F22C9597900E95B2C /* RegisterInterestsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterInterestsCell.xib; sourceTree = "<group>"; };
 		A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestsCell.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */,
 				A97A660E22F3A6D9004A6BBE /* ChatRoom.swift */,
 				A97A661022F643A6004A6BBE /* ChatNavigationController.swift */,
+				A97A661622F7755A004A6BBE /* addParticipantPopUPViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				A97A661122F643A6004A6BBE /* ChatNavigationController.swift in Sources */,
 				A920C4F322DAC78D0088DD58 /* Reg3Name.swift in Sources */,
 				FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */,
+				A97A661722F7755A004A6BBE /* addParticipantPopUPViewController.swift in Sources */,
 				FA6F7C9822EE770000610046 /* SettingsButton.swift in Sources */,
 				FA1B412422F4AC6F005817C5 /* BoardNavigationViewController.swift in Sources */,
 				FA6D733522DA80FE009020B5 /* GreenBoldTitleLabel.swift in Sources */,
