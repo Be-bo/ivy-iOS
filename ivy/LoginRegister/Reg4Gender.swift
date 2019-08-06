@@ -43,6 +43,7 @@ class Reg4Gender: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardOnTapOutside()
         errorLabel.isHidden = true //error label should be hidden by defualt
         setupCheckbox()
         setupListeners()

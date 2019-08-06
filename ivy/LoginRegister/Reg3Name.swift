@@ -44,6 +44,7 @@ class Reg3Name: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardOnTapOutside()
         firstNameLabel.delegate = self //set this view controller to delegate the text fields
         lastNameLabel.delegate = self
         firstNameLabel.tag = 0 //set the correct order to the buttons via tags

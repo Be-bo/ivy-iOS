@@ -38,7 +38,7 @@ class Reg6Birthday: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.hideKeyboardOnTapOutside()
         dateFormatter.dateFormat = "dd MMMM yyyy"   //format the date will be added to userProfile object
         print("birthday screen ", registerInfoStruct)
     }

@@ -35,6 +35,7 @@ class Reg7Bio: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardOnTapOutside()
         cofigureBioTextView()
     }
     

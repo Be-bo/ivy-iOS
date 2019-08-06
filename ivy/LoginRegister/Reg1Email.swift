@@ -45,6 +45,7 @@ class Reg1Email: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(false, animated: false) //show navigation bar
+        self.hideKeyboardOnTapOutside()
         emailLabel.delegate = self //set this view controller to delegate the text fields
         confirmEmailLabel.delegate = self
         emailLabel.tag = 0 //give both texfields order in which they're supposed to be edited

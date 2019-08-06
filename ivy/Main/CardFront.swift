@@ -12,6 +12,8 @@ class CardFront: UIView {
     
     
     @IBOutlet weak var img: UIImageView!
+    @IBOutlet weak var name: MediumLabel!
+    @IBOutlet weak var degreeIcon: UIImageView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,5 +27,7 @@ class CardFront: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.translatesAutoresizingMaskIntoConstraints = true
     }
 }

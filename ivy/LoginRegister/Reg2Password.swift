@@ -43,6 +43,7 @@ class Reg2Password: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardOnTapOutside()
         passwordLabel.delegate = self //set this view controller to delegate the text fields so that "textFieldsShouldReturn" can be called
         passwordConfirmLabel.delegate = self
         passwordLabel.tag = 0 //set the correct order to the text fields (when you're supposed to type into them) via tags

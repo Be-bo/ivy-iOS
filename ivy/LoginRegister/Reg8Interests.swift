@@ -118,6 +118,7 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardOnTapOutside()
         configureTableView()
     }
     

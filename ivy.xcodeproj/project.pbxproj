@@ -45,9 +45,13 @@
 		FA121C2A22EE455700C175F7 /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA121C2922EE455700C175F7 /* Explore.swift */; };
 		FA121C2C22EE4C2B00C175F7 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA121C2B22EE4C2B00C175F7 /* ConversationCell.swift */; };
 		FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */; };
+		FA14D5A022F8BCB000331E82 /* MainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */; };
+		FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */; };
 		FA1B412422F4AC6F005817C5 /* BoardNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1B412322F4AC6F005817C5 /* BoardNavigationViewController.swift */; };
 		FA1B412622F4ACB9005817C5 /* QuadNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1B412522F4ACB9005817C5 /* QuadNavigationViewController.swift */; };
 		FA1B412822F4ACE5005817C5 /* ProfileNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1B412722F4ACE5005817C5 /* ProfileNavigationViewController.swift */; };
+		FA1FE3F422F7563900C36E6B /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE3F222F7563900C36E6B /* Card.swift */; };
+		FA1FE3F522F7563900C36E6B /* Card.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE3F322F7563900C36E6B /* Card.xib */; };
 		FA60590A22A4B12C00383F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590922A4B12C00383F9F /* AppDelegate.swift */; };
 		FA60590C22A4B12C00383F9F /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590B22A4B12C00383F9F /* Login.swift */; };
 		FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA60590D22A4B12C00383F9F /* Main.storyboard */; };
@@ -109,9 +113,13 @@
 		FA121C2922EE455700C175F7 /* Explore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explore.swift; sourceTree = "<group>"; };
 		FA121C2B22EE4C2B00C175F7 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
+		FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
+		FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainNavigationBar.xib; sourceTree = "<group>"; };
 		FA1B412322F4AC6F005817C5 /* BoardNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardNavigationViewController.swift; sourceTree = "<group>"; };
 		FA1B412522F4ACB9005817C5 /* QuadNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadNavigationViewController.swift; sourceTree = "<group>"; };
 		FA1B412722F4ACE5005817C5 /* ProfileNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNavigationViewController.swift; sourceTree = "<group>"; };
+		FA1FE3F222F7563900C36E6B /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		FA1FE3F322F7563900C36E6B /* Card.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Card.xib; sourceTree = "<group>"; };
 		FA60590622A4B12C00383F9F /* ivy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ivy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA60590922A4B12C00383F9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA60590B22A4B12C00383F9F /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -194,7 +202,15 @@
 		FA121C1922EE3B4100C175F7 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				A920C4E922D281D60088DD58 /* CardBack.swift */,
+				A920C4EA22D281D60088DD58 /* CardFront.swift */,
+				A920C4E622D281C20088DD58 /* CardFront.xib */,
+				A920C4E422D281B60088DD58 /* CardBack.xib */,
 				FA121C1A22EE3B8400C175F7 /* MainTabController.swift */,
+				FA1FE3F222F7563900C36E6B /* Card.swift */,
+				FA1FE3F322F7563900C36E6B /* Card.xib */,
+				FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */,
+				FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -276,17 +292,17 @@
 				FA121C1F22EE44E200C175F7 /* Explore */,
 				FA121C1C22EE41ED00C175F7 /* Chat */,
 				FA121C1922EE3B4100C175F7 /* Main */,
-				A9BB05E322B5D2F8008B35AA /* Constants.swift */,
 				A9BB05DA22B5D2E2008B35AA /* UIElements */,
 				FA90D86822A897AC0055FCE7 /* LoginRegister */,
 				A90D266322A4B205005E8965 /* fonts */,
-				FA60590922A4B12C00383F9F /* AppDelegate.swift */,
 				FA60590D22A4B12C00383F9F /* Main.storyboard */,
+				FA90D87022A8A3BD0055FCE7 /* Extensions.swift */,
+				A9BB05E322B5D2F8008B35AA /* Constants.swift */,
 				FA60591022A4B12E00383F9F /* Assets.xcassets */,
+				FA60590922A4B12C00383F9F /* AppDelegate.swift */,
 				FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */,
 				A920C4F022D2A8190088DD58 /* GoogleService-Info.plist */,
 				FA60591522A4B12E00383F9F /* Info.plist */,
-				FA90D87022A8A3BD0055FCE7 /* Extensions.swift */,
 			);
 			path = ivy;
 			sourceTree = "<group>";
@@ -294,11 +310,7 @@
 		FA90D86822A897AC0055FCE7 /* LoginRegister */ = {
 			isa = PBXGroup;
 			children = (
-				A920C4E922D281D60088DD58 /* CardBack.swift */,
-				A920C4EA22D281D60088DD58 /* CardFront.swift */,
 				A920C4E822D281D60088DD58 /* Reg10Recap.swift */,
-				A920C4E622D281C20088DD58 /* CardFront.xib */,
-				A920C4E422D281B60088DD58 /* CardBack.xib */,
 				FA60590B22A4B12C00383F9F /* Login.swift */,
 				FA90D86922A898020055FCE7 /* Reg1Email.swift */,
 				A9BB05E522C04A06008B35AA /* Reg7Bio.swift */,
@@ -379,6 +391,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */,
 				A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */,
 				FA60591422A4B12E00383F9F /* LaunchScreen.storyboard in Resources */,
 				A90D266722A4B215005E8965 /* cordia.ttf in Resources */,
@@ -388,6 +401,7 @@
 				FA60591122A4B12E00383F9F /* Assets.xcassets in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
 				A920C4F122D2A8190088DD58 /* GoogleService-Info.plist in Resources */,
+				FA1FE3F522F7563900C36E6B /* Card.xib in Resources */,
 				A920C4E522D281B60088DD58 /* CardBack.xib in Resources */,
 				FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */,
 				FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */,
@@ -464,6 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA1FE3F422F7563900C36E6B /* Card.swift in Sources */,
 				A920C4EC22D281D60088DD58 /* CardBack.swift in Sources */,
 				FA6D733B22DA8146009020B5 /* MediumLabel.swift in Sources */,
 				A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */,
@@ -507,6 +522,7 @@
 				FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */,
 				FA121C2422EE450B00C175F7 /* Board.swift in Sources */,
 				A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */,
+				FA14D5A022F8BCB000331E82 /* MainNavigationBar.swift in Sources */,
 				A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */,
 				A97A660F22F3A6D9004A6BBE /* ChatRoom.swift in Sources */,
 				FA121C2A22EE455700C175F7 /* Explore.swift in Sources */,

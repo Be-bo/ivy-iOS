@@ -9,6 +9,18 @@
 import Foundation
 import UIKit
 
+
+extension UIViewController {
+    func hideKeyboardOnTapOutside() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
+}
+
 extension UIButton {
     class func attributedButton(frame: CGRect) -> UIButton {
         let button = UIButton(frame: frame)

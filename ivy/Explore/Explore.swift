@@ -20,7 +20,7 @@ class Explore: UIViewController {
     private func setUpNavigationBar(){
         
         let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo"))
-        titleImgView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
         

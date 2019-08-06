@@ -74,6 +74,7 @@ class Reg5Degree: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardOnTapOutside()
         errorLabel.isHidden = true //error label should be hidden by defualt
         degreeTableView.delegate = self
         degreeTableView.dataSource = self

@@ -29,5 +29,7 @@ class CardBack: UIView{
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.translatesAutoresizingMaskIntoConstraints = true
     }
 }

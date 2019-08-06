@@ -48,6 +48,7 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     func setUp(){
+        self.hideKeyboardOnTapOutside()
         emailField.delegate = self //set a delegate to the text fields (which is this view controller)
         passwordField.delegate = self
         emailField.tag = 0 //and give the text fields an order via tags

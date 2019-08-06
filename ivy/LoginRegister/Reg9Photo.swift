@@ -15,6 +15,7 @@ import CropViewController
 
 class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    
     // MARK: Variables and Constants
     var password = ""   //carried over
     var registerInfoStruct = UserProfile(age:"", banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "", gender: "") //will be overidden by the actual data
