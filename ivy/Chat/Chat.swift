@@ -150,17 +150,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         let lastMessage = self.activeChats[indexPath.row]["last_message"] as! String
         let lastMessageSenderID = self.activeChats[indexPath.row]["last_message_author"] as! String //the author of the last message that was sent
         let isBaseConversation = self.activeChats[indexPath.row]["is_base_conversation"] as! Bool   //boolean indicating wether its a base conv or not
+        var currentConversation = self.activeChats[indexPath.row]  //conversation object which will be passed to the bold checker
         var lastMessageAuthor = "" 
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
-        
-        //check to know if bold message or not
-        var posInConversation = locateIndexOfConvo(id: self.thisUserProfile["id"] as! String)
-        var thisUsersLastCount = 0
-        
-        
-        
-        
-        
         
         
         //use ID to extract name of author
@@ -169,6 +161,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             if let document = document, document.exists {
                 
                 lastMessageAuthor =  document.get("first_name") as! String //first name of last message author
+                
+                
 //                authorProfilePicLoc = document.get("profile_picture") as! String //location of profile pic in storage
                 authorProfilePicLoc = "userimages/" + (document.get("id") as! String) + "/preview.jpg"
                 
@@ -204,7 +198,13 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                                         if let error = error {
                                             print("error", error)
                                         } else {
-                                            cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
+                                            if (self.boldCheck(currentConversation:currentConversation) == true){//make the text bold
+                                                cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
+                                                cell.lastMessage?.font = UIFont(name:"HelveticaNeue-Bold", size: 16.0)
+                                            }else{  //not bold
+                                                cell.lastMessage?.font = UIFont(name:"HelveticaNeue", size: 16.0)
+                                                cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
+                                            }
                                             cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
                                         }
                                     }
@@ -218,7 +218,14 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         if let error = error {
                             print("error", error)
                         } else {
-                            cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
+                            if (self.boldCheck(currentConversation:currentConversation) == true){ //make the text bold
+                                cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
+                                cell.lastMessage?.font = UIFont(name:"HelveticaNeue-Bold", size: 16.0)
+                            }else{//text not bold
+                                cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
+                                cell.lastMessage?.font = UIFont(name:"HelveticaNeue", size: 16.0)
+                                
+                            }
                             cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
                         }
                     }
@@ -256,6 +263,50 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         let vc = segue.destination as! ChatRoom
         vc.conversationID = self.conversationID //set the conversation id of chatRoom.swift to contain the one the user clicked on
         vc.thisUserProfile = self.thisUserProfile   //pass the user profile object 
+    }
+    
+    
+    //function that will check whether the message neeeds to be bold or not, based on if the user has read the message or not
+    func boldCheck(currentConversation: Dictionary<String,Any> ) -> Bool{
+        var boolRet: Bool = false   //false by default so dont bold
+        var thisUsersLastCount: CLong
+        var posInConversation = locateThisUser(conversation: currentConversation)
+        
+        if(currentConversation["last_message_author"] as! String == self.thisUserProfile["id"] as! String){   //if the last message for the given conversation wasn't sent by this user determine if they've seen it or not and highlight it accordingly
+            boolRet = false
+        }else{//if the last message for the given conversation wasn't sent by this user determine if they've seen it or not and highlight it accordingly
+            var lastMsgCounts = [CLong]()
+            lastMsgCounts = currentConversation["last_message_counts"] as! [CLong]
+            print("pos in conversation", posInConversation)
+            print("last message counts", lastMsgCounts)
+            
+            if(lastMsgCounts.count > 0){    //make sure there is actually something that exists in last_message_count
+                thisUsersLastCount = lastMsgCounts[posInConversation]
+                var actualMsgCount = currentConversation["message_count"] as! CLong
+                if(actualMsgCount != nil && thisUsersLastCount < actualMsgCount){
+                    boolRet = true
+                }else{
+                    boolRet = false
+                }
+            }
+        }
+        return boolRet
+    }
+    
+    
+    func locateThisUser(conversation: Dictionary<String,Any>) -> Int {
+        var participants = conversation["participants"] as! [String]
+        var position = 0
+        if(participants.count > 0) {
+            for (index, participant) in participants.enumerated(){    //for every chat the user is part of
+                if(self.thisUserProfile["id"] as! String == participant){  //if the chat has the same id as the modifiedID passed in
+                    position = index    //now I have the correct index corresponding to this specific modified chat from all the chats
+                }
+            }
+            
+        }
+        return position
+        
     }
     
 }
