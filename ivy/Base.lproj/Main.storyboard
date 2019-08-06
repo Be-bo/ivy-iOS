@@ -90,13 +90,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Lw5-px-IPJ">
-                                <rect key="frame" x="52" y="312" width="310" height="272"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Lw5-px-IPJ">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Lw5-px-IPJ" firstAttribute="leading" secondItem="00H-Wv-vpI" secondAttribute="leading" id="1zz-5L-4IH"/>
+                            <constraint firstItem="00H-Wv-vpI" firstAttribute="bottom" secondItem="Lw5-px-IPJ" secondAttribute="bottom" id="4oe-jZ-Ttd"/>
+                            <constraint firstItem="00H-Wv-vpI" firstAttribute="trailing" secondItem="Lw5-px-IPJ" secondAttribute="trailing" id="5fs-wi-GWA"/>
+                            <constraint firstItem="Lw5-px-IPJ" firstAttribute="top" secondItem="00H-Wv-vpI" secondAttribute="top" id="cOl-vO-LEy"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="00H-Wv-vpI"/>
                     </view>
                     <navigationItem key="navigationItem" id="tQh-P5-a7F"/>
@@ -112,59 +117,69 @@
         <!--Chat Room-->
         <scene sceneID="e0I-6e-i0K">
             <objects>
-                <viewController id="o21-X7-06M" customClass="ChatRoom" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="o21-X7-06M" customClass="ChatRoom" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t7y-p7-dVb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a1q-26-00u">
-                                <rect key="frame" x="0.0" y="88" width="414" height="562"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a1q-26-00u">
+                                <rect key="frame" x="0.0" y="88" width="414" height="701"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="562" id="7cP-p6-wPW"/>
-                                    <constraint firstAttribute="width" constant="414" id="ZoA-fW-jw2"/>
-                                </constraints>
                             </tableView>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WBe-8c-U5n">
-                                <rect key="frame" x="20" y="658" width="374" height="30"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Your Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WBe-8c-U5n" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
+                                <rect key="frame" x="51" y="823" width="312" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="374" id="RnK-iw-eeD"/>
-                                    <constraint firstAttribute="height" constant="50" id="Tdq-pc-GGF"/>
+                                    <constraint firstAttribute="height" constant="35" id="jxN-rQ-ixv"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaJ-Ov-ORt">
-                                <rect key="frame" x="130" y="783" width="154" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="ADD GROUP MEMBER"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m0d-be-zeF">
+                                <rect key="frame" x="8" y="823" width="35" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="374" id="NWQ-Y6-zfG"/>
-                                    <constraint firstAttribute="height" constant="30" id="cfe-a5-YQN"/>
+                                    <constraint firstAttribute="width" constant="35" id="70v-z9-OSp"/>
+                                    <constraint firstAttribute="height" constant="35" id="9yy-Ha-6dq"/>
                                 </constraints>
+                                <state key="normal" image="add_file"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pag-xo-v3d">
+                                <rect key="frame" x="371" y="823" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="3lZ-rh-9sA"/>
+                                    <constraint firstAttribute="width" constant="35" id="Nha-Ts-gbZ"/>
+                                </constraints>
+                                <state key="normal" image="send_message"/>
+                                <connections>
+                                    <action selector="onClickSendMessage:" destination="o21-X7-06M" eventType="touchUpInside" id="rUU-PN-ldf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaJ-Ov-ORt">
+                                <rect key="frame" x="4" y="789" width="406" height="30"/>
+                                <accessibility key="accessibilityConfiguration" label="ADD GROUP MEMBER"/>
                                 <state key="normal" title="ADD GROUP MEMBER"/>
                                 <connections>
                                     <action selector="onClickAddParticipants:" destination="o21-X7-06M" eventType="touchUpInside" id="oel-FH-UnV"/>
                                     <segue destination="aTd-yO-54O" kind="presentation" identifier="addParticipantSegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="CGE-5S-sms"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pag-xo-v3d">
-                                <rect key="frame" x="20" y="696" width="374" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="374" id="bNR-XE-eFW"/>
-                                    <constraint firstAttribute="height" constant="30" id="gQw-Wl-fiV"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="onClickSendMessage:" destination="o21-X7-06M" eventType="touchUpInside" id="rUU-PN-ldf"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="vaJ-Ov-ORt" firstAttribute="top" secondItem="Pag-xo-v3d" secondAttribute="bottom" constant="10" id="ICR-Fr-tqi"/>
-                            <constraint firstItem="Pag-xo-v3d" firstAttribute="top" secondItem="WBe-8c-U5n" secondAttribute="bottom" constant="8" id="RdH-br-67L"/>
-                            <constraint firstItem="WBe-8c-U5n" firstAttribute="top" secondItem="a1q-26-00u" secondAttribute="bottom" constant="8" id="xrN-kt-Ka4"/>
+                            <constraint firstItem="Pag-xo-v3d" firstAttribute="leading" secondItem="WBe-8c-U5n" secondAttribute="trailing" constant="8" id="5Nd-Gn-Kis"/>
+                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="a1q-26-00u" secondAttribute="trailing" id="5Nm-Yt-gG6"/>
+                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="Pag-xo-v3d" secondAttribute="trailing" constant="8" id="6Hp-7i-Q4Q"/>
+                            <constraint firstItem="a1q-26-00u" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" id="Jwd-ad-IsS"/>
+                            <constraint firstItem="m0d-be-zeF" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" constant="8" id="MFn-so-cvZ"/>
+                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="WBe-8c-U5n" secondAttribute="bottom" constant="4" id="PWw-1L-qwn"/>
+                            <constraint firstItem="WBe-8c-U5n" firstAttribute="top" secondItem="vaJ-Ov-ORt" secondAttribute="bottom" constant="4" id="Vvo-hS-2AQ"/>
+                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="Pag-xo-v3d" secondAttribute="bottom" constant="4" id="XAW-sj-4sJ"/>
+                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="vaJ-Ov-ORt" secondAttribute="trailing" constant="4" id="bWG-1w-Nsf"/>
+                            <constraint firstItem="vaJ-Ov-ORt" firstAttribute="top" secondItem="a1q-26-00u" secondAttribute="bottom" id="dCb-zB-uKV"/>
+                            <constraint firstItem="vaJ-Ov-ORt" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" constant="4" id="dzH-ue-5RP"/>
+                            <constraint firstItem="WBe-8c-U5n" firstAttribute="leading" secondItem="m0d-be-zeF" secondAttribute="trailing" constant="8" id="mGT-FR-j8w"/>
+                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="m0d-be-zeF" secondAttribute="bottom" constant="4" id="qOd-ai-r8B"/>
+                            <constraint firstItem="a1q-26-00u" firstAttribute="top" secondItem="9Ye-Eq-YQq" secondAttribute="top" id="uj6-1V-uQ2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9Ye-Eq-YQq"/>
                     </view>
@@ -1789,6 +1804,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add_file" width="240" height="240"/>
         <image name="board" width="23" height="23"/>
         <image name="chat" width="23" height="23"/>
         <image name="explore" width="23" height="23"/>
@@ -1796,6 +1812,7 @@
         <image name="photo_add" width="240" height="240"/>
         <image name="profile" width="23" height="23"/>
         <image name="quad" width="23" height="23"/>
+        <image name="send_message" width="240" height="240"/>
         <namedColor name="ivyGreen">
             <color red="0.16899999976158142" green="0.59200000762939453" blue="0.1289999932050705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

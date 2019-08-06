@@ -21,6 +21,6 @@ class LargeLabel: UILabel {
     private func setUp(){
         self.numberOfLines = 0
         self.font = UIFont(name: "Cordia New", size: 40)
-        self.textColor = Colors.ivy_grey
+        self.textColor = UIColor.black
     }
 }
