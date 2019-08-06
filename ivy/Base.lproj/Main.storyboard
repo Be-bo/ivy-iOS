@@ -142,6 +142,9 @@
                                     <constraint firstAttribute="height" constant="35" id="9yy-Ha-6dq"/>
                                 </constraints>
                                 <state key="normal" image="add_file"/>
+                                <connections>
+                                    <action selector="onClickAttachFile:" destination="o21-X7-06M" eventType="touchUpInside" id="M0L-Jg-Dot"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pag-xo-v3d">
                                 <rect key="frame" x="371" y="823" width="35" height="35"/>

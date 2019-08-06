@@ -23,7 +23,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     var userAuthFirstName = ""  //first name of the authenticated user
     var userProfilePic = ""
     private var thisUserProfile = Dictionary<String, Any>()
-
+    
     //outlets
     @IBOutlet weak var tableView: UITableView!
     
@@ -120,6 +120,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         }
         return position
     }
+    
+    
     
     
     func configureTableView(){
@@ -266,7 +268,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     
-    //function that will check whether the message neeeds to be bold or not, based on if the user has read the message or not
+    
+    
+    //check whether the message neeeds to be bold or not, based on if the user has read the message or not
     func boldCheck(currentConversation: Dictionary<String,Any> ) -> Bool{
         var boolRet: Bool = false   //false by default so dont bold
         var thisUsersLastCount: CLong
@@ -292,6 +296,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         }
         return boolRet
     }
+    
+    
+    
     
     
     func locateThisUser(conversation: Dictionary<String,Any>) -> Int {

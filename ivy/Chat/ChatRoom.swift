@@ -10,8 +10,13 @@ import Foundation
 import UIKit
 import Firebase
 import FirebaseCore
+import MobileCoreServices
 
 class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
+
+    
+
+    
     
     //initializers
     let baseDatabaseReference = Firestore.firestore()   //reference to the database
@@ -22,6 +27,9 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     var thisConversation = Dictionary<String, Any>()    //this current conversationboject
     var firstDataAquisition = true                      //to esnure we only load the converesation object once
     var conversationID = ""                             //hold the id of the current conversation
+    private var file_attached:Bool = false  //indicating that a file is not attached by default
+    var imageByteArray:NSData? =  nil   //image byte array to hold the image the user wished to upload
+    
     
     //outlets
     @IBOutlet weak var tableView: UITableView!
@@ -31,12 +39,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-//        print("THIS USER PROFILE", self.thisUserProfile)
         self.startListeningToChangesInThisConversation()
-
-        
     }
     
 
@@ -48,22 +51,121 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     vc.thisUserProfile = self.thisUserProfile   //pass the user profile object
     vc.thisConversation = self.thisConversation
 }
-
     
+
+    //on clicks start
+    
+    //when user clicks add participants, move them to the participant controller so they can choose who to add
     @IBAction func onClickAddParticipants(_ sender: Any) {
         self.performSegue(withIdentifier: "addParticipantSegue" , sender: self) //pass data over to
-
-//        let popovervc = UIStoryboard(name:"Main", bundle: nil).instantiateViewController(withIdentifier: "addParticipantsPopup") as! addParticipantPopUPViewController
-//        self.addChild(popovervc)    //add view controller for our pop up viewto our current view controller
-//        popovervc.view.frame = self.view.frame
-//        self.view.addSubview(popovervc.view)
-//        popovervc.didMove(toParent: self)
     }
     
-    //when the user clicks the send message button
+    
+    //when the user clicks the send message button determine if there is a file attached or just a message and send based on that
     @IBAction func onClickSendMessage(_ sender: Any) {
-        sendMessage()
+        if(!file_attached){ //if file_attached is false then send a message
+            sendMessage()
+        }else{  //there is a file attached so send a file message instead
+            sendFileMessage()
+        }
+        
     }
+    
+    
+    //when user clicks the add file button then deal with adding a file to the chat and setting file_attached to true
+    @IBAction func onClickAttachFile(_ sender: Any) {
+//        var attachment = AttachmentHandler()    //create an instance of the attachment handler class to allow user to chooose image/video/file/or take a picture
+//        attachment.showAttachmentActionSheet(vc: self)
+
+        
+        
+        AttachmentHandler.shared.showAttachmentActionSheet(vc: self)
+        AttachmentHandler.shared.imagePickedBlock = { (image) in
+            
+            let storageRef = self.baseStorageReference.reference()
+            var childString = "conversationfiles/" + String(self.thisConversation["id"] as! String) + "/here1"
+            var storageImageRef = storageRef.child(childString)
+            self.imageByteArray = (image.jpegData(compressionQuality: 1.0)!) as NSData
+            
+            // Upload the file to the path storagePath
+            let uploadTask = storageImageRef.putData(self.imageByteArray as! Data, metadata: nil) { (metadata, error) in
+            }
+            
+            // Upload completed successfully
+            uploadTask.observe(.success) { snapshot in
+                print("success")
+            }
+            
+            //upload task failed
+            uploadTask.observe(.failure) { snapshot in
+                if let error = snapshot.error as NSError? {
+                    switch (StorageErrorCode(rawValue: error.code)!) {
+                    case .objectNotFound:
+                        print("File doesn't exist")
+                        break
+                    case .unauthorized:
+                        print("User doesn't have permission to access file")
+                        break
+                    case .cancelled:
+                        print("User canceled the upload")
+                        break
+                    case .unknown:
+                        print("unknown error")
+                        break
+                    default:
+                        print("retry the upload here if it fails")
+                        break
+                    }
+                }
+            }
+            
+        }
+        
+        
+        //prompt the user to choose a file
+//        let types = [kUTTypePDF as String, kUTTypeText as String, kUTTypeRTF as String, kUTTypeSpreadsheet as String]
+//        let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+//        documentPicker.delegate = self
+//        documentPicker.modalPresentationStyle = .overCurrentContext
+//        self.present(documentPicker, animated: true, completion: nil)
+        
+        //display the cancel button so they can cancel the file when attached
+        
+        //changee variable to true
+    }
+    
+    
+    
+    //on clicks end
+    
+    
+    
+    
+    // start of functions for picking a local file
+//    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+//        guard let myURL = urls.first else {
+//            return
+//        }
+//        print("import result : \(myURL)")
+//    }
+//    
+//
+//    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+//        print("view was cancelled")
+//        controller.dismiss(animated: true, completion: nil)
+//    }
+//
+
+    // end of functions for picking a local file
+    
+    
+    
+    
+    //send a file over the chat
+    func sendFileMessage(){
+        
+    }
+    
     
     //actually sends the message to the conversation they are clicked on
     func sendMessage() {
@@ -81,8 +183,6 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             message["file_reference"] = ""
             message["id"] =  NSUUID().uuidString
             
-
-        
             baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).collection("messages").document(message["id"] as! String).setData(message)
             baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
             baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).updateData(["last_message": message["message_text"] as! String])
@@ -100,11 +200,11 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             }
             
             //TODO: decide if need to compensatefor listener bug here (Check android for code)
-            
-            
         }
-        
     }
+    
+    
+    
     
     //listen and retrun the up to date conversation object
     func startListeningToChangesInThisConversation() {
@@ -130,6 +230,7 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     }
     
     
+    
     //used to get the messages that are present within the current conversation
     func startRetrievingMessages() {
         baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).collection("messages").order(by: "creation_time", descending: false).addSnapshotListener(){ (querySnapshot, err) in
@@ -146,9 +247,10 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
                     self.tableView.reloadData()
                 }
             }
-
         }
     }
+    
+    
     
     func configureTableView(){
         tableView.delegate = self
@@ -158,9 +260,14 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         tableView.estimatedRowHeight = 70
     }
     
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.messages.count
     }
+    
+    
+    
     
     // called for every single cell thats displayed on screen/on reload
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -205,11 +312,10 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
                 print("Document does not exist")
             }
         }
-        
-
-        
         return cell
     }
+    
+    
     
     
     // used to located the index of the conversation from the activeChats array
@@ -224,6 +330,7 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         }
         return position
     }
+    
     
     
     //update the last seen message count for this user for this conversations but only once we've loaded all its messages
@@ -253,13 +360,14 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
                 }
                 
             }
-            
         }
-        
-        
     }
+    
+    
 
 }
+
+
 
 extension Date {
     var millisecondsSince1970:Int64 {

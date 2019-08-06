@@ -103,7 +103,7 @@ class Reg10Recap: UIViewController {
         let storageImageRef = storageRef.child(storagePath)
 
         
-        // Upload the file to the path "images/rivers.jpg"
+        // Upload the file to the path storagePath
         let uploadTask = storageImageRef.putData(self.imageByteArray! as Data, metadata: nil) { (metadata, error) in
                 //TODO uncomment when need file metadata/downloadURL, maybe keep for now until decide if needed or not
 //            guard let metadata = metadata else {
