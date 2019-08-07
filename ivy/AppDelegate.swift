@@ -23,7 +23,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        UINavigationBar.appearance().backgroundColor = UIColor.white
+        UINavigationBar.appearance().barTintColor = UIColor.ivyLightGrey
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().tintColor = UIColor.ivyGreen
+        UIBarButtonItem.appearance().tintColor = UIColor.ivyGreen
+        UITabBar.appearance().backgroundColor = UIColor.white
+        UITabBar.appearance().tintColor = UIColor.ivyLightGrey
+        UITabBar.appearance().unselectedItemTintColor = UIColor.ivyGrey
 
         return true
     }
