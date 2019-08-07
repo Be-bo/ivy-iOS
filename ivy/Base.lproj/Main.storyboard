@@ -123,7 +123,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a1q-26-00u">
-                                <rect key="frame" x="0.0" y="88" width="414" height="701"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="684"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Your Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WBe-8c-U5n" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
@@ -157,38 +157,54 @@
                                     <action selector="onClickSendMessage:" destination="o21-X7-06M" eventType="touchUpInside" id="rUU-PN-ldf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaJ-Ov-ORt">
-                                <rect key="frame" x="4" y="789" width="406" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="ADD GROUP MEMBER"/>
-                                <state key="normal" title="ADD GROUP MEMBER"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kfw-Xs-4JK">
+                                <rect key="frame" x="8" y="772" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="4bY-CM-D1b"/>
+                                    <constraint firstAttribute="width" constant="35" id="RQH-Td-ybY"/>
+                                </constraints>
+                                <state key="normal" image="cross_grey"/>
                                 <connections>
-                                    <action selector="onClickAddParticipants:" destination="o21-X7-06M" eventType="touchUpInside" id="oel-FH-UnV"/>
-                                    <segue destination="aTd-yO-54O" kind="presentation" identifier="addParticipantSegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="CGE-5S-sms"/>
+                                    <action selector="onClickX:" destination="o21-X7-06M" eventType="touchUpInside" id="Cy2-1x-8Hv"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BLQ-M3-ele">
+                                <rect key="frame" x="51" y="780" width="343" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="ctY-5E-mzD"/>
+                                    <constraint firstAttribute="height" constant="35" id="g9S-iC-isw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Pag-xo-v3d" firstAttribute="leading" secondItem="WBe-8c-U5n" secondAttribute="trailing" constant="8" id="5Nd-Gn-Kis"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="a1q-26-00u" secondAttribute="trailing" id="5Nm-Yt-gG6"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="Pag-xo-v3d" secondAttribute="trailing" constant="8" id="6Hp-7i-Q4Q"/>
+                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="BLQ-M3-ele" secondAttribute="trailing" constant="20" id="IOe-gl-c7H"/>
                             <constraint firstItem="a1q-26-00u" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" id="Jwd-ad-IsS"/>
                             <constraint firstItem="m0d-be-zeF" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" constant="8" id="MFn-so-cvZ"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="WBe-8c-U5n" secondAttribute="bottom" constant="4" id="PWw-1L-qwn"/>
-                            <constraint firstItem="WBe-8c-U5n" firstAttribute="top" secondItem="vaJ-Ov-ORt" secondAttribute="bottom" constant="4" id="Vvo-hS-2AQ"/>
+                            <constraint firstItem="BLQ-M3-ele" firstAttribute="leading" secondItem="Kfw-Xs-4JK" secondAttribute="trailing" constant="8" id="QEe-x8-TWG"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="Pag-xo-v3d" secondAttribute="bottom" constant="4" id="XAW-sj-4sJ"/>
-                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="vaJ-Ov-ORt" secondAttribute="trailing" constant="4" id="bWG-1w-Nsf"/>
-                            <constraint firstItem="vaJ-Ov-ORt" firstAttribute="top" secondItem="a1q-26-00u" secondAttribute="bottom" id="dCb-zB-uKV"/>
-                            <constraint firstItem="vaJ-Ov-ORt" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" constant="4" id="dzH-ue-5RP"/>
+                            <constraint firstItem="BLQ-M3-ele" firstAttribute="top" secondItem="a1q-26-00u" secondAttribute="bottom" constant="8" id="hpY-7g-J7e"/>
+                            <constraint firstItem="Kfw-Xs-4JK" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" constant="8" id="iFh-jz-gYJ"/>
                             <constraint firstItem="WBe-8c-U5n" firstAttribute="leading" secondItem="m0d-be-zeF" secondAttribute="trailing" constant="8" id="mGT-FR-j8w"/>
+                            <constraint firstItem="Kfw-Xs-4JK" firstAttribute="top" secondItem="a1q-26-00u" secondAttribute="bottom" id="mrc-Sb-krF"/>
+                            <constraint firstItem="WBe-8c-U5n" firstAttribute="top" secondItem="BLQ-M3-ele" secondAttribute="bottom" constant="8" id="nC7-f1-n5R"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="m0d-be-zeF" secondAttribute="bottom" constant="4" id="qOd-ai-r8B"/>
                             <constraint firstItem="a1q-26-00u" firstAttribute="top" secondItem="9Ye-Eq-YQq" secondAttribute="top" id="uj6-1V-uQ2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9Ye-Eq-YQq"/>
                     </view>
                     <connections>
+                        <outlet property="fileNameLabel" destination="BLQ-M3-ele" id="b0I-Ab-g8I"/>
                         <outlet property="messageTextField" destination="WBe-8c-U5n" id="Wg0-ee-Xfb"/>
                         <outlet property="tableView" destination="a1q-26-00u" id="YO8-Yp-XOw"/>
+                        <outlet property="xButton" destination="Kfw-Xs-4JK" id="Bh5-oj-Ns4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UVg-8N-41g" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1810,6 +1826,7 @@
         <image name="add_file" width="240" height="240"/>
         <image name="board" width="23" height="23"/>
         <image name="chat" width="23" height="23"/>
+        <image name="cross_grey" width="72" height="72"/>
         <image name="explore" width="23" height="23"/>
         <image name="ivy_logo" width="240" height="240"/>
         <image name="photo_add" width="240" height="240"/>
