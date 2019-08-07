@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         UINavigationBar.appearance().tintColor = UIColor.ivyGreen
         UIBarButtonItem.appearance().tintColor = UIColor.ivyGreen
+        UITabBar.appearance().barTintColor = UIColor.white
         UITabBar.appearance().backgroundColor = UIColor.white
         UITabBar.appearance().tintColor = UIColor.ivyGreen
         UITabBar.appearance().unselectedItemTintColor = UIColor.ivyGrey

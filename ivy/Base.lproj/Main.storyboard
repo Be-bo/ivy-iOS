@@ -27,6 +27,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="gvJ-ya-9lK"/>
                     </view>
                     <navigationItem key="navigationItem" id="Tyd-PF-855"/>
@@ -1781,7 +1782,9 @@
         <scene sceneID="eXV-Su-AR2">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Z3H-gF-G9T" customClass="BoardNavigationViewController" customModule="ivy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Board" image="board" id="WSW-P3-JC3"/>
+                    <tabBarItem key="tabBarItem" title="Board" image="board" id="WSW-P3-JC3">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1sU-FW-2Y4">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

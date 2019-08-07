@@ -24,7 +24,7 @@ class StandardButton: UIButton{
         self.backgroundColor = Colors.ivy_green
         self.setTitleColor(.white, for: .normal)
         
-        self.titleLabel?.font = UIFont(name: "Codia New Bold", size: 25)
+        self.titleLabel?.font = UIFont(name: "Cordia New Bold", size: 25)
         self.layer.cornerRadius = 5
     }
     

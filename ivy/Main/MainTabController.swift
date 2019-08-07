@@ -24,11 +24,10 @@ class MainTabController: UITabBarController {
     
     private func startListeningToUserProfile(){
         baseDatabaseReference.collection("universities").document(thisUniDomain).collection("userprofiles").document(thisUserId).addSnapshotListener() { (docSnap, e) in
-            if(e != nil){
-                print("Error obtaining user profile.")
+            if let e = e{
+                print("Error obtaining user profile: \(e)")
             }else{
                 if(docSnap?.exists ?? false && docSnap?.data() != nil){
-                    print("obtaining profile")
                     self.thisUserProfile = (docSnap?.data())!
                     self.updateTabs()
                 }

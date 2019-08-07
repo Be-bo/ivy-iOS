@@ -15,6 +15,7 @@ class Board: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
+//        tabBarController?.tabBarItem.c
     }
     
     private func setUpNavigationBar(){
