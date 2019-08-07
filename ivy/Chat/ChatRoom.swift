@@ -29,6 +29,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     var conversationID = ""                             //hold the id of the current conversation
     private var file_attached:Bool = false  //indicating that a file is not attached by default
     var imageByteArray:NSData? =  nil   //image byte array to hold the image the user wished to upload
+    var keyboardHeight:CGFloat = 0
     
     
     //outlets
@@ -36,11 +37,48 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var xButton: UIButton!   //x button that gets shown when a file is attached
     @IBOutlet weak var fileNameLabel: UILabel!  //the label that will display the name of the file thats attached
+    @IBOutlet weak var msgFieldHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sendBtnHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fileBtnHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.startListeningToChangesInThisConversation()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
+        hideKeyboardOnTapOutside()
+        setUpKeyboardListeners()
+    }
+    
+    
+    
+    
+    private func setUpKeyboardListeners(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let kbHeight = keyboardRectangle.height
+        self.keyboardHeight = kbHeight
+        
+        UIView.animate(withDuration: 0.5){
+            self.msgFieldHeightConstraint.constant = self.keyboardHeight
+            self.sendBtnHeightConstraint.constant = self.keyboardHeight
+            self.fileBtnHeightConstraint.constant = self.keyboardHeight
+            self.messageTextField.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        UIView.animate(withDuration: 0.5){
+            self.msgFieldHeightConstraint.constant = 4
+            self.sendBtnHeightConstraint.constant = 4
+            self.fileBtnHeightConstraint.constant = 4
+            self.messageTextField.layoutIfNeeded()
+        }
     }
     
     

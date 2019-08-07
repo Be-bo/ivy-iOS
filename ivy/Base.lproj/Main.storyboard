@@ -202,8 +202,11 @@
                         <viewLayoutGuide key="safeArea" id="9Ye-Eq-YQq"/>
                     </view>
                     <connections>
+                        <outlet property="fileBtnHeightConstraint" destination="qOd-ai-r8B" id="WuC-Og-IZo"/>
                         <outlet property="fileNameLabel" destination="BLQ-M3-ele" id="b0I-Ab-g8I"/>
                         <outlet property="messageTextField" destination="WBe-8c-U5n" id="Wg0-ee-Xfb"/>
+                        <outlet property="msgFieldHeightConstraint" destination="PWw-1L-qwn" id="RjI-KT-2bl"/>
+                        <outlet property="sendBtnHeightConstraint" destination="XAW-sj-4sJ" id="tDM-Vn-a2T"/>
                         <outlet property="tableView" destination="a1q-26-00u" id="YO8-Yp-XOw"/>
                         <outlet property="xButton" destination="Kfw-Xs-4JK" id="Bh5-oj-Ns4"/>
                     </connections>
