@@ -34,8 +34,8 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     //outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
-    
-    
+    @IBOutlet weak var xButton: UIButton!   //x button that gets shown when a file is attached
+    @IBOutlet weak var fileNameLabel: UILabel!  //the label that will display the name of the file thats attached
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +71,12 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
     }
     
+    //when the user clicks the x button, remove the file, remove the name, collapse both the x and the name
+    @IBAction func onClickX(_ sender: Any) {
+        
+    }
+    
+    
     
     //when user clicks the add file button then deal with adding a file to the chat and setting file_attached to true
     @IBAction func onClickAttachFile(_ sender: Any) {
@@ -78,8 +84,10 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        attachment.showAttachmentActionSheet(vc: self)
 
         
-        
+        //prompt them with the actions they have available
         AttachmentHandler.shared.showAttachmentActionSheet(vc: self)
+        
+        //if they choose an image, show the x button and replace the label text with the name of the file
         AttachmentHandler.shared.imagePickedBlock = { (image) in
             
             let storageRef = self.baseStorageReference.reference()
