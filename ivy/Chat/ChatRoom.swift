@@ -40,6 +40,26 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.startListeningToChangesInThisConversation()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
+    }
+    
+    
+    
+    
+    
+    @objc func showActions(){
+        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
+        
+        actionSheet.view.tintColor = UIColor.ivyGreen
+        
+        actionSheet.addAction(UIAlertAction(title: "Add Participants", style: .default, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Leave Conversation", style: .default, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Mute", style: .default, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "View Members", style: .default, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Report Conversation", style: .default, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
 

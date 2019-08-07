@@ -38,7 +38,19 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.userProfilePic = thisUserProfile["profile_picture"] as! String
         self.uid = thisUserProfile["id"] as! String
         self.loadData()
+        setUpNavigationBar()
+    }
+    
+    private func setUpNavigationBar(){
+        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo"))
+        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        titleImgView.contentMode = .scaleAspectFit
+        navigationItem.titleView = titleImgView
         
+        // this retarded bs is not working
+        let settingsBtn = SettingsButton()
+        let settingsButton = UIBarButtonItem(customView: settingsBtn)
+        navigationItem.rightBarButtonItem = settingsButton
     }
     
     
