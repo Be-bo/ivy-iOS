@@ -222,9 +222,26 @@ extension AttachmentHandler: UIImagePickerControllerDelegate, UINavigationContro
         guard let image = info[.originalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
+        
+        print("here")
+//        if let imageURL = info[.originalImage] as? NSURL {
+//            print("in here")
+//            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL as URL], options: nil)
+//            let asset = result.firstObject
+//            print("PAUL:", asset?.value(forKey: "filename"))
+//
+//        }
+        
+        //TODO paul come here
+
+//        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+//            let assetResources = PHAssetResource.assetResources(for: asset)
+//
+//            print(assetResources.first!.originalFilename)
+//        }
+
         self.imagePickedBlock?(image)
-        
-        
+
         
 //        guard let videoUrl = info[.mediaURL] as? NSURL else {
 //            fatalError("Something went wrong in  video: \(info)")

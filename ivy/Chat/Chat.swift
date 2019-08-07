@@ -214,9 +214,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                                         } else {
                                             if (self.boldCheck(currentConversation:currentConversation) == true){//make the text bold
                                                 cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
-                                                cell.lastMessage?.font = UIFont(name:"HelveticaNeue-Bold", size: 16.0)
+                                                cell.lastMessage?.font = UIFont(name:"Cordia New Bold", size: 25.0)
                                             }else{  //not bold
-                                                cell.lastMessage?.font = UIFont(name:"HelveticaNeue", size: 14.0)
+                                                cell.lastMessage?.font = UIFont(name:"Cordia New", size: 25.0)
                                                 cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
                                             }
                                             cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
@@ -234,10 +234,10 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         } else {
                             if (self.boldCheck(currentConversation:currentConversation) == true){ //make the text bold
                                 cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
-                                cell.lastMessage?.font = UIFont(name:"HelveticaNeue-Bold", size: 16.0)
+                                cell.lastMessage?.font = UIFont(name:"Cordia New Bold", size: 25.0)
                             }else{//text not bold
                                 cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
-                                cell.lastMessage?.font = UIFont(name:"HelveticaNeue", size: 14.0)
+                                cell.lastMessage?.font = UIFont(name:"Cordia New", size: 25.0)
                                 
                             }
                             cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
