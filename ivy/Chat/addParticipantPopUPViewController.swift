@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseStorage
 
 class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   

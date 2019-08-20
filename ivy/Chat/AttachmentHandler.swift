@@ -25,7 +25,7 @@ import Photos
 class AttachmentHandler: NSObject{
     static let shared = AttachmentHandler()
     fileprivate var currentVC: UIViewController?
-    
+
     //MARK: - Internal Properties
     var imagePickedBlock: ((UIImage) -> Void)?
     var videoPickedBlock: ((NSURL) -> Void)?
@@ -45,7 +45,6 @@ class AttachmentHandler: NSObject{
         static let phoneLibrary = "Phone Library"
         static let video = "Video"
         static let file = "File"
-        
         
         static let alertForPhotoLibraryMessage = "App does not have access to your photos. To enable access, tap settings and turn on Photo Library Access."
         
@@ -219,29 +218,24 @@ extension AttachmentHandler: UIImagePickerControllerDelegate, UINavigationContro
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
+        //if an image is picked
         guard let image = info[.originalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
         
-        print("here")
-//        if let imageURL = info[.originalImage] as? NSURL {
-//            print("in here")
-//            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL as URL], options: nil)
-//            let asset = result.firstObject
-//            print("PAUL:", asset?.value(forKey: "filename"))
-//
-//        }
         
-        //TODO paul come here
+        //extract the name of the image or file the user uploads
+        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
+            let assetResources = PHAssetResource.assetResources(for: asset)
+            image.accessibilityIdentifier = assetResources.first!.originalFilename
+        }
 
-//        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
-//            let assetResources = PHAssetResource.assetResources(for: asset)
-//
-//            print(assetResources.first!.originalFilename)
-//        }
-
+        
         self.imagePickedBlock?(image)
 
+        
+        
+        //TODO: uncomment all this stuff when dealing with videos if we choose to allow that eventually
         
 //        guard let videoUrl = info[.mediaURL] as? NSURL else {
 //            fatalError("Something went wrong in  video: \(info)")
@@ -313,7 +307,6 @@ extension AttachmentHandler: UIImagePickerControllerDelegate, UINavigationContro
 extension AttachmentHandler: UIDocumentPickerDelegate{
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-        print("url", url)
         self.filePickedBlock?(url)
     }
     

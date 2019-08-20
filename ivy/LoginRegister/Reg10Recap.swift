@@ -11,6 +11,8 @@ import UIKit
 import Firebase
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseStorage
+import FirebaseAuth
 
 
 class Reg10Recap: UIViewController {
@@ -163,13 +165,7 @@ class Reg10Recap: UIViewController {
         }
     }
 
-    
-//    //get the preview ofthe profile picture so that we don't have to load the entire image each time....optimizzation
-//    func getPreviewBytes() {
-//
-//
-//    }
-//
+
     func leaveForLogin() {
         self.performSegue(withIdentifier: "reg10ToLogin" , sender: self) //pass data over to
     }
@@ -197,18 +193,3 @@ class Reg10Recap: UIViewController {
     
 }
 
-//for resizing the image so that its smalled when we upload it
-//extension UIImage {
-//    func resized(withPercentage percentage: CGFloat) -> UIImage? {
-//        let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
-//        return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
-//            _ in draw(in: CGRect(origin: .zero, size: canvas))
-//        }
-//    }
-//    func resized(toWidth width: CGFloat) -> UIImage? {
-//        let canvas = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
-//        return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
-//            _ in draw(in: CGRect(origin: .zero, size: canvas))
-//        }
-//    }
-//}

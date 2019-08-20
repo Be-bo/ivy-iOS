@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import Firebase
 import FirebaseCore
+import FirebaseStorage
+import FirebaseFirestore
 
 class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
@@ -65,13 +67,11 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     //load data realtime from the conversations collection, if any changes are made then execute the chode inside snapshotListener
     func loadData() {   //get all the conversations where this current user is a participant of, add
         baseDatabaseReference.collection("conversations").whereField("participants", arrayContains: self.uid).order(by: "last_message_millis", descending: true).addSnapshotListener(){ (querySnapshot, err) in
-
             
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(err!)")
                 return
             }
-            
             //FOR EACH individual conversation the user has, when its added
             snapshot.documentChanges.forEach { diff in
                 
@@ -83,22 +83,17 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 
                //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
                 if (diff.type == .modified) {
-
                     let modifiedData = diff.document.data()
                     let modifiedID = modifiedData["id"]
                     let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
                     let originalData = self.activeChats[posModified]
-                    
                     //only if there is a new message, force the message count to be an int
                     if(modifiedData["message_count"] as! Int  != originalData["message_count"] as! Int ){
-
                         var newOrder: [Dictionary<String, Any>] = self.activeChats
-                        
                         //then I wanna replace that entry with the new modifiedData that I recieve upon a new message
                         for index in stride(from: posModified, to: 0, by: -1) {
                             newOrder.insert(newOrder.remove(at: (index-1) ), at: (index))
                         }
-                        
                         newOrder[0] = modifiedData  //replace the 0th entry of the array
                         self.activeChats.removeAll()
                         self.activeChats.append(contentsOf: newOrder)
@@ -115,7 +110,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     print("Removed chat: \(diff.document.data())")
                     self.tableView.reloadData() //reload rows and section in table view
                 }
-                
             }
         }
     }
@@ -137,7 +131,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     func configureTableView(){
-
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "ConversationCell")
@@ -153,10 +146,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     
-    
-    
-    
-    
     // called for every single cell thats displayed on screen/on reload
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -168,15 +157,11 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         var lastMessageAuthor = "" 
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
         
-        
         //use ID to extract name of author
         let lastMessafeRef =  baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(lastMessageSenderID)
         lastMessafeRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                
                 lastMessageAuthor =  document.get("first_name") as! String //first name of last message author
-                
-                
 //                authorProfilePicLoc = document.get("profile_picture") as! String //location of profile pic in storage
                 authorProfilePicLoc = "userimages/" + (document.get("id") as! String) + "/preview.jpg"
                 
@@ -187,17 +172,12 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
                 //extract participant names if its a base conversation
                 if (isBaseConversation) {
-                    
                     //extraction
                     var participantNamesArray = [String]()
                     participantNamesArray = self.activeChats[indexPath.row]["participant_names"] as! [String]
-                    
                     //remove this current users name from that array
                     participantNamesArray.removeAll { $0 == self.userAuthFirstName }
-                    
-                    
                     let nameToSet = participantNamesArray.popLast() //name of user you are conversating with
-                    
                     //from name extract his id to be able to get his profile pic location
                     self.baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").whereField("first_name", isEqualTo: nameToSet!)
                         .getDocuments() { (querySnapshot, err) in
