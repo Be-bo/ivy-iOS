@@ -513,6 +513,9 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         var lastMessageAuthor = ""
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
         
+        
+        
+        
         //use ID to extract name of author
         let lastMessafeRef =  baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(lastMessageSenderID)
         lastMessafeRef.getDocument { (document, error) in
@@ -520,6 +523,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 
                 lastMessageAuthor =  document.get("first_name") as! String //first name of last message author
                 authorProfilePicLoc = "userimages/" + (document.get("id") as! String) + "/preview.jpg"
+                print("authorprofilepicloc: ", authorProfilePicLoc)
 //                authorProfilePicLoc = document.get("profile_picture") as! String //location of profile pic in storage
                 // Create a storage reference from our storage service
                 let storageRef = self.baseStorageReference.reference()
@@ -538,7 +542,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     }
                 }
             } else {
-                print("Document does not exist")
+                print("Document does not EXISTSTSTS")
             }
         }
         return cell

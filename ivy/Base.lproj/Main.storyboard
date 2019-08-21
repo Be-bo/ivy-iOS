@@ -217,7 +217,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UVg-8N-41g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7507" y="-1647"/>
+            <point key="canvasLocation" x="7505.7971014492759" y="-1647.3214285714284"/>
         </scene>
         <!--Add Participant PopUP View Controller-->
         <scene sceneID="bOG-jx-8Oh">
@@ -1980,7 +1980,6 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="l0H-fe-uii"/>
         <segue reference="9RO-mD-LBY"/>
         <segue reference="qnE-MC-VUo"/>
         <segue reference="VzR-Zf-QpA"/>

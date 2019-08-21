@@ -40,15 +40,50 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="group" translatesAutoresizingMaskIntoConstraints="NO" id="8Da-vD-qro">
+                    <rect key="frame" x="314" y="27" width="28" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="e6Y-q3-NT1"/>
+                        <constraint firstAttribute="width" constant="28" id="hCI-4t-f2x"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DY7-4H-V5E">
+                    <rect key="frame" x="386" y="21" width="43" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="43" id="1a2-vY-6CX"/>
+                        <constraint firstAttribute="height" constant="45" id="1mu-Zz-YVy"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="check"/>
+                    <connections>
+                        <action selector="onClickAccept:" destination="iN0-l3-epB" eventType="touchUpInside" id="GO8-O3-Iw5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I8z-vh-Hj3">
+                    <rect key="frame" x="449" y="21" width="43" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="QfG-cg-91O"/>
+                        <constraint firstAttribute="width" constant="43" id="VmF-A2-oEe"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="cross"/>
+                    <connections>
+                        <action selector="onClickReject:" destination="iN0-l3-epB" eventType="touchUpInside" id="I4L-gY-Yd3"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="uYu-Kw-bDK" firstAttribute="leading" secondItem="8fZ-Xl-Ill" secondAttribute="trailing" constant="16" id="7il-ju-e5h"/>
+                <constraint firstItem="DY7-4H-V5E" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="21" id="EdH-BE-cKz"/>
                 <constraint firstAttribute="trailing" secondItem="9Rg-Cy-ZSq" secondAttribute="trailing" constant="8" id="JPL-1n-0er"/>
+                <constraint firstItem="I8z-vh-Hj3" firstAttribute="leading" secondItem="DY7-4H-V5E" secondAttribute="trailing" constant="20" id="JWA-ai-y60"/>
                 <constraint firstAttribute="bottom" secondItem="8fZ-Xl-Ill" secondAttribute="bottom" constant="8" id="M8m-NC-bOZ"/>
+                <constraint firstItem="DY7-4H-V5E" firstAttribute="leading" secondItem="8Da-vD-qro" secondAttribute="trailing" constant="44" id="VvA-C9-Dq3"/>
                 <constraint firstItem="9Rg-Cy-ZSq" firstAttribute="leading" secondItem="8fZ-Xl-Ill" secondAttribute="trailing" constant="8" id="ZJx-2P-72b"/>
                 <constraint firstItem="uYu-Kw-bDK" firstAttribute="top" secondItem="9Rg-Cy-ZSq" secondAttribute="bottom" id="aMY-6C-xob"/>
+                <constraint firstItem="I8z-vh-Hj3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="21" id="aPA-su-SrL"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="I8z-vh-Hj3" secondAttribute="trailing" constant="8" id="jLn-A7-QWb"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="uYu-Kw-bDK" secondAttribute="trailing" constant="8" id="kAy-h0-ou7"/>
+                <constraint firstItem="8Da-vD-qro" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="lYI-h7-ePL"/>
                 <constraint firstItem="9Rg-Cy-ZSq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="qTX-Oc-t4p"/>
                 <constraint firstItem="8fZ-Xl-Ill" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="tkW-qW-EpF"/>
                 <constraint firstItem="8fZ-Xl-Ill" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="z5p-9S-cJo"/>
@@ -58,11 +93,19 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="accept" destination="DY7-4H-V5E" id="dXn-5k-CLp"/>
+                <outlet property="groupSymbol" destination="8Da-vD-qro" id="Rqc-pp-fdW"/>
                 <outlet property="img" destination="8fZ-Xl-Ill" id="Zsn-Ae-ZJV"/>
                 <outlet property="lastMessage" destination="uYu-Kw-bDK" id="QtO-1W-pkK"/>
                 <outlet property="name" destination="9Rg-Cy-ZSq" id="OwK-m3-Lq0"/>
+                <outlet property="reject" destination="I8z-vh-Hj3" id="Lxu-L7-Qfy"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="121.20535714285714"/>
+            <point key="canvasLocation" x="173.91304347826087" y="102.45535714285714"/>
         </view>
     </objects>
+    <resources>
+        <image name="check" width="72" height="72"/>
+        <image name="cross" width="72" height="72"/>
+        <image name="group" width="240" height="240"/>
+    </resources>
 </document>
