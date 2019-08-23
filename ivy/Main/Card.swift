@@ -28,6 +28,9 @@ class Card: UICollectionViewCell {
     @IBOutlet weak var cardContainer: Card!
     @IBOutlet weak var shadowOuterContainer: Card!
     
+    //added this to the Card.xib/Card.swift instead of inside of the inner CardBack or CardFront
+    @IBOutlet weak var plifButton: UIButton!
+    
     
     
     
@@ -38,6 +41,8 @@ class Card: UICollectionViewCell {
         
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight] //need to make sure the card resizes based on the cell of the collectionview
         self.translatesAutoresizingMaskIntoConstraints = true
+        
+        
     }
     
     override init(frame: CGRect) {
@@ -64,25 +69,14 @@ class Card: UICollectionViewCell {
             cardContainer.addSubview(back)
             cardContainer.addSubview(front)
             
+            //added this for flipping via a button:
+            shadowOuterContainer.bringSubviewToFront(plifButton)
             
-
-
-
-//            let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip)) //and set the on click listener to the card
-//            singleTap.numberOfTapsRequired = 1
-//            cardContainer.addSubview(front.flipButton)
-//            cardContainer.addSubview(back.flipButton)
-//
-//            front.bringSubviewToFront(front.flipButton)
-//            back.bringSubviewToFront(back.flipButton)
-//            front.flipButton.addTarget(self, action:#selector(flip), for: .touchUpInside)
-
-//
-//            front.flipButton.addGestureRecognizer(singleTap)
-//            back.flipButton.addGestureRecognizer(singleTap)
-
-
-
+            let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip)) //and set the on click listener to the card
+            singleTap.numberOfTapsRequired = 1
+            
+            //changed this for flipping via a button from shadowOuterContainer.addGestureRecognizer(singleTap)
+            plifButton.addGestureRecognizer(singleTap)
             
             firstSetup = false
         }
@@ -93,14 +87,6 @@ class Card: UICollectionViewCell {
                     print("Error obtaining image: ", e)
                 }else{
                     self.front.img.image = UIImage(data: data!)
-//                    let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.flip)) //and set the on click listener to the card
-//                    singleTap.numberOfTapsRequired = 1
-                    
-                    //TODO:start here figure out y button isnt clickable..
-                    self.front.flipButton.isUserInteractionEnabled = true
-                    self.front.flipButton.isEnabled = true
-                    self.front.flipButton.addTarget(self, action: #selector(self.flip), for: .touchUpInside)
-                    self.bringSubviewToFront(self.front.flipButton)
                 }
             }
         }
@@ -118,9 +104,6 @@ class Card: UICollectionViewCell {
         back.age.text = user["age"] as? String
         back.bio.text = user["bio"] as? String
         back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
-        front.flipButton.addTarget(self, action: #selector(self.flip), for: .touchUpInside)
-
-        
     }
     
     
@@ -132,11 +115,6 @@ class Card: UICollectionViewCell {
             self.translatesAutoresizingMaskIntoConstraints = true
         }
         showingBack = !showingBack
-        
-        
-
-
-        
     }
 
 }

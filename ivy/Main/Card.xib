@@ -22,6 +22,10 @@
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QUS-HG-VLv" userLabel="Shadow" customClass="Card" customModule="ivy" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UgP-HF-uLt">
+                                <rect key="frame" x="170" y="0.0" width="30" height="30"/>
+                                <state key="normal" title="Plif"/>
+                            </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ni-It-6YL" customClass="Card" customModule="ivy" customModuleProvider="target">
                                 <rect key="frame" x="16" y="16" width="168" height="268"/>
                                 <userDefinedRuntimeAttributes>
@@ -34,7 +38,9 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="3ni-It-6YL" secondAttribute="bottom" constant="16" id="1vi-aR-GFR"/>
                             <constraint firstAttribute="trailing" secondItem="3ni-It-6YL" secondAttribute="trailing" constant="16" id="Dfa-9u-d93"/>
+                            <constraint firstAttribute="trailing" secondItem="UgP-HF-uLt" secondAttribute="trailing" id="SeL-p2-gMw"/>
                             <constraint firstItem="3ni-It-6YL" firstAttribute="leading" secondItem="QUS-HG-VLv" secondAttribute="leading" constant="16" id="XNn-0a-0jw"/>
+                            <constraint firstItem="UgP-HF-uLt" firstAttribute="top" secondItem="QUS-HG-VLv" secondAttribute="top" id="dD1-Qr-J11"/>
                             <constraint firstItem="3ni-It-6YL" firstAttribute="top" secondItem="QUS-HG-VLv" secondAttribute="top" constant="16" id="hyT-RR-d0n"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -63,6 +69,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
                 <outlet property="cardContainer" destination="3ni-It-6YL" id="cr2-ud-jKJ"/>
+                <outlet property="plifButton" destination="UgP-HF-uLt" id="pVG-gc-8WE"/>
                 <outlet property="shadowOuterContainer" destination="QUS-HG-VLv" id="TbB-aS-siO"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="153.34821428571428"/>
