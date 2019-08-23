@@ -14,6 +14,7 @@ class CardFront: UIView {
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var name: MediumLabel!
     @IBOutlet weak var degreeIcon: UIImageView!
+    @IBOutlet weak var flipButton: UIButton!
     
     override init(frame: CGRect) {
         super.init(frame: frame)

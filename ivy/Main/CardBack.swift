@@ -15,6 +15,10 @@ class CardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     @IBOutlet weak var degree: MediumLabel!
     @IBOutlet weak var bio: StandardLabel!
     @IBOutlet weak var interestestCollectionView: UICollectionView!
+    @IBOutlet weak var sayHiMessageTextField: UITextField!
+    @IBOutlet weak var sayHiButton: UIButton!
+    @IBOutlet weak var flipButton: UIButton!
+    
     var interests = [String]()
     let cellId = "InterestCell"
     
@@ -62,4 +66,7 @@ class CardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
     }
+    
+
+    
 }

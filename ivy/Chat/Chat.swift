@@ -40,7 +40,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.userAuthFirstName = thisUserProfile["first_name"] as! String
         self.userProfilePic = thisUserProfile["profile_picture"] as! String
         self.uid = thisUserProfile["id"] as! String
-        self.loadRequestCount() //execute startListeningToConversations() in loadRequestCount to ensure all the requests are loaded first
+        self.startListeningToConversations()
         
         setUpNavigationBar()
     }
@@ -74,43 +74,51 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 print("Error fetching snapshots: \(err!)")
                 return
             }
-            //FOR EACH individual conversation the user has, when its added
-            snapshot.documentChanges.forEach { diff in
-                
-                if (diff.type == .added) {
-                    self.activeChats.append(diff.document.data())
-                    self.configureTableView()
-                    self.tableView.reloadData() //reload rows and section in table view
+            
+            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
+                if let document = document, document.exists {
+                    self.requestCount = document.data()!
+                } else {
+                    //just empty
                 }
-                
-               //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
-                if (diff.type == .modified) {
-                    let modifiedData = diff.document.data()
-                    let modifiedID = modifiedData["id"]
-                    let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
-                    let originalData = self.activeChats[posModified]
-                    //only if there is a new message, force the message count to be an int
-                    if(modifiedData["message_count"] as! Int  != originalData["message_count"] as! Int ){
-                        var newOrder: [Dictionary<String, Any>] = self.activeChats
-                        //then I wanna replace that entry with the new modifiedData that I recieve upon a new message
-                        for index in stride(from: posModified, to: 0, by: -1) {
-                            newOrder.insert(newOrder.remove(at: (index-1) ), at: (index))
-                        }
-                        newOrder[0] = modifiedData  //replace the 0th entry of the array
-                        self.activeChats.removeAll()
-                        self.activeChats.append(contentsOf: newOrder)
-                        newOrder.removeAll()
+                //FOR EACH individual conversation the user has, when its added
+                snapshot.documentChanges.forEach { diff in
+                    if (diff.type == .added) {
+                        self.activeChats.append(diff.document.data())
+                        self.configureTableView()
                         self.tableView.reloadData() //reload rows and section in table view
-                    } else {    //any other type of update, so just update the current conv in its current position
-                        self.activeChats[posModified] = modifiedData
-                        self.tableView.reloadData()
                     }
-                }
-                
-                //if a message was removed we enter this
-                if (diff.type == .removed) {
-                    print("Removed chat: \(diff.document.data())")
-                    self.tableView.reloadData() //reload rows and section in table view
+                    
+                    //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
+                    if (diff.type == .modified) {
+                        let modifiedData = diff.document.data()
+                        let modifiedID = modifiedData["id"]
+                        let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
+                        let originalData = self.activeChats[posModified]
+                        //only if there is a new message, force the message count to be an int
+                        if(modifiedData["message_count"] as! Int  != originalData["message_count"] as! Int ){
+                            var newOrder: [Dictionary<String, Any>] = self.activeChats
+                            //then I wanna replace that entry with the new modifiedData that I recieve upon a new message
+                            for index in stride(from: posModified, to: 0, by: -1) {
+                                newOrder.insert(newOrder.remove(at: (index-1) ), at: (index))
+                            }
+                            newOrder[0] = modifiedData  //replace the 0th entry of the array
+                            self.activeChats.removeAll()
+                            self.activeChats.append(contentsOf: newOrder)
+                            newOrder.removeAll()
+                            self.tableView.reloadData() //reload rows and section in table view
+                        } else {    //any other type of update, so just update the current conv in its current position
+                            self.activeChats[posModified] = modifiedData
+                            self.tableView.reloadData()
+                        }
+                    }
+                    
+                    //if a message was removed we enter this
+                    if (diff.type == .removed) {
+                        //TODO: remove the actual conversation that was removed from android.
+                        print("Removed chat: \(diff.document.data())")
+                        self.tableView.reloadData() //reload rows and section in table view
+                    }
                 }
             }
         }
@@ -189,9 +197,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     }
                 }
             }
-            
-            
         }
+        
         
         return cell
     }
@@ -290,9 +297,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             }
         }
         if (!thisUserRequested){
-            print("this user re", thisUserRequested)
             let name  = cell.name.text
-            cell.name.text = "pending: " + name!  //TODO: decide if we need this to be setup the way it is onn adnroid: i.e "R.string.conversation_adapter_pending,"
+            cell.name.text = name! + " (Pending)"  //TODO: decide if we need this to be setup the way it is onn adnroid: i.e "R.string.conversation_adapter_pending,"
             cell.showRequestLayout()
         }else{
             cell.hideRequestLayout()
@@ -413,20 +419,19 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     
-    //loading the request counts
-    func loadRequestCount(){
-        
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
-            if let document = document, document.exists {
-                self.requestCount = document.data()!
-            } else {
-                //just empty
-            }
-            self.startListeningToConversations()
-
-        }
-        
-    }
+//    //loading the request counts
+//    func loadRequestCount(){
+//
+//        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
+//            if let document = document, document.exists {
+//                self.requestCount = document.data()!
+//            } else {
+//                //just empty
+//            }
+//
+//        }
+//
+//    }
     
     
     

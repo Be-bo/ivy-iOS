@@ -39,6 +39,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     // MARK: Base and Override Functions
     
     override func viewDidLoad() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         super.viewDidLoad()
         self.hideKeyboardOnTapOutside()
         setUpNavigationBar()
@@ -66,9 +67,27 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     
     
+    @objc func showActions() {
+        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
+        actionSheet.view.tintColor = UIColor.ivyGreen
+        
+        //ADDING ACTIONS TO THE ACTION SHEET
+        actionSheet.addAction(UIAlertAction(title: "message", style: .default, handler: self.onClickSendHiMsg))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true, completion: nil)
+    }
     
     
     
+    //when user wants to send hi message to another user from quad from the back of the card.
+    func onClickSendHiMsg(alert:UIAlertAction!){
+        
+        //TODO: figure out how to click on text label/button from back of card, and actually send message to user
+        //extract message from text label
+        var sendHiMessage = "Tester message for now"
+        
+    }
     
     
     // MARK: Data Acquisition Functions
@@ -155,7 +174,81 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     
+    func setRequest(quadCard:Card, actualPos: Int, pos: Int){
+        //set on click listener for send message button
+
+        //check if onclickSendHi has been clicked
+
+        //check length of input field
+
+    }
+
     
+    func sendRequest(quadCard:Card, actualPos: Int, pos: Int){
+        var conversationReference: DocumentReference
+        var current = allQuadProfiles[pos]
+        conversationReference = self.baseDatabaseReference.collection("conversations").document()
+        var participants = [String]()
+        var participantNames = [String]()
+        participants.append(self.thisUserProfile["id"] as! String)
+        participants.append(current["id"] as! String)
+        participantNames.append(self.thisUserProfile["first_name"] as! String)
+        participantNames.append(current["first_name"] as! String)
+        var msgCounts = [CLong]()
+        msgCounts.append(0)
+        msgCounts.append(0)
+        let mutedBy = [String]()
+        
+        
+        //adding to request lists of user, where true is who sent, false is who recieved
+        var temp = Dictionary<String, Any>()
+        temp[current["id"] as! String] = true
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
+        
+        temp = Dictionary<String, Any>()//reset
+        temp[self.thisUserProfile["id"] as! String] = false
+        self.baseDatabaseReference.collection("universities").document(current["uni_domain"] as! String).collection("userprofiles").document(current["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
+        
+        
+        //create new conversation object
+        var newConversation = Dictionary<String, Any>()
+        newConversation["id"] = conversationReference.documentID
+        newConversation["name"] = String(self.thisUserProfile["first_name"] as! String)+", "+String(current["first_name"] as! String)
+        newConversation["participants"] = participants
+        newConversation["is_request"] = true
+        newConversation["last_message"] = "This is just a tester message" //TODO: extract from text label
+        newConversation["last_message_author"] = self.thisUserProfile["is"] as! String
+        newConversation["creation_time"] =  Date().millisecondsSince1970   //millis
+        newConversation["participant_names"] =  participantNames
+        newConversation["last_message_counts"] = msgCounts
+        newConversation["last_message_millis"] = Date().millisecondsSince1970   //millis
+        newConversation["message_count"] = 1
+        newConversation["is_base_conversation"] = true
+        newConversation["muted_by"] = mutedBy
+        //push pbject to db
+        self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).setData(newConversation)
+        
+        
+        //create new message object
+        var requestMessage = Dictionary<String, Any>()
+        requestMessage["message_text"] = "This is just a tester message" //TODO: extract from text label
+        requestMessage["author_id"] = self.thisUserProfile["id"] as! String
+        requestMessage["author_first_name"] = self.thisUserProfile["first_name"] as! String
+        requestMessage["author_last_name"] = self.thisUserProfile["last_name"] as! String
+        requestMessage["conversation_id"] = conversationReference.documentID
+        requestMessage["is_text_only"] = true
+        requestMessage["file_reference"] = ""
+        requestMessage["id"] = NSUUID().uuidString
+        requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
+        //push message object to db
+        self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
+        
+        
+        //remove profile from quad
+        self.quadCollectionView.reloadData()
+        
+        //TODO: start here tomorrow and figure out how to remove the profile from the quad after its been selected.
+    }
     
     
     
@@ -170,6 +263,16 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let quadCard = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! Card
         quadCard.setUp(user: allQuadProfiles[indexPath.item])
+        
+        
+        
+        //TODO: implement the adding of a button which when clicked hits send request, or we will send a request to ever user
+        let actualPos = indexPath.item % allQuadProfiles.count
+        let current = allQuadProfiles[actualPos]
+        let pos = indexPath.item
+        self.setRequest(quadCard: quadCard, actualPos: actualPos, pos: pos);
+
+        
         return quadCard
     }
     

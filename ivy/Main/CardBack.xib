@@ -16,6 +16,14 @@
             <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IE2-9j-Et5">
+                    <rect key="frame" x="327" y="8" width="53" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="53" id="6pN-4D-f09"/>
+                        <constraint firstAttribute="height" constant="53" id="Xvm-yh-oXd"/>
+                    </constraints>
+                    <state key="normal" image="flip"/>
+                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mb4-UP-fn2" customClass="MediumGreenLabel" customModule="ivy" customModuleProvider="target">
                     <rect key="frame" x="8" y="8" width="45" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -53,7 +61,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="always" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="GSd-UE-5hs">
-                    <rect key="frame" x="16" y="137" width="368" height="463"/>
+                    <rect key="frame" x="16" y="137" width="368" height="433"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="scrollIndicatorInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="goB-78-MUS">
@@ -63,17 +71,42 @@
                         <inset key="sectionInset" minX="4" minY="4" maxX="4" maxY="4"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1tc-6r-2Tt">
+                    <rect key="frame" x="8" y="570" width="329" height="30"/>
+                    <accessibility key="accessibilityConfiguration" hint="Say Hi!"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="329" id="UG5-Lw-eOi"/>
+                        <constraint firstAttribute="height" constant="30" id="bsA-1D-85U"/>
+                    </constraints>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dY9-um-ywm">
+                    <rect key="frame" x="345" y="570" width="31" height="26"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="31" id="lzO-Zq-DtO"/>
+                        <constraint firstAttribute="height" constant="26" id="szB-6l-gbc"/>
+                    </constraints>
+                    <state key="normal" image="send_message"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="mb4-UP-fn2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="0V7-u8-AI7"/>
+                <constraint firstItem="IE2-9j-Et5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="2Bg-x8-94o"/>
                 <constraint firstItem="a06-AD-Xed" firstAttribute="top" secondItem="H3J-pi-GiN" secondAttribute="bottom" constant="8" id="C3P-R4-3Xm"/>
+                <constraint firstItem="1tc-6r-2Tt" firstAttribute="top" secondItem="GSd-UE-5hs" secondAttribute="bottom" id="EVb-7e-nXa"/>
                 <constraint firstItem="a06-AD-Xed" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="ITU-GT-jtp"/>
+                <constraint firstItem="dY9-um-ywm" firstAttribute="leading" secondItem="1tc-6r-2Tt" secondAttribute="trailing" constant="8" id="Kxs-uH-vMd"/>
                 <constraint firstItem="Cut-qw-SWe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Mue-f3-qnu"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="H3J-pi-GiN" secondAttribute="trailing" constant="24" id="RmK-9R-YyJ"/>
                 <constraint firstItem="bPs-XX-uwv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Sx6-xD-AKj"/>
+                <constraint firstItem="dY9-um-ywm" firstAttribute="top" secondItem="GSd-UE-5hs" secondAttribute="bottom" id="TOs-5c-6eR"/>
+                <constraint firstAttribute="bottom" secondItem="1tc-6r-2Tt" secondAttribute="bottom" id="ULv-aK-721"/>
                 <constraint firstItem="GSd-UE-5hs" firstAttribute="top" secondItem="a06-AD-Xed" secondAttribute="bottom" constant="8" id="VKY-7m-TF2"/>
-                <constraint firstAttribute="bottom" secondItem="GSd-UE-5hs" secondAttribute="bottom" id="X0e-sp-hIY"/>
+                <constraint firstAttribute="trailing" secondItem="IE2-9j-Et5" secondAttribute="trailing" constant="20" id="VSH-xe-4FF"/>
+                <constraint firstItem="1tc-6r-2Tt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Vpz-hH-P0e"/>
                 <constraint firstItem="H3J-pi-GiN" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="XNb-mV-sBH"/>
                 <constraint firstItem="mb4-UP-fn2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="YkD-24-8We"/>
                 <constraint firstItem="GSd-UE-5hs" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="ZTp-fn-6a3"/>
@@ -95,10 +128,17 @@
                 <outlet property="age" destination="bPs-XX-uwv" id="hsl-E4-5e9"/>
                 <outlet property="bio" destination="H3J-pi-GiN" id="BZV-c1-aDW"/>
                 <outlet property="degree" destination="Cut-qw-SWe" id="JxK-fQ-enx"/>
+                <outlet property="flipButton" destination="IE2-9j-Et5" id="pul-DI-gd1"/>
                 <outlet property="interestestCollectionView" destination="GSd-UE-5hs" id="9eJ-h9-BCo"/>
                 <outlet property="name" destination="mb4-UP-fn2" id="Fe9-5f-vYj"/>
+                <outlet property="sayHiButton" destination="dY9-um-ywm" id="EF2-b0-DP9"/>
+                <outlet property="sayHiMessageTextField" destination="1tc-6r-2Tt" id="IPe-Cn-iXP"/>
             </connections>
             <point key="canvasLocation" x="192.75362318840581" y="156.69642857142856"/>
         </view>
     </objects>
+    <resources>
+        <image name="flip" width="240" height="240"/>
+        <image name="send_message" width="240" height="240"/>
+    </resources>
 </document>

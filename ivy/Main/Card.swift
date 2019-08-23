@@ -64,9 +64,25 @@ class Card: UICollectionViewCell {
             cardContainer.addSubview(back)
             cardContainer.addSubview(front)
             
-            let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip)) //and set the on click listener to the card
-            singleTap.numberOfTapsRequired = 1
-            shadowOuterContainer.addGestureRecognizer(singleTap)
+            
+
+
+
+//            let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip)) //and set the on click listener to the card
+//            singleTap.numberOfTapsRequired = 1
+//            cardContainer.addSubview(front.flipButton)
+//            cardContainer.addSubview(back.flipButton)
+//
+//            front.bringSubviewToFront(front.flipButton)
+//            back.bringSubviewToFront(back.flipButton)
+//            front.flipButton.addTarget(self, action:#selector(flip), for: .touchUpInside)
+
+//
+//            front.flipButton.addGestureRecognizer(singleTap)
+//            back.flipButton.addGestureRecognizer(singleTap)
+
+
+
             
             firstSetup = false
         }
@@ -77,9 +93,18 @@ class Card: UICollectionViewCell {
                     print("Error obtaining image: ", e)
                 }else{
                     self.front.img.image = UIImage(data: data!)
+//                    let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.flip)) //and set the on click listener to the card
+//                    singleTap.numberOfTapsRequired = 1
+                    
+                    //TODO:start here figure out y button isnt clickable..
+                    self.front.flipButton.isUserInteractionEnabled = true
+                    self.front.flipButton.isEnabled = true
+                    self.front.flipButton.addTarget(self, action: #selector(self.flip), for: .touchUpInside)
+                    self.bringSubviewToFront(self.front.flipButton)
                 }
             }
         }
+
         
         if var degree = user["degree"] as? String { //degree icon
             degree = degree.replacingOccurrences(of: " ", with: "")
@@ -93,7 +118,11 @@ class Card: UICollectionViewCell {
         back.age.text = user["age"] as? String
         back.bio.text = user["bio"] as? String
         back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
+        front.flipButton.addTarget(self, action: #selector(self.flip), for: .touchUpInside)
+
+        
     }
+    
     
     @objc func flip() { //a method that flips the card
         let toView = showingBack ? front : back
@@ -103,6 +132,11 @@ class Card: UICollectionViewCell {
             self.translatesAutoresizingMaskIntoConstraints = true
         }
         showingBack = !showingBack
+        
+        
+
+
+        
     }
 
 }

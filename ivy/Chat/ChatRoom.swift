@@ -508,43 +508,42 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         updateLastSeenMessage()
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationCell
-        let lastMessage = self.messages[indexPath.row]["message_text"] as! String
-        let lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
+//        let lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
         var lastMessageAuthor = ""
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
         
         
+        lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as! String //first name of last message author
+        authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as! String) + "/preview.jpg"
         
+        // Create a storage reference from our storage service
+        let lastMessage = self.messages[indexPath.row]["message_text"] as! String
+        let storageRef = self.baseStorageReference.reference()
+        let storageImageRef = storageRef.child(authorProfilePicLoc)
+        let lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who sent it attached with what message they sent.
         
-        //use ID to extract name of author
-        let lastMessafeRef =  baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(lastMessageSenderID)
-        lastMessafeRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                
-                lastMessageAuthor =  document.get("first_name") as! String //first name of last message author
-                authorProfilePicLoc = "userimages/" + (document.get("id") as! String) + "/preview.jpg"
-                print("authorprofilepicloc: ", authorProfilePicLoc)
-//                authorProfilePicLoc = document.get("profile_picture") as! String //location of profile pic in storage
-                // Create a storage reference from our storage service
-                let storageRef = self.baseStorageReference.reference()
-                let storageImageRef = storageRef.child(authorProfilePicLoc)
-                let lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who sent it attached with what message they sent.
-                
-                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("error", error)
-                    } else {
-                        //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
-                        cell.name.text = self.messages[indexPath.row]["author_first_name"] as! String     //name of the chat this user is involved in
-                        cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
-                        cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
-                    }
-                }
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("error", error)
             } else {
-                print("Document does not EXISTSTSTS")
+                print("else")
+                //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
+                cell.name.text = self.messages[indexPath.row]["author_first_name"] as! String     //name of the chat this user is involved in
+                cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
+                cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
             }
         }
+        
+        
+        //TODO: figure out how to scroll to the bottom of the chat when you send a new message
+        //TODO: figure out the optimization of messages laoded to make sure not all messages are loadede each time a new message comes in
+//
+//        let scrollPoint = CGPoint(x: 0, y: self.tableView.contentSize.height - self.tableView.frame.size.height)
+//        self.tableView.setContentOffset(scrollPoint, animated: false)
+
+        
+        
         return cell
     }
     
