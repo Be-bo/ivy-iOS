@@ -16,7 +16,7 @@ class CardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     @IBOutlet weak var bio: StandardLabel!
     @IBOutlet weak var interestestCollectionView: UICollectionView!
     @IBOutlet weak var sayHiMessageTextField: UITextField!
-    @IBOutlet weak var sayHiButton: UIButton!
+    @IBOutlet weak var sayHiButton: subclassedUIButton!
     @IBOutlet weak var flipButton: UIButton!
     
     var interests = [String]()

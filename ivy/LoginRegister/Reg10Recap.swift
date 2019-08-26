@@ -25,8 +25,7 @@ class Reg10Recap: UIViewController {
     let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
     private var domain = "" //ex:ucalgary.ca
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
-    // Get a reference to the storage service using the default Firebase App
-    let baseStorageReference = Storage.storage()
+    private let baseStorageReference = Storage.storage()
     var imageByteArray:NSData? =  nil
 
     

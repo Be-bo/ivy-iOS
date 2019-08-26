@@ -173,18 +173,44 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
-    
-    func setRequest(quadCard:Card, actualPos: Int, pos: Int){
+    //TODO: add the actual position for dealing with the infinite scrolling feature
+    func setRequest(quadCard:Card, pos: Int){
+
+      
+        //moving text field to the front to make it clickable
+        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer)
+        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.back)
+        
         //set on click listener for send message button
+        quadCard.back.sayHiButton.addTarget(self, action: #selector(sayHiButtonClicked), for: .touchUpInside)
+    
+        //attach the card,pos, and orig pos to button to be able to use when clicked
+        quadCard.back.sayHiButton.Card = quadCard
+        quadCard.back.sayHiButton.pos = pos
+        
 
-        //check if onclickSendHi has been clicked
-
-        //check length of input field
+        
 
     }
-
     
-    func sendRequest(quadCard:Card, actualPos: Int, pos: Int){
+    //on click of the send hi message on back of card
+    @objc func sayHiButtonClicked(_ sender: subclassedUIButton) {
+        
+        let card = sender.Card
+        let pos = sender.pos
+        
+        //check length of input field, default is 0 if they didnt input anything
+        if (sender.Card?.back.sayHiMessageTextField.text?.count ?? 0 > 1){
+            self.sendRequest(quadCard: card!, pos: pos!)
+        }else{
+            //TODO: display the error message when message si to short to front end
+            print("Your message is to short!")
+        }
+        
+    }
+    
+    //TODO: deal with actual position once infinite collection view is added
+    func sendRequest(quadCard:Card, pos: Int){
         var conversationReference: DocumentReference
         var current = allQuadProfiles[pos]
         conversationReference = self.baseDatabaseReference.collection("conversations").document()
@@ -216,8 +242,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         newConversation["name"] = String(self.thisUserProfile["first_name"] as! String)+", "+String(current["first_name"] as! String)
         newConversation["participants"] = participants
         newConversation["is_request"] = true
-        newConversation["last_message"] = "This is just a tester message" //TODO: extract from text label
-        newConversation["last_message_author"] = self.thisUserProfile["is"] as! String
+        newConversation["last_message"] = quadCard.back.sayHiMessageTextField.text
+        newConversation["last_message_author"] = self.thisUserProfile["id"] as! String
         newConversation["creation_time"] =  Date().millisecondsSince1970   //millis
         newConversation["participant_names"] =  participantNames
         newConversation["last_message_counts"] = msgCounts
@@ -231,7 +257,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         
         //create new message object
         var requestMessage = Dictionary<String, Any>()
-        requestMessage["message_text"] = "This is just a tester message" //TODO: extract from text label
+        requestMessage["message_text"] = quadCard.back.sayHiMessageTextField.text
         requestMessage["author_id"] = self.thisUserProfile["id"] as! String
         requestMessage["author_first_name"] = self.thisUserProfile["first_name"] as! String
         requestMessage["author_last_name"] = self.thisUserProfile["last_name"] as! String
@@ -247,7 +273,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         //remove profile from quad
         self.quadCollectionView.reloadData()
         
-        //TODO: start here tomorrow and figure out how to remove the profile from the quad after its been selected.
+        //TODO:remove the card from the collection view once a user has sent a request over to that other user
     }
     
     
@@ -266,11 +292,11 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         
         
         
-        //TODO: implement the adding of a button which when clicked hits send request, or we will send a request to ever user
-        let actualPos = indexPath.item % allQuadProfiles.count
-        let current = allQuadProfiles[actualPos]
+        //TODO: implement logic for dealing with actual pos
+//        let actualPos = indexPath.item % allQuadProfiles.count
+//        let current = allQuadProfiles[actualPos]
         let pos = indexPath.item
-        self.setRequest(quadCard: quadCard, actualPos: actualPos, pos: pos);
+        self.setRequest(quadCard: quadCard, pos: pos);
 
         
         return quadCard
@@ -320,4 +346,11 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         
         self.quadCollectionView.scrollToItem(at: IndexPath(item: indexOfLargestCell, section: 0), at: .centeredHorizontally, animated: true)
     }
+}
+
+//extend UIButton to be able to add the card as a parameter to the button for adding on click target
+class subclassedUIButton: UIButton {
+    var Card: Card?
+    var pos: Int?
+    var origPos: Int?
 }

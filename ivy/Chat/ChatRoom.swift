@@ -527,7 +527,6 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             if let error = error {
                 print("error", error)
             } else {
-                print("else")
                 //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
                 cell.name.text = self.messages[indexPath.row]["author_first_name"] as! String     //name of the chat this user is involved in
                 cell.lastMessage.text = lastMessageString  //last message that was sent in the chat

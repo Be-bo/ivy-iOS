@@ -59,17 +59,15 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
                                     self.allPossibleFriends.append(document.data()!)
                                     self.friendsToDisplay.append(document.data()!)
                                     self.tableView.reloadData()
-
                                 }
                             } else {
-                                print("Document does not exist HERE")
+                                print("Document does not exist")
                             }
-
                         }
                     }
                 }
             } else {
-                print("Document does not exist HERE1")
+                print("Document does not exist")
             }
         }
     }

@@ -286,19 +286,14 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             let isReq = currentConversation["is_request"] as? Bool
             if (isReq != nil && isReq!){
                 let otherUserId = self.getOtherParticipantId(currentConversation: currentConversation)   //extract his id
-                print("other user id", otherUserId)
-                
-                print("is ", self.requestCount)
-                
                 if (!self.requestCount.isEmpty && self.requestCount[otherUserId] is Bool && self.requestCount[otherUserId] != nil){
-                    print("enter here")
                     thisUserRequested = self.requestCount[otherUserId] as! Bool
                 }
             }
         }
         if (!thisUserRequested){
             let name  = cell.name.text
-            cell.name.text = name! + " (Pending)"  //TODO: decide if we need this to be setup the way it is onn adnroid: i.e "R.string.conversation_adapter_pending,"
+            cell.name.text = name! + " (Pending)"
             cell.showRequestLayout()
         }else{
             cell.hideRequestLayout()

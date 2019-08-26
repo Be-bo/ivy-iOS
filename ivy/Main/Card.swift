@@ -32,7 +32,7 @@ class Card: UICollectionViewCell {
     @IBOutlet weak var plifButton: UIButton!
     
     
-    
+
     
     // MARK: Base and Override Functions
     
@@ -72,12 +72,15 @@ class Card: UICollectionViewCell {
             //added this for flipping via a button:
             shadowOuterContainer.bringSubviewToFront(plifButton)
             
+            
             let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip)) //and set the on click listener to the card
             singleTap.numberOfTapsRequired = 1
             
             //changed this for flipping via a button from shadowOuterContainer.addGestureRecognizer(singleTap)
             plifButton.addGestureRecognizer(singleTap)
             
+
+
             firstSetup = false
         }
         
@@ -118,3 +121,4 @@ class Card: UICollectionViewCell {
     }
 
 }
+

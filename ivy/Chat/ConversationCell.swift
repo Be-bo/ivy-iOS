@@ -58,7 +58,6 @@ class ConversationCell: UITableViewCell {
     
     @IBAction func onClickAccept(_ sender: Any) {
         self.acceptRequest()
-
     }
     
     
@@ -77,11 +76,8 @@ class ConversationCell: UITableViewCell {
         let docData = [String: Any]()   //used to set the hashmap when there is no blocked_by list that exists for this user
         
         self.hideRequestLayout()
-        //TODO start here tomorrow and figure out why im not actually made a friend of the user person when they click accept..
-        //ive already checked that i have a conversation object and that i have a uer profile jsut not the right ones
-        print("self.thisconvo", self.thisConversation)
-        print("self.thisconvo", self.thisUserProfile)
-        
+
+
         var requesteeId = getOtherParticipantId(currentConversation: self.thisConversation)
         self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["is_request":false])
         
