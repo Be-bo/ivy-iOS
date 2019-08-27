@@ -6,6 +6,8 @@
 //  Copyright © 2019 ivy social network. All rights reserved.
 //
 
+//class that deals with the logic corresponding to the ccell that displays events in the explroe tab and "recent posts" events also
+
 import UIKit
 import Firebase
 import FirebaseCore
@@ -14,8 +16,8 @@ import FirebaseStorage
 
 class EventCollectionViewCell: UICollectionViewCell {
 
-    private let baseStorageReference = Storage.storage().reference()
-    
+    private let baseStorageReference = Storage.storage().reference()                            //storage reference
+
     
     
     @IBOutlet weak var image: UIImageView!
