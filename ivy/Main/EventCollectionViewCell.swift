@@ -25,7 +25,6 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = UIColor.blue
         // Initialization code
     }
     

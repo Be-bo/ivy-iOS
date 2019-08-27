@@ -18,11 +18,25 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
     private let baseStorageReference = Storage.storage()                         //reference to storage
     
+    //for events
     private var thisUserProfile = Dictionary<String, Any>()
     private var allEvents = [Dictionary<String, Any>]()                          //array of dictionaries for holding each seperate event
     private var eventClicked = Dictionary<String, Any>()                         //actual event that was clicked
+    //for suggester friends
+    private var allSuggestedFriends = [Dictionary<String, Any>]()
+    private var requests = Dictionary<String, Any>()
+    private var friends = Dictionary<String, Any>()
+    private var blockList = Dictionary<String, Any>()
+    private var blockedBy = Dictionary<String, Any>()
+    private var suggestedProfileClicked = Dictionary<String, Any>()             //holds the other profile that was clicked from the suggested friends collection
+
+    
     
     @IBOutlet weak var eventsCollectionView: UICollectionView!
+    @IBOutlet weak var recommendedFriendCollecView: UICollectionView!
+    
+    let eventCollectionIdentifier = "EventCollectionViewCell"
+    let profileCollectionIdentifier = "profileCollectionViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +47,13 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     private func setUp(){
         eventsCollectionView.delegate = self
         eventsCollectionView.dataSource = self
-        eventsCollectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EventCollectionViewCell")
+        eventsCollectionView.register(UINib(nibName:eventCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: eventCollectionIdentifier)
+        
+        recommendedFriendCollecView.delegate = self
+        recommendedFriendCollecView.dataSource = self
+        recommendedFriendCollecView.register(UINib(nibName:profileCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: profileCollectionIdentifier)
+        
+        
         updateProfile(updatedProfile: self.thisUserProfile) //load the profile then call setup from there
     }
     
@@ -52,41 +72,83 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         self.thisUserProfile = updatedProfile
         if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
             self.loadEvents()
+            self.getSuggestedFriends()
         }
     }
     
     // MARK: Collection View Delegate and Datasource Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allEvents.count
+        
+        if collectionView == self.eventsCollectionView {
+            return self.allEvents.count
+        }else{
+            return self.allSuggestedFriends.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let eventCard = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCollectionViewCell", for: indexPath) as! EventCollectionViewCell
-        eventCard.setUp(event: allEvents[indexPath.item])
+        
+        if collectionView == self.eventsCollectionView {
+            let eventCard = collectionView.dequeueReusableCell(withReuseIdentifier: eventCollectionIdentifier, for: indexPath) as! EventCollectionViewCell
+            eventCard.setUp(event: allEvents[indexPath.item])
+            
+            return eventCard
+            
+        }else{
+            let profileCard = collectionView.dequeueReusableCell(withReuseIdentifier: profileCollectionIdentifier, for: indexPath) as! profileCollectionViewCell
+            profileCard.setUpWithProfile(profile: allSuggestedFriends[indexPath.item])
+            
+            return profileCard
+        }
 
-        return eventCard
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { //item size has to adjust based on current collection view dimensions (90% of the its size, the rest is padding - see the setUp() function)
-        let cellSize = CGSize(width: self.eventsCollectionView.frame.size.width * 0.50, height: self.eventsCollectionView.frame.size.height * 0.50)
-        return cellSize
+        
+        if collectionView == self.eventsCollectionView {
+            let cellSize = CGSize(width: self.eventsCollectionView.frame.size.width * 0.50, height: self.eventsCollectionView.frame.size.height * 0.50)
+            return cellSize
+        }else{
+            let cellSize = CGSize(width: self.recommendedFriendCollecView.frame.size.width * 0.50, height: self.self.recommendedFriendCollecView.frame.size.height * 0.50)
+            return cellSize
+        }
+        
+
     }
     
     
     //TODO: deal with clicking of the events so that it responds to the right event being clicked on each time, right now it always registers the last clicked item????
     //on click of the event, pass the data from the event through a segue to the event.swift page
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        self.eventClicked = self.allEvents[indexPath.item]   //use currentley clicked index to get conversation id
-        self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
+        if collectionView == self.eventsCollectionView {
+            self.eventClicked = self.allEvents[indexPath.item]   //use currentley clicked index to get conversation id
+            self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
+        }else{
+            
+            self.suggestedProfileClicked = self.allSuggestedFriends[indexPath.item]   //use currentley clicked index to get conversation id
+            self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
+        }
+        
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
-        let vc = segue.destination as! Event
-        vc.event = self.eventClicked
-//        vc.eventID = self.eventClicked["id"] as! String
-        vc.userProfile = self.thisUserProfile
-//        self.baseDatabaseReference.collection("universities").document(self.eventClicked["uni_domain"] as! String).collection("events").document(self.eventClicked["id"] as! String).updateData(["views": FieldValue.arrayUnion([Date().millisecondsSince1970])]) //log a view for the event
+    //called every single time a segue is called
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "exploreToEventPageSegue" {
+            let vc = segue.destination as! Event
+            vc.event = self.eventClicked
+            //        vc.eventID = self.eventClicked["id"] as! String
+            vc.userProfile = self.thisUserProfile
+            //        self.baseDatabaseReference.collection("universities").document(self.eventClicked["uni_domain"] as! String).collection("events").document(self.eventClicked["id"] as! String).updateData(["views": FieldValue.arrayUnion([Date().millisecondsSince1970])]) //log a view for the event
+        }
+        if segue.identifier == "viewFullProfileSegue" {
+            let vc = segue.destination as! ViewFullProfileActivity
+            vc.isFriend = true
+            vc.thisUserProfile = self.thisUserProfile
+            vc.otherUserID = self.suggestedProfileClicked["id"] as? String
+        }
+        
     }
     
     
@@ -136,9 +198,65 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     
-    
+    //welcome to callback hell. (,,)(-.-)(,,)
+    //load all the suggested friends for this particular user so we can then populate the collection view.
+    func getSuggestedFriends() {
+        
+        //getting all the users that this user's already added as friends, requested friendship or are on their block list (or were blocked by the other person), note that any and all of these lists might be empty so we keep grabbing the next one in succession regardless of whether we obtain the current list or not
+
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
+            if let document = document, document.exists {
+                self.requests = document.data()!
+            } else {
+                print("Document does not exist")
+            }
+            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
+                if let document = document, document.exists {
+                    self.friends = document.data()!
+                } else {
+                    print("Document does not exist")
+                }
+                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        self.blockList = document.data()!
+                    } else {
+                        print("Document does not exist")
+                    }
+                    self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("blocked_by").getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            self.blockedBy = document.data()!
+
+                        } else {
+                            print("Document does not exist")
+                        }
+                        
+                        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").getDocuments() { (querySnapshot, err) in
+                            if let err = err {
+                                print("Error getting documents: \(err)")
+                            } else {
+                                for document in querySnapshot!.documents {
+                                    if (!document.data().isEmpty){
+                                        var profileToAdd = document.data()
+                                        if (self.thisUserProfile["id"] as! String != profileToAdd["id"] as! String && !self.blockedBy.contains(where: { $0.key == profileToAdd["id"] as! String}) && !self.blockList.contains(where: { $0.key == profileToAdd["id"] as! String}) && !self.friends.contains(where: { $0.key == profileToAdd["id"] as! String}) && !self.requests.contains(where: { $0.key == profileToAdd["id"] as! String}) ){
+                                            let bool = profileToAdd["profile_hidden"] as! Bool
+                                            if !(bool == true){
+                                                self.allSuggestedFriends.insert(document.data(), at: 0)
+                                                self.recommendedFriendCollecView.reloadData()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }   //end of function
     
     
     
     
 }
+

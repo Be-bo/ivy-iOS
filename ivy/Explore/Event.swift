@@ -28,6 +28,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     public var event = Dictionary<String, Any>()                                 //actual event that was clicked
     public var userProfile = Dictionary<String, Any>()                           //holds the current user profile
     public var goingFriends = [String]()                                         //global that will hold all the friends that are going to the event
+    private var whosGoingProfileClickedID = ""                                   //holds the other profile id that was clicked from the suggested friends collection
 
     
     @IBOutlet weak var eventImage: UIImageView!
@@ -50,6 +51,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         if (!self.event.isEmpty){
             self.bindData()
             self.setUpGoingList()
+            self.registerButton.addTarget(self, action: #selector(registerButtonClicked), for: .touchUpInside)//on click fro register button
             let goingIds = self.event["going_ids"] as! [String]
             if (!goingIds.isEmpty && goingIds.contains(self.userProfile["id"] as! String)){
                 self.setThisUserGoing()
@@ -97,6 +99,10 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 print("error", error)
             } else {
                 self.eventLogo.image  = UIImage(data: data!)
+                //add on cick lsiteener
+                let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickLogo))
+                self.eventLogo.isUserInteractionEnabled = true
+                self.eventLogo.addGestureRecognizer(singleTap)
             }
         }
         self.eventDescription.text = self.event["description"] as? String
@@ -112,7 +118,10 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     
-
+    //when user clicks logo, transition them to the organizationpage .swift view controller
+    @objc func onClickLogo() {
+        self.performSegue(withIdentifier: "eventToOrganization" , sender: self) //pass data over to
+    }
 
     
     
@@ -140,7 +149,6 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                     self.whosGoingLabel.isHidden = true
                     self.whosGoingCollection.isHidden = true
                 }
-//                self.whosGoingCollection.reloadData()
             } else {
                 print("Document does not exist")
             }
@@ -152,6 +160,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     //make checkmark visible, hide going button, set listener to layout that removes user from "going_ids" if they click on it
     func setThisUserGoing() {
         self.imGoingButton.isHidden = true
+        self.goingCheckButton.isHidden = false
         self.imGoingButton.removeTarget(self, action: #selector(imGoingButtonClicked), for: .touchUpInside)
         self.goingCheckButton.addTarget(self, action: #selector(goingCheckButtonClicked), for: .touchUpInside)
     }
@@ -160,6 +169,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     //dont add the guy to the list
     func setThisUserNotGoing() {
         self.imGoingButton.isHidden = false
+        self.goingCheckButton.isHidden = true
         self.imGoingButton.addTarget(self, action: #selector(imGoingButtonClicked), for: .touchUpInside)
         self.goingCheckButton.removeTarget(self, action: #selector(goingCheckButtonClicked), for: .touchUpInside)
     }
@@ -168,14 +178,31 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     //on click of the im going button clicked
     @objc func imGoingButtonClicked(_ sender: UIButton) {
-        self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayUnion(self.userProfile["id"] as! [Any])])
+//        self.goingFriends.append(self.userProfile["id"] as! String)
+        self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayUnion([self.userProfile["id"]])])
         self.setThisUserGoing()
+
     }
     
     //on click of the im going button clicked
     @objc func goingCheckButtonClicked(_ sender: UIButton) {
-        self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayRemove(self.userProfile["id"] as! [Any])])
+//        self.goingFriends.(self.userProfile["id"] as! String)
+//        self.goingFriends = self.goingFriends.filter { $0 != self.userProfile["id"] as! String }
+        self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayRemove([self.userProfile["id"]])])
         self.setThisUserNotGoing()
+    }
+    
+    //on click of the im going button clicked
+    @objc func registerButtonClicked(_ sender: UIButton) {
+        
+        if self.event.contains(where: { $0.key == "link"}) {    //check if the event even contains a link to be clicked on
+            if let url = URL(string: "http://www.google.com") { //open link
+                UIApplication.shared.open(url, options: [:])
+            }
+            self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["clicks":FieldValue.arrayUnion([Date().timeIntervalSince1970])]) //update counter to indicate it was clicked on
+
+        }
+        
     }
     
     
@@ -188,9 +215,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         let startTime = self.event["start_time"]
         let endTime  = self.event["end_time"]
         if (startTime is CLong && endTime is CLong){
-            print("start time & endtime are both longs")
             var retVal = ""
-            
             
             //start time
             let calendar = Calendar.current
@@ -275,6 +300,35 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         let cellSize = CGSize(width: self.whosGoingCollection.frame.size.width * 0.50, height: self.whosGoingCollection.frame.size.height * 0.50)
         return cellSize
     }
+    
+    //TODO: deal with clicking of the events so that it responds to the right event being clicked on each time, right now it always registers the last clicked item????
+    //on click of the event, pass the data from the event through a segue to the event.swift page
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
+            self.whosGoingProfileClickedID = self.goingFriends[indexPath.item]  //use currentley clicked index to get conversation id
+            self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
+        
+    }
+    
+    //called every single time a segue is called
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "viewFullProfileSegue" {
+            let vc = segue.destination as! ViewFullProfileActivity
+            vc.isFriend = true
+            vc.thisUserProfile = self.userProfile
+            vc.otherUserID = self.whosGoingProfileClickedID
+        }
+        
+        if segue.identifier == "eventToOrganization" {
+            let vc = segue.destination as! organizationPage
+            vc.userProfile = self.userProfile
+            vc.organizationId = self.event["organization_id"] as! String
+        }
+        
+        
+        
+    }
+    
 
 
 

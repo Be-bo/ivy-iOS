@@ -47,7 +47,6 @@ class profileCollectionViewCell: UICollectionViewCell {
                     if let error = error {
                         print("error", error)
                     } else {
-                        print("else")
                         self.name.text = userGoingProfile!["first_name"] as? String
                         self.imageView.image = UIImage(data: data!)
                         self.imageView.layer.borderWidth = 1.0
@@ -61,12 +60,30 @@ class profileCollectionViewCell: UICollectionViewCell {
                 print("Document does not exist")
             }
         }
-
+    }
+    
+    func setUpWithProfile(profile: Dictionary<String, Any>){
         
-
+        let imageLocation = "userimages/" + String(profile["id"] as! String) + "/preview.jpg"
+        let storageImageRef = baseStorageReference.child(imageLocation)
+        
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("error", error)
+            } else {
+                self.imageView.image  = UIImage(data: data!)
+                self.name.text = profile["first_name"] as? String
+            }
+        }
         
         
     }
+    
+    
+    
+    
+    
     
     
 
