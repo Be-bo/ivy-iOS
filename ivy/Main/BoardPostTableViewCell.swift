@@ -33,6 +33,7 @@ class BoardPostTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         // Initialization code
     }
     
@@ -41,8 +42,6 @@ class BoardPostTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     
@@ -52,6 +51,8 @@ class BoardPostTableViewCell: UITableViewCell {
         self.layer.cornerRadius = 5
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.ivyGreen.cgColor
+        
+        print("post", post)
         
         self.postTitle.text = post["name"] as? String
         self.postDescription.text = post["text"] as? String
