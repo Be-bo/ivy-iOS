@@ -324,9 +324,6 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             vc.userProfile = self.userProfile
             vc.organizationId = self.event["organization_id"] as! String
         }
-        
-        
-        
     }
     
 

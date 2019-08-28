@@ -188,4 +188,6 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
             cl.imgView.image = UIImage(named: "check")
         }
     }
+    
+    
 }

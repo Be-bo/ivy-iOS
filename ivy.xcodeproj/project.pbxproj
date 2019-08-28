@@ -44,6 +44,8 @@
 		A9FD1961231497E200ECA848 /* profileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */; };
 		A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */; };
 		A9FD19642314EC6E00ECA848 /* organizationPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD19632314EC6E00ECA848 /* organizationPage.swift */; };
+		A9FD196B2315C84A00ECA848 /* BoardPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD19692315C84A00ECA848 /* BoardPostTableViewCell.swift */; };
+		A9FD196C2315C84A00ECA848 /* BoardPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD196A2315C84A00ECA848 /* BoardPostTableViewCell.xib */; };
 		DDF217CB2205731ADB9715B6 /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69838B23A74BBA15D817949 /* Pods_ivy.framework */; };
 		FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */; };
 		FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA06DE3A22C0659900B07EDC /* DegreeCell.xib */; };
@@ -124,6 +126,8 @@
 		A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = profileCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9FD19632314EC6E00ECA848 /* organizationPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = organizationPage.swift; sourceTree = "<group>"; };
+		A9FD19692315C84A00ECA848 /* BoardPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardPostTableViewCell.swift; sourceTree = "<group>"; };
+		A9FD196A2315C84A00ECA848 /* BoardPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardPostTableViewCell.xib; sourceTree = "<group>"; };
 		CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
 		F69838B23A74BBA15D817949 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
@@ -243,6 +247,8 @@
 				A9B57E8123137482008DC63B /* EventCollectionViewCell.xib */,
 				A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */,
 				A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */,
+				A9FD19692315C84A00ECA848 /* BoardPostTableViewCell.swift */,
+				A9FD196A2315C84A00ECA848 /* BoardPostTableViewCell.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -437,6 +443,7 @@
 				A90D266722A4B215005E8965 /* cordia.ttf in Resources */,
 				A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */,
 				A9B57E8323137482008DC63B /* EventCollectionViewCell.xib in Resources */,
+				A9FD196C2315C84A00ECA848 /* BoardPostTableViewCell.xib in Resources */,
 				FA6F7C9622EE713D00610046 /* SettingsButton.xib in Resources */,
 				A920C4E722D281C20088DD58 /* CardFront.xib in Resources */,
 				FA60591122A4B12E00383F9F /* Assets.xcassets in Resources */,
@@ -532,6 +539,7 @@
 				FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */,
 				FA1B412822F4ACE5005817C5 /* ProfileNavigationViewController.swift in Sources */,
 				FA121C2C22EE4C2B00C175F7 /* ConversationCell.swift in Sources */,
+				A9FD196B2315C84A00ECA848 /* BoardPostTableViewCell.swift in Sources */,
 				FA121C1B22EE3B8400C175F7 /* MainTabController.swift in Sources */,
 				A920C4F322DAC78D0088DD58 /* Reg3Name.swift in Sources */,
 				FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */,

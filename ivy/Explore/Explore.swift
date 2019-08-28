@@ -29,9 +29,12 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     private var blockList = Dictionary<String, Any>()
     private var blockedBy = Dictionary<String, Any>()
     private var suggestedProfileClicked = Dictionary<String, Any>()             //holds the other profile that was clicked from the suggested friends collection
+    //for featured event
+    private var featuredEventClicked = Dictionary<String, Any>()
 
     
     
+    @IBOutlet weak var featuredEventImage: UIImageView!
     @IBOutlet weak var eventsCollectionView: UICollectionView!
     @IBOutlet weak var recommendedFriendCollecView: UICollectionView!
     
@@ -71,6 +74,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         self.thisUserProfile = updatedProfile
         if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
+            self.loadFeaturedEvent()
             self.loadEvents()
             self.getSuggestedFriends()
         }
@@ -173,6 +177,61 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             cell.transform = CGAffineTransform(scaleX: scale, y: scale) //apply the size change
         }
     }
+    
+    
+    // MARK: File specific functions
+
+    
+    //load the single featured event thats displayed
+    func loadFeaturedEvent() {
+        //extract the university this person is a part of
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).getDocument { (document, error) in
+            if let document = document, document.exists {
+                var uni = document.data()
+                let featuredId = uni!["featured_id"] as! String
+                if (featuredId != ""){  //extract that featured event from that university
+                    self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").document(featuredId).getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            self.featuredEventClicked = document.data()!
+                            let isFeatured = self.featuredEventClicked["is_featured"] as! Bool
+                            let isActive = self.featuredEventClicked["is_active"] as! Bool
+                            let endTime = self.featuredEventClicked["end_time"] as! CLong
+                            if(isFeatured && isActive && endTime > Int(Date().timeIntervalSince1970)){  //make sure its active and actually a featured event, check exp time
+                                self.featuredEventImage.isHidden = false
+                                //TODO: set text of featured image to be visible here if we choose to have the text hidden @ other times
+                                self.baseStorageReference.reference().child(self.featuredEventClicked["image"] as! String).getData(maxSize: 1 * 1024 * 1024) { data, error in  //download image
+                                    if let error = error {
+                                        print("error", error)
+                                    } else {
+                                        self.featuredEventImage.image  = UIImage(data: data!)   //populate cell with downloaded image
+                                        //add on click listener that takes them to the event page when they click on the image
+                                        let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickFeatured))
+                                        self.featuredEventImage.isUserInteractionEnabled = true
+                                        self.featuredEventImage.addGestureRecognizer(singleTap)
+                                    }
+                                }
+                            }else{
+                                //TODO: set text of featured image to be INVISIBLE here if we choose to have the text hidden @ other times
+                                self.featuredEventImage.isHidden = true
+                            }
+                        } else {
+                            print("Document does not exist")
+                        }
+                    }
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    
+    //when they click the featured event, transition them to the page that has all the information about tha that event.
+    @objc func onClickFeatured() {
+        self.eventClicked = self.featuredEventClicked   //use currentley clicked index to get conversation id
+        self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
+    }
+    
     
     
     
