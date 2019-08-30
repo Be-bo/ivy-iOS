@@ -45,6 +45,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         super.viewDidLoad()
         setUpNavigationBar()
         setUp()
+        //TODO: maybe fix the setup with the updateProfile being callwwed externally.
     }
     
     private func setUp(){

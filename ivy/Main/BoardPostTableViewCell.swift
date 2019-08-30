@@ -52,7 +52,6 @@ class BoardPostTableViewCell: UITableViewCell {
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.ivyGreen.cgColor
         
-        print("post", post)
         
         self.postTitle.text = post["name"] as? String
         self.postDescription.text = post["text"] as? String
@@ -76,7 +75,7 @@ class BoardPostTableViewCell: UITableViewCell {
             self.mainPostImage.isHidden = false
             imageLocation = post["post_image"] as! String
             storageImageRef = self.baseStorageReference.child(imageLocation)
-            storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
                 if let error = error {
                     print("error", error)
                 } else {
@@ -88,6 +87,10 @@ class BoardPostTableViewCell: UITableViewCell {
         }
         
     }
+    
+    
+    
+    
     
 
     

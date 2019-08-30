@@ -44,12 +44,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="Tyd-PF-855"/>
                     <connections>
-                        <outlet property="tableView" destination="hOl-c3-J0X" id="qu9-sR-H16"/>
+                        <outlet property="boardTableView" destination="hOl-c3-J0X" id="j1k-Hf-da3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="01I-am-7FS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3905.7971014492755" y="-2894.1964285714284"/>
+            <point key="canvasLocation" x="4442" y="-2979"/>
         </scene>
         <!--Quad-->
         <scene sceneID="YCD-eO-XyU">
