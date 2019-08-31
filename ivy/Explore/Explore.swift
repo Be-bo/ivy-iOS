@@ -14,25 +14,24 @@ import FirebaseStorage
 
 class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    //MARK: Variables and Constant
 
     private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
     private let baseStorageReference = Storage.storage()                         //reference to storage
-    
     //for events
     private var thisUserProfile = Dictionary<String, Any>()
     private var allEvents = [Dictionary<String, Any>]()                          //array of dictionaries for holding each seperate event
     private var eventClicked = Dictionary<String, Any>()                         //actual event that was clicked
-    //for suggester friends
+    //suggested friends vars
     private var allSuggestedFriends = [Dictionary<String, Any>]()
     private var requests = Dictionary<String, Any>()
     private var friends = Dictionary<String, Any>()
     private var blockList = Dictionary<String, Any>()
     private var blockedBy = Dictionary<String, Any>()
     private var suggestedProfileClicked = Dictionary<String, Any>()             //holds the other profile that was clicked from the suggested friends collection
-    //for featured event
-    private var featuredEventClicked = Dictionary<String, Any>()
-
+    private var featuredEventClicked = Dictionary<String, Any>()                //for featured event
     
+    private var data_loaded = false
     
     @IBOutlet weak var featuredEventImage: UIImageView!
     @IBOutlet weak var eventsCollectionView: UICollectionView!
@@ -41,12 +40,50 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     let eventCollectionIdentifier = "EventCollectionViewCell"
     let profileCollectionIdentifier = "profileCollectionViewCell"
     
+    
+    
+    
+    
+    // MARK: Base Functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
         setUp()
-        //TODO: maybe fix the setup with the updateProfile being callwwed externally.
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
+        if segue.identifier == "exploreToEventPageSegue" {
+            let vc = segue.destination as! Event
+            vc.event = self.eventClicked
+            //        vc.eventID = self.eventClicked["id"] as! String
+            vc.userProfile = self.thisUserProfile
+            //        self.baseDatabaseReference.collection("universities").document(self.eventClicked["uni_domain"] as! String).collection("events").document(self.eventClicked["id"] as! String).updateData(["views": FieldValue.arrayUnion([Date().millisecondsSince1970])]) //log a view for the event
+        }
+        if segue.identifier == "viewFullProfileSegue" {
+            let vc = segue.destination as! ViewFullProfileActivity
+            vc.isFriend = true
+            vc.thisUserProfile = self.thisUserProfile
+            vc.otherUserID = self.suggestedProfileClicked["id"] as? String
+        }
+    }
+    
+    @objc func onClickFeatured() { //when they click the featured event, transition them to the page that has all the information about tha that event
+        self.eventClicked = self.featuredEventClicked   //use currentley clicked index to get conversation id
+        self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Setup Functions
     
     private func setUp(){
         eventsCollectionView.delegate = self
@@ -57,8 +94,10 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         recommendedFriendCollecView.dataSource = self
         recommendedFriendCollecView.register(UINib(nibName:profileCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: profileCollectionIdentifier)
         
+        eventsCollectionView.tag = 0
+        recommendedFriendCollecView.tag = 1
         
-        updateProfile(updatedProfile: self.thisUserProfile) //load the profile then call setup from there
+        startLoadingData() //*option one, if the profile's updated before the UI setup is finished we can start loading Firestore data
     }
     
     private func setUpNavigationBar(){
@@ -74,17 +113,20 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         self.thisUserProfile = updatedProfile
-        if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
-            self.loadFeaturedEvent()
-            self.loadEvents()
-            self.getSuggestedFriends()
+        if(!data_loaded){ //*option two, the UI's initiated but the data hasn't been loaded yet (because the user profile was nil during the UI setup)
+            startLoadingData()
         }
     }
+    
+    
+    
+    
+    
+    
     
     // MARK: Collection View Delegate and Datasource Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         if collectionView == self.eventsCollectionView {
             return self.allEvents.count
         }else{
@@ -93,97 +135,56 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         if collectionView == self.eventsCollectionView {
             let eventCard = collectionView.dequeueReusableCell(withReuseIdentifier: eventCollectionIdentifier, for: indexPath) as! EventCollectionViewCell
             eventCard.setUp(event: allEvents[indexPath.item])
-            
             return eventCard
-            
         }else{
             let profileCard = collectionView.dequeueReusableCell(withReuseIdentifier: profileCollectionIdentifier, for: indexPath) as! profileCollectionViewCell
             profileCard.setUpWithProfile(profile: allSuggestedFriends[indexPath.item])
-            
             return profileCard
         }
-
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { //item size has to adjust based on current collection view dimensions (90% of the its size, the rest is padding - see the setUp() function)
-        
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.eventsCollectionView {
-            let cellSize = CGSize(width: self.eventsCollectionView.frame.size.width * 0.50, height: self.eventsCollectionView.frame.size.height * 0.50)
+            let cellSize = CGSize(width: 130, height: self.eventsCollectionView.frame.size.height)
             return cellSize
         }else{
-            let cellSize = CGSize(width: self.recommendedFriendCollecView.frame.size.width * 0.50, height: self.self.recommendedFriendCollecView.frame.size.height * 0.50)
+            let cellSize = CGSize(width: 130, height: self.recommendedFriendCollecView.frame.size.height)
             return cellSize
         }
-        
-
     }
-    
-    
-    //TODO: deal with clicking of the events so that it responds to the right event being clicked on each time, right now it always registers the last clicked item????
-    //on click of the event, pass the data from the event through a segue to the event.swift page
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if collectionView == self.eventsCollectionView {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
+        if collectionView.tag == self.eventsCollectionView.tag {
             self.eventClicked = self.allEvents[indexPath.item]   //use currentley clicked index to get conversation id
             self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
         }else{
-            
             self.suggestedProfileClicked = self.allSuggestedFriends[indexPath.item]   //use currentley clicked index to get conversation id
             self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
         }
         
     }
     
-    //called every single time a segue is called
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "exploreToEventPageSegue" {
-            let vc = segue.destination as! Event
-            vc.event = self.eventClicked
-            //        vc.eventID = self.eventClicked["id"] as! String
-            vc.userProfile = self.thisUserProfile
-            //        self.baseDatabaseReference.collection("universities").document(self.eventClicked["uni_domain"] as! String).collection("events").document(self.eventClicked["id"] as! String).updateData(["views": FieldValue.arrayUnion([Date().millisecondsSince1970])]) //log a view for the event
-        }
-        if segue.identifier == "viewFullProfileSegue" {
-            let vc = segue.destination as! ViewFullProfileActivity
-            vc.isFriend = true
-            vc.thisUserProfile = self.thisUserProfile
-            vc.otherUserID = self.suggestedProfileClicked["id"] as? String
-        }
-        
-    }
     
     
     
     
-    // MARK: Collection View Behavior Functions
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let collectionViewCenterX = self.eventsCollectionView.center.x //get the center of the collection view
-        
-        for cell in self.eventsCollectionView.visibleCells {
-            let basePosition = cell.convert(CGPoint.zero, to: self.view)
-            let cellCenterX = basePosition.x + self.eventsCollectionView.frame.size.width / 2.0 //get the center of the current cell
-            let distance = abs(cellCenterX - collectionViewCenterX) //distance between them
-            
-            let tolerance : CGFloat = 0.02
-            let multiplier : CGFloat = 0.105
-            var scale = 1.00 + tolerance - ((distance/collectionViewCenterX)*multiplier) //scale the car based on how far it is from the center (tolerance and the multiplier are both arbitrary)
-            if(scale > 1.0){ //don't go beyond 100% size
-                scale = 1.0
-            }
-            cell.transform = CGAffineTransform(scaleX: scale, y: scale) //apply the size change
+    
+    
+    // MARK: Data Acquisition Methods
+    
+    func startLoadingData(){
+        if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
+            self.loadFeaturedEvent()
+            self.loadEvents()
+            self.getSuggestedFriends()
+            self.data_loaded = true
         }
     }
     
-    
-    // MARK: File specific functions
-
-    
-    //load the single featured event thats displayed
     func loadFeaturedEvent() {
         //extract the university this person is a part of
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).getDocument { (document, error) in
@@ -226,18 +227,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     
-    
-    //when they click the featured event, transition them to the page that has all the information about tha that event.
-    @objc func onClickFeatured() {
-        self.eventClicked = self.featuredEventClicked   //use currentley clicked index to get conversation id
-        self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
-    }
-    
-    
-    
-    
-    //load all the events except for the featured event
-    func loadEvents(){
+    func loadEvents(){ //load all the events except for the featured event
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").order(by: "time_millis", descending: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -312,11 +302,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                 }
             }
         }
-
     }   //end of function
-    
-    
-    
-    
 }
 

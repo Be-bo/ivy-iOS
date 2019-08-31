@@ -21,7 +21,6 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
     private let baseStorageReference = Storage.storage().reference()             //reference to storage
     
-    
 
 //    var eventDate = UITextView()                                               //from --- to ----. date info
     public var eventID: String?
@@ -59,8 +58,6 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 self.setThisUserNotGoing()
             }
         }
-
-        
     }
     
     private func setUp(){
