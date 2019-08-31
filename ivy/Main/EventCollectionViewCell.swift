@@ -16,9 +16,7 @@ import FirebaseStorage
 
 class EventCollectionViewCell: UICollectionViewCell {
 
-    private let baseStorageReference = Storage.storage().reference()                            //storage reference
-
-    
+    private let baseStorageReference = Storage.storage().reference()
     
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -27,7 +25,6 @@ class EventCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-    
     
     
     func setUp(event: Dictionary<String, Any>){
