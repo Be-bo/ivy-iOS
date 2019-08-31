@@ -119,6 +119,7 @@ class ConversationCell: UITableViewCell {
         self.hideRequestLayout()
         var requesteeId = getOtherParticipantId(currentConversation: self.thisConversation)
         
+
         //delete thtat covnersation since if they reject it we get rid of the entire conversation object
         self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).delete()
         
@@ -129,8 +130,8 @@ class ConversationCell: UITableViewCell {
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId)
             .collection("userlists").document("requests").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()])
         
-        //TODO: delete messages of the conversation from Firestore and delete the conversation row from the RecyclerView
-        
+        //TODO: delete the collection messages of the conversation from Firestore probably using a cloud function since the subcollection is still there even if convo gone
+        //TODO: delete the conversation row from the RecyclerView
     }
     
     

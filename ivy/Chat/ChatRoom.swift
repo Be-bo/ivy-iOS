@@ -474,7 +474,10 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 if (diff.type == .added) {
                     self.messages.append(diff.document.data())  //append the message document to the messages array
                     self.configureTableView()
+                    
                     self.tableView.reloadData()
+                    self.tableView.scrollToBottom()
+                    self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                 }
             }
         }
@@ -489,6 +492,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "ConversationCell")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 70
+
     }
     
     
@@ -508,6 +512,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         updateLastSeenMessage()
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationCell
+        
 //        let lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
         var lastMessageAuthor = ""
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
@@ -537,7 +542,8 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         
         //TODO: figure out how to scroll to the bottom of the chat when you send a new message
         //TODO: figure out the optimization of messages laoded to make sure not all messages are loadede each time a new message comes in
-//
+        
+
 //        let scrollPoint = CGPoint(x: 0, y: self.tableView.contentSize.height - self.tableView.frame.size.height)
 //        self.tableView.setContentOffset(scrollPoint, animated: false)
 
@@ -584,7 +590,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                             if let err = err {
                                 print("Error updating document: \(err)")
                             } else {
-                                print("Document successfully updated")
+                                print("Update last seen message document successfully updated")
                             }
                         }
                         break
@@ -608,5 +614,29 @@ extension Date {
     
     init(milliseconds:Int64) {
         self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
+    }
+}
+
+
+//insprired from:
+//https://stackoverflow.com/questions/33705371/how-to-scroll-to-the-exact-end-of-the-uitableview
+extension UITableView {
+    
+    func scrollToBottom(){
+        
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(
+                row: self.numberOfRows(inSection:  self.numberOfSections - 1) - 1,
+                section: self.numberOfSections - 1)
+            self.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    func scrollToTop() {
+        
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: 0, section: 0)
+            self.scrollToRow(at: indexPath, at: .top, animated: false)
+        }
     }
 }
