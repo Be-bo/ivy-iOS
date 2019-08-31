@@ -139,7 +139,7 @@ class organizationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen
         let cell = tableView.dequeueReusableCell(withIdentifier: "BoardPostTableViewCell", for: indexPath) as! BoardPostTableViewCell
 
-        cell.setUp(post: self.allOrgPosts[indexPath.row])  //call setup on the cell to populate each cell witht he right information.
+        cell.setUpEventRecentPosts(post: self.allOrgPosts[indexPath.row])  //call setup on the cell to populate each cell witht he right information.
         
         self.setUpOnClicks(cell: cell, post:self.allOrgPosts[indexPath.row])
         
@@ -173,6 +173,7 @@ class organizationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
                     }
                 }
             }
+            
         }
     
     }
