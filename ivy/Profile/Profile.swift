@@ -21,18 +21,22 @@ class Profile: UIViewController {
     private var showingBack = false
     private var firstSetup = true
     
-    let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
-    let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
+    let front = Bundle.main.loadNibNamed("profileCardFront", owner: nil, options: nil)?.first as! ProfileCardFront
+    let back = Bundle.main.loadNibNamed("ProfileCardBack", owner: nil, options: nil)?.first as! ProfileCardBack
     
     
     @IBOutlet var shadowOuterContainer: Card!
     @IBOutlet var cardContainer: Card!
-    @IBOutlet var plifButton: UIButton!
+    @IBOutlet var plifButton: UIButton! //TODO: get rid of this stupid connection that is kept for some reason... probs from copying the views over manually
+    
+    private var cardClicked:Card? = nil
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
         setUp(user: self.thisUserProfile)
+        self.plifButton.isHidden = true
     }
     
     
@@ -81,22 +85,47 @@ class Profile: UIViewController {
         }
         
         
-        if var degree = user["degree"] as? String { //degree icon
-            degree = degree.replacingOccurrences(of: " ", with: "")
-            degree = degree.lowercased()
-            front.degreeIcon.image = UIImage(named: degree)
-        }
+//        if var degree = user["degree"] as? String { //degree icon
+//            degree = degree.replacingOccurrences(of: " ", with: "")
+//            degree = degree.lowercased()
+//            front.degreeIcon.image = UIImage(named: degree)
+//        }
         
-        front.name.text = user["first_name"] as? String //text data
+//        front.name.text = user["first_name"] as? String //text data
         back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name")
         back.degree.text = user["degree"] as? String
         back.age.text = user["age"] as? String
         back.bio.text = user["bio"] as? String
         back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
+        
+        
+        //TODO: find a better solution for this where we can make the items from Card.swift clickable
+        //moving sync arrow to front to be clickable
+        
+        shadowOuterContainer.bringSubviewToFront(cardContainer)
+        shadowOuterContainer.bringSubviewToFront(cardContainer.back)
+        shadowOuterContainer.bringSubviewToFront(cardContainer.front)
+        front.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside) //set on click listener for send message button
+        back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside) //set on click listener for send message button
+        
+        self.cardClicked = cardContainer
     }
     
     
+    //on click of the send hi message on back of card
+//    @objc func flipButtonClicked(_ sender: subclassedUIButton) {
+//
+//        self.cardContainer.flip()
+//
+//    }
     
+    @objc func flip(_ sender: subclassedUIButton) { //a method that flips the card
+        let toView = showingBack ? front : back
+        let fromView = showingBack ? back : front
+        UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight) { (done) in
+        }
+        showingBack = !showingBack
+    }
     
     
     

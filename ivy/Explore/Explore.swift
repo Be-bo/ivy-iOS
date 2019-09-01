@@ -111,13 +111,13 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
 //        navigationItem.rightBarButtonItem = settingsButton
         
         
-        //TODO: tidy this up
-        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
-        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
-        var background = UIImageView(image: UIImage(named: "settings"))
-        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
-        leftButton.addSubview(background)
-        self.navigationController!.navigationBar.addSubview(leftButton)
+        //TODO: tidy this up --> interferes with actions when you click on a user profiles
+//        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
+//        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
+//        var background = UIImageView(image: UIImage(named: "settings"))
+//        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
+//        leftButton.addSubview(background)
+//        self.navigationController!.navigationBar.addSubview(leftButton)
     }
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){

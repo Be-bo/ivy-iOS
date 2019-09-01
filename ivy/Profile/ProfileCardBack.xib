@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="SkV-AP-yYo" userLabel="Profile Card Back" customClass="ProfileCardBack" customModule="ivy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ktu-Iy-Moy" userLabel="Flip Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="327" y="8" width="53" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="53" id="Rxw-ip-bSz"/>
+                        <constraint firstAttribute="height" constant="53" id="Y1D-jb-Yb2"/>
+                    </constraints>
+                    <state key="normal" image="flip"/>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ryl-GW-GCu" customClass="MediumGreenLabel" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="8" y="8" width="45" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xKa-Dk-Hs7" customClass="MediumGreenLabel" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="61" y="8" width="30" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Degree" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Th-cA-nId" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="16" y="29" width="56" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nmw-v6-BTK" customClass="StandardGreenLabel" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="24" y="58" width="29" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;bio text&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ae-Lz-a5I" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="24" y="79" width="352" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interests:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j03-BS-tJN" customClass="StandardGreenLabel" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="24" y="108" width="72" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="always" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="kzb-Rq-qdQ" userLabel="Interests Collection View">
+                    <rect key="frame" x="16" y="137" width="368" height="463"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="scrollIndicatorInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="e68-Sa-hBB">
+                        <size key="itemSize" width="20" height="20"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="4" minY="4" maxX="4" maxY="4"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nBC-jD-DGo" userLabel="Edit Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="327" y="69" width="53" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="53" id="tzV-Z0-peL"/>
+                        <constraint firstAttribute="width" constant="53" id="v6M-fj-8RL"/>
+                    </constraints>
+                    <state key="normal" image="edit"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="7Ae-Lz-a5I" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="24" id="4bm-Dc-5eJ"/>
+                <constraint firstItem="Ktu-Iy-Moy" firstAttribute="top" secondItem="SkV-AP-yYo" secondAttribute="top" constant="8" id="7Gk-fJ-Slx"/>
+                <constraint firstItem="d3q-NL-J8k" firstAttribute="trailing" secondItem="kzb-Rq-qdQ" secondAttribute="trailing" constant="16" id="9Qo-nM-5fa"/>
+                <constraint firstItem="Nmw-v6-BTK" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="24" id="9aU-ut-ZNR"/>
+                <constraint firstItem="Nmw-v6-BTK" firstAttribute="top" secondItem="0Th-cA-nId" secondAttribute="bottom" constant="8" id="C7f-5i-gJL"/>
+                <constraint firstAttribute="trailing" secondItem="Ktu-Iy-Moy" secondAttribute="trailing" constant="20" id="Iir-V7-oH7"/>
+                <constraint firstItem="0Th-cA-nId" firstAttribute="top" secondItem="Ryl-GW-GCu" secondAttribute="bottom" id="Mfp-Bn-qjg"/>
+                <constraint firstItem="7Ae-Lz-a5I" firstAttribute="top" secondItem="Nmw-v6-BTK" secondAttribute="bottom" id="Ofs-7n-XiI"/>
+                <constraint firstItem="j03-BS-tJN" firstAttribute="top" secondItem="7Ae-Lz-a5I" secondAttribute="bottom" constant="8" id="XAy-by-dIa"/>
+                <constraint firstItem="Ryl-GW-GCu" firstAttribute="leading" secondItem="SkV-AP-yYo" secondAttribute="leading" constant="8" id="XPF-UE-aF7"/>
+                <constraint firstItem="d3q-NL-J8k" firstAttribute="trailing" secondItem="nBC-jD-DGo" secondAttribute="trailing" constant="20" id="Zfz-f1-LTC"/>
+                <constraint firstAttribute="bottom" secondItem="kzb-Rq-qdQ" secondAttribute="bottom" id="dmv-GG-NV7"/>
+                <constraint firstItem="0Th-cA-nId" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="16" id="gWu-H1-n1z"/>
+                <constraint firstItem="j03-BS-tJN" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="24" id="iYN-oL-ZDj"/>
+                <constraint firstItem="d3q-NL-J8k" firstAttribute="trailing" secondItem="7Ae-Lz-a5I" secondAttribute="trailing" constant="24" id="lHy-F5-bvq"/>
+                <constraint firstItem="nBC-jD-DGo" firstAttribute="top" secondItem="Ktu-Iy-Moy" secondAttribute="bottom" constant="8" id="nbF-cq-Jr7"/>
+                <constraint firstItem="kzb-Rq-qdQ" firstAttribute="top" secondItem="j03-BS-tJN" secondAttribute="bottom" constant="8" id="u97-sO-Yq2"/>
+                <constraint firstItem="xKa-Dk-Hs7" firstAttribute="top" secondItem="SkV-AP-yYo" secondAttribute="top" constant="8" id="uL6-6x-ayc"/>
+                <constraint firstItem="kzb-Rq-qdQ" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="16" id="uff-BO-nVl"/>
+                <constraint firstItem="xKa-Dk-Hs7" firstAttribute="leading" secondItem="Ryl-GW-GCu" secondAttribute="trailing" constant="8" id="wCv-Qd-To3"/>
+                <constraint firstItem="Ryl-GW-GCu" firstAttribute="top" secondItem="SkV-AP-yYo" secondAttribute="top" constant="8" id="xbM-Ut-Occ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="d3q-NL-J8k"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="5"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="age" destination="xKa-Dk-Hs7" id="aWi-ZX-j0x"/>
+                <outlet property="bio" destination="Nmw-v6-BTK" id="biA-g9-TLm"/>
+                <outlet property="degree" destination="0Th-cA-nId" id="04u-fx-R5s"/>
+                <outlet property="flipButton" destination="Ktu-Iy-Moy" id="666-o4-l4d"/>
+                <outlet property="interestestCollectionView" destination="kzb-Rq-qdQ" id="Vhh-Cz-gao"/>
+                <outlet property="name" destination="Ryl-GW-GCu" id="beg-X6-nFQ"/>
+            </connections>
+            <point key="canvasLocation" x="192.75362318840581" y="156.69642857142856"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="edit" width="48" height="48"/>
+        <image name="flip" width="240" height="240"/>
+    </resources>
+</document>
