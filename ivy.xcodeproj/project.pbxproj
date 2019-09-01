@@ -275,11 +275,11 @@
 		FA121C1F22EE44E200C175F7 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
+				A9B57E8423138317008DC63B /* Event.swift */,
 				FA121C2922EE455700C175F7 /* Explore.swift */,
 				FA6F7C9522EE713D00610046 /* SettingsButton.xib */,
 				FA6F7C9722EE770000610046 /* SettingsButton.swift */,
 				FA6F7C9922EE84B900610046 /* ExploreNavigationController.swift */,
-				A9B57E8423138317008DC63B /* Event.swift */,
 				A9FD19632314EC6E00ECA848 /* organizationPage.swift */,
 			);
 			path = Explore;

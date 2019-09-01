@@ -23,7 +23,6 @@ class StandardButton: UIButton{
         setShadow()
         self.backgroundColor = Colors.ivy_green
         self.setTitleColor(.white, for: .normal)
-        
         self.titleLabel?.font = UIFont(name: "Cordia New Bold", size: 25)
         self.layer.cornerRadius = 5
     }

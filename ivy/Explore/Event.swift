@@ -18,11 +18,11 @@ import FirebaseFirestore
 
 class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    // MARK: Variables and Constants
+    
     private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
     private let baseStorageReference = Storage.storage().reference()             //reference to storage
     
-
-//    var eventDate = UITextView()                                               //from --- to ----. date info
     public var eventID: String?
     public var event = Dictionary<String, Any>()                                 //actual event that was clicked
     public var userProfile = Dictionary<String, Any>()                           //holds the current user profile
@@ -40,10 +40,17 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     @IBOutlet weak var goingCheckButton: UIButton!
     @IBOutlet weak var imGoingButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
+    
+    
+    
+    
+    
+    
+    // MARK: Override Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setUpNavigationBar()
         self.setUp()
         
         //make sure the event actually exists
@@ -60,30 +67,38 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Set Up Functions
+    
     private func setUp(){
         whosGoingCollection.delegate = self
         whosGoingCollection.dataSource = self
         whosGoingCollection.register(UINib(nibName: "profileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "profileCollectionViewCell")
+        self.goingCheckButton.imageView?.contentMode = .scaleAspectFit
     }
     
-    private func setUpNavigationBar(){
-        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo"))
-        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        titleImgView.contentMode = .scaleAspectFit
-        navigationItem.titleView = titleImgView
-        // this retarded bs is not working
-        let settingsBtn = SettingsButton()
-        let settingsButton = UIBarButtonItem(customView: settingsBtn)
-        navigationItem.rightBarButtonItem = settingsButton
+    private func setUpNavigationBar(eventName: String){
+        let titleView = MediumGreenLabel()
+        titleView.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
+        titleView.text = eventName
+        titleView.textAlignment = .center
+        navigationItem.titleView = titleView
     }
     
-    
-    
-    
-    
-    //populate the front end with the data from the event
-    func bindData() {
-        self.navigationItem.title = self.event["name"] as? String //TODO: put title in top bar. use ivy green: #2b9721
+    func bindData() { //populate the front end with the data from the event
+        if let evName = self.event["name"] as? String{ //set up the name of the event as the VC's title in the navigation bar
+            setUpNavigationBar(eventName: evName)
+        }else{
+            setUpNavigationBar(eventName: "Event")
+        }
+        
         self.baseStorageReference.child(self.event["image"] as! String).getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error", error)
@@ -91,6 +106,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 self.eventImage.image  = UIImage(data: data!)
             }
         }
+        
         self.baseStorageReference.child(self.event["logo"] as! String).getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error", error)
@@ -102,6 +118,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 self.eventLogo.addGestureRecognizer(singleTap)
             }
         }
+        
         self.eventDescription.text = self.event["description"] as? String
         self.eventInfo.text = compileInfoRow()
         var keyWCombined = ""
@@ -111,19 +128,10 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 keyWCombined = keyWCombined + "#" + keyword + " "
             }
         }
-        keywords.text = keyWCombined    //TODO: make the text color ivy green
-    }
-    
-    
-    //when user clicks logo, transition them to the organizationpage .swift view controller
-    @objc func onClickLogo() {
-        self.performSegue(withIdentifier: "eventToOrganization" , sender: self) //pass data over to
+        keywords.text = keyWCombined
     }
 
-    
-    
-    //populate the collection view with the people that are going to this current event.
-    func setUpGoingList() {
+    func setUpGoingList() { //populate the collection view with the people that are going to this current event
         self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("userprofiles").document(self.userProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
             if let document = document, document.exists {
                 var friends = document.data()
@@ -136,148 +144,144 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         }
                     }
                 }
-                if (self.goingFriends.count > 0) {
-                    //TODO: maybe collapse the label not jsut hide
-                    self.whosGoingLabel.isHidden = false
-                    self.whosGoingCollection.isHidden = false
-                    self.whosGoingCollection.reloadData()
-                }else{
-                    //TODO: maybe collapse the label not jsut hide
-                    self.whosGoingLabel.isHidden = true
-                    self.whosGoingCollection.isHidden = true
-                }
             } else {
                 print("Document does not exist")
+            }
+            
+            if (self.goingFriends.count > 0) {
+                self.whosGoingCollection.reloadData() //notify the collectionview that we have items to display
+                
+                self.whosGoingLabel.isHidden = false
+                self.collectionViewHeightConstraint.constant = 150 //set the standard height to the collectionview
+            }else{
+                self.whosGoingLabel.isHidden = true
+                self.collectionViewHeightConstraint.constant = 0 //collapse the collectionview
             }
         }
     }
     
     
     
-    //make checkmark visible, hide going button, set listener to layout that removes user from "going_ids" if they click on it
-    func setThisUserGoing() {
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Interaction Methods
+    
+    @objc func onClickLogo() {
+        self.performSegue(withIdentifier: "eventToOrganization" , sender: self) //pass data over to
+    }
+    
+    func setThisUserGoing() { //make checkmark visible, hide going button, set listener to layout that removes user from "going_ids" if they click on it
         self.imGoingButton.isHidden = true
         self.goingCheckButton.isHidden = false
         self.imGoingButton.removeTarget(self, action: #selector(imGoingButtonClicked), for: .touchUpInside)
         self.goingCheckButton.addTarget(self, action: #selector(goingCheckButtonClicked), for: .touchUpInside)
     }
     
-
-    //dont add the guy to the list
-    func setThisUserNotGoing() {
+    func setThisUserNotGoing() { //dont add the guy to the list
         self.imGoingButton.isHidden = false
         self.goingCheckButton.isHidden = true
         self.imGoingButton.addTarget(self, action: #selector(imGoingButtonClicked), for: .touchUpInside)
         self.goingCheckButton.removeTarget(self, action: #selector(goingCheckButtonClicked), for: .touchUpInside)
     }
     
-    
-    
-    //on click of the im going button clicked
-    @objc func imGoingButtonClicked(_ sender: UIButton) {
+    @objc func imGoingButtonClicked(_ sender: UIButton) { //on click of the im going button clicked
 //        self.goingFriends.append(self.userProfile["id"] as! String)
         self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayUnion([self.userProfile["id"]])])
         self.setThisUserGoing()
 
     }
     
-    //on click of the im going button clicked
-    @objc func goingCheckButtonClicked(_ sender: UIButton) {
+    @objc func goingCheckButtonClicked(_ sender: UIButton) { //on click of the im going button clicked
 //        self.goingFriends.(self.userProfile["id"] as! String)
 //        self.goingFriends = self.goingFriends.filter { $0 != self.userProfile["id"] as! String }
         self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayRemove([self.userProfile["id"]])])
         self.setThisUserNotGoing()
     }
     
-    //on click of the im going button clicked
-    @objc func registerButtonClicked(_ sender: UIButton) {
-        
+    @objc func registerButtonClicked(_ sender: UIButton) {//on click of the im going button clicked
         if self.event.contains(where: { $0.key == "link"}) {    //check if the event even contains a link to be clicked on
             if let url = URL(string: "http://www.google.com") { //open link
                 UIApplication.shared.open(url, options: [:])
             }
             self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["clicks":FieldValue.arrayUnion([Date().timeIntervalSince1970])]) //update counter to indicate it was clicked on
-
         }
-        
     }
     
     
     
     
     
-    //TODO: format the date properly... right now its not accurate.
-    //construct the format of when the event is occuring... date, time, etc.
-    func compileInfoRow() -> String {
-        let startTime = self.event["start_time"]
-        let endTime  = self.event["end_time"]
-        if (startTime is CLong && endTime is CLong){
+    
+    
+    
+    
+    
+    
+    // MARK: Info Row Methods
+    
+    func compileInfoRow() -> String { //construct the format of when the event is occuring... date, time, etc.
+        let startMillis = self.event["start_time"]
+        let endMillis  = self.event["end_time"]
+        if (startMillis is CLong && endMillis is CLong){
             var retVal = ""
             
-            //start time
-            let calendar = Calendar.current
-            let timeStart = Date(timeIntervalSinceNow: startTime as! Double)
-            
-            //TODO: get rid of this stuff and the extension down below if can figure out how to make it work with calendar
-            let dateMonth = timeStart.monthMedium
-            let dateHour = timeStart.hour12
-            let dateMinute = timeStart.minute0x
-            let dateAmPm = timeStart.amPM
-            print(dateMonth, dateHour, dateMinute, dateAmPm)
-            
-            
-            var components = calendar.dateComponents([Calendar.Component.day, Calendar.Component.month, Calendar.Component.year, Calendar.Component.hour, Calendar.Component.minute], from: timeStart)
-            
-            var month = components.month as! Int
-            var day = components.day as! Int
-            var year = components.year as! Int
-            var hour = components.hour as! Int
-            
-            if ( hour == 0 ){
-                hour = 12
+            let startTime = Date.init(milliseconds: Int64(startMillis as! CLong)) //start time
+            var calendarDate = Calendar.current.dateComponents([.day, .year, .month], from: startTime)
+            var month = startTime.monthMedium //these work beautifully except that they're missing the day getter for some reason
+            var hour = startTime.hour12
+            var minute = startTime.minute0x
+            var amPm = startTime.amPM
+            var day = "Unknown Day"
+            var year = "Unknown Year"
+            if let dayInt = calendarDate.day{
+                day = String(dayInt)
             }
-            var amPm = "AM"
-            if (calendar.amSymbol == "AM"){
-                //nothing
-            }else{
-                amPm = "PM"
+            if let yearInt = calendarDate.year{
+                year = String(yearInt)
             }
-            var minute = components.minute as! Int
+            retVal = "from: "+month+" "+day+" "+year+" "+hour+":"+minute+amPm
             
-            retVal = "from: " + String(month)  + " "
-            retVal = retVal + String(day) + " "
-            retVal = retVal + String(year) + " " + String(hour)
-            retVal = retVal + ":" + String(minute) + String(amPm)
-            
-            
-            //endtime
-            let timeEnd = Date(timeIntervalSinceNow: endTime as! Double)
-            components = calendar.dateComponents([Calendar.Component.day, Calendar.Component.month, Calendar.Component.year,Calendar.Component.hour, Calendar.Component.minute], from: timeEnd)
-            month = components.month as! Int
-            day = components.day as! Int
-            year = components.year as! Int
-            hour = components.hour as! Int
-            if ( hour == 0 ){
-                hour = 12
+            let endTime = Date.init(milliseconds: Int64(endMillis as! CLong)) //end time
+            calendarDate = Calendar.current.dateComponents([.day, .year, .month], from: endTime)
+            month = endTime.monthMedium
+            hour = endTime.hour12
+            minute = endTime.minute0x
+            amPm = endTime.amPM
+            day = "Unknown Day"
+            year = "Unknown Year"
+            if let dayInt = calendarDate.day{
+                day = String(dayInt)
             }
-            amPm = "AM"
-            if (calendar.amSymbol == "AM"){
-                //nothing
-            }else{
-                amPm = "PM"
+            if let yearInt = calendarDate.year{
+                year = String(yearInt)
             }
-            minute = components.minute as! Int
-            
-            retVal = retVal + " to: " + String(month) + " "
-            retVal = retVal +  String(day) + " " + String(year) + " " + String(hour) + ":"
-            retVal = retVal + String(minute) + String(amPm)
-            retVal = retVal + " at: " + String(self.event["location"] as! String)
+            retVal = retVal + " to: "+month+" "+day+" "+year+" "+hour+":"+minute+amPm
+    
+            var location = "Unknown Location" //location
+            if let loc = self.event["location"] as? String{
+                location = loc
+            }
+            if(location != ""){
+                retVal = retVal+" at: "+location
+            }
             return retVal
         }else{
             return "Time and location not available."
         }
-        
     }
+    
+    
+    
+    
+    
+    
+    
     
     
     // MARK: Collection View Delegate and Datasource Methods
@@ -286,29 +290,23 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         return self.goingFriends.count
     }
 
-
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let profilePrevCard = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCollectionViewCell", for: indexPath) as! profileCollectionViewCell
         profilePrevCard.setUp(userGoingId: self.goingFriends[indexPath.item], thisUserProfile: self.userProfile)
         return profilePrevCard
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { //item size has to adjust based on current collection view dimensions (90% of the its size, the rest is padding - see the setUp() function)
-        let cellSize = CGSize(width: self.whosGoingCollection.frame.size.width * 0.50, height: self.whosGoingCollection.frame.size.height * 0.50)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellSize = CGSize(width: 130, height: self.whosGoingCollection.frame.size.height)
         return cellSize
     }
     
-    //TODO: deal with clicking of the events so that it responds to the right event being clicked on each time, right now it always registers the last clicked item????
-    //on click of the event, pass the data from the event through a segue to the event.swift page
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        
-            self.whosGoingProfileClickedID = self.goingFriends[indexPath.item]  //use currentley clicked index to get conversation id
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
+            self.whosGoingProfileClickedID = self.goingFriends[indexPath.item]  //use currently clicked index to get conversation id
             self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
-        
     }
     
-    //called every single time a segue is called
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         if segue.identifier == "viewFullProfileSegue" {
             let vc = segue.destination as! ViewFullProfileActivity
             vc.isFriend = true
@@ -322,36 +320,10 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             vc.organizationId = self.event["organization_id"] as! String
         }
     }
-    
-
-
-
-
-    // MARK: Collection View Behavior Functions
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let collectionViewCenterX = self.whosGoingCollection.center.x //get the center of the collection view
-
-        for cell in self.whosGoingCollection.visibleCells {
-            let basePosition = cell.convert(CGPoint.zero, to: self.view)
-            let cellCenterX = basePosition.x + self.whosGoingCollection.frame.size.width / 2.0 //get the center of the current cell
-            let distance = abs(cellCenterX - collectionViewCenterX) //distance between them
-
-            let tolerance : CGFloat = 0.02
-            let multiplier : CGFloat = 0.105
-            var scale = 1.00 + tolerance - ((distance/collectionViewCenterX)*multiplier) //scale the car based on how far it is from the center (tolerance and the multiplier are both arbitrary)
-            if(scale > 1.0){ //don't go beyond 100% size
-                scale = 1.0
-            }
-            cell.transform = CGAffineTransform(scaleX: scale, y: scale) //apply the size change
-        }
-    }
-
-
-    
-    
-    
 }
+
+
+
 
 
 
