@@ -352,7 +352,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LWC-8K-Imc">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -2470,10 +2470,10 @@
     <inferredMetricsTieBreakers>
         <segue reference="9RO-mD-LBY"/>
         <segue reference="qnE-MC-VUo"/>
-        <segue reference="NB0-Dd-hna"/>
-        <segue reference="dFq-Ao-SZf"/>
-        <segue reference="eXm-Iy-o28"/>
-        <segue reference="eAr-7D-ECF"/>
+        <segue reference="N1a-aN-84L"/>
+        <segue reference="GId-3d-sBt"/>
+        <segue reference="VzR-Zf-QpA"/>
+        <segue reference="6lo-aV-DON"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

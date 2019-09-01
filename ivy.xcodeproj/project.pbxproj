@@ -86,6 +86,8 @@
 		FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D87022A8A3BD0055FCE7 /* Extensions.swift */; };
 		FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACD8FFD22C710060066F109 /* DegreeCell.swift */; };
 		FAD461A122ED3329003B10D8 /* OpacityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD461A022ED3329003B10D8 /* OpacityButton.swift */; };
+		FADF68B1231B7DA500614F11 /* ChatBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF68AF231B7DA500614F11 /* ChatBubbleCell.swift */; };
+		FADF68B2231B7DA500614F11 /* ChatBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FADF68B0231B7DA500614F11 /* ChatBubbleCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -172,6 +174,8 @@
 		FA90D87022A8A3BD0055FCE7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FACD8FFD22C710060066F109 /* DegreeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeCell.swift; sourceTree = "<group>"; };
 		FAD461A022ED3329003B10D8 /* OpacityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpacityButton.swift; sourceTree = "<group>"; };
+		FADF68AF231B7DA500614F11 /* ChatBubbleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCell.swift; sourceTree = "<group>"; };
+		FADF68B0231B7DA500614F11 /* ChatBubbleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatBubbleCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +272,8 @@
 				A97A661822FA0F5B004A6BBE /* AttachmentHandler.swift */,
 				A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */,
 				A976E4E2230B2E7400755774 /* changeGroupNamePopupViewContoller.swift */,
+				FADF68AF231B7DA500614F11 /* ChatBubbleCell.swift */,
+				FADF68B0231B7DA500614F11 /* ChatBubbleCell.xib */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -445,6 +451,7 @@
 				A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */,
 				A90D266722A4B215005E8965 /* cordia.ttf in Resources */,
 				A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */,
+				FADF68B2231B7DA500614F11 /* ChatBubbleCell.xib in Resources */,
 				A9B57E8323137482008DC63B /* EventCollectionViewCell.xib in Resources */,
 				A9FD196C2315C84A00ECA848 /* BoardPostTableViewCell.xib in Resources */,
 				FA6F7C9622EE713D00610046 /* SettingsButton.xib in Resources */,
@@ -548,6 +555,7 @@
 				FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */,
 				A97A661722F7755A004A6BBE /* addParticipantPopUPViewController.swift in Sources */,
 				A9B57E8223137482008DC63B /* EventCollectionViewCell.swift in Sources */,
+				FADF68B1231B7DA500614F11 /* ChatBubbleCell.swift in Sources */,
 				FA6F7C9822EE770000610046 /* SettingsButton.swift in Sources */,
 				FA1B412422F4AC6F005817C5 /* BoardNavigationViewController.swift in Sources */,
 				FA6D733522DA80FE009020B5 /* GreenBoldTitleLabel.swift in Sources */,

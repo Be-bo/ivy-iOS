@@ -38,6 +38,7 @@ class ConversationCell: UITableViewCell {
     }
     
     func setUp(){
+        self.lastMessage.numberOfLines = 1
         self.img.layer.masksToBounds = true
         self.img.layer.cornerRadius = self.img.bounds.width / 2
         self.groupSymbol.isHidden = true    //group symbol hidden by default

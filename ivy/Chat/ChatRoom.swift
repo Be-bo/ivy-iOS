@@ -474,7 +474,6 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 if (diff.type == .added) {
                     self.messages.append(diff.document.data())  //append the message document to the messages array
                     self.configureTableView()
-                    
                     self.tableView.reloadData()
                     self.tableView.scrollToBottom()
                     self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
@@ -489,10 +488,10 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     func configureTableView(){
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "ConversationCell")
+        tableView.register(UINib(nibName: "ChatBubbleCell", bundle: nil), forCellReuseIdentifier: "ChatBubbleCell")
+        tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 70
-
+        tableView.estimatedRowHeight = UITableView.automaticDimension
     }
     
     
@@ -501,6 +500,11 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.messages.count
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
     
     
     
@@ -511,7 +515,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         //called for each cell but will only update on the last index of messages since we only want it to update when the users "read" (loaded cell) the last message
         updateLastSeenMessage()
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatBubbleCell", for: indexPath) as! ChatBubbleCell
         
 //        let lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
         var lastMessageAuthor = ""
@@ -532,10 +536,19 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             if let error = error {
                 print("error", error)
             } else {
-                //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
-                cell.name.text = self.messages[indexPath.row]["author_first_name"] as! String     //name of the chat this user is involved in
-                cell.lastMessage.text = lastMessageString  //last message that was sent in the chat
-                cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
+                cell.messageLabel.text = lastMessageString  //last message that was sent in the chat
+                if(self.messages[indexPath.row]["author_id"] as! String == self.thisUserProfile["id"] as! String){
+                    cell.authorName.isHidden = true
+                    cell.profilePicture.isHidden = true
+                    cell.messageContainer.backgroundColor = UIColor.ivyGreen
+                }else{
+                    cell.authorName.isHidden = false
+                    cell.profilePicture.isHidden = false
+                    cell.messageContainer.backgroundColor = UIColor.ivyGrey
+                    //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
+                    cell.authorName.text = self.messages[indexPath.row]["author_first_name"] as! String     //name of the chat this user is involved in
+                    cell.profilePicture.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
+                }
             }
         }
         
@@ -546,9 +559,6 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
 //        let scrollPoint = CGPoint(x: 0, y: self.tableView.contentSize.height - self.tableView.frame.size.height)
 //        self.tableView.setContentOffset(scrollPoint, animated: false)
-
-        
-        
         return cell
     }
     

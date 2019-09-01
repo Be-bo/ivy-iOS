@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="ChatBubbleCell" customModule="ivy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="500" height="120"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="500" height="119.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMB-eL-rko" userLabel="Message Container">
+                        <rect key="frame" x="86" y="8" width="406" height="36.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3B-Cz-fMu">
+                                <rect key="frame" x="8" y="8" width="390" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" name="ivyGrey"/>
+                        <constraints>
+                            <constraint firstItem="E3B-Cz-fMu" firstAttribute="top" secondItem="HMB-eL-rko" secondAttribute="top" constant="8" id="I6Q-BI-OPj"/>
+                            <constraint firstItem="E3B-Cz-fMu" firstAttribute="leading" secondItem="HMB-eL-rko" secondAttribute="leading" constant="8" id="Ohs-Hh-km2"/>
+                            <constraint firstAttribute="trailing" secondItem="E3B-Cz-fMu" secondAttribute="trailing" constant="8" id="Wgf-dw-Ydc"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="E3B-Cz-fMu" secondAttribute="bottom" constant="8" id="mTG-Du-hT1"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="15"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGM-9x-VS6" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                        <rect key="frame" x="8" y="21" width="70" height="20.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="lBZ-aS-iKY"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qwm-J7-lJe">
+                        <rect key="frame" x="8" y="41.5" width="70" height="70"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="70" id="Qgw-z7-MQL"/>
+                            <constraint firstAttribute="width" constant="70" id="eE0-qB-zuy"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="35"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="HMB-eL-rko" firstAttribute="leading" secondItem="pGM-9x-VS6" secondAttribute="trailing" constant="8" id="EJa-8f-2Gm"/>
+                    <constraint firstItem="pGM-9x-VS6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="EJe-6C-6hs"/>
+                    <constraint firstItem="HMB-eL-rko" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="FTf-Pp-sPa"/>
+                    <constraint firstItem="Qwm-J7-lJe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Q6q-e0-Vfo"/>
+                    <constraint firstAttribute="bottom" secondItem="Qwm-J7-lJe" secondAttribute="bottom" constant="8" id="RnQ-vV-xBR"/>
+                    <constraint firstItem="Qwm-J7-lJe" firstAttribute="top" secondItem="pGM-9x-VS6" secondAttribute="bottom" id="YAY-1h-BER"/>
+                    <constraint firstAttribute="trailing" secondItem="HMB-eL-rko" secondAttribute="trailing" constant="8" id="h0y-4h-fEQ"/>
+                    <constraint firstItem="HMB-eL-rko" firstAttribute="leading" secondItem="Qwm-J7-lJe" secondAttribute="trailing" constant="8" id="rB5-25-jsj"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="HMB-eL-rko" secondAttribute="bottom" constant="8" id="ra5-CZ-A7v"/>
+                    <constraint firstItem="pGM-9x-VS6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21" id="u7O-C7-5U2"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="authorName" destination="pGM-9x-VS6" id="Hff-Xv-vQQ"/>
+                <outlet property="messageContainer" destination="HMB-eL-rko" id="gJY-3C-GmW"/>
+                <outlet property="messageLabel" destination="E3B-Cz-fMu" id="Iu7-Kt-59G"/>
+                <outlet property="profilePicture" destination="Qwm-J7-lJe" id="81T-qg-xzA"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="144.64285714285714"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="ivyGrey">
+            <color red="0.41200000047683716" green="0.41200000047683716" blue="0.41200000047683716" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
