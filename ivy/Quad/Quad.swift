@@ -23,7 +23,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     private var block_list = Dictionary<String, Any>()
     private var blocked_by = Dictionary<String, Any>()
     
-    
+    private var cardClicked:Card? = nil
     
     
     // MARK: IBOutlets and IBActions
@@ -39,7 +39,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     // MARK: Base and Override Functions
     
     override func viewDidLoad() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         super.viewDidLoad()
         self.hideKeyboardOnTapOutside()
         setUpNavigationBar()
@@ -63,31 +63,42 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
+        
+        
+        //TODO: tidy this up
+        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
+        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
+        var background = UIImageView(image: UIImage(named: "settings"))
+        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
+        leftButton.addSubview(background)
+        self.navigationController!.navigationBar.addSubview(leftButton)
+
+        
     }
     
     
-    
-    @objc func showActions() {
-        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
-        actionSheet.view.tintColor = UIColor.ivyGreen
-        
-        //ADDING ACTIONS TO THE ACTION SHEET
-        actionSheet.addAction(UIAlertAction(title: "message", style: .default, handler: self.onClickSendHiMsg))
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        self.present(actionSheet, animated: true, completion: nil)
-    }
+    //TODO get rid of this stuff when we can have the actions on the back of the card appear
+//    @objc func showActions() {
+//        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
+//        actionSheet.view.tintColor = UIColor.ivyGreen
+//
+//        //ADDING ACTIONS TO THE ACTION SHEET
+//        actionSheet.addAction(UIAlertAction(title: "message", style: .default, handler: self.onClickSendHiMsg))
+//        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//
+//        self.present(actionSheet, animated: true, completion: nil)
+//    }
     
     
     
     //when user wants to send hi message to another user from quad from the back of the card.
-    func onClickSendHiMsg(alert:UIAlertAction!){
-        
-        //TODO: figure out how to click on text label/button from back of card, and actually send message to user
-        //extract message from text label
-        var sendHiMessage = "Tester message for now"
-        
-    }
+//    func onClickSendHiMsg(alert:UIAlertAction!){
+//
+//        //TODO: figure out how to click on text label/button from back of card, and actually send message to user
+//        //extract message from text label
+//        var sendHiMessage = "Tester message for now"
+//
+//    }
     
     
     // MARK: Data Acquisition Functions
@@ -180,9 +191,19 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         //moving text field to the front to make it clickable
         quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer)
         quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.back)
+        quadCard.back.sayHiButton.addTarget(self, action: #selector(sayHiButtonClicked), for: .touchUpInside) //set on click listener for send message button
+
         
-        //set on click listener for send message button
-        quadCard.back.sayHiButton.addTarget(self, action: #selector(sayHiButtonClicked), for: .touchUpInside)
+        
+        //TODO: find a better solution for this where we can make the items from Card.swift clickable
+        //moving sync arrow to front to be clickable
+        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer)
+        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.front)
+        quadCard.back.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside)
+        quadCard.front.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside)
+        self.cardClicked = quadCard
+        
+        
     
         //attach the card,pos, and orig pos to button to be able to use when clicked
         quadCard.back.sayHiButton.Card = quadCard
@@ -190,6 +211,13 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         
 
         
+
+    }
+    
+    //on click of the send hi message on back of card
+    @objc func flipButtonClicked(_ sender: subclassedUIButton) {
+
+        self.cardClicked!.flip()
 
     }
     
@@ -291,12 +319,18 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         quadCard.setUp(user: allQuadProfiles[indexPath.item])
         
         
-        
         //TODO: implement logic for dealing with actual pos
 //        let actualPos = indexPath.item % allQuadProfiles.count
 //        let current = allQuadProfiles[actualPos]
         let pos = indexPath.item
         self.setRequest(quadCard: quadCard, pos: pos);
+        
+        
+        //TODO: this has a weird bug where if I am scrolling forward and stop it abruptly with one card back, then it doesnt know which card was at the centre of the screen so the flipping doesnt work.
+        //TODO: decide if this is best practise or not.
+        //the card that the scroll view lands on is the same card the user is seeing, thus this is the card theyll be clicking, save it
+        self.cardClicked = quadCard
+
 
         
         return quadCard
@@ -328,7 +362,9 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                 scale = 1.0
             }
             cell.transform = CGAffineTransform(scaleX: scale, y: scale) //apply the size change
+            
         }
+        
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { //find the largest visibile cell once the scrolling animation finishes and scroll that one to the center
@@ -345,6 +381,11 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         self.quadCollectionView.scrollToItem(at: IndexPath(item: indexOfLargestCell, section: 0), at: .centeredHorizontally, animated: true)
+        
+        //TODO: this has a weird bug where if I am scrolling forward and stop it abruptly with one card back, then it doesnt know which card was at the centre of the screen so the flipping doesnt work.
+        //TODO: decide if this is best practise or not.
+        //the card that the scroll view lands on is the same card the user is seeing, thus this is the card theyll be clicking, save it
+        self.cardClicked = self.quadCollectionView.cellForItem(at: IndexPath(item: indexOfLargestCell, section: 0)) as! Card
     }
 }
 

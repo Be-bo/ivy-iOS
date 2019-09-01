@@ -29,7 +29,6 @@ class Card: UICollectionViewCell {
     @IBOutlet weak var shadowOuterContainer: Card!
     
     //added this to the Card.xib/Card.swift instead of inside of the inner CardBack or CardFront
-    @IBOutlet weak var plifButton: UIButton!
     
     
 
@@ -41,6 +40,7 @@ class Card: UICollectionViewCell {
         
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight] //need to make sure the card resizes based on the cell of the collectionview
         self.translatesAutoresizingMaskIntoConstraints = true
+        
         
         
     }
@@ -69,15 +69,12 @@ class Card: UICollectionViewCell {
             cardContainer.addSubview(back)
             cardContainer.addSubview(front)
             
-            //added this for flipping via a button:
-            shadowOuterContainer.bringSubviewToFront(plifButton)
+
             
+//            self.shadowOuterContainer.bringSubviewToFront(self.cardContainer)
+//            self.shadowOuterContainer.bringSubviewToFront(self.cardContainer.back)
+//            self.cardContainer.back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside)
             
-            let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip)) //and set the on click listener to the card
-            singleTap.numberOfTapsRequired = 1
-            
-            //changed this for flipping via a button from shadowOuterContainer.addGestureRecognizer(singleTap)
-            plifButton.addGestureRecognizer(singleTap)
             
 
 

@@ -34,6 +34,10 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
     private let cellId = "QuadCard" 
     
     
+    private var cardClicked:Card? = nil
+
+    
+    
     // MARK: IBOutlets and IBActions
     @IBOutlet weak var viewProfileCollectionView: UICollectionView!
     
@@ -43,6 +47,14 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         getData()
         setUpCardCollectionView()
+        // swift
+        
+        //TODO: get rid of collection view holder for cards. This is a temporary fix that doesn't allows scrolling of the collection view
+        self.viewProfileCollectionView?.alwaysBounceVertical = false
+        self.viewProfileCollectionView?.alwaysBounceHorizontal = false
+        self.viewProfileCollectionView?.bounces = false
+        self.viewProfileCollectionView?.isScrollEnabled = false
+        
     }
     
     
@@ -239,7 +251,28 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let quadCard = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! Card
         quadCard.setUp(user: self.otherUserProfile)
+        
+        
+        //TODO: find a better solution for this where we can make the items from Card.swift clickable
+        //moving sync arrow to front to be clickable
+        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer)
+        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.back)
+        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.front)
+        quadCard.front.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside) //set on click listener for send message button
+        quadCard.back.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside) //set on click listener for send message button
+
+        self.cardClicked = quadCard
+        
+        
+        
         return quadCard
+    }
+    
+    //on click of the send hi message on back of card
+    @objc func flipButtonClicked(_ sender: subclassedUIButton) {
+        
+        self.cardClicked!.flip()
+        
     }
     
     

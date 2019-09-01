@@ -105,10 +105,19 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
-        // this retarded bs is not working
-        let settingsBtn = SettingsButton()
-        let settingsButton = UIBarButtonItem(customView: settingsBtn)
-        navigationItem.rightBarButtonItem = settingsButton
+//        // this retarded bs is not working
+//        let settingsBtn = SettingsButton()
+//        let settingsButton = UIBarButtonItem(customView: settingsBtn)
+//        navigationItem.rightBarButtonItem = settingsButton
+        
+        
+        //TODO: tidy this up
+        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
+        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
+        var background = UIImageView(image: UIImage(named: "settings"))
+        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
+        leftButton.addSubview(background)
+        self.navigationController!.navigationBar.addSubview(leftButton)
     }
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
