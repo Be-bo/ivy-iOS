@@ -51,10 +51,18 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
         
-        // this retarded bs is not working
-        let settingsBtn = SettingsButton()
-        let settingsButton = UIBarButtonItem(customView: settingsBtn)
-        navigationItem.rightBarButtonItem = settingsButton
+//        // this retarded bs is not working
+//        let settingsBtn = SettingsButton()
+//        let settingsButton = UIBarButtonItem(customView: settingsBtn)
+//        navigationItem.rightBarButtonItem = settingsButton
+        
+        //TODO: tidy this up --> interferes with the actions button when you click on a chat room
+//        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
+//        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
+//        var background = UIImageView(image: UIImage(named: "settings"))
+//        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
+//        leftButton.addSubview(background)
+//        self.navigationController!.navigationBar.addSubview(leftButton)
     }
     
     

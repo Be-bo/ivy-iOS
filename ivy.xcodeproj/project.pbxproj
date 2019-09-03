@@ -47,6 +47,15 @@
 		A9FD196B2315C84A00ECA848 /* BoardPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD19692315C84A00ECA848 /* BoardPostTableViewCell.swift */; };
 		A9FD196C2315C84A00ECA848 /* BoardPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD196A2315C84A00ECA848 /* BoardPostTableViewCell.xib */; };
 		A9FD196E231A275400ECA848 /* boardHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD196D231A275300ECA848 /* boardHistory.swift */; };
+		A9FD1974231B98F900ECA848 /* profileCardFront.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD1973231B98F900ECA848 /* profileCardFront.xib */; };
+		A9FD1976231B9A1900ECA848 /* ProfileCardFront.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD1975231B9A1900ECA848 /* ProfileCardFront.swift */; };
+		A9FD1978231B9AD500ECA848 /* ProfileCardBack.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD1977231B9AD500ECA848 /* ProfileCardBack.xib */; };
+		A9FD197A231B9AE900ECA848 /* ProfileCardBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD1979231B9AE900ECA848 /* ProfileCardBack.swift */; };
+		A9FD197C231DABFB00ECA848 /* Gallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD197B231DABFA00ECA848 /* Gallery.swift */; };
+		A9FD197E231DB5AE00ECA848 /* galleryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD197D231DB5AE00ECA848 /* galleryImageView.swift */; };
+		A9FD1980231DB5D100ECA848 /* galleryImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD197F231DB5D100ECA848 /* galleryImageView.xib */; };
+		A9FD1982231E294800ECA848 /* PhotoAdder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD1981231E294800ECA848 /* PhotoAdder.swift */; };
+		A9FD1986231ED41100ECA848 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD1985231ED41100ECA848 /* Settings.swift */; };
 		DDF217CB2205731ADB9715B6 /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69838B23A74BBA15D817949 /* Pods_ivy.framework */; };
 		FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */; };
 		FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA06DE3A22C0659900B07EDC /* DegreeCell.xib */; };
@@ -132,6 +141,15 @@
 		A9FD19692315C84A00ECA848 /* BoardPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardPostTableViewCell.swift; sourceTree = "<group>"; };
 		A9FD196A2315C84A00ECA848 /* BoardPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardPostTableViewCell.xib; sourceTree = "<group>"; };
 		A9FD196D231A275300ECA848 /* boardHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = boardHistory.swift; sourceTree = "<group>"; };
+		A9FD1973231B98F900ECA848 /* profileCardFront.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = profileCardFront.xib; sourceTree = "<group>"; };
+		A9FD1975231B9A1900ECA848 /* ProfileCardFront.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardFront.swift; sourceTree = "<group>"; };
+		A9FD1977231B9AD500ECA848 /* ProfileCardBack.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileCardBack.xib; sourceTree = "<group>"; };
+		A9FD1979231B9AE900ECA848 /* ProfileCardBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardBack.swift; sourceTree = "<group>"; };
+		A9FD197B231DABFA00ECA848 /* Gallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gallery.swift; sourceTree = "<group>"; };
+		A9FD197D231DB5AE00ECA848 /* galleryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = galleryImageView.swift; sourceTree = "<group>"; };
+		A9FD197F231DB5D100ECA848 /* galleryImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = galleryImageView.xib; sourceTree = "<group>"; };
+		A9FD1981231E294800ECA848 /* PhotoAdder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAdder.swift; sourceTree = "<group>"; };
+		A9FD1985231ED41100ECA848 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
 		F69838B23A74BBA15D817949 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
@@ -226,6 +244,14 @@
 			path = UIElements;
 			sourceTree = "<group>";
 		};
+		A9FD1984231ED3B300ECA848 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A9FD1985231ED41100ECA848 /* Settings.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		AB71219703D1BBDED6353DAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +331,14 @@
 			children = (
 				FA121C2522EE452200C175F7 /* Profile.swift */,
 				FA1B412722F4ACE5005817C5 /* ProfileNavigationViewController.swift */,
+				A9FD1973231B98F900ECA848 /* profileCardFront.xib */,
+				A9FD1975231B9A1900ECA848 /* ProfileCardFront.swift */,
+				A9FD1977231B9AD500ECA848 /* ProfileCardBack.xib */,
+				A9FD1979231B9AE900ECA848 /* ProfileCardBack.swift */,
+				A9FD197B231DABFA00ECA848 /* Gallery.swift */,
+				A9FD197D231DB5AE00ECA848 /* galleryImageView.swift */,
+				A9FD197F231DB5D100ECA848 /* galleryImageView.xib */,
+				A9FD1981231E294800ECA848 /* PhotoAdder.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -340,6 +374,7 @@
 		FA60590822A4B12C00383F9F /* ivy */ = {
 			isa = PBXGroup;
 			children = (
+				A9FD1984231ED3B300ECA848 /* Settings */,
 				FA121C2222EE44FC00C175F7 /* Board */,
 				FA121C2122EE44F300C175F7 /* Profile */,
 				FA121C2022EE44ED00C175F7 /* Quad */,
@@ -446,14 +481,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */,
+				A9FD1978231B9AD500ECA848 /* ProfileCardBack.xib in Resources */,
 				A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */,
 				FA60591422A4B12E00383F9F /* LaunchScreen.storyboard in Resources */,
 				A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */,
 				A90D266722A4B215005E8965 /* cordia.ttf in Resources */,
 				A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */,
+				A9FD1980231DB5D100ECA848 /* galleryImageView.xib in Resources */,
 				FADF68B2231B7DA500614F11 /* ChatBubbleCell.xib in Resources */,
 				A9B57E8323137482008DC63B /* EventCollectionViewCell.xib in Resources */,
 				A9FD196C2315C84A00ECA848 /* BoardPostTableViewCell.xib in Resources */,
+				A9FD1974231B98F900ECA848 /* profileCardFront.xib in Resources */,
 				FA6F7C9622EE713D00610046 /* SettingsButton.xib in Resources */,
 				A920C4E722D281C20088DD58 /* CardFront.xib in Resources */,
 				FA60591122A4B12E00383F9F /* Assets.xcassets in Resources */,
@@ -538,6 +576,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1FE3F422F7563900C36E6B /* Card.swift in Sources */,
+				A9FD1982231E294800ECA848 /* PhotoAdder.swift in Sources */,
 				A920C4EC22D281D60088DD58 /* CardBack.swift in Sources */,
 				FA6D733B22DA8146009020B5 /* MediumLabel.swift in Sources */,
 				A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */,
@@ -566,6 +605,7 @@
 				A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
+				A9FD1976231B9A1900ECA848 /* ProfileCardFront.swift in Sources */,
 				A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */,
 				FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */,
 				FA13E59322F9D04000F8FFA1 /* CardInterestCell.swift in Sources */,
@@ -574,12 +614,15 @@
 				A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */,
 				FA6D733F22DA8172009020B5 /* StandardGreenLabel.swift in Sources */,
 				FA6D733722DA8117009020B5 /* LargeLabel.swift in Sources */,
+				A9FD197A231B9AE900ECA848 /* ProfileCardBack.swift in Sources */,
 				A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */,
 				FA121C2622EE452200C175F7 /* Profile.swift in Sources */,
 				FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */,
 				FA6F7C9A22EE84B900610046 /* ExploreNavigationController.swift in Sources */,
+				A9FD197E231DB5AE00ECA848 /* galleryImageView.swift in Sources */,
 				A9990C7822C9A2F600E95B2C /* UserProfile.swift in Sources */,
 				A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */,
+				A9FD1986231ED41100ECA848 /* Settings.swift in Sources */,
 				A9B57E8523138318008DC63B /* Event.swift in Sources */,
 				A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */,
 				A976E4DF2309FBDD00755774 /* viewParticipantsActivity.swift in Sources */,
@@ -591,6 +634,7 @@
 				A976E4E3230B2E7400755774 /* changeGroupNamePopupViewContoller.swift in Sources */,
 				FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */,
 				FA121C2422EE450B00C175F7 /* Board.swift in Sources */,
+				A9FD197C231DABFB00ECA848 /* Gallery.swift in Sources */,
 				A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */,
 				FA14D5A022F8BCB000331E82 /* MainNavigationBar.swift in Sources */,
 				A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */,

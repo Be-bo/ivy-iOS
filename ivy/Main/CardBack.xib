@@ -25,7 +25,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IE2-9j-Et5">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IE2-9j-Et5" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
                     <rect key="frame" x="327" y="8" width="53" height="53"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="53" id="6pN-4D-f09"/>

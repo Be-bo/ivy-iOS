@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Mts-YR-U9I" customClass="ProfileCardFront" customModule="ivy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quad_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Ars-ge-UpJ" userLabel="img">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4dQ-1W-yWN" userLabel="Flip Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="341" y="44" width="53" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="53" id="4OL-zI-1tY"/>
+                        <constraint firstAttribute="height" constant="53" id="9PL-Hb-pGZ"/>
+                    </constraints>
+                    <state key="normal" image="flip"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j8r-MZ-eSf" userLabel="Gallery Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="341" y="105" width="53" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="53" id="Emy-WN-L6Q"/>
+                        <constraint firstAttribute="width" constant="53" id="Z1C-YH-6ht"/>
+                    </constraints>
+                    <state key="normal" image="photo"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="4dQ-1W-yWN" firstAttribute="top" secondItem="uNI-L8-3Gw" secondAttribute="top" id="7Zc-Jo-GPl"/>
+                <constraint firstItem="Ars-ge-UpJ" firstAttribute="top" secondItem="uNI-L8-3Gw" secondAttribute="top" id="Be4-ey-Ts7"/>
+                <constraint firstItem="Ars-ge-UpJ" firstAttribute="leading" secondItem="uNI-L8-3Gw" secondAttribute="leading" id="BiO-Hl-xNY"/>
+                <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="j8r-MZ-eSf" secondAttribute="trailing" constant="20" id="CbP-6z-LYG"/>
+                <constraint firstItem="j8r-MZ-eSf" firstAttribute="top" secondItem="4dQ-1W-yWN" secondAttribute="bottom" constant="8" id="Mf0-py-UkM"/>
+                <constraint firstItem="Ars-ge-UpJ" firstAttribute="bottom" secondItem="uNI-L8-3Gw" secondAttribute="bottom" id="Vxl-Lf-Wbb"/>
+                <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="Ars-ge-UpJ" secondAttribute="trailing" id="Zan-Ga-ug3"/>
+                <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="4dQ-1W-yWN" secondAttribute="trailing" constant="20" id="zg2-HN-DYk"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="uNI-L8-3Gw"/>
+            <connections>
+                <outlet property="flipButton" destination="4dQ-1W-yWN" id="grg-FB-m8c"/>
+                <outlet property="galleryButton" destination="j8r-MZ-eSf" id="pRG-Po-n48"/>
+                <outlet property="img" destination="Ars-ge-UpJ" id="hCc-s1-7a1"/>
+            </connections>
+            <point key="canvasLocation" x="-981.15942028985512" y="-57.589285714285708"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="flip" width="240" height="240"/>
+        <image name="photo" width="240" height="240"/>
+        <image name="quad_placeholder" width="100" height="100"/>
+    </resources>
+</document>
