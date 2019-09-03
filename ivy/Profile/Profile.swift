@@ -27,16 +27,19 @@ class Profile: UIViewController {
     
     @IBOutlet var shadowOuterContainer: Card!
     @IBOutlet var cardContainer: Card!
-    @IBOutlet var plifButton: UIButton! //TODO: get rid of this stupid connection that is kept for some reason... probs from copying the views over manually
     
-    private var cardClicked:Card? = nil
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
         setUp(user: self.thisUserProfile)
-        self.plifButton.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateProfile(updatedProfile: self.thisUserProfile)
+        setUp(user: self.thisUserProfile)
     }
     
     
@@ -47,12 +50,12 @@ class Profile: UIViewController {
         navigationItem.titleView = titleImgView
         
         //TODO: tidy this up
-        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
-        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
-        var background = UIImageView(image: UIImage(named: "settings"))
-        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
-        leftButton.addSubview(background)
-        self.navigationController!.navigationBar.addSubview(leftButton)
+//        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
+//        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
+//        var background = UIImageView(image: UIImage(named: "settings"))
+//        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
+//        leftButton.addSubview(background)
+//        self.navigationController!.navigationBar.addSubview(leftButton)
     }
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
@@ -77,21 +80,13 @@ class Profile: UIViewController {
         if let ref = user["profile_picture"] as? String{ //profile picture
             baseStorageReference.child(ref).getData(maxSize: 2 * 1024 * 1024) { (data, e) in
                 if let e = e {
-                    print("Error obtaining image: ", e)
+                    print("Error obtaining image PAUL: ", e)
                 }else{
                     self.front.img.image = UIImage(data: data!)
                 }
             }
         }
         
-        
-//        if var degree = user["degree"] as? String { //degree icon
-//            degree = degree.replacingOccurrences(of: " ", with: "")
-//            degree = degree.lowercased()
-//            front.degreeIcon.image = UIImage(named: degree)
-//        }
-        
-//        front.name.text = user["first_name"] as? String //text data
         back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name")
         back.degree.text = user["degree"] as? String
         back.age.text = user["age"] as? String
@@ -101,23 +96,20 @@ class Profile: UIViewController {
         
         //TODO: find a better solution for this where we can make the items from Card.swift clickable
         //moving sync arrow to front to be clickable
-        
         shadowOuterContainer.bringSubviewToFront(cardContainer)
         shadowOuterContainer.bringSubviewToFront(cardContainer.back)
         shadowOuterContainer.bringSubviewToFront(cardContainer.front)
         front.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside) //set on click listener for send message button
         back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside) //set on click listener for send message button
         
-        self.cardClicked = cardContainer
+        
+        //add on click for ther gallery button which will take them to the gallery screen
+        front.galleryButton.addTarget(self, action: #selector(clickGallery), for: .touchUpInside) //set on click listener for send message button
+        
+        
+        
     }
     
-    
-    //on click of the send hi message on back of card
-//    @objc func flipButtonClicked(_ sender: subclassedUIButton) {
-//
-//        self.cardContainer.flip()
-//
-//    }
     
     @objc func flip(_ sender: subclassedUIButton) { //a method that flips the card
         let toView = showingBack ? front : back
@@ -126,6 +118,21 @@ class Profile: UIViewController {
         }
         showingBack = !showingBack
     }
+    
+    
+    //when they click gallery then segue over to the gallery screen where tehy can edit their profile pic
+    @objc func clickGallery(_ sender: subclassedUIButton) {
+        self.performSegue(withIdentifier: "profileToGallery" , sender: self) //pass data over to
+        
+    }
+    
+    //called every single time a segway is called
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! Gallery
+        vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String //set the conversation id of chatRoom.swift to contain the one the user clicked on
+        vc.thisUserId = self.thisUserProfile["id"] as! String   //pass the user profile object
+    }
+    
     
     
     

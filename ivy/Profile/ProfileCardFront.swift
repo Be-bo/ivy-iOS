@@ -12,8 +12,10 @@ class ProfileCardFront: UIView {
     
     
     @IBOutlet weak var img: UIImageView!
-    @IBOutlet weak var galleryButton: OpacityButton!
     @IBOutlet weak var flipButton: OpacityButton!
+    @IBOutlet weak var galleryButton: OpacityButton!
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)

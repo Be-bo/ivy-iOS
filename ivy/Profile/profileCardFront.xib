@@ -12,54 +12,48 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clipsSubviews="YES" contentMode="scaleToFill" id="ZY2-AZ-hLr" userLabel="Profile Card Front" customClass="ProfileCardFront" customModule="ivy" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+        <view contentMode="scaleToFill" id="Mts-YR-U9I" customClass="ProfileCardFront" customModule="ivy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quad_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="s1a-8h-xFs" userLabel="img">
-                    <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quad_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Ars-ge-UpJ" userLabel="img">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lip-Bm-D74" userLabel="Flip Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
-                    <rect key="frame" x="337" y="49" width="53" height="53"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4dQ-1W-yWN" userLabel="Flip Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="341" y="44" width="53" height="53"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="53" id="CFk-v0-WS9"/>
-                        <constraint firstAttribute="height" constant="53" id="ffW-NZ-EQz"/>
+                        <constraint firstAttribute="width" constant="53" id="4OL-zI-1tY"/>
+                        <constraint firstAttribute="height" constant="53" id="9PL-Hb-pGZ"/>
                     </constraints>
                     <state key="normal" image="flip"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xML-rx-nWY" userLabel="Gallery Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
-                    <rect key="frame" x="337" y="127" width="53" height="53"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j8r-MZ-eSf" userLabel="Gallery Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="341" y="105" width="53" height="53"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="53" id="22p-SI-2rQ"/>
-                        <constraint firstAttribute="width" constant="53" id="eeA-CX-wOr"/>
+                        <constraint firstAttribute="height" constant="53" id="Emy-WN-L6Q"/>
+                        <constraint firstAttribute="width" constant="53" id="Z1C-YH-6ht"/>
                     </constraints>
                     <state key="normal" image="photo"/>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="Lip-Bm-D74" firstAttribute="top" secondItem="ieH-Oc-yNs" secondAttribute="top" constant="5" id="JAJ-zJ-vcb"/>
-                <constraint firstAttribute="trailing" secondItem="Lip-Bm-D74" secondAttribute="trailing" constant="10" id="RfC-Wg-ZLl"/>
-                <constraint firstAttribute="bottom" secondItem="s1a-8h-xFs" secondAttribute="bottom" id="b6u-th-foV"/>
-                <constraint firstItem="ieH-Oc-yNs" firstAttribute="trailing" secondItem="xML-rx-nWY" secondAttribute="trailing" constant="10" id="fmc-Az-yS2"/>
-                <constraint firstItem="s1a-8h-xFs" firstAttribute="top" secondItem="ZY2-AZ-hLr" secondAttribute="top" id="mvg-nT-An0"/>
-                <constraint firstItem="s1a-8h-xFs" firstAttribute="leading" secondItem="ZY2-AZ-hLr" secondAttribute="leading" id="vhP-Rj-3jY"/>
-                <constraint firstItem="xML-rx-nWY" firstAttribute="top" secondItem="Lip-Bm-D74" secondAttribute="bottom" constant="25" id="xZz-z3-yvE"/>
-                <constraint firstItem="ieH-Oc-yNs" firstAttribute="trailing" secondItem="s1a-8h-xFs" secondAttribute="trailing" id="zTy-KR-8wk"/>
+                <constraint firstItem="4dQ-1W-yWN" firstAttribute="top" secondItem="uNI-L8-3Gw" secondAttribute="top" id="7Zc-Jo-GPl"/>
+                <constraint firstItem="Ars-ge-UpJ" firstAttribute="top" secondItem="uNI-L8-3Gw" secondAttribute="top" id="Be4-ey-Ts7"/>
+                <constraint firstItem="Ars-ge-UpJ" firstAttribute="leading" secondItem="uNI-L8-3Gw" secondAttribute="leading" id="BiO-Hl-xNY"/>
+                <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="j8r-MZ-eSf" secondAttribute="trailing" constant="20" id="CbP-6z-LYG"/>
+                <constraint firstItem="j8r-MZ-eSf" firstAttribute="top" secondItem="4dQ-1W-yWN" secondAttribute="bottom" constant="8" id="Mf0-py-UkM"/>
+                <constraint firstItem="Ars-ge-UpJ" firstAttribute="bottom" secondItem="uNI-L8-3Gw" secondAttribute="bottom" id="Vxl-Lf-Wbb"/>
+                <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="Ars-ge-UpJ" secondAttribute="trailing" id="Zan-Ga-ug3"/>
+                <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="4dQ-1W-yWN" secondAttribute="trailing" constant="20" id="zg2-HN-DYk"/>
             </constraints>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="ieH-Oc-yNs"/>
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                    <integer key="value" value="5"/>
-                </userDefinedRuntimeAttribute>
-            </userDefinedRuntimeAttributes>
+            <viewLayoutGuide key="safeArea" id="uNI-L8-3Gw"/>
             <connections>
-                <outlet property="flipButton" destination="Lip-Bm-D74" id="G7E-hi-yuc"/>
-                <outlet property="galleryButton" destination="xML-rx-nWY" id="16y-KH-LfY"/>
-                <outlet property="img" destination="s1a-8h-xFs" id="0HK-re-gWs"/>
+                <outlet property="flipButton" destination="4dQ-1W-yWN" id="grg-FB-m8c"/>
+                <outlet property="galleryButton" destination="j8r-MZ-eSf" id="pRG-Po-n48"/>
+                <outlet property="img" destination="Ars-ge-UpJ" id="hCc-s1-7a1"/>
             </connections>
-            <point key="canvasLocation" x="121.73913043478262" y="42.857142857142854"/>
+            <point key="canvasLocation" x="-981.15942028985512" y="-57.589285714285708"/>
         </view>
     </objects>
     <resources>
