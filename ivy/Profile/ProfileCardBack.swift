@@ -17,6 +17,7 @@ class ProfileCardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     @IBOutlet weak var degree: MediumLabel!
     @IBOutlet weak var bio: StandardGreenLabel!
     @IBOutlet weak var flipButton: OpacityButton!
+    @IBOutlet weak var editButton: OpacityButton!
     
     @IBOutlet weak var interestestCollectionView: UICollectionView!
     

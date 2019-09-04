@@ -115,6 +115,7 @@
                 <outlet property="age" destination="xKa-Dk-Hs7" id="aWi-ZX-j0x"/>
                 <outlet property="bio" destination="Nmw-v6-BTK" id="biA-g9-TLm"/>
                 <outlet property="degree" destination="0Th-cA-nId" id="04u-fx-R5s"/>
+                <outlet property="editButton" destination="nBC-jD-DGo" id="Nkl-To-ehp"/>
                 <outlet property="flipButton" destination="Ktu-Iy-Moy" id="666-o4-l4d"/>
                 <outlet property="interestestCollectionView" destination="kzb-Rq-qdQ" id="Vhh-Cz-gao"/>
                 <outlet property="name" destination="Ryl-GW-GCu" id="beg-X6-nFQ"/>

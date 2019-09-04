@@ -101,12 +101,20 @@ class Profile: UIViewController {
         shadowOuterContainer.bringSubviewToFront(cardContainer.front)
         front.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside) //set on click listener for send message button
         back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside) //set on click listener for send message button
+        back.editButton.addTarget(self, action: #selector(onClickEdit), for: .touchUpInside) //set on click listener for send message button
+        
         
         
         //add on click for ther gallery button which will take them to the gallery screen
         front.galleryButton.addTarget(self, action: #selector(clickGallery), for: .touchUpInside) //set on click listener for send message button
         
         
+        
+    }
+    
+    
+    //when they click the edit 
+    @objc func onClickEdit() {
         
     }
     
