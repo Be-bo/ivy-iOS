@@ -54,6 +54,12 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nbx-tI-xPi" userLabel="BioTextField">
+                    <rect key="frame" x="24" y="79" width="352" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interests:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j03-BS-tJN" customClass="StandardGreenLabel" customModule="ivy" customModuleProvider="target">
                     <rect key="frame" x="24" y="108" width="72" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -79,25 +85,58 @@
                     </constraints>
                     <state key="normal" image="edit"/>
                 </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bX6-ja-VYD" userLabel="Edit Degree Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="80" y="30" width="22" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="22" id="TDx-DO-CpE"/>
+                        <constraint firstAttribute="height" constant="22" id="rZ8-YW-ycP"/>
+                    </constraints>
+                    <state key="normal" image="edit"/>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wF6-Sg-oEg" userLabel="Edit Interests Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="104" y="108" width="22" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="22" id="Bpf-7r-Ycb"/>
+                        <constraint firstAttribute="height" constant="22" id="b7W-vY-7ka"/>
+                    </constraints>
+                    <state key="normal" image="edit"/>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2PF-Ir-SFG" userLabel="Done Edit Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
+                    <rect key="frame" x="327" y="69" width="53" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="53" id="AE3-YG-YXx"/>
+                        <constraint firstAttribute="height" constant="53" id="oKR-rG-NN0"/>
+                    </constraints>
+                    <state key="normal" image="check"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="7Ae-Lz-a5I" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="24" id="4bm-Dc-5eJ"/>
+                <constraint firstItem="2PF-Ir-SFG" firstAttribute="top" secondItem="Ktu-Iy-Moy" secondAttribute="bottom" constant="8" id="5co-2S-nfN"/>
                 <constraint firstItem="Ktu-Iy-Moy" firstAttribute="top" secondItem="SkV-AP-yYo" secondAttribute="top" constant="8" id="7Gk-fJ-Slx"/>
+                <constraint firstItem="wF6-Sg-oEg" firstAttribute="top" secondItem="7Ae-Lz-a5I" secondAttribute="bottom" constant="8" id="8Ga-Kv-Mtb"/>
                 <constraint firstItem="d3q-NL-J8k" firstAttribute="trailing" secondItem="kzb-Rq-qdQ" secondAttribute="trailing" constant="16" id="9Qo-nM-5fa"/>
                 <constraint firstItem="Nmw-v6-BTK" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="24" id="9aU-ut-ZNR"/>
                 <constraint firstItem="Nmw-v6-BTK" firstAttribute="top" secondItem="0Th-cA-nId" secondAttribute="bottom" constant="8" id="C7f-5i-gJL"/>
                 <constraint firstAttribute="trailing" secondItem="Ktu-Iy-Moy" secondAttribute="trailing" constant="20" id="Iir-V7-oH7"/>
+                <constraint firstItem="bX6-ja-VYD" firstAttribute="top" secondItem="SkV-AP-yYo" secondAttribute="top" constant="30" id="LHi-Fy-4kF"/>
                 <constraint firstItem="0Th-cA-nId" firstAttribute="top" secondItem="Ryl-GW-GCu" secondAttribute="bottom" id="Mfp-Bn-qjg"/>
+                <constraint firstItem="nbx-tI-xPi" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="24" id="NMB-H2-ZGc"/>
                 <constraint firstItem="7Ae-Lz-a5I" firstAttribute="top" secondItem="Nmw-v6-BTK" secondAttribute="bottom" id="Ofs-7n-XiI"/>
+                <constraint firstItem="d3q-NL-J8k" firstAttribute="trailing" secondItem="nbx-tI-xPi" secondAttribute="trailing" constant="24" id="SLU-I5-cXx"/>
+                <constraint firstItem="d3q-NL-J8k" firstAttribute="trailing" secondItem="2PF-Ir-SFG" secondAttribute="trailing" constant="20" id="W0O-fO-fDh"/>
                 <constraint firstItem="j03-BS-tJN" firstAttribute="top" secondItem="7Ae-Lz-a5I" secondAttribute="bottom" constant="8" id="XAy-by-dIa"/>
                 <constraint firstItem="Ryl-GW-GCu" firstAttribute="leading" secondItem="SkV-AP-yYo" secondAttribute="leading" constant="8" id="XPF-UE-aF7"/>
                 <constraint firstItem="d3q-NL-J8k" firstAttribute="trailing" secondItem="nBC-jD-DGo" secondAttribute="trailing" constant="20" id="Zfz-f1-LTC"/>
+                <constraint firstItem="nbx-tI-xPi" firstAttribute="top" secondItem="Nmw-v6-BTK" secondAttribute="bottom" id="dXm-c2-b4E"/>
                 <constraint firstAttribute="bottom" secondItem="kzb-Rq-qdQ" secondAttribute="bottom" id="dmv-GG-NV7"/>
                 <constraint firstItem="0Th-cA-nId" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="16" id="gWu-H1-n1z"/>
+                <constraint firstItem="bX6-ja-VYD" firstAttribute="leading" secondItem="0Th-cA-nId" secondAttribute="trailing" constant="8" id="iGh-Z2-IAs"/>
                 <constraint firstItem="j03-BS-tJN" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="24" id="iYN-oL-ZDj"/>
                 <constraint firstItem="d3q-NL-J8k" firstAttribute="trailing" secondItem="7Ae-Lz-a5I" secondAttribute="trailing" constant="24" id="lHy-F5-bvq"/>
                 <constraint firstItem="nBC-jD-DGo" firstAttribute="top" secondItem="Ktu-Iy-Moy" secondAttribute="bottom" constant="8" id="nbF-cq-Jr7"/>
+                <constraint firstItem="wF6-Sg-oEg" firstAttribute="leading" secondItem="j03-BS-tJN" secondAttribute="trailing" constant="8" id="tmI-qd-oQ1"/>
                 <constraint firstItem="kzb-Rq-qdQ" firstAttribute="top" secondItem="j03-BS-tJN" secondAttribute="bottom" constant="8" id="u97-sO-Yq2"/>
                 <constraint firstItem="xKa-Dk-Hs7" firstAttribute="top" secondItem="SkV-AP-yYo" secondAttribute="top" constant="8" id="uL6-6x-ayc"/>
                 <constraint firstItem="kzb-Rq-qdQ" firstAttribute="leading" secondItem="d3q-NL-J8k" secondAttribute="leading" constant="16" id="uff-BO-nVl"/>
@@ -113,9 +152,13 @@
             </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="age" destination="xKa-Dk-Hs7" id="aWi-ZX-j0x"/>
-                <outlet property="bio" destination="Nmw-v6-BTK" id="biA-g9-TLm"/>
+                <outlet property="bioLabel" destination="7Ae-Lz-a5I" id="FiK-Qe-Yen"/>
+                <outlet property="bioTextField" destination="nbx-tI-xPi" id="PCj-eb-I4f"/>
                 <outlet property="degree" destination="0Th-cA-nId" id="04u-fx-R5s"/>
+                <outlet property="doneEditingButton" destination="2PF-Ir-SFG" id="4HG-7E-Vs5"/>
                 <outlet property="editButton" destination="nBC-jD-DGo" id="Nkl-To-ehp"/>
+                <outlet property="editDegreeButton" destination="bX6-ja-VYD" id="v0g-Gq-xbM"/>
+                <outlet property="editInterestsButton" destination="wF6-Sg-oEg" id="Uqg-Vc-bpX"/>
                 <outlet property="flipButton" destination="Ktu-Iy-Moy" id="666-o4-l4d"/>
                 <outlet property="interestestCollectionView" destination="kzb-Rq-qdQ" id="Vhh-Cz-gao"/>
                 <outlet property="name" destination="Ryl-GW-GCu" id="beg-X6-nFQ"/>
@@ -124,6 +167,7 @@
         </view>
     </objects>
     <resources>
+        <image name="check" width="72" height="72"/>
         <image name="edit" width="48" height="48"/>
         <image name="flip" width="240" height="240"/>
     </resources>

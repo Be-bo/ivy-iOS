@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A90205E7231FBDF700EB6B2E /* editDegreePopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E6231FBDF700EB6B2E /* editDegreePopUpViewController.swift */; };
+		A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */; };
 		A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266422A4B214005E8965 /* cordiabold.ttf */; };
 		A90D266722A4B215005E8965 /* cordia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266522A4B215005E8965 /* cordia.ttf */; };
 		A920C4E522D281B60088DD58 /* CardBack.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E422D281B60088DD58 /* CardBack.xib */; };
@@ -107,6 +109,8 @@
 
 /* Begin PBXFileReference section */
 		7BCF3E5BF603A0F3A703E3A0 /* Pods-ivy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.debug.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.debug.xcconfig"; sourceTree = "<group>"; };
+		A90205E6231FBDF700EB6B2E /* editDegreePopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editDegreePopUpViewController.swift; sourceTree = "<group>"; };
+		A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editInterestsPopUpViewController.swift; sourceTree = "<group>"; };
 		A90D266422A4B214005E8965 /* cordiabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordiabold.ttf; sourceTree = "<group>"; };
 		A90D266522A4B215005E8965 /* cordia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordia.ttf; sourceTree = "<group>"; };
 		A920C4E422D281B60088DD58 /* CardBack.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardBack.xib; sourceTree = "<group>"; };
@@ -355,6 +359,8 @@
 				A9FD197D231DB5AE00ECA848 /* galleryImageView.swift */,
 				A9FD197F231DB5D100ECA848 /* galleryImageView.xib */,
 				A9FD1981231E294800ECA848 /* PhotoAdder.swift */,
+				A90205E6231FBDF700EB6B2E /* editDegreePopUpViewController.swift */,
+				A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -613,6 +619,7 @@
 				A920C4F322DAC78D0088DD58 /* Reg3Name.swift in Sources */,
 				FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */,
 				A97A661722F7755A004A6BBE /* addParticipantPopUPViewController.swift in Sources */,
+				A90205E7231FBDF700EB6B2E /* editDegreePopUpViewController.swift in Sources */,
 				A9B57E8223137482008DC63B /* EventCollectionViewCell.swift in Sources */,
 				FADF68B1231B7DA500614F11 /* ChatBubbleCell.swift in Sources */,
 				FA6F7C9822EE770000610046 /* SettingsButton.swift in Sources */,
@@ -622,6 +629,7 @@
 				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
 				A9FD196E231A275400ECA848 /* boardHistory.swift in Sources */,
 				FA1B412622F4ACB9005817C5 /* QuadNavigationViewController.swift in Sources */,
+				A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */,
 				A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
