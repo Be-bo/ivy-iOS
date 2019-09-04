@@ -922,38 +922,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="51x-vm-Nor" userLabel="ViewProfile Collection View">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zng-WA-sx8" userLabel="Container" customClass="Card" customModule="ivy" customModuleProvider="target">
+                                <rect key="frame" x="16" y="104" width="382" height="693"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" sectionInsetReference="layoutMargins" id="Ofe-zt-We2">
-                                    <size key="itemSize" width="400" height="600"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="dmy-7K-Jnk">
-                                        <rect key="frame" x="20" y="62.5" width="400" height="600"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </view>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="51x-vm-Nor" firstAttribute="leading" secondItem="ei5-iz-50w" secondAttribute="leading" id="OWm-Un-1VO"/>
-                            <constraint firstItem="51x-vm-Nor" firstAttribute="top" secondItem="ei5-iz-50w" secondAttribute="top" id="ob6-J4-twQ"/>
-                            <constraint firstItem="51x-vm-Nor" firstAttribute="bottom" secondItem="ei5-iz-50w" secondAttribute="bottom" id="pC7-LC-FgS"/>
-                            <constraint firstItem="51x-vm-Nor" firstAttribute="trailing" secondItem="ei5-iz-50w" secondAttribute="trailing" id="qBJ-T0-pW5"/>
+                            <constraint firstItem="Zng-WA-sx8" firstAttribute="leading" secondItem="ei5-iz-50w" secondAttribute="leading" constant="16" id="6Tt-0V-5KY"/>
+                            <constraint firstItem="ei5-iz-50w" firstAttribute="trailing" secondItem="Zng-WA-sx8" secondAttribute="trailing" constant="16" id="e3Q-em-cJJ"/>
+                            <constraint firstItem="ei5-iz-50w" firstAttribute="bottom" secondItem="Zng-WA-sx8" secondAttribute="bottom" constant="16" id="hzC-7I-5HH"/>
+                            <constraint firstItem="Zng-WA-sx8" firstAttribute="top" secondItem="ei5-iz-50w" secondAttribute="top" constant="16" id="iAE-ot-ph0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ei5-iz-50w"/>
                     </view>
                     <connections>
-                        <outlet property="viewProfileCollectionView" destination="51x-vm-Nor" id="LCj-tq-7eQ"/>
+                        <outlet property="cardContainer" destination="Zng-WA-sx8" id="iWk-V7-7FB"/>
                         <segue destination="o21-X7-06M" kind="show" identifier="conversationToMessages" id="9lb-Kb-J7u"/>
                         <segue destination="k4q-kU-cqe" kind="showDetail" identifier="unfriendToMain" id="qnE-MC-VUo"/>
                     </connections>

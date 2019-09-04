@@ -98,6 +98,7 @@
 		FA6F7C9A22EE84B900610046 /* ExploreNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F7C9922EE84B900610046 /* ExploreNavigationController.swift */; };
 		FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D86922A898020055FCE7 /* Reg1Email.swift */; };
 		FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D87022A8A3BD0055FCE7 /* Extensions.swift */; };
+		FAC5CC6B231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC5CC6A231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift */; };
 		FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACD8FFD22C710060066F109 /* DegreeCell.swift */; };
 		FAD461A122ED3329003B10D8 /* OpacityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD461A022ED3329003B10D8 /* OpacityButton.swift */; };
 		FADF68B1231B7DA500614F11 /* ChatBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF68AF231B7DA500614F11 /* ChatBubbleCell.swift */; };
@@ -200,6 +201,7 @@
 		FA6F7C9922EE84B900610046 /* ExploreNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreNavigationController.swift; sourceTree = "<group>"; };
 		FA90D86922A898020055FCE7 /* Reg1Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg1Email.swift; sourceTree = "<group>"; };
 		FA90D87022A8A3BD0055FCE7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		FAC5CC6A231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicStaticFinalMethodsAndData.swift; sourceTree = "<group>"; };
 		FACD8FFD22C710060066F109 /* DegreeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeCell.swift; sourceTree = "<group>"; };
 		FAD461A022ED3329003B10D8 /* OpacityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpacityButton.swift; sourceTree = "<group>"; };
 		FADF68AF231B7DA500614F11 /* ChatBubbleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleCell.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */,
 				A9FD19692315C84A00ECA848 /* BoardPostTableViewCell.swift */,
 				A9FD196A2315C84A00ECA848 /* BoardPostTableViewCell.xib */,
+				FAC5CC6A231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -638,6 +641,7 @@
 				FA6F7C9A22EE84B900610046 /* ExploreNavigationController.swift in Sources */,
 				A9FD197E231DB5AE00ECA848 /* galleryImageView.swift in Sources */,
 				A9990C7822C9A2F600E95B2C /* UserProfile.swift in Sources */,
+				FAC5CC6B231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift in Sources */,
 				A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */,
 				A9FD1986231ED41100ECA848 /* Settings.swift in Sources */,
 				A9B57E8523138318008DC63B /* Event.swift in Sources */,
@@ -809,13 +813,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F4YZ329W24;
+				DEVELOPMENT_TEAM = 87U2W3H4TZ;
 				INFOPLIST_FILE = ivy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.theivysocialnetwork.ivyapp1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.theivysocialnetwork.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -828,13 +832,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F4YZ329W24;
+				DEVELOPMENT_TEAM = 87U2W3H4TZ;
 				INFOPLIST_FILE = ivy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.theivysocialnetwork.ivyapp1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.theivysocialnetwork.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

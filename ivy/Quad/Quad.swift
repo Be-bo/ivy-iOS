@@ -76,11 +76,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         currHeight?.isActive = true
         
-        
-        
         self.navigationItem.rightBarButtonItem = settingsButtonItem
-
-        
     }
     
     //if settings clicked, segue over to the settings page

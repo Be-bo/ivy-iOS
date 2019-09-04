@@ -2,7 +2,7 @@
 //  ViewFullProfileActivity.swift
 //  ivy
 //
-//  Created by paul dan on 2019-08-14.
+//  Created by Paulicius Daen on 2019-08-14.
 //  Copyright © 2019 ivy social network. All rights reserved.
 //
 
@@ -16,12 +16,10 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseFirestore
 
-class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ViewFullProfileActivity: UIViewController{
 
+    // MARK: Variables and Constants
     
-    
-    //INITITALIZERS
-    //passed in from chatroom.swift segue
     var isFriend = Bool()
     var thisUserProfile = Dictionary<String,Any>()                              //current user that wants to view another profile
     var otherUserID:String? = nil                                               //other users ID that thisUserProfile was in conversation with
@@ -31,35 +29,27 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
     
     var conversationID = ""                                                     //id of THIS current conversation
     var otherUserProfile = Dictionary<String, Any>()                            //guy your conversating with's profile
-    private let cellId = "QuadCard" 
-    
-    
+    private let cellId = "QuadCard"
     private var cardClicked:Card? = nil
-
+    @IBOutlet weak var cardContainer: Card!
     
     
-    // MARK: IBOutlets and IBActions
-    @IBOutlet weak var viewProfileCollectionView: UICollectionView!
     
+    
+    
+    
+    
+    
+    
+    // MARK: Base Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         getData()
-        setUpCardCollectionView()
-        // swift
-        
-        //TODO: get rid of collection view holder for cards. This is a temporary fix that doesn't allows scrolling of the collection view
-        self.viewProfileCollectionView?.alwaysBounceVertical = false
-        self.viewProfileCollectionView?.alwaysBounceHorizontal = false
-        self.viewProfileCollectionView?.bounces = false
-        self.viewProfileCollectionView?.isScrollEnabled = false
-        
     }
-    
-    
-    //all the possible actions that a user can have on the conversation.
-    @objc func showActions(){
+
+    @objc func showActions(){ //all the possible actions that a user can have on the conversation
         let actionSheet = UIAlertController(title: "User Actions", message: .none, preferredStyle: .actionSheet)
         actionSheet.view.tintColor = UIColor.ivyGreen
         
@@ -92,13 +82,24 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
             let vc = segue.destination as! MainTabController
             vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String
         }
-        
-        
-        
     }
     
-    //when the user clicks on block user send it here to actually block them
-    func blockUser(alert:UIAlertAction!){
+    func leaveForMainActivity() {
+        self.performSegue(withIdentifier: "unfriendToMain" , sender: self)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Individual Action Methods
+    
+    func blockUser(alert:UIAlertAction!){ //when the user clicks on block user send it here to actually block them
         
         let docData = [String: Any]()   //used to set the hashmap when there is no blocked_by list that exists for this user
         
@@ -121,9 +122,7 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     
-    
-    //when they click on reporting the USER send them here
-    func reportUser(alert: UIAlertAction!){
+    func reportUser(alert: UIAlertAction!){ //when they click on reporting the USER send them here
         var report = Dictionary<String, Any>()
         report["reportee"] = self.thisUserProfile["id"] as! String
         report["report_type"] = "user"
@@ -137,17 +136,17 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
             } else {
                 if(!querySnapshot!.isEmpty){
                     print("You have already reported this user.")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You have already reported this user.", context: self)
                 }else{
                     self.baseDatabaseReference.collection("reports").document(reportId).setData(report)
                     print("This user has been reported.")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "The user has been reported.", context: self)
                 }
             }
         }
     }
     
-    
-    //when you want to unfriend a user execute this
-    func unfriendUser(alert: UIAlertAction!){
+    func unfriendUser(alert: UIAlertAction!){ //when you want to unfriend a user execute this
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
             if let document = document, document.exists {
                 let friendsList = document.data()!  //extract the friends list from the query
@@ -192,8 +191,7 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
         }
     }
     
-    //when they click message user, move over to the messaging user screen where you are actually in the conversation with the user
-    func messageUser(alert: UIAlertAction!){
+    func messageUser(alert: UIAlertAction!){ //when they click message user, move over to the messaging user screen where you are actually in the conversation with the user
         self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
     }
     
@@ -201,8 +199,14 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
     
     
     
-    //extract the data corresponding to this current conversation and this current user and who he is conversating with
-    func getData() {
+    
+    
+    
+    
+    
+    // MARK: Data Acquisition Functions
+    
+    func getData() { //extract the data corresponding to this current conversation and this current user and who he is conversating with
         if (self.otherUserID != nil && !self.thisUserProfile.isEmpty){  //make sure there is a profile and there is another person in convo
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
                 if let document = document, document.exists {
@@ -223,9 +227,7 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
                     if let document = document, document.exists {
                         self.otherUserProfile = document.data()!
                         if (!self.otherUserProfile.isEmpty){
-                            self.viewProfileCollectionView.reloadData() //load other users profile into card cell
-                            //TODO: look into bind data
-                            //TODO: look into what animprep is
+                            self.cardContainer.setUp(user: self.otherUserProfile)
                         }
 
                     } else {
@@ -235,54 +237,4 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
             }
         }
     }
-    
-    
-    //setup the collection view that holds the users card
-    func setUpCardCollectionView() {
-        viewProfileCollectionView.delegate = self
-        viewProfileCollectionView.dataSource = self
-        viewProfileCollectionView.register(UINib(nibName: "Card", bundle: nil), forCellWithReuseIdentifier: cellId)
-    }
-    
-    //only one cell should be returned since your only viewing one users profile.
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    //populate the card with the other users profile.
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let quadCard = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! Card
-        quadCard.setUp(user: self.otherUserProfile)
-        
-        
-        //TODO: find a better solution for this where we can make the items from Card.swift clickable
-        //moving sync arrow to front to be clickable
-        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer)
-        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.back)
-        quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.front)
-        quadCard.front.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside) //set on click listener for send message button
-        quadCard.back.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside) //set on click listener for send message button
-
-        self.cardClicked = quadCard
-        
-        
-        
-        return quadCard
-    }
-    
-    //on click of the send hi message on back of card
-    @objc func flipButtonClicked(_ sender: subclassedUIButton) {
-        
-        self.cardClicked!.flip()
-        
-    }
-    
-    
-    //leave to main activity
-    func leaveForMainActivity() {
-        self.performSegue(withIdentifier: "unfriendToMain" , sender: self)
-    }
-    
-
-    
 }
