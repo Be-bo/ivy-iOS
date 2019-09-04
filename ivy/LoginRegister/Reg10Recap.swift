@@ -81,6 +81,17 @@ class Reg10Recap: UIViewController {
                 print("There was an error creating the user in the database", error)
                 PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "There was an error creating the user. Try restarting the app and check your internet connection", context: self)
             }else {
+                if(Auth.auth().currentUser != nil){
+                    Auth.auth().currentUser?.sendEmailVerification(completion: { (e) in
+                        let alert = UIAlertController(title: "Registration Successful", message: "We sent you a verification email. Check your inbox.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+                            self.databaseRegister()
+                        }))
+                        self.present(alert, animated: true)
+                    })
+                }else{
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't authenticate your profile. Try restarting the app.", context: self)
+                }
                 self.databaseRegister()  //register the Userprofile struct associated with this user
             }
         }

@@ -518,8 +518,9 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         tableView.dataSource = self
         tableView.register(UINib(nibName: "ChatBubbleCell", bundle: nil), forCellReuseIdentifier: "ChatBubbleCell")
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 120
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -558,15 +559,12 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             } else {
                 cell.messageLabel.text = lastMessageString  //last message that was sent in the chat
                 if(self.messages[indexPath.row]["author_id"] as! String == self.thisUserProfile["id"] as! String){
-                    cell.authorName.isHidden = true
                     cell.profilePicture.isHidden = true
                     cell.messageContainer.backgroundColor = UIColor.ivyGreen
                 }else{
-                    cell.authorName.isHidden = false
                     cell.profilePicture.isHidden = false
                     cell.messageContainer.backgroundColor = UIColor.ivyGrey
                     //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
-                    cell.authorName.text = self.messages[indexPath.row]["author_first_name"] as! String     //name of the chat this user is involved in
                     cell.profilePicture.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
                 }
             }

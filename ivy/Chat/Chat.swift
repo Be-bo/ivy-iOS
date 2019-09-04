@@ -53,13 +53,22 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
         
-        //TODO: tidy this up --> interferes with the actions button when you click on a chat room
-//        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
-//        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
-//        var background = UIImageView(image: UIImage(named: "settings"))
-//        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
-//        leftButton.addSubview(background)
-//        self.navigationController!.navigationBar.addSubview(leftButton)
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
+        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
+        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
+        
+        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
+        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currWidth?.isActive = true
+        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currHeight?.isActive = true
+        
+        self.navigationItem.rightBarButtonItem = settingsButtonItem
+    }
+    
+    @objc func settingsClicked() {
+        self.performSegue(withIdentifier: "chatToSettings" , sender: self) //pass data over to
     }
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
@@ -67,9 +76,14 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segway is called
-        let vc = segue.destination as! ChatRoom
-        vc.conversationID = self.conversationID //set the conversation id of chatRoom.swift to contain the one the user clicked on
-        vc.thisUserProfile = self.thisUserProfile   //pass the user profile object
+        if(segue.identifier == "chatToSettings"){
+            let vc = segue.destination as! Settings
+            vc.thisUserProfile = self.thisUserProfile
+        }else{
+            let vc = segue.destination as! ChatRoom
+            vc.conversationID = self.conversationID //set the conversation id of chatRoom.swift to contain the one the user clicked on
+            vc.thisUserProfile = self.thisUserProfile   //pass the user profile object
+        }
     }
     
     
