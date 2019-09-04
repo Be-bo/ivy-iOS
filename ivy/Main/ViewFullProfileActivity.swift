@@ -25,13 +25,19 @@ class ViewFullProfileActivity: UIViewController{
     var otherUserID:String? = nil                                               //other users ID that thisUserProfile was in conversation with
     //database references
     let baseDatabaseReference = Firestore.firestore()                           //reference to the database
-    let baseStorageReference = Storage.storage()                                //reference to storage
+    let baseStorageReference = Storage.storage().reference()                    //reference to storage
     
     var conversationID = ""                                                     //id of THIS current conversation
     var otherUserProfile = Dictionary<String, Any>()                            //guy your conversating with's profile
     private let cellId = "QuadCard"
     private var cardClicked:Card? = nil
-    @IBOutlet weak var cardContainer: Card!
+
+    
+    private var showingBack = false
+    let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
+    let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
+    
+    @IBOutlet weak var cardContainer: UIView!
     
     
     
@@ -41,12 +47,13 @@ class ViewFullProfileActivity: UIViewController{
     
     
     
-    // MARK: Base Functions
+    // MARK: Base Functions and Setup
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         getData()
+        setUpContainer()
     }
 
     @objc func showActions(){ //all the possible actions that a user can have on the conversation
@@ -87,6 +94,30 @@ class ViewFullProfileActivity: UIViewController{
     func leaveForMainActivity() {
         self.performSegue(withIdentifier: "unfriendToMain" , sender: self)
     }
+    
+    @objc func flip() {
+        let toView = showingBack ? front : back
+        let fromView = showingBack ? back : front
+        UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight, completion: nil)
+        showingBack = !showingBack
+        setUpContainer()
+        
+    }
+    
+    func setUpContainer(){
+        cardContainer.layer.shadowPath = UIBezierPath(roundedRect: cardContainer.bounds, cornerRadius:cardContainer.layer.cornerRadius).cgPath
+        cardContainer.layer.shadowColor = UIColor.black.cgColor
+        cardContainer.layer.shadowOpacity = 0.25
+        cardContainer.layer.shadowOffset = CGSize(width: 2, height: 2)
+        cardContainer.layer.shadowRadius = 5
+        cardContainer.layer.cornerRadius = 5
+        cardContainer.layer.masksToBounds = false
+    }
+    
+    
+    
+    
+    
     
     
     
@@ -225,7 +256,7 @@ class ViewFullProfileActivity: UIViewController{
                     if let document = document, document.exists {
                         self.otherUserProfile = document.data()!
                         if (!self.otherUserProfile.isEmpty){
-                            self.cardContainer.setUp(user: self.otherUserProfile)
+                            self.bindData()
                         }
 
                     } else {
@@ -235,4 +266,38 @@ class ViewFullProfileActivity: UIViewController{
             }
         }
     }
+
+    func bindData(){ //this method attaches the data obtained for the given user profile to the UI
+        if let ref = otherUserProfile["profile_picture"] as? String{ //profile picture
+            baseStorageReference.child(ref).getData(maxSize: 2 * 1024 * 1024) { (data, e) in
+                if let e = e {
+                    print("Error obtaining image: ", e)
+                }else{
+                    self.front.img.image = UIImage(data: data!)
+                }
+            }
+        }
+        
+        if var degree = otherUserProfile["degree"] as? String { //degree icon
+            degree = degree.replacingOccurrences(of: " ", with: "")
+            degree = degree.lowercased()
+            front.degreeIcon.image = UIImage(named: degree)
+        }
+        
+        front.name.text = otherUserProfile["first_name"] as? String //text data
+        back.name.text = String(otherUserProfile["first_name"] as? String ?? "Name") + " " + String(otherUserProfile["last_name"] as? String ?? "Name")
+        back.degree.text = otherUserProfile["degree"] as? String
+        back.age.text = otherUserProfile["age"] as? String
+        back.bio.text = otherUserProfile["bio"] as? String
+        back.setUpInterests(interests: otherUserProfile["interests"] as? [String] ?? [String]())
+        
+        front.frame = cardContainer.bounds
+        back.frame = cardContainer.bounds
+        cardContainer.addSubview(front)
+        
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
+        singleTap.numberOfTapsRequired = 1
+        cardContainer.addGestureRecognizer(singleTap)
+    }
 }
+
