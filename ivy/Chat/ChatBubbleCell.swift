@@ -11,7 +11,6 @@ import UIKit
 class ChatBubbleCell: UITableViewCell {
 
     @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var authorName: StandardLabel!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var messageContainer: UIView!
     
