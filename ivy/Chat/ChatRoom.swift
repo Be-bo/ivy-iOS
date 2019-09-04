@@ -16,7 +16,8 @@ import FirebaseFirestore
 
 class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
-    //initializers
+    // MARK: Variables and Constants
+    
     let baseDatabaseReference = Firestore.firestore()   //reference to the database
     let baseStorageReference = Storage.storage()        //reference to storage
     var uid = ""                                        //user id for the authenticated user
@@ -29,14 +30,16 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     var imageByteArray:NSData? =  nil                   //image byte array to hold the image the user wished to upload
     var keyboardHeight:CGFloat = 0
     var otherId=""                                      //other persons id that will be exxtracted when figuring out who your conversating with
-    
-    
-    //holders for image and regular file
     var imagePicked: ((UIImage))?
     var filePicked: ((URL))?
     
     
-    //outlets
+    
+    
+    
+    
+    // MARK: IBOutlets and IBActions
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var xButton: UIButton!   //x button that gets shown when a file is attached
@@ -45,7 +48,23 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var sendBtnHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var fileBtnHeightConstraint: NSLayoutConstraint!
     
+    @IBAction func onClickSendMessage(_ sender: Any) { //when the user clicks the send message button determine if there is a file attached or just a message and send based on that
+        if(!self.file_attached){ //if file_attached is false then send a message
+            sendMessage()
+        }else{  //there is a file attached so send a file message instead
+            sendFileMessage()
+        }
+    }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Base Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,12 +75,11 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         xButton.isHidden = true //make sure the x button is hidden by default
     }
     
-    
-    //setup listeners for if they click on actions to show the keyboard, and when they click on button, to hide keyboard
-    private func setUpKeyboardListeners(){
+    private func setUpKeyboardListeners(){ //setup listeners for if they click on actions to show the keyboard, and when they click on button, to hide keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
     @objc func keyboardWillShow(notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
@@ -75,6 +93,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             self.messageTextField.layoutIfNeeded()
         }
     }
+    
     @objc func keyboardWillHide(notification: Notification) {
         UIView.animate(withDuration: 0.5){
             self.msgFieldHeightConstraint.constant = 4
@@ -83,8 +102,13 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             self.messageTextField.layoutIfNeeded()
         }
     }
-    //all the possible actions that a user can have on the conversation.
-    @objc func showActions(){
+    
+    
+    
+    
+    // MARK: Actions Related Functions
+    
+    @objc func showActions(){ //all the possible actions that a user can have on the conversation.
         var isBaseConv = self.thisConversation["is_base_conversation"] as! Bool
         var isMuted = false
         var mutedBy = self.thisConversation["muted_by"] as! [String]
@@ -119,11 +143,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.present(actionSheet, animated: true, completion: nil)
     }
     
-
-
-
-    //called every single time a segway is called
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segway is called
         //handling different segue calls based on identitfier
         if segue.identifier == "addParticipantSegue" {
             let vc = segue.destination as! addParticipantPopUPViewController
@@ -146,44 +166,32 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             vc.thisUserProfile = self.thisUserProfile
             vc.thisConversation = self.thisConversation
         }
-        
-        
-        
     }
     
-    
-    //when they click change group name send them here
-    func onClickChangeGroupName(alert: UIAlertAction!) {
+    func onClickChangeGroupName(alert: UIAlertAction!) { //when they click change group name send them here
         self.performSegue(withIdentifier: "chatToChangeGroupName" , sender: self) //pass data over to
     }
     
-    //TODO: implement this user leaving the current conversation
     func onClickLeaveConversation(alert: UIAlertAction!) {
-        
+        //TODO: implement this user leaving the current conversation
     }
     
-
-    //participant controller segue to allow them to add more people to the chat
-    func onClickAddParticipants(alert: UIAlertAction!) {
+    func onClickAddParticipants(alert: UIAlertAction!) { //participant controller segue to allow them to add more people to the chat
         self.performSegue(withIdentifier: "addParticipantSegue" , sender: self) //pass data over to
     }
     
-    
-    //when they click "view participants"
-    func onClickViewParticipants(alert: UIAlertAction!){
+    func onClickViewParticipants(alert: UIAlertAction!){ //when they click "view participants"
         self.performSegue(withIdentifier: "viewParticipantsSegue" , sender: self) //pass data over to
     }
     
-    //when its a base conversation and they click on the profile to view
-    func onClickViewProfile(alert: UIAlertAction!) {
+    func onClickViewProfile(alert: UIAlertAction!) { //when its a base conversation and they click on the profile to view
         self.otherId = getOtherParticipant(conversation: self.thisConversation, returnName: false)   //extract other participant id
         if (self.otherId != ""){ //if there is actually someone part of the conversation
             self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
         }
     }
     
-    //helper funtion for view profile that will retrieve the other participant that is active in this conversation
-    func getOtherParticipant(conversation: Dictionary<String,Any>, returnName:Bool) -> String {
+    func getOtherParticipant(conversation: Dictionary<String,Any>, returnName:Bool) -> String { //helper funtion for view profile that will retrieve the other participant that is active in this conversation
         let participants = conversation["participants"] as! [String]
         var participantNames = conversation["participant_names"] as! [String]
         var otherParticipantId = ""
@@ -200,9 +208,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         return returnVal
     }
     
-    
-    //when the user clicks to mute the conversation or to unmute the conversation
-    func onClickMuteConversation(isMuted:Bool) -> (_ alertAction:UIAlertAction) -> () {
+    func onClickMuteConversation(isMuted:Bool) -> (_ alertAction:UIAlertAction) -> () { //when the user clicks to mute the conversation or to unmute the conversation
         var thisUserProfileID = [String]()   //arraylist of strings
         thisUserProfileID.append(self.thisUserProfile["id"] as! String)
         return { alertAction in
@@ -214,8 +220,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    //when user clicks report conversaiton
-    func onClickReportConversation(alert: UIAlertAction!) {
+    func onClickReportConversation(alert: UIAlertAction!) { //when the user clicks to mute the conversation or to unmute the conversation
         var report = Dictionary<String, Any>()
         report["reportee"] = self.thisUserProfile["id"] as! String
         report["report_type"] = "conversation"
@@ -229,27 +234,30 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             } else {
                 if(!querySnapshot!.isEmpty){
                     print("You have already reported this conversation.")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You have already reported this conversation.", context: self)
                 }else{
                     self.baseDatabaseReference.collection("reports").document(reportId).setData(report)
                     print("This conversation has been reported.")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "You've successfully reported the conversation", context: self)
                 }
             }
         }
     }
     
     
-    //when the user clicks the send message button determine if there is a file attached or just a message and send based on that
-    @IBAction func onClickSendMessage(_ sender: Any) {
-        if(!self.file_attached){ //if file_attached is false then send a message
-            sendMessage()
-        }else{  //there is a file attached so send a file message instead
-            sendFileMessage()
-        }
-    }
     
     
-    //when the user clicks the x button, remove the file, remove the name, collapse both the x and the name
-    @IBAction func onClickX(_ sender: Any) {
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: File Attachment Related Functions
+    
+    @IBAction func onClickX(_ sender: Any) { //when the user clicks the x button, remove the file, remove the name, collapse both the x and the name
         self.fileNameLabel.text = nil
         self.fileNameLabel.isHidden = true
         self.xButton.isHidden = true
@@ -259,10 +267,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.filePicked = nil
     }
     
-    
-    
-    //when user clicks the add file button then deal with adding a file to the chat and setting file_attached to true
-    @IBAction func onClickAttachFile(_ sender: Any) {
+    @IBAction func onClickAttachFile(_ sender: Any) { //when user clicks the add file button then deal with adding a file to the chat and setting file_attached to true
         // ---------------------------------------------- OPTION PROMPTING FOR FILE UPLOADING ----------------------------------------------
         AttachmentHandler.shared.showAttachmentActionSheet(vc: self)
         // ---------------------------------------------- IMAGE CHOOSING ----------------------------------------------
@@ -305,10 +310,9 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     
     
+    // MARK: Sending Message Functions
     
-    //send a file over the chat. differentiate b/w image or regular files (pdf's,word docs, etc.)
-    func sendFileMessage(){
-        
+    func sendFileMessage(){ //send a file over the chat. differentiate b/w image or regular files (pdf's,word docs, etc.)
         var inputFileName = self.fileNameLabel.text //save file name
         let storageRef = self.baseStorageReference.reference()
         var filePath = ""
@@ -381,15 +385,19 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 switch (StorageErrorCode(rawValue: error.code)!) {
                 case .objectNotFound:
                     print("File doesn't exist")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "The file you're trying to upload doesn't exist.", context: self)
                     break
                 case .unauthorized:
                     print("User doesn't have permission to access file")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "You don't have permission to access the file you're trying to upload.", context: self)
                     break
                 case .cancelled:
                     print("User canceled the upload")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Upload cancelled.", context: self)
                     break
                 case .unknown:
                     print("unknown error")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "An unknown error occurred.", context: self)
                     break
                 default:
                     print("retry the upload here if it fails")
@@ -399,13 +407,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    
-    
-    
-    
-    //actually sends the message to the conversation they are clicked on
-    func sendMessage() {
-        
+    func sendMessage() { //actually sends the message to the conversation they are clicked on
         let inputMessage = messageTextField.text //extract the text field input
         if(inputMessage != ""){ //if not empty
             messageTextField.text = "" //reset the message field to be empty
@@ -439,8 +441,21 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             }
         }
     }
-    //listen and retrun the up to date conversation object
-    func startListeningToChangesInThisConversation() {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Data Acquistion Functions
+    
+    func startListeningToChangesInThisConversation() { //listen and retrun the up to date conversation object
         let thisConversationRegistration = baseDatabaseReference.collection("conversations").document(self.conversationID).addSnapshotListener(){ (querySnapshot, err) in
             
             guard let snapshot = querySnapshot else {
@@ -459,11 +474,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    
-    
-    
-    //used to get the messages that are present within the current conversation
-    func startRetrievingMessages() {
+    func startRetrievingMessages() { //used to get the messages that are present within the current conversation
         baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).collection("messages").order(by: "creation_time", descending: false).addSnapshotListener(){ (querySnapshot, err) in
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(err!)")
@@ -485,6 +496,16 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Tableview Related Functions
+    
     func configureTableView(){
         tableView.delegate = self
         tableView.dataSource = self
@@ -494,9 +515,6 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         tableView.estimatedRowHeight = UITableView.automaticDimension
     }
     
-    
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.messages.count
     }
@@ -505,12 +523,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         return UITableView.automaticDimension
     }
     
-    
-    
-    
-    
-    // called for every single cell thats displayed on screen/on reload
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen/on reload
         
         //called for each cell but will only update on the last index of messages since we only want it to update when the users "read" (loaded cell) the last message
         updateLastSeenMessage()
@@ -565,8 +578,16 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     
-    // used to located the index of the conversation from the activeChats array
-    func locateUser(id: String) -> Int {
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Support Methods
+    
+    func locateUser(id: String) -> Int { // used to located the index of the conversation from the activeChats array
         var position = 0
         var participants = [String]()
         participants = self.thisConversation["participants"] as! [String]
@@ -578,11 +599,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         return position
     }
     
-    
-    
-    
-    //update the last seen message count for this user for this conversations but only once we've loaded all its messages
-    func updateLastSeenMessage() {
+    func updateLastSeenMessage() { //update the last seen message count for this user for this conversations but only once we've loaded all its messages
 
         if(self.messages.count >= self.thisConversation["message_count"] as! CLong){    //if we have more messages then the amount thats been seen
             var counts = self.thisConversation["last_message_counts"] as? [CLong]
@@ -610,12 +627,16 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             }
         }
     }
-    
-    
-
 }
 
 
+
+
+
+
+
+
+// MARK: Extensions
 
 extension Date {
     var millisecondsSince1970:Int64 {

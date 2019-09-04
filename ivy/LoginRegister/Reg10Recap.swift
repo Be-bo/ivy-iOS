@@ -79,6 +79,7 @@ class Reg10Recap: UIViewController {
         Auth.auth().createUser(withEmail: self.registerInfoStruct.email!, password: self.password) { authResult, error in
             if ((error) != nil){
                 print("There was an error creating the user in the database", error)
+                PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "There was an error creating the user. Try restarting the app and check your internet connection", context: self)
             }else {
                 self.databaseRegister()  //register the Userprofile struct associated with this user
             }
@@ -138,6 +139,7 @@ class Reg10Recap: UIViewController {
             self.baseDatabaseReference.collection("universities").document(self.domain).collection("userprofiles").document(self.registerInfoStruct.id!).setData(self.registerInfoStruct.dictionary)
             storageRef.child("userimages").child(self.registerInfoStruct.id!).child("preview.jpg").putData(previewImageBytes as Data)
             self.leaveForLogin()
+            
         }
         
         //upload task failed
@@ -146,15 +148,19 @@ class Reg10Recap: UIViewController {
                 switch (StorageErrorCode(rawValue: error.code)!) {
                 case .objectNotFound:
                     print("File doesn't exist")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "The image you chose no longer exists.", context: self)
                     break
                 case .unauthorized:
                     print("User doesn't have permission to access file")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "You don't have permission to access the profile image.", context: self)
                     break
                 case .cancelled:
                     print("User canceled the upload")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Upload cancelled.", context: self)
                     break
                 case .unknown:
                     print("unknown error")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "An unknow error occurred, try restarting the app.", context: self)
                     break
                 default:
                     print("retry the upload here if it fails")

@@ -15,7 +15,8 @@ import FirebaseFirestore
 
 class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
-    //initializers
+    // MARK: Variables and Constants
+    
     let baseDatabaseReference = Firestore.firestore()   //reference to the database
     let baseStorageReference = Storage.storage()    //reference to storage
     var activeChats: [Dictionary<String, Any>] = []
@@ -27,16 +28,17 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     private var thisUserProfile = Dictionary<String, Any>()
     private var requestCount = Dictionary<String, Any>()
     
-    //outlets
     @IBOutlet weak var tableView: UITableView!
     
     
     
     
     
+    
+    // MARK: Base Functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.userAuthFirstName = thisUserProfile["first_name"] as! String
         self.userProfilePic = thisUserProfile["profile_picture"] as! String
         self.uid = thisUserProfile["id"] as! String
@@ -51,11 +53,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
         
-//        // this retarded bs is not working
-//        let settingsBtn = SettingsButton()
-//        let settingsButton = UIBarButtonItem(customView: settingsBtn)
-//        navigationItem.rightBarButtonItem = settingsButton
-        
         //TODO: tidy this up --> interferes with the actions button when you click on a chat room
 //        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
 //        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
@@ -65,16 +62,25 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
 //        self.navigationController!.navigationBar.addSubview(leftButton)
     }
     
-    
-    
-    //user profile thats logged in
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         thisUserProfile = updatedProfile
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segway is called
+        let vc = segue.destination as! ChatRoom
+        vc.conversationID = self.conversationID //set the conversation id of chatRoom.swift to contain the one the user clicked on
+        vc.thisUserProfile = self.thisUserProfile   //pass the user profile object
+    }
+    
+    
+    
+    
+    
+    
     
 
-    //load data realtime from the conversations collection, if any changes are made then execute the chode inside snapshotListener
+    // MARK: Data Acquistion Functions
+    
     func startListeningToConversations() {   //get all the conversations where this current user is a participant of, add
         baseDatabaseReference.collection("conversations").whereField("participants", arrayContains: self.uid).order(by: "last_message_millis", descending: true).addSnapshotListener(){ (querySnapshot, err) in
             
@@ -89,16 +95,15 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 } else {
                     //just empty
                 }
-                //FOR EACH individual conversation the user has, when its added
-                snapshot.documentChanges.forEach { diff in
+        
+                snapshot.documentChanges.forEach { diff in //FOR EACH individual conversation the user has, when its added
                     if (diff.type == .added) {
                         self.activeChats.append(diff.document.data())
                         self.configureTableView()
                         self.tableView.reloadData() //reload rows and section in table view
                     }
                     
-                    //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
-                    if (diff.type == .modified) {
+                    if (diff.type == .modified) { //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
                         let modifiedData = diff.document.data()
                         let modifiedID = modifiedData["id"]
                         let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
@@ -132,10 +137,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    
-    
-    //function used to located the index of the conversation from the activeChats array
-    func locateIndexOfConvo (id:String) -> Int {
+    func locateIndexOfConvo (id:String) -> Int { //function used to located the index of the conversation from the activeChats array
         var position = 0
         for (index, chat) in self.activeChats.enumerated(){    //for every chat the user is part of
             if(id == chat["id"] as! String){  //if the chat has the same id as the modifiedID passed in
@@ -148,30 +150,33 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Tableview Functions
+    
     func configureTableView(){
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "ConversationCell")
     }
     
-    
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.activeChats.count
     }
     
-    //triggered when you actually click a conversation from the tableview
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //triggered when you actually click a conversation from the tableview
         self.conversationID = self.activeChats[indexPath.row]["id"] as! String    //use currentley clicked index to get conversation id
         //pass the conversationID through and intent
         self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
     }
     
     
-    // called for every single cell thats displayed on screen/on reload
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen/on reload
         let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationCell
         var currentConversation = self.activeChats[indexPath.row]  //conversation object which will be passed to the bold checker
         
@@ -183,7 +188,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         
         let posInConversation = self.locateThisUser(conversation: currentConversation)
         var thisUsersLastCount: CLong
-        
         
         //BOLDING OF MESSAGE TEXT
         if (posInConversation != -1){
@@ -204,8 +208,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 }
             }
         }
-        
-        
         return cell
     }
     
@@ -213,8 +215,18 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     
-    //settting the picture and the last message of the current dell that is displayed.
-    func setPictureAndLastMessage(cell: ConversationCell, currentConversation: Dictionary<String,Any>){
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Support Functions
+    
+    func setPictureAndLastMessage(cell: ConversationCell, currentConversation: Dictionary<String,Any>){ //settting the picture and the last message of the current dell that is displayed
        
         var authorProfilePicLoc = ""
         let storageRef = self.baseStorageReference.reference()
@@ -279,12 +291,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    
-    
-    
-    //check if this cell shuld have the checkmark and x for accepting the message request or denying the message request.
-    func checkForRequest(cell: ConversationCell, currentConversation: Dictionary<String,Any> ){
-        
+    func checkForRequest(cell: ConversationCell, currentConversation: Dictionary<String,Any> ){ //check if this cell shuld have the checkmark and x for accepting the message request or denying the message request
         var thisUserRequested = true
         
         //extracting which user requested versus which user did the requesting
@@ -307,39 +314,28 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         
     }
     
-    
-
-    
-    
-    //check if its a group conversation and if so set the name of that group conversation
-    func checkForGroupAndSetName(cell: ConversationCell, currentConversation: Dictionary<String,Any> ){
-      
-        //if there is participants then add them to aprticipants variable, else its empty
-        var participants = [String]()
+    func checkForGroupAndSetName(cell: ConversationCell, currentConversation: Dictionary<String,Any> ){ //check if its a group conversation and if so set the name of that group conversation
+        
+        var participants = [String]() //if there is participants then add them to aprticipants variable, else its empty
         if (currentConversation["participants"] != nil) {
             participants = currentConversation["participants"] as! [String]
         }
         
-        //get there names too then if they exist
-        var participantNames = [String]()
+        var participantNames = [String]() //get their names too then if they exist
         if (currentConversation["participant_names"] != nil){
             participantNames = currentConversation["participant_names"] as! [String]
 
         }
         
-        //cehck if its a 1-1 chat or if its a group chat
-        var isBaseConv = false
+        var isBaseConv = false //cehck if its a 1-1 chat or if its a group chat
         if currentConversation["is_base_conversation"] is Bool{ //if its an isntance of a boolean
             isBaseConv = currentConversation["is_base_conversation"] as! Bool
         }
         
-
-        
         //null pointer checks
         if (!participants.isEmpty && !participantNames.isEmpty && participantNames.count > 0 && participants.count > 0){
             
-            //if group convo
-            if (participants.count > 2){
+            if (participants.count > 2){ //if group convo
                 cell.groupSymbol.isHidden = false   //show group symbol
                 cell.name.text = currentConversation["name"] as? String //set group name for that cell
             }else if (participants.count == 2 && isBaseConv){ //else 1-1 chat
@@ -352,34 +348,12 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     }
                 }
                 cell.name.text = otherParticipantName
-            }
-    
-            else {
+            }else {
                 cell.groupSymbol.isHidden = false
                 cell.name.text = currentConversation["name"] as? String
             }
         }
     }
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    //called every single time a segway is called
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! ChatRoom
-        vc.conversationID = self.conversationID //set the conversation id of chatRoom.swift to contain the one the user clicked on
-        vc.thisUserProfile = self.thisUserProfile   //pass the user profile object 
-    }
-    
-    
-    
-    
     
     func locateThisUser(conversation: Dictionary<String,Any>) -> Int {
         var participants = conversation["participants"] as! [String]
@@ -393,19 +367,13 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             
         }
         return position
-        
     }
     
-    //return the other participant of this 1-1 chat
-    func getOtherParticipantId(currentConversation: Dictionary<String,Any>) -> String {
-        
-        
-        //if there is participants then add them to aprticipants variable, else its empty
-        var participants = [String]()
+    func getOtherParticipantId(currentConversation: Dictionary<String,Any>) -> String { //return the other participant of this 1-1 chat
+        var participants = [String]() //if there is participants then add them to aprticipants variable, else its empty
         if (currentConversation["participants"] != nil) {
             participants = currentConversation["participants"] as! [String]
         }
-        
         var otherParticipant = ""
         if (!participants.isEmpty){
             for (index, participant) in participants.enumerated(){
@@ -415,25 +383,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 }
             }
         }
-        
         return otherParticipant
     }
-    
-    
-//    //loading the request counts
-//    func loadRequestCount(){
-//
-//        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                self.requestCount = document.data()!
-//            } else {
-//                //just empty
-//            }
-//
-//        }
-//
-//    }
-    
-    
-    
 }

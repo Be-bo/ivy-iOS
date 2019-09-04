@@ -28,10 +28,15 @@ class MainTabController: UITabBarController {
         baseDatabaseReference.collection("universities").document(thisUniDomain).collection("userprofiles").document(thisUserId).addSnapshotListener() { (docSnap, e) in
             if let e = e{
                 print("Error obtaining user profile: \(e)")
+                PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't get your user data, try restarting the app. :-(", context: self)
+                //TODO: quit app
             }else{
                 if(docSnap?.exists ?? false && docSnap?.data() != nil){
                     self.thisUserProfile = (docSnap?.data())!
                     self.updateTabs()
+                }else{
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Your user profile doesn't exist, please contact us.", context: self)
+                    //TODO: quit app
                 }
             }
         }
