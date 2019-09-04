@@ -22,6 +22,8 @@ class MainTabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startListeningToUserProfile()
+        self.selectedIndex = 1          //set selected index to be the explore tab on launch
+        
     }
     
     private func startListeningToUserProfile(){
@@ -57,11 +59,11 @@ class MainTabController: UITabBarController {
 //                    board.updateProfile(updatedProfile: thisUserProfile)
 //                }
 //            }
-            if let quadNVC = nvc as? QuadNavigationViewController{
-                if let quad = quadNVC.visibleViewController as? Quad{
-                    quad.updateProfile(updatedProfile: thisUserProfile)
-                }
-            }
+//            if let quadNVC = nvc as? QuadNavigationViewController{
+//                if let quad = quadNVC.visibleViewController as? Quad{
+//                    quad.updateProfile(updatedProfile: thisUserProfile)
+//                }
+//            }
             if let chatNVC = nvc as? ChatNavigationController{
                 if let chat = chatNVC.visibleViewController as? Chat{
                     chat.updateProfile(updatedProfile: thisUserProfile)

@@ -480,12 +480,19 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 print("Error fetching snapshots: \(err!)")
                 return
             }
-            //FOR EACH individual conversation the user has, when its added
+            //FOR EACH individual conversation the user has, when a message is added
             snapshot.documentChanges.forEach { diff in
                 if (diff.type == .added) {
                     self.messages.append(diff.document.data())  //append the message document to the messages array
                     self.configureTableView()
-                    self.tableView.reloadData()
+                    
+//                    self.tableView.reloadData()
+                    // Update Table Data
+                    self.tableView.beginUpdates()
+                    self.tableView.insertRows(at: [
+                        NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath], with: .automatic)
+                    self.tableView.endUpdates()
+                    
                     self.tableView.scrollToBottom()
                     self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                 }

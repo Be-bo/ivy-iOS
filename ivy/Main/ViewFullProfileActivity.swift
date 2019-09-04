@@ -101,25 +101,23 @@ class ViewFullProfileActivity: UIViewController{
     
     func blockUser(alert:UIAlertAction!){ //when the user clicks on block user send it here to actually block them
         
-        let docData = [String: Any]()   //used to set the hashmap when there is no blocked_by list that exists for this user
+        //update this users block list
+        var toMerge = Dictionary<String,Any>()
+        toMerge[String(self.otherUserID!)] = Date().timeIntervalSince1970
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").setData(toMerge, merge: true)
         
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("blocked_by").getDocument { (document, error) in
-            if let document = document, document.exists {   //if who you are reporting has already been blocked by you, do nothing
-            } else {//the user you are reporting has never been blocked by anyone so create that list
-                print("Here")
-                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("blocked_by").setData(docData)
+        //updateother persons block list
+        toMerge = Dictionary<String,Any>()
+        toMerge[String(self.thisUserProfile["id"] as! String)] = Date().timeIntervalSince1970
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("blocked_by").setData(toMerge, merge: true, completion: { (error) in
+            if error != nil {
+                print("error while uplaoding other persons block list")
             }
-            //then append to that list to add that you YOURSELF blocked that user and what time you blocked them at
-            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("blocked_by").updateData([self.thisUserProfile["id"] as! String: Date().millisecondsSince1970,
-            ]) { err in
-                if let err = err {
-                    print("Error updating document: \(err)")
-                } else {
-                    print("Or here")
-                    print("Document successfully updated")
-                }
-            }
-        }
+            //TODO: decide if we need to do this: this_users_block_list.put(other_user_id, System.currentTimeMillis()
+            //TODO: prompt the user saying you have blocked the user
+            print("You've blocked this user")
+        })
+        
     }
     
     func reportUser(alert: UIAlertAction!){ //when they click on reporting the USER send them here
