@@ -15,9 +15,16 @@ class ProfileCardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     @IBOutlet weak var name: MediumGreenLabel!
     @IBOutlet weak var age: MediumGreenLabel!
     @IBOutlet weak var degree: MediumLabel!
-    @IBOutlet weak var bio: StandardGreenLabel!
+    @IBOutlet weak var bioLabel: StandardLabel!
     @IBOutlet weak var flipButton: OpacityButton!
     @IBOutlet weak var editButton: OpacityButton!
+    
+    //all hidden by default since they're used for editing
+    @IBOutlet weak var bioTextField: UITextField!
+    @IBOutlet weak var editDegreeButton: OpacityButton!
+    @IBOutlet weak var editInterestsButton: OpacityButton!
+    @IBOutlet weak var doneEditingButton: OpacityButton!
+    
     
     @IBOutlet weak var interestestCollectionView: UICollectionView!
     
@@ -26,6 +33,11 @@ class ProfileCardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        //default they are hidden for profile, shown only when they click the edit button
+        self.editInterestsButton.isHidden = true
+        self.editDegreeButton.isHidden = true
+        self.bioTextField.isHidden = true
+        
         awakeFromNib()
     }
     
@@ -36,6 +48,8 @@ class ProfileCardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+
     }
     
     override func layoutSubviews() {

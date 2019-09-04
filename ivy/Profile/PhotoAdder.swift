@@ -26,6 +26,10 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     private var actualFinalImage:UIImage? = nil
     private var galleryUpdated = false
     
+    public var previousGalleryVC = Gallery()
+
+    
+    @IBOutlet weak var finalImageView: UIImageView!
     
     //passed through segue from the gallery
     public var thisUserProfile:Dictionary<String,Any>? = nil
@@ -35,7 +39,6 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavigationBar()
         
         showImagePickerController()
     }
@@ -100,6 +103,8 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
         // Create a storage reference from our storage service
         let storageImageRef = baseStorageReference.child(storagePath)
         
+
+        
         
         // Upload the file to the path storagePath
         let uploadTask = storageImageRef.putData(self.byteArray! as Data, metadata: nil) { (metadata, error) in
@@ -121,10 +126,23 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
             
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile!["uni_domain"] as! String).collection("userpreviews").document(self.thisUserProfile!["id"] as! String).updateData(["update_image":storagePath])
             
-            //TODO figure out how to dismiss this controller properly and go back to the gallery screen
-            self.navigationController!.dismiss(animated: true, completion: nil)
-//            self.dismiss(animated: true)
-
+            
+            
+            
+            //actually dismiss the view so we can clickon stuff again
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+            
+            
+            //TODO: maybe find a cleaner way to do all this below
+            //update the profile picture of the card real time to contain the current path of the image they chose
+            self.thisUserProfile!["profile_picture"] = storagePath
+            self.previousGalleryVC.previousVC.setUp(user: self.thisUserProfile!)
+            
+            //dismiss the gallery screen also to show them the new profile picture
+            self.previousGalleryVC.navigationController?.popViewController(animated: true)
+            self.previousGalleryVC.dismiss(animated: true, completion: nil)
+ 
         }
         
         
@@ -160,31 +178,39 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     
     
     // MARK: Image Cropping Methods
-    
     func presentCropViewController() { //pop up the TOCropViewController editor to allow editing of the image thats chosen
-        var image: UIImage? = self.actualFinalImage// Load an image
+        var image: UIImage? = self.finalImageView.image // Load an image
         let cropViewController = CropViewController(image: image!)
         cropViewController.delegate = self
+        //TODO: decide if 9 by 16 is better than 2 to 3. seems to be okay so far
+        cropViewController.customAspectRatio = CGSize(width: 2.0, height: 3.0)
+        cropViewController.aspectRatioPreset = .presetCustom
         cropViewController.aspectRatioLockEnabled = true
         cropViewController.aspectRatioPickerButtonHidden = true
-        cropViewController.aspectRatioPreset = .preset3x2
         present(cropViewController, animated: true, completion: nil)
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) { // 'image' is the newly cropped version of the original image
         self.croppedRect = cropRect
         self.croppedAngle = angle
-        self.actualFinalImage = image
+        finalImageView.image = image
+
+        
         dismiss(animated: true, completion: nil)
         self.byteArray = (image.jpegData(compressionQuality: 1.0)!) as NSData
         self.previewByteArray = (image.jpegData(compressionQuality: 0.25)!) as NSData
         self.galleryUpdated = true                  //true so the segue knows weupdated the profile pic
+        
+        self.setUpNavigationBar()                   //only after they have chosen an image do we add the checkmark to submit it
+        
+
+
     }
     
     func showImagePickerController() { //present the imagepicker controller which allows users to choose what image they want from the gallery
         let imagePicker = UIImagePickerController()
         imagePicker.modalPresentationStyle = .popover
-        imagePicker.preferredContentSize = CGSize(width: 320, height: 568)
+        imagePicker.preferredContentSize = CGSize(width: 414, height: 818)
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = false
         imagePicker.delegate = self
@@ -193,18 +219,10 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     
     //when they actually choose an image, then call TOCropViewController with that image that they chose so they can edit
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{ //extract the non "edited" image from our info
-            self.actualFinalImage = originalImage
-//            self.actualFinalImage.layer.borderWidth = 0.0;    //get rid of the image border
+            self.finalImageView.image = originalImage
+            self.finalImageView.layer.borderWidth = 0.0;    //get rid of the image border
         }
-        
-        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            self.actualFinalImage = editedImage
-            return
-        }
-        
-        
         dismiss(animated: true, completion: nil)    //dismiss the imagepickercontroller view
         presentCropViewController()
     }

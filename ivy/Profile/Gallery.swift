@@ -19,9 +19,9 @@ class Gallery: UIViewController {
     private let baseStorageReference = Storage.storage().reference()
     private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
 
-    
-    
-    private var pages: [galleryImageView] = []                                      //represents all the pages in the gallery
+    public var previousVC = Profile()
+
+    public  var pages: [galleryImageView] = []                                      //represents all the pages in the gallery
     private var deleteVisible = false                                               //indicating whether the delete button should be shown or not
     private var thisUserProfile:Dictionary<String,Any>? = nil
 
@@ -43,14 +43,15 @@ class Gallery: UIViewController {
         getThisUserProfile()    //everytime we load we wanna repull from db to have the accurate amount of picture references.
 //        loadImages()
         
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
 
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        
-        
-        
-    }
+
     
     
 
@@ -78,7 +79,7 @@ class Gallery: UIViewController {
         let chooseProfileButton = UIButton(type: .custom)
         chooseProfileButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
         chooseProfileButton.setImage(UIImage(named:"set_profile_picture"), for: .normal)
-        chooseProfileButton.addTarget(self, action: #selector(self.didTapChooseProfileButton), for: .touchUpInside)
+        chooseProfileButton.addTarget(self, action: #selector(self.tapChooseProfileButton), for: .touchUpInside)
         
         let chooseProfileItem = UIBarButtonItem(customView: chooseProfileButton)
         currWidth = chooseProfileItem.customView?.widthAnchor.constraint(equalToConstant: 35)
@@ -86,13 +87,13 @@ class Gallery: UIViewController {
         currHeight = chooseProfileItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         currHeight?.isActive = true
         
-        
-        
+
+
         
         let deleteButton = UIButton(type: .custom)
         deleteButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
         deleteButton.setImage(UIImage(named:"trash"), for: .normal)
-        deleteButton.addTarget(self, action: #selector(self.didTapDeleteButton), for: .touchUpInside)
+        deleteButton.addTarget(self, action: #selector(self.tapDeleteImageButton), for: .touchUpInside)
         
         let deleteItem = UIBarButtonItem(customView: deleteButton)
         currWidth = deleteItem.customView?.widthAnchor.constraint(equalToConstant: 35)
@@ -101,10 +102,46 @@ class Gallery: UIViewController {
         currHeight?.isActive = true
         
         
+        
+        
         self.navigationItem.rightBarButtonItems = [addBarItem, deleteItem, chooseProfileItem]
+        
+        
+        
         
 
     }
+    
+    
+    @objc func tapChooseProfileButton(sender: AnyObject) {
+        let alert = UIAlertController(title: "This picture will be set as your profile picture.", message: .none, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
+            self.didTapChooseProfileButton()
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
+    
+    @objc func tapDeleteImageButton(sender: AnyObject) {
+        
+        if(self.pages.count == 1){
+            let alert = UIAlertController(title: "You cannot delete just one profile picture.", message: .none, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }else{
+            let alert = UIAlertController(title: "Do you really want to delete this image?.", message: .none, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
+                self.didTapDeleteButton()
+            }))
+            self.present(alert, animated: true)
+        }
+        
+
+    }
+    
     
     //segue over to the page where they can create a new picture
     @objc func didTapAddButton(sender: AnyObject){
@@ -118,11 +155,12 @@ class Gallery: UIViewController {
         vc.thisUserProfile = self.thisUserProfile
         vc.thisUniDomain = self.thisUniDomain
         vc.thisUserId = self.thisUserId
+        vc.previousGalleryVC = self
     }
     
     
     //TODO: figure out how to update the profile picture on the previous screen once this one has been updated.
-    @objc func didTapChooseProfileButton(sender: AnyObject){
+    func didTapChooseProfileButton(){
         let currentPos = self.pageControl.currentPage
         let currentPath = self.pages[currentPos].pictureReference
         
@@ -135,7 +173,6 @@ class Gallery: UIViewController {
                     print("oops, an error")
                 } else {
                     //TODO: allowInteraction
-                    //TODO: cancel the dialog box that prompts them if they wanna choose this profile pic or not
                 }
             })
             
@@ -149,20 +186,28 @@ class Gallery: UIViewController {
                 }else{
                     var userId = self.thisUserProfile!["id"] as! String
                     var newProfilePicCompressed = UIImage(data: data! as Data,scale: 0.25)
+                    
+                    //update the profile picture of the card real time to contain the current path of the image they chose
+                    self.thisUserProfile!["profile_picture"] = currentPath
+                    self.previousVC.setUp(user: self.thisUserProfile!)
+                    
+                    //set border on the current gallery photo, reset photos array so it doesn't add multiple
+                    self.pages = []
+                    self.loadImages()
+                    
                     let previewImageBytes = (newProfilePicCompressed!.jpegData(compressionQuality: 0.25)!) as NSData//convert the compressed
                     self.baseStorageReference.child("userimages/"+userId+"/preview.jpg").putData(previewImageBytes as Data, metadata: nil)
                 }
             }
         }else{
             //TODO: allowInteraction
-            //TODO: cancel the dialog box that prompts them if they wanna choose this profile pic or not
         }
         
     }
     
     
     //TODO: figure out how to update the profile picture on the previous screen once this one has been updated. 
-    @objc func didTapDeleteButton(sender: AnyObject){
+    @objc func didTapDeleteButton(){
 //        var currentPos = Int(self.scrollView.contentOffset.x / self.scrollView.frame.size.width)
         let currentPos = self.pageControl.currentPage
         //if user deletes current profile pic
@@ -179,6 +224,10 @@ class Gallery: UIViewController {
             //replace old profile pic
             self.thisUserProfile!["profile_picture"] = self.pages[availablePos[0]].pictureReference
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile!["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile!["id"] as! String).updateData(["profile_picture":self.pages[availablePos[0]].pictureReference])
+            
+            //update the profile picture of the card real time to contain the current path of the image they chose
+            self.thisUserProfile!["profile_picture"] = self.pages[availablePos[0]].pictureReference
+            self.previousVC.setUp(user: self.thisUserProfile!)
             
             //update newly  selected picture prev in firebase
             baseStorageReference.child(self.thisUserProfile!["profile_picture"] as! String).getData(maxSize: 2 * 1024 * 1024) { (data, e) in
@@ -266,9 +315,7 @@ class Gallery: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(self.pages.count), height: view.frame.height)  //creates multiple pages
         scrollView.isPagingEnabled = true
         
-        
-        print("self.pages.count", self.pages.count)
-        //setup frame of each image present that the user has, take width of screen, multiple that for # of pages..
+                //setup frame of each image present that the user has, take width of screen, multiple that for # of pages..
         for i in 0 ..< self.pages.count{
             self.pages[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height)
             if (pages[i].isProfileImage){   //if its a profile image then make the border green
@@ -304,11 +351,16 @@ class Gallery: UIViewController {
                         self.pages.append(page) //append this image to the pages
                         //everytime this view loads we wanna start on the 0th page
                         self.pageControl.numberOfPages = self.pages.count
+                        //if theres only one image, then removethe delete button
                         self.pageControl.currentPage = 0
                         self.setupScrollView()  //TODO: maybe move this to a better spot if I can think of one. For now this works
+                    
+
                     }
                 }
+                
             }
+
         }
         
         
