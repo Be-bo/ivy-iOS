@@ -90,6 +90,10 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         var image: UIImage? = self.actualFinalImage.image // Load an image
         let cropViewController = CropViewController(image: image!)
         cropViewController.delegate = self
+        cropViewController.customAspectRatio = CGSize(width: 2.0, height: 3.0)
+        cropViewController.aspectRatioPreset = .presetCustom
+        cropViewController.aspectRatioLockEnabled = true
+        cropViewController.aspectRatioPickerButtonHidden = true
         present(cropViewController, animated: true, completion: nil)
     }
     

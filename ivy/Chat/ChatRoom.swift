@@ -534,7 +534,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen/on reload
         
         //called for each cell but will only update on the last index of messages since we only want it to update when the users "read" (loaded cell) the last message
-        updateLastSeenMessage()
+//        updateLastSeenMessage()
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatBubbleCell", for: indexPath) as! ChatBubbleCell
         

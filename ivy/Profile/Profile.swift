@@ -195,7 +195,6 @@ class Profile: UIViewController {
     //when they click gallery then segue over to the gallery screen where tehy can edit their profile pic
     @objc func clickGallery(_ sender: subclassedUIButton) {
         self.performSegue(withIdentifier: "profileToGallery" , sender: self) //pass data over to
-
     }
 
     //called every single time a segway is called
