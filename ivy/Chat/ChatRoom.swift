@@ -72,6 +72,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         hideKeyboardOnTapOutside()
         setUpKeyboardListeners()
+        self.configureTableView()
         xButton.isHidden = true //make sure the x button is hidden by default
     }
     
@@ -484,7 +485,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             snapshot.documentChanges.forEach { diff in
                 if (diff.type == .added) {
                     self.messages.append(diff.document.data())  //append the message document to the messages array
-                    self.configureTableView()
+//                    self.configureTableView()
                     
 //                    self.tableView.reloadData()
                     // Update Table Data
