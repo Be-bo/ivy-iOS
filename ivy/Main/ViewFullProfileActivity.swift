@@ -21,13 +21,13 @@ class ViewFullProfileActivity: UIViewController{
     // MARK: Variables and Constants
     
     var isFriend = Bool()
-    var thisUserProfile = Dictionary<String,Any>()                              //current user that wants to view another profile
+    var thisUserProfile = Dictionary<String,Any>()                              //otherUserProfile user that wants to view another profile
     var otherUserID:String? = nil                                               //other users ID that thisUserProfile was in conversation with
     //database references
     let baseDatabaseReference = Firestore.firestore()                           //reference to the database
     let baseStorageReference = Storage.storage().reference()                    //reference to storage
     
-    var conversationID = ""                                                     //id of THIS current conversation
+    var conversationID = ""                                                     //id of THIS otherUserProfile conversation
     var otherUserProfile = Dictionary<String, Any>()                            //guy your conversating with's profile
     private let cellId = "QuadCard"
     private var cardClicked:Card? = nil
@@ -62,13 +62,13 @@ class ViewFullProfileActivity: UIViewController{
         
         //if there friends add these options to option sheet
         if (isFriend){
-            actionSheet.addAction(UIAlertAction(title: "Message ", style: .default, handler: self.messageUser))
+            actionSheet.addAction(UIAlertAction(title: "Message", style: .default, handler: self.messageUser))
             actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: self.unfriendUser))
-            actionSheet.addAction(UIAlertAction(title: "Report ", style: .default, handler: self.reportUser))
+            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
         }else{  //not friends so these are only options
-            actionSheet.addAction(UIAlertAction(title: "block ", style: .default, handler: self.blockUser))
-            actionSheet.addAction(UIAlertAction(title: "Report ", style: .default, handler: self.reportUser))
+            actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.blockUser))
+            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
         }
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -105,6 +105,8 @@ class ViewFullProfileActivity: UIViewController{
     }
     
     func setUpContainer(){
+        front.flipButton.isHidden = true
+        back.flipButton.isHidden = true
         cardContainer.layer.shadowPath = UIBezierPath(roundedRect: cardContainer.bounds, cornerRadius:cardContainer.layer.cornerRadius).cgPath
         cardContainer.layer.shadowColor = UIColor.black.cgColor
         cardContainer.layer.shadowOpacity = 0.25
@@ -144,7 +146,7 @@ class ViewFullProfileActivity: UIViewController{
             if error != nil {
                 print("error while uplaoding other persons block list")
             }
-            //TODO: decide if we need to do this: this_users_block_list.put(other_user_id, System.currentTimeMillis()
+            //TODO: decide if we need to do this: this_users_block_list.put(other_user_id, System.otherUserProfileTimeMillis()
             //TODO: prompt the user saying you have blocked the user
             print("You've blocked this user")
         })
@@ -155,7 +157,7 @@ class ViewFullProfileActivity: UIViewController{
         var report = Dictionary<String, Any>()
         report["reportee"] = self.thisUserProfile["id"] as! String
         report["report_type"] = "user"
-        report["target"] = self.otherUserID //this current conversation id
+        report["target"] = self.otherUserID //this otherUserProfile conversation id
         report["time"] = Date().millisecondsSince1970
         let reportId = self.baseDatabaseReference.collection("reports").document().documentID   //create unique id for this document
         report["id"] = reportId
@@ -235,21 +237,23 @@ class ViewFullProfileActivity: UIViewController{
     
     // MARK: Data Acquisition Functions
     
-    func getData() { //extract the data corresponding to this current conversation and this current user and who he is conversating with
+    func getData() { //extract the data corresponding to this otherUserProfile conversation and this otherUserProfile user and who he is conversating with
         if (self.otherUserID != nil && !self.thisUserProfile.isEmpty){  //make sure there is a profile and there is another person in convo
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
                 if let document = document, document.exists {
                     var friendsConversations = document.data()
 
-                    //within the friends conversations make sure this guy's id is present
-                    if friendsConversations![self.otherUserID as! String] != nil {
+                    if friendsConversations![self.otherUserID as! String] != nil { //within the friends conversations make sure this guy's id is present
                         self.isFriend = true
                         self.conversationID = friendsConversations![self.otherUserID as! String] as! String
+                        self.hideRequest()
                     }else{
                         self.isFriend = false
+                        self.setRequest()
                     }
                 } else {    //document doesn't exist so they're not friends
                     self.isFriend = false
+                    self.setRequest()
                 }
                 //extracting the other users profile object
                 self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).getDocument { (document, error) in
@@ -298,6 +302,110 @@ class ViewFullProfileActivity: UIViewController{
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
         singleTap.numberOfTapsRequired = 1
         cardContainer.addGestureRecognizer(singleTap)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Request Methods
+    
+    func hideRequest(){
+        self.back.sayHiButton.isHidden = true
+        self.back.sayHiMessageTextField.isHidden = true
+    }
+    
+    func setRequest(){ //check if there's already a request coming in from this
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
+            if let document = document, document.exists {
+                var requests = document.data()
+                
+                if requests![self.otherUserID as! String] != nil { //the person is already on the request list
+                    if let thisUserInitiated = requests![self.otherUserID as! String] as? Bool {
+                        if(thisUserInitiated){ //check if this user iniated
+                            self.back.sayHiMessageTextField.placeholder = "You've already said hi!"
+                            self.back.sayHiButton.isHidden = true
+                        }else{ //the other user iniated
+                            self.back.sayHiMessageTextField.placeholder = "This user says hi! Check your messages."
+                            self.back.sayHiButton.isHidden = true
+                        }
+                    }
+                }else{ //the person is not present in the requests -> set up the on click listener
+                    let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.sendRequest))
+                    singleTap.numberOfTapsRequired = 1
+                    self.back.sayHiButton.addGestureRecognizer(singleTap)
+                }
+            } else {    //document doesn't exist so no requests
+                let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.sendRequest))
+                singleTap.numberOfTapsRequired = 1
+                self.back.sayHiButton.addGestureRecognizer(singleTap)
+            }
+        }
+    }
+    
+    @objc func sendRequest(){
+        var conversationReference: DocumentReference
+        conversationReference = self.baseDatabaseReference.collection("conversations").document()
+        var participants = [String]()
+        var participantNames = [String]()
+        participants.append(self.thisUserProfile["id"] as! String)
+        participants.append(otherUserProfile["id"] as! String)
+        participantNames.append(self.thisUserProfile["first_name"] as! String)
+        participantNames.append(otherUserProfile["first_name"] as! String)
+        var msgCounts = [CLong]()
+        msgCounts.append(0)
+        msgCounts.append(0)
+        let mutedBy = [String]()
+        
+        //adding to request lists of user, where true is who sent, false is who recieved
+        var temp = Dictionary<String, Any>()
+        temp[otherUserProfile["id"] as! String] = true
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
+        
+        temp = Dictionary<String, Any>()//reset
+        temp[self.thisUserProfile["id"] as! String] = false
+        self.baseDatabaseReference.collection("universities").document(otherUserProfile["uni_domain"] as! String).collection("userprofiles").document(otherUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
+        
+        
+        //create new conversation object
+        var newConversation = Dictionary<String, Any>()
+        newConversation["id"] = conversationReference.documentID
+        newConversation["name"] = String(self.thisUserProfile["first_name"] as! String)+", "+String(otherUserProfile["first_name"] as! String)
+        newConversation["participants"] = participants
+        newConversation["is_request"] = true
+        newConversation["last_message"] = self.back.sayHiMessageTextField.text
+        newConversation["last_message_author"] = self.thisUserProfile["id"] as! String
+        newConversation["creation_time"] =  Date().millisecondsSince1970   //millis
+        newConversation["participant_names"] =  participantNames
+        newConversation["last_message_counts"] = msgCounts
+        newConversation["last_message_millis"] = Date().millisecondsSince1970   //millis
+        newConversation["message_count"] = 1
+        newConversation["is_base_conversation"] = true
+        newConversation["muted_by"] = mutedBy
+        //push pbject to db
+        self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).setData(newConversation)
+        
+        //create new message object
+        var requestMessage = Dictionary<String, Any>()
+        requestMessage["message_text"] = self.back.sayHiMessageTextField.text
+        requestMessage["author_id"] = self.thisUserProfile["id"] as! String
+        requestMessage["author_first_name"] = self.thisUserProfile["first_name"] as! String
+        requestMessage["author_last_name"] = self.thisUserProfile["last_name"] as! String
+        requestMessage["conversation_id"] = conversationReference.documentID
+        requestMessage["is_text_only"] = true
+        requestMessage["file_reference"] = ""
+        requestMessage["id"] = NSUUID().uuidString
+        requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
+        //push message object to db
+        self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
+        
+        self.hideRequest()
     }
 }
 

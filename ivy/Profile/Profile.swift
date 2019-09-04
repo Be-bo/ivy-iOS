@@ -42,20 +42,28 @@ class Profile: UIViewController {
         setUp(user: self.thisUserProfile)
     }
     
-    
     private func setUpNavigationBar(){
         let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo"))
         titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
         
-        //TODO: tidy this up
-//        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
-//        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
-//        var background = UIImageView(image: UIImage(named: "settings"))
-//        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
-//        leftButton.addSubview(background)
-//        self.navigationController!.navigationBar.addSubview(leftButton)
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
+        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
+        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
+        
+        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
+        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currWidth?.isActive = true
+        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currHeight?.isActive = true
+        
+        self.navigationItem.rightBarButtonItem = settingsButtonItem
+    }
+    
+    @objc func settingsClicked() {
+        self.performSegue(withIdentifier: "profileToSettings" , sender: self) //pass data over to
     }
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
@@ -136,13 +144,13 @@ class Profile: UIViewController {
     
     //called every single time a segway is called
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! Gallery
-        vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String //set the conversation id of chatRoom.swift to contain the one the user clicked on
-        vc.thisUserId = self.thisUserProfile["id"] as! String   //pass the user profile object
+        if(segue.identifier == "profileToSettings"){
+            let vc = segue.destination as! Settings
+            vc.thisUserProfile = self.thisUserProfile
+        }else{
+            let vc = segue.destination as! Gallery
+            vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String //set the conversation id of chatRoom.swift to contain the one the user clicked on
+            vc.thisUserId = self.thisUserProfile["id"] as! String   //pass the user profile object
+        }
     }
-    
-    
-    
-    
-    
 }

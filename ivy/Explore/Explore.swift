@@ -66,6 +66,11 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             vc.thisUserProfile = self.thisUserProfile
             vc.otherUserID = self.suggestedProfileClicked["id"] as? String
         }
+        if segue.identifier == "exploreToSettings" {
+            let vc = segue.destination as! Settings
+            vc.thisUserProfile = self.thisUserProfile
+        }
+        
     }
     
     @objc func onClickFeatured() { //when they click the featured event, transition them to the page that has all the information about tha that event
@@ -105,19 +110,23 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
-//        // this retarded bs is not working
-//        let settingsBtn = SettingsButton()
-//        let settingsButton = UIBarButtonItem(customView: settingsBtn)
-//        navigationItem.rightBarButtonItem = settingsButton
         
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
+        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
+        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
         
-        //TODO: tidy this up --> interferes with actions when you click on a user profiles
-//        let navigationBarWidth: CGFloat = self.navigationController!.navigationBar.frame.width
-//        var leftButton = UIButton(frame:CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40))
-//        var background = UIImageView(image: UIImage(named: "settings"))
-//        background.frame = CGRect(x: navigationBarWidth / 2.3, y: 0, width: 40, height: 40)
-//        leftButton.addSubview(background)
-//        self.navigationController!.navigationBar.addSubview(leftButton)
+        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
+        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currWidth?.isActive = true
+        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currHeight?.isActive = true
+        
+        self.navigationItem.rightBarButtonItem = settingsButtonItem
+    }
+    
+    @objc func settingsClicked() {
+        self.performSegue(withIdentifier: "exploreToSettings" , sender: self) //pass data over to
     }
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
