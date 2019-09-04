@@ -31,7 +31,9 @@ class Reg10Recap: UIViewController {
     
     //outlets
     @IBOutlet weak var cardContainer: UIView!
-
+    @IBOutlet weak var registerButton: StandardButton!
+    @IBOutlet weak var progressWheel: UIActivityIndicatorView!
+    
 
 
     
@@ -66,6 +68,7 @@ class Reg10Recap: UIViewController {
     
     
     @IBAction func onClickRegister(_ sender: Any) {
+        barInteraction()
         attemptToContinue()
     }
     
@@ -84,7 +87,7 @@ class Reg10Recap: UIViewController {
                 if(Auth.auth().currentUser != nil){
                     Auth.auth().currentUser?.sendEmailVerification(completion: { (e) in
                         let alert = UIAlertController(title: "Registration Successful", message: "We sent you a verification email. Check your inbox.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                             self.databaseRegister()
                         }))
                         self.present(alert, animated: true)
@@ -205,6 +208,18 @@ class Reg10Recap: UIViewController {
         cardContainer.layer.masksToBounds = false
     }
     
+    
+    func barInteraction(){ //disable user interaction and start loading animation (rotating the ivy logo)
+        self.view.isUserInteractionEnabled = false
+        registerButton.isHidden = true
+        progressWheel.startAnimating()
+    }
+    
+    func allowInteraction(){ //enable interaction again
+        self.view.isUserInteractionEnabled = true
+        self.registerButton.isHidden = false
+        progressWheel.stopAnimating()
+    }
 
     
 }
