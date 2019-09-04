@@ -56,6 +56,11 @@
 		A9FD1980231DB5D100ECA848 /* galleryImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD197F231DB5D100ECA848 /* galleryImageView.xib */; };
 		A9FD1982231E294800ECA848 /* PhotoAdder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD1981231E294800ECA848 /* PhotoAdder.swift */; };
 		A9FD1986231ED41100ECA848 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD1985231ED41100ECA848 /* Settings.swift */; };
+		A9FD1988231F223B00ECA848 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD1987231F223B00ECA848 /* ChangePassword.swift */; };
+		A9FD198A231F232E00ECA848 /* BlockedAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD1989231F232E00ECA848 /* BlockedAccounts.swift */; };
+		A9FD198C231F237E00ECA848 /* ContactUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD198B231F237E00ECA848 /* ContactUs.swift */; };
+		A9FD198F231F364A00ECA848 /* blockedAccTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD198D231F364A00ECA848 /* blockedAccTableViewCell.swift */; };
+		A9FD1990231F364A00ECA848 /* blockedAccTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD198E231F364A00ECA848 /* blockedAccTableViewCell.xib */; };
 		DDF217CB2205731ADB9715B6 /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69838B23A74BBA15D817949 /* Pods_ivy.framework */; };
 		FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */; };
 		FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA06DE3A22C0659900B07EDC /* DegreeCell.xib */; };
@@ -151,6 +156,11 @@
 		A9FD197F231DB5D100ECA848 /* galleryImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = galleryImageView.xib; sourceTree = "<group>"; };
 		A9FD1981231E294800ECA848 /* PhotoAdder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAdder.swift; sourceTree = "<group>"; };
 		A9FD1985231ED41100ECA848 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		A9FD1987231F223B00ECA848 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
+		A9FD1989231F232E00ECA848 /* BlockedAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAccounts.swift; sourceTree = "<group>"; };
+		A9FD198B231F237E00ECA848 /* ContactUs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUs.swift; sourceTree = "<group>"; };
+		A9FD198D231F364A00ECA848 /* blockedAccTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = blockedAccTableViewCell.swift; sourceTree = "<group>"; };
+		A9FD198E231F364A00ECA848 /* blockedAccTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = blockedAccTableViewCell.xib; sourceTree = "<group>"; };
 		CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
 		F69838B23A74BBA15D817949 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
@@ -250,6 +260,11 @@
 			isa = PBXGroup;
 			children = (
 				A9FD1985231ED41100ECA848 /* Settings.swift */,
+				A9FD1987231F223B00ECA848 /* ChangePassword.swift */,
+				A9FD1989231F232E00ECA848 /* BlockedAccounts.swift */,
+				A9FD198B231F237E00ECA848 /* ContactUs.swift */,
+				A9FD198D231F364A00ECA848 /* blockedAccTableViewCell.swift */,
+				A9FD198E231F364A00ECA848 /* blockedAccTableViewCell.xib */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -504,6 +519,7 @@
 				FA1FE3F522F7563900C36E6B /* Card.xib in Resources */,
 				A920C4E522D281B60088DD58 /* CardBack.xib in Resources */,
 				FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */,
+				A9FD1990231F364A00ECA848 /* blockedAccTableViewCell.xib in Resources */,
 				FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -586,6 +602,7 @@
 				A976E4DD2304E5D200755774 /* ViewFullProfileActivity.swift in Sources */,
 				FAD461A122ED3329003B10D8 /* OpacityButton.swift in Sources */,
 				A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */,
+				A9FD1988231F223B00ECA848 /* ChangePassword.swift in Sources */,
 				A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */,
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
 				FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */,
@@ -638,6 +655,8 @@
 				A976E4E3230B2E7400755774 /* changeGroupNamePopupViewContoller.swift in Sources */,
 				FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */,
 				FA121C2422EE450B00C175F7 /* Board.swift in Sources */,
+				A9FD198F231F364A00ECA848 /* blockedAccTableViewCell.swift in Sources */,
+				A9FD198C231F237E00ECA848 /* ContactUs.swift in Sources */,
 				A9FD197C231DABFB00ECA848 /* Gallery.swift in Sources */,
 				A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */,
 				FA14D5A022F8BCB000331E82 /* MainNavigationBar.swift in Sources */,
@@ -646,6 +665,7 @@
 				FA121C2A22EE455700C175F7 /* Explore.swift in Sources */,
 				A976E4E1230A2AF200755774 /* ChatNavigationController.swift in Sources */,
 				A9FD19642314EC6E00ECA848 /* organizationPage.swift in Sources */,
+				A9FD198A231F232E00ECA848 /* BlockedAccounts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
