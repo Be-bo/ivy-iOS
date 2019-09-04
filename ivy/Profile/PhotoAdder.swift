@@ -193,10 +193,18 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     
     //when they actually choose an image, then call TOCropViewController with that image that they chose so they can edit
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
         if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{ //extract the non "edited" image from our info
             self.actualFinalImage = originalImage
 //            self.actualFinalImage.layer.borderWidth = 0.0;    //get rid of the image border
         }
+        
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            self.actualFinalImage = editedImage
+            return
+        }
+        
+        
         dismiss(animated: true, completion: nil)    //dismiss the imagepickercontroller view
         presentCropViewController()
     }

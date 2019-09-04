@@ -20,6 +20,9 @@ class Settings: UIViewController{
     //passed through w.e segue leads to settings page
     public var thisUserProfile = Dictionary<String, Any>()
 
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var privacySecView: UIView!
+    @IBOutlet weak var insideScrollView: UIView!
     
     //Account Info
     @IBOutlet weak var namePreference: MediumLabel!
@@ -45,13 +48,38 @@ class Settings: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         //make sure we actually have the user profile
         if(!self.thisUserProfile.isEmpty){
+            
             setUpHandlers()
             setAccountInfo()
         }
         
         
+    }
+    
+    
+    
+    //all the possible actions that a user can have on the conversation.
+    @objc func showActions(){
+        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
+        actionSheet.view.tintColor = UIColor.ivyGreen
+        
+        //if there friends add these options to option sheet
+    
+        actionSheet.addAction(UIAlertAction(title: "ChangePass ", style: .default, handler: self.clickPassword))
+        actionSheet.addAction(UIAlertAction(title: "ContactUs", style: .default, handler: self.clickContactUs))
+        actionSheet.addAction(UIAlertAction(title: "BlockedAcc ", style: .default, handler: self.clickBlockedAccounts))
+        
+        actionSheet.addAction(UIAlertAction(title: "SignOut ", style: .default, handler: self.clickSignOut))
+        actionSheet.addAction(UIAlertAction(title: "Hide ", style: .default, handler: self.clickHide))
+        actionSheet.addAction(UIAlertAction(title: "delete ", style: .default, handler: self.clickDeleteAccount))
+
+            
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
     
@@ -71,35 +99,36 @@ class Settings: UIViewController{
             print("profile is not hidden")
         }
         
+        
         //blocked acc
-        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickBlockedAccounts))
-        blockedAccPreference.isUserInteractionEnabled = true
-        blockedAccPreference.addGestureRecognizer(singleTap)
-        
-        //Sign out
-        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickSignOut))
-        signOutPreference.isUserInteractionEnabled = true
-        signOutPreference.addGestureRecognizer(singleTap)
-        
-        //password
-        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickPassword))
-        changePassPreference.isUserInteractionEnabled = true
-        changePassPreference.addGestureRecognizer(singleTap)
-        
-        //Contact us
-        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickContactUs))
-        contactUsPreference.isUserInteractionEnabled = true
-        contactUsPreference.addGestureRecognizer(singleTap)
-        
-        //Hide
-        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickHide))
-        hidePreference.isUserInteractionEnabled = true
-        hidePreference.addGestureRecognizer(singleTap)
-        
-        //Delete
-        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickDeleteAccount))
-        deleteAccPreference.isUserInteractionEnabled = true
-        deleteAccPreference.addGestureRecognizer(singleTap)
+//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickBlockedAccounts))
+//        blockedAccPreference.isUserInteractionEnabled = true
+//        blockedAccPreference.addGestureRecognizer(singleTap)
+//
+//        //Sign out
+//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickSignOut))
+//        signOutPreference.isUserInteractionEnabled = true
+//        signOutPreference.addGestureRecognizer(singleTap)
+//
+//        //password
+//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickPassword))
+//        changePassPreference.isUserInteractionEnabled = true
+//        changePassPreference.addGestureRecognizer(singleTap)
+//
+//        //Contact us
+//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickContactUs))
+//        contactUsPreference.isUserInteractionEnabled = true
+//        contactUsPreference.addGestureRecognizer(singleTap)
+//
+//        //Hide
+//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickHide))
+//        hidePreference.isUserInteractionEnabled = true
+//        hidePreference.addGestureRecognizer(singleTap)
+//
+//        //Delete
+//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickDeleteAccount))
+//        deleteAccPreference.isUserInteractionEnabled = true
+//        deleteAccPreference.addGestureRecognizer(singleTap)
         
         
         
@@ -125,19 +154,19 @@ class Settings: UIViewController{
         }
         
         //reg date
-        var retVal = ""
-        let regMilliTime = Date.init(milliseconds: Int64(self.thisUserProfile["registration_millis"] as! CLong)) //start time
-        var calendarDate = Calendar.current.dateComponents([.day, .year, .month], from: regMilliTime)
-        var month = regMilliTime.monthMedium //these work beautifully except that they're missing the day getter for some reason
-        var day = "Unknown Day"
-        var year = "Unknown Year"
-        if let dayInt = calendarDate.day{
-            day = String(dayInt)
-        }
-        if let yearInt = calendarDate.year{
-            year = String(yearInt)
-        }
-        retVal = month+"/"+day+"/"+year
+        var retVal = "registration date not set yet"
+//        let regMilliTime = Date.init(milliseconds: Int64(self.thisUserProfile["registration_millis"] as! CLong)) //start time
+//        var calendarDate = Calendar.current.dateComponents([.day, .year, .month], from: regMilliTime)
+//        var month = regMilliTime.monthMedium //these work beautifully except that they're missing the day getter for some reason
+//        var day = "Unknown Day"
+//        var year = "Unknown Year"
+//        if let dayInt = calendarDate.day{
+//            day = String(dayInt)
+//        }
+//        if let yearInt = calendarDate.year{
+//            year = String(yearInt)
+//        }
+//        retVal = month+"/"+day+"/"+year
         regDatePreference.text = retVal
         
         
@@ -150,11 +179,11 @@ class Settings: UIViewController{
     
     
     //On clicks
-    @objc func clickBlockedAccounts() {
-        
+    func clickBlockedAccounts(alert: UIAlertAction!) {
+        self.performSegue(withIdentifier: "settingsToBlockedAcc" , sender: self) //pass data over to
     }
     
-    @objc func clickSignOut() {
+    func clickSignOut(alert: UIAlertAction!) {
         let user = Auth.auth().currentUser  //get the current user that was just created above
         if let user = user {
             //TODO: segue over to login activity
@@ -162,16 +191,19 @@ class Settings: UIViewController{
         }
     }
     
+
+
     
-    @objc func clickPassword() {
-    
+    func clickPassword(alert: UIAlertAction!) {
+        self.performSegue(withIdentifier: "settingsToChangePassword" , sender: self) //pass data over to
     }
     
-    @objc func clickContactUs() {
-    
+    func clickContactUs(alert: UIAlertAction!) {
+        self.performSegue(withIdentifier: "settingsToContact" , sender: self) //pass data over to
+
     }
     
-    @objc func clickHide() {
+    func clickHide(alert: UIAlertAction!) {
         var isHidden = self.thisUserProfile["profile_hidden"] as! Bool
         //TODO: construct the dialog the prompts them with the options
         
@@ -215,7 +247,7 @@ class Settings: UIViewController{
         
     }
     
-    @objc func clickDeleteAccount() {
+    func clickDeleteAccount(alert: UIAlertAction!) {
         //TODO: prompt the user with the delete account dialog box
         var deletionMerger = Dictionary<String,Any>()
         deletionMerger["being_deleted"] = true
@@ -235,6 +267,26 @@ class Settings: UIViewController{
                 //TODO: set timer, that quits the app after 3 seconds
             }
         })
+    }
+    
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
+        if segue.identifier == "settingsToChangePassword" {
+            let vc = segue.destination as! ChangePassword
+            vc.thisUserProfile = self.thisUserProfile
+        }
+        if segue.identifier == "settingsToContact" {
+            let vc = segue.destination as! ContactUs
+            vc.thisUserProfile = self.thisUserProfile
+        }
+        if segue.identifier == "settingsToBlockedAcc" {
+            let vc = segue.destination as! BlockedAccounts
+            vc.thisUserProfile = self.thisUserProfile
+        }
+
+        
+
     }
     
     
