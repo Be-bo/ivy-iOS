@@ -105,6 +105,7 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("blocked_by").getDocument { (document, error) in
             if let document = document, document.exists {   //if who you are reporting has already been blocked by you, do nothing
             } else {//the user you are reporting has never been blocked by anyone so create that list
+                print("Here")
                 self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("blocked_by").setData(docData)
             }
             //then append to that list to add that you YOURSELF blocked that user and what time you blocked them at
@@ -113,6 +114,7 @@ class ViewFullProfileActivity: UIViewController, UICollectionViewDelegate, UICol
                 if let err = err {
                     print("Error updating document: \(err)")
                 } else {
+                    print("Or here")
                     print("Document successfully updated")
                 }
             }

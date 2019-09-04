@@ -38,8 +38,9 @@ class blockedAccTableViewCell: UITableViewCell {
     
     
     
-    func setUp(user: Dictionary<String,Any>) {
+    func setUp(user: Dictionary<String,Any>, thisUserProfile: Dictionary<String,Any>) {
     
+        self.thisUserProfile = thisUserProfile
         self.userToUnblock = user
 
         
@@ -64,12 +65,17 @@ class blockedAccTableViewCell: UITableViewCell {
     @IBAction func clickUnblockUser(_ sender: Any) {
         unblockUser()
     }
-    
+
     
     //remove this user's id from the "blocked_by" list of the blocked user and also remove blocker user's id from this user's "block_list", and update the adapter
     func unblockUser() {
+
+//        print("user to unblock", self.userToUnblock)
+        print("this user profile", self.thisUserProfile)
+
+
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").updateData([self.userToUnblock["id"] as! String: FieldValue.delete()])
-        
+
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.userToUnblock["id"] as! String).collection("userlists").document("blocked_by").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()], completion: { (error) in
             if error != nil {
             } else {
@@ -78,7 +84,7 @@ class blockedAccTableViewCell: UITableViewCell {
             }
         })
 
-        
+
     }
     
 }

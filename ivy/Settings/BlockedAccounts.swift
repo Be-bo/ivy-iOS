@@ -20,7 +20,6 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
     //passed through settings segue
     public var thisUserProfile = Dictionary<String, Any>()
     
-    
     private var allBLockedAccounts:[Dictionary<String,Any>] = []    //holds all blocked accounts
 
     
@@ -30,7 +29,6 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        loadBlockedAccounts()
         
     }
     
@@ -67,7 +65,9 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.dataSource = self
         tableView.register(UINib(nibName: "blockedAccTableViewCell", bundle: nil), forCellReuseIdentifier: "blockedAccTableViewCell")
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 70
+        tableView.estimatedRowHeight = 200
+        self.loadBlockedAccounts()
+
         
     }
     
@@ -84,18 +84,15 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.bringSubviewToFront(cell.unblockUserButton)
         cell.selectionStyle  = .default
         
-        cell.setUp(user: self.allBLockedAccounts[indexPath.item])
+        cell.setUp(user: self.allBLockedAccounts[indexPath.item], thisUserProfile: self.thisUserProfile)
         
-        cell.unblockUserButton.addTarget(self, action: #selector(unblockClicked), for: .touchUpInside)
         
         return cell
     }
     
     
     
-    @objc func unblockClicked() {
-        print("herererererererer")
-    }
+    
     
     
     
