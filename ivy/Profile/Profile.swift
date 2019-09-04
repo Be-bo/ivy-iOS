@@ -219,6 +219,11 @@ class Profile: UIViewController {
             vc.thisUserProfile = self.thisUserProfile
             vc.previousVC = self
         }
+        if segue.identifier == "profileToSettings" {
+            let vc = segue.destination as! Settings
+            vc.thisUserProfile = self.thisUserProfile
+        }
+        
 
 
     }
