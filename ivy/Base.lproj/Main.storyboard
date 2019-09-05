@@ -1262,6 +1262,10 @@
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <action selector="searchEdited:" destination="WvK-cN-8BU" eventType="editingDidBegin" id="Bpz-bo-EvM"/>
+                                                    <action selector="searchTextChanged:" destination="WvK-cN-8BU" eventType="editingChanged" id="j4G-dO-3Hk"/>
+                                                </connections>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1o-0b-MWO" customClass="MediumGreenLabel" customModule="ivy" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="64" width="374" height="21"/>
@@ -1341,9 +1345,21 @@
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4c-ZX-PuJ">
+                                                <rect key="frame" x="326" y="8" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="DLu-WK-Kn0"/>
+                                                    <constraint firstAttribute="width" constant="40" id="kHC-iH-fvI"/>
+                                                </constraints>
+                                                <state key="normal" image="cross_grey"/>
+                                                <connections>
+                                                    <action selector="cancelSearchClicked:" destination="WvK-cN-8BU" eventType="touchUpInside" id="FHI-h1-jVx"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="e4c-ZX-PuJ" secondAttribute="trailing" constant="8" id="0of-dP-sRi"/>
                                             <constraint firstItem="qPR-xc-zPh" firstAttribute="top" secondItem="tBb-V1-6rw" secondAttribute="bottom" constant="16" id="49c-DO-O1d"/>
                                             <constraint firstItem="C1o-0b-MWO" firstAttribute="leading" secondItem="GfM-OH-uVt" secondAttribute="leading" id="4RH-l9-M8a"/>
                                             <constraint firstAttribute="trailing" secondItem="OLA-7z-vII" secondAttribute="trailing" id="4t4-zZ-u66"/>
@@ -1361,6 +1377,7 @@
                                             <constraint firstItem="7So-AE-U5c" firstAttribute="top" secondItem="qPR-xc-zPh" secondAttribute="bottom" id="gWC-BJ-1Ty"/>
                                             <constraint firstItem="tBb-V1-6rw" firstAttribute="top" secondItem="C1o-0b-MWO" secondAttribute="bottom" id="p5J-Wk-eMk"/>
                                             <constraint firstItem="qPR-xc-zPh" firstAttribute="leading" secondItem="GfM-OH-uVt" secondAttribute="leading" id="pcq-VC-4L7"/>
+                                            <constraint firstItem="e4c-ZX-PuJ" firstAttribute="top" secondItem="GfM-OH-uVt" secondAttribute="top" constant="8" id="rEF-bb-st3"/>
                                             <constraint firstAttribute="trailing" secondItem="C1o-0b-MWO" secondAttribute="trailing" id="uN3-gN-sgv"/>
                                             <constraint firstItem="bgc-Dz-ign" firstAttribute="top" secondItem="X18-OG-GRE" secondAttribute="bottom" id="uix-O1-9dL"/>
                                             <constraint firstAttribute="trailing" secondItem="7So-AE-U5c" secondAttribute="trailing" id="vSp-IU-3cI"/>
@@ -1392,6 +1409,8 @@
                         <outlet property="eventsCollectionView" destination="7So-AE-U5c" id="yDQ-C4-1WO"/>
                         <outlet property="featuredEventImage" destination="tBb-V1-6rw" id="loM-8Y-na2"/>
                         <outlet property="recommendedFriendCollecView" destination="bgc-Dz-ign" id="qCA-De-LDw"/>
+                        <outlet property="searchBar" destination="OLA-7z-vII" id="BRf-Hw-6Hu"/>
+                        <outlet property="searchCancelButton" destination="e4c-ZX-PuJ" id="3bQ-4Y-rUm"/>
                         <segue destination="Yjf-Fr-ihs" kind="show" identifier="viewFullProfileSegue" id="YTv-ER-BkX"/>
                         <segue destination="DpA-Ba-Ufr" kind="show" identifier="exploreToSettings" id="6DB-Uu-9yT"/>
                     </connections>
@@ -1409,7 +1428,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-jT-vQ0">
-                                <rect key="frame" x="20" y="88" width="374" height="774"/>
+                                <rect key="frame" x="20" y="44" width="374" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9E3-fC-hbh">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="1000"/>
@@ -3234,7 +3253,7 @@
         <segue reference="hQk-bx-gCi"/>
         <segue reference="qnE-MC-VUo"/>
         <segue reference="NB0-Dd-hna"/>
-        <segue reference="UkY-Va-3yW"/>
+        <segue reference="GId-3d-sBt"/>
         <segue reference="RKH-ld-RbM"/>
         <segue reference="VzR-Zf-QpA"/>
         <segue reference="6lo-aV-DON"/>
