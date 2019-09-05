@@ -72,6 +72,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         hideKeyboardOnTapOutside()
         setUpKeyboardListeners()
+        configureTableView()
         xButton.isHidden = true //make sure the x button is hidden by default
     }
     
@@ -484,7 +485,6 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
             snapshot.documentChanges.forEach { diff in
                 if (diff.type == .added) {
                     self.messages.append(diff.document.data())  //append the message document to the messages array
-                    self.configureTableView()
                     
 //                    self.tableView.reloadData()
                     // Update Table Data
@@ -493,7 +493,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath], with: .automatic)
                     self.tableView.endUpdates()
                     
-                    self.tableView.scrollToBottom()
+//                    self.tableView.scrollToBottom()
                     self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                 }
             }
@@ -533,31 +533,37 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen/on reload
         
+
         //called for each cell but will only update on the last index of messages since we only want it to update when the users "read" (loaded cell) the last message
 //        updateLastSeenMessage()
+
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatBubbleCell", for: indexPath) as! ChatBubbleCell
+        
+//        cell.setup(message: self.messages[indexPath.row], thisUserProfile: self.thisUserProfile)
+
         
 //        let lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
         var lastMessageAuthor = ""
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
-        
-        
+
+
         lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as! String //first name of last message author
         authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as! String) + "/preview.jpg"
-        
+
         // Create a storage reference from our storage service
         let lastMessage = self.messages[indexPath.row]["message_text"] as! String
         let storageRef = self.baseStorageReference.reference()
         let storageImageRef = storageRef.child(authorProfilePicLoc)
         let lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who sent it attached with what message they sent.
-        
+
         // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
         storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error", error)
             } else {
                 cell.messageLabel.text = lastMessageString  //last message that was sent in the chat
+                cell.messageLabel.numberOfLines = 0
                 if(self.messages[indexPath.row]["author_id"] as! String == self.thisUserProfile["id"] as! String){
                     cell.profilePicture.isHidden = true
                     cell.messageContainer.backgroundColor = UIColor.ivyGreen
@@ -569,7 +575,7 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 }
             }
         }
-        
+
         
         //TODO: figure out how to scroll to the bottom of the chat when you send a new message
         //TODO: figure out the optimization of messages laoded to make sure not all messages are loadede each time a new message comes in
