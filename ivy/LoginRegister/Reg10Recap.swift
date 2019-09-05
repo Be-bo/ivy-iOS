@@ -45,14 +45,23 @@ class Reg10Recap: UIViewController {
         front.frame = cardContainer.bounds
         back.frame = cardContainer.bounds
         front.img.image = frontImage
+        front.name.text = self.registerInfoStruct.first_name!
         cardContainer.addSubview(front)
         
         var firstAndLast = self.registerInfoStruct.first_name! + " " + self.registerInfoStruct.last_name!
         var age = "10"
         back.age.text = age
         back.name.text = firstAndLast
+        front.name.text = firstAndLast
         back.degree.text = self.registerInfoStruct.degree!
         back.bio.text = self.registerInfoStruct.bio!
+        back.setUpInterests(interests: self.registerInfoStruct.interests!)
+        
+        //hide the message field and the say hi button and the sync arrow since were flipping by clicking card
+        back.flipButton.isHidden = true
+        front.flipButton.isHidden = true
+        back.sayHiMessageTextField.isHidden = true
+        back.sayHiButton.isHidden = true
         
         //extract domain from user struct to specify the uni_domain field
         if let range = self.registerInfoStruct.email!.range(of: "@") {
