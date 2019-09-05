@@ -1281,6 +1281,10 @@
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <action selector="searchEdited:" destination="WvK-cN-8BU" eventType="editingDidBegin" id="Bpz-bo-EvM"/>
+                                                    <action selector="searchTextChanged:" destination="WvK-cN-8BU" eventType="editingChanged" id="j4G-dO-3Hk"/>
+                                                </connections>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1o-0b-MWO" customClass="MediumGreenLabel" customModule="ivy" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="64" width="374" height="21"/>
@@ -1360,9 +1364,21 @@
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4c-ZX-PuJ">
+                                                <rect key="frame" x="326" y="8" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="DLu-WK-Kn0"/>
+                                                    <constraint firstAttribute="width" constant="40" id="kHC-iH-fvI"/>
+                                                </constraints>
+                                                <state key="normal" image="cross_grey"/>
+                                                <connections>
+                                                    <action selector="cancelSearchClicked:" destination="WvK-cN-8BU" eventType="touchUpInside" id="FHI-h1-jVx"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="e4c-ZX-PuJ" secondAttribute="trailing" constant="8" id="0of-dP-sRi"/>
                                             <constraint firstItem="qPR-xc-zPh" firstAttribute="top" secondItem="tBb-V1-6rw" secondAttribute="bottom" constant="16" id="49c-DO-O1d"/>
                                             <constraint firstItem="C1o-0b-MWO" firstAttribute="leading" secondItem="GfM-OH-uVt" secondAttribute="leading" id="4RH-l9-M8a"/>
                                             <constraint firstAttribute="trailing" secondItem="OLA-7z-vII" secondAttribute="trailing" id="4t4-zZ-u66"/>
@@ -1380,6 +1396,7 @@
                                             <constraint firstItem="7So-AE-U5c" firstAttribute="top" secondItem="qPR-xc-zPh" secondAttribute="bottom" id="gWC-BJ-1Ty"/>
                                             <constraint firstItem="tBb-V1-6rw" firstAttribute="top" secondItem="C1o-0b-MWO" secondAttribute="bottom" id="p5J-Wk-eMk"/>
                                             <constraint firstItem="qPR-xc-zPh" firstAttribute="leading" secondItem="GfM-OH-uVt" secondAttribute="leading" id="pcq-VC-4L7"/>
+                                            <constraint firstItem="e4c-ZX-PuJ" firstAttribute="top" secondItem="GfM-OH-uVt" secondAttribute="top" constant="8" id="rEF-bb-st3"/>
                                             <constraint firstAttribute="trailing" secondItem="C1o-0b-MWO" secondAttribute="trailing" id="uN3-gN-sgv"/>
                                             <constraint firstItem="bgc-Dz-ign" firstAttribute="top" secondItem="X18-OG-GRE" secondAttribute="bottom" id="uix-O1-9dL"/>
                                             <constraint firstAttribute="trailing" secondItem="7So-AE-U5c" secondAttribute="trailing" id="vSp-IU-3cI"/>
@@ -1411,6 +1428,8 @@
                         <outlet property="eventsCollectionView" destination="7So-AE-U5c" id="yDQ-C4-1WO"/>
                         <outlet property="featuredEventImage" destination="tBb-V1-6rw" id="loM-8Y-na2"/>
                         <outlet property="recommendedFriendCollecView" destination="bgc-Dz-ign" id="qCA-De-LDw"/>
+                        <outlet property="searchBar" destination="OLA-7z-vII" id="BRf-Hw-6Hu"/>
+                        <outlet property="searchCancelButton" destination="e4c-ZX-PuJ" id="3bQ-4Y-rUm"/>
                         <segue destination="Yjf-Fr-ihs" kind="show" identifier="viewFullProfileSegue" id="YTv-ER-BkX"/>
                         <segue destination="DpA-Ba-Ufr" kind="show" identifier="exploreToSettings" id="6DB-Uu-9yT"/>
                     </connections>
@@ -1428,7 +1447,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-jT-vQ0">
-                                <rect key="frame" x="20" y="88" width="374" height="725"/>
+                                <rect key="frame" x="20" y="44" width="374" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9E3-fC-hbh">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="1000"/>
@@ -1867,7 +1886,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EdN-3j-6oL" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="168.5" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="169" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="EbT-g2-BKj"/>
                                         </constraints>
@@ -1876,7 +1895,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-OR-aKr" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="100.5" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="101" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="CIP-lk-rvj"/>
                                         </constraints>
@@ -1885,7 +1904,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ8-tv-ZCY" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="244.5" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="245" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="MIP-A7-BCx"/>
                                         </constraints>
@@ -1895,7 +1914,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="(Try to include a capital letter, a number and a special symbol)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgH-FY-Y8h" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="36" width="350" height="48.5"/>
+                                        <rect key="frame" x="0.0" y="36" width="350" height="49"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="21"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -3250,15 +3269,14 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OfU-Ft-87X"/>
         <segue reference="9RO-mD-LBY"/>
         <segue reference="qnE-MC-VUo"/>
         <segue reference="NB0-Dd-hna"/>
-        <segue reference="UkY-Va-3yW"/>
+        <segue reference="GId-3d-sBt"/>
         <segue reference="RKH-ld-RbM"/>
-        <segue reference="3CP-PB-y6a"/>
+        <segue reference="YTv-ER-BkX"/>
         <segue reference="9lb-Kb-J7u"/>
-        <segue reference="rO4-E7-9yn"/>
+        <segue reference="6DB-Uu-9yT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

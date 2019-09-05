@@ -11,6 +11,7 @@ import Firebase
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
+import InstantSearchClient
 
 class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -36,9 +37,81 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     @IBOutlet weak var featuredEventImage: UIImageView!
     @IBOutlet weak var eventsCollectionView: UICollectionView!
     @IBOutlet weak var recommendedFriendCollecView: UICollectionView!
+    @IBOutlet weak var searchCancelButton: UIButton!
+    @IBOutlet weak var searchBar: UITextField!
+
     
     let eventCollectionIdentifier = "EventCollectionViewCell"
     let profileCollectionIdentifier = "profileCollectionViewCell"
+    var searchLauncher = SearchLauncher()
+    var searchVisible = false
+    var timer = Timer()
+    
+    
+    @IBAction func searchEdited(_ sender: Any) {
+        if(!searchVisible){
+            searchCancelButton.isHidden = false
+            searchVisible = true
+            searchLauncher.triggerPanel(searchBar: searchBar, navBarHeight: self.navigationController?.navigationBar.frame.size.height ?? 100, thisUser: thisUserProfile)
+        }
+    }
+    @IBAction func cancelSearchClicked(_ sender: Any) {
+        if(searchVisible){
+            searchCancelButton.isHidden = true
+            searchVisible = false
+            searchBar.endEditing(true)
+            searchBar.text = ""
+            searchLauncher.panelDismiss()
+        }
+    }
+    
+    @IBAction func searchTextChanged(_ sender: Any) {
+        if(searchBar.text!.count > 0){
+            timer.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(search), userInfo: nil, repeats: true)
+        }else{
+            
+        }
+    }
+    
+    @objc func search(){
+        if(searchBar.text!.count > 0){
+            runSingleSearch()
+        }
+    }
+    
+    func runSingleSearch(){
+        let currentString = searchBar.text
+        
+        baseDatabaseReference.collection("other").document("algolia_update").getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let algoliaUpdate = document.data(){
+                    let client = Client(appID: algoliaUpdate["app_id"] as! String, apiKey: algoliaUpdate["api_key"] as! String)
+                    let index = client.index(withName: "your_index_name")
+                    let query = Query(query: currentString)
+                    query.hitsPerPage = 10
+                    
+                    let queries = [
+                        IndexQuery(indexName: "search_USERS", query: query),
+                        IndexQuery(indexName: "search_ORGANIZATIONS", query: query),
+                        IndexQuery(indexName: "search_EVENTS", query: query)]
+                    
+                    client.multipleQueries(queries, strategy: .stopIfEnoughMatches, completionHandler: { (content, error) -> Void in
+                        if error == nil {
+                            if let nonNullJsonHit = content as? [String: Any]{
+                                self.searchLauncher.search(hitJson: nonNullJsonHit)
+                            }
+                        }
+                    })
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    
+    
     
     
     

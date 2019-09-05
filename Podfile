@@ -13,5 +13,6 @@ target 'ivy' do
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
   pod 'CropViewController'
+  pod 'InstantSearchClient', '~> 6.0'
 
 end
