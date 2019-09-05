@@ -60,31 +60,39 @@ class ChangePassword: UIViewController{
                 let credential = EmailAuthProvider.credential(withEmail: self.thisUserProfile["email"] as! String, password: currentOld)
                 self.thisUser!.reauthenticate(with: credential, completion: { (result, error) in
                     if let err = error {
-                        //TODO: replace print with error label
-                        print("We failed to re-authenticate you (your current password is probably incorrect).")
+                        let alert = UIAlertController(title: "We failed to re-authenticate you (your current password is probably incorrect).", message: .none , preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                        self.present(alert, animated: true)
                         //TODO: allowInteraction()
                     } else {
                         self.thisUser!.updatePassword(to: currentNew, completion: { (error) in
                             if let err = error {
-                                //TODO: replace print with error label
-                                print("There was an error updating your password, try restarting the app.")
-                                //TODO: allowInteraction()
+                                let alert = UIAlertController(title: "There was an error updating your password, try restarting the app.", message: .none , preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                                self.present(alert, animated: true)
                             } else {
-                                //TODO: allowInteraction()
-                                self.dismiss(animated: true , completion: nil)  //TODO:make sure this view actually dismissed
+                                let alert = UIAlertController(title: "Password change succesfull! Logout to see changes! ", message: .none , preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                                self.present(alert, animated: true)
+                                //clear all labels
+                                self.currentPassword.text = ""
+                                self.confirmPassword.text = ""
+                                self.newPassword.text = ""
                             }
                             })
                     }
                     })
 
             }else{
-                //TODO: replace print with error label
-                print("Passwords do not match.")
+                let alert = UIAlertController(title: "Passwords do not match.", message: .none , preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
                 //TODO: allowInteraction()
             }
         }else{
-            //TODO: replace print with error label
-            print("The new password needs to be at least 6 characters long.")
+            let alert = UIAlertController(title: "The new password needs to be at least 6 characters long.", message: .none , preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
             //TODO: allowInteraction()
         }
         

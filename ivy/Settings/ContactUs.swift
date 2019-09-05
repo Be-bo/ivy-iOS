@@ -49,16 +49,19 @@ class ContactUs: UIViewController{
             feedbackPackage["time"] = Date().timeIntervalSince1970
             self.baseDatabaseReference.collection("userfeedback").document(String(Date().timeIntervalSince1970)).setData(feedbackPackage, completion: { (error) in
                 if error != nil {
-                    //TODO: set the error text to be the print statement
-                    //TODO: set visibility of error text to be shown
                     //TODO: allowInteraction()
-                    print("Submission failed, check your internet connection or try restarting the app.")
+                    let alert = UIAlertController(title: "Submission failed, check your internet connection or try restarting the app.", message: .none , preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
                 }
                 //else task is succesful
-                //TODO: prompt  the user with this print message
-                print("Your feedback is in! Thanks for contacting us!")
+                let alert = UIAlertController(title: "Your feedback is in! Thanks for contacting us!", message: .none , preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
                 //TODO: allowInteraction()
-                self.dismiss(animated: true, completion: nil)//TODO: amke sure we actually dismiss the view controller
+                //clear the message label
+                self.messageInputBox.text = ""
+                //actually dismiss the view so we can clickon stuff again
             })
         }
         

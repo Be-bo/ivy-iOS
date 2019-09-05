@@ -186,8 +186,8 @@ class Settings: UIViewController{
     func clickSignOut(alert: UIAlertAction!) {
         let user = Auth.auth().currentUser  //get the current user that was just created above
         if let user = user {
-            //TODO: segue over to login activity
             try! Auth.auth().signOut()  //actually sign the user out
+            self.performSegue(withIdentifier: "logoutSegue" , sender: self) //pass data over to
         }
     }
     
@@ -205,46 +205,41 @@ class Settings: UIViewController{
     
     func clickHide(alert: UIAlertAction!) {
         var isHidden = self.thisUserProfile["profile_hidden"] as! Bool
-        //TODO: construct the dialog the prompts them with the options
-        
+        print("is hiddem", isHidden)
         if(!isHidden){
-            //TODO: set the text of the dialog box to be the print statement
-            print("You'll only be visible to your friends (nobody will be able to look you up or see you in the Quad). Proceed?")
-        }else{
-            //TODO: set the text of the dialog box to be the print statement
-            print("Everybody will be able to look you up, see you in the Quad and send you friend requests. Proceed?")
+            let alert = UIAlertController(title: "You'll only be visible to your friends (nobody will be able to look you up or see you in the Quad). Proceed?", message: .none, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
+                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).updateData(["profile_hidden": true],completion: { (error) in
+                    if error != nil {
+                        print("oops, an error")
+                    } else {
+                        //TODO: allowInteraction
+                        //TODO: set the check toggle to  TRUE
+                        self.thisUserProfile["profile_hidden"] = true
+                    }
+                })
+            }))
+    
+            self.present(alert, animated: true)
+        }else if(isHidden){
+            let alert = UIAlertController(title: "Everybody will be able to look you up, see you in the Quad and send you friend requests. Proceed?", message: .none, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
+                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).updateData(["profile_hidden": false],completion: { (error) in
+                    if error != nil {
+                        print("oops, an error")
+                    } else {
+                        //TODO: allowInteraction
+                        //TODO: set the check toggle to  FALSE
+                        self.thisUserProfile["profile_hidden"] = false
+                    }
+                })
+            }))
+            self.present(alert, animated: true)
+
         }
-        //TODO: set on click listener of the cancel button that when clicked just dismissed the dialog box
-        
-        
-        //TODO: set on click listener for the confirm button, which when clicked will either hide or not hide the profile
-        //TODO: move the below logic into the on click listener that will be set with the coenfirm button
-        
-        if (isHidden){
-            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).updateData(["profile_hidden": false],completion: { (error) in
-                if error != nil {
-                    print("oops, an error")
-                } else {
-                    //TODO: allowInteraction
-                    //TODO: cancel the dialog box
-                    //TODO: set the check toggle to  FALSE
-                    self.thisUserProfile["profile_hidden"] = false
-                }
-            })
-        }else{
-            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).updateData(["profile_hidden": true],completion: { (error) in
-                if error != nil {
-                    print("oops, an error")
-                } else {
-                    //TODO: allowInteraction
-                    //TODO: cancel the dialog box
-                    //TODO: set the check toggle to  TRUE
-                    self.thisUserProfile["profile_hidden"] = true
-                }
-            })
-        }
-        
-        
+
     }
     
     func clickDeleteAccount(alert: UIAlertAction!) {
@@ -283,6 +278,7 @@ class Settings: UIViewController{
         if segue.identifier == "settingsToBlockedAcc" {
             let vc = segue.destination as! BlockedAccounts
             vc.thisUserProfile = self.thisUserProfile
+            vc.previousVC = self
         }
 
         

@@ -14,7 +14,8 @@ import MobileCoreServices
 import FirebaseStorage
 import FirebaseFirestore
 
-class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+
     
     // MARK: Variables and Constants
     
@@ -39,6 +40,8 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     // MARK: IBOutlets and IBActions
+    
+    @IBOutlet weak var messageCollectionView: UICollectionView!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
@@ -72,7 +75,12 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         hideKeyboardOnTapOutside()
         setUpKeyboardListeners()
-        configureTableView()
+        
+        messageCollectionView.delegate = self
+        messageCollectionView.dataSource = self
+        messageCollectionView.register(UINib(nibName:"chatBubbleCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "chatBubbleCollectionViewCell")
+        
+//        configureTableView()
         xButton.isHidden = true //make sure the x button is hidden by default
     }
     
@@ -486,12 +494,12 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 if (diff.type == .added) {
                     self.messages.append(diff.document.data())  //append the message document to the messages array
                     
-//                    self.tableView.reloadData()
+                    self.messageCollectionView.reloadData()
                     // Update Table Data
-                    self.tableView.beginUpdates()
-                    self.tableView.insertRows(at: [
-                        NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath], with: .automatic)
-                    self.tableView.endUpdates()
+//                    self.tableView.beginUpdates()
+//                    self.tableView.insertRows(at: [
+//                        NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath], with: .automatic)
+//                    self.tableView.endUpdates()
                     
 //                    self.tableView.scrollToBottom()
                     self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
@@ -512,79 +520,187 @@ class ChatRoom: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     // MARK: Tableview Related Functions
-    
-    func configureTableView(){
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "ChatBubbleCell", bundle: nil), forCellReuseIdentifier: "ChatBubbleCell")
-        tableView.separatorStyle = .none
-        tableView.allowsSelection = false
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 120
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//
+//    func configureTableView(){
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.register(UINib(nibName: "ChatBubbleCell", bundle: nil), forCellReuseIdentifier: "ChatBubbleCell")
+//        tableView.separatorStyle = .none
+//        tableView.allowsSelection = false
+//        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.estimatedRowHeight = 120
+//    }
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return self.messages.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen/on reload
+//
+//
+//        //called for each cell but will only update on the last index of messages since we only want it to update when the users "read" (loaded cell) the last message
+////        updateLastSeenMessage()
+//
+//
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatBubbleCell", for: indexPath) as! ChatBubbleCell
+//
+////        cell.setup(message: self.messages[indexPath.row], thisUserProfile: self.thisUserProfile)
+//
+//
+////        let lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
+//        var lastMessageAuthor = ""
+//        var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
+//
+//
+//        lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as! String //first name of last message author
+//        authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as! String) + "/preview.jpg"
+//
+//        // Create a storage reference from our storage service
+//        let lastMessage = self.messages[indexPath.row]["message_text"] as! String
+//        let storageRef = self.baseStorageReference.reference()
+//        let storageImageRef = storageRef.child(authorProfilePicLoc)
+//        let lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who sent it attached with what message they sent.
+////        print("last message string", lastMessageString)
+////        cell.messageLabel.text = lastMessageString  //last message that was sent in the chat
+//
+//        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+//        storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+//            if let error = error {
+//                print("error", error)
+//            } else {
+//                cell.messageLabel.text = lastMessageString  //last message that was sent in the chat
+//                cell.messageLabel.numberOfLines = 0
+//                if(self.messages[indexPath.row]["author_id"] as! String == self.thisUserProfile["id"] as! String){
+//                    cell.profilePicture.isHidden = true
+//                    cell.messageLabel.backgroundColor = UIColor.ivyGreen
+//                }else{
+//                    cell.profilePicture.isHidden = false
+//                    cell.messageLabel.backgroundColor = UIColor.ivyGrey
+//                    //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
+//                    cell.profilePicture.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
+//                }
+//            }
+//        }
+//
+//
+//        //TODO: figure out how to scroll to the bottom of the chat when you send a new message
+//        //TODO: figure out the optimization of messages laoded to make sure not all messages are loadede each time a new message comes in
+//
+//
+//        return cell
+//    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.messages.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen/on reload
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
         
-
-        //called for each cell but will only update on the last index of messages since we only want it to update when the users "read" (loaded cell) the last message
-//        updateLastSeenMessage()
-
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatBubbleCell", for: indexPath) as! ChatBubbleCell
-        
-//        cell.setup(message: self.messages[indexPath.row], thisUserProfile: self.thisUserProfile)
-
-        
-//        let lastMessageSenderID = self.messages[indexPath.row]["author_id"] as! String //the author of the last message that was sent
+       
         var lastMessageAuthor = ""
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
-
-
         lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as! String //first name of last message author
-        authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as! String) + "/preview.jpg"
-
-        // Create a storage reference from our storage service
         let lastMessage = self.messages[indexPath.row]["message_text"] as! String
+
+        authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as! String) + "/preview.jpg"
+        
+        // Create a storage reference from our storage service
         let storageRef = self.baseStorageReference.reference()
         let storageImageRef = storageRef.child(authorProfilePicLoc)
-        let lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who sent it attached with what message they sent.
 
-        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        
+        
+        let size = CGSize(width: 250, height: 1000)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        let font = UIFont.systemFont(ofSize: 18)
+        let attributes = [NSAttributedString.Key.font: font]
+        let estimatedFrame = NSString(string: lastMessage).boundingRect(with: size, options: options, attributes:attributes, context: nil)
+        
+        
+        
+        
         storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error", error)
             } else {
-                cell.messageLabel.text = lastMessageString  //last message that was sent in the chat
+                cell.messageLabel.text = lastMessage
                 cell.messageLabel.numberOfLines = 0
+                cell.messageLabel.frame = CGRect(x: 48 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
                 if(self.messages[indexPath.row]["author_id"] as! String == self.thisUserProfile["id"] as! String){
-                    cell.profilePicture.isHidden = true
-                    cell.messageContainer.backgroundColor = UIColor.ivyGreen
+                    cell.imageView.isHidden = true
+                    cell.messageLabel.backgroundColor = UIColor.ivyGreen
                 }else{
-                    cell.profilePicture.isHidden = false
-                    cell.messageContainer.backgroundColor = UIColor.ivyGrey
-                    //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
-                    cell.profilePicture.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
+                    cell.imageView.isHidden = false
+                    cell.messageLabel.backgroundColor = UIColor.ivyGrey
+                    cell.imageView.image  = UIImage(data: data!)
                 }
             }
         }
 
         
-        //TODO: figure out how to scroll to the bottom of the chat when you send a new message
-        //TODO: figure out the optimization of messages laoded to make sure not all messages are loadede each time a new message comes in
+        
+        
+        
         
 
-//        let scrollPoint = CGPoint(x: 0, y: self.tableView.contentSize.height - self.tableView.frame.size.height)
-//        self.tableView.setContentOffset(scrollPoint, animated: false)
+        
         return cell
+        
+        
     }
+    
+
+//
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if let messageText = self.messages[indexPath.item]["message_text"] as? String {
+            let size = CGSize(width: 250, height: 1000)
+            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            let font = UIFont.systemFont(ofSize: 18)
+            let attributes = [NSAttributedString.Key.font: font]
+            let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
+            
+            return CGSize(width: view.frame.width, height: estimatedFrame.height + 20)
+        }
+        
+        return CGSize(width: view.frame.width, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+    }
+    
+    
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+//
+//        var lastMessageAuthor = ""
+//        var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
+//
+//
+//        lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as! String //first name of last message author
+//        authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as! String) + "/preview.jpg"
+//
+//        // Create a storage reference from our storage service
+//        let lastMessage = self.messages[indexPath.row]["message_text"] as! String
+//        let storageRef = self.baseStorageReference.reference()
+//        let storageImageRef = storageRef.child(authorProfilePicLoc)
+//        let lastMessageString = lastMessageAuthor + ": " + lastMessage //last message is a combination of who
+//
+//        let size = CGSize(width: 250, height: 1000)
+//        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+//        let estimatedFrame = NSString(string: lastMessageString).boundingRect(with: size, options: options, attributes:nil, context: nil)
+//
+//        return CGSize(width: view.frame.width, height: estimatedFrame.height+20)
+//
+//
+//    }
+//
     
     
     

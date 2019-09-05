@@ -38,7 +38,7 @@ class blockedAccTableViewCell: UITableViewCell {
     
     
     
-    func setUp(user: Dictionary<String,Any>, thisUserProfile: Dictionary<String,Any>) {
+    func setUp(user: Dictionary<String,Any>, thisUserProfile: Dictionary<String,Any>, previousVC: Settings ) {
     
         self.thisUserProfile = thisUserProfile
         self.userToUnblock = user

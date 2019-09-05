@@ -22,6 +22,7 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     private var allBLockedAccounts:[Dictionary<String,Any>] = []    //holds all blocked accounts
 
+    public var previousVC = Settings()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -84,7 +85,7 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.bringSubviewToFront(cell.unblockUserButton)
         cell.selectionStyle  = .default
         
-        cell.setUp(user: self.allBLockedAccounts[indexPath.item], thisUserProfile: self.thisUserProfile)
+        cell.setUp(user: self.allBLockedAccounts[indexPath.item], thisUserProfile: self.thisUserProfile, previousVC: self.previousVC)
         
         
         return cell
