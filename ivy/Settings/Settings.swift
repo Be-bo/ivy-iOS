@@ -25,22 +25,11 @@ class Settings: UIViewController{
     @IBOutlet weak var insideScrollView: UIView!
     
     //Account Info
-    @IBOutlet weak var namePreference: MediumLabel!
-    @IBOutlet weak var universityPreference: MediumLabel!
-    @IBOutlet weak var regDatePreference: MediumLabel!
-    //Privacy&Security
-    @IBOutlet weak var changePassPreference: MediumLabel!
-    @IBOutlet weak var blockedAccPreference: MediumLabel!
-    @IBOutlet weak var hidePreference: MediumLabel!
-    //Support
-    @IBOutlet weak var contactUsPreference: MediumLabel!
-    //About
-    @IBOutlet weak var legalStuffPreference: MediumLabel!
-    @IBOutlet weak var helpPreference: MediumLabel!
-    @IBOutlet weak var aboutIvyPreference: MediumLabel!
-    //Other
-    @IBOutlet weak var signOutPreference: MediumLabel!
-    @IBOutlet weak var deleteAccPreference: MediumLabel!
+    @IBOutlet weak var namePreference: StandardLabel!
+    @IBOutlet weak var universityPreference: StandardLabel!
+    @IBOutlet weak var regDatePreference: StandardLabel!
+    
+
     
     
     
@@ -57,6 +46,7 @@ class Settings: UIViewController{
         }
         
         
+        
     }
     
     
@@ -68,13 +58,13 @@ class Settings: UIViewController{
         
         //if there friends add these options to option sheet
     
-        actionSheet.addAction(UIAlertAction(title: "ChangePass ", style: .default, handler: self.clickPassword))
-        actionSheet.addAction(UIAlertAction(title: "ContactUs", style: .default, handler: self.clickContactUs))
-        actionSheet.addAction(UIAlertAction(title: "BlockedAcc ", style: .default, handler: self.clickBlockedAccounts))
+        actionSheet.addAction(UIAlertAction(title: "ChangePass ", style: .default, handler: self.onClickChangePass(_:)))
+        actionSheet.addAction(UIAlertAction(title: "ContactUs", style: .default, handler: self.onClickContact(_:)))
+        actionSheet.addAction(UIAlertAction(title: "BlockedAcc ", style: .default, handler: self.onClickBlockedAcc(_:)))
         
-        actionSheet.addAction(UIAlertAction(title: "SignOut ", style: .default, handler: self.clickSignOut))
-        actionSheet.addAction(UIAlertAction(title: "Hide ", style: .default, handler: self.clickHide))
-        actionSheet.addAction(UIAlertAction(title: "delete ", style: .default, handler: self.clickDeleteAccount))
+        actionSheet.addAction(UIAlertAction(title: "SignOut ", style: .default, handler: self.onClickSignOut(_:)))
+        actionSheet.addAction(UIAlertAction(title: "Hide ", style: .default, handler: self.onClickHide(_:)))
+        actionSheet.addAction(UIAlertAction(title: "delete ", style: .default, handler: self.onClickDeleteAcc(_:)))
 
             
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -175,35 +165,18 @@ class Settings: UIViewController{
     }
     
     
-    
-    
-    
-    //On clicks
-    func clickBlockedAccounts(alert: UIAlertAction!) {
-        self.performSegue(withIdentifier: "settingsToBlockedAcc" , sender: self) //pass data over to
-    }
-    
-    func clickSignOut(alert: UIAlertAction!) {
-        let user = Auth.auth().currentUser  //get the current user that was just created above
-        if let user = user {
-            try! Auth.auth().signOut()  //actually sign the user out
-            self.performSegue(withIdentifier: "logoutSegue" , sender: self) //pass data over to
-        }
-    }
-    
-
-
-    
-    func clickPassword(alert: UIAlertAction!) {
+    @IBAction func onClickChangePass(_ sender: Any) {
         self.performSegue(withIdentifier: "settingsToChangePassword" , sender: self) //pass data over to
     }
     
-    func clickContactUs(alert: UIAlertAction!) {
-        self.performSegue(withIdentifier: "settingsToContact" , sender: self) //pass data over to
-
+    
+    @IBAction func onClickBlockedAcc(_ sender: Any) {
+        self.performSegue(withIdentifier: "settingsToBlockedAcc" , sender: self) //pass data over to
     }
     
-    func clickHide(alert: UIAlertAction!) {
+    
+    @IBAction func onClickHide(_ sender: Any) {
+        
         var isHidden = self.thisUserProfile["profile_hidden"] as! Bool
         print("is hiddem", isHidden)
         if(!isHidden){
@@ -220,7 +193,7 @@ class Settings: UIViewController{
                     }
                 })
             }))
-    
+            
             self.present(alert, animated: true)
         }else if(isHidden){
             let alert = UIAlertController(title: "Everybody will be able to look you up, see you in the Quad and send you friend requests. Proceed?", message: .none, preferredStyle: .alert)
@@ -237,12 +210,38 @@ class Settings: UIViewController{
                 })
             }))
             self.present(alert, animated: true)
+            
+        }
+    }
+    
+    @IBAction func onClickContact(_ sender: Any) {
+        self.performSegue(withIdentifier: "settingsToContact" , sender: self) //pass data over to
 
+    }
+    
+    
+    @IBAction func onClickLegal(_ sender: Any) {
+    }
+    
+    @IBAction func onClickHelp(_ sender: Any) {
+    }
+    
+    
+    @IBAction func onClickAbout(_ sender: Any) {
+    }
+    
+    
+    @IBAction func onClickSignOut(_ sender: Any) {
+        
+        let user = Auth.auth().currentUser  //get the current user that was just created above
+        if let user = user {
+            try! Auth.auth().signOut()  //actually sign the user out
+            self.performSegue(withIdentifier: "logoutSegue" , sender: self) //pass data over to
         }
 
     }
     
-    func clickDeleteAccount(alert: UIAlertAction!) {
+    @IBAction func onClickDeleteAcc(_ sender: Any) {
         //TODO: prompt the user with the delete account dialog box
         var deletionMerger = Dictionary<String,Any>()
         deletionMerger["being_deleted"] = true
@@ -264,6 +263,36 @@ class Settings: UIViewController{
         })
     }
     
+    
+    
+//    //OLD on clicks
+//    //On clicks
+//    func clickBlockedAccounts(alert: UIAlertAction!) {
+//
+//    }
+//
+//    func clickSignOut(alert: UIAlertAction!) {
+//    }
+//
+//
+//
+//
+//    func clickPassword(alert: UIAlertAction!) {
+//    }
+//
+//    func clickContactUs(alert: UIAlertAction!) {
+//
+//    }
+//
+//    func clickHide(alert: UIAlertAction!) {
+//
+//
+//    }
+//
+//    func clickDeleteAccount(alert: UIAlertAction!) {
+//
+//    }
+//
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called

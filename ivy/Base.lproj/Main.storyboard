@@ -141,236 +141,200 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eVR-WE-gwW">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eVR-WE-gwW">
                                 <rect key="frame" x="0.0" y="44" width="414" height="922"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yHf-8M-OZ0" userLabel="InsideScrollView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yHf-8M-OZ0" userLabel="InsideScrollView">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="922"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-si-3Ju" userLabel="Privacy&amp;SecView">
-                                                <rect key="frame" x="0.0" y="184" width="414" height="184"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="liD-TL-fCT" userLabel="AccountInfoView">
+                                                <rect key="frame" x="141" y="0.0" width="132" height="139"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account Info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zU-OT-EUZ" userLabel="AccountInfoTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="8" width="116" height="36"/>
+                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
+                                                        <color key="textColor" name="ivyGreen"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2h-Tb-5d6" userLabel="Namelabel" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="52" width="116" height="21"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlJ-25-zs5" userLabel="UniversityLabel" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="81" width="116" height="21"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oz8-aV-cqi" userLabel="Registration Date:" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="110" width="116" height="21"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="p2h-Tb-5d6" firstAttribute="top" secondItem="1zU-OT-EUZ" secondAttribute="bottom" constant="8" id="1KE-rJ-LdM"/>
+                                                    <constraint firstItem="qlJ-25-zs5" firstAttribute="leading" secondItem="liD-TL-fCT" secondAttribute="leading" constant="8" id="1hQ-yI-HkY"/>
+                                                    <constraint firstAttribute="trailing" secondItem="qlJ-25-zs5" secondAttribute="trailing" constant="8" id="C2L-6t-5rR"/>
+                                                    <constraint firstItem="Oz8-aV-cqi" firstAttribute="leading" secondItem="liD-TL-fCT" secondAttribute="leading" constant="8" id="MDh-uh-AOL"/>
+                                                    <constraint firstItem="qlJ-25-zs5" firstAttribute="top" secondItem="p2h-Tb-5d6" secondAttribute="bottom" constant="8" id="MRH-Jl-IWK"/>
+                                                    <constraint firstAttribute="trailing" secondItem="p2h-Tb-5d6" secondAttribute="trailing" constant="8" id="TZu-4K-rER"/>
+                                                    <constraint firstItem="p2h-Tb-5d6" firstAttribute="leading" secondItem="liD-TL-fCT" secondAttribute="leading" constant="8" id="aQe-HA-IEY"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Oz8-aV-cqi" secondAttribute="trailing" constant="8" id="edb-DT-3NZ"/>
+                                                    <constraint firstItem="1zU-OT-EUZ" firstAttribute="top" secondItem="liD-TL-fCT" secondAttribute="top" constant="8" id="kVy-13-7zG"/>
+                                                    <constraint firstItem="Oz8-aV-cqi" firstAttribute="top" secondItem="qlJ-25-zs5" secondAttribute="bottom" constant="8" id="oid-Ed-8Ta"/>
+                                                    <constraint firstItem="1zU-OT-EUZ" firstAttribute="leading" secondItem="liD-TL-fCT" secondAttribute="leading" constant="8" id="taq-pC-Inw"/>
+                                                    <constraint firstAttribute="trailing" secondItem="1zU-OT-EUZ" secondAttribute="trailing" constant="8" id="v9n-2W-sNd"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Oz8-aV-cqi" secondAttribute="bottom" constant="8" id="vIO-1i-XTb"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-si-3Ju" userLabel="Privacy&amp;SecView">
+                                                <rect key="frame" x="105.5" y="139" width="203" height="166"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy and Security" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTC-pJ-KKt" userLabel="Priv&amp;SecTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="350" id="4Gf-yZ-G0F"/>
-                                                            <constraint firstAttribute="height" constant="36" id="hC2-VE-fJX"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="8" y="8" width="187" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xu4-hu-IUM" userLabel="ChangePassLabel" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="52" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="350" id="P5p-TS-0BJ"/>
-                                                            <constraint firstAttribute="height" constant="36" id="ekM-xE-Bbw"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blocked Accounts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cez-6M-OkT" userLabel="BlockedAccLabel" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="96" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="350" id="2CS-mF-uYJ"/>
-                                                            <constraint firstAttribute="height" constant="36" id="bKA-W9-lWR"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DY4-AO-NrY" userLabel="HideLabel" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="140" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="350" id="NpC-l2-n69"/>
-                                                            <constraint firstAttribute="height" constant="36" id="fGm-PN-o3v"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstItem="Cez-6M-OkT" firstAttribute="leading" secondItem="BMl-si-3Ju" secondAttribute="leading" constant="8" id="AsH-Yc-R0k"/>
-                                                    <constraint firstItem="DY4-AO-NrY" firstAttribute="leading" secondItem="BMl-si-3Ju" secondAttribute="leading" constant="8" id="MJU-DC-2Ad"/>
-                                                    <constraint firstAttribute="bottom" secondItem="DY4-AO-NrY" secondAttribute="bottom" constant="8" id="Sva-K6-b9M"/>
-                                                    <constraint firstItem="jTC-pJ-KKt" firstAttribute="top" secondItem="BMl-si-3Ju" secondAttribute="top" constant="8" id="UH3-JG-4tM"/>
-                                                    <constraint firstItem="Xu4-hu-IUM" firstAttribute="leading" secondItem="BMl-si-3Ju" secondAttribute="leading" constant="8" id="WYL-Ac-VW3"/>
-                                                    <constraint firstItem="jTC-pJ-KKt" firstAttribute="leading" secondItem="BMl-si-3Ju" secondAttribute="leading" constant="8" id="cZv-cr-z6Q"/>
-                                                    <constraint firstItem="Xu4-hu-IUM" firstAttribute="top" secondItem="jTC-pJ-KKt" secondAttribute="bottom" constant="8" id="hqf-zH-llT"/>
-                                                    <constraint firstItem="DY4-AO-NrY" firstAttribute="top" secondItem="Cez-6M-OkT" secondAttribute="bottom" constant="8" id="mkd-lL-GfE"/>
-                                                    <constraint firstItem="Cez-6M-OkT" firstAttribute="top" secondItem="Xu4-hu-IUM" secondAttribute="bottom" constant="8" id="srq-ed-bwv"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QGV-IG-pza" userLabel="SupportView">
-                                                <rect key="frame" x="0.0" y="368" width="414" height="108"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LgO-HT-Udu" userLabel="SupportLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="e8Z-gr-xmI"/>
-                                                            <constraint firstAttribute="width" constant="350" id="tOO-kc-G0M"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <color key="textColor" name="ivyGreen"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Us" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlo-RQ-0jw" userLabel="Contact Us" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="52" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="350" id="BbO-DQ-YRk"/>
-                                                            <constraint firstAttribute="height" constant="36" id="bwS-UI-ih6"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstItem="mlo-RQ-0jw" firstAttribute="leading" secondItem="QGV-IG-pza" secondAttribute="leading" constant="8" id="95b-X1-3aK"/>
-                                                    <constraint firstItem="mlo-RQ-0jw" firstAttribute="top" secondItem="LgO-HT-Udu" secondAttribute="bottom" constant="8" id="MzA-GC-cXi"/>
-                                                    <constraint firstItem="LgO-HT-Udu" firstAttribute="top" secondItem="QGV-IG-pza" secondAttribute="top" constant="8" id="aNR-mW-luT"/>
-                                                    <constraint firstAttribute="height" constant="108" id="gA5-rb-QdP"/>
-                                                    <constraint firstAttribute="width" constant="414" id="wy9-h7-hpX"/>
-                                                    <constraint firstItem="LgO-HT-Udu" firstAttribute="leading" secondItem="QGV-IG-pza" secondAttribute="leading" constant="8" id="zPr-Ei-1M7"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6rl-zI-Fsx" userLabel="AboutView">
-                                                <rect key="frame" x="0.0" y="476" width="414" height="184"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SrD-Iq-PH3" userLabel="AboutTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="8AX-GN-ug2"/>
-                                                            <constraint firstAttribute="width" constant="350" id="8n9-4a-5IM"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <color key="textColor" name="ivyGreen"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Legal Stuff" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWq-vO-GlQ" userLabel="LegalStuffLabel" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="52" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="0G5-RN-6CI"/>
-                                                            <constraint firstAttribute="width" constant="350" id="EX7-pD-l2n"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2uA-nE-DBp" userLabel="HelpLabel" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="96" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="1XN-cz-vKi"/>
-                                                            <constraint firstAttribute="width" constant="350" id="82V-co-zNG"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About ivy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0oa-2G-rvW" userLabel="AboutIvyLabel" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="140" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="TaG-Ab-fna"/>
-                                                            <constraint firstAttribute="width" constant="350" id="YSm-sE-ThX"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstItem="0oa-2G-rvW" firstAttribute="top" secondItem="2uA-nE-DBp" secondAttribute="bottom" constant="8" id="5r4-EF-JJf"/>
-                                                    <constraint firstItem="2uA-nE-DBp" firstAttribute="leading" secondItem="6rl-zI-Fsx" secondAttribute="leading" constant="8" id="CBZ-Ue-hKM"/>
-                                                    <constraint firstAttribute="bottom" secondItem="0oa-2G-rvW" secondAttribute="bottom" constant="8" id="Q2F-vj-Nri"/>
-                                                    <constraint firstItem="SrD-Iq-PH3" firstAttribute="top" secondItem="6rl-zI-Fsx" secondAttribute="top" constant="8" id="eCg-dY-hng"/>
-                                                    <constraint firstItem="0oa-2G-rvW" firstAttribute="leading" secondItem="6rl-zI-Fsx" secondAttribute="leading" constant="8" id="eoU-W0-Xgb"/>
-                                                    <constraint firstItem="SrD-Iq-PH3" firstAttribute="leading" secondItem="6rl-zI-Fsx" secondAttribute="leading" constant="8" id="ffe-Jg-Npr"/>
-                                                    <constraint firstItem="RWq-vO-GlQ" firstAttribute="leading" secondItem="6rl-zI-Fsx" secondAttribute="leading" constant="8" id="nf6-ng-zdT"/>
-                                                    <constraint firstItem="2uA-nE-DBp" firstAttribute="top" secondItem="RWq-vO-GlQ" secondAttribute="bottom" constant="8" id="pJ9-ft-2dH"/>
-                                                    <constraint firstItem="RWq-vO-GlQ" firstAttribute="top" secondItem="SrD-Iq-PH3" secondAttribute="bottom" constant="8" id="ssE-Xd-MCY"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R9n-ZH-UsX" userLabel="OtherView">
-                                                <rect key="frame" x="0.0" y="668" width="414" height="132"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf9-CM-GfZ" userLabel="OtherTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="peW-Si-Bc6"/>
-                                                            <constraint firstAttribute="width" constant="350" id="wwc-Lk-Zf9"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <color key="textColor" name="ivyGreen"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Out" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJ6-S8-XMn" userLabel="SignOutLabel" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="52" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="fKq-Kh-l6j"/>
-                                                            <constraint firstAttribute="width" constant="350" id="xim-M7-a4C"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WDH-Vo-ka1" userLabel="DeleteAccount" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="96" width="350" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="350" id="IV5-3h-22w"/>
-                                                            <constraint firstAttribute="height" constant="36" id="e9n-1C-HAv"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstItem="lJ6-S8-XMn" firstAttribute="leading" secondItem="R9n-ZH-UsX" secondAttribute="leading" constant="8" id="JzD-pw-QZV"/>
-                                                    <constraint firstAttribute="bottom" secondItem="WDH-Vo-ka1" secondAttribute="bottom" id="Koh-zl-oxR"/>
-                                                    <constraint firstItem="lJ6-S8-XMn" firstAttribute="top" secondItem="mf9-CM-GfZ" secondAttribute="bottom" constant="8" id="McY-gB-t2p"/>
-                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="top" secondItem="R9n-ZH-UsX" secondAttribute="top" constant="8" id="Os4-hD-YQk"/>
-                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="leading" secondItem="R9n-ZH-UsX" secondAttribute="leading" constant="8" id="SXZ-nI-82O"/>
-                                                    <constraint firstItem="WDH-Vo-ka1" firstAttribute="top" secondItem="lJ6-S8-XMn" secondAttribute="bottom" constant="8" id="ilf-aQ-OML"/>
-                                                    <constraint firstItem="WDH-Vo-ka1" firstAttribute="leading" secondItem="R9n-ZH-UsX" secondAttribute="leading" constant="8" id="t2N-fK-vTw"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="liD-TL-fCT" userLabel="AccountInfoView">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="184"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Account Info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zU-OT-EUZ" userLabel="AccountInfoTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="8" width="414" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="tY6-Uf-2pE"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <color key="textColor" name="ivyGreen"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qn-GA-eFj">
-                                                        <rect key="frame" x="0.0" y="52" width="414" height="30"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" title="Button"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGo-pb-d6t" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="52" width="187" height="30"/>
+                                                        <state key="normal" title="Change Password"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAl-9x-cWR" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="90" width="187" height="30"/>
+                                                        <state key="normal" title="Blocked Accounts"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3h-sS-Rq7" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="128" width="187" height="30"/>
+                                                        <state key="normal" title="Hide"/>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="1zU-OT-EUZ" firstAttribute="top" secondItem="liD-TL-fCT" secondAttribute="top" constant="8" id="kVy-13-7zG"/>
-                                                    <constraint firstItem="1zU-OT-EUZ" firstAttribute="leading" secondItem="liD-TL-fCT" secondAttribute="leading" constant="8" id="taq-pC-Inw"/>
+                                                    <constraint firstAttribute="bottom" secondItem="D3h-sS-Rq7" secondAttribute="bottom" constant="8" id="ATZ-CW-P67"/>
+                                                    <constraint firstAttribute="trailing" secondItem="QGo-pb-d6t" secondAttribute="trailing" constant="8" id="CXL-NX-sS9"/>
+                                                    <constraint firstItem="AAl-9x-cWR" firstAttribute="top" secondItem="QGo-pb-d6t" secondAttribute="bottom" constant="8" id="OAu-6x-rIs"/>
+                                                    <constraint firstAttribute="trailing" secondItem="AAl-9x-cWR" secondAttribute="trailing" constant="8" id="QKV-pe-MVC"/>
+                                                    <constraint firstItem="jTC-pJ-KKt" firstAttribute="top" secondItem="BMl-si-3Ju" secondAttribute="top" constant="8" id="UH3-JG-4tM"/>
+                                                    <constraint firstItem="D3h-sS-Rq7" firstAttribute="leading" secondItem="BMl-si-3Ju" secondAttribute="leading" constant="8" id="W0W-2o-9f6"/>
+                                                    <constraint firstItem="jTC-pJ-KKt" firstAttribute="leading" secondItem="BMl-si-3Ju" secondAttribute="leading" constant="8" id="cZv-cr-z6Q"/>
+                                                    <constraint firstItem="D3h-sS-Rq7" firstAttribute="top" secondItem="AAl-9x-cWR" secondAttribute="bottom" constant="8" id="isA-Eo-LF2"/>
+                                                    <constraint firstItem="AAl-9x-cWR" firstAttribute="leading" secondItem="BMl-si-3Ju" secondAttribute="leading" constant="8" id="nE1-wb-KBt"/>
+                                                    <constraint firstAttribute="trailing" secondItem="jTC-pJ-KKt" secondAttribute="trailing" constant="8" id="qrI-U1-CUb"/>
+                                                    <constraint firstItem="QGo-pb-d6t" firstAttribute="top" secondItem="jTC-pJ-KKt" secondAttribute="bottom" constant="8" id="uqe-Lu-Gu1"/>
+                                                    <constraint firstAttribute="trailing" secondItem="D3h-sS-Rq7" secondAttribute="trailing" constant="8" id="vXZ-fi-7M3"/>
+                                                    <constraint firstItem="QGo-pb-d6t" firstAttribute="leading" secondItem="BMl-si-3Ju" secondAttribute="leading" constant="8" id="ztO-77-D8V"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QGV-IG-pza" userLabel="SupportView">
+                                                <rect key="frame" x="160.5" y="305" width="93" height="90"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LgO-HT-Udu" userLabel="SupportLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="8" width="77" height="36"/>
+                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
+                                                        <color key="textColor" name="ivyGreen"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nUM-yi-iAq" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="52" width="77" height="30"/>
+                                                        <state key="normal" title="Contact Us"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="nUM-yi-iAq" firstAttribute="leading" secondItem="QGV-IG-pza" secondAttribute="leading" constant="8" id="BJm-CC-CQ5"/>
+                                                    <constraint firstAttribute="bottom" secondItem="nUM-yi-iAq" secondAttribute="bottom" constant="8" id="EkQ-2e-3HS"/>
+                                                    <constraint firstItem="LgO-HT-Udu" firstAttribute="top" secondItem="QGV-IG-pza" secondAttribute="top" constant="8" id="aNR-mW-luT"/>
+                                                    <constraint firstAttribute="trailing" secondItem="nUM-yi-iAq" secondAttribute="trailing" constant="8" id="c21-cY-otp"/>
+                                                    <constraint firstAttribute="trailing" secondItem="LgO-HT-Udu" secondAttribute="trailing" constant="8" id="fhQ-WX-4Rw"/>
+                                                    <constraint firstItem="nUM-yi-iAq" firstAttribute="top" secondItem="LgO-HT-Udu" secondAttribute="bottom" constant="8" id="r3x-4x-NmI"/>
+                                                    <constraint firstItem="LgO-HT-Udu" firstAttribute="leading" secondItem="QGV-IG-pza" secondAttribute="leading" constant="8" id="zPr-Ei-1M7"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6rl-zI-Fsx" userLabel="AboutView">
+                                                <rect key="frame" x="161.5" y="395" width="91" height="166"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lat-HR-r3V" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="52" width="75" height="30"/>
+                                                        <state key="normal" title="Legal Stuff"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYI-Zg-hNf" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="90" width="75" height="30"/>
+                                                        <state key="normal" title="Help"/>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SrD-Iq-PH3" userLabel="AboutTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="8" width="75" height="36"/>
+                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
+                                                        <color key="textColor" name="ivyGreen"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEi-7F-uvR" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="128" width="75" height="30"/>
+                                                        <state key="normal" title="About ivy"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="lat-HR-r3V" secondAttribute="trailing" constant="8" id="3ah-Vw-PJT"/>
+                                                    <constraint firstAttribute="bottom" secondItem="cEi-7F-uvR" secondAttribute="bottom" constant="8" id="4DJ-vl-Yba"/>
+                                                    <constraint firstItem="cEi-7F-uvR" firstAttribute="top" secondItem="RYI-Zg-hNf" secondAttribute="bottom" constant="8" id="B6E-B8-BOC"/>
+                                                    <constraint firstAttribute="trailing" secondItem="cEi-7F-uvR" secondAttribute="trailing" constant="8" id="JOO-Ou-qwU"/>
+                                                    <constraint firstItem="lat-HR-r3V" firstAttribute="leading" secondItem="6rl-zI-Fsx" secondAttribute="leading" constant="8" id="XoW-JX-dyL"/>
+                                                    <constraint firstItem="RYI-Zg-hNf" firstAttribute="top" secondItem="lat-HR-r3V" secondAttribute="bottom" constant="8" id="b4o-zX-9b4"/>
+                                                    <constraint firstItem="SrD-Iq-PH3" firstAttribute="top" secondItem="6rl-zI-Fsx" secondAttribute="top" constant="8" id="eCg-dY-hng"/>
+                                                    <constraint firstItem="SrD-Iq-PH3" firstAttribute="leading" secondItem="6rl-zI-Fsx" secondAttribute="leading" constant="8" id="ffe-Jg-Npr"/>
+                                                    <constraint firstItem="RYI-Zg-hNf" firstAttribute="leading" secondItem="6rl-zI-Fsx" secondAttribute="leading" constant="8" id="kP0-BP-gpF"/>
+                                                    <constraint firstAttribute="trailing" secondItem="SrD-Iq-PH3" secondAttribute="trailing" constant="8" id="oBV-BR-Hjn"/>
+                                                    <constraint firstAttribute="trailing" secondItem="RYI-Zg-hNf" secondAttribute="trailing" constant="8" id="oZc-tw-hdT"/>
+                                                    <constraint firstItem="lat-HR-r3V" firstAttribute="top" secondItem="SrD-Iq-PH3" secondAttribute="bottom" constant="8" id="s25-P5-NHi"/>
+                                                    <constraint firstItem="cEi-7F-uvR" firstAttribute="leading" secondItem="6rl-zI-Fsx" secondAttribute="leading" constant="8" id="sKV-pQ-iJx"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9n-ZH-UsX" userLabel="OtherView">
+                                                <rect key="frame" x="0.0" y="569" width="414" height="353"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf9-CM-GfZ" userLabel="OtherTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="8" width="51" height="36"/>
+                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
+                                                        <color key="textColor" name="ivyGreen"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZd-n0-qi7">
+                                                        <rect key="frame" x="3" y="52" width="60" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <state key="normal" title="Sign Out"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-CY-i4O">
+                                                        <rect key="frame" x="0.0" y="90" width="105" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <state key="normal" title="Delete Account"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="top" secondItem="R9n-ZH-UsX" secondAttribute="top" constant="8" id="Os4-hD-YQk"/>
+                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="leading" secondItem="R9n-ZH-UsX" secondAttribute="leading" constant="8" id="SXZ-nI-82O"/>
+                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="top" secondItem="R9n-ZH-UsX" secondAttribute="top" constant="8" id="lFK-zw-CjA"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="R9n-ZH-UsX" secondAttribute="bottom" id="08g-MX-h7n"/>
+                                            <constraint firstItem="liD-TL-fCT" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="1OP-cM-gp6"/>
+                                            <constraint firstItem="BMl-si-3Ju" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="1o1-ub-6LB"/>
                                             <constraint firstItem="BMl-si-3Ju" firstAttribute="top" secondItem="liD-TL-fCT" secondAttribute="bottom" id="3gk-uW-5XI"/>
+                                            <constraint firstItem="R9n-ZH-UsX" firstAttribute="leading" secondItem="yHf-8M-OZ0" secondAttribute="leading" id="DgZ-AY-xNN"/>
                                             <constraint firstItem="QGV-IG-pza" firstAttribute="top" secondItem="BMl-si-3Ju" secondAttribute="bottom" id="K5b-Tb-yJy"/>
-                                            <constraint firstAttribute="height" constant="1000" id="NHJ-Rs-2P5"/>
-                                            <constraint firstAttribute="bottom" secondItem="R9n-ZH-UsX" secondAttribute="bottom" constant="200" id="Wjj-Nc-6Bg"/>
+                                            <constraint firstAttribute="trailing" secondItem="R9n-ZH-UsX" secondAttribute="trailing" id="Vw3-Ke-BMX"/>
+                                            <constraint firstItem="R9n-ZH-UsX" firstAttribute="top" secondItem="6rl-zI-Fsx" secondAttribute="bottom" constant="8" id="a2D-ol-as0"/>
+                                            <constraint firstItem="QGV-IG-pza" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="aZg-py-DA0"/>
+                                            <constraint firstItem="6rl-zI-Fsx" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="hLU-zW-P0v"/>
                                             <constraint firstItem="liD-TL-fCT" firstAttribute="top" secondItem="yHf-8M-OZ0" secondAttribute="top" id="yLp-dG-jdb"/>
                                             <constraint firstItem="6rl-zI-Fsx" firstAttribute="top" secondItem="QGV-IG-pza" secondAttribute="bottom" id="z0a-2j-Enu"/>
                                         </constraints>
@@ -378,6 +342,8 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="yHf-8M-OZ0" secondAttribute="trailing" id="KHQ-RN-mBv"/>
+                                    <constraint firstItem="yHf-8M-OZ0" firstAttribute="width" secondItem="eVR-WE-gwW" secondAttribute="width" id="OQx-Zo-JtV"/>
+                                    <constraint firstItem="yHf-8M-OZ0" firstAttribute="height" secondItem="eVR-WE-gwW" secondAttribute="height" id="bg3-vT-5G1"/>
                                     <constraint firstItem="yHf-8M-OZ0" firstAttribute="leading" secondItem="eVR-WE-gwW" secondAttribute="leading" id="mOw-sM-KTN"/>
                                     <constraint firstItem="yHf-8M-OZ0" firstAttribute="top" secondItem="eVR-WE-gwW" secondAttribute="top" id="p8W-KQ-bFR"/>
                                     <constraint firstAttribute="bottom" secondItem="yHf-8M-OZ0" secondAttribute="bottom" id="ueS-k5-nYD"/>
@@ -386,27 +352,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="eVR-WE-gwW" firstAttribute="leading" secondItem="c6c-1H-InJ" secondAttribute="leading" id="TNL-PX-jow"/>
-                            <constraint firstItem="eVR-WE-gwW" firstAttribute="bottom" secondItem="c6c-1H-InJ" secondAttribute="bottom" id="WcR-on-lyN"/>
-                            <constraint firstItem="eVR-WE-gwW" firstAttribute="trailing" secondItem="c6c-1H-InJ" secondAttribute="trailing" id="pAK-dy-b61"/>
-                            <constraint firstItem="eVR-WE-gwW" firstAttribute="top" secondItem="c6c-1H-InJ" secondAttribute="top" id="ucL-Sf-ol1"/>
+                            <constraint firstItem="eVR-WE-gwW" firstAttribute="top" secondItem="c6c-1H-InJ" secondAttribute="top" id="KKS-qj-qCz"/>
+                            <constraint firstItem="c6c-1H-InJ" firstAttribute="bottom" secondItem="eVR-WE-gwW" secondAttribute="bottom" id="fuA-3n-vPT"/>
+                            <constraint firstItem="c6c-1H-InJ" firstAttribute="trailing" secondItem="eVR-WE-gwW" secondAttribute="trailing" id="oNp-HV-r8c"/>
+                            <constraint firstItem="eVR-WE-gwW" firstAttribute="leading" secondItem="c6c-1H-InJ" secondAttribute="leading" id="zJZ-6s-unW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="c6c-1H-InJ"/>
                     </view>
                     <size key="freeformSize" width="414" height="1000"/>
                     <connections>
-                        <outlet property="aboutIvyPreference" destination="0oa-2G-rvW" id="dco-2F-ER2"/>
-                        <outlet property="blockedAccPreference" destination="Cez-6M-OkT" id="SqM-yz-NUM"/>
-                        <outlet property="changePassPreference" destination="Xu4-hu-IUM" id="VgR-8Y-ZRR"/>
-                        <outlet property="contactUsPreference" destination="mlo-RQ-0jw" id="nkf-jf-Jdp"/>
-                        <outlet property="deleteAccPreference" destination="WDH-Vo-ka1" id="akM-gG-y0J"/>
-                        <outlet property="helpPreference" destination="2uA-nE-DBp" id="YOb-An-YdV"/>
-                        <outlet property="hidePreference" destination="DY4-AO-NrY" id="Jbx-so-ccM"/>
                         <outlet property="insideScrollView" destination="yHf-8M-OZ0" id="9xO-h4-V11"/>
-                        <outlet property="legalStuffPreference" destination="RWq-vO-GlQ" id="2Em-QG-9ku"/>
+                        <outlet property="namePreference" destination="p2h-Tb-5d6" id="yG9-wb-gc2"/>
                         <outlet property="privacySecView" destination="BMl-si-3Ju" id="UKO-rS-Gik"/>
+                        <outlet property="regDatePreference" destination="Oz8-aV-cqi" id="0jN-W3-wXC"/>
                         <outlet property="scrollView" destination="eVR-WE-gwW" id="9wo-PF-6rg"/>
-                        <outlet property="signOutPreference" destination="lJ6-S8-XMn" id="gf4-tL-YFS"/>
+                        <outlet property="universityPreference" destination="qlJ-25-zs5" id="fX7-74-Qdk"/>
                         <segue destination="4MV-IA-f3P" kind="show" identifier="settingsToChangePassword" id="PYe-dM-TDe"/>
                         <segue destination="m2Z-Xm-WMz" kind="show" identifier="settingsToBlockedAcc" id="gb6-KH-1AF"/>
                         <segue destination="Zdw-0t-lYU" kind="show" identifier="settingsToContact" id="Iaw-yO-FOZ"/>
@@ -1428,7 +1388,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-jT-vQ0">
-                                <rect key="frame" x="20" y="44" width="374" height="818"/>
+                                <rect key="frame" x="20" y="88" width="374" height="725"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9E3-fC-hbh">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="1000"/>
@@ -1714,25 +1674,25 @@
                                 <rect key="frame" x="32" y="211.5" width="350" height="385"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to ivy!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9v-dI-Hxv" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="45.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="43"/>
                                         <fontDescription key="fontDescription" name="CordiaNew-Bold" family="Cordia New" pointSize="39"/>
                                         <color key="textColor" name="ivyGreen"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Let's build your profile in a few easy steps:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haW-Fz-ivF" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="53.5" width="350" height="24.5"/>
+                                        <rect key="frame" x="0.0" y="51" width="350" height="24.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="21"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Your university email address:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dt8-YV-agO" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="350" height="36"/>
+                                        <rect key="frame" x="0.0" y="83.5" width="350" height="36"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AUz-EA-nNM" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="206" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="203.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="teV-da-mnQ"/>
                                         </constraints>
@@ -1741,7 +1701,7 @@
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your university email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3gX-Mw-n8k" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="138" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="135.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="Jwi-gD-ZvP"/>
                                         </constraints>
@@ -1750,7 +1710,7 @@
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUz-r1-D0t" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="282" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="279.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="T8q-Yw-bzM"/>
                                         </constraints>
@@ -3257,7 +3217,7 @@
         <segue reference="RKH-ld-RbM"/>
         <segue reference="VzR-Zf-QpA"/>
         <segue reference="6lo-aV-DON"/>
-        <segue reference="Ory-Dh-AbO"/>
+        <segue reference="rO4-E7-9yn"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
