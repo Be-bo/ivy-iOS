@@ -148,28 +148,28 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="922"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="liD-TL-fCT" userLabel="AccountInfoView">
-                                                <rect key="frame" x="141" y="0.0" width="132" height="139"/>
+                                                <rect key="frame" x="8" y="0.0" width="398" height="139"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account Info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zU-OT-EUZ" userLabel="AccountInfoTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="116" height="36"/>
+                                                        <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2h-Tb-5d6" userLabel="Namelabel" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="52" width="116" height="21"/>
+                                                        <rect key="frame" x="8" y="52" width="382" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlJ-25-zs5" userLabel="UniversityLabel" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="81" width="116" height="21"/>
+                                                        <rect key="frame" x="8" y="81" width="382" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oz8-aV-cqi" userLabel="Registration Date:" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="110" width="116" height="21"/>
+                                                        <rect key="frame" x="8" y="110" width="382" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -193,25 +193,34 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-si-3Ju" userLabel="Privacy&amp;SecView">
-                                                <rect key="frame" x="105.5" y="139" width="203" height="166"/>
+                                                <rect key="frame" x="8" y="139" width="398" height="166"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy and Security" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTC-pJ-KKt" userLabel="Priv&amp;SecTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="187" height="36"/>
+                                                        <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGo-pb-d6t" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="52" width="187" height="30"/>
+                                                        <rect key="frame" x="8" y="52" width="382" height="30"/>
                                                         <state key="normal" title="Change Password"/>
+                                                        <connections>
+                                                            <action selector="onClickChangePass:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="Aw3-J4-6T0"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAl-9x-cWR" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="90" width="187" height="30"/>
+                                                        <rect key="frame" x="8" y="90" width="382" height="30"/>
                                                         <state key="normal" title="Blocked Accounts"/>
+                                                        <connections>
+                                                            <action selector="onClickBlockedAcc:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="WrM-WJ-gNg"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3h-sS-Rq7" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="128" width="187" height="30"/>
+                                                        <rect key="frame" x="8" y="128" width="382" height="30"/>
                                                         <state key="normal" title="Hide"/>
+                                                        <connections>
+                                                            <action selector="onClickHide:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="HhL-ax-QR2"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -232,17 +241,20 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QGV-IG-pza" userLabel="SupportView">
-                                                <rect key="frame" x="160.5" y="305" width="93" height="90"/>
+                                                <rect key="frame" x="8" y="305" width="398" height="90"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LgO-HT-Udu" userLabel="SupportLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="77" height="36"/>
+                                                        <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nUM-yi-iAq" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="52" width="77" height="30"/>
+                                                        <rect key="frame" x="8" y="52" width="382" height="30"/>
                                                         <state key="normal" title="Contact Us"/>
+                                                        <connections>
+                                                            <action selector="onClickContact:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="GMc-Wd-gms"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -257,24 +269,24 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6rl-zI-Fsx" userLabel="AboutView">
-                                                <rect key="frame" x="161.5" y="395" width="91" height="166"/>
+                                                <rect key="frame" x="8" y="395" width="398" height="166"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lat-HR-r3V" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="52" width="75" height="30"/>
+                                                        <rect key="frame" x="8" y="52" width="382" height="30"/>
                                                         <state key="normal" title="Legal Stuff"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYI-Zg-hNf" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="90" width="75" height="30"/>
+                                                        <rect key="frame" x="8" y="90" width="382" height="30"/>
                                                         <state key="normal" title="Help"/>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SrD-Iq-PH3" userLabel="AboutTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="75" height="36"/>
+                                                        <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEi-7F-uvR" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="128" width="75" height="30"/>
+                                                        <rect key="frame" x="8" y="128" width="382" height="30"/>
                                                         <state key="normal" title="About ivy"/>
                                                     </button>
                                                 </subviews>
@@ -296,45 +308,64 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9n-ZH-UsX" userLabel="OtherView">
-                                                <rect key="frame" x="0.0" y="569" width="414" height="353"/>
+                                                <rect key="frame" x="8" y="569" width="398" height="128"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf9-CM-GfZ" userLabel="OtherTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="51" height="36"/>
+                                                        <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZd-n0-qi7">
-                                                        <rect key="frame" x="3" y="52" width="60" height="30"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZd-n0-qi7">
+                                                        <rect key="frame" x="8" y="52" width="382" height="30"/>
                                                         <state key="normal" title="Sign Out"/>
+                                                        <connections>
+                                                            <action selector="onClickSignOut:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="140-nU-EBl"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-CY-i4O">
-                                                        <rect key="frame" x="0.0" y="90" width="105" height="30"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-CY-i4O">
+                                                        <rect key="frame" x="8" y="90" width="382" height="30"/>
                                                         <state key="normal" title="Delete Account"/>
+                                                        <connections>
+                                                            <action selector="onClickDeleteAcc:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="XhG-iB-6na"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="top" secondItem="R9n-ZH-UsX" secondAttribute="top" constant="8" id="Os4-hD-YQk"/>
-                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="leading" secondItem="R9n-ZH-UsX" secondAttribute="leading" constant="8" id="SXZ-nI-82O"/>
-                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="top" secondItem="R9n-ZH-UsX" secondAttribute="top" constant="8" id="lFK-zw-CjA"/>
+                                                    <constraint firstItem="L0b-CY-i4O" firstAttribute="leading" secondItem="R9n-ZH-UsX" secondAttribute="leading" constant="8" id="55e-Zg-Bqg"/>
+                                                    <constraint firstAttribute="trailing" secondItem="cZd-n0-qi7" secondAttribute="trailing" constant="8" id="DCe-4e-DT2"/>
+                                                    <constraint firstItem="cZd-n0-qi7" firstAttribute="top" secondItem="mf9-CM-GfZ" secondAttribute="bottom" constant="8" id="EaM-Nq-FFO"/>
+                                                    <constraint firstAttribute="trailing" secondItem="mf9-CM-GfZ" secondAttribute="trailing" constant="8" id="F90-9a-3YB"/>
+                                                    <constraint firstItem="cZd-n0-qi7" firstAttribute="leading" secondItem="R9n-ZH-UsX" secondAttribute="leading" constant="8" id="Iob-tA-vvP"/>
+                                                    <constraint firstItem="L0b-CY-i4O" firstAttribute="top" secondItem="cZd-n0-qi7" secondAttribute="bottom" constant="8" id="XM0-RT-e0n"/>
+                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="top" secondItem="R9n-ZH-UsX" secondAttribute="top" constant="8" id="YzW-fE-xna"/>
+                                                    <constraint firstAttribute="trailing" secondItem="L0b-CY-i4O" secondAttribute="trailing" constant="8" id="abr-ZX-UZb"/>
+                                                    <constraint firstAttribute="bottom" secondItem="L0b-CY-i4O" secondAttribute="bottom" constant="8" id="sdF-W0-iCc"/>
+                                                    <constraint firstItem="mf9-CM-GfZ" firstAttribute="leading" secondItem="R9n-ZH-UsX" secondAttribute="leading" constant="8" id="vnl-cz-wmP"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="R9n-ZH-UsX" secondAttribute="bottom" id="08g-MX-h7n"/>
                                             <constraint firstItem="liD-TL-fCT" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="1OP-cM-gp6"/>
                                             <constraint firstItem="BMl-si-3Ju" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="1o1-ub-6LB"/>
+                                            <constraint firstItem="QGV-IG-pza" firstAttribute="leading" secondItem="yHf-8M-OZ0" secondAttribute="leading" constant="8" id="3Ri-6P-aR2"/>
                                             <constraint firstItem="BMl-si-3Ju" firstAttribute="top" secondItem="liD-TL-fCT" secondAttribute="bottom" id="3gk-uW-5XI"/>
-                                            <constraint firstItem="R9n-ZH-UsX" firstAttribute="leading" secondItem="yHf-8M-OZ0" secondAttribute="leading" id="DgZ-AY-xNN"/>
+                                            <constraint firstAttribute="trailing" secondItem="6rl-zI-Fsx" secondAttribute="trailing" constant="8" id="6Kw-b4-3O1"/>
+                                            <constraint firstAttribute="trailing" secondItem="R9n-ZH-UsX" secondAttribute="trailing" constant="8" id="7A7-KM-CZU"/>
+                                            <constraint firstItem="R9n-ZH-UsX" firstAttribute="leading" secondItem="yHf-8M-OZ0" secondAttribute="leading" constant="8" id="BOD-PK-i0j"/>
+                                            <constraint firstAttribute="trailing" secondItem="BMl-si-3Ju" secondAttribute="trailing" constant="8" id="Cdi-Oj-CMg"/>
+                                            <constraint firstItem="liD-TL-fCT" firstAttribute="leading" secondItem="yHf-8M-OZ0" secondAttribute="leading" constant="8" id="DsL-1p-XEF"/>
+                                            <constraint firstItem="BMl-si-3Ju" firstAttribute="leading" secondItem="yHf-8M-OZ0" secondAttribute="leading" constant="8" id="Gvr-cV-l3d"/>
                                             <constraint firstItem="QGV-IG-pza" firstAttribute="top" secondItem="BMl-si-3Ju" secondAttribute="bottom" id="K5b-Tb-yJy"/>
-                                            <constraint firstAttribute="trailing" secondItem="R9n-ZH-UsX" secondAttribute="trailing" id="Vw3-Ke-BMX"/>
+                                            <constraint firstAttribute="trailing" secondItem="liD-TL-fCT" secondAttribute="trailing" constant="8" id="X3d-E4-SO0"/>
                                             <constraint firstItem="R9n-ZH-UsX" firstAttribute="top" secondItem="6rl-zI-Fsx" secondAttribute="bottom" constant="8" id="a2D-ol-as0"/>
                                             <constraint firstItem="QGV-IG-pza" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="aZg-py-DA0"/>
+                                            <constraint firstItem="6rl-zI-Fsx" firstAttribute="leading" secondItem="yHf-8M-OZ0" secondAttribute="leading" constant="8" id="baD-ii-JYg"/>
                                             <constraint firstItem="6rl-zI-Fsx" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="hLU-zW-P0v"/>
+                                            <constraint firstItem="R9n-ZH-UsX" firstAttribute="centerX" secondItem="yHf-8M-OZ0" secondAttribute="centerX" id="hdV-pw-7Mr"/>
+                                            <constraint firstAttribute="trailing" secondItem="QGV-IG-pza" secondAttribute="trailing" constant="8" id="ouY-F0-LX4"/>
                                             <constraint firstItem="liD-TL-fCT" firstAttribute="top" secondItem="yHf-8M-OZ0" secondAttribute="top" id="yLp-dG-jdb"/>
                                             <constraint firstItem="6rl-zI-Fsx" firstAttribute="top" secondItem="QGV-IG-pza" secondAttribute="bottom" id="z0a-2j-Enu"/>
                                         </constraints>
