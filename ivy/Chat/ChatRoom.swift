@@ -43,7 +43,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     @IBOutlet weak var messageCollectionView: UICollectionView!
     
-    @IBOutlet weak var tableView: UITableView!
+//    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var xButton: UIButton!   //x button that gets shown when a file is attached
     @IBOutlet weak var fileNameLabel: UILabel!  //the label that will display the name of the file thats attached
@@ -494,14 +494,14 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 if (diff.type == .added) {
                     self.messages.append(diff.document.data())  //append the message document to the messages array
                     
-                    self.messageCollectionView.reloadData()
+//                    self.messageCollectionView.reloadData()
                     // Update Table Data
-//                    self.tableView.beginUpdates()
-//                    self.tableView.insertRows(at: [
-//                        NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath], with: .automatic)
-//                    self.tableView.endUpdates()
+//                    self.messageCollectionView.beginUpdates()
+                    self.messageCollectionView.insertItems(at: [
+                        NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath])
+//                    self.messageCollectionView.endUpdates()
                     
-//                    self.tableView.scrollToBottom()
+                    self.messageCollectionView.scrollToLastUnanimated()
                     self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                 }
             }
@@ -527,6 +527,9 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
+        
+        self.messageCollectionView.scrollToLast()
+        self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are
         
         var lastMessageAuthor = ""
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
@@ -651,25 +654,61 @@ extension Date {
 }
 
 
-//insprired from:
-//https://stackoverflow.com/questions/33705371/how-to-scroll-to-the-exact-end-of-the-uitableview
-extension UITableView {
-    
-    func scrollToBottom(){
-        
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(
-                row: self.numberOfRows(inSection:  self.numberOfSections - 1) - 1,
-                section: self.numberOfSections - 1)
-            self.scrollToRow(at: indexPath, at: .bottom, animated: true)
+////insprired from:
+////https://stackoverflow.com/questions/33705371/how-to-scroll-to-the-exact-end-of-the-uitableview
+//extension UITableView {
+//
+//    func scrollToBottom(){
+//
+//        DispatchQueue.main.async {
+//            let indexPath = IndexPath(
+//                row: self.numberOfRows(inSection:  self.numberOfSections - 1) - 1,
+//                section: self.numberOfSections - 1)
+//            self.scrollToRow(at: indexPath, at: .bottom, animated: true)
+//        }
+//    }
+//
+//    func scrollToTop() {
+//
+//        DispatchQueue.main.async {
+//            let indexPath = IndexPath(row: 0, section: 0)
+//            self.scrollToRow(at: indexPath, at: .top, animated: false)
+//        }
+//    }
+//}
+
+extension UICollectionView {
+    func scrollToLast() {
+        guard numberOfSections > 0 else {
+            return
         }
+        
+        let lastSection = numberOfSections - 1
+        
+        guard numberOfItems(inSection: lastSection) > 0 else {
+            return
+        }
+        
+        let lastItemIndexPath = IndexPath(item: numberOfItems(inSection: lastSection) - 1,
+                                          section: lastSection)
+        scrollToItem(at: lastItemIndexPath, at: .bottom, animated: true)
     }
     
-    func scrollToTop() {
-        
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: 0, section: 0)
-            self.scrollToRow(at: indexPath, at: .top, animated: false)
+    func scrollToLastUnanimated() {
+        guard numberOfSections > 0 else {
+            return
         }
+        
+        let lastSection = numberOfSections - 1
+        
+        guard numberOfItems(inSection: lastSection) > 0 else {
+            return
+        }
+        
+        let lastItemIndexPath = IndexPath(item: numberOfItems(inSection: lastSection) - 1,
+                                          section: lastSection)
+        scrollToItem(at: lastItemIndexPath, at: .bottom, animated: false)
     }
+    
+    
 }
