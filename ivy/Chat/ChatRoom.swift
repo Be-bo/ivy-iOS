@@ -562,7 +562,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         if let messageText = self.messages[indexPath.item]["message_text"] as? String {
             let size = CGSize(width: view.frame.width, height: 0)
             let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-            let font = UIFont.systemFont(ofSize: 20)
+            let font = UIFont.systemFont(ofSize: 25)
             let attributes = [NSAttributedString.Key.font: font]
             let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
             print("estimated frame height for: ", self.messages[indexPath.item]["message_text"] as! String, " is: ", estimatedFrame.height)
