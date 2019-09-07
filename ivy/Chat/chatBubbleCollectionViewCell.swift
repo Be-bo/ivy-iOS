@@ -12,7 +12,7 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
 
     
     @IBOutlet weak var messageLabel: UILabel!
-
+    @IBOutlet weak var messageContainer: UIView!
     @IBOutlet weak var imageView: UIImageView!
     
     
