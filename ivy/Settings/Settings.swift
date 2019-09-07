@@ -37,6 +37,7 @@ class Settings: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         //make sure we actually have the user profile
         if(!self.thisUserProfile.isEmpty){
