@@ -33,6 +33,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     var otherId=""                                      //other persons id that will be exxtracted when figuring out who your conversating with
     var imagePicked: ((UIImage))?
     var filePicked: ((URL))?
+    var first_launch = true //for auto scroll (so it only happens once and not every time the user scrolls)
     
     
     
@@ -500,8 +501,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                     self.messageCollectionView.insertItems(at: [
                         NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath])
 //                    self.messageCollectionView.endUpdates()
-                    
-                    self.messageCollectionView.scrollToLastUnanimated()
+                    self.messageCollectionView.scrollToLast()
                     self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                 }
             }
@@ -528,7 +528,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
         
-        self.messageCollectionView.scrollToLast()
         self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are
         
         var lastMessageAuthor = ""
@@ -652,30 +651,6 @@ extension Date {
         self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
     }
 }
-
-
-////insprired from:
-////https://stackoverflow.com/questions/33705371/how-to-scroll-to-the-exact-end-of-the-uitableview
-//extension UITableView {
-//
-//    func scrollToBottom(){
-//
-//        DispatchQueue.main.async {
-//            let indexPath = IndexPath(
-//                row: self.numberOfRows(inSection:  self.numberOfSections - 1) - 1,
-//                section: self.numberOfSections - 1)
-//            self.scrollToRow(at: indexPath, at: .bottom, animated: true)
-//        }
-//    }
-//
-//    func scrollToTop() {
-//
-//        DispatchQueue.main.async {
-//            let indexPath = IndexPath(row: 0, section: 0)
-//            self.scrollToRow(at: indexPath, at: .top, animated: false)
-//        }
-//    }
-//}
 
 extension UICollectionView {
     func scrollToLast() {
