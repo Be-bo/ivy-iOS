@@ -185,6 +185,7 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
         //TODO: decide if 9 by 16 is better than 2 to 3. seems to be okay so far
         cropViewController.customAspectRatio = CGSize(width: 2.0, height: 3.0)
         cropViewController.aspectRatioPreset = .presetCustom
+        cropViewController.resetAspectRatioEnabled = false
         cropViewController.aspectRatioLockEnabled = true
         cropViewController.aspectRatioPickerButtonHidden = true
         present(cropViewController, animated: true, completion: nil)

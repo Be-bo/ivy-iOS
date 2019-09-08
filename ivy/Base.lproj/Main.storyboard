@@ -142,33 +142,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eVR-WE-gwW">
-                                <rect key="frame" x="0.0" y="88" width="414" height="829"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="922"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yHf-8M-OZ0" userLabel="InsideScrollView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="829"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="922"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="liD-TL-fCT" userLabel="AccountInfoView">
                                                 <rect key="frame" x="8" y="0.0" width="398" height="139"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account Info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zU-OT-EUZ" userLabel="AccountInfoTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account Info" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zU-OT-EUZ" userLabel="AccountInfoTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2h-Tb-5d6" userLabel="Namelabel" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2h-Tb-5d6" userLabel="Namelabel" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="52" width="382" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlJ-25-zs5" userLabel="UniversityLabel" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlJ-25-zs5" userLabel="UniversityLabel" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="81" width="382" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oz8-aV-cqi" userLabel="Registration Date:" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oz8-aV-cqi" userLabel="Registration Date:" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="110" width="382" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -195,27 +195,27 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-si-3Ju" userLabel="Privacy&amp;SecView">
                                                 <rect key="frame" x="8" y="139" width="398" height="166"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy and Security" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTC-pJ-KKt" userLabel="Priv&amp;SecTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy and Security" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTC-pJ-KKt" userLabel="Priv&amp;SecTitle" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGo-pb-d6t" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGo-pb-d6t" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="52" width="382" height="30"/>
                                                         <state key="normal" title="Change Password"/>
                                                         <connections>
                                                             <action selector="onClickChangePass:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="Aw3-J4-6T0"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAl-9x-cWR" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAl-9x-cWR" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="90" width="382" height="30"/>
                                                         <state key="normal" title="Blocked Accounts"/>
                                                         <connections>
                                                             <action selector="onClickBlockedAcc:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="WrM-WJ-gNg"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3h-sS-Rq7" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3h-sS-Rq7" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="128" width="382" height="30"/>
                                                         <state key="normal" title="Hide"/>
                                                         <connections>
@@ -243,13 +243,13 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QGV-IG-pza" userLabel="SupportView">
                                                 <rect key="frame" x="8" y="305" width="398" height="90"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LgO-HT-Udu" userLabel="SupportLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LgO-HT-Udu" userLabel="SupportLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nUM-yi-iAq" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nUM-yi-iAq" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="52" width="382" height="30"/>
                                                         <state key="normal" title="Contact Us"/>
                                                         <connections>
@@ -271,21 +271,21 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6rl-zI-Fsx" userLabel="AboutView">
                                                 <rect key="frame" x="8" y="395" width="398" height="166"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lat-HR-r3V" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lat-HR-r3V" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="52" width="382" height="30"/>
                                                         <state key="normal" title="Legal Stuff"/>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYI-Zg-hNf" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYI-Zg-hNf" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="90" width="382" height="30"/>
                                                         <state key="normal" title="Help"/>
                                                     </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SrD-Iq-PH3" userLabel="AboutTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SrD-Iq-PH3" userLabel="AboutTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="8" width="382" height="36"/>
                                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                                         <color key="textColor" name="ivyGreen"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEi-7F-uvR" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEi-7F-uvR" customClass="SettingsButtonLabel" customModule="ivy" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="128" width="382" height="30"/>
                                                         <state key="normal" title="About ivy"/>
                                                     </button>
@@ -310,26 +310,26 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9n-ZH-UsX" userLabel="OtherView">
                                                 <rect key="frame" x="8" y="569" width="398" height="128"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf9-CM-GfZ" userLabel="OtherTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="8" width="382" height="36"/>
-                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
-                                                        <color key="textColor" name="ivyGreen"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZd-n0-qi7">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZd-n0-qi7">
                                                         <rect key="frame" x="8" y="52" width="382" height="30"/>
                                                         <state key="normal" title="Sign Out"/>
                                                         <connections>
                                                             <action selector="onClickSignOut:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="140-nU-EBl"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-CY-i4O">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-CY-i4O">
                                                         <rect key="frame" x="8" y="90" width="382" height="30"/>
                                                         <state key="normal" title="Delete Account"/>
                                                         <connections>
                                                             <action selector="onClickDeleteAcc:" destination="DpA-Ba-Ufr" eventType="touchUpInside" id="XhG-iB-6na"/>
                                                         </connections>
                                                     </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf9-CM-GfZ" userLabel="OtherTitleLabel" customClass="GreenBoldTitleLabel" customModule="ivy" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="8" width="382" height="36"/>
+                                                        <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
+                                                        <color key="textColor" name="ivyGreen"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -417,7 +417,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UUR-MH-z7d" userLabel="TopSectionView">
-                                <rect key="frame" x="32" y="104" width="350" height="160"/>
+                                <rect key="frame" x="32" y="60" width="350" height="160"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Current Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RFQ-4Y-zPq" customClass="StandardTextField" customModule="ivy" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="104" width="350" height="60"/>
@@ -527,7 +527,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bag-nQ-Jbg" userLabel="MidSectionView">
-                                <rect key="frame" x="34.5" y="120" width="345.5" height="410"/>
+                                <rect key="frame" x="34.5" y="76" width="345.5" height="410"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BKs-bF-laI">
                                         <rect key="frame" x="0.0" y="49.5" width="345.5" height="200"/>
@@ -597,7 +597,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iEq-Bb-eRE">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -1420,7 +1420,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-jT-vQ0">
-                                <rect key="frame" x="20" y="44" width="374" height="818"/>
+                                <rect key="frame" x="20" y="88" width="374" height="725"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9E3-fC-hbh">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="1000"/>
@@ -1777,7 +1777,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6sz-zE-Xkf" userLabel="BottomSectionView">
-                                <rect key="frame" x="32" y="596.5" width="350" height="128.5"/>
+                                <rect key="frame" x="32" y="596.5" width="350" height="177.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIF-55-KlF" customClass="ErrorLabel" customModule="ivy" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="8" width="350" height="0.0"/>
@@ -1914,7 +1914,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rag-yF-WC5" userLabel="BottomSectionView">
-                                <rect key="frame" x="32" y="569" width="350" height="156"/>
+                                <rect key="frame" x="32" y="569" width="350" height="205"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-nx-3Ur" userLabel="Error Label">
                                         <rect key="frame" x="0.0" y="8" width="350" height="0.0"/>
@@ -2042,7 +2042,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KeY-nG-47z" userLabel="BottomSectionView">
-                                <rect key="frame" x="32" y="554" width="350" height="171"/>
+                                <rect key="frame" x="32" y="554" width="350" height="220"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Gk-qy-oOj" userLabel="Error Label">
                                         <rect key="frame" x="0.0" y="8" width="350" height="0.0"/>
@@ -2115,7 +2115,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OBa-7k-EhY" userLabel="BottomSectionView">
-                                <rect key="frame" x="32" y="534" width="350" height="191"/>
+                                <rect key="frame" x="32" y="534" width="350" height="240"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FT9-Qc-peN" userLabel="Error Label">
                                         <rect key="frame" x="0.0" y="8" width="350" height="0.0"/>
@@ -2309,7 +2309,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wfi-lS-SX8" userLabel="BottomSectionView">
-                                <rect key="frame" x="52" y="634" width="310" height="91"/>
+                                <rect key="frame" x="52" y="634" width="310" height="140"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TW-XY-Jh4" userLabel="Error Label">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="0.0"/>
@@ -2450,7 +2450,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ckb-qz-yoS" userLabel="BottomSectionView">
-                                <rect key="frame" x="0.0" y="579" width="414" height="146"/>
+                                <rect key="frame" x="0.0" y="579" width="414" height="195"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JGs-fB-IcI" userLabel="MidSectionView">
@@ -2606,7 +2606,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IuL-sy-qAp" userLabel="BottomSectionView">
-                                <rect key="frame" x="0.0" y="609" width="414" height="116"/>
+                                <rect key="frame" x="0.0" y="609" width="414" height="165"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -2816,7 +2816,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ttK-gl-Qm5" userLabel="BottomSectionView">
-                                <rect key="frame" x="0.0" y="639" width="414" height="86"/>
+                                <rect key="frame" x="0.0" y="639" width="414" height="135"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -2855,18 +2855,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="C7Y-Nr-Zhi">
-                                <rect key="frame" x="157" y="570" width="100" height="100"/>
+                                <rect key="frame" x="157" y="619" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="dmm-GY-mNg"/>
                                     <constraint firstAttribute="width" constant="100" id="qqI-El-Vss"/>
                                 </constraints>
                             </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LdJ-dL-OpN">
-                                <rect key="frame" x="32" y="40" width="350" height="518"/>
+                                <rect key="frame" x="32" y="40" width="350" height="567"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZU-n6-nPr" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                <rect key="frame" x="32" y="590" width="350" height="60"/>
+                                <rect key="frame" x="32" y="639" width="350" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="7XZ-dc-iTv"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="QER-mX-SPz"/>
@@ -2999,7 +2999,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="igZ-uK-KIQ" userLabel="BottomSectionView">
-                                <rect key="frame" x="30" y="578" width="354" height="235"/>
+                                <rect key="frame" x="30" y="578" width="354" height="284"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fJ-fZ-l6L" customClass="ErrorLabel" customModule="ivy" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="0.0"/>
