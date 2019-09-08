@@ -16,7 +16,7 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
     let baseDatabaseReference = Firestore.firestore()
     let baseStorageReference = Storage.storage().reference()
     var thisUserProfile = Dictionary<String, Any>()
-//    var delegateViewController: SearchCellDelegator
+    var mediatorDelegate: SearchCellDelegator!
     
     var noResultsCounter = 0
     var all_results = Array<Dictionary<String, Any>>()
@@ -66,7 +66,7 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
     
     func triggerPanel(searchBar: UITextField, navBarHeight: CGFloat, thisUser: Dictionary<String, Any>, rulingVC: SearchCellDelegator){ //trigger an animation of a sliding panel from the bottom of the screen and add the necessary ui elems onto it programatically
         thisUserProfile = thisUser
-//        delegateViewController = rulingVC
+        mediatorDelegate = rulingVC
         if let window = UIApplication.shared.keyWindow{
             
             //COLLECTION VIEW
@@ -265,7 +265,7 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: searchCellId, for: indexPath) as! SearchCell
-//        cell.delegate = delegateViewController //to make sure the delegator for triggering segues in Explore from SearchCells works
+        cell.delegate = self.mediatorDelegate //to make sure the delegator for triggering segues in Explore from SearchCells works
         cell.setUp(searchResult: all_results[indexPath.item])
         return cell
     }
@@ -273,4 +273,5 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 66)
     }
+
 }

@@ -67,6 +67,10 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     @IBAction func cancelSearchClicked(_ sender: Any) {
+        cancelSearch()
+    }
+    
+    func cancelSearch(){
         if(searchVisible){ //reset all values and hide the pertinent UI elems
             searchCancelButton.isHidden = true
             searchVisible = false
@@ -171,19 +175,21 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func callSegueFromCell(searchResult: Dictionary<String, Any>) { //calling segues through the SearchCellDelegator (i.e. segues triggered from SearchCell.swift = items of SearchLauncher's collection view)
-        print("callse")
         if let type = searchResult["search_type"] as? String{
             switch(type){
             case "user":
+                cancelSearch()
                 self.suggestedProfileClicked = searchResult
                 self.performSegue(withIdentifier: "viewFullProfileSegue", sender: self)
                 break
             case "event":
+                cancelSearch()
                 self.eventClicked = searchResult
                 self.performSegue(withIdentifier: "exploreToEventPageSegue", sender: self)
                 break
             case "organization":
-                self.suggestedProfileClicked = searchResult
+                cancelSearch()
+                self.organizationClicked = searchResult
                 self.performSegue(withIdentifier: "exploreToOrganizationSegue", sender: self)
                 break
             default:
@@ -442,7 +448,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }   //end of function
 }
 
-protocol SearchCellDelegator { //a delgator that allows SearchCell.swift trigger segues in this view controller (when they click on the given search result they'll be taken to the appropriate view controller)
+protocol SearchCellDelegator { //a delgator that allows SearchCell.swift trigger segues in this view controller through the SearchLauncher (when they click on the given search result they'll be taken to the appropriate view controller)
     func callSegueFromCell(searchResult: Dictionary<String, Any>)
 }
 

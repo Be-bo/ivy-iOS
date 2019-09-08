@@ -112,7 +112,6 @@ class SearchCell: UICollectionViewCell {
     // MARK: Transition Functions
     
     @objc func goToProfile(){ //go to view user's full profile
-        print("clicking on search profile")
         if(self.delegate != nil){
             self.delegate.callSegueFromCell(searchResult: thisResult)
         }

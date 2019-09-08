@@ -567,7 +567,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             let font = UIFont.systemFont(ofSize: 25)
             let attributes = [NSAttributedString.Key.font: font]
             let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
-            print("estimated frame height for: ", self.messages[indexPath.item]["message_text"] as! String, " is: ", estimatedFrame.height)
             if(estimatedFrame.height < 38){ //a check in case the message label is too small in terms of height (the container would get cut off)
                 return CGSize(width: view.frame.width, height: 70)
             }
