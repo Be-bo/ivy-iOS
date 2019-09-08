@@ -13,7 +13,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import InstantSearchClient
 
-class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SearchCellDelegator {
 
     //MARK: Variables and Constant
 
@@ -23,6 +23,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     private var thisUserProfile = Dictionary<String, Any>()
     private var allEvents = [Dictionary<String, Any>]()                          //array of dictionaries for holding each seperate event
     private var eventClicked = Dictionary<String, Any>()                         //actual event that was clicked
+    private var organizationClicked = Dictionary<String, Any>()                 //organization clicked during search
     //suggested friends vars
     private var allSuggestedFriends = [Dictionary<String, Any>]()
     private var requests = Dictionary<String, Any>()
@@ -48,29 +49,46 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     var timer = Timer()
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Search Functions
+    
     @IBAction func searchEdited(_ sender: Any) {
         if(!searchVisible){
             searchCancelButton.isHidden = false
             searchVisible = true
-            searchLauncher.triggerPanel(searchBar: searchBar, navBarHeight: self.navigationController?.navigationBar.frame.size.height ?? 100, thisUser: thisUserProfile)
+            searchLauncher.triggerPanel(searchBar: searchBar, navBarHeight: self.navigationController?.navigationBar.frame.size.height ?? 100, thisUser: thisUserProfile, rulingVC: self)
         }
     }
     @IBAction func cancelSearchClicked(_ sender: Any) {
-        if(searchVisible){
+        if(searchVisible){ //reset all values and hide the pertinent UI elems
             searchCancelButton.isHidden = true
             searchVisible = false
             searchBar.endEditing(true)
             searchBar.text = ""
             searchLauncher.panelDismiss()
+            searchLauncher = SearchLauncher()
+            timer = Timer()
         }
     }
     
     @IBAction func searchTextChanged(_ sender: Any) {
         if(searchBar.text!.count > 0){
+            searchLauncher.progressWheel.isHidden = false
+            searchLauncher.noResultsLabel.isHidden = true
             timer.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(search), userInfo: nil, repeats: true)
+            timer = Timer()
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(search), userInfo: nil, repeats: false)
         }else{
-            
+            searchLauncher.noResultsLabel.isHidden = false
+            searchLauncher.progressWheel.isHidden = true
+            searchLauncher.resetSearchCollectionView()
         }
     }
     
@@ -87,7 +105,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             if let document = document, document.exists {
                 if let algoliaUpdate = document.data(){
                     let client = Client(appID: algoliaUpdate["app_id"] as! String, apiKey: algoliaUpdate["api_key"] as! String)
-                    let index = client.index(withName: "your_index_name")
                     let query = Query(query: currentString)
                     query.hitsPerPage = 10
                     
@@ -98,7 +115,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                     
                     client.multipleQueries(queries, strategy: .stopIfEnoughMatches, completionHandler: { (content, error) -> Void in
                         if error == nil {
-                            if let nonNullJsonHit = content as? [String: Any]{
+                            if let nonNullJsonHit = content{
+                                self.searchLauncher.resetSearchCollectionView()
                                 self.searchLauncher.search(hitJson: nonNullJsonHit)
                             }
                         }
@@ -109,6 +127,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             }
         }
     }
+    
+    
     
     
     
@@ -143,7 +163,33 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             let vc = segue.destination as! Settings
             vc.thisUserProfile = self.thisUserProfile
         }
-        
+        if segue.identifier == "exploreToOrganizationSegue" {
+            let vc = segue.destination as! organizationPage
+            vc.userProfile = self.thisUserProfile
+            vc.organizationId = (self.organizationClicked["id"] as? String)!
+        }
+    }
+    
+    func callSegueFromCell(searchResult: Dictionary<String, Any>) { //calling segues through the SearchCellDelegator (i.e. segues triggered from SearchCell.swift = items of SearchLauncher's collection view)
+        print("callse")
+        if let type = searchResult["search_type"] as? String{
+            switch(type){
+            case "user":
+                self.suggestedProfileClicked = searchResult
+                self.performSegue(withIdentifier: "viewFullProfileSegue", sender: self)
+                break
+            case "event":
+                self.eventClicked = searchResult
+                self.performSegue(withIdentifier: "exploreToEventPageSegue", sender: self)
+                break
+            case "organization":
+                self.suggestedProfileClicked = searchResult
+                self.performSegue(withIdentifier: "exploreToOrganizationSegue", sender: self)
+                break
+            default:
+                break
+            }
+        }
     }
     
     @objc func onClickFeatured() { //when they click the featured event, transition them to the page that has all the information about tha that event
@@ -394,5 +440,9 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             }
         }
     }   //end of function
+}
+
+protocol SearchCellDelegator { //a delgator that allows SearchCell.swift trigger segues in this view controller (when they click on the given search result they'll be taken to the appropriate view controller)
+    func callSegueFromCell(searchResult: Dictionary<String, Any>)
 }
 

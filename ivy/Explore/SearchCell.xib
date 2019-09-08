@@ -13,14 +13,26 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SearchCell" customModule="ivy" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="300" height="66"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
+                <rect key="frame" x="0.0" y="0.0" width="300" height="66"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9VM-Si-5rh">
-                        <rect key="frame" x="129" y="39.5" width="42" height="21"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VFx-fe-ml2">
+                        <rect key="frame" x="8" y="8" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="bjQ-c7-V3a"/>
+                            <constraint firstAttribute="width" constant="50" id="td0-YS-UgD"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="25"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="76b-MC-Ugk" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                        <rect key="frame" x="66" y="8" width="226" height="50"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -28,10 +40,19 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="9VM-Si-5rh" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="g3z-Ig-rzi"/>
-                <constraint firstItem="9VM-Si-5rh" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="vjO-QC-wWm"/>
+                <constraint firstItem="VFx-fe-ml2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="0gi-wg-PSw"/>
+                <constraint firstItem="VFx-fe-ml2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="2gd-dm-Y7C"/>
+                <constraint firstItem="76b-MC-Ugk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="3SB-Ws-l5F"/>
+                <constraint firstAttribute="bottom" secondItem="76b-MC-Ugk" secondAttribute="bottom" constant="8" id="AL4-HN-9wt"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="VFx-fe-ml2" secondAttribute="bottom" constant="8" id="Vq4-WU-TUk"/>
+                <constraint firstAttribute="trailing" secondItem="76b-MC-Ugk" secondAttribute="trailing" constant="8" id="Xm8-4T-2xw"/>
+                <constraint firstItem="76b-MC-Ugk" firstAttribute="leading" secondItem="VFx-fe-ml2" secondAttribute="trailing" constant="8" id="h40-Yx-LiX"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="imgView" destination="VFx-fe-ml2" id="o2J-f8-LWW"/>
+                <outlet property="nameText" destination="76b-MC-Ugk" id="gwc-vu-TDk"/>
+            </connections>
             <point key="canvasLocation" x="37.681159420289859" y="34.821428571428569"/>
         </collectionViewCell>
     </objects>
