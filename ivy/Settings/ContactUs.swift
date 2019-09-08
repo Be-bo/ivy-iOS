@@ -29,6 +29,7 @@ class ContactUs: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTextView()
     }
     
     
@@ -64,6 +65,16 @@ class ContactUs: UIViewController{
                 //actually dismiss the view so we can clickon stuff again
             })
         }
+        
+    }
+    
+    
+    func configureTextView() { //setup the bio text view with rounded corners and what not
+        //Setting border color of the bio text field
+        self.messageInputBox.layer.masksToBounds = true;
+        self.messageInputBox.layer.borderColor = UIColor.ivyGrey.cgColor
+        self.messageInputBox.layer.borderWidth = 1.0;    //thickness
+        self.messageInputBox.layer.cornerRadius = 10.0;  //rounded corner
         
     }
     

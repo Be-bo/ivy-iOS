@@ -38,7 +38,7 @@ class blockedAccTableViewCell: UITableViewCell {
     
     
     
-    func setUp(user: Dictionary<String,Any>, thisUserProfile: Dictionary<String,Any>, previousVC: Settings ) {
+    func setUp(user: Dictionary<String,Any>, thisUserProfile: Dictionary<String,Any>, previousVC: BlockedAccounts ) {
     
         self.thisUserProfile = thisUserProfile
         self.userToUnblock = user
@@ -52,7 +52,7 @@ class blockedAccTableViewCell: UITableViewCell {
                     self.profileImageView.image = UIImage(data: data!)
                     let userFirstName = user["first_name"] as! String
                     let userLastName = user["last_name"] as! String
-                    let userFullName = userFirstName + userLastName
+                    let userFullName = userFirstName + " " + userLastName
                     self.nameLabel.text = userFullName
                     //TODO: start here when come back and try switching the label to be a regular label.
                 }
@@ -61,30 +61,34 @@ class blockedAccTableViewCell: UITableViewCell {
         
     }
     
+//    
+//    @IBAction func clickUnblockUser(_ sender: Any) {
+//        unblockUser()
+//    }
+//
+//    
+//    //remove this user's id from the "blocked_by" list of the blocked user and also remove blocker user's id from this user's "block_list", and update the adapter
+//    func unblockUser() {
+//
+////        print("user to unblock", self.userToUnblock)
+//        print("this user profile", self.thisUserProfile)
+//
+//
+//        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").updateData([self.userToUnblock["id"] as! String: FieldValue.delete()])
+//
+//        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.userToUnblock["id"] as! String).collection("userlists").document("blocked_by").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()], completion: { (error) in
+//            if error != nil {
+//            } else {
+//                //TODO: remove the cell from the table view
+//                //TODO: reload the tableview
+//            }
+//        })
+//
+//
+//    }
     
-    @IBAction func clickUnblockUser(_ sender: Any) {
-        unblockUser()
-    }
-
     
-    //remove this user's id from the "blocked_by" list of the blocked user and also remove blocker user's id from this user's "block_list", and update the adapter
-    func unblockUser() {
-
-//        print("user to unblock", self.userToUnblock)
-        print("this user profile", self.thisUserProfile)
-
-
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").updateData([self.userToUnblock["id"] as! String: FieldValue.delete()])
-
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.userToUnblock["id"] as! String).collection("userlists").document("blocked_by").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()], completion: { (error) in
-            if error != nil {
-            } else {
-                //TODO: remove the cell from the table view
-                //TODO: reload the tableview
-            }
-        })
-
-
-    }
+    
+    
     
 }

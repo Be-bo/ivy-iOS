@@ -22,8 +22,8 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9gd-0F-73n">
                         <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="110" id="Ceh-bP-o3Z"/>
-                            <constraint firstAttribute="width" constant="110" id="lE4-Gk-7WF"/>
+                            <constraint firstAttribute="height" constant="110" id="7sE-hp-joM"/>
+                            <constraint firstAttribute="width" constant="110" id="o7n-Rw-Rcm"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -32,9 +32,8 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7X3-O4-4A4">
-                        <rect key="frame" x="118" y="35" width="250" height="40"/>
+                        <rect key="frame" x="118" y="35" width="0.0" height="40"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="250" id="cJ5-7O-teg"/>
                             <constraint firstAttribute="height" constant="40" id="tAd-5b-i4j"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -42,33 +41,30 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a3M-iL-pyt">
-                        <rect key="frame" x="368" y="35" width="35" height="35"/>
+                        <rect key="frame" x="404" y="37.5" width="35" height="35"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="35" id="fUj-m0-jX7"/>
                             <constraint firstAttribute="width" constant="35" id="oyx-lm-SVy"/>
                         </constraints>
                         <state key="normal" image="cross"/>
-                        <connections>
-                            <action selector="clickUnblockUser:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9wU-XA-mfj"/>
-                        </connections>
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="a3M-iL-pyt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="35" id="0Bm-43-TVO"/>
-                    <constraint firstItem="7X3-O4-4A4" firstAttribute="leading" secondItem="9gd-0F-73n" secondAttribute="trailing" constant="8" id="7LE-rb-Hc0"/>
-                    <constraint firstItem="7X3-O4-4A4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="35" id="Mrd-MZ-SYy"/>
+                    <constraint firstItem="a3M-iL-pyt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="4B0-j4-LAw"/>
                     <constraint firstItem="9gd-0F-73n" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="W7t-UW-j0D"/>
+                    <constraint firstItem="7X3-O4-4A4" firstAttribute="leading" secondItem="9gd-0F-73n" secondAttribute="trailing" constant="8" id="eve-bg-oF5"/>
                     <constraint firstItem="9gd-0F-73n" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="faO-PH-FIE"/>
-                    <constraint firstItem="a3M-iL-pyt" firstAttribute="leading" secondItem="7X3-O4-4A4" secondAttribute="trailing" id="r2z-yE-sgj"/>
+                    <constraint firstAttribute="trailing" secondItem="a3M-iL-pyt" secondAttribute="trailing" constant="8" id="hqF-b3-3ps"/>
+                    <constraint firstItem="7X3-O4-4A4" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="n7p-AU-L9n"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="nameLabel" destination="7X3-O4-4A4" id="4Et-kp-pbr"/>
                 <outlet property="profileImageView" destination="9gd-0F-73n" id="m3S-U0-0jX"/>
-                <outlet property="unblockUserButton" destination="a3M-iL-pyt" id="fRa-dn-CVt"/>
+                <outlet property="unblockUserButton" destination="a3M-iL-pyt" id="TB1-WC-av9"/>
             </connections>
-            <point key="canvasLocation" x="223.91304347826087" y="175.44642857142856"/>
+            <point key="canvasLocation" x="231.15942028985509" y="183.48214285714286"/>
         </tableViewCell>
     </objects>
     <resources>

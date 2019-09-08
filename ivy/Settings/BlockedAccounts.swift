@@ -21,6 +21,7 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
     public var thisUserProfile = Dictionary<String, Any>()
     
     private var allBLockedAccounts:[Dictionary<String,Any>] = []    //holds all blocked accounts
+    private var userToUnblock = Dictionary<String,Any>()
 
     public var previousVC = Settings()
     
@@ -62,11 +63,12 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
     // MARK: TableView Methods
     
     func configureTableView(){
+        tableView.allowsSelection = false   //doesn't highlight when clicked
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "blockedAccTableViewCell", bundle: nil), forCellReuseIdentifier: "blockedAccTableViewCell")
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 200
+        tableView.rowHeight = 120
+        tableView.estimatedRowHeight = 120
         self.loadBlockedAccounts()
 
         
@@ -85,10 +87,52 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.bringSubviewToFront(cell.unblockUserButton)
         cell.selectionStyle  = .default
         
-        cell.setUp(user: self.allBLockedAccounts[indexPath.item], thisUserProfile: self.thisUserProfile, previousVC: self.previousVC)
+        cell.setUp(user: self.allBLockedAccounts[indexPath.item], thisUserProfile: self.thisUserProfile, previousVC: self)
+        
+//        cell.unblockUserButton.addTarget(self, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
+        cell.unblockUserButton.tag = indexPath.row
+        cell.unblockUserButton.addTarget(self, action: #selector(didXButtonClick), for: .touchUpInside)
+        
         
         
         return cell
+    }
+    
+    
+    
+    
+    @objc func didXButtonClick(sender: AnyObject) {
+        
+        //extract the user they actually clicked on based on the tag from the sender button
+        self.userToUnblock = self.allBLockedAccounts[sender.tag]
+
+        
+        //remove user from all blocked accounts, and remove that cell from the table view, then reload to have right index paths
+        self.allBLockedAccounts.remove(at: sender.tag)
+                self.tableView.deleteRows(at: [
+            NSIndexPath(row: sender.tag, section: 0) as IndexPath], with: .fade)
+        self.tableView.reloadData()
+        
+        unblockUser()
+
+    }
+    
+    
+    //remove this user's id from the "blocked_by" list of the blocked user and also remove blocker user's id from this user's "block_list", and update the adapter
+    func unblockUser() {
+        
+        
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").updateData([self.userToUnblock["id"] as! String: FieldValue.delete()])
+        
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.userToUnblock["id"] as! String).collection("userlists").document("blocked_by").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()], completion: { (error) in
+            if error != nil {
+            } else {
+                //TODO: remove the cell from the table view
+                //TODO: reload the tableview
+            }
+        })
+        
+        
     }
     
     
