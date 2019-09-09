@@ -28,6 +28,10 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     private var thisUserProfile = Dictionary<String, Any>()
     private var requestCount = Dictionary<String, Any>()
     
+    
+    private var thisConversation = Dictionary<String, Any>()        //the conversation they actually click on when accepting/rejecting
+    private var thisCell: ConversationCell? = nil
+    
     @IBOutlet weak var tableView: UITableView!
     
     
@@ -222,12 +226,118 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 }
             }
         }
+        
+        
+        cell.accept.tag = indexPath.row
+        cell.accept.addTarget(self, action: #selector(didClickAccept), for: .touchUpInside)
+        
+        cell.reject.tag = indexPath.row
+        cell.reject.addTarget(self, action: #selector(didClickReject), for: .touchUpInside)
+        
         return cell
     }
     
     
     
     
+    
+    
+    @objc func didClickAccept(sender: AnyObject) {
+        
+        
+        
+        
+        
+        self.thisConversation = self.activeChats[sender.tag]
+        self.thisCell = tableView.cellForRow(at: NSIndexPath(row: sender.tag, section: 0) as IndexPath) as! ConversationCell
+        
+
+        
+        self.acceptRequest()
+
+        
+    }
+    
+
+    
+    
+    @objc func didClickReject(sender: AnyObject) {
+        self.thisConversation = self.activeChats[sender.tag]
+        self.thisCell = tableView.cellForRow(at: NSIndexPath(row: sender.tag, section: 0) as IndexPath) as! ConversationCell
+        
+        //remove the chat from active chats since we deleted the request
+        self.activeChats.remove(at: sender.tag)
+        self.tableView.deleteRows(at: [
+            NSIndexPath(row: sender.tag, section: 0) as IndexPath], with: .fade)
+        self.tableView.reloadData()
+        
+        self.rejectRequest()
+    }
+    
+    
+    func rejectRequest() {
+        self.thisCell!.hideRequestLayout()
+        var requesteeId = getOtherParticipantId(currentConversation: self.thisConversation)
+        
+        
+        //delete thtat covnersation since if they reject it we get rid of the entire conversation object
+        self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).delete()
+        
+        //request lists deletion... basically get rid of the requests from both the sender adn reciever
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String)
+            .collection("userlists").document("requests").updateData([requesteeId: FieldValue.delete()])
+        
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId)
+            .collection("userlists").document("requests").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()])
+        
+        //TODO: delete the collection messages of the conversation from Firestore probably using a cloud function since the subcollection is still there even if convo gone
+        //TODO: delete the conversation row from the RecyclerView
+    }
+    
+    
+    
+    //actually acccept the request amde to chat and be friends
+    func acceptRequest(){
+        let docData = [String: Any]()   //used to set the hashmap when there is no blocked_by list that exists for this user
+        
+        self.thisCell!.hideRequestLayout()
+        
+        
+        var requesteeId = getOtherParticipantId(currentConversation: self.thisConversation)
+        self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["is_request":false])
+        
+        
+        //one person friend list
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
+            if let document = document, document.exists {
+                //nothing if doc exists
+            } else {
+                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").setData(docData)
+            }
+            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").updateData([requesteeId: self.thisConversation["id"] as! String])
+        }
+        
+        
+        
+        //others friend list
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").getDocument { (document, error) in
+            if let document = document, document.exists {
+                //nothing if dox exists
+            } else {
+                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").setData(docData)
+            }
+            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").updateData([self.thisUserProfile["id"] as! String: self.thisConversation["id"] as! String])
+        }
+        
+        
+        
+        //deleting requests since there is no more requst if its been accepted
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").updateData([requesteeId: FieldValue.delete() ])
+        
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId).collection("userlists").document("requests").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete() ])
+        
+        self.checkForGroupAndSetName(cell: self.thisCell!, currentConversation: self.thisConversation)
+    }
     
     
     
