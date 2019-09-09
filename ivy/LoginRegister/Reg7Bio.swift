@@ -13,7 +13,7 @@ class Reg7Bio: UIViewController, UITextViewDelegate {
     
     // MARK: Variables and Constants
     
-    var registerInfoStruct = UserProfile( age: "", banned: nil, bio: "", birth_time: nil, degree: "", email:"") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile( age: 0, banned: nil, bio: "", birth_time: nil, degree: "", email:"") //will be overidden by the actual data
     var bio = ""
     var password = ""   //carried over
 

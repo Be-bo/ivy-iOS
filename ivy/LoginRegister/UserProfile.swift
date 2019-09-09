@@ -10,7 +10,7 @@ import Foundation
 
 //global struct which will hold all the information required for a user to register
 struct UserProfile {
-    var age:String? //age
+    var age:Int64? //age
     var banned: Bool?   //whether they're banned or not
     var bio: String?
     var birth_time:Int64?
@@ -29,7 +29,7 @@ struct UserProfile {
     var uni_domain : String?    //ex:@ucalgary.ca
     
     
-    init(age:String?=nil, banned:Bool?=nil, bio:String?=nil,birth_time:Int64?=nil, degree:String? = nil, email:String? = nil, first_name:String? = nil, gender:String? = nil, id:String?=nil, interests:Array<String>?=nil, last_name:String? = nil , last_post_id:String?=nil, picture_references:Array<String>?=nil, profile_hidden:Bool?=nil , profile_picture:String?=nil, registration_millis:String?=nil, uni_domain:String?=nil) {
+    init(age:Int64?=nil, banned:Bool?=nil, bio:String?=nil,birth_time:Int64?=nil, degree:String? = nil, email:String? = nil, first_name:String? = nil, gender:String? = nil, id:String?=nil, interests:Array<String>?=nil, last_name:String? = nil , last_post_id:String?=nil, picture_references:Array<String>?=nil, profile_hidden:Bool?=nil , profile_picture:String?=nil, registration_millis:String?=nil, uni_domain:String?=nil) {
         
         self.age = age;
         self.banned = banned;
@@ -48,8 +48,6 @@ struct UserProfile {
         self.profile_picture = profile_picture;
         self.registration_millis = registration_millis;
         self.uni_domain = uni_domain
-        
-        
     }
     
     //for returning a dictionary to allow me to push to firestore in Reg10

@@ -16,7 +16,7 @@ class Reg6Birthday: UIViewController {
 
     // MARK: Variables and Constants
     
-    var registerInfoStruct = UserProfile(age: "", banned: nil, bio: "", birth_time: nil, degree: "") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(age: 0, banned: nil, bio: "", birth_time: nil, degree: "") //will be overidden by the actual data
     var dateFormatter = DateFormatter()
     var selectedDate = ""
     var password = ""   //user passwordhe wishes to use
@@ -58,10 +58,8 @@ class Reg6Birthday: UIViewController {
         self.selectedDate = self.dateFormatter.string(from: dataPicker.date) //extract date in right format
         let seconds = dataPicker.date.timeIntervalSince1970
         millis = Int64(seconds) * 1000
-        print("milli seconds", millis)
         if (selectedDate != ""){
             self.performSegue(withIdentifier: "reg6ToReg7Segue", sender: self) //pass data over to
-
         }else{
             //please enter a valid brithdate
         }

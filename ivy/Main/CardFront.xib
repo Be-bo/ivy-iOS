@@ -99,7 +99,7 @@
     <resources>
         <image name="flip" width="240" height="240"/>
         <image name="hat" width="240" height="240"/>
-        <image name="quad_placeholder" width="100" height="100"/>
+        <image name="quad_placeholder" width="417" height="417"/>
         <namedColor name="ivyOpacity">
             <color red="1" green="1" blue="1" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -78,19 +78,19 @@ class Reg4Gender: UIViewController {
     
     func setupCheckbox() {
         maleCheckbox.checkmarkStyle = .tick
-        maleCheckbox.uncheckedBorderColor = .black
-        maleCheckbox.checkedBorderColor = .black
-        maleCheckbox.checkmarkColor = .black
+        maleCheckbox.uncheckedBorderColor = .ivyGrey
+        maleCheckbox.checkedBorderColor = .ivyGreen
+        maleCheckbox.checkmarkColor = .ivyGreen
         
         femaleCheckbox.checkmarkStyle = .tick
-        femaleCheckbox.uncheckedBorderColor = .black
-        femaleCheckbox.checkedBorderColor = .black
-        femaleCheckbox.checkmarkColor = .black
+        femaleCheckbox.uncheckedBorderColor = .ivyGrey
+        femaleCheckbox.checkedBorderColor = .ivyGreen
+        femaleCheckbox.checkmarkColor = .ivyGreen
         
         otherCheckbox.checkmarkStyle = .tick
-        otherCheckbox.uncheckedBorderColor = .black
-        otherCheckbox.checkedBorderColor = .black
-        otherCheckbox.checkmarkColor = .black
+        otherCheckbox.uncheckedBorderColor = .ivyGrey
+        otherCheckbox.checkedBorderColor = .ivyGreen
+        otherCheckbox.checkmarkColor = .ivyGreen
     }
     
     func setupListeners() { //setup the listeneers that are waiting for values being changed

@@ -15,7 +15,7 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
     var password = ""   //carried over
     var interestChosen: String = "" //specific interest that has been chosen, empty at first
     var interestsChosen = [String]()   //hold number of interests they choose
-    var registerInfoStruct = UserProfile(age: "", banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(age: 0, banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "") //will be overidden by the actual data
     let labels = [            "Reading",
                               "Cooking",
                               "Sports",

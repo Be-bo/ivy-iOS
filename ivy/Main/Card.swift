@@ -28,9 +28,6 @@ class Card: UICollectionViewCell {
     @IBOutlet weak var cardContainer: Card!
     @IBOutlet weak var shadowOuterContainer: Card!
     
-    //added this to the Card.xib/Card.swift instead of inside of the inner CardBack or CardFront
-    
-    
 
     
     // MARK: Base and Override Functions

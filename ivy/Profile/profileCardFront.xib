@@ -20,33 +20,36 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4dQ-1W-yWN" userLabel="Flip Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
-                    <rect key="frame" x="341" y="44" width="53" height="53"/>
+                    <rect key="frame" x="354" y="64" width="40" height="40"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="53" id="4OL-zI-1tY"/>
-                        <constraint firstAttribute="height" constant="53" id="9PL-Hb-pGZ"/>
+                        <constraint firstAttribute="width" constant="40" id="4OL-zI-1tY"/>
+                        <constraint firstAttribute="height" constant="40" id="9PL-Hb-pGZ"/>
                     </constraints>
                     <state key="normal" image="flip"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j8r-MZ-eSf" userLabel="Gallery Button" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
-                    <rect key="frame" x="341" y="105" width="53" height="53"/>
+                    <rect key="frame" x="354" y="124" width="40" height="40"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="53" id="Emy-WN-L6Q"/>
-                        <constraint firstAttribute="width" constant="53" id="Z1C-YH-6ht"/>
+                        <constraint firstAttribute="height" constant="40" id="Emy-WN-L6Q"/>
+                        <constraint firstAttribute="width" constant="40" id="Z1C-YH-6ht"/>
                     </constraints>
                     <state key="normal" image="photo"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="4dQ-1W-yWN" firstAttribute="top" secondItem="uNI-L8-3Gw" secondAttribute="top" id="7Zc-Jo-GPl"/>
                 <constraint firstItem="Ars-ge-UpJ" firstAttribute="top" secondItem="uNI-L8-3Gw" secondAttribute="top" id="Be4-ey-Ts7"/>
                 <constraint firstItem="Ars-ge-UpJ" firstAttribute="leading" secondItem="uNI-L8-3Gw" secondAttribute="leading" id="BiO-Hl-xNY"/>
                 <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="j8r-MZ-eSf" secondAttribute="trailing" constant="20" id="CbP-6z-LYG"/>
-                <constraint firstItem="j8r-MZ-eSf" firstAttribute="top" secondItem="4dQ-1W-yWN" secondAttribute="bottom" constant="8" id="Mf0-py-UkM"/>
+                <constraint firstItem="j8r-MZ-eSf" firstAttribute="top" secondItem="4dQ-1W-yWN" secondAttribute="bottom" constant="20" id="Mf0-py-UkM"/>
                 <constraint firstItem="Ars-ge-UpJ" firstAttribute="bottom" secondItem="uNI-L8-3Gw" secondAttribute="bottom" id="Vxl-Lf-Wbb"/>
+                <constraint firstItem="4dQ-1W-yWN" firstAttribute="top" secondItem="uNI-L8-3Gw" secondAttribute="top" constant="20" id="XMG-Gq-Okb"/>
                 <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="Ars-ge-UpJ" secondAttribute="trailing" id="Zan-Ga-ug3"/>
                 <constraint firstItem="uNI-L8-3Gw" firstAttribute="trailing" secondItem="4dQ-1W-yWN" secondAttribute="trailing" constant="20" id="zg2-HN-DYk"/>
             </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="uNI-L8-3Gw"/>
             <connections>
                 <outlet property="flipButton" destination="4dQ-1W-yWN" id="grg-FB-m8c"/>
@@ -59,6 +62,6 @@
     <resources>
         <image name="flip" width="240" height="240"/>
         <image name="photo" width="240" height="240"/>
-        <image name="quad_placeholder" width="100" height="100"/>
+        <image name="quad_placeholder" width="417" height="417"/>
     </resources>
 </document>

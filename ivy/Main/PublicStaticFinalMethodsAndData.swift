@@ -16,4 +16,12 @@ class PublicStaticMethodsAndData{
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         context.present(alert, animated: true)
     }
+    
+    static func calculateAge(millis: Int64) -> Int64 {
+        let currentMillis = Int64(NSDate().timeIntervalSince1970 * 1000)
+        print("current millis: ",currentMillis, " born millis: ", millis)
+        let difference = currentMillis - millis
+        let age = difference / 31536000000
+        return age
+    }
 }

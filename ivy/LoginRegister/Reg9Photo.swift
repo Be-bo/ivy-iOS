@@ -18,7 +18,7 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     
     // MARK: Variables and Constants
     var password = ""   //carried over
-    var registerInfoStruct = UserProfile(age:"", banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "", gender: "") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(age:0, banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "", gender: "") //will be overidden by the actual data
     private var croppedRect = CGRect.zero
     private var croppedAngle = 0
     private var byteArray:NSData? =  nil

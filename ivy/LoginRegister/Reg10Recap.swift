@@ -13,13 +13,15 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
+import InstantSearchClient
 
 
 class Reg10Recap: UIViewController {
     
-    //initializers
+    // MARK: Variables and Constants
+    
     var password = ""   //carried over
-    var registerInfoStruct = UserProfile(age:"", banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "", gender: "") //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(age: 0, banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "", gender: "") //will be overidden by the actual data
     private var showingBack = false
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
     let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
@@ -27,30 +29,36 @@ class Reg10Recap: UIViewController {
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
     private let baseStorageReference = Storage.storage()
     var imageByteArray:NSData? =  nil
-
     
     //outlets
-    @IBOutlet weak var cardContainer: UIView!
     @IBOutlet weak var registerButton: StandardButton!
     @IBOutlet weak var progressWheel: UIActivityIndicatorView!
+    @IBOutlet weak var shadowContainer: UIView! //card container
     
 
-
+    
+    
+    
+    
+    
+    
+    // MARK: Base Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setUpContainer()
         let frontImage = UIImage(data: self.imageByteArray! as Data,scale: 1.0)
-        front.frame = cardContainer.bounds
-        back.frame = cardContainer.bounds
+        front.frame = shadowContainer.bounds
+        back.frame = shadowContainer.bounds
         front.img.image = frontImage
         front.name.text = self.registerInfoStruct.first_name!
-        cardContainer.addSubview(front)
+        shadowContainer.addSubview(back)
+        shadowContainer.addSubview(front)
         
-        var firstAndLast = self.registerInfoStruct.first_name! + " " + self.registerInfoStruct.last_name!
-        var age = "10"
-        back.age.text = age
+        let firstAndLast = self.registerInfoStruct.first_name! + " " + self.registerInfoStruct.last_name!
+        if let tiiime = registerInfoStruct.birth_time{
+            let age = PublicStaticMethodsAndData.calculateAge(millis: tiiime)
+            back.age.text = String(age)
+        }
         back.name.text = firstAndLast
         front.name.text = firstAndLast
         back.degree.text = self.registerInfoStruct.degree!
@@ -72,9 +80,18 @@ class Reg10Recap: UIViewController {
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
         singleTap.numberOfTapsRequired = 1
-        cardContainer.addGestureRecognizer(singleTap)
+        shadowContainer.addGestureRecognizer(singleTap)
     }
     
+    @objc func flip() {
+        let toView = showingBack ? front : back
+        let fromView = showingBack ? back : front
+        UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight) { (done) in
+            self.shadowContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            self.shadowContainer.translatesAutoresizingMaskIntoConstraints = true
+        }
+        showingBack = !showingBack
+    }
     
     @IBAction func onClickRegister(_ sender: Any) {
         barInteraction()
@@ -83,11 +100,23 @@ class Reg10Recap: UIViewController {
     
     func attemptToContinue() {
         createUser()
-        //        baseDatabaseReference.collection("universities").document(self.domain).collection("userprofiles")
     }
     
-    //crdating the user using firebase auth.
-    func createUser() {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Database Methods
+    
+    func createUser() { //creating the user using firebase auth.
         Auth.auth().createUser(withEmail: self.registerInfoStruct.email!, password: self.password) { authResult, error in
             if ((error) != nil){
                 print("There was an error creating the user in the database", error)
@@ -97,7 +126,7 @@ class Reg10Recap: UIViewController {
                     Auth.auth().currentUser?.sendEmailVerification(completion: { (e) in
                         let alert = UIAlertController(title: "Registration Successful", message: "We sent you a verification email. Check your inbox.", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                            self.databaseRegister()
+                            //nothing
                         }))
                         self.present(alert, animated: true)
                     })
@@ -109,41 +138,22 @@ class Reg10Recap: UIViewController {
         }
     }
     
-    //function dealing with actually registering the user into the database
-    func databaseRegister() {
-
+    func databaseRegister() { //function dealing with actually registering the user into the database
         let user = Auth.auth().currentUser  //get the current user that was just created above
         if let user = user {
             let uid = user.uid  //user id unique to firebase project
             self.registerInfoStruct.id = uid
         }
         
-        
-        //firebase STORAGE path to save the user image byte array
-        let uuid = NSUUID().uuidString
+        let uuid = NSUUID().uuidString //firebase STORAGE path to save the user image byte array
         let storagePath = "userimages/" + self.registerInfoStruct.id! + "/" + uuid + ".jpg"
         
-        // Create a storage reference from our storage service
-        let storageRef = baseStorageReference.reference()
+        let storageRef = baseStorageReference.reference() // Create a storage reference from our storage service
         let storageImageRef = storageRef.child(storagePath)
 
         
         // Upload the file to the path storagePath
         let uploadTask = storageImageRef.putData(self.imageByteArray! as Data, metadata: nil) { (metadata, error) in
-                //TODO uncomment when need file metadata/downloadURL, maybe keep for now until decide if needed or not
-//            guard let metadata = metadata else {
-//                // Uh-oh, an error occurred!
-//                return
-//            }
-            // Metadata contains file metadata such as size, content-type.
-//            let size = metadata.size
-            // You can also access to download URL after upload.
-//            storageImageRef.downloadURL { (url, error) in
-//                guard let downloadURL = url else {
-//                    // Uh-oh, an error occurred!
-//                    return
-//                }
-//            }
         }
         
         // Upload completed successfully
@@ -159,10 +169,15 @@ class Reg10Recap: UIViewController {
             self.registerInfoStruct.last_post_id = "" ///initialize
             self.registerInfoStruct.banned = false  //not banned by default
             self.registerInfoStruct.profile_hidden = false //not hidden by default
-            self.baseDatabaseReference.collection("universities").document(self.domain).collection("userprofiles").document(self.registerInfoStruct.id!).setData(self.registerInfoStruct.dictionary)
             storageRef.child("userimages").child(self.registerInfoStruct.id!).child("preview.jpg").putData(previewImageBytes as Data)
-            self.leaveForLogin()
-            
+            self.baseDatabaseReference.collection("universities").document(self.domain).collection("userprofiles").document(self.registerInfoStruct.id!).setData(self.registerInfoStruct.dictionary, completion: { (e) in
+                if(e != nil){
+                    print("Error adding user's profile data to Firestore: ",e)
+                }else{
+                    self.initFCM() //init Firebase Cloud Messaging for this user (not utilized now, will come in handy later)
+                    self.addUserToAlgolia() //add this user's search profile to Algolia for the Search feature
+                }
+            })
         }
         
         //upload task failed
@@ -193,30 +208,71 @@ class Reg10Recap: UIViewController {
         }
     }
 
+    func addUserToAlgolia(){
+        print("adding user to algolia")
+        baseDatabaseReference.collection("other").document("algolia_update").getDocument { (docSnap, err) in //obtain app id and api key of our Algolia instance
+            if err != nil{
+                print("Failed to get Algolia info from Firestore: ", err!)
+            }else{
+                if docSnap?.exists ?? false, let algolUpdatDat = docSnap?.data(){
+                    if let appId = algolUpdatDat["app_id"] as? String, let apiKey = algolUpdatDat["api_key"] as? String, let id = self.registerInfoStruct.id, let fName = self.registerInfoStruct.first_name, let lName = self.registerInfoStruct.last_name, let deg = self.registerInfoStruct.degree, let bio = self.registerInfoStruct.bio, let ints = self.registerInfoStruct.interests, let dom = self.registerInfoStruct.uni_domain{
+                        let client = Client(appID: appId, apiKey: apiKey) //get Algolia's client
+                        let index = client.index(withName: "search_USERS") //refer to the user search index
+                        var jsonObject = [String: Any]() //and add the newly registered user
+                        jsonObject["id"] = id
+                        jsonObject["first_name"] = fName
+                        jsonObject["last_name"] = lName
+                        jsonObject["degree"] = deg
+                        jsonObject["bio"] = bio
+                        jsonObject["interests"] = ints
+                        jsonObject["uni_domain"] = dom
+                        index.z_objc_addObject(jsonObject, completionHandler: { (insertedObject, err) in
+                            if err != nil, let obj = insertedObject{
+                                print("Failed to put: ", obj, " into Algolia with error: ", err!)
+                            }else{ //on success leave for login
+                                self.leaveForLogin()
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    }
+    
+    func initFCM(){ //get instance id of this app and extract this device's FCM token from it
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instange ID: \(error)")
+            } else if let result = result {
+                self.sendFCMRegistrationToServer(token: result.token)
+            }
+        }
+    }
+    
+    func sendFCMRegistrationToServer(token: String){ //save the token inside of this user's profile
+        var mergerDictionary = Dictionary<String, Any>()
+        mergerDictionary["messaging_token"] = token
+        if let uniDomain = registerInfoStruct.uni_domain, let thisId = registerInfoStruct.id{
+            baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).setData(mergerDictionary, merge: true)
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: UI Functions
 
     func leaveForLogin() {
         self.performSegue(withIdentifier: "reg10ToLogin" , sender: self) //pass data over to
     }
-    
-    @objc func flip() {
-        let toView = showingBack ? front : back
-        let fromView = showingBack ? back : front
-        UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight, completion: nil)
-        showingBack = !showingBack
-        setUpContainer()
-        
-    }
-    
-    func setUpContainer(){
-        cardContainer.layer.shadowPath = UIBezierPath(roundedRect: cardContainer.bounds, cornerRadius:cardContainer.layer.cornerRadius).cgPath
-        cardContainer.layer.shadowColor = UIColor.black.cgColor
-        cardContainer.layer.shadowOpacity = 0.25
-        cardContainer.layer.shadowOffset = CGSize(width: 2, height: 2)
-        cardContainer.layer.shadowRadius = 5
-        cardContainer.layer.cornerRadius = 5
-        cardContainer.layer.masksToBounds = false
-    }
-    
     
     func barInteraction(){ //disable user interaction and start loading animation (rotating the ivy logo)
         self.view.isUserInteractionEnabled = false

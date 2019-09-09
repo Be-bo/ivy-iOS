@@ -17,7 +17,7 @@ class Reg5Degree: UIViewController, UITableViewDelegate, UITableViewDataSource{
     // MARK: Variables and Constants
     var password = ""   //carried over
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
-    var registerInfoStruct = UserProfile(age:"", banned: nil, bio: "", birth_time:nil) //will be overidden by the actual data
+    var registerInfoStruct = UserProfile(age:0, banned: nil, bio: "", birth_time:nil) //will be overidden by the actual data
     var currentDegree = "Accounting"
     let iconNames = [
         "accounting",
