@@ -62,11 +62,13 @@ class ViewFullProfileActivity: UIViewController{
         
         //if there friends add these options to option sheet
         if (isFriend){
+            actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
             actionSheet.addAction(UIAlertAction(title: "Message", style: .default, handler: self.messageUser))
             actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: self.unfriendUser))
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
         }else{  //not friends so these are only options
+            actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
             actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.blockUser))
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
@@ -76,18 +78,23 @@ class ViewFullProfileActivity: UIViewController{
         self.present(actionSheet, animated: true, completion: nil)
     }
     
-    //called every single time a segway is called
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //handling different segue calls based on identitfier
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         if segue.identifier == "conversationToMessages" {
             let vc = segue.destination as! ChatRoom
-            vc.conversationID = self.conversationID   //pass the user profile object
+            vc.conversationID = self.conversationID
             vc.thisUserProfile = self.thisUserProfile
         }
         
         if segue.identifier == "unfriendToMain" {
             let vc = segue.destination as! MainTabController
             vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String
+        }
+        
+        if segue.identifier == "fullProfileToUserGallery" {
+            let vc = segue.destination as! UserGallery
+            vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String
+            vc.otherUserId = self.otherUserID!
+            vc.previousVC = self
         }
     }
     
@@ -224,6 +231,10 @@ class ViewFullProfileActivity: UIViewController{
     
     func messageUser(alert: UIAlertAction!){ //when they click message user, move over to the messaging user screen where you are actually in the conversation with the user
         self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
+    }
+    
+    func viewGallery(alert:UIAlertAction!){
+        self.performSegue(withIdentifier: "fullProfileToUserGallery" , sender: self)
     }
     
     

@@ -379,6 +379,4 @@ extension Gallery: UIScrollViewDelegate {
         let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
         pageControl.currentPage = Int(pageIndex)
     }
-    
-    
 }
