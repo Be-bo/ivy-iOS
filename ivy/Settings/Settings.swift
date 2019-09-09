@@ -138,7 +138,7 @@ class Settings: UIViewController{
         var isHidden = self.thisUserProfile["profile_hidden"] as! Bool
         print("is hiddem", isHidden)
         if(!isHidden){
-            let alert = UIAlertController(title: "You'll only be visible to your friends (nobody will be able to look you up or see you in the Quad). Proceed?", message: .none, preferredStyle: .alert)
+            let alert = UIAlertController(title: "You'll only be visible to your friends (nobody will be able to look you up or see you in Suggested Friends). Proceed?", message: .none, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
                 self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).updateData(["profile_hidden": true],completion: { (error) in

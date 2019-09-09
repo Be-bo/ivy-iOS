@@ -44,7 +44,7 @@ class Profile: UIViewController {
 //    }
 
     private func setUpNavigationBar(){
-        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo"))
+        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
         titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
