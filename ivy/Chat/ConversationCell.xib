@@ -47,9 +47,6 @@
                         <constraint firstAttribute="height" constant="45" id="1mu-Zz-YVy"/>
                     </constraints>
                     <state key="normal" title="Button" image="check"/>
-                    <connections>
-                        <action selector="onClickAccept:" destination="iN0-l3-epB" eventType="touchUpInside" id="GO8-O3-Iw5"/>
-                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I8z-vh-Hj3">
                     <rect key="frame" x="449" y="21" width="43" height="45"/>
@@ -58,9 +55,6 @@
                         <constraint firstAttribute="width" constant="43" id="VmF-A2-oEe"/>
                     </constraints>
                     <state key="normal" title="Button" image="cross"/>
-                    <connections>
-                        <action selector="onClickReject:" destination="iN0-l3-epB" eventType="touchUpInside" id="I4L-gY-Yd3"/>
-                    </connections>
                 </button>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="group" translatesAutoresizingMaskIntoConstraints="NO" id="8Da-vD-qro">
                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>

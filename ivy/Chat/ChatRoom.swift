@@ -35,6 +35,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     var filePicked: ((URL))?
     var first_launch = true //for auto scroll (so it only happens once and not every time the user scrolls)
     
+    var imageChosenToDownload:UIImage? = nil
     
     
     
@@ -556,6 +557,10 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 }
             }
         }
+        
+        
+        
+        
         return cell
     }
     
@@ -576,6 +581,38 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         return CGSize(width: view.frame.width, height: 70)
     }
+    
+    
+    
+    //donwloading the image when clicked on the cell!!
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        var messageClickedOn = self.messages[indexPath.item]
+        var fileReference = messageClickedOn["file_reference"] as! String
+        print("file reference", fileReference)
+        let storageRefPath = self.baseStorageReference.reference().child(fileReference)
+        
+        //if the message has a file reference
+        if (fileReference != ""){
+            // Fetch the download URL
+            storageRefPath.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    print("error", error)
+                } else {
+                    print("got file")
+                    var downloadedImage = UIImage(data: data!)
+                    UIImageWriteToSavedPhotosAlbum(downloadedImage!, Any?.self, nil, nil)
+
+                }
+            }
+        }
+
+        
+
+        
+        
+    }
+    
     
     
     
