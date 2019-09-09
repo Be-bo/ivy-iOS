@@ -37,8 +37,6 @@
 		A9A57D0F23216C8E00867D84 /* chatBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */; };
 		A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */; };
 		A9A57D162321C1C900867D84 /* SettingsButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */; };
-		A9A57D19232601DF00867D84 /* CustomAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D17232601DE00867D84 /* CustomAlbum.swift */; };
-		A9A57D1A232601DF00867D84 /* Error+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D18232601DF00867D84 /* Error+.swift */; };
 		A9B57E8223137482008DC63B /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B57E8023137482008DC63B /* EventCollectionViewCell.swift */; };
 		A9B57E8323137482008DC63B /* EventCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B57E8123137482008DC63B /* EventCollectionViewCell.xib */; };
 		A9B57E8523138318008DC63B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B57E8423138317008DC63B /* Event.swift */; };
@@ -147,8 +145,6 @@
 		A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = chatBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonLabel.swift; sourceTree = "<group>"; };
-		A9A57D17232601DE00867D84 /* CustomAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlbum.swift; sourceTree = "<group>"; };
-		A9A57D18232601DF00867D84 /* Error+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Error+.swift"; sourceTree = "<group>"; };
 		A9B57E8023137482008DC63B /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9B57E8123137482008DC63B /* EventCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9B57E8423138317008DC63B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -322,8 +318,6 @@
 		FA121C1C22EE41ED00C175F7 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				A9A57D17232601DE00867D84 /* CustomAlbum.swift */,
-				A9A57D18232601DF00867D84 /* Error+.swift */,
 				A976E4E0230A2AF200755774 /* ChatNavigationController.swift */,
 				FA121C1D22EE420300C175F7 /* Chat.swift */,
 				FA121C2B22EE4C2B00C175F7 /* ConversationCell.swift */,
@@ -658,7 +652,6 @@
 				A9990C7822C9A2F600E95B2C /* UserProfile.swift in Sources */,
 				FAC5CC6B231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift in Sources */,
 				A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */,
-				A9A57D19232601DF00867D84 /* CustomAlbum.swift in Sources */,
 				A9FD1986231ED41100ECA848 /* Settings.swift in Sources */,
 				A9B57E8523138318008DC63B /* Event.swift in Sources */,
 				A9A57D0F23216C8E00867D84 /* chatBubbleCollectionViewCell.swift in Sources */,
@@ -681,7 +674,6 @@
 				A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */,
 				A97A660F22F3A6D9004A6BBE /* ChatRoom.swift in Sources */,
 				FA121C2A22EE455700C175F7 /* Explore.swift in Sources */,
-				A9A57D1A232601DF00867D84 /* Error+.swift in Sources */,
 				A976E4E1230A2AF200755774 /* ChatNavigationController.swift in Sources */,
 				A9FD19642314EC6E00ECA848 /* organizationPage.swift in Sources */,
 				A9FD198A231F232E00ECA848 /* BlockedAccounts.swift in Sources */,
