@@ -101,9 +101,10 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) { // 'image' is the newly cropped version of the original image
         self.croppedRect = cropRect
         self.croppedAngle = angle
-        actualFinalImage.image = image
+        let finalImage = PublicStaticMethodsAndData.compressStandardImage(inputImage: image)
+        actualFinalImage.image = finalImage
         dismiss(animated: true, completion: nil)
-        self.byteArray = (image.jpegData(compressionQuality: 1.0)!) as NSData
+        self.byteArray = (finalImage.jpegData(compressionQuality: 0.8)!) as NSData
     }
     
     func showImagePickerController() { //present the imagepicker controller which allows users to choose what image they want from the gallery

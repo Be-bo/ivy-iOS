@@ -34,12 +34,8 @@ class Card: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight] //need to make sure the card resizes based on the cell of the collectionview
         self.translatesAutoresizingMaskIntoConstraints = true
-        
-        
-        
     }
     
     override init(frame: CGRect) {

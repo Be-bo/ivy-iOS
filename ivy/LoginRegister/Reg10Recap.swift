@@ -161,8 +161,9 @@ class Reg10Recap: UIViewController {
             var picArray = [String]()   //pic array holding the uploaded images the user can have
             picArray.append(storagePath)    //append the storage reference path to that profile picture since thats an uploaded image
 //            self.getPreviewBytes()
-            let previewImage = UIImage(data: self.imageByteArray! as Data,scale: 0.25)  //compress the image with the scale
-            let previewImageBytes = (previewImage!.jpegData(compressionQuality: 0.25)!) as NSData//convert the compressed image back to bytes
+            let fullImage = UIImage(data: self.imageByteArray! as Data,scale: 1.0)  //compress the image with the scale
+            let previewImage = PublicStaticMethodsAndData.compressPreviewImage(inputImage: fullImage!)
+            let previewImageBytes = (previewImage.jpegData(compressionQuality: 0.8)!) as NSData//convert the compressed image back to bytes
             self.registerInfoStruct.picture_references = picArray
             self.registerInfoStruct.profile_picture = storagePath    //storage path where users profile pic is stored
             self.registerInfoStruct.registration_millis = String(CACurrentMediaTime() * 1000)    //seconds * 1000 = milliseconds

@@ -15,8 +15,6 @@ class RegisterInterestsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        //init here
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -31,7 +31,7 @@ class MainTabController: UITabBarController {
             if let e = e{
                 print("Error obtaining user profile: \(e)")
                 PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't get your user data, try restarting the app. :-(", context: self)
-                //TODO: quit app
+                exit(0) //discouraged by Apple
             }else{
                 if(docSnap?.exists ?? false && docSnap?.data() != nil){
                     self.thisUserProfile = (docSnap?.data())!
@@ -45,7 +45,7 @@ class MainTabController: UITabBarController {
                     self.updateTabs()
                 }else{
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Your user profile doesn't exist, please contact us.", context: self)
-                    //TODO: quit app
+                    exit(0)
                 }
             }
         }
