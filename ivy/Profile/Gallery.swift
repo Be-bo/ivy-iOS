@@ -185,7 +185,7 @@ class Gallery: UIViewController {
                     print("Error obtaining image: ", e)
                 }else{
                     var userId = self.thisUserProfile!["id"] as! String
-                    var newProfilePicCompressed = UIImage(data: data! as Data,scale: 0.25)
+                    var newProfilePicCompressed = PublicStaticMethodsAndData.compressPreviewImage(inputImage:  UIImage(data: data! as Data, scale: 1.0)!)
                     
                     //update the profile picture of the card real time to contain the current path of the image they chose
                     self.thisUserProfile!["profile_picture"] = currentPath
@@ -195,7 +195,7 @@ class Gallery: UIViewController {
                     self.pages = []
                     self.loadImages()
                     
-                    let previewImageBytes = (newProfilePicCompressed!.jpegData(compressionQuality: 0.25)!) as NSData//convert the compressed
+                    let previewImageBytes = (newProfilePicCompressed.jpegData(compressionQuality: 0.8)!) as NSData//convert the compressed
                     self.baseStorageReference.child("userimages/"+userId+"/preview.jpg").putData(previewImageBytes as Data, metadata: nil)
                 }
             }
@@ -235,8 +235,8 @@ class Gallery: UIViewController {
                     print("Error obtaining image: ", e)
                 }else{
                     var userId = self.thisUserProfile!["id"] as! String
-                    var newProfilePicCompressed = UIImage(data: data! as Data,scale: 0.25)
-                    let previewImageBytes = (newProfilePicCompressed!.jpegData(compressionQuality: 0.25)!) as NSData//convert the compressed
+                    var newProfilePicCompressed = PublicStaticMethodsAndData.compressPreviewImage(inputImage: UIImage(data: data! as Data,scale: 1.0)!)
+                    let previewImageBytes = (newProfilePicCompressed.jpegData(compressionQuality: 0.8)!) as NSData//convert the compressed
                     self.baseStorageReference.child("userimages/"+userId+"/preview.jpg").putData(previewImageBytes as Data, metadata: nil)
                 }
             }

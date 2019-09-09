@@ -115,7 +115,6 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
         uploadTask.observe(.success) { snapshot in
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile!["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile!["id"] as! String).updateData(["profile_picture":storagePath])
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile!["uni_domain"] as! String).collection("userpreviews").document(self.thisUserProfile!["id"] as! String).updateData(["profile_picture":storagePath])
-            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile!["uni_domain"] as! String).collection("userpreviews").document(self.thisUserProfile!["id"] as! String).updateData(["preview_image":self.previewByteArray])
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile!["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile!["id"] as! String).updateData(["picture_references":FieldValue.arrayUnion([storagePath])])
             
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile!["uni_domain"] as! String).collection("userpreviews").document(self.thisUserProfile!["id"] as! String).updateData(["memo":"Uploaded a new profile picture!"])
@@ -126,7 +125,7 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
             
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile!["uni_domain"] as! String).collection("userpreviews").document(self.thisUserProfile!["id"] as! String).updateData(["update_image":storagePath])
             
-            
+            self.baseStorageReference.child("userimages/"+self.thisUserId+"/preview.jpg").putData(self.previewByteArray! as Data)
             
             
             //actually dismiss the view so we can clickon stuff again
@@ -198,8 +197,9 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
 
         
         dismiss(animated: true, completion: nil)
-        self.byteArray = (image.jpegData(compressionQuality: 1.0)!) as NSData
-        self.previewByteArray = (image.jpegData(compressionQuality: 0.25)!) as NSData
+        let compressedImage = PublicStaticMethodsAndData.compressStandardImage(inputImage: image)
+        self.byteArray = (compressedImage.jpegData(compressionQuality: 0.8)!) as NSData
+        self.previewByteArray = (PublicStaticMethodsAndData.compressPreviewImage(inputImage: compressedImage).jpegData(compressionQuality: 0.8)!) as NSData
         self.galleryUpdated = true                  //true so the segue knows weupdated the profile pic
         
         self.setUpNavigationBar()                   //only after they have chosen an image do we add the checkmark to submit it
