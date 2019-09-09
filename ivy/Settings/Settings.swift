@@ -21,7 +21,6 @@ class Settings: UIViewController{
     public var thisUserProfile = Dictionary<String, Any>()
 
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var privacySecView: UIView!
     @IBOutlet weak var insideScrollView: UIView!
     
     //Account Info
@@ -29,50 +28,40 @@ class Settings: UIViewController{
     @IBOutlet weak var universityPreference: StandardLabel!
     @IBOutlet weak var regDatePreference: StandardLabel!
     
+    
+    
+    
+    
+    @IBOutlet weak var aboutView: UIView!
+    @IBOutlet weak var supportView: UIView!
+    @IBOutlet weak var privacyView: UIView!
+    @IBOutlet weak var accInfoView: UIView!
+    
+    @IBOutlet weak var otherView: UIView!
+    
 
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         //make sure we actually have the user profile
         if(!self.thisUserProfile.isEmpty){
-            
             setUpHandlers()
             setAccountInfo()
+            accInfoView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
+            privacyView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
+            supportView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
+            aboutView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
+
         }
         
         
         
     }
-    
-    
-    
-    //all the possible actions that a user can have on the conversation.
-    @objc func showActions(){
-        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
-        actionSheet.view.tintColor = UIColor.ivyGreen
-        
-        //if there friends add these options to option sheet
-    
-        actionSheet.addAction(UIAlertAction(title: "ChangePass ", style: .default, handler: self.onClickChangePass(_:)))
-        actionSheet.addAction(UIAlertAction(title: "ContactUs", style: .default, handler: self.onClickContact(_:)))
-        actionSheet.addAction(UIAlertAction(title: "BlockedAcc ", style: .default, handler: self.onClickBlockedAcc(_:)))
-        
-        actionSheet.addAction(UIAlertAction(title: "SignOut ", style: .default, handler: self.onClickSignOut(_:)))
-        actionSheet.addAction(UIAlertAction(title: "Hide ", style: .default, handler: self.onClickHide(_:)))
-        actionSheet.addAction(UIAlertAction(title: "delete ", style: .default, handler: self.onClickDeleteAcc(_:)))
 
-            
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        self.present(actionSheet, animated: true, completion: nil)
-    }
-    
     
     
     //attach on click listeners to the different lables
@@ -89,39 +78,7 @@ class Settings: UIViewController{
             //setcheck to  false
             print("profile is not hidden")
         }
-        
-        
-        //blocked acc
-//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickBlockedAccounts))
-//        blockedAccPreference.isUserInteractionEnabled = true
-//        blockedAccPreference.addGestureRecognizer(singleTap)
-//
-//        //Sign out
-//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickSignOut))
-//        signOutPreference.isUserInteractionEnabled = true
-//        signOutPreference.addGestureRecognizer(singleTap)
-//
-//        //password
-//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickPassword))
-//        changePassPreference.isUserInteractionEnabled = true
-//        changePassPreference.addGestureRecognizer(singleTap)
-//
-//        //Contact us
-//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickContactUs))
-//        contactUsPreference.isUserInteractionEnabled = true
-//        contactUsPreference.addGestureRecognizer(singleTap)
-//
-//        //Hide
-//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickHide))
-//        hidePreference.isUserInteractionEnabled = true
-//        hidePreference.addGestureRecognizer(singleTap)
-//
-//        //Delete
-//        singleTap = UITapGestureRecognizer(target: self, action: #selector(self.clickDeleteAccount))
-//        deleteAccPreference.isUserInteractionEnabled = true
-//        deleteAccPreference.addGestureRecognizer(singleTap)
-        
-        
+
         
     }
     
@@ -264,36 +221,7 @@ class Settings: UIViewController{
         })
     }
     
-    
-    
-//    //OLD on clicks
-//    //On clicks
-//    func clickBlockedAccounts(alert: UIAlertAction!) {
-//
-//    }
-//
-//    func clickSignOut(alert: UIAlertAction!) {
-//    }
-//
-//
-//
-//
-//    func clickPassword(alert: UIAlertAction!) {
-//    }
-//
-//    func clickContactUs(alert: UIAlertAction!) {
-//
-//    }
-//
-//    func clickHide(alert: UIAlertAction!) {
-//
-//
-//    }
-//
-//    func clickDeleteAccount(alert: UIAlertAction!) {
-//
-//    }
-//
+
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
@@ -317,4 +245,31 @@ class Settings: UIViewController{
     
     
     
+}
+
+enum LINE_POSITION {
+    case LINE_POSITION_TOP
+    case LINE_POSITION_BOTTOM
+}
+
+extension UIView {
+    func addLine(position : LINE_POSITION, color: UIColor, width: Double) {
+        let lineView = UIView()
+        lineView.backgroundColor = color
+        lineView.translatesAutoresizingMaskIntoConstraints = false // This is important!
+        self.addSubview(lineView)
+        
+        let metrics = ["width" : NSNumber(value: width)]
+        let views = ["lineView" : lineView]
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[lineView]|", options:NSLayoutConstraint.FormatOptions(rawValue: 0), metrics:metrics, views:views))
+        
+        switch position {
+        case .LINE_POSITION_TOP:
+            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[lineView(width)]", options:NSLayoutConstraint.FormatOptions(rawValue: 0), metrics:metrics, views:views))
+            break
+        case .LINE_POSITION_BOTTOM:
+            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[lineView(width)]|", options:NSLayoutConstraint.FormatOptions(rawValue: 0), metrics:metrics, views:views))
+            break
+        }
+    }
 }

@@ -127,10 +127,13 @@ class Profile: UIViewController {
 
     //when they click the edit
     @objc func onClickEdit() {
+        
+        //hide the bottom navigation bar when they begin editing
+        self.tabBarController?.tabBar.isHidden = true
 
         //hide the bio label and hide the edit button
         back.bioLabel.isHidden = true
-        back.editButton.isHidden = true
+        back.editButton.isHidden = true 
         //show the edit interests,degree,textfield,& check mark
         back.editDegreeButton.isHidden = false
         back.editInterestsButton.isHidden = false
@@ -159,6 +162,10 @@ class Profile: UIViewController {
 
     //when they click finish editing, try to update the bio
     @objc func onClickDoneEdit() {
+        
+        //reshow the navigation bar when they're done editing
+        self.tabBarController?.tabBar.isHidden = false
+        
         //hide the bio label and hide the edit button
         back.bioLabel.isHidden = false
         back.editButton.isHidden = false
