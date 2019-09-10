@@ -65,6 +65,12 @@ class Reg10Recap: UIViewController {
         back.bio.text = self.registerInfoStruct.bio!
         back.setUpInterests(interests: self.registerInfoStruct.interests!)
         
+        if var degree = registerInfoStruct.degree as? String { //degree icon
+            degree = degree.replacingOccurrences(of: " ", with: "")
+            degree = degree.lowercased()
+            front.degreeIcon.image = UIImage(named: degree)
+        }
+        
         //hide the message field and the say hi button and the sync arrow since were flipping by clicking card
         back.flipButton.isHidden = true
         front.flipButton.isHidden = true

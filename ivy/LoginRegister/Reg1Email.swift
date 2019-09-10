@@ -81,6 +81,7 @@ class Reg1Email: UIViewController, UITextFieldDelegate {
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     print("Document data: \(dataDescription)")
                     self.registerInfoStruct.email = self.emailInput //set struct email info to be that input for the label
+                    self.allowInteraction()
                     self.performSegue(withIdentifier: "reg1ToReg2Segue" , sender: self) //pass data over to passsword screen
                 } else {    //prompt the user informing that they must use a valid university email domain
                     print("Document does not exist")

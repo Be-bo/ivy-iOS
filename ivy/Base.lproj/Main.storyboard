@@ -528,10 +528,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bag-nQ-Jbg" userLabel="MidSectionView">
-                                <rect key="frame" x="-55" y="76" width="524" height="410"/>
+                                <rect key="frame" x="34.5" y="76" width="345.5" height="410"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BKs-bF-laI">
-                                        <rect key="frame" x="0.0" y="50" width="524" height="200"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="345.5" height="200"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="dZP-4x-nag"/>
@@ -540,13 +540,13 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please share everything there is to share" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxT-UR-axS" customClass="MediumLabel" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="524" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="345.5" height="33.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="29"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7AO-UU-eeU" customClass="StandardButton" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="266" width="524" height="60"/>
+                                        <rect key="frame" x="0.0" y="265.5" width="345.5" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="OLB-Cs-HfE"/>
                                         </constraints>
@@ -3305,7 +3305,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9RO-mD-LBY"/>
+        <segue reference="hQk-bx-gCi"/>
         <segue reference="qnE-MC-VUo"/>
         <segue reference="NU5-32-VUu"/>
         <segue reference="GId-3d-sBt"/>
