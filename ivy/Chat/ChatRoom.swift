@@ -37,7 +37,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     var imageChosenToDownload:UIImage? = nil
     
-    
+    /// Creating UIDocumentInteractionController instance.
+    let documentInteractionController = UIDocumentInteractionController()
     
     
     
@@ -312,6 +313,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             
             //set the image picked to be the one chosen by the user so that we can easily access it later
             self.filePicked = url   //url of where the path is on the device
+            
             self.imagePicked = nil //clear image picked incase its not empty
         }
         // ---------------------------------------------- FILE CHOOSING ----------------------------------------------
@@ -356,7 +358,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         message["author_id"] = self.thisUserProfile["id"] as! String
         message["conversation_id"] = self.thisConversation["id"] as! String
         message["creation_time"] =  Date().millisecondsSince1970   //millis
-        message["message_text"] =  inputFileName  //filepath
+        message["message_text"] =  inputFileName //filepath
         message["is_text_only"] = false
         message["file_reference"] = filePath
         message["id"] =  NSUUID().uuidString
@@ -535,6 +537,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
         lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as! String //first name of last message author
         let lastMessage = self.messages[indexPath.row]["message_text"] as! String
+        
+        
 
         authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as! String) + "/preview.jpg"
         
@@ -554,6 +558,13 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                     cell.imageView.isHidden = false
                     cell.messageContainer.backgroundColor = UIColor.ivyGrey
                     cell.imageView.image  = UIImage(data: data!)
+                    
+                    //if file reference isn't "" then its an image or a file, so show the download
+                    if (self.messages[indexPath.item]["file_reference"] as! String != ""){
+                        cell.downloadIcon.isHidden = false
+                    }else{
+                        cell.downloadIcon.isHidden = true
+                    }
                 }
             }
         }
@@ -594,17 +605,56 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         //if the message has a file reference
         if (fileReference != ""){
-            // Fetch the download URL
-            storageRefPath.getData(maxSize: 1 * 1024 * 1024) { data, error in
-                if let error = error {
-                    print("error", error)
-                } else {
-                    print("got file")
-                    var downloadedImage = UIImage(data: data!)
-                    UIImageWriteToSavedPhotosAlbum(downloadedImage!, Any?.self, nil, nil)
-
+            
+            //determine if its an image
+            if ( fileReference.lowercased().contains("jpg") || fileReference.lowercased().contains("jpeg") || fileReference.lowercased().contains("png") ) {
+                // Fetch the download URL
+                storageRefPath.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("error", error)
+                    } else {
+                        var downloadedImage = UIImage(data: data!)
+                        UIImageWriteToSavedPhotosAlbum(downloadedImage!, Any?.self, nil, nil)
+                        //prompt the user with a dialog saying the image has been downloaded to the photos folder
+                        let alert = UIAlertController(title: "Your photo has been saved to the camera roll!", message: .none , preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                        self.present(alert, animated: true)
+                    }
                 }
+            }else{
+                // Fetch the download URL
+                storageRefPath.downloadURL { url, error in
+                    if let error = error {
+                        // Handle any errors
+                    } else {
+                        print("else")
+
+                        // Get the download URL for 'images/stars.jpg'
+                        DispatchQueue.main.async {
+//                            let url = URL(string: urlString)
+                            let pdfData = try? Data.init(contentsOf: url!)
+                            let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
+                            
+                            let pdfNameFromUrl = fileReference.components(separatedBy: "/").last!.replacingOccurrences(of: " ", with: "")
+
+                            let actualPath = resourceDocPath.appendingPathComponent(pdfNameFromUrl)
+                            do {
+                                try pdfData?.write(to: actualPath, options: .atomic)
+                                let alert = UIAlertController(title: "Your file has been saved to the files folder!", message: .none , preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                                self.present(alert, animated: true)
+
+                            } catch {
+                                print("Pdf could not be saved")
+                            }
+                        }
+                    }
+                }
+
             }
+
+            
+            
         }
 
         
@@ -613,8 +663,67 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
     }
     
+    func savePdf(urlString:String, fileName:String) {
+        DispatchQueue.main.async {
+            let url = URL(string: urlString)
+            let pdfData = try? Data.init(contentsOf: url!)
+            let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
+            let pdfNameFromUrl = "YourAppName-\(fileName).pdf"
+            let actualPath = resourceDocPath.appendingPathComponent(pdfNameFromUrl)
+            do {
+                try pdfData?.write(to: actualPath, options: .atomic)
+                print("pdf successfully saved!")
+            } catch {
+                print("Pdf could not be saved")
+            }
+        }
+    }
+    
+    func showSavedPdf(url:String, fileName:String) {
+        if #available(iOS 10.0, *) {
+            do {
+                let docURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let contents = try FileManager.default.contentsOfDirectory(at: docURL, includingPropertiesForKeys: [.fileResourceTypeKey], options: .skipsHiddenFiles)
+                for url in contents {
+                    if url.description.contains("\(fileName).pdf") {
+                        // its your file! do what you want with it!
+                        
+                    }
+                }
+            } catch {
+                print("could not locate pdf file !!!!!!!")
+            }
+        }
+    }
+    
+    // check to avoid saving a file multiple times
+    func pdfFileAlreadySaved(url:String, fileName:String)-> Bool {
+        var status = false
+        if #available(iOS 10.0, *) {
+            do {
+                let docURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let contents = try FileManager.default.contentsOfDirectory(at: docURL, includingPropertiesForKeys: [.fileResourceTypeKey], options: .skipsHiddenFiles)
+                for url in contents {
+                    if url.description.contains("YourAppName-\(fileName).pdf") {
+                        status = true
+                    }
+                }
+            } catch {
+                print("could not locate pdf file !!!!!!!")
+            }
+        }
+        return status
+    }
+    
+//    func createFile(fileName:String) {
+//        let fileName = fileName
+//        let documentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+//        let fileURL = documentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
+//        print("File PAth: \(fileURL.path)")
+//    }
     
     
+
     
     
     
@@ -723,3 +832,4 @@ extension UICollectionView {
     
     
 }
+

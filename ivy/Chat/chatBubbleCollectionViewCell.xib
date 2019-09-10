@@ -59,9 +59,18 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="edit" translatesAutoresizingMaskIntoConstraints="NO" id="eUd-BQ-aQo" userLabel="downloadIcon">
+                        <rect key="frame" x="455" y="55" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="aM1-6P-pCK"/>
+                            <constraint firstAttribute="height" constant="15" id="pru-jf-rpL"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="eUd-BQ-aQo" secondAttribute="bottom" id="7Wr-HD-1wZ"/>
+                <constraint firstAttribute="trailing" secondItem="eUd-BQ-aQo" secondAttribute="trailing" constant="30" id="CnV-Mz-J8V"/>
                 <constraint firstAttribute="trailing" secondItem="Zbg-pu-SrM" secondAttribute="trailing" constant="8" id="EgX-6p-UDm"/>
                 <constraint firstItem="Zbg-pu-SrM" firstAttribute="leading" secondItem="UCM-AR-dD8" secondAttribute="trailing" constant="8" id="KHK-Le-awU"/>
                 <constraint firstItem="UCM-AR-dD8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="N0g-Lb-FMo"/>
@@ -73,11 +82,15 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="500" height="60"/>
             <connections>
+                <outlet property="downloadIcon" destination="eUd-BQ-aQo" id="cyp-c2-NMA"/>
                 <outlet property="imageView" destination="UCM-AR-dD8" id="IkW-33-aUI"/>
                 <outlet property="messageContainer" destination="Zbg-pu-SrM" id="sjE-bQ-dls"/>
                 <outlet property="messageLabel" destination="7M1-PY-trc" id="aOc-uo-rKA"/>
             </connections>
-            <point key="canvasLocation" x="-31.884057971014496" y="127.90178571428571"/>
+            <point key="canvasLocation" x="-11.594202898550726" y="134.59821428571428"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="edit" width="48" height="48"/>
+    </resources>
 </document>

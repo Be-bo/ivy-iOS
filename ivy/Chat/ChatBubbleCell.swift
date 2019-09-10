@@ -18,6 +18,7 @@ class ChatBubbleCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var messageContainer: UIView!
+    @IBOutlet weak var downloadIcon: UIImageView!
     
     let baseStorageReference = Storage.storage()        //reference to storage
 

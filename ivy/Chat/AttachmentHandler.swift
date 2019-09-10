@@ -227,7 +227,7 @@ extension AttachmentHandler: UIImagePickerControllerDelegate, UINavigationContro
         //extract the name of the image or file the user uploads
         if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
-            image.accessibilityIdentifier = assetResources.first!.originalFilename
+            image.accessibilityIdentifier = assetResources.first!.originalFilename.replacingOccurrences(of: " ", with: "")
         }
 
         
