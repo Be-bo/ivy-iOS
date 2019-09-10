@@ -86,12 +86,14 @@ class Reg1Email: UIViewController, UITextFieldDelegate {
                     print("Document does not exist")
                     self.errorLabel.text = "Please use a valid university email address"
                     self.errorLabel.isHidden = false
+                    self.allowInteraction();
                 }
             }
         }else{
             print("Document does not exist")
             self.errorLabel.text = "Please use a valid university email address"
             self.errorLabel.isHidden = false
+            self.allowInteraction();
         }
     }
     
