@@ -361,62 +361,70 @@ class ViewFullProfileActivity: UIViewController{
     }
     
     @objc func sendRequest(){
-        var conversationReference: DocumentReference
-        conversationReference = self.baseDatabaseReference.collection("conversations").document()
-        var participants = [String]()
-        var participantNames = [String]()
-        participants.append(self.thisUserProfile["id"] as! String)
-        participants.append(otherUserProfile["id"] as! String)
-        participantNames.append(self.thisUserProfile["first_name"] as! String)
-        participantNames.append(otherUserProfile["first_name"] as! String)
-        var msgCounts = [CLong]()
-        msgCounts.append(0)
-        msgCounts.append(0)
-        let mutedBy = [String]()
-        
-        //adding to request lists of user, where true is who sent, false is who recieved
-        var temp = Dictionary<String, Any>()
-        temp[otherUserProfile["id"] as! String] = true
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
-        
-        temp = Dictionary<String, Any>()//reset
-        temp[self.thisUserProfile["id"] as! String] = false
-        self.baseDatabaseReference.collection("universities").document(otherUserProfile["uni_domain"] as! String).collection("userprofiles").document(otherUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
-        
-        
-        //create new conversation object
-        var newConversation = Dictionary<String, Any>()
-        newConversation["id"] = conversationReference.documentID
-        newConversation["name"] = String(self.thisUserProfile["first_name"] as! String)+", "+String(otherUserProfile["first_name"] as! String)
-        newConversation["participants"] = participants
-        newConversation["is_request"] = true
-        newConversation["last_message"] = self.back.sayHiMessageTextField.text
-        newConversation["last_message_author"] = self.thisUserProfile["id"] as! String
-        newConversation["creation_time"] =  Date().millisecondsSince1970   //millis
-        newConversation["participant_names"] =  participantNames
-        newConversation["last_message_counts"] = msgCounts
-        newConversation["last_message_millis"] = Date().millisecondsSince1970   //millis
-        newConversation["message_count"] = 1
-        newConversation["is_base_conversation"] = true
-        newConversation["muted_by"] = mutedBy
-        //push pbject to db
-        self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).setData(newConversation)
-        
-        //create new message object
-        var requestMessage = Dictionary<String, Any>()
-        requestMessage["message_text"] = self.back.sayHiMessageTextField.text
-        requestMessage["author_id"] = self.thisUserProfile["id"] as! String
-        requestMessage["author_first_name"] = self.thisUserProfile["first_name"] as! String
-        requestMessage["author_last_name"] = self.thisUserProfile["last_name"] as! String
-        requestMessage["conversation_id"] = conversationReference.documentID
-        requestMessage["is_text_only"] = true
-        requestMessage["file_reference"] = ""
-        requestMessage["id"] = NSUUID().uuidString
-        requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
-        //push message object to db
-        self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
-        
-        self.hideRequest()
+        //make sure message is longer than 2 digits in length
+        if (self.back.sayHiMessageTextField.text!.count > 2){
+            var conversationReference: DocumentReference
+            conversationReference = self.baseDatabaseReference.collection("conversations").document()
+            var participants = [String]()
+            var participantNames = [String]()
+            participants.append(self.thisUserProfile["id"] as! String)
+            participants.append(otherUserProfile["id"] as! String)
+            participantNames.append(self.thisUserProfile["first_name"] as! String)
+            participantNames.append(otherUserProfile["first_name"] as! String)
+            var msgCounts = [CLong]()
+            msgCounts.append(0)
+            msgCounts.append(0)
+            let mutedBy = [String]()
+            
+            //adding to request lists of user, where true is who sent, false is who recieved
+            var temp = Dictionary<String, Any>()
+            temp[otherUserProfile["id"] as! String] = true
+            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
+            
+            temp = Dictionary<String, Any>()//reset
+            temp[self.thisUserProfile["id"] as! String] = false
+            self.baseDatabaseReference.collection("universities").document(otherUserProfile["uni_domain"] as! String).collection("userprofiles").document(otherUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
+            
+            
+            //create new conversation object
+            var newConversation = Dictionary<String, Any>()
+            newConversation["id"] = conversationReference.documentID
+            newConversation["name"] = String(self.thisUserProfile["first_name"] as! String)+", "+String(otherUserProfile["first_name"] as! String)
+            newConversation["participants"] = participants
+            newConversation["is_request"] = true
+            newConversation["last_message"] = self.back.sayHiMessageTextField.text
+            newConversation["last_message_author"] = self.thisUserProfile["id"] as! String
+            newConversation["creation_time"] =  Date().millisecondsSince1970   //millis
+            newConversation["participant_names"] =  participantNames
+            newConversation["last_message_counts"] = msgCounts
+            newConversation["last_message_millis"] = Date().millisecondsSince1970   //millis
+            newConversation["message_count"] = 1
+            newConversation["is_base_conversation"] = true
+            newConversation["muted_by"] = mutedBy
+            //push pbject to db
+            self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).setData(newConversation)
+            
+            //create new message object
+            var requestMessage = Dictionary<String, Any>()
+            requestMessage["message_text"] = self.back.sayHiMessageTextField.text
+            requestMessage["author_id"] = self.thisUserProfile["id"] as! String
+            requestMessage["author_first_name"] = self.thisUserProfile["first_name"] as! String
+            requestMessage["author_last_name"] = self.thisUserProfile["last_name"] as! String
+            requestMessage["conversation_id"] = conversationReference.documentID
+            requestMessage["is_text_only"] = true
+            requestMessage["file_reference"] = ""
+            requestMessage["id"] = NSUUID().uuidString
+            requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
+            //push message object to db
+            self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
+            
+            self.hideRequest()
+        }else{
+            let alert = UIAlertController(title: "Please send a message longer than 2 characters!", message: .none, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+    
     }
 }
 

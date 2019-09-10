@@ -122,6 +122,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     }
                     
                     if (diff.type == .modified) { //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
+                        print("modified:")
                         let modifiedData = diff.document.data()
                         let modifiedID = modifiedData["id"]
                         let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
@@ -146,8 +147,16 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     
                     //if a message was removed we enter this
                     if (diff.type == .removed) {
+                        print("removed")
                         //TODO: remove the actual conversation that was removed from android.
-                        print("Removed chat: \(diff.document.data())")
+                        //TODO: start here tomorrow find out why its calling modified and removed
+                        let modifiedData = diff.document.data()
+                        let modifiedID = modifiedData["id"]
+                        let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
+                        print("self active chats: ", self.activeChats)
+                        self.activeChats.remove(at: posModified)
+                        
+                        
                         self.tableView.reloadData() //reload rows and section in table view
                     }
                 }
@@ -267,8 +276,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         
         //remove the chat from active chats since we deleted the request
         self.activeChats.remove(at: sender.tag)
-        self.tableView.deleteRows(at: [
-            NSIndexPath(row: sender.tag, section: 0) as IndexPath], with: .fade)
+//        self.tableView.deleteRows(at: [
+//            NSIndexPath(row: sender.tag, section: 0) as IndexPath], with: .fade)
         self.tableView.reloadData()
         
         self.rejectRequest()

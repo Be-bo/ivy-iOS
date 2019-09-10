@@ -1154,7 +1154,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mc9-WP-Luv" customClass="Card" customModule="ivy" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="398" height="802"/>
+                                        <rect key="frame" x="8" y="50" width="398" height="718"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
@@ -1163,10 +1163,10 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="mc9-WP-Luv" secondAttribute="bottom" constant="8" id="69H-dE-3Td"/>
+                                    <constraint firstAttribute="bottom" secondItem="mc9-WP-Luv" secondAttribute="bottom" constant="50" id="69H-dE-3Td"/>
                                     <constraint firstItem="mc9-WP-Luv" firstAttribute="leading" secondItem="3dE-bc-nP2" secondAttribute="leading" constant="8" id="9Zb-xf-s2r"/>
                                     <constraint firstAttribute="trailing" secondItem="mc9-WP-Luv" secondAttribute="trailing" constant="8" id="mth-YE-5pB"/>
-                                    <constraint firstItem="mc9-WP-Luv" firstAttribute="top" secondItem="3dE-bc-nP2" secondAttribute="top" constant="8" id="vgJ-a5-BbD"/>
+                                    <constraint firstItem="mc9-WP-Luv" firstAttribute="top" secondItem="3dE-bc-nP2" secondAttribute="top" constant="50" id="vgJ-a5-BbD"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -3305,6 +3305,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="OfU-Ft-87X"/>
         <segue reference="hQk-bx-gCi"/>
         <segue reference="qnE-MC-VUo"/>
         <segue reference="NU5-32-VUu"/>

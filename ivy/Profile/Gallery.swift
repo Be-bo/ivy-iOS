@@ -145,8 +145,17 @@ class Gallery: UIViewController {
     
     //segue over to the page where they can create a new picture
     @objc func didTapAddButton(sender: AnyObject){
-        self.performSegue(withIdentifier: "galleryToAddPhoto" , sender: self) //pass data over to
+        
+        if self.pages.count < 5 {
+            self.performSegue(withIdentifier: "galleryToAddPhoto" , sender: self) //pass data over to
+        }else{
+            let alert = UIAlertController(title: "You can only have up to 5 images in your gallery.", message: .none, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
 
+
+        
     }
     
     //called every single time a segway is called
