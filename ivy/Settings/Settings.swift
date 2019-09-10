@@ -54,7 +54,7 @@ class Settings: UIViewController{
             accInfoView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
             privacyView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
             supportView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
-            aboutView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
+//            aboutView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
 
         }
         
@@ -178,8 +178,10 @@ class Settings: UIViewController{
     }
     
     
-    @IBAction func onClickLegal(_ sender: Any) {
+    @IBAction func legalStuffClicked(_ sender: Any) {
+        self.performSegue(withIdentifier: "settingsToLegalStuff" , sender: self)
     }
+    
     
     @IBAction func onClickHelp(_ sender: Any) {
     }

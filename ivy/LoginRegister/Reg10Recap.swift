@@ -33,9 +33,9 @@ class Reg10Recap: UIViewController {
     //outlets
     @IBOutlet weak var registerButton: StandardButton!
     @IBOutlet weak var progressWheel: UIActivityIndicatorView!
-    @IBOutlet weak var shadowContainer: UIView! //card container
     
-
+    @IBOutlet weak var shadowContainer: UIView!
+    
     
     
     
@@ -47,8 +47,8 @@ class Reg10Recap: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let frontImage = UIImage(data: self.imageByteArray! as Data,scale: 1.0)
-        front.frame = shadowContainer.bounds
         back.frame = shadowContainer.bounds
+        front.frame = shadowContainer.bounds
         front.img.image = frontImage
         front.name.text = self.registerInfoStruct.first_name!
         shadowContainer.addSubview(back)
@@ -94,12 +94,24 @@ class Reg10Recap: UIViewController {
     }
     
     @IBAction func onClickRegister(_ sender: Any) {
-        barInteraction()
-        attemptToContinue()
+        let alert = UIAlertController(title: "Terms of Use", message: "To continue you have to agree to our Terms of Use.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: { (action) in
+            self.barInteraction()
+            self.attemptToContinue()
+        }))
+        alert.addAction(UIAlertAction(title: "See Terms", style: .default, handler: { (action) in
+            self.seeTerms()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
     
     func attemptToContinue() {
         createUser()
+    }
+    
+    func seeTerms(){
+        self.performSegue(withIdentifier: "reg10ToLegal" , sender: self)
     }
     
     
