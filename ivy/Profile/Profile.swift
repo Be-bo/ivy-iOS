@@ -96,9 +96,9 @@ class Profile: UIViewController {
             }
         }
 
-        back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name")
+        back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name") + ","
         back.degree.text = user["degree"] as? String
-        back.age.text = user["age"] as? String
+        back.age.text = String(user["age"] as! Int)
         back.bioLabel.text = user["bio"] as? String
         back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
         back.bioTextField.text = back.bioLabel.text

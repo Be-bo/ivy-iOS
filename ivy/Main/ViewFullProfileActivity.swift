@@ -299,10 +299,11 @@ class ViewFullProfileActivity: UIViewController{
             front.degreeIcon.image = UIImage(named: degree)
         }
         
+        
         front.name.text = otherUserProfile["first_name"] as? String //text data
-        back.name.text = String(otherUserProfile["first_name"] as? String ?? "Name") + " " + String(otherUserProfile["last_name"] as? String ?? "Name")
+        back.name.text = String(otherUserProfile["first_name"] as? String ?? "Name") + " " + String(otherUserProfile["last_name"] as? String ?? "Name")  + ","
         back.degree.text = otherUserProfile["degree"] as? String
-        back.age.text = otherUserProfile["age"] as? String
+        back.age.text = String(otherUserProfile["age"] as! Int)
         back.bio.text = otherUserProfile["bio"] as? String
         back.setUpInterests(interests: otherUserProfile["interests"] as? [String] ?? [String]())
         

@@ -118,7 +118,7 @@ class Settings: UIViewController{
                 month = String(monthInt)
             }
             let retVal = month+"/"+day+"/"+year
-            regDatePreference.text = retVal
+            regDatePreference.text = "Registration Date: " + retVal
         }else{
             regDatePreference.text = "Registration Date Unknown"
         }
