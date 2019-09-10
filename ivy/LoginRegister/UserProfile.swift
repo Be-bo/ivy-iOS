@@ -25,11 +25,11 @@ struct UserProfile {
     var picture_references: Array<String>?   //array containing the 5 different images a user can have uploaded to ivy
     var profile_hidden: Bool?    //from settings if user doesn't wanna be seen by anyone except for their friends
     var profile_picture: String? //path containing the storage reference to the useres profile picture
-    var registration_millis : String?    //time they registered at in milliseconds
+    var registration_millis : Int64?    //time they registered at in milliseconds
     var uni_domain : String?    //ex:@ucalgary.ca
     
     
-    init(age:Int64?=nil, banned:Bool?=nil, bio:String?=nil,birth_time:Int64?=nil, degree:String? = nil, email:String? = nil, first_name:String? = nil, gender:String? = nil, id:String?=nil, interests:Array<String>?=nil, last_name:String? = nil , last_post_id:String?=nil, picture_references:Array<String>?=nil, profile_hidden:Bool?=nil , profile_picture:String?=nil, registration_millis:String?=nil, uni_domain:String?=nil) {
+    init(age:Int64?=nil, banned:Bool?=nil, bio:String?=nil,birth_time:Int64?=nil, degree:String? = nil, email:String? = nil, first_name:String? = nil, gender:String? = nil, id:String?=nil, interests:Array<String>?=nil, last_name:String? = nil , last_post_id:String?=nil, picture_references:Array<String>?=nil, profile_hidden:Bool?=nil , profile_picture:String?=nil, registration_millis:Int64?=nil, uni_domain:String?=nil) {
         
         self.age = age;
         self.banned = banned;
