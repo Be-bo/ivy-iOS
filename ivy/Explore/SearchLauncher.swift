@@ -166,7 +166,7 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
                             for i in 0..<userIds.count{
                                 if(blockedByList[userIds[i]] == nil){ //if current id blocking this user don't do anything
                                     self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(userIds[i]).getDocument(completion: { (userSnapshot, err) in
-                                        if(userSnapshot?.exists ?? false && userSnapshot?.data() != nil){
+                                        if(userSnapshot?.exists ?? false && userSnapshot?.data() != nil) && thisUserId != userSnapshot?.documentID{
                                             if var current = userSnapshot?.data() {
                                                 current["search_type"] = "user" //set the type of the search result (so that we display the corresponding data in the collection view properly - see SearchCell.swift)
                                                 self.all_results.append(current)
