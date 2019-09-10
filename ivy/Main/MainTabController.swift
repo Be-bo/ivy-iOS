@@ -18,6 +18,7 @@ class MainTabController: UITabBarController {
     private var thisUserProfile = Dictionary<String, Any>()
     private let thisUserId = Auth.auth().currentUser!.uid
     var thisUniDomain = ""
+    var listenerRegistration:ListenerRegistration? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,7 @@ class MainTabController: UITabBarController {
     }
     
     private func startListeningToUserProfile(){
-        baseDatabaseReference.collection("universities").document(thisUniDomain).collection("userprofiles").document(thisUserId).addSnapshotListener() { (docSnap, e) in
+        listenerRegistration = baseDatabaseReference.collection("universities").document(thisUniDomain).collection("userprofiles").document(thisUserId).addSnapshotListener() { (docSnap, e) in
             if let e = e{
                 print("Error obtaining user profile: \(e)")
                 PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't get your user data, try restarting the app. :-(", context: self)
@@ -81,6 +82,10 @@ class MainTabController: UITabBarController {
                 }
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        listenerRegistration?.remove() //stop listening to changes when the app quits or the user signs outs (i.e. the tab controller stops existing)
     }
     
 }
