@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class UserGallery: UIViewController {
+class UserGallery: UIViewController, UIScrollViewDelegate {
     
     // MARK: Variables and Constants
     
@@ -38,6 +38,7 @@ class UserGallery: UIViewController {
     func setUp(){
         view.bringSubviewToFront(pageControl)
         getOtherUserProfile()
+        scrollView.delegate = self
         if #available(iOS 11.0, *){
             scrollView.contentInsetAdjustmentBehavior = .never
         }else{
@@ -67,6 +68,12 @@ class UserGallery: UIViewController {
             self.pages[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height)
             scrollView.addSubview(self.pages[i])
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("VIEW DID SCROLL")
+        let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
+        pageControl.currentPage = Int(pageIndex)
     }
     
     
@@ -117,12 +124,5 @@ class UserGallery: UIViewController {
                 }
             }
         }
-    }
-}
-
-extension UserGallery: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
-        pageControl.currentPage = Int(pageIndex)
     }
 }

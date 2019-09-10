@@ -374,7 +374,6 @@ class Gallery: UIViewController {
 
 //instead of doing class Gallery: UIViewController, UIScrollViewDelegate you can write the code like this to keep thigns seperated
 extension Gallery: UIScrollViewDelegate {
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
         pageControl.currentPage = Int(pageIndex)
