@@ -43,10 +43,13 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureTableView()
+
         self.userAuthFirstName = thisUserProfile["first_name"] as! String
         self.userProfilePic = thisUserProfile["profile_picture"] as! String
         self.uid = thisUserProfile["id"] as! String
         self.startListeningToConversations()
+
         
         setUpNavigationBar()
     }
@@ -123,7 +126,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         self.activeChats.append(diff.document.data())
                         print("active chats added: ", self.activeChats)
 
-                        self.configureTableView()
+//                        self.configureTableView()
                         self.tableView.reloadData() //reload rows and section in table view
                     }
                     
@@ -155,7 +158,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     
                     //if a message was removed we enter this
                     if (diff.type == .removed) {
-                        print("removed")
+                        print("As soon as it enters removed ", self.activeChats)
+
                         //TODO: remove the actual conversation that was removed from android.
                         //TODO: start here tomorrow find out why its calling modified and removed
                         let modifiedData = diff.document.data()
@@ -163,7 +167,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
                         
                         print("pod modified:", posModified)
-                        print("self active chats removed before: ", self.activeChats)
                         self.activeChats.remove(at: posModified)
                         print("active chats removed: ", self.activeChats)
 
@@ -285,10 +288,10 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.thisCell = tableView.cellForRow(at: NSIndexPath(row: sender.tag, section: 0) as IndexPath) as! ConversationCell
         
         //remove the chat from active chats since we deleted the request
-        self.activeChats.remove(at: sender.tag)
+//        self.activeChats.remove(at: sender.tag)
 //        self.tableView.deleteRows(at: [
 //            NSIndexPath(row: sender.tag, section: 0) as IndexPath], with: .fade)
-        self.tableView.reloadData()
+//        self.tableView.reloadData()
         
         self.rejectRequest()
     }

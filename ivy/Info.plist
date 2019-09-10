@@ -23,9 +23,9 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>"We need your permission to take pictures."</string>
+	<string>&quot;We need your permission to take pictures.&quot;</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>"We need your permission to save files into the phone."</string>
+	<string>&quot;We need your permission to save files into the phone.&quot;</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>cordia.ttf</string>
@@ -52,5 +52,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Our application needs permission to download files or images!</string>
 </dict>
 </plist>
