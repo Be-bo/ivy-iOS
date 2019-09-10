@@ -113,10 +113,16 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 } else {
                     //just empty
                 }
-        
+                
+                
                 snapshot.documentChanges.forEach { diff in //FOR EACH individual conversation the user has, when its added
+                    
+                    print("active chats: ", self.activeChats)
+                    
                     if (diff.type == .added) {
                         self.activeChats.append(diff.document.data())
+                        print("active chats added: ", self.activeChats)
+
                         self.configureTableView()
                         self.tableView.reloadData() //reload rows and section in table view
                     }
@@ -143,6 +149,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                             self.activeChats[posModified] = modifiedData
                             self.tableView.reloadData()
                         }
+                        print("active chats modified: ", self.activeChats)
+
                     }
                     
                     //if a message was removed we enter this
@@ -153,10 +161,12 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         let modifiedData = diff.document.data()
                         let modifiedID = modifiedData["id"]
                         let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
-                        print("self active chats: ", self.activeChats)
+                        
+                        print("pod modified:", posModified)
+                        print("self active chats removed before: ", self.activeChats)
                         self.activeChats.remove(at: posModified)
-                        
-                        
+                        print("active chats removed: ", self.activeChats)
+
                         self.tableView.reloadData() //reload rows and section in table view
                     }
                 }
