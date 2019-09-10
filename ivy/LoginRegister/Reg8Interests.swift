@@ -16,7 +16,7 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
     var interestChosen: String = "" //specific interest that has been chosen, empty at first
     var interestsChosen = [String]()   //hold number of interests they choose
     var registerInfoStruct = UserProfile(age: 0, banned: nil, bio: "", birth_time: nil, degree: "", email: "", first_name: "") //will be overidden by the actual data
-    let labels = [            "Reading",
+    var labels = [            "Reading",
                               "Cooking",
                               "Sports",
                               "Politics",
@@ -107,6 +107,20 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
     @IBOutlet weak var tableView: UITableView!
     @IBAction func onClickContinue(_ sender: Any) {
         attemptToContinue()
+    }
+    @IBOutlet weak var customInterestField: StandardTextField!
+    @IBAction func addCustomInterestClicked(_ sender: Any) {
+        if let currentString = customInterestField.text{ //get user's input, check len and make sure that when trailing and leading whitespace is trimmed we still have a string of some len in the middle
+            if(currentString.count > 2 && currentString.trimmingCharacters(in: .whitespaces).count > 0){
+                labels.insert(currentString, at: 0)
+                interestChosen = currentString
+                interestsChosen.insert(currentString, at: 0)
+                customInterestField.text = ""
+                self.tableView.reloadData()
+                let indexPath:IndexPath = IndexPath(row: 0, section: 0) //scroll to the top so they can see the interest was added
+                self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+            }
+        }
     }
     
     

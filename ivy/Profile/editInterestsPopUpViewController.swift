@@ -23,7 +23,7 @@ class editInterestsPopUpViewController: UIViewController, UITableViewDelegate, U
     private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
 
     
-    private let labels = [     "Reading",
+    private var labels = [     "Reading",
                               "Cooking",
                               "Sports",
                               "Politics",
@@ -109,6 +109,19 @@ class editInterestsPopUpViewController: UIViewController, UITableViewDelegate, U
     
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var customInterestField: StandardTextField!
+    @IBAction func addInterestClicked(_ sender: Any) {
+        if let currentString = customInterestField.text{ //get user's input, check len and make sure that when trailing and leading whitespace is trimmed we still have a string of some len in the middle
+            if(currentString.count > 2 && currentString.trimmingCharacters(in: .whitespaces).count > 0){
+                labels.insert(currentString, at: 0)
+                interestsChosen.insert(currentString, at: 0)
+                customInterestField.text = ""
+                self.tableView.reloadData()
+                let indexPath:IndexPath = IndexPath(row: 0, section: 0) //scroll to the top so they can see the interest was added
+                self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+            }
+        }
+    }
     
     
     // MARK: Base and Override Functions
@@ -117,9 +130,7 @@ class editInterestsPopUpViewController: UIViewController, UITableViewDelegate, U
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.hideKeyboardOnTapOutside()
-        
         configureTableView()
-
     }
     
     
@@ -157,6 +168,11 @@ class editInterestsPopUpViewController: UIViewController, UITableViewDelegate, U
         tableView.register(UINib(nibName: "RegisterInterestsCell", bundle: nil), forCellReuseIdentifier: "RegisterInterestsCell")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 70
+        for i in 0..<interestsChosen.count{ //for the custom interests that were added in the past -> also need to display in the table view
+            if(!labels.contains(interestsChosen[i])){
+                labels.insert(interestsChosen[i], at: 0)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
