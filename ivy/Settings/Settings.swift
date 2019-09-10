@@ -102,24 +102,26 @@ class Settings: UIViewController{
         }
         
         //reg date
-        var retVal = "registration date not set yet"
-//        let regMilliTime = Date.init(milliseconds: Int64(self.thisUserProfile["registration_millis"] as! CLong)) //start time
-//        var calendarDate = Calendar.current.dateComponents([.day, .year, .month], from: regMilliTime)
-//        var month = regMilliTime.monthMedium //these work beautifully except that they're missing the day getter for some reason
-//        var day = "Unknown Day"
-//        var year = "Unknown Year"
-//        if let dayInt = calendarDate.day{
-//            day = String(dayInt)
-//        }
-//        if let yearInt = calendarDate.year{
-//            year = String(yearInt)
-//        }
-//        retVal = month+"/"+day+"/"+year
-        regDatePreference.text = retVal
-        
-        
-        
-        
+        if let millis = thisUserProfile["registration_millis"] as? Int64{
+            let time = Date.init(milliseconds: millis)
+            var calendarDate = Calendar.current.dateComponents([.day, .year, .month], from: time)
+            var day = "Unknown Day"
+            var year = "Unknown Year"
+            var month = "Unknown Month"
+            if let dayInt = calendarDate.day{
+                day = String(dayInt)
+            }
+            if let yearInt = calendarDate.year{
+                year = String(yearInt)
+            }
+            if let monthInt = calendarDate.month{
+                month = String(monthInt)
+            }
+            let retVal = month+"/"+day+"/"+year
+            regDatePreference.text = retVal
+        }else{
+            regDatePreference.text = "Registration Date Unknown"
+        }
     }
     
     
