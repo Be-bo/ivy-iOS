@@ -40,7 +40,6 @@ class Reg6Birthday: UIViewController {
         super.viewDidLoad()
         self.hideKeyboardOnTapOutside()
         dateFormatter.dateFormat = "dd MMMM yyyy"   //format the date will be added to userProfile object
-        print("birthday screen ", registerInfoStruct)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called

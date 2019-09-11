@@ -204,24 +204,22 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
     
     
     func configureTableView(){
-        print("self.allpossible friends", self.allPossibleFriends.count)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "ConversationCell")
+        tableView.register(UINib(nibName: "AddParticipantTableViewCell", bundle: nil), forCellReuseIdentifier: "AddParticipantTableViewCell")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 70
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("return", self.allPossibleFriends.count)
         return self.allPossibleFriends.count
     }
     
     // called for every single cell thats displayed on screen/on reload
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell", for: indexPath) as! ConversationCell
-    
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AddParticipantTableViewCell", for: indexPath) as! AddParticipantTableViewCell
+        cell.selectionStyle = .none
         
         let friendsname = String(self.allPossibleFriends[indexPath.row]["first_name"] as! String) + " " + String(self.allPossibleFriends[indexPath.row]["last_name"] as! String) //the author of the last message that was sent
         let friendpicloc = "userimages/" + String(self.allPossibleFriends[indexPath.row]["id"] as! String) + "/preview.jpg"
@@ -236,7 +234,7 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
                 print("error", error)
             } else {
                 //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
-                cell.name.text = friendsname     //name of the chat this user is involved in
+                cell.nameLabel.text = friendsname     //name of the chat this user is involved in
                 cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
             }
         }
@@ -247,7 +245,7 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //triggered when individual cells clicked -> covers cases where you can see the check mark (and select a different cell)
 
-        let cl = tableView.cellForRow(at: indexPath) as! ConversationCell
+        let cl = tableView.cellForRow(at: indexPath) as! AddParticipantTableViewCell
         
         //extract the name and id of the user they just clicked on to be able to add them later to the conversation
         var nameAndID = Dictionary<String, String>()
@@ -258,11 +256,13 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
         if (addTheseFriends.contains(nameAndID)){
             let index = self.addTheseFriends.firstIndex(of: nameAndID)
             self.addTheseFriends.remove(at: index!)
+            cl.checkBox.isHidden = true
         }else{
              self.addTheseFriends.append(nameAndID)
+            cl.checkBox.isHidden = false
+
         }
         
-        print("addthesefirneds", addTheseFriends)
 
         
     }
