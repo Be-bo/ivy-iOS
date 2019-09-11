@@ -627,6 +627,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no conversation! Time to make friends!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBe-xh-3lO" customClass="MediumGreenLabel" customModule="ivy" customModuleProvider="target">
+                                <rect key="frame" x="20" y="438" width="374" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Lw5-px-IPJ">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -637,12 +643,16 @@
                             <constraint firstItem="Lw5-px-IPJ" firstAttribute="leading" secondItem="00H-Wv-vpI" secondAttribute="leading" id="1zz-5L-4IH"/>
                             <constraint firstItem="00H-Wv-vpI" firstAttribute="bottom" secondItem="Lw5-px-IPJ" secondAttribute="bottom" id="4oe-jZ-Ttd"/>
                             <constraint firstItem="00H-Wv-vpI" firstAttribute="trailing" secondItem="Lw5-px-IPJ" secondAttribute="trailing" id="5fs-wi-GWA"/>
+                            <constraint firstItem="hBe-xh-3lO" firstAttribute="leading" secondItem="00H-Wv-vpI" secondAttribute="leading" constant="20" id="7fB-Ds-naS"/>
+                            <constraint firstItem="hBe-xh-3lO" firstAttribute="top" secondItem="00H-Wv-vpI" secondAttribute="top" constant="350" id="MEs-3h-w8v"/>
+                            <constraint firstItem="00H-Wv-vpI" firstAttribute="trailing" secondItem="hBe-xh-3lO" secondAttribute="trailing" constant="20" id="Pc9-km-uqe"/>
                             <constraint firstItem="Lw5-px-IPJ" firstAttribute="top" secondItem="00H-Wv-vpI" secondAttribute="top" id="cOl-vO-LEy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="00H-Wv-vpI"/>
                     </view>
                     <navigationItem key="navigationItem" id="tQh-P5-a7F"/>
                     <connections>
+                        <outlet property="noConvLabel" destination="hBe-xh-3lO" id="Oqt-bj-gAS"/>
                         <outlet property="tableView" destination="Lw5-px-IPJ" id="C2R-cd-J01"/>
                         <segue destination="o21-X7-06M" kind="show" identifier="conversationToMessages" id="6lo-aV-DON"/>
                         <segue destination="DpA-Ba-Ufr" kind="show" identifier="chatToSettings" id="Ory-Dh-AbO"/>
