@@ -109,7 +109,7 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     
     func showImagePickerController() { //present the imagepicker controller which allows users to choose what image they want from the gallery
         let imagePicker = UIImagePickerController()
-        imagePicker.modalPresentationStyle = .popover
+//        imagePicker.modalPresentationStyle = .popover
         imagePicker.preferredContentSize = CGSize(width: 320, height: 568)
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = false
