@@ -14,39 +14,41 @@ import FirebaseStorage
 
 class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
-    private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
-    private let baseStorageReference = Storage.storage().reference()                         //reference to storage
-    
-    //passed through settings segue
+    private let baseDatabaseReference = Firestore.firestore()
+    private let baseStorageReference = Storage.storage().reference()
     public var thisUserProfile = Dictionary<String, Any>()
-    
-    private var allBLockedAccounts:[Dictionary<String,Any>] = []    //holds all blocked accounts
+    private var allBLockedAccounts:[Dictionary<String,Any>] = []
     private var userToUnblock = Dictionary<String,Any>()
-
     public var previousVC = Settings()
-    
     @IBOutlet weak var tableView: UITableView!
-    
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        
+        loadBlockedAccounts()
     }
-    
-    
-    //load all this users blocked accounts
-    func loadBlockedAccounts() {
+
+    func loadBlockedAccounts() { //load all this users blocked accounts
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").getDocument { (document, error) in
             if let document = document, document.exists {
-                for (blockedId,millis) in document.data()!{
-                    print("blockedid", blockedId)
-                    self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(blockedId).getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            self.allBLockedAccounts.append(document.data()!)
-                            self.tableView.reloadData()
-                        } else {
-                            print("Document does not exist here!!!!")
+                if let docData = document.data(){
+                    for (blockedId, millis) in docData{
+                        
+                        if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
+                            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(blockedId).getDocument { (document, error) in
+                                if let document = document, document.exists, let blockedAccountData = document.data() {
+                                    self.allBLockedAccounts.append(blockedAccountData)
+                                    self.tableView.reloadData()
+                                    
+                                    let iPath = IndexPath(row: 0, section: 0) //first item selection block, gotta be called each time the "reloadData" is called because that call deselects all items
+                                    self.tableView.selectRow(at: iPath, animated: false, scrollPosition: .none)
+                                    self.tableView.delegate?.tableView?(self.tableView, didSelectRowAt: iPath)
+                                } else {
+                                    print("Document does not exist here!!!!")
+                                }
+                            }
                         }
                     }
                 }
@@ -60,85 +62,65 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     
     
+    
+    
+    
+    
     // MARK: TableView Methods
     
     func configureTableView(){
-        tableView.allowsSelection = false   //doesn't highlight when clicked
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "blockedAccTableViewCell", bundle: nil), forCellReuseIdentifier: "blockedAccTableViewCell")
-        tableView.rowHeight = 120
-        tableView.estimatedRowHeight = 120
-        self.loadBlockedAccounts()
-
-        
+//        tableView.rowHeight = 100
+//        tableView.estimatedRowHeight = 100
+        tableView.separatorStyle = .none
     }
-    
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.allBLockedAccounts.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let selectedCell = self.tableView.cellForRow(at: indexPath) as? blockedAccTableViewCell{
+            userToUnblock = selectedCell.userToUnblock
+        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen
         let cell = tableView.dequeueReusableCell(withIdentifier: "blockedAccTableViewCell", for: indexPath) as! blockedAccTableViewCell
         tableView.bringSubviewToFront(cell)
         tableView.bringSubviewToFront(cell.unblockUserButton)
-        cell.selectionStyle  = .default
-        
         cell.setUp(user: self.allBLockedAccounts[indexPath.item], thisUserProfile: self.thisUserProfile, previousVC: self)
-        
-//        cell.unblockUserButton.addTarget(self, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
-        cell.unblockUserButton.tag = indexPath.row
         cell.unblockUserButton.addTarget(self, action: #selector(didXButtonClick), for: .touchUpInside)
-        
-        
-        
         return cell
     }
     
-    
-    
-    
     @objc func didXButtonClick(sender: AnyObject) {
-        
-        //extract the user they actually clicked on based on the tag from the sender button
-        self.userToUnblock = self.allBLockedAccounts[sender.tag]
-
-        
-        //remove user from all blocked accounts, and remove that cell from the table view, then reload to have right index paths
-        self.allBLockedAccounts.remove(at: sender.tag)
-                self.tableView.deleteRows(at: [
-            NSIndexPath(row: sender.tag, section: 0) as IndexPath], with: .fade)
-        self.tableView.reloadData()
-        
         unblockUser()
-
     }
-    
     
     //remove this user's id from the "blocked_by" list of the blocked user and also remove blocker user's id from this user's "block_list", and update the adapter
     func unblockUser() {
-        
-        
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").updateData([self.userToUnblock["id"] as! String: FieldValue.delete()])
-        
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.userToUnblock["id"] as! String).collection("userlists").document("blocked_by").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()], completion: { (error) in
-            if error != nil {
-            } else {
-                //TODO: remove the cell from the table view
-                //TODO: reload the tableview
-            }
-        })
-        
-        
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisUserId = self.thisUserProfile["id"] as? String, let toUnblockId = self.userToUnblock["id"] as? String{
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisUserId).collection("userlists").document("block_list").updateData([toUnblockId: FieldValue.delete()])
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(toUnblockId).collection("userlists").document("blocked_by").updateData([thisUserId: FieldValue.delete()], completion: { (error) in
+                if error != nil {
+                } else {
+                    for i in 0..<self.allBLockedAccounts.count{
+                        if let id = self.allBLockedAccounts[i]["id"] as? String, id == toUnblockId{
+                            self.allBLockedAccounts.remove(at: i)
+                            self.tableView.reloadData()
+                            if(self.allBLockedAccounts.count > 0){
+                                let iPath = IndexPath(row: 0, section: 0)
+                                self.tableView.selectRow(at: iPath, animated: false, scrollPosition: .none)
+                                self.tableView.delegate?.tableView?(self.tableView, didSelectRowAt: iPath)
+                            }
+                            break
+                        }
+                    }
+                }
+            })
+        }
     }
-    
-    
-    
-    
-    
-    
-    
 }
