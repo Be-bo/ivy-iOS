@@ -23,7 +23,6 @@ class ViewFullProfileActivity: UIViewController{
     var isFriend = Bool()
     var thisUserProfile = Dictionary<String,Any>()                              //otherUserProfile user that wants to view another profile
     var otherUserID:String? = nil                                               //other users ID that thisUserProfile was in conversation with
-    //database references
     let baseDatabaseReference = Firestore.firestore()                           //reference to the database
     let baseStorageReference = Storage.storage().reference()                    //reference to storage
     
@@ -31,7 +30,7 @@ class ViewFullProfileActivity: UIViewController{
     var otherUserProfile = Dictionary<String, Any>()                            //guy your conversating with's profile
     private let cellId = "QuadCard"
     private var cardClicked:Card? = nil
-
+    var keyboardHeight = CGFloat()
     
     private var showingBack = false
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
@@ -54,6 +53,8 @@ class ViewFullProfileActivity: UIViewController{
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         getData()
         setUpContainer()
+        hideKeyboardOnTapOutside()
+        setUpKeyboardListeners()
     }
 
     @objc func showActions(){ //all the possible actions that a user can have on the conversation
@@ -121,6 +122,41 @@ class ViewFullProfileActivity: UIViewController{
         cardContainer.layer.shadowRadius = 5
         cardContainer.layer.cornerRadius = 5
         cardContainer.layer.masksToBounds = false
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Keyboard Functions
+    
+    private func setUpKeyboardListeners(){ //setup listeners for if they click on actions to show the keyboard, and when they click on button, to hide keyboard
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let kbHeight = keyboardRectangle.height
+        self.keyboardHeight = kbHeight
+        UIView.animate(withDuration: 0.5){
+            self.back.sayHiHeightConstraint.constant = self.keyboardHeight
+//            self.sendBtnHeightConstraint.constant = self.keyboardHeight
+            self.back.sayHiMessageTextField.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        UIView.animate(withDuration: 0.5){
+            self.back.sayHiHeightConstraint.constant = 4
+//            self.sendBtnHeightConstraint.constant = 4
+            self.back.sayHiMessageTextField.layoutIfNeeded()
+        }
     }
     
     

@@ -372,6 +372,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         // Upload completed successfully
         uploadTask.observe(.success) { snapshot in
+            self.messageTextField.text = ""
+            
             //update all the data to match accordingly
             self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).collection("messages").document(message["id"] as! String).setData(message)
             self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["last_message": message["message_text"] as! String])

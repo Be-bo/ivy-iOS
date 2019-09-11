@@ -135,6 +135,7 @@
                 <outlet property="interestestCollectionView" destination="GSd-UE-5hs" id="9eJ-h9-BCo"/>
                 <outlet property="name" destination="mb4-UP-fn2" id="Fe9-5f-vYj"/>
                 <outlet property="sayHiButton" destination="dY9-um-ywm" id="EF2-b0-DP9"/>
+                <outlet property="sayHiHeightConstraint" destination="bB3-dS-tiB" id="g4t-ec-tgP"/>
                 <outlet property="sayHiMessageTextField" destination="1tc-6r-2Tt" id="IPe-Cn-iXP"/>
             </connections>
             <point key="canvasLocation" x="192.75362318840581" y="156.69642857142856"/>
