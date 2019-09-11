@@ -47,6 +47,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     var searchLauncher = SearchLauncher()
     var searchVisible = false
     var timer = Timer()
+    var userListsRegistration: ListenerRegistration? = nil
     
     
     
@@ -145,6 +146,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("VIEW DIDLOAD")
         setUpNavigationBar()
         setUp()
     }
@@ -202,6 +204,13 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         self.eventClicked = self.featuredEventClicked   //use currentley clicked index to get conversation id
         self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
     }
+    
+//    override func viewDidDisappear(_ animated: Bool) {
+//        print("EXPLORE DISAPPEARED")
+//        if userListsRegistration != nil{
+//            userListsRegistration?.remove()
+//        }
+//    }
     
     
     
@@ -300,15 +309,19 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
-        if collectionView.tag == self.eventsCollectionView.tag {
-            self.eventClicked = self.allEvents[indexPath.item]   //use currentley clicked index to get conversation id
-            self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
-        }else{
-            self.suggestedProfileClicked = self.allSuggestedFriends[indexPath.item]   //use currentley clicked index to get conversation id
-            self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
+        if self.allSuggestedFriends.count > 0 {
+            if collectionView.tag == self.eventsCollectionView.tag {
+                self.eventClicked = self.allEvents[indexPath.item]   //use currentley clicked index to get conversation id
+                self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
+            }else{
+                self.suggestedProfileClicked = self.allSuggestedFriends[indexPath.item]   //use currentley clicked index to get conversation id
+                self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
+            }
         }
-        
     }
+    
+    
+    
     
     
     
@@ -323,7 +336,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
             self.loadFeaturedEvent()
             self.loadEvents()
-            self.getSuggestedFriends()
+            self.startListeningToUserLists()
             self.data_loaded = true
         }
     }
@@ -391,61 +404,55 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     
-    //welcome to callback hell. (,,)(-.-)(,,)
-    //load all the suggested friends for this particular user so we can then populate the collection view.
-    func getSuggestedFriends() {
-        
-        //getting all the users that this user's already added as friends, requested friendship or are on their block list (or were blocked by the other person), note that any and all of these lists might be empty so we keep grabbing the next one in succession regardless of whether we obtain the current list or not
-
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
-            if let document = document, document.exists {
-                self.requests = document.data()!
-            } else {
-                print("Document does not exist")
-            }
-            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
-                if let document = document, document.exists {
-                    self.friends = document.data()!
-                } else {
-                    print("Document does not exist")
-                }
-                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        self.blockList = document.data()!
-                    } else {
-                        print("Document does not exist")
-                    }
-                    self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("blocked_by").getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            self.blockedBy = document.data()!
-
-                        } else {
-                            print("Document does not exist")
+    func startListeningToUserLists(){
+        if let uniDomain = thisUserProfile["uni_domain"] as? String, let thisId = thisUserProfile["id"] as? String{
+            userListsRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).collection("userlists").addSnapshotListener { (querSnap, err) in
+                if err != nil {
+                    print("Error loading user's lists in Explore: ", err)
+                }else{
+                    print("userlists changes registered")
+                    querSnap?.documentChanges.forEach({ (docChan) in
+                        switch(docChan.document.documentID){
+                        case "requests": self.requests = docChan.document.data()
+                            break
+                        case "block_list": self.blockList = docChan.document.data()
+                            break
+                        case "blocked_by": self.blockedBy = docChan.document.data()
+                            break
+                        case "friends": self.friends = docChan.document.data()
+                            break
+                        default:
+                            break
                         }
-                        
-                        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").getDocuments() { (querySnapshot, err) in
-                            if let err = err {
-                                print("Error getting documents: \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    if (!document.data().isEmpty){
-                                        var profileToAdd = document.data()
-                                        if (self.thisUserProfile["id"] as! String != profileToAdd["id"] as! String && !self.blockedBy.contains(where: { $0.key == profileToAdd["id"] as! String}) && !self.blockList.contains(where: { $0.key == profileToAdd["id"] as! String}) && !self.friends.contains(where: { $0.key == profileToAdd["id"] as! String}) && !self.requests.contains(where: { $0.key == profileToAdd["id"] as! String}) ){
-                                            let bool = profileToAdd["profile_hidden"] as! Bool
-                                            if !(bool == true){
-                                                self.allSuggestedFriends.insert(document.data(), at: 0)
-                                                self.recommendedFriendCollecView.reloadData()
-                                            }
-                                        }
-                                    }
+                    })
+                    self.getSuggestedFriends()
+                }
+            }
+        }
+    }
+    
+    
+    func getSuggestedFriends() { //load all the suggested friends for this particular user so we can then populate the collection view.
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                self.allSuggestedFriends = [Dictionary<String, Any>]()
+                if let querSnapDocs = querySnapshot?.documents{
+                    for document in querSnapDocs {
+                        if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
+                            if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
+                                if (thisUserId != toAddId && !self.blockedBy.contains(where: { $0.key == toAddId}) && !self.blockList.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
+                                    self.allSuggestedFriends.insert(docData, at: 0)
                                 }
                             }
                         }
                     }
                 }
+                self.recommendedFriendCollecView.reloadData()
             }
         }
-    }   //end of function
+    }
 }
 
 protocol SearchCellDelegator { //a delgator that allows SearchCell.swift trigger segues in this view controller through the SearchLauncher (when they click on the given search result they'll be taken to the appropriate view controller)

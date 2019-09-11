@@ -25,6 +25,7 @@ class ViewFullProfileActivity: UIViewController{
     var otherUserID:String? = nil                                               //other users ID that thisUserProfile was in conversation with
     let baseDatabaseReference = Firestore.firestore()                           //reference to the database
     let baseStorageReference = Storage.storage().reference()                    //reference to storage
+    var thisUsersBlockList = Dictionary<String, Any>()
     
     var conversationID = ""                                                     //id of THIS otherUserProfile conversation
     var otherUserProfile = Dictionary<String, Any>()                            //guy your conversating with's profile
@@ -61,16 +62,20 @@ class ViewFullProfileActivity: UIViewController{
         let actionSheet = UIAlertController(title: "User Actions", message: .none, preferredStyle: .actionSheet)
         actionSheet.view.tintColor = UIColor.ivyGreen
         
-        //if there friends add these options to option sheet
+        //if they're friends add these options to option sheet
         if (isFriend){
             actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
             actionSheet.addAction(UIAlertAction(title: "Message", style: .default, handler: self.messageUser))
             actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: self.unfriendUser))
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
-        }else{  //not friends so these are only options
+        }else{  //not friends so these are the options
             actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
-            actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.blockUser))
+            if let otherUser = self.otherUserID, thisUsersBlockList[otherUser] != nil{
+                actionSheet.addAction(UIAlertAction(title: "Unblock", style: .default, handler: self.unblockUser))
+            }else{
+                actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.buildBlockDialog))
+            }
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
         }
@@ -173,26 +178,47 @@ class ViewFullProfileActivity: UIViewController{
     
     // MARK: Individual Action Methods
     
-    func blockUser(alert:UIAlertAction!){ //when the user clicks on block user send it here to actually block them
-        
-        //update this users block list
-        var toMerge = Dictionary<String,Any>()
+    func buildBlockDialog(alert:UIAlertAction!){
+        let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to block this user?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            self.blockUser()
+        }))
+        self.present(alert, animated: true)
+    }
+    
+    func blockUser(){ //when the user clicks on block user send it here to actually block them
+        var toMerge = Dictionary<String,Any>() //update this users block list
         toMerge[String(self.otherUserID!)] = Date().timeIntervalSince1970
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").setData(toMerge, merge: true)
         
-        //updateother persons block list
-        toMerge = Dictionary<String,Any>()
+        toMerge = Dictionary<String,Any>() //update other persons block list
         toMerge[String(self.thisUserProfile["id"] as! String)] = Date().timeIntervalSince1970
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("blocked_by").setData(toMerge, merge: true, completion: { (error) in
             if error != nil {
                 print("error while uplaoding other persons block list")
             }
             //TODO: decide if we need to do this: this_users_block_list.put(other_user_id, System.otherUserProfileTimeMillis()
-            //TODO: prompt the user saying you have blocked the user
-            print("You've blocked this user")
+            PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "The user's been blocked.", context: self)
         })
-        
     }
+    
+    func unblockUser(alert:UIAlertAction!){
+        if let uniDomain = thisUserProfile["uni_domain"] as? String, let thisUserId = thisUserProfile["id"] as? String, let otherUser = otherUserID{
+            baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisUserId).collection("userlists").document("block_list").updateData([otherUser: FieldValue.delete()])
+            baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(otherUser).collection("userlists").document("blocked_by").updateData([thisUserId: FieldValue.delete()]) { (err) in
+                if err != nil{
+                    print("Error removing from blocked by list: ", err)
+                }else{
+                    self.thisUsersBlockList.removeValue(forKey: otherUser)
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "You've unblocked this user.", context: self)
+                }
+            }
+        }
+    }
+    
+    
+    
     
     func reportUser(alert: UIAlertAction!){ //when they click on reporting the USER send them here
         var report = Dictionary<String, Any>()
@@ -207,11 +233,9 @@ class ViewFullProfileActivity: UIViewController{
                 print("Error getting documents: \(err)")
             } else {
                 if(!querySnapshot!.isEmpty){
-                    print("You have already reported this user.")
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You have already reported this user.", context: self)
                 }else{
                     self.baseDatabaseReference.collection("reports").document(reportId).setData(report)
-                    print("This user has been reported.")
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "The user has been reported.", context: self)
                 }
             }
@@ -229,15 +253,15 @@ class ViewFullProfileActivity: UIViewController{
                     self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").updateData([self.otherUserID: FieldValue.delete(),
                     ]) { err in
                         if let err = err {
-                            print("Error updating document: \(err)")
+                            let concat = "Could not unfriend user: " + err.self
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: concat, context: self)
                         } else {
-                            print("Document successfully updated")
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "User successfully unfriended.", context: self)
                         }
                     }
                     
                     //get rid of this users profile id from that other users friend list too so now we both aren't friends anymore :(
-                    self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("friends").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete(),
-                    ]) { err in
+                    self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("friends").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()]) { err in
                         if let err = err {
                             print("Error updating document: \(err)")
                         } else {
@@ -254,9 +278,6 @@ class ViewFullProfileActivity: UIViewController{
                         }
                     }
                 }
-                
-                
-                
             } else {
                 print("document doesnt exist in unfriendUser()")
             }

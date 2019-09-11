@@ -242,13 +242,7 @@ class Settings: UIViewController{
             vc.thisUserProfile = self.thisUserProfile
             vc.previousVC = self
         }
-
-        
-
     }
-    
-    
-    
 }
 
 enum LINE_POSITION {
