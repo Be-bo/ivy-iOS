@@ -19,7 +19,7 @@ class CardBack: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UI
     @IBOutlet weak var sayHiButton: subclassedUIButton!
     @IBOutlet weak var flipButton: UIButton!
     @IBOutlet weak var sayHiHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var sayHiBtnConstraint: NSLayoutConstraint!
+    
     
     var interests = [String]()
     let cellId = "InterestCell"

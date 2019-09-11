@@ -53,8 +53,8 @@ class ViewFullProfileActivity: UIViewController{
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         getData()
         setUpContainer()
-//        hideKeyboardOnTapOutside()
-//        setUpKeyboardListeners()
+        hideKeyboardOnTapOutside()
+        setUpKeyboardListeners()
     }
 
     @objc func showActions(){ //all the possible actions that a user can have on the conversation
@@ -143,20 +143,16 @@ class ViewFullProfileActivity: UIViewController{
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let kbHeight = keyboardRectangle.height
-        print("kbHeight: ",kbHeight)
-        print("keyboardHeight: ",keyboardHeight)
         self.keyboardHeight = kbHeight
         UIView.animate(withDuration: 0.5){
-            self.back.sayHiHeightConstraint.constant = self.keyboardHeight+30
-            self.back.sayHiBtnConstraint.constant = self.keyboardHeight+30
+            self.back.sayHiHeightConstraint.constant = self.keyboardHeight
             self.back.sayHiMessageTextField.layoutIfNeeded()
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
         UIView.animate(withDuration: 0.5){
-            self.back.sayHiHeightConstraint.constant = 35
-            self.back.sayHiBtnConstraint.constant = 30
+            self.back.sayHiHeightConstraint.constant = 40
             self.back.sayHiMessageTextField.layoutIfNeeded()
         }
     }
@@ -456,7 +452,7 @@ class ViewFullProfileActivity: UIViewController{
             requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
             //push message object to db
             self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
-            
+            self.hideKeyboard()
             self.hideRequest()
         }else{
             let alert = UIAlertController(title: "Please send a message longer than 2 characters!", message: .none, preferredStyle: .alert)

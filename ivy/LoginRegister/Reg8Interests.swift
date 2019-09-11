@@ -12,6 +12,7 @@ import UIKit
 class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: Variables and Constants
+    var keyboardHeight: CGFloat = 0
     var password = ""   //carried over
     var interestChosen: String = "" //specific interest that has been chosen, empty at first
     var interestsChosen = [String]()   //hold number of interests they choose
@@ -104,6 +105,8 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     // MARK: IBOutlets and IBActions
     
+    @IBOutlet weak var customInterestLayout: UIView!
+    @IBOutlet weak var customInterestViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     @IBAction func onClickContinue(_ sender: Any) {
         attemptToContinue()
@@ -134,6 +137,7 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
         super.viewDidLoad()
         self.hideKeyboardOnTapOutside()
         configureTableView()
+        setUpKeyboardListeners()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
@@ -156,6 +160,45 @@ class Reg8Interests: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }else {
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Keyboard Functions
+    
+    private func setUpKeyboardListeners(){ //setup listeners for if they click on actions to show the keyboard, and when they click on button, to hide keyboard
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let kbHeight = keyboardRectangle.height
+        self.keyboardHeight = kbHeight
+        UIView.animate(withDuration: 0.5){
+            self.customInterestViewHeight.constant = abs(self.keyboardHeight - self.customInterestLayout.frame.origin.y) + 43
+            self.customInterestLayout.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        UIView.animate(withDuration: 0.5){
+            self.customInterestViewHeight.constant = 43
+            self.customInterestLayout.layoutIfNeeded()
+        }
+    }
+    
+    
     
     
     
