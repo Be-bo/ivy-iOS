@@ -46,6 +46,8 @@
 		A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */; };
 		A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E322B5D2F8008B35AA /* Constants.swift */; };
 		A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E522C04A06008B35AA /* Reg7Bio.swift */; };
+		A9D013192328A91B0049353C /* AddParticipantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */; };
+		A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */; };
 		A9FD1961231497E200ECA848 /* profileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */; };
 		A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */; };
 		A9FD19642314EC6E00ECA848 /* organizationPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD19632314EC6E00ECA848 /* organizationPage.swift */; };
@@ -158,6 +160,8 @@
 		A9BB05E322B5D2F8008B35AA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A9BB05E522C04A06008B35AA /* Reg7Bio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg7Bio.swift; sourceTree = "<group>"; };
 		A9D0131223288D310049353C /* ivy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ivy.entitlements; sourceTree = "<group>"; };
+		A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParticipantTableViewCell.swift; sourceTree = "<group>"; };
+		A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddParticipantTableViewCell.xib; sourceTree = "<group>"; };
 		A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = profileCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9FD19632314EC6E00ECA848 /* organizationPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = organizationPage.swift; sourceTree = "<group>"; };
@@ -341,6 +345,8 @@
 				A976E4E2230B2E7400755774 /* changeGroupNamePopupViewContoller.swift */,
 				A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */,
 				A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */,
+				A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */,
+				A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -551,6 +557,7 @@
 				A9FD1974231B98F900ECA848 /* profileCardFront.xib in Resources */,
 				FA6F7C9622EE713D00610046 /* SettingsButton.xib in Resources */,
 				A920C4E722D281C20088DD58 /* CardFront.xib in Resources */,
+				A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */,
 				FA60591122A4B12E00383F9F /* Assets.xcassets in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
 				A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */,
@@ -674,6 +681,7 @@
 				A9B57E8523138318008DC63B /* Event.swift in Sources */,
 				A9A57D0F23216C8E00867D84 /* chatBubbleCollectionViewCell.swift in Sources */,
 				A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */,
+				A9D013192328A91B0049353C /* AddParticipantTableViewCell.swift in Sources */,
 				A976E4DF2309FBDD00755774 /* viewParticipantsActivity.swift in Sources */,
 				FA0A034A23272AFF00F9FDAC /* ParagraphModel.swift in Sources */,
 				A9FD1961231497E200ECA848 /* profileCollectionViewCell.swift in Sources */,

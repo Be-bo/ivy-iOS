@@ -127,20 +127,25 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
         actionSheet.view.tintColor = UIColor.ivyGreen
         
-        //ADDING ACTIONS TO THE ACTION SHEET
+//        //if the conversation has been muted by atleast one person
+//        if(mutedBy.count > 0){
+//            if(mutedBy.contains(self.thisUserProfile["id"] as! String)){ //if you muted the conversation then add the option to unmute instead.
+//                isMuted = true
+//                actionSheet.addAction(UIAlertAction(title: "Unmute Conversation", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
+//            }else{  //the conversation hasn't been muted by anyone
+//                actionSheet.addAction(UIAlertAction(title: "Mute", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
+//            }
+//        }else{  //the conversation hasn't been muted by anyone
+//            actionSheet.addAction(UIAlertAction(title: "Mute", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
+//        }
+        
+        
         actionSheet.addAction(UIAlertAction(title: "Add Participants", style: .default, handler: self.onClickAddParticipants))
+
         actionSheet.addAction(UIAlertAction(title: "Leave Conversation", style: .default, handler: self.onClickLeaveConversation))  //TODO: implement this!!!
-        //if the conversation has been muted by atleast one person
-        if(mutedBy.count > 0){
-            if(mutedBy.contains(self.thisUserProfile["id"] as! String)){ //if you muted the conversation then add the option to unmute instead.
-                isMuted = true
-                actionSheet.addAction(UIAlertAction(title: "Unmute Conversation", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
-            }else{  //the conversation hasn't been muted by anyone
-                actionSheet.addAction(UIAlertAction(title: "Mute", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
-            }
-        }else{  //the conversation hasn't been muted by anyone
-            actionSheet.addAction(UIAlertAction(title: "Mute", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
-        }
+
+        actionSheet.addAction(UIAlertAction(title: "Report Conversation", style: .default, handler: self.onClickReportConversation))
+
         //if its a base conversation (1-1) then it  will be view member profile, if not then we can view ALL the members part of the conversation
         if(isBaseConv){
             actionSheet.addAction(UIAlertAction(title: "View User's Profile", style: .default, handler: self.onClickViewProfile))
@@ -149,7 +154,11 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             actionSheet.addAction(UIAlertAction(title: "Change Group Name", style: .default, handler: self.onClickChangeGroupName))
         }
         
-        actionSheet.addAction(UIAlertAction(title: "Report Conversation", style: .default, handler: self.onClickReportConversation))
+        
+        //ADDING ACTIONS TO THE ACTION SHEET
+        
+
+        
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true, completion: nil)
@@ -245,11 +254,10 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 print("Error getting documents: \(err)")
             } else {
                 if(!querySnapshot!.isEmpty){
-                    print("You have already reported this conversation.")
+
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You have already reported this conversation.", context: self)
                 }else{
                     self.baseDatabaseReference.collection("reports").document(reportId).setData(report)
-                    print("This conversation has been reported.")
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "You've successfully reported the conversation", context: self)
                 }
             }

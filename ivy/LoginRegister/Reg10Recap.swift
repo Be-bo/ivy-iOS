@@ -46,6 +46,9 @@ class Reg10Recap: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("self.registerInfoStruct", self.registerInfoStruct)
+        
         let frontImage = UIImage(data: self.imageByteArray! as Data,scale: 1.0)
         back.frame = shadowContainer.bounds
         front.frame = shadowContainer.bounds
@@ -57,10 +60,9 @@ class Reg10Recap: UIViewController {
         let firstAndLast = self.registerInfoStruct.first_name! + " " + self.registerInfoStruct.last_name!
        
         if let tiiime = registerInfoStruct.birth_time{
-            print("tiime", tiiime)
             let age = PublicStaticMethodsAndData.calculateAge(millis: tiiime)
-            print("age: ", age)
             back.age.text = String(age)
+            self.registerInfoStruct.age = age
         }
         
         
