@@ -2541,8 +2541,8 @@
                                     </label>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8v-7X-Wmo">
                                         <rect key="frame" x="0.0" y="60" width="350" height="216"/>
-                                        <date key="date" timeIntervalSinceReferenceDate="583019317.05463195">
-                                            <!--2019-06-23 21:48:37 +0000-->
+                                        <date key="date" timeIntervalSinceReferenceDate="157719600.05463195">
+                                            <!--2005-12-31 11:00:00 +0000-->
                                         </date>
                                         <date key="minimumDate" timeIntervalSinceReferenceDate="-978267600">
                                             <!--1970-01-01 11:00:00 +0000-->

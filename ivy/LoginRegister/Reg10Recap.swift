@@ -55,11 +55,17 @@ class Reg10Recap: UIViewController {
         shadowContainer.addSubview(front)
         
         let firstAndLast = self.registerInfoStruct.first_name! + " " + self.registerInfoStruct.last_name!
+       
         if let tiiime = registerInfoStruct.birth_time{
+            print("tiime", tiiime)
             let age = PublicStaticMethodsAndData.calculateAge(millis: tiiime)
+            print("age: ", age)
             back.age.text = String(age)
         }
-        back.name.text = firstAndLast
+        
+        
+        
+        back.name.text = firstAndLast  + ","
         front.name.text = firstAndLast
         back.degree.text = self.registerInfoStruct.degree!
         back.bio.text = self.registerInfoStruct.bio!
