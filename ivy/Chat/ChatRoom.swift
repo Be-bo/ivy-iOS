@@ -326,7 +326,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     // MARK: Sending Message Functions
     
     func sendFileMessage(){ //send a file over the chat. differentiate b/w image or regular files (pdf's,word docs, etc.)
-        var inputFileName = self.fileNameLabel.text //save file name
         let storageRef = self.baseStorageReference.reference()
         var filePath = ""
         var byteArray:NSData? =  nil
@@ -358,7 +357,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         message["author_id"] = self.thisUserProfile["id"] as! String
         message["conversation_id"] = self.thisConversation["id"] as! String
         message["creation_time"] =  Date().millisecondsSince1970   //millis
-        message["message_text"] =  inputFileName //filepath
+        message["message_text"] =  messageTextField.text
         message["is_text_only"] = false
         message["file_reference"] = filePath
         message["id"] =  NSUUID().uuidString
