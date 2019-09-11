@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
     
@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     override init() {
         super.init()
         FirebaseApp.configure()
+        
+
+        
     }
 
 
@@ -33,6 +36,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().backgroundColor = UIColor.white
         UITabBar.appearance().tintColor = UIColor.ivyGreen
         UITabBar.appearance().unselectedItemTintColor = UIColor.ivyGrey
+        
+        //Register for remote notifications
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+        
+        //Set the messaging delegate
+        Messaging.messaging().delegate = self
+
 
         return true
     }

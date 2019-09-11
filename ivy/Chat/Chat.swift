@@ -34,6 +34,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var noConvLabel: MediumGreenLabel!
     
     
     
@@ -43,6 +44,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //hide the tableview and show the label at first
+        self.tableView.isHidden = true
+        self.noConvLabel.isHidden = false
         self.configureTableView()
 
         self.userAuthFirstName = thisUserProfile["first_name"] as! String
@@ -127,6 +131,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         print("active chats added: ", self.activeChats)
 
 //                        self.configureTableView()
+                        self.checkIfShowtableView()
                         self.tableView.reloadData() //reload rows and section in table view
                     }
                     
@@ -150,6 +155,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                             self.tableView.reloadData() //reload rows and section in table view
                         } else {    //any other type of update, so just update the current conv in its current position
                             self.activeChats[posModified] = modifiedData
+                            self.checkIfShowtableView()
                             self.tableView.reloadData()
                         }
                         print("active chats modified: ", self.activeChats)
@@ -165,15 +171,27 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         let modifiedData = diff.document.data()
                         let modifiedID = modifiedData["id"]
                         let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
-                        
-                        print("pod modified:", posModified)
                         self.activeChats.remove(at: posModified)
-                        print("active chats removed: ", self.activeChats)
-
+                        
+                        self.checkIfShowtableView()
                         self.tableView.reloadData() //reload rows and section in table view
                     }
                 }
             }
+        }
+        
+        self.checkIfShowtableView()
+    }
+    
+    //check to see whether we should show the tableview or not
+    func checkIfShowtableView() {
+        //if there is atelast one chat, show the tableview and hide the label for no convo
+        if(self.activeChats.count >= 1){
+            self.noConvLabel.isHidden = true
+            self.tableView.isHidden = false
+        }else{
+            self.noConvLabel.isHidden = false
+            self.tableView.isHidden = true
         }
     }
     
@@ -206,6 +224,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return self.activeChats.count
     }
     

@@ -157,6 +157,7 @@
 		A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
 		A9BB05E322B5D2F8008B35AA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A9BB05E522C04A06008B35AA /* Reg7Bio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg7Bio.swift; sourceTree = "<group>"; };
+		A9D0131223288D310049353C /* ivy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ivy.entitlements; sourceTree = "<group>"; };
 		A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = profileCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9FD19632314EC6E00ECA848 /* organizationPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = organizationPage.swift; sourceTree = "<group>"; };
@@ -425,6 +426,7 @@
 		FA60590822A4B12C00383F9F /* ivy */ = {
 			isa = PBXGroup;
 			children = (
+				A9D0131223288D310049353C /* ivy.entitlements */,
 				A9FD1984231ED3B300ECA848 /* Settings */,
 				FA121C2222EE44FC00C175F7 /* Board */,
 				FA121C2122EE44F300C175F7 /* Profile */,
@@ -505,6 +507,11 @@
 				TargetAttributes = {
 					FA60590522A4B12C00383F9F = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -835,6 +842,7 @@
 			baseConfigurationReference = 7BCF3E5BF603A0F3A703E3A0 /* Pods-ivy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ivy/ivy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 87U2W3H4TZ;
 				INFOPLIST_FILE = ivy/Info.plist;
@@ -854,6 +862,7 @@
 			baseConfigurationReference = CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ivy/ivy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 87U2W3H4TZ;
 				INFOPLIST_FILE = ivy/Info.plist;
