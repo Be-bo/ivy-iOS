@@ -295,7 +295,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             self.file_attached = true
             
             //Add the image name to the chat so they know what they just attached
-            self.fileNameLabel.text = image.accessibilityIdentifier!
+            self.fileNameLabel.text = image.accessibilityIdentifier ?? "newImage.png"
+            
             self.fileNameLabel.isHidden = false
             
             //present the x that removes the image & name if clicked on
@@ -343,6 +344,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         //if image not nill then user self.image, else use file since that must be ethe picked one
         if ( self.imagePicked != nil ){
             metadata.contentType = "image/png" // Create the file metadata TODO: decide if this should be nil and find out how to let firestore decide what content type it should be
+            self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "newImage.png"
             filePath = "conversationfiles/" + String(self.thisConversation["id"] as! String) + "/" + self.imagePicked!.accessibilityIdentifier!  //path of where the files shared for this particular conversation saved at
             byteArray = (self.imagePicked!.jpegData(compressionQuality: 1.0)!) as NSData  //convert to jpeg
             self.fileNameLabel.text = nil //reset variables

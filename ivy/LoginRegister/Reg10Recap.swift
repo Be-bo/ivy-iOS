@@ -47,7 +47,6 @@ class Reg10Recap: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("self.registerInfoStruct", self.registerInfoStruct)
         
         let frontImage = UIImage(data: self.imageByteArray! as Data,scale: 1.0)
         back.frame = shadowContainer.bounds

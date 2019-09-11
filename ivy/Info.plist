@@ -16,20 +16,40 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.373614401593-bn2mjps2d90ckfp9is8nssgt6tpcaj71</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>&quot;We need your permission to take pictures.&quot;</string>
+	<string>"We need your permission to take pictures."</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Our application needs permission to download files or images!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>&quot;We need your permission to save files into the phone.&quot;</string>
+	<string>"We need your permission to save files into the phone."</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>cordia.ttf</string>
 		<string>cordiabold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
@@ -52,7 +72,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Our application needs permission to download files or images!</string>
 </dict>
 </plist>
