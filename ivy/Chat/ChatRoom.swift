@@ -373,6 +373,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         // Upload completed successfully
         uploadTask.observe(.success) { snapshot in
             self.messageTextField.text = ""
+            self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
+
             
             //update all the data to match accordingly
             self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).collection("messages").document(message["id"] as! String).setData(message)
@@ -451,6 +453,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["last_message_counts": lastMsgCounts])
                     }
                 }
+                self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
+
                 //TODO: decide if need to compensatefor listener bug here (Check android for code)
             }
         }
@@ -502,11 +506,13 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
 //                    self.messageCollectionView.reloadData()
                     // Update Table Data
 //                    self.messageCollectionView.beginUpdates()
+                    self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
+
                     self.messageCollectionView.insertItems(at: [
                         NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath])
 //                    self.messageCollectionView.endUpdates()
                     self.messageCollectionView.scrollToLast()
-                    self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
+//                    self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                 }
             }
         }
@@ -668,14 +674,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         return status
     }
     
-//    func createFile(fileName:String) {
-//        let fileName = fileName
-//        let documentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-//        let fileURL = documentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
-//        print("File PAth: \(fileURL.path)")
-//    }
-    
-    
+
 
     
     

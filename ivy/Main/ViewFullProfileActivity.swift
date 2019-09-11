@@ -53,8 +53,8 @@ class ViewFullProfileActivity: UIViewController{
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         getData()
         setUpContainer()
-        hideKeyboardOnTapOutside()
-        setUpKeyboardListeners()
+//        hideKeyboardOnTapOutside()
+//        setUpKeyboardListeners()
     }
 
     @objc func showActions(){ //all the possible actions that a user can have on the conversation
