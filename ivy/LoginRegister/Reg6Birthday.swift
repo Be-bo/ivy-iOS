@@ -56,8 +56,9 @@ class Reg6Birthday: UIViewController {
     
     func attemptToContinue() {
         self.selectedDate = self.dateFormatter.string(from: dataPicker.date) //extract date in right format
-        let seconds = dataPicker.date.timeIntervalSince1970
-        millis = Int64(seconds) * 1000
+        print("selected date: ", self.selectedDate)
+        self.millis = Int64(dataPicker.date.timeIntervalSince1970)
+        print("self.millis: ", self.millis)
         if (selectedDate != ""){
             self.performSegue(withIdentifier: "reg6ToReg7Segue", sender: self) //pass data over to
         }else{

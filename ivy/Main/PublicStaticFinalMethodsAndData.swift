@@ -21,10 +21,10 @@ class PublicStaticMethodsAndData{
     }
     
     static func calculateAge(millis: Int64) -> Int64 {
-        let currentMillis = Int64(NSDate().timeIntervalSince1970 * 1000)
+        let currentMillis = Int64(Date().timeIntervalSince1970)
         print("current millis: ",currentMillis, " born millis: ", millis)
-        let difference = currentMillis - millis
-        let age = difference / 31536000000
+        let difference = Int64(currentMillis - millis)
+        let age = (difference * 1000) / 31536000000
         return age
     }
     
