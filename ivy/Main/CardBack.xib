@@ -16,18 +16,6 @@
             <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Say Hi!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1tc-6r-2Tt">
-                    <rect key="frame" x="16" y="562" width="330" height="30"/>
-                    <accessibility key="accessibilityConfiguration">
-                        <accessibilityTraits key="traits" allowsDirectInteraction="YES"/>
-                    </accessibility>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="bB3-dS-tiB"/>
-                    </constraints>
-                    <nil key="textColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IE2-9j-Et5" customClass="OpacityButton" customModule="ivy" customModuleProvider="target">
                     <rect key="frame" x="327" y="8" width="53" height="53"/>
                     <constraints>
@@ -91,6 +79,18 @@
                     </constraints>
                     <state key="normal" image="send_message"/>
                 </button>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Say Hi!" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1tc-6r-2Tt">
+                    <rect key="frame" x="16" y="562" width="330" height="30"/>
+                    <accessibility key="accessibilityConfiguration">
+                        <accessibilityTraits key="traits" allowsDirectInteraction="YES"/>
+                    </accessibility>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="bB3-dS-tiB"/>
+                    </constraints>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -134,6 +134,7 @@
                 <outlet property="flipButton" destination="IE2-9j-Et5" id="pul-DI-gd1"/>
                 <outlet property="interestestCollectionView" destination="GSd-UE-5hs" id="9eJ-h9-BCo"/>
                 <outlet property="name" destination="mb4-UP-fn2" id="Fe9-5f-vYj"/>
+                <outlet property="sayHiBtnConstraint" destination="szB-6l-gbc" id="MRT-Q5-XC9"/>
                 <outlet property="sayHiButton" destination="dY9-um-ywm" id="EF2-b0-DP9"/>
                 <outlet property="sayHiHeightConstraint" destination="bB3-dS-tiB" id="g4t-ec-tgP"/>
                 <outlet property="sayHiMessageTextField" destination="1tc-6r-2Tt" id="IPe-Cn-iXP"/>

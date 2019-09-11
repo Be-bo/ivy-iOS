@@ -30,7 +30,7 @@ class ViewFullProfileActivity: UIViewController{
     var otherUserProfile = Dictionary<String, Any>()                            //guy your conversating with's profile
     private let cellId = "QuadCard"
     private var cardClicked:Card? = nil
-    var keyboardHeight = CGFloat()
+    var keyboardHeight:CGFloat = 0
     
     private var showingBack = false
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
@@ -143,18 +143,20 @@ class ViewFullProfileActivity: UIViewController{
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let kbHeight = keyboardRectangle.height
+        print("kbHeight: ",kbHeight)
+        print("keyboardHeight: ",keyboardHeight)
         self.keyboardHeight = kbHeight
         UIView.animate(withDuration: 0.5){
-            self.back.sayHiHeightConstraint.constant = self.keyboardHeight
-//            self.sendBtnHeightConstraint.constant = self.keyboardHeight
+            self.back.sayHiHeightConstraint.constant = self.keyboardHeight+30
+            self.back.sayHiBtnConstraint.constant = self.keyboardHeight+30
             self.back.sayHiMessageTextField.layoutIfNeeded()
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
         UIView.animate(withDuration: 0.5){
-            self.back.sayHiHeightConstraint.constant = 4
-//            self.sendBtnHeightConstraint.constant = 4
+            self.back.sayHiHeightConstraint.constant = 35
+            self.back.sayHiBtnConstraint.constant = 30
             self.back.sayHiMessageTextField.layoutIfNeeded()
         }
     }
