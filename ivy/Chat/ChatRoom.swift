@@ -529,7 +529,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
+        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
         
         self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are
         
@@ -556,112 +556,64 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                     cell.messageContainer.backgroundColor = UIColor.ivyGreen
                 }else{
                     cell.imageView.isHidden = false
-                    cell.messageContainer.backgroundColor = UIColor.ivyGrey
+                    cell.messageContainer.backgroundColor = UIColor.ivyLightGrey
                     cell.imageView.image  = UIImage(data: data!)
-                    
-                    //if file reference isn't "" then its an image or a file, so show the download
-                    if (self.messages[indexPath.item]["file_reference"] as! String != ""){
-                        cell.downloadIcon.isHidden = false
-                    }else{
-                        cell.downloadIcon.isHidden = true
-                    }
                 }
             }
         }
         
         
-        
+        if let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{ //adjust the cell based on whether the message has a file attached to it or not
+            if(isTxtOnly){
+                cell.fileIconHeight.constant = 0
+                cell.downloadButtonHeight.constant = 0
+                cell.downloadButtonHeight.constant = 0
+            }else{
+                cell.fileIconHeight.constant = 30
+                cell.downloadButtonHeight.constant = 30
+                cell.downloadButtonHeight.constant = 30
+                if let fileRef = self.messages[indexPath.item]["file_reference"] as? String {
+                    let fileName = fileRef.components(separatedBy: "/").last!
+                    cell.fileNameLabel.text = fileName
+                    cell.setUp(msg: self.messages[indexPath.item], rulingVC: self)
+                }else{
+                    //TODO: maybe needed if click still reacts after recycling cells?
+                }
+            }
+        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if let messageText = self.messages[indexPath.item]["message_text"] as? String {
+        if let messageText = self.messages[indexPath.item]["message_text"] as? String, let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{
             let size = CGSize(width: view.frame.width, height: 0)
             let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
             let font = UIFont.systemFont(ofSize: 25)
             let attributes = [NSAttributedString.Key.font: font]
             let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
             if(estimatedFrame.height < 38){ //a check in case the message label is too small in terms of height (the container would get cut off)
-                return CGSize(width: view.frame.width, height: 70)
+                if(isTxtOnly){
+                    return CGSize(width: view.frame.width, height: 70) //alt +/- 30
+                }else{
+                    return CGSize(width: view.frame.width, height: 100) //alt +/- 30
+                }
             }
-            
-            return CGSize(width: view.frame.width, height: estimatedFrame.height + 32 /* + 20*/)
+            if(isTxtOnly){
+               return CGSize(width: view.frame.width, height: estimatedFrame.height + 32 /* + 20*/)
+            }else{
+                return CGSize(width: view.frame.width, height: estimatedFrame.height + 62 /* + 20*/)
+            }
         }
-        
         return CGSize(width: view.frame.width, height: 70)
     }
     
     
     
-    //donwloading the image when clicked on the cell!!
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        var messageClickedOn = self.messages[indexPath.item]
-        var fileReference = messageClickedOn["file_reference"] as! String
-        print("file reference", fileReference)
-        let storageRefPath = self.baseStorageReference.reference().child(fileReference)
-        
-        //if the message has a file reference
-        if (fileReference != ""){
-            
-            //determine if its an image
-            if ( fileReference.lowercased().contains("jpg") || fileReference.lowercased().contains("jpeg") || fileReference.lowercased().contains("png") ) {
-                // Fetch the download URL
-                storageRefPath.getData(maxSize: 1 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("error", error)
-                    } else {
-                        var downloadedImage = UIImage(data: data!)
-                        UIImageWriteToSavedPhotosAlbum(downloadedImage!, Any?.self, nil, nil)
-                        //prompt the user with a dialog saying the image has been downloaded to the photos folder
-                        let alert = UIAlertController(title: "Your photo has been saved to the camera roll!", message: .none , preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                        self.present(alert, animated: true)
-                    }
-                }
-            }else{
-                // Fetch the download URL
-                storageRefPath.downloadURL { url, error in
-                    if let error = error {
-                        // Handle any errors
-                    } else {
-                        print("else")
 
-                        // Get the download URL for 'images/stars.jpg'
-                        DispatchQueue.main.async {
-//                            let url = URL(string: urlString)
-                            let pdfData = try? Data.init(contentsOf: url!)
-                            let resourceDocPath = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last! as URL
-                            
-                            let pdfNameFromUrl = fileReference.components(separatedBy: "/").last!.replacingOccurrences(of: " ", with: "")
-
-                            let actualPath = resourceDocPath.appendingPathComponent(pdfNameFromUrl)
-                            do {
-                                try pdfData?.write(to: actualPath, options: .atomic)
-                                let alert = UIAlertController(title: "Your file has been saved to the files folder!", message: .none , preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                                self.present(alert, animated: true)
-
-                            } catch {
-                                print("Pdf could not be saved")
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            
-            
-        }
-
-        
-
-        
-        
-    }
+    
+    
     
     func savePdf(urlString:String, fileName:String) {
         DispatchQueue.main.async {
