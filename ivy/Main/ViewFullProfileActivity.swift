@@ -79,6 +79,7 @@ class ViewFullProfileActivity: UIViewController{
                 actionSheet.addAction(UIAlertAction(title: "Unblock", style: .default, handler: self.unblockUser))
             }else{
                 actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.buildBlockDialog))
+                
             }
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
@@ -216,6 +217,9 @@ class ViewFullProfileActivity: UIViewController{
             }
             //TODO: decide if we need to do this: this_users_block_list.put(other_user_id, System.otherUserProfileTimeMillis()
             PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "The user's been blocked.", context: self)
+            if let otherId = self.otherUserID as? String{
+                self.thisUsersBlockList[otherId] = Date().timeIntervalSince1970
+            }
         })
     }
 
@@ -228,7 +232,9 @@ class ViewFullProfileActivity: UIViewController{
                 }else{
                     self.thisUsersBlockList.removeValue(forKey: otherUser)
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "You've unblocked this user.", context: self)
-
+                    if let otherId = self.otherUserID as? String{
+                        self.thisUsersBlockList.removeValue(forKey: otherId)
+                    }
                 }
             }
         }
