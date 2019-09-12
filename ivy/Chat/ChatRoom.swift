@@ -319,19 +319,28 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         // ---------------------------------------------- FILE CHOOSING ----------------------------------------------
 
         AttachmentHandler.shared.filePickedBlock = { (url) in
-            self.file_attached = true
             
-            //Add the image name to the chat so they know what they just attached
-            self.fileNameLabel.text = url.lastPathComponent
-            self.fileNameLabel.isHidden = false
+            //limit file size to < 5mb
+            if((url.fileSize / 1000) < 5000 ){
+                self.file_attached = true
+                
+                //Add the image name to the chat so they know what they just attached
+                self.fileNameLabel.text = url.lastPathComponent
+                self.fileNameLabel.isHidden = false
+                
+                //present the x that removes the image & name if clicked on
+                self.xButton.isHidden = false
+                
+                //set the image picked to be the one chosen by the user so that we can easily access it later
+                self.filePicked = url   //url of where the path is on the device
+                
+                self.imagePicked = nil //clear image picked incase its not empty
+            }else{
+                PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "Please limit the file size to less than 5MB", context: self)
+            }
             
-            //present the x that removes the image & name if clicked on
-            self.xButton.isHidden = false
             
-            //set the image picked to be the one chosen by the user so that we can easily access it later
-            self.filePicked = url   //url of where the path is on the device
             
-            self.imagePicked = nil //clear image picked incase its not empty
         }
         // ---------------------------------------------- FILE CHOOSING ----------------------------------------------
 

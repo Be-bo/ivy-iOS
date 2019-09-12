@@ -36,6 +36,8 @@ class ViewFullProfileActivity: UIViewController{
     private var showingBack = false
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
     let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
+    
+    private var alsoBlock = false                                               //if friends, then block and unfriend
 
     @IBOutlet weak var cardContainer: UIView!
 
@@ -66,7 +68,9 @@ class ViewFullProfileActivity: UIViewController{
         if (isFriend){
             actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
             actionSheet.addAction(UIAlertAction(title: "Message", style: .default, handler: self.messageUser))
-            actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: self.unfriendUser))
+            actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.buildBlockDialog))
+            
+            actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: self.unfriendUser ))
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
         }else{  //not friends so these are the options
@@ -179,12 +183,24 @@ class ViewFullProfileActivity: UIViewController{
     // MARK: Individual Action Methods
 
     func buildBlockDialog(alert:UIAlertAction!){
+        
+        
         let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to block this user?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-            self.blockUser()
+            if(self.isFriend){
+                self.alsoBlock = true
+                self.unfriendUser(alert: .none)
+            }else{
+                self.blockUser()
+            }
+            
+
         }))
         self.present(alert, animated: true)
+        
+        
+        
     }
 
     func blockUser(){ //when the user clicks on block user send it here to actually block them
@@ -212,6 +228,7 @@ class ViewFullProfileActivity: UIViewController{
                 }else{
                     self.thisUsersBlockList.removeValue(forKey: otherUser)
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "You've unblocked this user.", context: self)
+
                 }
             }
         }
@@ -257,6 +274,9 @@ class ViewFullProfileActivity: UIViewController{
                             PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Error unfriending the user. Try restarting the app.", context: self)
                         } else {
                             PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "User successfully unfriended.", context: self)
+                            if(self.alsoBlock){
+                                self.blockUser()
+                            }
                         }
                     }
 
@@ -338,6 +358,7 @@ class ViewFullProfileActivity: UIViewController{
                     if let document = document, document.exists {
                         self.otherUserProfile = document.data()!
                         if (!self.otherUserProfile.isEmpty){
+                            self.getBlockList()
                             self.bindData()
                         }
 
@@ -347,6 +368,26 @@ class ViewFullProfileActivity: UIViewController{
                 }
             }
         }
+    }
+    
+    //extract my block list so we can check if the other user is in it or not
+    func getBlockList() {
+        
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let userId = self.thisUserProfile["id"] as? String{
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(userId).collection("userlists").document("block_list").getDocument { (document, error) in
+                if let document = document, document.exists {
+                    self.thisUsersBlockList = document.data()!
+                } else {
+                    print("Document does not exist")
+                }
+            }
+
+        }
+        
+        
+        
+        
+        
     }
 
     func bindData(){ //this method attaches the data obtained for the given user profile to the UI
