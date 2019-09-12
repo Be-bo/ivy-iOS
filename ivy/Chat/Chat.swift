@@ -25,6 +25,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     var conversationID = ""
     var userAuthFirstName = ""  //first name of the authenticated user
     var userProfilePic = ""
+    var setMessageNotif:Bool = false                                //whether to display message notification dot or not
     private var thisUserProfile = Dictionary<String, Any>()
     private var requestCount = Dictionary<String, Any>()
     
@@ -261,8 +262,12 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     let actualMsgCount = currentConversation["message_count"] as! CLong
                     if(actualMsgCount >= 0 && thisUsersLastCount < actualMsgCount){
                         cell.lastMessage?.font = UIFont(name:"Cordia New Bold", size: 25.0)
+//                        self.setMessageNotif = true                              //if bold, set the message notification
+                        self.tabBarController?.tabBar.items![0].image = UIImage(named: "chat_notification")
                     }else{
                         cell.lastMessage?.font = UIFont(name:"Cordia New", size: 25.0)
+//                        self.setMessageNotif = false                             //if not bold,remove the essage ntofication
+                        self.tabBarController?.tabBar.items![0].image = UIImage(named: "chat")
                     }
                 }
             }
