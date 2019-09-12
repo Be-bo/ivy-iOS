@@ -77,9 +77,9 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         self.setUpGoingList()
                         self.registerButton.addTarget(self, action: #selector(self.registerButtonClicked), for: .touchUpInside)//on click fro register button
                         if let goingIdList = self.event["going_ids"] as? [String], let thisUserId = self.userProfile["id"] as? String, !goingIdList.contains(thisUserId){
-                            self.setThisUserGoing()
-                        }else{
                             self.setThisUserNotGoing()
+                        }else{
+                            self.setThisUserGoing()
                         }
                     }
                 }
