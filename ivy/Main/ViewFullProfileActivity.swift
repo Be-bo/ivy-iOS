@@ -253,8 +253,8 @@ class ViewFullProfileActivity: UIViewController{
                     self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").updateData([self.otherUserID: FieldValue.delete(),
                     ]) { err in
                         if let err = err {
-                            let concat = "Could not unfriend user: " + err.self
-                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: concat, context: self)
+                            print("Couldn't unfriend user: ", err)
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Error unfriending the user. Try restarting the app.", context: self)
                         } else {
                             PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "User successfully unfriended.", context: self)
                         }

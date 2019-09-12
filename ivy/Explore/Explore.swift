@@ -35,6 +35,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     private var data_loaded = false
     
+    @IBOutlet weak var featuredHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var featuredEventImage: UIImageView!
     @IBOutlet weak var eventsCollectionView: UICollectionView!
     @IBOutlet weak var recommendedFriendCollecView: UICollectionView!
@@ -146,7 +147,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("VIEW DIDLOAD")
         setUpNavigationBar()
         setUp()
     }
@@ -334,14 +334,17 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     func startLoadingData(){
         if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
-            self.loadFeaturedEvent()
+            self.setFeaturedEvent()
             self.loadEvents()
             self.startListeningToUserLists()
             self.data_loaded = true
         }
     }
     
-    func loadFeaturedEvent() {
+    func setFeaturedEvent() {
+        let featuredImgWidth = CGFloat(featuredEventImage.frame.width)
+        featuredHeightConstraint.constant = featuredImgWidth
+        
         //extract the university this person is a part of
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).getDocument { (document, error) in
             if let document = document, document.exists {
