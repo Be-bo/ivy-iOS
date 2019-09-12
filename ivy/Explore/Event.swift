@@ -30,6 +30,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     private var whosGoingProfileClickedID = ""                                   //holds the other profile id that was clicked from the suggested friends collection
 
     
+    @IBOutlet weak var eventImageHeightConstr: NSLayoutConstraint!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var whosGoingCollection: UICollectionView!
     @IBOutlet weak var eventLogo: UIImageView!
@@ -90,6 +91,8 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         whosGoingCollection.dataSource = self
         whosGoingCollection.register(UINib(nibName: "profileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "profileCollectionViewCell")
         self.goingCheckButton.imageView?.contentMode = .scaleAspectFit
+        let imgWidth = eventImage.frame.width
+        eventImageHeightConstr.constant = imgWidth
     }
     
     private func setUpNavigationBar(eventName: String){
