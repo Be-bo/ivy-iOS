@@ -58,12 +58,20 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             self.bindData()
             self.setUpGoingList()
             self.registerButton.addTarget(self, action: #selector(registerButtonClicked), for: .touchUpInside)//on click fro register button
-            let goingIds = self.event["going_ids"] as! [String]
-            if (!goingIds.isEmpty && goingIds.contains(self.userProfile["id"] as! String)){
+            
+//            let goingIds = self.event["going_ids"] as! [String]
+            
+            if let goingIdList = self.event["going_ids"] as? [String], let thisUserId = self.userProfile["id"] as? String, !goingIdList.contains(thisUserId){
                 self.setThisUserGoing()
             }else{
                 self.setThisUserNotGoing()
             }
+            
+//            if (!goingIds.isEmpty && goingIds.contains(self.userProfile["id"] as! String)){
+//                self.setThisUserGoing()
+//            }else{
+//                self.setThisUserNotGoing()
+//            }
         }
     }
     
@@ -99,65 +107,83 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             setUpNavigationBar(eventName: "Event")
         }
         
-        self.baseStorageReference.child(self.event["image"] as! String).getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("error", error)
-            } else {
-                self.eventImage.image  = UIImage(data: data!)
+        
+        if let eventImage = self.event["image"] as? String{
+            self.baseStorageReference.child(eventImage).getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    print("error", error)
+                } else {
+                    self.eventImage.image  = UIImage(data: data!)
+                }
+            }
+        }
+
+        if let eventLogo = self.event["logo"] as? String {
+            self.baseStorageReference.child(eventLogo).getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    print("error", error)
+                } else {
+                    self.eventLogo.image  = UIImage(data: data!)
+                    //add on cick lsiteener
+                    let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickLogo))
+                    self.eventLogo.isUserInteractionEnabled = true
+                    self.eventLogo.addGestureRecognizer(singleTap)
+                }
             }
         }
         
-        self.baseStorageReference.child(self.event["logo"] as! String).getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("error", error)
-            } else {
-                self.eventLogo.image  = UIImage(data: data!)
-                //add on cick lsiteener
-                let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickLogo))
-                self.eventLogo.isUserInteractionEnabled = true
-                self.eventLogo.addGestureRecognizer(singleTap)
-            }
-        }
         
         self.eventDescription.text = self.event["description"] as? String
         self.eventInfo.text = compileInfoRow()
         var keyWCombined = ""
-        let keyWList = self.event["keywords"] as! [String]
-        if (!keyWList.isEmpty){
-            for keyword in keyWList{
-                keyWCombined = keyWCombined + "#" + keyword + " "
+        
+        
+        
+        if let keyWList = self.event["keywords"] as? [String]{
+            if (!keyWList.isEmpty){
+                for keyword in keyWList{
+                    keyWCombined = keyWCombined + "#" + keyword + " "
+                }
             }
+            keywords.text = keyWCombined
         }
-        keywords.text = keyWCombined
+        
+        
+
     }
 
     func setUpGoingList() { //populate the collection view with the people that are going to this current event
-        self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("userprofiles").document(self.userProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
-            if let document = document, document.exists {
-                var friends = document.data()
-                var goingIds = self.event["going_ids"] as! [String]
-                //if  my friends are going to this event, then add them to the list
-                if (!goingIds.isEmpty && goingIds.count > 0){
-                    for (friendId, conversationId) in friends!{
-                        if goingIds.contains(friendId){    //friends[0] is his id: and friend[1] is the conversation id
-                            self.goingFriends.append(friendId)
+        
+        if let uniDomain = self.userProfile["uni_domain"] as? String {
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(self.userProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
+                if let document = document, document.exists {
+                    var friends = document.data()
+                    var goingIds = self.event["going_ids"] as! [String]
+                    //if  my friends are going to this event, then add them to the list
+                    if (!goingIds.isEmpty && goingIds.count > 0){
+                        for (friendId, conversationId) in friends!{
+                            if goingIds.contains(friendId){    //friends[0] is his id: and friend[1] is the conversation id
+                                self.goingFriends.append(friendId)
+                            }
                         }
                     }
+                } else {
+                    print("Document does not exist")
                 }
-            } else {
-                print("Document does not exist")
-            }
-            
-            if (self.goingFriends.count > 0) {
-                self.whosGoingCollection.reloadData() //notify the collectionview that we have items to display
                 
-                self.whosGoingLabel.isHidden = false
-                self.collectionViewHeightConstraint.constant = 150 //set the standard height to the collectionview
-            }else{
-                self.whosGoingLabel.isHidden = true
-                self.collectionViewHeightConstraint.constant = 0 //collapse the collectionview
+                if (self.goingFriends.count > 0) {
+                    self.whosGoingCollection.reloadData() //notify the collectionview that we have items to display
+                    
+                    self.whosGoingLabel.isHidden = false
+                    self.collectionViewHeightConstraint.constant = 150 //set the standard height to the collectionview
+                }else{
+                    self.whosGoingLabel.isHidden = true
+                    self.collectionViewHeightConstraint.constant = 0 //collapse the collectionview
+                }
             }
         }
+        
+
     }
     
     
@@ -192,16 +218,24 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     @objc func imGoingButtonClicked(_ sender: UIButton) { //on click of the im going button clicked
 //        self.goingFriends.append(self.userProfile["id"] as! String)
-        self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayUnion([self.userProfile["id"]])])
-        self.setThisUserGoing()
+        
+        if let uniDomain = self.userProfile["uni_domain"] as? String {
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayUnion([self.userProfile["id"]])])
+            self.setThisUserGoing()
+        }
+        
+
 
     }
     
     @objc func goingCheckButtonClicked(_ sender: UIButton) { //on click of the im going button clicked
 //        self.goingFriends.(self.userProfile["id"] as! String)
 //        self.goingFriends = self.goingFriends.filter { $0 != self.userProfile["id"] as! String }
-        self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayRemove([self.userProfile["id"]])])
-        self.setThisUserNotGoing()
+        if let uniDomain = self.userProfile["uni_domain"] as? String {
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("events").document(self.event["id"] as! String).updateData(["going_ids":FieldValue.arrayRemove([self.userProfile["id"]])])
+            self.setThisUserNotGoing()
+        }
+
     }
     
     @objc func registerButtonClicked(_ sender: UIButton) {//on click of the im going button clicked
@@ -209,7 +243,13 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             if let url = URL(string: "http://www.google.com") { //open link
                 UIApplication.shared.open(url, options: [:])
             }
-            self.baseDatabaseReference.collection("universities").document(self.userProfile["uni_domain"] as! String).collection("events").document(self.event["id"] as! String).updateData(["clicks":FieldValue.arrayUnion([Date().timeIntervalSince1970])]) //update counter to indicate it was clicked on
+            
+            if let uniDomain = self.userProfile["uni_domain"] as? String {
+                self.baseDatabaseReference.collection("universities").document(uniDomain).collection("events").document(self.event["id"] as! String).updateData(["clicks":FieldValue.arrayUnion([Date().timeIntervalSince1970])]) //update counter to indicate it was clicked on
+            }
+
+            
+
         }
     }
     
