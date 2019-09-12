@@ -83,7 +83,6 @@ class Login: UIViewController, UITextFieldDelegate {
         if let vc = segue.destination as? MainTabController{
             vc.thisUniDomain = thisUni
         }
-
     }
     
     
@@ -182,9 +181,10 @@ class Login: UIViewController, UITextFieldDelegate {
     
     func checkAutoLogin(){ //check if we the necessary local data and if the user has logged in in the past to attempt an auto login
         if(getLocalData() && authInstance.currentUser != nil /* && authInstance.currentUser!.isEmailVerified*/){
+            saveLocalData()
             barInteraction()
             hideElems()
-            // TODO: segue w/ data
+            self.performSegue(withIdentifier: "loginToMain", sender: self)
         }else{
             //errorLabel.text = "Couldn't perform auto-login, please log in manually."
         }
@@ -207,7 +207,8 @@ class Login: UIViewController, UITextFieldDelegate {
     
     func getLocalData() -> Bool{ //get locally saved data
         let defaults = UserDefaults.standard
-        if thisUni == defaults.string(forKey: "thisUni"){
+        if let thisUn = defaults.string(forKey: "thisUni") as? String{
+            self.thisUni = thisUn
             return true
         }else{
             return false
