@@ -138,7 +138,7 @@ class Settings: UIViewController{
     @IBAction func onClickHide(_ sender: Any) {
         
         var isHidden = self.thisUserProfile["profile_hidden"] as! Bool
-        print("is hiddem", isHidden)
+        print("is hidden", isHidden)
         if(!isHidden){
             let alert = UIAlertController(title: "You'll only be visible to your friends (nobody will be able to look you up or see you in Suggested Friends). Proceed?", message: .none, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
