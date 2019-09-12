@@ -295,7 +295,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             self.file_attached = true
             
             //Add the image name to the chat so they know what they just attached
-            self.fileNameLabel.text = image.accessibilityIdentifier ?? "newImage.png"
+            self.fileNameLabel.text = image.accessibilityIdentifier ?? "Photo.png"
             
             self.fileNameLabel.isHidden = false
             
@@ -344,7 +344,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         //if image not nill then user self.image, else use file since that must be ethe picked one
         if ( self.imagePicked != nil ){
             metadata.contentType = "image/png" // Create the file metadata TODO: decide if this should be nil and find out how to let firestore decide what content type it should be
-            self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "newImage.png"
+            self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "Photo.png"
             filePath = "conversationfiles/" + String(self.thisConversation["id"] as! String) + "/" + self.imagePicked!.accessibilityIdentifier!  //path of where the files shared for this particular conversation saved at
             byteArray = (self.imagePicked!.jpegData(compressionQuality: 1.0)!) as NSData  //convert to jpeg
             self.fileNameLabel.text = nil //reset variables
@@ -367,7 +367,15 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         message["author_id"] = self.thisUserProfile["id"] as! String
         message["conversation_id"] = self.thisConversation["id"] as! String
         message["creation_time"] =  Date().millisecondsSince1970   //millis
-        message["message_text"] =  messageTextField.text
+   
+        
+        if let messageText = messageTextField.text, messageText.count < 1{
+            message["message_text"] =  "Sent a file:"
+        }else{
+            message["message_text"] =  messageTextField.text
+        }
+        
+        
         message["is_text_only"] = false
         message["file_reference"] = filePath
         message["id"] =  NSUUID().uuidString

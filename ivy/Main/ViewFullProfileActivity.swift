@@ -19,36 +19,36 @@ import FirebaseFirestore
 class ViewFullProfileActivity: UIViewController{
 
     // MARK: Variables and Constants
-    
+
     var isFriend = Bool()
     var thisUserProfile = Dictionary<String,Any>()                              //otherUserProfile user that wants to view another profile
     var otherUserID:String? = nil                                               //other users ID that thisUserProfile was in conversation with
     let baseDatabaseReference = Firestore.firestore()                           //reference to the database
     let baseStorageReference = Storage.storage().reference()                    //reference to storage
     var thisUsersBlockList = Dictionary<String, Any>()
-    
+
     var conversationID = ""                                                     //id of THIS otherUserProfile conversation
     var otherUserProfile = Dictionary<String, Any>()                            //guy your conversating with's profile
     private let cellId = "QuadCard"
     private var cardClicked:Card? = nil
     var keyboardHeight:CGFloat = 0
-    
+
     private var showingBack = false
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
     let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
-    
+
     @IBOutlet weak var cardContainer: UIView!
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
     // MARK: Base Functions and Setup
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
@@ -61,7 +61,7 @@ class ViewFullProfileActivity: UIViewController{
     @objc func showActions(){ //all the possible actions that a user can have on the conversation
         let actionSheet = UIAlertController(title: "User Actions", message: .none, preferredStyle: .actionSheet)
         actionSheet.view.tintColor = UIColor.ivyGreen
-        
+
         //if they're friends add these options to option sheet
         if (isFriend){
             actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
@@ -80,22 +80,22 @@ class ViewFullProfileActivity: UIViewController{
 
         }
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
+
         self.present(actionSheet, animated: true, completion: nil)
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         if segue.identifier == "conversationToMessages" {
             let vc = segue.destination as! ChatRoom
             vc.conversationID = self.conversationID
             vc.thisUserProfile = self.thisUserProfile
         }
-        
+
         if segue.identifier == "unfriendToMain" {
             let vc = segue.destination as! MainTabController
             vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String
         }
-        
+
         if segue.identifier == "fullProfileToUserGallery" {
             let vc = segue.destination as! UserGallery
             vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String
@@ -103,20 +103,20 @@ class ViewFullProfileActivity: UIViewController{
             vc.previousVC = self
         }
     }
-    
+
     func leaveForMainActivity() {
         self.performSegue(withIdentifier: "unfriendToMain" , sender: self)
     }
-    
+
     @objc func flip() {
         let toView = showingBack ? front : back
         let fromView = showingBack ? back : front
         UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight, completion: nil)
         showingBack = !showingBack
         setUpContainer()
-        
+
     }
-    
+
     func setUpContainer(){
         front.flipButton.isHidden = true
         back.flipButton.isHidden = true
@@ -128,21 +128,21 @@ class ViewFullProfileActivity: UIViewController{
         cardContainer.layer.cornerRadius = 5
         cardContainer.layer.masksToBounds = false
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     // MARK: Keyboard Functions
-    
+
     private func setUpKeyboardListeners(){ //setup listeners for if they click on actions to show the keyboard, and when they click on button, to hide keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     @objc func keyboardWillShow(notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
@@ -154,30 +154,30 @@ class ViewFullProfileActivity: UIViewController{
             self.back.sayHiMessageTextField.layoutIfNeeded()
         }
     }
-    
+
     @objc func keyboardWillHide(notification: Notification) {
         UIView.animate(withDuration: 0.5){
             self.back.sayHiHeightConstraint.constant = 40
             self.back.sayHiMessageTextField.layoutIfNeeded()
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // MARK: Individual Action Methods
-    
+
     func buildBlockDialog(alert:UIAlertAction!){
         let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to block this user?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
@@ -186,12 +186,12 @@ class ViewFullProfileActivity: UIViewController{
         }))
         self.present(alert, animated: true)
     }
-    
+
     func blockUser(){ //when the user clicks on block user send it here to actually block them
         var toMerge = Dictionary<String,Any>() //update this users block list
         toMerge[String(self.otherUserID!)] = Date().timeIntervalSince1970
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").setData(toMerge, merge: true)
-        
+
         toMerge = Dictionary<String,Any>() //update other persons block list
         toMerge[String(self.thisUserProfile["id"] as! String)] = Date().timeIntervalSince1970
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("blocked_by").setData(toMerge, merge: true, completion: { (error) in
@@ -202,7 +202,7 @@ class ViewFullProfileActivity: UIViewController{
             PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "The user's been blocked.", context: self)
         })
     }
-    
+
     func unblockUser(alert:UIAlertAction!){
         if let uniDomain = thisUserProfile["uni_domain"] as? String, let thisUserId = thisUserProfile["id"] as? String, let otherUser = otherUserID{
             baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisUserId).collection("userlists").document("block_list").updateData([otherUser: FieldValue.delete()])
@@ -216,10 +216,10 @@ class ViewFullProfileActivity: UIViewController{
             }
         }
     }
-    
-    
-    
-    
+
+
+
+
     func reportUser(alert: UIAlertAction!){ //when they click on reporting the USER send them here
         var report = Dictionary<String, Any>()
         report["reportee"] = self.thisUserProfile["id"] as! String
@@ -241,14 +241,14 @@ class ViewFullProfileActivity: UIViewController{
             }
         }
     }
-    
+
     func unfriendUser(alert: UIAlertAction!){ //when you want to unfriend a user execute this
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
             if let document = document, document.exists {
                 let friendsList = document.data()!  //extract the friends list from the query
                 if (!friendsList.isEmpty){
                     var conversationID = friendsList[self.otherUserID as! String]
-                    
+
                     //remvove the field value  of the user from the friends field of this user
                     self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").updateData([self.otherUserID: FieldValue.delete(),
                     ]) { err in
@@ -259,7 +259,7 @@ class ViewFullProfileActivity: UIViewController{
                             PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "User successfully unfriended.", context: self)
                         }
                     }
-                    
+
                     //get rid of this users profile id from that other users friend list too so now we both aren't friends anymore :(
                     self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.otherUserID!).collection("userlists").document("friends").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()]) { err in
                         if let err = err {
@@ -268,7 +268,7 @@ class ViewFullProfileActivity: UIViewController{
                             print("Document successfully updated")
                         }
                     }
-                    
+
                     //delete the conversation these guys had going since they are no longer friends and you need to be friends to chat
                     self.baseDatabaseReference.collection("conversations").document(self.conversationID).delete() { err in
                         if let err = err {
@@ -283,26 +283,26 @@ class ViewFullProfileActivity: UIViewController{
             }
         }
     }
-    
+
     func messageUser(alert: UIAlertAction!){ //when they click message user, move over to the messaging user screen where you are actually in the conversation with the user
         self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
     }
-    
+
     func viewGallery(alert:UIAlertAction!){
         self.performSegue(withIdentifier: "fullProfileToUserGallery" , sender: self)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
     // MARK: Data Acquisition Functions
-    
+
     func getData() { //extract the data corresponding to this otherUserProfile conversation and this otherUserProfile user and who he is conversating with
         if (self.otherUserID != nil && !self.thisUserProfile.isEmpty){  //make sure there is a profile and there is another person in convo
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
@@ -347,52 +347,52 @@ class ViewFullProfileActivity: UIViewController{
                 }
             }
         }
-        
+
         if var degree = otherUserProfile["degree"] as? String { //degree icon
             degree = degree.replacingOccurrences(of: " ", with: "")
             degree = degree.lowercased()
             front.degreeIcon.image = UIImage(named: degree)
         }
-        
-        
+
+
         front.name.text = otherUserProfile["first_name"] as? String //text data
         back.name.text = String(otherUserProfile["first_name"] as? String ?? "Name") + " " + String(otherUserProfile["last_name"] as? String ?? "Name")  + ","
         back.degree.text = otherUserProfile["degree"] as? String
         back.age.text = String(otherUserProfile["age"] as! Int)
         back.bio.text = otherUserProfile["bio"] as? String
         back.setUpInterests(interests: otherUserProfile["interests"] as? [String] ?? [String]())
-        
+
         front.frame = cardContainer.bounds
         back.frame = cardContainer.bounds
         cardContainer.addSubview(front)
-        
+
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
         singleTap.numberOfTapsRequired = 1
         cardContainer.addGestureRecognizer(singleTap)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
     // MARK: Request Methods
-    
+
     func hideRequest(){
         self.back.sayHiButton.isHidden = true
         self.back.sayHiMessageTextField.isHidden = true
     }
-    
+
     func setRequest(){ //check if there's already a request coming in from this
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
             if let document = document, document.exists {
                 var requests = document.data()
-                
+
                 if requests![self.otherUserID as! String] != nil { //the person is already on the request list
                     if let thisUserInitiated = requests![self.otherUserID as! String] as? Bool {
                         if(thisUserInitiated){ //check if this user iniated
@@ -415,7 +415,7 @@ class ViewFullProfileActivity: UIViewController{
             }
         }
     }
-    
+
     @objc func sendRequest(){
         //make sure message is longer than 2 digits in length
         if (self.back.sayHiMessageTextField.text!.count > 2){
@@ -431,17 +431,17 @@ class ViewFullProfileActivity: UIViewController{
             msgCounts.append(0)
             msgCounts.append(0)
             let mutedBy = [String]()
-            
+
             //adding to request lists of user, where true is who sent, false is who recieved
             var temp = Dictionary<String, Any>()
             temp[otherUserProfile["id"] as! String] = true
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
-            
+
             temp = Dictionary<String, Any>()//reset
             temp[self.thisUserProfile["id"] as! String] = false
             self.baseDatabaseReference.collection("universities").document(otherUserProfile["uni_domain"] as! String).collection("userprofiles").document(otherUserProfile["id"] as! String).collection("userlists").document("requests").setData(temp, merge: true)
-            
-            
+
+
             //create new conversation object
             var newConversation = Dictionary<String, Any>()
             newConversation["id"] = conversationReference.documentID
@@ -459,7 +459,7 @@ class ViewFullProfileActivity: UIViewController{
             newConversation["muted_by"] = mutedBy
             //push pbject to db
             self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).setData(newConversation)
-            
+
             //create new message object
             var requestMessage = Dictionary<String, Any>()
             requestMessage["message_text"] = self.back.sayHiMessageTextField.text
@@ -480,7 +480,6 @@ class ViewFullProfileActivity: UIViewController{
             alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true)
         }
-    
+
     }
 }
-
