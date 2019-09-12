@@ -198,7 +198,15 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     }
     
     func onClickAddParticipants(alert: UIAlertAction!) { //participant controller segue to allow them to add more people to the chat
-        self.performSegue(withIdentifier: "addParticipantSegue" , sender: self) //pass data over to
+        
+        //if its a request, don't let them add participant's
+        if let isRequest = self.thisConversation["is_request"] as? Bool, isRequest {
+            PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You cannot add any participants to a request conversation. Either accept the request or wait for the other user to accept it.", context: self)
+        }else{
+            self.performSegue(withIdentifier: "addParticipantSegue" , sender: self) //pass data over to
+        }
+        
+   
     }
     
     func onClickViewParticipants(alert: UIAlertAction!){ //when they click "view participants"
