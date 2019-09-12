@@ -52,30 +52,40 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setUp()
-        
-        //make sure the event actually exists
-        if (!self.event.isEmpty){
-            self.bindData()
-            self.setUpGoingList()
-            self.registerButton.addTarget(self, action: #selector(registerButtonClicked), for: .touchUpInside)//on click fro register button
-            
-//            let goingIds = self.event["going_ids"] as! [String]
-            
-            if let goingIdList = self.event["going_ids"] as? [String], let thisUserId = self.userProfile["id"] as? String, !goingIdList.contains(thisUserId){
-                self.setThisUserGoing()
-            }else{
-                self.setThisUserNotGoing()
-            }
-            
-//            if (!goingIds.isEmpty && goingIds.contains(self.userProfile["id"] as! String)){
-//                self.setThisUserGoing()
-//            }else{
-//                self.setThisUserNotGoing()
-//            }
-        }
+        getData()
     }
     
+    
+    
+    
+    
+    
+    // MARK: Data Acquisition Functions
+    
+    func getData(){
+        if let uniDomain = userProfile["uni_domain"] as? String, let eve = event as? Dictionary<String, Any>, let evId = eve["id"] as? String{
+            baseDatabaseReference.collection("universities").document(uniDomain).collection("events").document(evId).getDocument { (docSnap, err) in
+                if err != nil{
+                    print("Error getting event: ", err)
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Sorry we couldn't retrieve your event. Try restarting the app.", context: self)
+                }else{
+                    if let evDat = docSnap?.data(){
+                        self.event = evDat
+                        self.setUp()
+                        
+                        self.bindData()
+                        self.setUpGoingList()
+                        self.registerButton.addTarget(self, action: #selector(self.registerButtonClicked), for: .touchUpInside)//on click fro register button
+                        if let goingIdList = self.event["going_ids"] as? [String], let thisUserId = self.userProfile["id"] as? String, !goingIdList.contains(thisUserId){
+                            self.setThisUserGoing()
+                        }else{
+                            self.setThisUserNotGoing()
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     
     
