@@ -43,9 +43,7 @@ class Settings: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
-        
+//        self.tabBarController?.tabBar.isHidden = true
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         //make sure we actually have the user profile
         if(!self.thisUserProfile.isEmpty){
@@ -57,9 +55,6 @@ class Settings: UIViewController{
 //            aboutView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
 
         }
-        
-        
-        
     }
 
     
