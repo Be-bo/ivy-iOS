@@ -32,6 +32,9 @@ class Gallery: UIViewController {
     //passed through segue from phot adder
     public var galleryUpdated = false                                               //Bool indicating that the gallery was updated or not
     
+    let deleteButton = UIButton(type: .custom)
+
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pageControl: UIPageControl!
     
@@ -90,7 +93,7 @@ class Gallery: UIViewController {
 
 
         
-        let deleteButton = UIButton(type: .custom)
+//        let deleteButton = UIButton(type: .custom)
         deleteButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
         deleteButton.setImage(UIImage(named:"trash"), for: .normal)
         deleteButton.addTarget(self, action: #selector(self.tapDeleteImageButton), for: .touchUpInside)
@@ -134,6 +137,8 @@ class Gallery: UIViewController {
             let alert = UIAlertController(title: "Do you really want to delete this image?.", message: .none, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
+                self.deleteButton.isEnabled = false
+                Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.enableDeleteButton), userInfo: nil, repeats: false)
                 self.didTapDeleteButton()
             }))
             self.present(alert, animated: true)
@@ -142,6 +147,11 @@ class Gallery: UIViewController {
 
     }
     
+
+    @objc func enableDeleteButton() {
+        self.deleteButton.isEnabled = true
+    }
+
     
     //segue over to the page where they can create a new picture
     @objc func didTapAddButton(sender: AnyObject){

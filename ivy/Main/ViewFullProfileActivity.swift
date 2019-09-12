@@ -98,7 +98,14 @@ class ViewFullProfileActivity: UIViewController{
 
         if segue.identifier == "unfriendToMain" {
             let vc = segue.destination as! MainTabController
-            vc.thisUniDomain = self.thisUserProfile["uni_domain"] as! String
+            
+            if let domain = self.thisUserProfile["uni_domain"] as? String, let id = self.thisUserProfile["id"] as? String{
+                vc.thisUniDomain = domain
+                vc.thisUserProfile = self.thisUserProfile
+                vc.thisUserId = id
+            }
+            
+
         }
 
         if segue.identifier == "fullProfileToUserGallery" {
@@ -109,9 +116,16 @@ class ViewFullProfileActivity: UIViewController{
         }
     }
 
-    func leaveForMainActivity() {
-        self.performSegue(withIdentifier: "unfriendToMain" , sender: self)
-    }
+//    func leaveForMainActivity() {
+////        self.navigationController?.popViewController(animated: true)
+////
+////        self.dismiss(animated: true, completion: nil)
+//
+////        self.navigationController?.popViewController(animated: true)
+//
+//
+////        self.performSegue(withIdentifier: "unfriendToMain" , sender: self)
+//    }
 
     @objc func flip() {
         let toView = showingBack ? front : back
@@ -280,6 +294,7 @@ class ViewFullProfileActivity: UIViewController{
                             PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Error unfriending the user. Try restarting the app.", context: self)
                         } else {
                             PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "User successfully unfriended.", context: self)
+                            self.isFriend = false
                             if(self.alsoBlock){
                                 self.blockUser()
                             }
@@ -300,7 +315,7 @@ class ViewFullProfileActivity: UIViewController{
                         if let err = err {
                             print("Error removing document: \(err)")
                         } else {
-                            self.leaveForMainActivity()
+//                            self.leaveForMainActivity()
                         }
                     }
                 }

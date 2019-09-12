@@ -15,8 +15,8 @@ import FirebaseFirestore
 class MainTabController: UITabBarController {
     
     private let baseDatabaseReference = Firestore.firestore()
-    private var thisUserProfile = Dictionary<String, Any>()
-    private let thisUserId = Auth.auth().currentUser!.uid
+    var thisUserProfile = Dictionary<String, Any>()
+    var thisUserId = Auth.auth().currentUser!.uid
     var thisUniDomain = ""
     var listenerRegistration:ListenerRegistration? = nil
     

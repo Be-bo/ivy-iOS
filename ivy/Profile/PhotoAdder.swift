@@ -28,6 +28,7 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     
     public var previousGalleryVC = Gallery()
 
+    let checkButton = UIButton(type: .custom)
     
     @IBOutlet weak var finalImageView: UIImageView!
     
@@ -51,10 +52,11 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
         navigationItem.titleView = titleView
         
         
-        let checkButton = UIButton(type: .custom)
+//        checkButton = UIButton(type: .custom)
         checkButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
         checkButton.setImage(UIImage(named:"check"), for: .normal)
         checkButton.addTarget(self, action: #selector(self.didTapCheckButton), for: .touchUpInside)
+        self.checkButton.isEnabled = true
         
         let checkButtonItem = UIBarButtonItem(customView: checkButton)
         let currWidth = checkButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
@@ -72,17 +74,16 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     //when they click on the green plus checkmark
     @objc func didTapCheckButton() {
         //now I have the image they chose so I can go back to the gallery
-//        self.performSegue(withIdentifier: "photoAdderToGallery" , sender: self) //pass data over to
-        uploadAndUpdate()
-//        self.dismiss(animated: true)
+        let alert = UIAlertController(title: "Add this photo?", message: .none, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            self.checkButton.isEnabled = false
+//            Timer.scheduledTimer(timeInterval: 10, target: self, selector: Selector("enableButton"), userInfo: nil, repeats: false)
+            self.uploadAndUpdate()
+        }))
+        self.present(alert, animated: true)
         
-        //TODO: maybe use something like this to go back tot he gallery
-//        func presentCropViewController() { //pop up the TOCropViewController editor to allow editing of the image thats chosen
-//            var image: UIImage? = self.actualFinalImage.image // Load an image
-//            let cropViewController = CropViewController(image: image!)
-//            cropViewController.delegate = self
-//            present(cropViewController, animated: true, completion: nil)
-//        }
+    
     }
     
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -92,6 +93,10 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
 //        vc.thisUserId = self.thisUserId
 //    }
     
+//    func enableButton() {
+//        self.checkButton.isEnabled = true
+//    }
+//
     
     //upload the image  to the db
     func uploadAndUpdate() {
