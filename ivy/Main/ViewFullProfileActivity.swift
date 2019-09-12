@@ -285,7 +285,19 @@ class ViewFullProfileActivity: UIViewController{
     }
 
     func messageUser(alert: UIAlertAction!){ //when they click message user, move over to the messaging user screen where you are actually in the conversation with the user
-        self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
+        if let uniDomain = thisUserProfile["uni_domain"] as? String, let thisUserId = thisUserProfile["id"] as? String, let otherUser = otherUserID{
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisUserId).collection("userlists").document("friends").getDocument { (docSnap, err) in
+                if err != nil{
+                    print("Error getting friend's list: ", err)
+                }else{
+                    if let data = docSnap?.data(), !data.isEmpty, data[otherUser] != nil{
+                        self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
+                    }else{
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Failure", infoText: "This user's unfriended you. Sorry. :-(", context: self)
+                    }
+                }
+            }
+        }
     }
 
     func viewGallery(alert:UIAlertAction!){

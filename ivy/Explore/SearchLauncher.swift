@@ -267,6 +267,8 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: searchCellId, for: indexPath) as! SearchCell
         cell.delegate = self.mediatorDelegate //to make sure the delegator for triggering segues in Explore from SearchCells works
         cell.setUp(searchResult: all_results[indexPath.item])
+        progressWheel.isHidden = true
+        noResultsLabel.isHidden = true
         return cell
     }
     
