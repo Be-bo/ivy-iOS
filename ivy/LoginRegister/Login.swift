@@ -181,7 +181,7 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     func checkAutoLogin(){ //check if we the necessary local data and if the user has logged in in the past to attempt an auto login
-        if(getLocalData() && authInstance.currentUser != nil && authInstance.currentUser!.isEmailVerified){
+        if(getLocalData() && authInstance.currentUser != nil /* && authInstance.currentUser!.isEmailVerified*/){
             barInteraction()
             hideElems()
             // TODO: segue w/ data
