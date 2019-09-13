@@ -215,7 +215,7 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     
     func showImagePickerController() { //present the imagepicker controller which allows users to choose what image they want from the gallery
         let imagePicker = UIImagePickerController()
-        imagePicker.modalPresentationStyle = .popover
+       // imagePicker.modalPresentationStyle = .popover
         imagePicker.preferredContentSize = CGSize(width: 414, height: 818)
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = false
