@@ -66,6 +66,12 @@ class AttachmentHandler: NSObject{
         currentVC = vc
         let actionSheet = UIAlertController(title: Constants.actionFileTypeHeading, message: Constants.actionFileTypeDescription, preferredStyle: .actionSheet)
         
+        if let popoverController = actionSheet.popoverPresentationController {
+            popoverController.sourceView = currentVC?.view
+            popoverController.sourceRect = CGRect(x: currentVC?.view.bounds.midX ?? 0, y: currentVC?.view.bounds.midY ?? 0, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
         actionSheet.addAction(UIAlertAction(title: Constants.camera, style: .default, handler: { (action) -> Void in
             self.authorisationStatus(attachmentTypeEnum: .camera, vc: self.currentVC!)
         }))

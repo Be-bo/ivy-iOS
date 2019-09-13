@@ -123,8 +123,15 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     @objc func showActions(){ //all the possible actions that a user can have on the conversation.
         if let isBaseConv = self.thisConversation["is_base_conversation"] as? Bool, let mutedBy = self.thisConversation["muted_by"] as? [String]{
             var isMuted = false
+            
             let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
             actionSheet.view.tintColor = UIColor.ivyGreen
+            
+            if let popoverController = actionSheet.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+            }
             
             //        //if the conversation has been muted by atleast one person
             //        if(mutedBy.count > 0){
@@ -615,7 +622,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 print("error", error)
             } else {
                 cell.messageLabel.text = lastMessage
-                if let authorId = self.messages[indexPath.row]["author_id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String, thisUserId != authorId{
+                if let authorId = self.messages[indexPath.row]["author_id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String, thisUserId == authorId{
                     cell.imageView.isHidden = true
                     cell.messageContainer.backgroundColor = UIColor.ivyGreen
                 }else{

@@ -116,6 +116,7 @@ class MainTabController: UITabBarController {
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item == self.tabBar.items?[0]{
+            self.tabBar.items![0].image = UIImage(named: "chat")
             self.updatePendingMessage()
         }
         checkMessageNotification()
