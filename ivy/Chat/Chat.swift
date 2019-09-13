@@ -45,18 +45,19 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //hide the tableview and show the label at first
+        setUp()
+        setUpNavigationBar()
+    }
+    
+    private func setUp(){
         self.tableView.isHidden = true
         self.noConvLabel.isHidden = false
         self.configureTableView()
-
+        
         self.userAuthFirstName = thisUserProfile["first_name"] as! String
         self.userProfilePic = thisUserProfile["profile_picture"] as! String
         self.uid = thisUserProfile["id"] as! String
         self.startListeningToConversations()
-
-        
-        setUpNavigationBar()
     }
     
     private func setUpNavigationBar(){
@@ -262,12 +263,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     let actualMsgCount = currentConversation["message_count"] as! CLong
                     if(actualMsgCount >= 0 && thisUsersLastCount < actualMsgCount){
                         cell.lastMessage?.font = UIFont(name:"Cordia New Bold", size: 25.0)
-//                        self.setMessageNotif = true                              //if bold, set the message notification
-                        self.tabBarController?.tabBar.items![0].image = UIImage(named: "chat_notification")
                     }else{
                         cell.lastMessage?.font = UIFont(name:"Cordia New", size: 25.0)
-//                        self.setMessageNotif = false                             //if not bold,remove the essage ntofication
-                        self.tabBarController?.tabBar.items![0].image = UIImage(named: "chat")
                     }
                 }
             }

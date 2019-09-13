@@ -24,7 +24,6 @@ class MainTabController: UITabBarController {
         super.viewDidLoad()
         startListeningToUserProfile()
         self.selectedIndex = 1          //set selected index to be the explore tab on launch
-        
     }
     
     private func startListeningToUserProfile(){
@@ -46,6 +45,7 @@ class MainTabController: UITabBarController {
                         }
                     }
                     self.updateTabs()
+                    self.checkMessageNotification()
                 }else{
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Your user profile doesn't exist, please contact us.", context: self)
                     exit(0)
@@ -77,7 +77,8 @@ class MainTabController: UITabBarController {
             if let chatNVC = nvc as? ChatNavigationController{
                 if let chat = chatNVC.visibleViewController as? Chat{
                     chat.updateProfile(updatedProfile: thisUserProfile)
-                }            }
+                }
+            }
             if let profileNVC = nvc as? ProfileNavigationViewController{
                 if let profile = profileNVC.visibleViewController as? Profile{
                     profile.updateProfile(updatedProfile: thisUserProfile)
@@ -90,4 +91,33 @@ class MainTabController: UITabBarController {
         listenerRegistration?.remove() //stop listening to changes when the app quits or the user signs outs (i.e. the tab controller stops existing)
     }
     
+    
+    
+    
+    
+    // MARK: Chat Notification Functions
+    
+    private func checkMessageNotification(){
+        if let pendingMessages = thisUserProfile["pending_messages"] as? Bool, pendingMessages{
+            tabBar.items![0].image = UIImage(named: "chat_notification")?.withRenderingMode(.alwaysOriginal)
+        }else{
+            tabBar.items![0].image = UIImage(named: "chat")
+        }
+    }
+    
+    private func updatePendingMessage(){
+        if let uniDomain = thisUserProfile["uni_domain"] as? String, let thisUid = thisUserProfile["id"] as? String {
+            self.tabBar.items![0].image = UIImage(named: "chat")
+            var toMerge = Dictionary<String, Any>()
+            toMerge["pending_messages"] = false
+            baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisUid).setData(toMerge, merge: true)
+        }
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if item == self.tabBar.items?[0]{
+            self.updatePendingMessage()
+        }
+        checkMessageNotification()
+    }
 }

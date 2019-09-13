@@ -349,6 +349,10 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
 
     
     
+    
+    
+    
+    
     // MARK: Sending Message Functions
     
     func sendFileMessage(){ //send a file over the chat. differentiate b/w image or regular files (pdf's,word docs, etc.)
@@ -396,6 +400,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         message["is_text_only"] = false
         message["file_reference"] = filePath
         message["id"] =  NSUUID().uuidString
+        
+        self.updatePendingMessagesForParticipants()
         
         //different upload task based on if its a file or if its an image
         if ( self.imagePicked != nil ){
@@ -474,6 +480,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 message["file_reference"] = ""
                 message["id"] =  NSUUID().uuidString
                 
+                self.updatePendingMessagesForParticipants()
+                
                 baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).collection("messages").document(message["id"] as! String).setData(message)
                 baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
                 baseDatabaseReference.collection("conversations").document(thisConversation["id"] as! String).updateData(["last_message": message["message_text"] as! String])
@@ -494,6 +502,20 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             }
         }
     }
+    
+    private func updatePendingMessagesForParticipants(){
+        if let participants = thisConversation["participants"] as? [String], let thisUserId = thisUserProfile["id"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String{
+            for i in 0..<participants.count{
+                let currentId = participants[i]
+                if(currentId != thisUserId){
+                    var toMerge = Dictionary<String, Any>()
+                    toMerge["pending_messages"] = true
+                    baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(currentId).setData(toMerge, merge: true)
+                }
+            }
+        }
+    }
+    
     
     
     
