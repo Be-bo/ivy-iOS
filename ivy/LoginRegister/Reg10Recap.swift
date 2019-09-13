@@ -300,6 +300,12 @@ class Reg10Recap: UIViewController {
         self.performSegue(withIdentifier: "reg10ToLogin" , sender: self) //pass data over to
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "reg10ToLogin", let vc = segue.destination as? Login{
+            vc.dontAutoLog = true
+        }
+    }
+    
     func barInteraction(){ //disable user interaction and start loading animation (rotating the ivy logo)
         self.view.isUserInteractionEnabled = false
         registerButton.isHidden = true

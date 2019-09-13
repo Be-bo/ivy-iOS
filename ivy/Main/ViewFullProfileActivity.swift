@@ -547,6 +547,13 @@ class ViewFullProfileActivity: UIViewController{
             requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
             //push message object to db
             self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
+            
+            if let thisUni = thisUserProfile["uni_domain"] as? String, let otherId = otherUserID{
+                var toMerge = Dictionary<String, Any>() //show message notification for the other user
+                toMerge["pending_messages"] = true
+                self.baseDatabaseReference.collection("universities").document(thisUni).collection("userprofiles").document(otherId).setData(toMerge, merge: true);
+            }
+            
             self.hideKeyboard()
             self.hideRequest()
         }else{

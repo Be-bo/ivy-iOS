@@ -26,6 +26,7 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Blocked Accounts"
         configureTableView()
         loadBlockedAccounts()
     }

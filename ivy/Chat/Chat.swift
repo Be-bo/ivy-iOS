@@ -25,6 +25,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     var conversationID = ""
     var userAuthFirstName = ""  //first name of the authenticated user
     var userProfilePic = ""
+    var uniDomain = ""
+    var thisUserId = ""
     var setMessageNotif:Bool = false                                //whether to display message notification dot or not
     private var thisUserProfile = Dictionary<String, Any>()
     private var requestCount = Dictionary<String, Any>()
@@ -54,10 +56,14 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.noConvLabel.isHidden = false
         self.configureTableView()
         
-        self.userAuthFirstName = thisUserProfile["first_name"] as! String
-        self.userProfilePic = thisUserProfile["profile_picture"] as! String
-        self.uid = thisUserProfile["id"] as! String
-        self.startListeningToConversations()
+        if let firstName = thisUserProfile["first_name"] as? String, let profPic = thisUserProfile["profile_picture"] as? String, let id = thisUserProfile["id"] as? String, let uni = thisUserProfile["uni_domain"] as? String, let thisId = thisUserProfile["id"] as? String{
+            self.userAuthFirstName = firstName
+            self.userProfilePic = profPic
+            self.uid = id
+            self.uniDomain = uni
+            self.thisUserId = thisId
+            self.startListeningToConversations()
+        }
     }
     
     private func setUpNavigationBar(){
@@ -116,7 +122,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 return
             }
             
-            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").getDocument { (document, error) in
+            self.baseDatabaseReference.collection("universities").document(self.uniDomain).collection("userprofiles").document(self.thisUserId).collection("userlists").document("requests").getDocument { (document, error) in
                 if let document = document, document.exists {
                     self.requestCount = document.data()!
                 } else {
@@ -140,28 +146,25 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     if (diff.type == .modified) { //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
                         print("modified:")
                         let modifiedData = diff.document.data()
-                        let modifiedID = modifiedData["id"]
-                        let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
-                        let originalData = self.activeChats[posModified]
-                        //only if there is a new message, force the message count to be an int
-                        if(modifiedData["message_count"] as! Int  != originalData["message_count"] as! Int ){
-                            var newOrder: [Dictionary<String, Any>] = self.activeChats
-                            //then I wanna replace that entry with the new modifiedData that I recieve upon a new message
-                            for index in stride(from: posModified, to: 0, by: -1) {
-                                newOrder.insert(newOrder.remove(at: (index-1) ), at: (index))
+                        if let modifiedID = modifiedData["id"] as? String, let posModified = self.locateIndexOfConvo(id: modifiedID) as? Int, let originalData = self.activeChats[posModified] as? Dictionary<String, Any>, let modifiedCounts = modifiedData["message_count"] as? Int, let originalCounts = originalData["message_count"] as? Int {
+                            if(modifiedCounts != originalCounts){
+                                var newOrder: [Dictionary<String, Any>] = self.activeChats
+                                //then I wanna replace that entry with the new modifiedData that I recieve upon a new message
+                                for index in stride(from: posModified, to: 0, by: -1) {
+                                    newOrder.insert(newOrder.remove(at: (index-1) ), at: (index))
+                                }
+                                newOrder[0] = modifiedData  //replace the 0th entry of the array
+                                self.activeChats.removeAll()
+                                self.activeChats.append(contentsOf: newOrder)
+                                newOrder.removeAll()
+                                self.tableView.reloadData() //reload rows and section in table view
+                            } else {    //any other type of update, so just update the current conv in its current position
+                                self.activeChats[posModified] = modifiedData
+                                self.checkIfShowtableView()
+                                self.tableView.reloadData()
                             }
-                            newOrder[0] = modifiedData  //replace the 0th entry of the array
-                            self.activeChats.removeAll()
-                            self.activeChats.append(contentsOf: newOrder)
-                            newOrder.removeAll()
-                            self.tableView.reloadData() //reload rows and section in table view
-                        } else {    //any other type of update, so just update the current conv in its current position
-                            self.activeChats[posModified] = modifiedData
-                            self.checkIfShowtableView()
-                            self.tableView.reloadData()
+                            print("active chats modified: ", self.activeChats)
                         }
-                        print("active chats modified: ", self.activeChats)
-
                     }
                     
                     //if a message was removed we enter this
@@ -171,12 +174,13 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         //TODO: remove the actual conversation that was removed from android.
                         //TODO: start here tomorrow find out why its calling modified and removed
                         let modifiedData = diff.document.data()
-                        let modifiedID = modifiedData["id"]
-                        let posModified = self.locateIndexOfConvo(id: modifiedID as! String) //with the conversation ID, I get the index of that conversation in the active chats array
-                        self.activeChats.remove(at: posModified)
-                        
-                        self.checkIfShowtableView()
-                        self.tableView.reloadData() //reload rows and section in table view
+                        if let modifiedID = modifiedData["id"] as? String{
+                            let posModified = self.locateIndexOfConvo(id: modifiedID) //with the conversation ID, I get the index of that conversation in the active chats array
+                            self.activeChats.remove(at: posModified)
+                            
+                            self.checkIfShowtableView()
+                            self.tableView.reloadData() //reload rows and section in table view
+                        }
                     }
                 }
             }
@@ -200,8 +204,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     func locateIndexOfConvo (id:String) -> Int { //function used to located the index of the conversation from the activeChats array
         var position = 0
         for (index, chat) in self.activeChats.enumerated(){    //for every chat the user is part of
-            if(id == chat["id"] as! String){  //if the chat has the same id as the modifiedID passed in
+            if id == chat["id"] as! String{  //if the chat has the same id as the modifiedID passed in
                 position = index    //now I have the correct index corresponding to this specific modified chat from all the chats
+                break
             }
         }
         return position
@@ -231,9 +236,10 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //triggered when you actually click a conversation from the tableview
-        self.conversationID = self.activeChats[indexPath.row]["id"] as! String    //use currentley clicked index to get conversation id
-        //pass the conversationID through and intent
-        self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
+        if let convId = self.activeChats[indexPath.row]["id"] as? String{    //use currentley clicked index to get conversation id
+            self.conversationID = convId
+            self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass the conversationID through and segue
+        }
     }
     
     
@@ -251,20 +257,21 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         var thisUsersLastCount: CLong
         
         //BOLDING OF MESSAGE TEXT
-        if (posInConversation != -1){
+        if posInConversation != -1, let lastMsgAuthor = currentConversation["last_message_author"] as? String{
             //if the last message for the given conversation wasn't sent by this user determine if they've seen it or not and highlight it accordingly
-            if(currentConversation["last_message_author"] as! String == self.thisUserProfile["id"] as! String){
+            if(lastMsgAuthor == thisUserId){
                 cell.lastMessage?.font = UIFont(name:"Cordia New", size: 25.0)
             }else{//if the last message for the given conversation wasn't sent by this user determine if they've seen it or not and highlight it accordingly
-                var lastMsgCounts = [CLong]()
-                lastMsgCounts = currentConversation["last_message_counts"] as! [CLong]
-                if(lastMsgCounts.count >= 0){    //make sure there is actually something that exists in last_message_count
-                    thisUsersLastCount = lastMsgCounts[posInConversation]
-                    let actualMsgCount = currentConversation["message_count"] as! CLong
-                    if(actualMsgCount >= 0 && thisUsersLastCount < actualMsgCount){
-                        cell.lastMessage?.font = UIFont(name:"Cordia New Bold", size: 25.0)
-                    }else{
-                        cell.lastMessage?.font = UIFont(name:"Cordia New", size: 25.0)
+                if let lastMsgCounts = currentConversation["last_message_counts"] as? [CLong]{
+                    if(lastMsgCounts.count >= 0){    //make sure there is actually something that exists in last_message_count
+                        thisUsersLastCount = lastMsgCounts[posInConversation]
+                        if let actualMsgCount = currentConversation["message_count"] as? CLong{
+                            if(actualMsgCount >= 0 && thisUsersLastCount < actualMsgCount){
+                                cell.lastMessage?.font = UIFont(name:"Cordia New Bold", size: 25.0)
+                            }else{
+                                cell.lastMessage?.font = UIFont(name:"Cordia New", size: 25.0)
+                            }
+                        }
                     }
                 }
             }
@@ -322,16 +329,14 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.thisCell!.hideRequestLayout()
         var requesteeId = getOtherParticipantId(currentConversation: self.thisConversation)
         
-        
         //delete thtat covnersation since if they reject it we get rid of the entire conversation object
-        self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).delete()
-        
-        //request lists deletion... basically get rid of the requests from both the sender adn reciever
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String)
-            .collection("userlists").document("requests").updateData([requesteeId: FieldValue.delete()])
-        
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId)
-            .collection("userlists").document("requests").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete()])
+        if let thisConvId = self.thisConversation["id"] as? String{
+            self.baseDatabaseReference.collection("conversations").document(thisConvId).delete()
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisUserId) //request lists deletion... basically get rid of the requests from both the sender adn reciever
+                .collection("userlists").document("requests").updateData([requesteeId: FieldValue.delete()])
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(requesteeId)
+                .collection("userlists").document("requests").updateData([thisUserId: FieldValue.delete()])
+        }
         
         //TODO: delete the collection messages of the conversation from Firestore probably using a cloud function since the subcollection is still there even if convo gone
         //TODO: delete the conversation row from the RecyclerView
@@ -342,44 +347,37 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     //actually acccept the request amde to chat and be friends
     func acceptRequest(){
         let docData = [String: Any]()   //used to set the hashmap when there is no blocked_by list that exists for this user
-        
         self.thisCell!.hideRequestLayout()
-        
-        
         var requesteeId = getOtherParticipantId(currentConversation: self.thisConversation)
-        self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["is_request":false])
         
-        
-        //one person friend list
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
-            if let document = document, document.exists {
-                //nothing if doc exists
-            } else {
-                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").setData(docData)
+        if let thisConvId = self.thisConversation["id"] as? String{
+            self.baseDatabaseReference.collection("conversations").document(thisConvId).updateData(["is_request":false])
+            
+            //one person friend list
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisUserId).collection("userlists").document("friends").getDocument { (document, error) in
+                if let document = document, document.exists {
+                    //nothing if doc exists
+                } else {
+                    self.baseDatabaseReference.collection("universities").document(self.uniDomain).collection("userprofiles").document(self.thisUserId).collection("userlists").document("friends").setData(docData)
+                }
+                self.baseDatabaseReference.collection("universities").document(self.uniDomain).collection("userprofiles").document(self.thisUserId).collection("userlists").document("friends").updateData([requesteeId: thisConvId])
             }
-            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").updateData([requesteeId: self.thisConversation["id"] as! String])
-        }
-        
-        
-        
-        //others friend list
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").getDocument { (document, error) in
-            if let document = document, document.exists {
-                //nothing if dox exists
-            } else {
-                self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").setData(docData)
+            
+            //others friend list
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").getDocument { (document, error) in
+                if let document = document, document.exists {
+                    //nothing if dox exists
+                } else {
+                    self.baseDatabaseReference.collection("universities").document(self.uniDomain).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").setData(docData)
+                }
+                self.baseDatabaseReference.collection("universities").document(self.uniDomain).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").updateData([self.thisUserId: thisConvId])
             }
-            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId).collection("userlists").document("friends").updateData([self.thisUserProfile["id"] as! String: self.thisConversation["id"] as! String])
+            
+            //deleting requests since there is no more requst if its been accepted
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisUserId).collection("userlists").document("requests").updateData([requesteeId: FieldValue.delete() ])
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(requesteeId).collection("userlists").document("requests").updateData([thisUserId: FieldValue.delete() ])
+            self.checkForGroupAndSetName(cell: self.thisCell!, currentConversation: self.thisConversation)
         }
-        
-        
-        
-        //deleting requests since there is no more requst if its been accepted
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("requests").updateData([requesteeId: FieldValue.delete() ])
-        
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(requesteeId).collection("userlists").document("requests").updateData([self.thisUserProfile["id"] as! String: FieldValue.delete() ])
-        
-        self.checkForGroupAndSetName(cell: self.thisCell!, currentConversation: self.thisConversation)
     }
     
     
@@ -397,61 +395,64 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
        
         var authorProfilePicLoc = ""
         let storageRef = self.baseStorageReference.reference()
-        var lastMessageAuthor = currentConversation["last_message_author"] as! String //the author of the last message that was sent
-        var lastMessageAuthorPos = 0
-        
-        //if there is participants then add them to aprticipants variable, else its empty
-        var participants = [String]()
-        if (currentConversation["participants"] != nil) {
-            participants = currentConversation["participants"] as! [String]
-        }
-        
-        //get there names too then if they exist
-        var participantNames = [String]()
-        if (currentConversation["participant_names"] != nil){
-            participantNames = currentConversation["participant_names"] as! [String]
-        }
-        
-        if (!participants.isEmpty){
-            if(lastMessageAuthor != ""){
-                for (index, participant) in participants.enumerated(){
-                    if(participant == lastMessageAuthor ){  //if the participant is same as last message author
-                        lastMessageAuthorPos = index  //position of the last message author
-                        break
-                    }
-                }
-                //setting the last message of that cell to be the name of the last author with the corresponding message that he sent
-                if(!participantNames.isEmpty){
-                    //TODO: figure out if we need the same stuff as in the andoird version: i.e. "R.string.conversation_adapter_last_message"
-                    let lastMessageString = participantNames[lastMessageAuthorPos] +  ": " + String(currentConversation["last_message"] as! String)
-                    cell.lastMessage.text = lastMessageString
-                }
+        if var lastMessageAuthor = currentConversation["last_message_author"] as? String{ //the author of the last message that was sent
+            var lastMessageAuthorPos = 0
+            
+            //if there is participants then add them to aprticipants variable, else its empty
+            var participants = [String]()
+            if (currentConversation["participants"] != nil) {
+                participants = currentConversation["participants"] as! [String]
             }
-            //if 1-1 chat so use the opposing person your chatting with as the profile pic of the conversation
-            if(participants.count == 2){
-                var otherId = self.getOtherParticipantId(currentConversation: currentConversation)
-                if (otherId.isEmpty || otherId == ""){
-                    otherId = participants[0]
-                }
-                authorProfilePicLoc = "userimages/" + otherId + "/preview.jpg"
-                let storageImageRef = storageRef.child(authorProfilePicLoc)
-                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("error", error)
-                    } else {
-                        cell.img.image  = UIImage(data: data!)
+            
+            //get there names too then if they exist
+            var participantNames = [String]()
+            if (currentConversation["participant_names"] != nil){
+                participantNames = currentConversation["participant_names"] as! [String]
+            }
+            
+            if (!participants.isEmpty){
+                if(lastMessageAuthor != ""){
+                    for (index, participant) in participants.enumerated(){
+                        if(participant == lastMessageAuthor ){  //if the participant is same as last message author
+                            lastMessageAuthorPos = index  //position of the last message author
+                            break
+                        }
+                    }
+                    //setting the last message of that cell to be the name of the last author with the corresponding message that he sent
+                    if(!participantNames.isEmpty){
+                        //TODO: figure out if we need the same stuff as in the andoird version: i.e. "R.string.conversation_adapter_last_message"
+                        if let lastMsg = currentConversation["last_message"] as? String{
+                            let lastMessageString = participantNames[lastMessageAuthorPos] +  ": " + String(lastMsg)
+                            cell.lastMessage.text = lastMessageString
+                        }
                     }
                 }
-            }else{  // group chat so use last message author as profile pic
-                authorProfilePicLoc = "userimages/" + lastMessageAuthor + "/preview.jpg"
-                let storageImageRef = storageRef.child(authorProfilePicLoc)
-                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("error", error)
-                    } else {
-                        cell.img.image  = UIImage(data: data!)
+                //if 1-1 chat so use the opposing person your chatting with as the profile pic of the conversation
+                if(participants.count == 2){
+                    var otherId = self.getOtherParticipantId(currentConversation: currentConversation)
+                    if (otherId.isEmpty || otherId == ""){
+                        otherId = participants[0]
+                    }
+                    authorProfilePicLoc = "userimages/" + otherId + "/preview.jpg"
+                    let storageImageRef = storageRef.child(authorProfilePicLoc)
+                    // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+                    storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                        if let error = error {
+                            print("error", error)
+                        } else {
+                            cell.img.image  = UIImage(data: data!)
+                        }
+                    }
+                }else{  // group chat so use last message author as profile pic
+                    authorProfilePicLoc = "userimages/" + lastMessageAuthor + "/preview.jpg"
+                    let storageImageRef = storageRef.child(authorProfilePicLoc)
+                    // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+                    storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                        if let error = error {
+                            print("error", error)
+                        } else {
+                            cell.img.image  = UIImage(data: data!)
+                        }
                     }
                 }
             }
@@ -467,7 +468,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             if (isReq != nil && isReq!){
                 let otherUserId = self.getOtherParticipantId(currentConversation: currentConversation)   //extract his id
                 if (!self.requestCount.isEmpty && self.requestCount[otherUserId] is Bool && self.requestCount[otherUserId] != nil){
-                    thisUserRequested = self.requestCount[otherUserId] as! Bool
+                    thisUserRequested = self.requestCount[otherUserId] as? Bool ?? true
                 }
             }
         }
@@ -510,7 +511,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 var otherParticipantName = currentConversation["name"] as? String
                 
                 for (index, participant) in participants.enumerated(){
-                    if(self.thisUserProfile["id"] as! String != participant){  //find other participant pos in array
+                    if(thisUserId != participant){  //find other participant pos in array
                         otherParticipantName = participantNames[index]  //using that participants index get this name and set it
                     }
                 }
@@ -523,16 +524,18 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     func locateThisUser(conversation: Dictionary<String,Any>) -> Int {
-        var participants = conversation["participants"] as! [String]
         var position = 0
-        if(participants.count > 0) {
-            for (index, participant) in participants.enumerated(){    //for every chat the user is part of
-                if(self.thisUserProfile["id"] as! String == participant){  //if the chat has the same id as the modifiedID passed in
-                    position = index    //now I have the correct index corresponding to this specific modified chat from all the chats
+        if let participants = conversation["participants"] as? [String]{
+            if(participants.count > 0) {
+                for (index, participant) in participants.enumerated(){    //for every chat the user is part of
+                    if(thisUserId == participant){  //if the chat has the same id as the modifiedID passed in
+                        position = index    //now I have the correct index corresponding to this specific modified chat from all the chats
+                    }
                 }
+                
             }
-            
         }
+        
         return position
     }
     

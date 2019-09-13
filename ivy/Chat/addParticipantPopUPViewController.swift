@@ -22,14 +22,15 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
     //initializers
     var thisUserProfile = Dictionary<String, Any>()     //holds the current user profile
     var thisConversation = Dictionary<String, Any>()    //this current conversationboject
+    var thisConvId = ""
+    var thisUni = ""
+    var thisUserId = ""
     var addTheseFriends = [Dictionary<String, String>]()    //array containing the friends they actually wanna add to the conversation in format: "id":"name"
     var friendsToDisplay = [Dictionary<String, Any>()]
     var allPossibleFriends = [Dictionary<String, Any>]()    //all possible friends that can be added to the conversation
     var friendsConvList = Dictionary<String, Any>()
     let baseDatabaseReference = Firestore.firestore()   //reference to the database
     let baseStorageReference = Storage.storage()    //reference to storage
-//    var idAL = [String]()   //arraylist of strings
-//    var nameAL = [String]()   //arraylist of strings
     
     //outlets
     @IBOutlet weak var tableView: UITableView!
@@ -37,23 +38,26 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        
-        loadFriends()
-        
-        self.configureTableView()
+        if let thisCon = thisConversation["id"] as? String, let thisUn = thisUserProfile["uni_domain"] as? String, let thisUs = thisUserProfile["id"] as? String{
+            thisUni = thisUn
+            thisUserId = thisUs
+            thisConvId = thisCon
+            loadFriends()
+            self.configureTableView()
+        }
     }
     
     //actually load this current users friends
     func loadFriends() {
         //query to get the friends this current user has
-        baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
+        baseDatabaseReference.collection("universities").document(thisUni).collection("userprofiles").document(thisUserId).collection("userlists").document("friends").getDocument { (document, error) in
             if let document = document, document.exists {
                 self.friendsConvList = document.data()!
                 var participants = [String]()   //arraylist of strings
                 participants = self.thisConversation["participants"] as! [String]
                 for (key,value) in self.friendsConvList{
                     if(!participants.contains(key)){
-                        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(key).getDocument { (document, error) in
+                        self.baseDatabaseReference.collection("universities").document(self.thisUni).collection("userprofiles").document(key).getDocument { (document, error) in
                             if let document = document, document.exists {
                                 if(document.data() != nil && document.exists) {
                                     self.allPossibleFriends.append(document.data()!)
@@ -134,8 +138,8 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
             }
         }
         
-        baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["participants": FieldValue.arrayUnion(idAL)])
-        baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["participant_names": FieldValue.arrayUnion(nameAL)])
+        baseDatabaseReference.collection("conversations").document(thisConvId).updateData(["participants": FieldValue.arrayUnion(idAL)])
+        baseDatabaseReference.collection("conversations").document(thisConvId).updateData(["participant_names": FieldValue.arrayUnion(nameAL)])
     }
     
     
@@ -179,7 +183,7 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
         newConversation["creation_time"] = Date().millisecondsSince1970    //seconds * 1000 = milliseconds
         newConversation["last_message_millis"] = Date().millisecondsSince1970
         newConversation["last_message"] = "New Group Chat!"
-        newConversation["last_message_author"] = self.thisUserProfile["id"] as! String
+        newConversation["last_message_author"] = thisUserId
         newConversation["message_count"] = 0
         newConversation["is_base_conversation"] = false
         newConversation["participants"] = idAL
@@ -262,22 +266,6 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
             cl.checkBox.isHidden = false
 
         }
-        
-
-        
     }
-    
-    
-    
-    
 }
 
-//extension Date {
-//    var millisecondsSince1970:Int64 {
-//        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
-//    }
-//    
-//    init(milliseconds:Int64) {
-//        self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
-//    }
-//}
