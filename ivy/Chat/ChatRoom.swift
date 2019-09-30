@@ -617,8 +617,9 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         let storageRef = self.baseStorageReference.reference()
         let storageImageRef = storageRef.child(authorProfilePicLoc)
         
-        storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+        storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
             if let error = error {
+                PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "Maximum download size is 5MB", context: self)
                 print("error", error)
             } else {
                 cell.messageLabel.text = lastMessage

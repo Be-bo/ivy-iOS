@@ -89,6 +89,8 @@ class Card: UICollectionViewCell {
             degree = degree.replacingOccurrences(of: " ", with: "")
             degree = degree.lowercased()
             front.degreeIcon.image = UIImage(named: degree)
+            front.degreeIcon.tintColor = Colors.ivy_grey
+            
         }
         
         front.name.text = user["first_name"] as? String //text data

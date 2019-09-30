@@ -63,12 +63,12 @@ class Reg3Name: UIViewController, UITextFieldDelegate {
     func attemptToContinue() {//check if we can continue onto the next registration screen
         self.firstName = firstNameLabel.text!
         self.lastName = lastNameLabel.text!
-        if(firstName.count > 2 && lastName.count > 2 && !firstName.contains(" ") && !lastName.contains(" ") && lastName.count < 30 && firstName.count < 30){
+        if(firstName.count >= 1 && lastName.count >= 1 && !firstName.contains(" ") && !lastName.contains(" ") && lastName.count < 30 && firstName.count < 30){
             self.performSegue(withIdentifier: "reg3ToReg4Segue", sender: self) //pass data over to the next screen
             errorLabel.isHidden = true
             allowInteraction()
         }else{
-            errorLabel.text = "Both names must contain at least two, but less than 30 characters and no spaces."
+            errorLabel.text = "Both names must contain at least one, but less than 30 characters and no spaces."
             errorLabel.isHidden = false
             allowInteraction()
         }

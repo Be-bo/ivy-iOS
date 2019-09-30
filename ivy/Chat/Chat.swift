@@ -436,7 +436,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     authorProfilePicLoc = "userimages/" + otherId + "/preview.jpg"
                     let storageImageRef = storageRef.child(authorProfilePicLoc)
                     // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                    storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                    storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
                         if let error = error {
                             print("error", error)
                         } else {
@@ -447,7 +447,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     authorProfilePicLoc = "userimages/" + lastMessageAuthor + "/preview.jpg"
                     let storageImageRef = storageRef.child(authorProfilePicLoc)
                     // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                    storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                    storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
                         if let error = error {
                             print("error", error)
                         } else {

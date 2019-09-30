@@ -80,7 +80,7 @@ class viewParticipantsActivity: UIViewController , UITableViewDelegate, UITableV
         let storageImageRef = storageRef.child(participantProfilePicLoc)
         
         // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+        storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error", error)
             } else {

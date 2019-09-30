@@ -35,7 +35,7 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
                     //determine if its an image
                     if ( fileReference.lowercased().contains("jpg") || fileReference.lowercased().contains("jpeg") || fileReference.lowercased().contains("png") ) {
                         // Fetch the download URL
-                        storageRefPath.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                        storageRefPath.getData(maxSize: 5 * 1024 * 1024) { data, error in
                             if let error = error {
                                 print("error", error)
                             } else {

@@ -16,6 +16,8 @@ class DegreeCell: UITableViewCell{
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.tintColor = Colors.ivy_grey
+//        self.tintColor = UIColor(red: 105/255, green: 105/255, blue: 105/255, alpha: 1) //#696969
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

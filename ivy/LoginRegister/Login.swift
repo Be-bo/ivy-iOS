@@ -160,17 +160,17 @@ class Login: UIViewController, UITextFieldDelegate {
             let password = passwordField.text!
             authInstance.signIn(withEmail: email, password: password) { (result, error) in //try to authenticate user in Firebase Auth with their email and password
                 if(error == nil){
-//                    if(self.authInstance.currentUser!.isEmailVerified){
+                    if(self.authInstance.currentUser!.isEmailVerified){
                         if let range = email.range(of: "@") { //extract the domain the user's entered
                             self.thisUni = String(email[range.upperBound...])
                             self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines)
                         }
                         self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
                         self.performSegue(withIdentifier: "loginToMain" , sender: self)
-//                    }else{
-//                        self.errorLabel.text = "You need to verify your email address before you can log in."
-//                        self.allowInteraction()
-//                    }
+                    }else{
+                        self.errorLabel.text = "You need to verify your email address before you can log in."
+                        self.allowInteraction()
+                    }
                     
                 }else{
                     self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label
@@ -181,7 +181,7 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     func checkAutoLogin(){ //check if we the necessary local data and if the user has logged in in the past to attempt an auto login
-        if(getLocalData() && authInstance.currentUser != nil /* && authInstance.currentUser!.isEmailVerified*/ && !dontAutoLog){
+        if(getLocalData() && authInstance.currentUser != nil  && authInstance.currentUser!.isEmailVerified && !dontAutoLog){
             saveLocalData()
             barInteraction()
             hideElems()

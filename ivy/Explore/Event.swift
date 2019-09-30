@@ -76,10 +76,10 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         self.bindData()
                         self.setUpGoingList()
                         self.registerButton.addTarget(self, action: #selector(self.registerButtonClicked), for: .touchUpInside)//on click fro register button
-                        if let goingIdList = self.event["going_ids"] as? [String], let thisUserId = self.userProfile["id"] as? String, !goingIdList.contains(thisUserId){
-                            self.setThisUserNotGoing()
-                        }else{
+                        if let goingIdList = self.event["going_ids"] as? [String], let thisUserId = self.userProfile["id"] as? String, goingIdList.contains(thisUserId){
                             self.setThisUserGoing()
+                        }else{
+                            self.setThisUserNotGoing()
                         }
                     }
                 }
@@ -171,18 +171,23 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(self.userProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
                 if let document = document, document.exists {
                     var friends = document.data()
-                    var goingIds = self.event["going_ids"] as! [String]
-                    //if  my friends are going to this event, then add them to the list
-                    if (!goingIds.isEmpty && goingIds.count > 0){
-                        for (friendId, conversationId) in friends!{
-                            if goingIds.contains(friendId){    //friends[0] is his id: and friend[1] is the conversation id
-                                self.goingFriends.append(friendId)
+                    
+        
+                    
+                    if let goingIds = self.event["going_ids"] as? [String]{
+                        //if  my friends are going to this event, then add them to the list
+                        if (!goingIds.isEmpty && goingIds.count > 0){
+                            for (friendId, conversationId) in friends!{
+                                if goingIds.contains(friendId){    //friends[0] is his id: and friend[1] is the conversation id
+                                    self.goingFriends.append(friendId)
+                                }
                             }
                         }
+                    } else {
+                        print("Document does not exist")
                     }
-                } else {
-                    print("Document does not exist")
-                }
+                    }
+
                 
                 if (self.goingFriends.count > 0) {
                     self.whosGoingCollection.reloadData() //notify the collectionview that we have items to display
@@ -253,7 +258,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     @objc func registerButtonClicked(_ sender: UIButton) {//on click of the im going button clicked
         if self.event.contains(where: { $0.key == "link"}) {    //check if the event even contains a link to be clicked on
-            if let url = URL(string: "http://www.google.com") { //open link
+            if let url = URL(string: event["link"] as! String) { //open link
                 UIApplication.shared.open(url, options: [:])
             }
             

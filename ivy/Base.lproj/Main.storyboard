@@ -708,7 +708,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4lm-u2-AbF">
-                                <rect key="frame" x="0.0" y="88" width="414" height="676"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="720"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CEK-Gu-hVc">
                                     <size key="itemSize" width="50" height="50"/>
@@ -866,7 +866,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LWC-8K-Imc">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -1587,7 +1587,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="cZ3-CW-1FH"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brough to you by:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3X-9u-CdZ" userLabel="Brought By" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brought to you by:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3X-9u-CdZ" userLabel="Brought By" customClass="StandardLabel" customModule="ivy" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="359.5" width="414" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -3379,12 +3379,12 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hQk-bx-gCi"/>
-        <segue reference="uSB-K7-AQ8"/>
+        <segue reference="qnE-MC-VUo"/>
         <segue reference="N1a-aN-84L"/>
         <segue reference="GId-3d-sBt"/>
         <segue reference="RKH-ld-RbM"/>
         <segue reference="yJ0-z0-GDl"/>
-        <segue reference="6lo-aV-DON"/>
+        <segue reference="9lb-Kb-J7u"/>
         <segue reference="rO4-E7-9yn"/>
         <segue reference="jvT-Df-EJa"/>
     </inferredMetricsTieBreakers>

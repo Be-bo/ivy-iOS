@@ -309,7 +309,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
-        if self.allSuggestedFriends.count > 0 {
+        if self.allSuggestedFriends.count >= 0 {
             if collectionView.tag == self.eventsCollectionView.tag {
                 self.eventClicked = self.allEvents[indexPath.item]   //use currentley clicked index to get conversation id
                 self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
@@ -387,7 +387,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func loadEvents(){ //load all the events except for the featured event
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").order(by: "time_millis", descending: true).getDocuments() { (querySnapshot, err) in
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").order(by: "creation_time", descending: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -397,7 +397,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         let isFeatured = event["is_featured"] as! Bool
                         let isActive = event["is_active"] as! Bool
                         let endTime = event["end_time"] as! Int64
-                        if (!isFeatured && isActive && endTime > Date().millisecondsSince1970 ){
+                        if (!isFeatured && isActive && endTime > Int64(Date().timeIntervalSince1970) ){
                             self.allEvents.append(event)
                         }
                     }

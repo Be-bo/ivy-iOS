@@ -29,7 +29,11 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     func setUp(event: Dictionary<String, Any>){
         
-        var imageLocation = event["image"] as! String
+        var imageLocation = ""
+        
+        if let imagePath = event["image"] as? String{
+            imageLocation = imagePath
+        }
         
         let storageImageRef = baseStorageReference.child(imageLocation)
         

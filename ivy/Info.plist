@@ -46,11 +46,6 @@
 		<string>cordia.ttf</string>
 		<string>cordiabold.ttf</string>
 	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

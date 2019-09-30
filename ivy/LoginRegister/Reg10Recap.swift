@@ -149,11 +149,15 @@ class Reg10Recap: UIViewController {
             }else {
                 if(Auth.auth().currentUser != nil){
                     Auth.auth().currentUser?.sendEmailVerification(completion: { (e) in
-                        let alert = UIAlertController(title: "Registration Successful", message: "We sent you a verification email. Check your inbox.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                            //nothing
-                        }))
-                        self.present(alert, animated: true)
+                        if e != nil{
+                            print("Error sending verification email: ",e)
+                        }else{
+                            let alert = UIAlertController(title: "Registration Successful", message: "We sent you a verification email. Check your inbox.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                                //nothing
+                            }))
+                            self.present(alert, animated: true)
+                        }
                     })
                 }else{
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't authenticate your profile. Try restarting the app.", context: self)
