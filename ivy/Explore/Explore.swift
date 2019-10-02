@@ -34,6 +34,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     private var featuredEventClicked = Dictionary<String, Any>()                //for featured event
     
     private var data_loaded = false
+    private var controller_minimized = false
     
     @IBOutlet weak var featuredHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var featuredEventImage: UIImageView!
@@ -145,10 +146,15 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     // MARK: Base Functions
     
-    override func viewDidLoad() {
+    override func viewDidLoad() { //called on ViewController creation
         super.viewDidLoad()
         setUpNavigationBar()
         setUp()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        controller_minimized = true
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
@@ -224,7 +230,16 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     // MARK: Setup Functions
     
-    private func setUp(){
+    @objc private func refresh(){ //method for reloading data that doesn't update automatically (events), called when the user maximizes the app
+        if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
+            self.setFeaturedEvent()
+            self.loadEvents()
+        }
+    }
+    
+    private func setUp(){ //initial setup method when the ViewController's first created
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
+        
         eventsCollectionView.delegate = self
         eventsCollectionView.dataSource = self
         eventsCollectionView.register(UINib(nibName:eventCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: eventCollectionIdentifier)
@@ -397,8 +412,17 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         let isFeatured = event["is_featured"] as! Bool
                         let isActive = event["is_active"] as! Bool
                         let endTime = event["end_time"] as! Int64
-                        if (!isFeatured && isActive && endTime > Int64(Date().timeIntervalSince1970) ){
-                            self.allEvents.append(event)
+                        if (!isFeatured && isActive && endTime > Int64(Date().timeIntervalSince1970)){
+                            var eventAlreadyAdded = false
+                            if(!self.allEvents.contains(where: { (currentEvent) -> Bool in //if not true that an event with this id already exists in our events
+                                if let aboutToAddId = event["id"] as? String, let testingAgainstId = currentEvent["id"] as? String, aboutToAddId == testingAgainstId{
+                                    return true
+                                }else{
+                                    return false
+                                }
+                            })){
+                                self.allEvents.append(event)
+                            }
                         }
                     }
                 }
