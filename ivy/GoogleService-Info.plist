@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>438048181887-vkn2gnsgtfu925odcgt6u50mobumbcn8.apps.googleusercontent.com</string>
+	<string>1033675011476-1nmlcue8ua6ion3htmf0ibn2kfta8mtb.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.438048181887-vkn2gnsgtfu925odcgt6u50mobumbcn8</string>
+	<string>com.googleusercontent.apps.1033675011476-1nmlcue8ua6ion3htmf0ibn2kfta8mtb</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCnhl6GpY8LtPW-YSiK-5ZTas2RpgcKyk8</string>
+	<string>AIzaSyBB8rNI3RUtzFo7Kr0ZJGzTuyqM3_KvwTk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>438048181887</string>
+	<string>1033675011476</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.ivythesocialnetwork.ivy</string>
+	<string>com.ivythesocialnetwork.ivy-iOS-tester</string>
 	<key>PROJECT_ID</key>
-	<string>ivysocialnetwork</string>
+	<string>ivytestingdatabase</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ivysocialnetwork.appspot.com</string>
+	<string>ivytestingdatabase.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:438048181887:ios:b1afff7d5604c4a38df94a</string>
+	<string>1:1033675011476:ios:6635523c69733e14fccb81</string>
 	<key>DATABASE_URL</key>
-	<string>https://ivysocialnetwork.firebaseio.com</string>
+	<string>https://ivytestingdatabase.firebaseio.com</string>
 </dict>
 </plist>

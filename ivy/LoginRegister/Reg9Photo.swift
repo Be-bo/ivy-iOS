@@ -95,6 +95,7 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         cropViewController.aspectRatioPreset = .presetCustom
         cropViewController.aspectRatioLockEnabled = true
         cropViewController.aspectRatioPickerButtonHidden = true
+        cropViewController.modalPresentationStyle = .fullScreen
         present(cropViewController, animated: true, completion: nil)
     }
     

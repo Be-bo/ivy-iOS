@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9BDC54E66CF4A26EB7F0F4A8 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499B35A25ED6BF9F788F16DF /* Pods_ivy_iOS.framework */; };
 		A90205E7231FBDF700EB6B2E /* editDegreePopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E6231FBDF700EB6B2E /* editDegreePopUpViewController.swift */; };
 		A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */; };
 		A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266422A4B214005E8965 /* cordiabold.ttf */; };
@@ -46,7 +47,6 @@
 		A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */; };
 		A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E322B5D2F8008B35AA /* Constants.swift */; };
 		A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E522C04A06008B35AA /* Reg7Bio.swift */; };
-		A9C758342341BEB400E6E141 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9C758332341BEB400E6E141 /* GoogleService-Info.plist */; };
 		A9D013192328A91B0049353C /* AddParticipantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */; };
 		A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */; };
 		A9FD1961231497E200ECA848 /* profileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */; };
@@ -69,7 +69,6 @@
 		A9FD198C231F237E00ECA848 /* ContactUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD198B231F237E00ECA848 /* ContactUs.swift */; };
 		A9FD198F231F364A00ECA848 /* blockedAccTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD198D231F364A00ECA848 /* blockedAccTableViewCell.swift */; };
 		A9FD1990231F364A00ECA848 /* blockedAccTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD198E231F364A00ECA848 /* blockedAccTableViewCell.xib */; };
-		DDF217CB2205731ADB9715B6 /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69838B23A74BBA15D817949 /* Pods_ivy.framework */; };
 		FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */; };
 		FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA06DE3A22C0659900B07EDC /* DegreeCell.xib */; };
 		FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */; };
@@ -87,6 +86,7 @@
 		FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */; };
 		FA13E59322F9D04000F8FFA1 /* CardInterestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13E59122F9D04000F8FFA1 /* CardInterestCell.swift */; };
 		FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA13E59222F9D04000F8FFA1 /* CardInterestCell.xib */; };
+		FA14787D23445C5D00BE7BBC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA14787C23445C5D00BE7BBC /* GoogleService-Info.plist */; };
 		FA14D5A022F8BCB000331E82 /* MainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */; };
 		FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */; };
 		FA1B412422F4AC6F005817C5 /* BoardNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1B412322F4AC6F005817C5 /* BoardNavigationViewController.swift */; };
@@ -119,6 +119,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		499B35A25ED6BF9F788F16DF /* Pods_ivy_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BCF3E5BF603A0F3A703E3A0 /* Pods-ivy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.debug.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.debug.xcconfig"; sourceTree = "<group>"; };
 		A90205E6231FBDF700EB6B2E /* editDegreePopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editDegreePopUpViewController.swift; sourceTree = "<group>"; };
 		A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editInterestsPopUpViewController.swift; sourceTree = "<group>"; };
@@ -159,7 +160,6 @@
 		A9BB05DE22B5D2E2008B35AA /* StandardTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
 		A9BB05E322B5D2F8008B35AA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A9BB05E522C04A06008B35AA /* Reg7Bio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg7Bio.swift; sourceTree = "<group>"; };
-		A9C758332341BEB400E6E141 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A9D0131223288D310049353C /* ivy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ivy.entitlements; sourceTree = "<group>"; };
 		A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParticipantTableViewCell.swift; sourceTree = "<group>"; };
 		A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddParticipantTableViewCell.xib; sourceTree = "<group>"; };
@@ -184,7 +184,8 @@
 		A9FD198D231F364A00ECA848 /* blockedAccTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = blockedAccTableViewCell.swift; sourceTree = "<group>"; };
 		A9FD198E231F364A00ECA848 /* blockedAccTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = blockedAccTableViewCell.xib; sourceTree = "<group>"; };
 		CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
-		F69838B23A74BBA15D817949 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6946263A0018AF3FCC9047E /* Pods-ivy-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.release.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		EDA2E067AA5E2F6DD384B0A7 /* Pods-ivy-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
 		FA06DE3A22C0659900B07EDC /* DegreeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DegreeCell.xib; sourceTree = "<group>"; };
 		FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg5Degree.swift; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 		FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		FA13E59122F9D04000F8FFA1 /* CardInterestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInterestCell.swift; sourceTree = "<group>"; };
 		FA13E59222F9D04000F8FFA1 /* CardInterestCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardInterestCell.xib; sourceTree = "<group>"; };
+		FA14787C23445C5D00BE7BBC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainNavigationBar.xib; sourceTree = "<group>"; };
 		FA1B412322F4AC6F005817C5 /* BoardNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardNavigationViewController.swift; sourceTree = "<group>"; };
@@ -240,7 +242,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDF217CB2205731ADB9715B6 /* Pods_ivy.framework in Frameworks */,
+				9BDC54E66CF4A26EB7F0F4A8 /* Pods_ivy_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +252,7 @@
 		7961A218203316DF2278AE3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F69838B23A74BBA15D817949 /* Pods_ivy.framework */,
+				499B35A25ED6BF9F788F16DF /* Pods_ivy_iOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -306,6 +308,8 @@
 			children = (
 				7BCF3E5BF603A0F3A703E3A0 /* Pods-ivy.debug.xcconfig */,
 				CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */,
+				EDA2E067AA5E2F6DD384B0A7 /* Pods-ivy-iOS.debug.xcconfig */,
+				D6946263A0018AF3FCC9047E /* Pods-ivy-iOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -449,8 +453,8 @@
 				FA60590922A4B12C00383F9F /* AppDelegate.swift */,
 				A9BB05E322B5D2F8008B35AA /* Constants.swift */,
 				FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */,
+				FA14787C23445C5D00BE7BBC /* GoogleService-Info.plist */,
 				FA60591522A4B12E00383F9F /* Info.plist */,
-				A9C758332341BEB400E6E141 /* GoogleService-Info.plist */,
 			);
 			path = ivy;
 			sourceTree = "<group>";
@@ -548,7 +552,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */,
-				A9C758342341BEB400E6E141 /* GoogleService-Info.plist in Resources */,
 				A9FD1978231B9AD500ECA848 /* ProfileCardBack.xib in Resources */,
 				A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */,
 				FA60591422A4B12E00383F9F /* LaunchScreen.storyboard in Resources */,
@@ -561,6 +564,7 @@
 				A9FD196C2315C84A00ECA848 /* BoardPostTableViewCell.xib in Resources */,
 				A9FD1974231B98F900ECA848 /* profileCardFront.xib in Resources */,
 				FA6F7C9622EE713D00610046 /* SettingsButton.xib in Resources */,
+				FA14787D23445C5D00BE7BBC /* GoogleService-Info.plist in Resources */,
 				A920C4E722D281C20088DD58 /* CardFront.xib in Resources */,
 				A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
@@ -585,15 +589,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ivy/Pods-ivy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ivy/Pods-ivy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ivy/Pods-ivy-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DC27DE73283A642798538021 /* [CP] Check Pods Manifest.lock */ = {
@@ -611,7 +615,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ivy-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ivy-iOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -850,11 +854,11 @@
 		};
 		FA60591922A4B12E00383F9F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7BCF3E5BF603A0F3A703E3A0 /* Pods-ivy.debug.xcconfig */;
+			baseConfigurationReference = EDA2E067AA5E2F6DD384B0A7 /* Pods-ivy-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F4YZ329W24;
+				DEVELOPMENT_TEAM = 87U2W3H4TZ;
 				INFOPLIST_FILE = ivy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -869,11 +873,11 @@
 		};
 		FA60591A22A4B12E00383F9F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */;
+			baseConfigurationReference = D6946263A0018AF3FCC9047E /* Pods-ivy-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F4YZ329W24;
+				DEVELOPMENT_TEAM = 87U2W3H4TZ;
 				INFOPLIST_FILE = ivy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
