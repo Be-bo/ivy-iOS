@@ -115,7 +115,7 @@ class Reg1Email: UIViewController, UITextFieldDelegate {
             if(emailInput.isEqual(confirmEmailInput)){  //if emails match check against database to ensure domains match
                 if let range = emailInput.range(of: "@") { //extract domain from user's input
                     uni_domain = String(emailInput[range.upperBound...])
-                    uni_domain = uni_domain.trimmingCharacters(in: .whitespacesAndNewlines)
+                    uni_domain = uni_domain.trimmingCharacters(in: .whitespacesAndNewlines) //trime whitespace/newline to force them without space
                 }
                 checkDomain(domain: uni_domain, emailInput: emailInput)
             }else { //no match display error label with error

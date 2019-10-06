@@ -425,30 +425,41 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func startListeningToUserLists(){
-        if let uniDomain = thisUserProfile["uni_domain"] as? String, let thisId = thisUserProfile["id"] as? String{
-            userListsListenerRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).collection("userlists").addSnapshotListener { (querSnap, err) in
-                if err != nil {
-                    print("Error loading user's lists in Explore: ", err)
-                }else{
-                    print("userlists changes registered")
-                    querSnap?.documentChanges.forEach({ (docChan) in
-                        switch(docChan.document.documentID){
-                        case "requests": self.requests = docChan.document.data()
-                            break
-                        case "block_list": self.blockList = docChan.document.data()
-                            break
-                        case "blocked_by": self.blockedBy = docChan.document.data()
-                            break
-                        case "friends": self.friends = docChan.document.data()
-                            break
-                        default:
-                            break
+        //make sure the user is actually signed in and authenticated first to prevent the signout error
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                   if user != nil {
+                    if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisId = self.thisUserProfile["id"] as? String{
+                        self.userListsListenerRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).collection("userlists").addSnapshotListener { (querSnap, err) in
+                        if err != nil {
+                            print("Error loading user's lists in Explore: ", err)
+                        }else{
+                            print("userlists changes registered")
+                            querSnap?.documentChanges.forEach({ (docChan) in
+                                switch(docChan.document.documentID){
+                                case "requests": self.requests = docChan.document.data()
+                                    break
+                                case "block_list": self.blockList = docChan.document.data()
+                                    break
+                                case "blocked_by": self.blockedBy = docChan.document.data()
+                                    break
+                                case "friends": self.friends = docChan.document.data()
+                                    break
+                                default:
+                                    break
+                                }
+                            })
+                            self.getSuggestedFriends()
                         }
-                    })
-                    self.getSuggestedFriends()
+                    }
                 }
+            } else { // user is not signed in so don't attach any listeners and dont load any data
+                    self.userListsListenerRegistration?.remove()
             }
         }
+        
+
+        
+        
     }
     
     
@@ -474,6 +485,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
     }
 }
+
+
 
 protocol SearchCellDelegator { //a delgator that allows SearchCell.swift trigger segues in this view controller through the SearchLauncher (when they click on the given search result they'll be taken to the appropriate view controller)
     func callSegueFromCell(searchResult: Dictionary<String, Any>)
