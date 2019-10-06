@@ -49,7 +49,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     var searchLauncher = SearchLauncher()
     var searchVisible = false
     var timer = Timer()
-    var userListsRegistration: ListenerRegistration? = nil
+    var userListsListenerRegistration: ListenerRegistration? = nil
     
     
     
@@ -150,11 +150,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         super.viewDidLoad()
         setUpNavigationBar()
         setUp()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        controller_minimized = true
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
@@ -363,9 +358,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         //extract the university this person is a part of
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).getDocument { (document, error) in
             if let document = document, document.exists {
-                var uni = document.data()
-                let featuredId = uni!["featured_id"] as! String
-                if (featuredId != ""){  //extract that featured event from that university
+                if let uni = document.data(), let featuredId = uni["featured_id"] as? String, featuredId != ""{  //extract that featured event from that university
                     self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").document(featuredId).getDocument { (document, error) in
                         if let document = document, document.exists {
                             self.featuredEventClicked = document.data()!
@@ -433,7 +426,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     func startListeningToUserLists(){
         if let uniDomain = thisUserProfile["uni_domain"] as? String, let thisId = thisUserProfile["id"] as? String{
-            userListsRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).collection("userlists").addSnapshotListener { (querSnap, err) in
+            userListsListenerRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).collection("userlists").addSnapshotListener { (querSnap, err) in
                 if err != nil {
                     print("Error loading user's lists in Explore: ", err)
                 }else{
