@@ -204,8 +204,6 @@ class ViewFullProfileActivity: UIViewController{
     // MARK: Individual Action Methods
 
     func buildBlockDialog(alert:UIAlertAction!){
-        
-        
         let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to block this user?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
@@ -219,9 +217,6 @@ class ViewFullProfileActivity: UIViewController{
 
         }))
         self.present(alert, animated: true)
-        
-        
-        
     }
 
     func blockUser(){ //when the user clicks on block user send it here to actually block them

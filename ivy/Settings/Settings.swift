@@ -189,17 +189,10 @@ class Settings: UIViewController{
     
     
     @IBAction func onClickSignOut(_ sender: Any) {
-        
-        let user = Auth.auth().currentUser  //get the current user that was just created above
-        if let user = user {
-            try! Auth.auth().signOut()  //actually sign the user out
-            self.performSegue(withIdentifier: "logoutSegue" , sender: self) //pass data over to
-        }
-
+        signOut()
     }
     
     @IBAction func onClickDeleteAcc(_ sender: Any) {
-        //TODO: prompt the user with the delete account dialog box
         var deletionMerger = Dictionary<String,Any>()
         deletionMerger["being_deleted"] = true
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as!  String).setData(deletionMerger, merge: true)
@@ -208,16 +201,36 @@ class Settings: UIViewController{
         deletionObject["type"] = "user_deletion"
         deletionObject["target_id"] = self.thisUserProfile["id"] as! String
         deletionObject["uni_domain"] = self.thisUserProfile["uni_domain"] as! String
-        self.baseDatabaseReference.collection("triggers").document().setData(deletionObject, completion: { (error) in
-            if error != nil {
-                //TODO: prompt the user with the print statement
-                print("We couldn't get your data. Try restarting the app or contacting us.")
-            } else {
-                //TODO: prompt the user with the print statement
-                print("request successful. Your account will be deleted within two weeks")
-                //TODO: set timer, that quits the app after 3 seconds
-            }
-        })
+        
+        let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to delete your account?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            
+            self.baseDatabaseReference.collection("triggers").document().setData(deletionObject, completion: { (error) in
+                if error != nil {
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Your request couldn't be added. Please restart the app and try again.", context: self)
+                } else {
+                    let alert2 = UIAlertController(title: "Success", message: "Your request has been added. We'll delete your account within two weeks. You will be signed out.", preferredStyle: .alert)
+                    alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                       self.signOut()
+                    }))
+                    self.present(alert2, animated: true)
+                }
+            })
+            
+        }))
+        self.present(alert, animated: true)
+        
+    }
+    
+    
+    
+    func signOut(){
+        let user = Auth.auth().currentUser  //get the current user that was just created above
+        if let user = user {
+            try! Auth.auth().signOut()  //actually sign the user out
+            self.performSegue(withIdentifier: "logoutSegue" , sender: self) //pass data over to
+        }
     }
     
 

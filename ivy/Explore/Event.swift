@@ -42,6 +42,8 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     @IBOutlet weak var imGoingButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonSpacer: UIView!
+    @IBOutlet weak var buttonSpacerTrailingConstraint: NSLayoutConstraint!
     
     
     
@@ -103,6 +105,10 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         self.goingCheckButton.imageView?.contentMode = .scaleAspectFit
         let imgWidth = eventImage.frame.width
         eventImageHeightConstr.constant = imgWidth
+        
+        buttonSpacer.translatesAutoresizingMaskIntoConstraints = false
+        buttonSpacer.trailingAnchor.constraint(equalTo: self.registerButton.trailingAnchor).isActive = true
+        registerButton.isHidden = true
     }
     
     private func setUpNavigationBar(eventName: String){
@@ -258,10 +264,14 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     @objc func registerButtonClicked(_ sender: UIButton) {//on click of the im going button clicked
         if self.event.contains(where: { $0.key == "link"}) {    //check if the event even contains a link to be clicked on
-            if let url = URL(string: event["link"] as! String) { //open link
-                UIApplication.shared.open(url, options: [:])
+            if let urlString = event["link"] as? String{
+                if let url = URL(string: urlString) { //open link
+                    UIApplication.shared.open(url, options: [:])
+                }
+                
+                if urlString == "" {
+                }
             }
-            
             if let uniDomain = self.userProfile["uni_domain"] as? String {
                 self.baseDatabaseReference.collection("universities").document(uniDomain).collection("events").document(self.event["id"] as! String).updateData(["clicks":FieldValue.arrayUnion([Date().timeIntervalSince1970])]) //update counter to indicate it was clicked on
             }

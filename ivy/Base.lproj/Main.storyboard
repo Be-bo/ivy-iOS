@@ -1490,7 +1490,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-jT-vQ0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="703"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9E3-fC-hbh">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1400"/>
@@ -1653,6 +1653,8 @@
                         <viewLayoutGuide key="safeArea" id="Pf4-Nv-CGl"/>
                     </view>
                     <connections>
+                        <outlet property="buttonSpacer" destination="UNC-CI-Ibo" id="ygl-og-2fD"/>
+                        <outlet property="buttonSpacerTrailingConstraint" destination="g7h-OG-usv" id="OYt-RZ-F2b"/>
                         <outlet property="collectionViewHeightConstraint" destination="jwV-kr-KDG" id="mIn-Ak-je4"/>
                         <outlet property="eventDescription" destination="MGk-wJ-DXH" id="CzG-ug-lIO"/>
                         <outlet property="eventImage" destination="pGW-jf-7aP" id="C8t-XL-kQo"/>
