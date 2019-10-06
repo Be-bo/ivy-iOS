@@ -189,7 +189,7 @@ class Settings: UIViewController{
     
     
     @IBAction func onClickSignOut(_ sender: Any) {
-        signOut()
+        self.signOut()
     }
     
     @IBAction func onClickDeleteAcc(_ sender: Any) {

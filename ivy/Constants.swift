@@ -16,3 +16,4 @@ enum Colors{
     static let ivy_notification = UIColor(red: 254/255, green: 60/255, blue: 0/255, alpha: 1.0)
     static let ivy_hint = UIColor(red: 213/255, green: 213/255, blue: 213/255, alpha: 1.0)
 }
+

@@ -163,7 +163,7 @@ class Login: UIViewController, UITextFieldDelegate {
                    /* if(self.authInstance.currentUser!.isEmailVerified){*/
                         if let range = email.range(of: "@") { //extract the domain the user's entered
                             self.thisUni = String(email[range.upperBound...])
-                            self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines)
+                            self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines) //trim whitespace and new line incase accidentley add space
                         }
                         self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
                         self.performSegue(withIdentifier: "loginToMain" , sender: self)

@@ -19,50 +19,8 @@ class Reg5Degree: UIViewController, UITableViewDelegate, UITableViewDataSource{
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
     var registerInfoStruct = UserProfile(age:0, banned: nil, bio: "", birth_time:nil) //will be overidden by the actual data
     var currentDegree = "Accounting"
-    let iconNames = [
-        "accounting", "actuarialScience", "ancientAndMedievalHistory", "anthropology", "appliedscience", "archaeology", "architecture", "artHistory", "astrophysics",
-        "biology", "businessadministration", "biochemistry", "bioinformatics", "biomechanics", "biomedicalSciences", "businessAnalytics", "businessTechnologyManagement", "businessAdmin", "businessStrategy",
-        "chemistry", "computerscience", "canadianStudies", "cmandb", "chemicalEngineering", "civilEngineering", "communicationandMediaStudies", "communityRehabilitation", "commerce",
-        "dentistry", "dance", "developmentStudies", "drama",
-        "economics", "education", "engineering", "english", "earthSciences", "eastAsianLanguageStudies", "ecology", "electricalEngineering", "energy", "entrepreneurshipandinnovation", "environment",
-        "finance", "finearts", "french", "film",
-        "geography", "geology", "geophysics", "german", "greekandroman",
-        "history", "health",
-        "indigenous", "internationalrelations", "italian",
-        "kinesiology",
-        "lawandsociety", "law", "latinamerican", "leadership", "linguistics",
-        "marketing", "math", "medicine", "mastersStudent",
-        "nursing",
-        "politicalscience", "psychology", "physiology", "physics", "philosophy", "plantBiology",
-        "realEstate", "religiousStudies", "riskManagementAndInsurance", "russian",
-        "socialWork", "sociology", "softwareEngineering", "spanish",
-        "urbanStudies",
-        "vet",
-        "womensStudies",
-        "zoology"
-    ]
-    
-    let degreeNames = ["Accounting", "Actuarial Science", "Ancient and Medieval History", "Anthropology", "Applied Science", "Archaeology", "Architecture", "Art History", "Astrophysics",
-                       "Biology", "Business Administration", "Biochemistry", "Bioinformatics", "Biomechanics", "Biomedical Sciences", "Business Analytics", "Business Technology Management", "Business Administration", "Business Strategy",
-                       "Chemistry", "Computer Science", "Canadian Studies", "Cellular, Molecular, and Microbial Biology", "Chemical Engineering", "Civil Engineering", "Communication and Media Studies", "Community Rehabilitation", "Commerce",
-                       "Dentistry", "Dance", "Development Studies", "Drama",
-                       "Economics", "Education", "Engineering", "English", "Earth Sciences", "East Asian Studies", "Ecology", "Electrical Engineering", "Energy", "Entrepreneurship and Innovation", "Environment",
-                       "Finance", "Fine Arts", "French", "Film",
-                       "Geography", "Geology", "Geophysics", "German", "Greek and Roman",
-                       "History", "Health",
-                       "Indigenous Studies", "International Relations", "Italian",
-                       "Kinesiology",
-                       "Law and Society", "Law", "Latin American Studies", "Leadership", "Linguistics",
-                       "Marketing", "Math", "Medicine", "Masters Degree",
-                       "Nursing",
-                       "Political Science", "Psychology", "Physiology", "Physics", "Philosophy", "Plant Biology",
-                       "Real Estate", "Religious Studies", "Risk Management and Insurance", "Russian",
-                       "Social Work", "Sociology", "Software Engineering", "Spanish",
-                       "Urban Studies",
-                       "Veterinary Medicine",
-                       "Women's Studies",
-                       "Zoology"
-    ]
+    let iconNames = PublicStaticMethodsAndData.iconNames
+    let degreeNames = PublicStaticMethodsAndData.degreeNames
     
     
     

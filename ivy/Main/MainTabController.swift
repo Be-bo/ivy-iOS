@@ -18,7 +18,7 @@ class MainTabController: UITabBarController {
     var thisUserProfile = Dictionary<String, Any>()
     var thisUserId = Auth.auth().currentUser!.uid
     var thisUniDomain = ""
-    var listenerRegistration:ListenerRegistration? = nil
+    var userProfileListener:ListenerRegistration? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,29 +27,36 @@ class MainTabController: UITabBarController {
     }
     
     private func startListeningToUserProfile(){
-        listenerRegistration = baseDatabaseReference.collection("universities").document(thisUniDomain).collection("userprofiles").document(thisUserId).addSnapshotListener() { (docSnap, e) in
-            if let e = e{
-                print("Error obtaining user profile: \(e)")
-                PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't get your user data, try restarting the app. :-(", context: self)
-                exit(0) //discouraged by Apple
-            }else{
-                if(docSnap?.exists ?? false && docSnap?.data() != nil){
-                    self.thisUserProfile = (docSnap?.data())!
-                    if let time = self.thisUserProfile["age"] as? Int64, let age = self.thisUserProfile["birth_time"] as? Int64{
-                        if PublicStaticMethodsAndData.calculateAge(millis: time) != age, let uni = self.thisUserProfile["uni_domain"] as? String, let id = self.thisUserProfile["id"] as? String{ //update age if there's a mismatch
-                            if abs(PublicStaticMethodsAndData.calculateAge(millis: time)-age) <= 1{
-                                var merger = Dictionary<String, Any>()
-                                merger["age"] = PublicStaticMethodsAndData.calculateAge(millis: time)
-                                self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).setData(merger, merge: true)
+        //make sure the user is actually signed in and authenticated first to prevent the signout error
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+                   if user != nil {
+                    self.userProfileListener = self.baseDatabaseReference.collection("universities").document(self.thisUniDomain).collection("userprofiles").document(self.thisUserId).addSnapshotListener() { (docSnap, e) in
+                        if let e = e{
+                            print("Error obtaining user profile: \(e)")
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't get your user data, try restarting the app. :-(", context: self)
+                            exit(0) //discouraged by Apple
+                        }else{
+                            if(docSnap?.exists ?? false && docSnap?.data() != nil){
+                                self.thisUserProfile = (docSnap?.data())!
+                                if let time = self.thisUserProfile["age"] as? Int64, let age = self.thisUserProfile["birth_time"] as? Int64{
+                                    if PublicStaticMethodsAndData.calculateAge(millis: time) != age, let uni = self.thisUserProfile["uni_domain"] as? String, let id = self.thisUserProfile["id"] as? String{ //update age if there's a mismatch
+                                        if abs(PublicStaticMethodsAndData.calculateAge(millis: time)-age) <= 1{
+                                            var merger = Dictionary<String, Any>()
+                                            merger["age"] = PublicStaticMethodsAndData.calculateAge(millis: time)
+                                            self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).setData(merger, merge: true)
+                                        }
+                                    }
+                                }
+                                self.updateTabs()
+                                self.checkMessageNotification()
+                            }else{
+                                PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Your user profile doesn't exist, please contact us.", context: self)
+                                exit(0)
                             }
                         }
                     }
-                    self.updateTabs()
-                    self.checkMessageNotification()
-                }else{
-                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Your user profile doesn't exist, please contact us.", context: self)
-                    exit(0)
-                }
+            } else { // user is not signed in so remove the attached listener and dont load any data
+                    self.userProfileListener?.remove()
             }
         }
     }
@@ -88,7 +95,7 @@ class MainTabController: UITabBarController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        listenerRegistration?.remove() //stop listening to changes when the app quits or the user signs outs (i.e. the tab controller stops existing)
+        userProfileListener?.remove() //stop listening to changes when the app quits or the user signs outs (i.e. the tab controller stops existing)
     }
     
     

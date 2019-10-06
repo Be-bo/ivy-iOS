@@ -28,38 +28,8 @@ class editDegreePopUpViewController: UIViewController, UITableViewDelegate, UITa
     @IBOutlet weak var closeButton: StandardButton!
     @IBOutlet weak var doneButton: StandardButton!
     
-    let iconNames = [
-        "accounting",
-        "biology", "businessadministration",
-        "chemistry", "computerscience",
-        "dentistry",
-        "economics", "education", "engineering", "english",
-        "finance", "finearts",
-        "geography",
-        "history",
-        "marketing", "math",
-        "politicalscience", "psychology",
-        "sociology",
-        "lawandsociety", "law",
-        "medicine",
-        "nursing",
-        "physics", "philosophy"
-    ]
-    let degreeNames = ["Accounting",
-                       "Biology", "Business Administration",
-                       "Chemistry", "Computer Science",
-                       "Dentistry",
-                       "Economics", "Education", "Engineering", "English",
-                       "Finance", "Fine Arts",
-                       "Geography",
-                       "History",
-                       "Marketing", "Math",
-                       "Political Science", "Psychology",
-                       "Sociology",
-                       "Law & Society", "Law",
-                       "Medicine",
-                       "Nursing",
-                       "Physics", "Philosophy"]
+    let iconNames = PublicStaticMethodsAndData.iconNames
+    let degreeNames = PublicStaticMethodsAndData.degreeNames
     
     
 
