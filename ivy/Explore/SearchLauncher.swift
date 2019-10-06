@@ -216,9 +216,11 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
                                     if(eventSnapshot?.exists ?? false && eventSnapshot?.data() != nil){
                                         if var current = eventSnapshot?.data() {
                                             current["search_type"] = "event"
-                                            self.all_results.append(current)
-                                            self.searchCollectionView.reloadData()
-                                            self.progressWheel.isHidden = true
+                                            if let endTime = current["end_time"] as? Int64, endTime > Date().millisecondsSince1970{ //make sure the event isn't expired before we add it
+                                                self.all_results.append(current)
+                                                self.searchCollectionView.reloadData()
+                                                self.progressWheel.isHidden = true
+                                            }
                                         }
                                     }
                                     if(self.all_results.count < 1 && i >= eventIds.count-1){

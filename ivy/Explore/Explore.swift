@@ -395,7 +395,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func loadEvents(){ //load all the events except for the featured event
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").order(by: "creation_time", descending: true).getDocuments() { (querySnapshot, err) in
+        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").whereField("end_time", isGreaterThan: Date().millisecondsSince1970).order(by: "end_time", descending: false).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -405,7 +405,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         let isFeatured = event["is_featured"] as! Bool
                         let isActive = event["is_active"] as! Bool
                         let endTime = event["end_time"] as! Int64
-                        if (!isFeatured && isActive && endTime > Int64(Date().timeIntervalSince1970)){
+                        if (!isFeatured && isActive && endTime > Int64(Date().millisecondsSince1970)){
                             var eventAlreadyAdded = false
                             if(!self.allEvents.contains(where: { (currentEvent) -> Bool in //if not true that an event with this id already exists in our events
                                 if let aboutToAddId = event["id"] as? String, let testingAgainstId = currentEvent["id"] as? String, aboutToAddId == testingAgainstId{
