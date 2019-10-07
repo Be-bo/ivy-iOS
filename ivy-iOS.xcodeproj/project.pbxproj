@@ -12,6 +12,7 @@
 		A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */; };
 		A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266422A4B214005E8965 /* cordiabold.ttf */; };
 		A90D266722A4B215005E8965 /* cordia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266522A4B215005E8965 /* cordia.ttf */; };
+		A912EA2F234BD01200F953D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A912EA2E234BD01200F953D0 /* GoogleService-Info.plist */; };
 		A91D4B692331D2AD00D55286 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A91D4B682331D2AD00D55286 /* Assets.xcassets */; };
 		A920C4E522D281B60088DD58 /* CardBack.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E422D281B60088DD58 /* CardBack.xib */; };
 		A920C4E722D281C20088DD58 /* CardFront.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E622D281C20088DD58 /* CardFront.xib */; };
@@ -86,7 +87,6 @@
 		FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */; };
 		FA13E59322F9D04000F8FFA1 /* CardInterestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13E59122F9D04000F8FFA1 /* CardInterestCell.swift */; };
 		FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA13E59222F9D04000F8FFA1 /* CardInterestCell.xib */; };
-		FA14787D23445C5D00BE7BBC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA14787C23445C5D00BE7BBC /* GoogleService-Info.plist */; };
 		FA14D5A022F8BCB000331E82 /* MainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */; };
 		FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */; };
 		FA1B412422F4AC6F005817C5 /* BoardNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1B412322F4AC6F005817C5 /* BoardNavigationViewController.swift */; };
@@ -125,6 +125,7 @@
 		A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editInterestsPopUpViewController.swift; sourceTree = "<group>"; };
 		A90D266422A4B214005E8965 /* cordiabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordiabold.ttf; sourceTree = "<group>"; };
 		A90D266522A4B215005E8965 /* cordia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordia.ttf; sourceTree = "<group>"; };
+		A912EA2E234BD01200F953D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A91D4B682331D2AD00D55286 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A920C4E422D281B60088DD58 /* CardBack.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardBack.xib; sourceTree = "<group>"; };
 		A920C4E622D281C20088DD58 /* CardFront.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardFront.xib; sourceTree = "<group>"; };
@@ -203,7 +204,6 @@
 		FA121C2D22EE4C3700C175F7 /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		FA13E59122F9D04000F8FFA1 /* CardInterestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInterestCell.swift; sourceTree = "<group>"; };
 		FA13E59222F9D04000F8FFA1 /* CardInterestCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardInterestCell.xib; sourceTree = "<group>"; };
-		FA14787C23445C5D00BE7BBC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA14D59F22F8BCAF00331E82 /* MainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		FA14D5A122F8BCC700331E82 /* MainNavigationBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainNavigationBar.xib; sourceTree = "<group>"; };
 		FA1B412322F4AC6F005817C5 /* BoardNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardNavigationViewController.swift; sourceTree = "<group>"; };
@@ -453,7 +453,7 @@
 				FA60590922A4B12C00383F9F /* AppDelegate.swift */,
 				A9BB05E322B5D2F8008B35AA /* Constants.swift */,
 				FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */,
-				FA14787C23445C5D00BE7BBC /* GoogleService-Info.plist */,
+				A912EA2E234BD01200F953D0 /* GoogleService-Info.plist */,
 				FA60591522A4B12E00383F9F /* Info.plist */,
 			);
 			path = ivy;
@@ -558,13 +558,13 @@
 				A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */,
 				A90D266722A4B215005E8965 /* cordia.ttf in Resources */,
 				A91D4B692331D2AD00D55286 /* Assets.xcassets in Resources */,
+				A912EA2F234BD01200F953D0 /* GoogleService-Info.plist in Resources */,
 				A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */,
 				A9FD1980231DB5D100ECA848 /* galleryImageView.xib in Resources */,
 				A9B57E8323137482008DC63B /* EventCollectionViewCell.xib in Resources */,
 				A9FD196C2315C84A00ECA848 /* BoardPostTableViewCell.xib in Resources */,
 				A9FD1974231B98F900ECA848 /* profileCardFront.xib in Resources */,
 				FA6F7C9622EE713D00610046 /* SettingsButton.xib in Resources */,
-				FA14787D23445C5D00BE7BBC /* GoogleService-Info.plist in Resources */,
 				A920C4E722D281C20088DD58 /* CardFront.xib in Resources */,
 				A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
