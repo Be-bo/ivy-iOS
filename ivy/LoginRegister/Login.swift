@@ -169,7 +169,7 @@ class Login: UIViewController, UITextFieldDelegate {
                         self.performSegue(withIdentifier: "loginToMain" , sender: self)
                   /*  }
                     else{
-                        self.errorLabel.text = "You need to verify your email address before you can log in."
+                        self.errorLabel.text = "You need to verify your email address before you can log in. Didn't recieve an email? Click here to resend it."
                         self.allowInteraction()
                     }*/
                     
