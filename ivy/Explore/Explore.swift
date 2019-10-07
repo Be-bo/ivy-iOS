@@ -19,11 +19,13 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
 
     private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
     private let baseStorageReference = Storage.storage()                         //reference to storage
+    
     //for events
     private var thisUserProfile = Dictionary<String, Any>()
     private var allEvents = [Dictionary<String, Any>]()                          //array of dictionaries for holding each seperate event
     private var eventClicked = Dictionary<String, Any>()                         //actual event that was clicked
     private var organizationClicked = Dictionary<String, Any>()                 //organization clicked during search
+    
     //suggested friends vars
     private var allSuggestedFriends = [Dictionary<String, Any>]()
     private var requests = Dictionary<String, Any>()
@@ -32,9 +34,15 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     private var blockedBy = Dictionary<String, Any>()
     private var suggestedProfileClicked = Dictionary<String, Any>()             //holds the other profile that was clicked from the suggested friends collection
     private var featuredEventClicked = Dictionary<String, Any>()                //for featured event
+    private let SF_BATCH_SIZE = 10                                              //size of a single query fetch for our pagination system
+    private let SF_BATCH_TOLERANCE = 2                                          //how far the user has to be from the end of the list to start loading a new batch
+    private var loadedAllProfiles = false
+    private var profileLoadInProgress = false
+    private var sfDefaultQuery:Firebase.Query?=nil
+    private var lastRetrievedProfile:QueryDocumentSnapshot?=nil
     
-    private var data_loaded = false
-    private var controller_minimized = false
+    private var dataLoaded = false
+    private var appMinimized = false
     
     @IBOutlet weak var featuredHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var featuredEventImage: UIImageView!
@@ -234,12 +242,12 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     private func setUp(){ //initial setup method when the ViewController's first created
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
-        
-        eventsCollectionView.delegate = self
+                
+        eventsCollectionView.delegate = self //events setup
         eventsCollectionView.dataSource = self
         eventsCollectionView.register(UINib(nibName:eventCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: eventCollectionIdentifier)
         
-        recommendedFriendCollecView.delegate = self
+        recommendedFriendCollecView.delegate = self //suggested friends setup
         recommendedFriendCollecView.dataSource = self
         recommendedFriendCollecView.register(UINib(nibName:profileCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: profileCollectionIdentifier)
         
@@ -275,7 +283,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         self.thisUserProfile = updatedProfile
-        if(!data_loaded){ //*option two, the UI's initiated but the data hasn't been loaded yet (because the user profile was nil during the UI setup)
+        if(!dataLoaded){ //*option two, the UI's initiated but the data hasn't been loaded yet (because the user profile was nil during the UI setup)
             startLoadingData()
         }
     }
@@ -286,12 +294,13 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     
     
-    // MARK: Collection View Delegate and Datasource Methods
+    // MARK: Collection View Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.eventsCollectionView {
             return self.allEvents.count
         }else{
+            print("AZsuggfriends count: ", self.allSuggestedFriends.count)
             return self.allSuggestedFriends.count
         }
     }
@@ -304,6 +313,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }else{
             let profileCard = collectionView.dequeueReusableCell(withReuseIdentifier: profileCollectionIdentifier, for: indexPath) as! profileCollectionViewCell
             profileCard.setUpWithProfile(profile: allSuggestedFriends[indexPath.item])
+            print("AZbinding: ",allSuggestedFriends[indexPath.item]["first_name"] as! String)
             return profileCard
         }
     }
@@ -330,6 +340,19 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) { //check when the user scrolls to see if need to obtain the next batch of data
+        let visibleCells = recommendedFriendCollecView.visibleCells
+        let lastCell = visibleCells[visibleCells.count - 1] as! profileCollectionViewCell
+        let index = recommendedFriendCollecView.indexPath(for: lastCell)
+        print("AZindex: ", index!.item)
+        if(!profileLoadInProgress && index!.item >= (allSuggestedFriends.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
+            if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
+                let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
+                self.getSuggestedFriends(query: continuationQuery!)
+            }
+        }
+    }
+    
     
     
     
@@ -347,7 +370,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             self.setFeaturedEvent()
             self.loadEvents()
             self.startListeningToUserLists()
-            self.data_loaded = true
+            self.dataLoaded = true
         }
     }
     
@@ -425,6 +448,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func startListeningToUserLists(){
+        self.sfDefaultQuery = self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").limit(to: SF_BATCH_SIZE) //assign the default query for loading suggested profiles
+        
         //make sure the user is actually signed in and authenticated first to prevent the signout error
         Auth.auth().addStateDidChangeListener { (auth, user) in
                    if user != nil {
@@ -448,7 +473,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                                     break
                                 }
                             })
-                            self.getSuggestedFriends()
+                            self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
+                            self.getSuggestedFriends(query: self.sfDefaultQuery!)
                         }
                     }
                 }
@@ -463,24 +489,35 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     
-    func getSuggestedFriends() { //load all the suggested friends for this particular user so we can then populate the collection view.
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").getDocuments() { (querySnapshot, err) in
+    func getSuggestedFriends(query: Firebase.Query) { //load a new batch of user profiles based on the query in the argument 
+        profileLoadInProgress = true
+        
+        query.getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 self.allSuggestedFriends = [Dictionary<String, Any>]()
-                if let querSnapDocs = querySnapshot?.documents{
-                    for document in querSnapDocs {
-                        if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
-                            if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
-                                if (thisUserId != toAddId && !self.blockedBy.contains(where: { $0.key == toAddId}) && !self.blockList.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
-                                    self.allSuggestedFriends.insert(docData, at: 0)
+                if let querSnapDocs = querySnapshot?.documents, !querSnapDocs.isEmpty{
+                    for i in 0..<querSnapDocs.count { //go through all the fetched profiles
+                            let document = querSnapDocs[i]
+                            if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
+                                if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
+                                    if (thisUserId != toAddId && !self.blockedBy.contains(where: { $0.key == toAddId}) && !self.blockList.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
+                                        print("AZfetching: ",docData["first_name"] as! String)
+                                        self.allSuggestedFriends.append(docData)
+                                    }
+                                }
+                                if(i >= querSnapDocs.count - 1){
+                                    self.lastRetrievedProfile = document
                                 }
                             }
                         }
-                    }
+                    
+                        self.recommendedFriendCollecView.reloadData()
+                }else{
+                    self.loadedAllProfiles = true
                 }
-                self.recommendedFriendCollecView.reloadData()
+                self.profileLoadInProgress = false
             }
         }
     }
