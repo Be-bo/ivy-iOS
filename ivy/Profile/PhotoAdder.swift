@@ -186,12 +186,12 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
         var image: UIImage? = self.finalImageView.image // Load an image
         let cropViewController = CropViewController(image: image!)
         cropViewController.delegate = self
-        //TODO: decide if 9 by 16 is better than 2 to 3. seems to be okay so far
         cropViewController.customAspectRatio = CGSize(width: 2.0, height: 3.0)
         cropViewController.aspectRatioPreset = .presetCustom
         cropViewController.resetAspectRatioEnabled = false
         cropViewController.aspectRatioLockEnabled = true
         cropViewController.aspectRatioPickerButtonHidden = true
+        cropViewController.modalPresentationStyle = .fullScreen
         present(cropViewController, animated: true, completion: nil)
     }
     
@@ -216,7 +216,7 @@ class PhotoAdder: UIViewController, CropViewControllerDelegate, UIImagePickerCon
     func showImagePickerController() { //present the imagepicker controller which allows users to choose what image they want from the gallery
         let imagePicker = UIImagePickerController()
        // imagePicker.modalPresentationStyle = .popover
-        imagePicker.preferredContentSize = CGSize(width: 414, height: 818)
+        imagePicker.preferredContentSize = CGSize(width: 320, height: 568)
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = false
         imagePicker.delegate = self
