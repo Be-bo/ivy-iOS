@@ -459,49 +459,47 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func startListeningToUserLists(){
-        self.sfDefaultQuery = self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").limit(to: SF_BATCH_SIZE) //assign the default query for loading suggested profiles
-        
-        //make sure the user is actually signed in and authenticated first to prevent the signout error
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-                   if user != nil {
-                    if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisId = self.thisUserProfile["id"] as? String{
-                        self.userListsListenerRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).collection("userlists").addSnapshotListener { (querSnap, err) in
-                        if err != nil {
-                            print("Error loading user's lists in Explore: ", err)
-                        }else{
-                            print("userlists changes registered")
-                            querSnap?.documentChanges.forEach({ (docChan) in
-                                switch(docChan.document.documentID){
-                                case "requests": self.requests = docChan.document.data()
-                                    break
-                                case "block_list": self.blockList = docChan.document.data()
-                                    break
-                                case "blocked_by": self.blockedBy = docChan.document.data()
-                                    break
-                                case "friends": self.friends = docChan.document.data()
-                                    break
-                                default:
-                                    break
-                                }
-                            })
-                            self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
-                            self.allSuggestedFriends = [Dictionary<String, Any>]()
-                            self.getSuggestedFriends(query: self.sfDefaultQuery!)
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
+            self.sfDefaultQuery = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").order(by: "registration_millis", descending: true).limit(to: SF_BATCH_SIZE) //assign the default query for loading suggested profiles
+            
+            //make sure the user is actually signed in and authenticated first to prevent the signout error
+            Auth.auth().addStateDidChangeListener { (auth, user) in
+                       if user != nil {
+                        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisId = self.thisUserProfile["id"] as? String{
+                            self.userListsListenerRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).collection("userlists").addSnapshotListener { (querSnap, err) in
+                            if err != nil {
+                                print("Error loading user's lists in Explore: ", err)
+                            }else{
+                                print("userlists changes registered")
+                                querSnap?.documentChanges.forEach({ (docChan) in
+                                    switch(docChan.document.documentID){
+                                    case "requests": self.requests = docChan.document.data()
+                                        break
+                                    case "block_list": self.blockList = docChan.document.data()
+                                        break
+                                    case "blocked_by": self.blockedBy = docChan.document.data()
+                                        break
+                                    case "friends": self.friends = docChan.document.data()
+                                        break
+                                    default:
+                                        break
+                                    }
+                                })
+                                self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
+                                self.allSuggestedFriends = [Dictionary<String, Any>]()
+                                self.getSuggestedFriends(query: self.sfDefaultQuery!)
+                            }
                         }
                     }
+                } else { // user is not signed in so don't attach any listeners and dont load any data
+                        self.userListsListenerRegistration?.remove()
                 }
-            } else { // user is not signed in so don't attach any listeners and dont load any data
-                    self.userListsListenerRegistration?.remove()
             }
         }
-        
-
-        
-        
     }
     
     
-    //TODO: The pagination causes the client to only end up with half the users once they reach the end of the list, has to be fixed
+    
     
     func getSuggestedFriends(query: Firebase.Query) { //load a new batch of user profiles based on the query in the argument 
         profileLoadInProgress = true
