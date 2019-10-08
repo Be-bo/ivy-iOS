@@ -35,7 +35,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     private var suggestedProfileClicked = Dictionary<String, Any>()             //holds the other profile that was clicked from the suggested friends collection
     private var featuredEventClicked = Dictionary<String, Any>()                //for featured event
     private let SF_BATCH_SIZE = 10                                              //size of a single query fetch for our pagination system
-    private let SF_BATCH_TOLERANCE = 2                                          //how far the user has to be from the end of the list to start loading a new batch
+    private let SF_BATCH_TOLERANCE = 4                                          //how far the user has to be from the end of the list to start loading a new batch
     private var loadedAllProfiles = false
     private var profileLoadInProgress = false
     private var sfDefaultQuery:Firebase.Query?=nil
@@ -340,17 +340,18 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) { //check when the user scrolls to see if need to obtain the next batch of data
-        
-        //TODO: clean up and get rid of force unwrappings
-        //TODO: also remove all force unwrappings from profileCollectionViewCell, had crashes because of them
         let visibleCells = recommendedFriendCollecView.visibleCells
         if(visibleCells.count > 0){
-            let lastCell = visibleCells[visibleCells.count - 1] as! profileCollectionViewCell
-            let index = allSuggestedFriends.firstIndex(where: {($0["id"] as! String) == (lastCell.profile["id"] as! String)})
-            if(!profileLoadInProgress && index! >= (allSuggestedFriends.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
-                if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
-                    let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
-                    self.getSuggestedFriends(query: continuationQuery!)
+            if let lastCell = visibleCells[visibleCells.count - 1] as? profileCollectionViewCell {
+                if let lastCellId = lastCell.profile["id"] as? String{
+                    if let index = allSuggestedFriends.firstIndex(where: {($0["id"] as? String) == lastCellId}){
+                        if(!profileLoadInProgress && index >= (allSuggestedFriends.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
+                            if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
+                                let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
+                                self.getSuggestedFriends(query: continuationQuery!)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -393,18 +394,25 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                             let endTime = self.featuredEventClicked["end_time"] as! CLong
                             if(isFeatured && isActive && endTime > Int(Date().timeIntervalSince1970)){  //make sure its active and actually a featured event, check exp time
                                 self.featuredEventImage.isHidden = false
-                                //TODO: set text of featured image to be visible here if we choose to have the text hidden @ other times
-                                self.baseStorageReference.reference().child(self.featuredEventClicked["image"] as! String).getData(maxSize: 1 * 1024 * 1024) { data, error in  //download image
-                                    if let error = error {
-                                        print("error", error)
-                                    } else {
-                                        self.featuredEventImage.image  = UIImage(data: data!)   //populate cell with downloaded image
-                                        //add on click listener that takes them to the event page when they click on the image
-                                        let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickFeatured))
-                                        self.featuredEventImage.isUserInteractionEnabled = true
-                                        self.featuredEventImage.addGestureRecognizer(singleTap)
+                                
+                                if let clickFeaturedImageString = self.featuredEventClicked["image"] as? String {
+                                    //TODO: set text of featured image to be visible here if we choose to have the text hidden @ other times
+                                    self.baseStorageReference.reference().child(clickFeaturedImageString).getData(maxSize: 1 * 1024 * 1024) { data, error in  //download image
+                                        if let error = error {
+                                            print("error", error)
+                                        } else {
+                                            self.featuredEventImage.image  = UIImage(data: data!)   //populate cell with downloaded image
+                                            //add on click listener that takes them to the event page when they click on the image
+                                            let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickFeatured))
+                                            self.featuredEventImage.isUserInteractionEnabled = true
+                                            self.featuredEventImage.addGestureRecognizer(singleTap)
+                                        }
                                     }
                                 }
+                                
+
+                                
+                                
                             }else{
                                 //TODO: set text of featured image to be INVISIBLE here if we choose to have the text hidden @ other times
                                 self.featuredEventImage.isHidden = true
@@ -512,9 +520,9 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                                         self.allSuggestedFriends.append(docData)
                                     }
                                 }
-                                if(i >= querSnapDocs.count - 1){
-                                    self.lastRetrievedProfile = document
-                                }
+                            }
+                            if(i >= querSnapDocs.count - 1){
+                                self.lastRetrievedProfile = document
                             }
                         }
                     
