@@ -300,7 +300,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         if collectionView == self.eventsCollectionView {
             return self.allEvents.count
         }else{
-            print("AZsuggfriends count: ", self.allSuggestedFriends.count)
             return self.allSuggestedFriends.count
         }
     }
@@ -341,14 +340,18 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) { //check when the user scrolls to see if need to obtain the next batch of data
+        
+        //TODO: clean up and get rid of force unwrappings
+        //TODO: also remove all force unwrappings from profileCollectionViewCell, had crashes because of them
         let visibleCells = recommendedFriendCollecView.visibleCells
-        let lastCell = visibleCells[visibleCells.count - 1] as! profileCollectionViewCell
-        let index = recommendedFriendCollecView.indexPath(for: lastCell)
-        print("AZindex: ", index!.item)
-        if(!profileLoadInProgress && index!.item >= (allSuggestedFriends.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
-            if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
-                let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
-                self.getSuggestedFriends(query: continuationQuery!)
+        if(visibleCells.count > 0){
+            let lastCell = visibleCells[visibleCells.count - 1] as! profileCollectionViewCell
+            let index = allSuggestedFriends.firstIndex(where: {($0["id"] as! String) == (lastCell.profile["id"] as! String)})
+            if(!profileLoadInProgress && index! >= (allSuggestedFriends.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
+                if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
+                    let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
+                    self.getSuggestedFriends(query: continuationQuery!)
+                }
             }
         }
     }
@@ -474,6 +477,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                                 }
                             })
                             self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
+                            self.allSuggestedFriends = [Dictionary<String, Any>]()
                             self.getSuggestedFriends(query: self.sfDefaultQuery!)
                         }
                     }
@@ -489,6 +493,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     
+    //TODO: The pagination causes the client to only end up with half the users once they reach the end of the list, has to be fixed
+    
     func getSuggestedFriends(query: Firebase.Query) { //load a new batch of user profiles based on the query in the argument 
         profileLoadInProgress = true
         
@@ -496,7 +502,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                self.allSuggestedFriends = [Dictionary<String, Any>]()
                 if let querSnapDocs = querySnapshot?.documents, !querSnapDocs.isEmpty{
                     for i in 0..<querSnapDocs.count { //go through all the fetched profiles
                             let document = querSnapDocs[i]

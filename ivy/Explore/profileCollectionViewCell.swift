@@ -18,8 +18,8 @@ import FirebaseStorage
 class profileCollectionViewCell: UICollectionViewCell {
     
     private let baseStorageReference = Storage.storage().reference()
-    private let baseDatabaseReference = Firestore.firestore()                                   //reference to the database
-
+    private let baseDatabaseReference = Firestore.firestore()
+    var profile = Dictionary<String, Any>()
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var name: UILabel!
@@ -64,6 +64,7 @@ class profileCollectionViewCell: UICollectionViewCell {
     
     func setUpWithProfile(profile: Dictionary<String, Any>){
         
+        self.profile = profile
         let imageLocation = "userimages/" + String(profile["id"] as! String) + "/preview.jpg"
         let storageImageRef = baseStorageReference.child(imageLocation)
         
