@@ -429,6 +429,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func loadEvents(){ //load all the events except for the featured event
+        self.allEvents = [Dictionary<String, Any>]()
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").whereField("end_time", isGreaterThan: Date().millisecondsSince1970).order(by: "end_time", descending: false).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
