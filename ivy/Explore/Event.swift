@@ -106,9 +106,9 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         let imgWidth = eventImage.frame.width
         eventImageHeightConstr.constant = imgWidth
         
-        buttonSpacer.translatesAutoresizingMaskIntoConstraints = false
-        buttonSpacer.trailingAnchor.constraint(equalTo: self.registerButton.trailingAnchor).isActive = true
-        registerButton.isHidden = true
+//        buttonSpacer.translatesAutoresizingMaskIntoConstraints = false
+//        buttonSpacer.trailingAnchor.constraint(equalTo: self.registerButton.trailingAnchor).isActive = true
+//        registerButton.isHidden = true
     }
     
     private func setUpNavigationBar(eventName: String){
@@ -269,8 +269,8 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                     UIApplication.shared.open(url, options: [:])
                 }
                 
-                if urlString == "" {
-                }
+//                if urlString == "" {
+//                }
             }
             if let uniDomain = self.userProfile["uni_domain"] as? String {
                 self.baseDatabaseReference.collection("universities").document(uniDomain).collection("events").document(self.event["id"] as! String).updateData(["clicks":FieldValue.arrayUnion([Date().timeIntervalSince1970])]) //update counter to indicate it was clicked on
