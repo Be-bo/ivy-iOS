@@ -33,7 +33,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     var otherId=""                                      //other persons id that will be exxtracted when figuring out who your conversating with
     var imagePicked: ((UIImage))?
     var filePicked: ((URL))?
-    var first_launch = true //for auto scroll (so it only happens once and not every time the user scrolls)
+    var first_launch = true                             //for auto scroll (so it only happens once and not every time the user scrolls)
+    private var isJustFile = true                       //is just file will be set when its jsut a file, not image sent over
     
     var imageChosenToDownload:UIImage? = nil
     
@@ -309,6 +310,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         // ---------------------------------------------- IMAGE CHOOSING ----------------------------------------------
         AttachmentHandler.shared.imagePickedBlock = { (image) in
             self.file_attached = true
+            self.isJustFile = true
             
             //Add the image name to the chat so they know what they just attached
             self.fileNameLabel.text = image.accessibilityIdentifier ?? "Photo.png"
@@ -331,6 +333,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             //limit file size to < 5mb
             if((url.fileSize / 1000) < 5000 ){
                 self.file_attached = true
+                self.isJustFile = false
                 
                 //Add the image name to the chat so they know what they just attached
                 self.fileNameLabel.text = url.lastPathComponent
@@ -582,6 +585,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                             NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath])
                         //                    self.messageCollectionView.endUpdates()
                         self.messageCollectionView.scrollToLast()
+//                        self.messageCollectionView.reloadData()
+                        
                         //                    self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                     }
                 }
@@ -641,23 +646,39 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             if(isTxtOnly){
                 cell.fileIconHeight.constant = 0
                 cell.downloadButtonHeight.constant = 0
-                cell.downloadButtonHeight.constant = 0
                 cell.photoImageHeight.constant = 0
+                cell.photoImageWidth.constant = 0
             }else{
                 cell.fileIconHeight.constant = 30
                 cell.downloadButtonHeight.constant = 30
-                cell.downloadButtonHeight.constant = 30
                 if let fileRef = self.messages[indexPath.item]["file_reference"] as? String {
                     let fileName = fileRef.components(separatedBy: "/").last!
+                    let fileExt = fileName.components(separatedBy: ".").last!
+                   
+                    
                     cell.fileNameLabel.text = fileName
                     cell.setUp(msg: self.messages[indexPath.item], rulingVC: self)
+                    
                     let storageImageRef = self.baseStorageReference.reference().child(fileRef)
                     storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
                         if let error = error {
                             print("error", error)
                         } else {
-                            cell.photoImageView.image = UIImage(data:data!)
-                            cell.photoImageHeight.constant = 310
+                            
+                            if (fileExt.lowercased() == "jpg" || fileExt.lowercased() == "png" || fileExt.lowercased() == "jpeg"){  //if its a photo then the height should be bigger, else no
+                                cell.photoImageView.image = UIImage(data:data!)
+                                cell.photoImageHeight.constant = 297
+                                cell.photoImageWidth.constant = 410
+                                cell.fileNameLabel.text = ""
+                                cell.fileIcon.isHidden = true
+                                cell.downloadButtonHeight.constant = 30
+                                cell.fileIconHeight.constant = 0
+                            }else{  //regular file
+                                
+                                cell.fileIcon.isHidden = false
+                                cell.fileIconHeight.constant = 30
+                                cell.downloadButtonHeight.constant = 30
+                            }
                         }
                     }
                 }else{
@@ -678,12 +699,13 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             let attributes = [NSAttributedString.Key.font: font]
             let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
             if(estimatedFrame.height < 38){ //a check in case the message label is too small in terms of height (the container would get cut off)
-                if(isTxtOnly){
+                if(isTxtOnly || self.isJustFile == true){
                     return CGSize(width: view.frame.width, height: 70) //alt +/- 30
                 }else{
+                    
                     //TODO: edited the height to fill the image view here
                     //TODO: if just file, set height to be less, or itll get set to huge like the image
-                    return CGSize(width: view.frame.width, height: 500) //alt +/- 30
+                    return CGSize(width: view.frame.width, height: 400) //alt +/- 30
                     
                 }
             }

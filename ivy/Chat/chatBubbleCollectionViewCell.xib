@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -23,7 +22,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zbg-pu-SrM" userLabel="MessageLabel Container">
-                        <rect key="frame" x="66" y="8" width="426" height="75"/>
+                        <rect key="frame" x="66" y="8" width="426" height="384"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7M1-PY-trc" userLabel="MessageLabel">
                                 <rect key="frame" x="8" y="8" width="410" height="29"/>
@@ -31,15 +30,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="file_white_full" translatesAutoresizingMaskIntoConstraints="NO" id="nwd-Dk-jZk">
-                                <rect key="frame" x="8" y="41" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="eaz-4N-gS2"/>
-                                    <constraint firstAttribute="width" constant="30" id="fDQ-52-CUd"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="file" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWw-Nv-LIH" userLabel="File Name">
-                                <rect key="frame" x="46" y="41" width="334" height="30"/>
+                                <rect key="frame" x="46" y="45" width="21" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="co4-1V-L7T"/>
                                 </constraints>
@@ -48,7 +40,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwL-1M-LQq" userLabel="Download Button">
-                                <rect key="frame" x="388" y="41" width="30" height="30"/>
+                                <rect key="frame" x="388" y="8" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="P9K-hh-ybW"/>
                                     <constraint firstAttribute="width" constant="30" id="QeW-wc-TOB"/>
@@ -58,21 +50,35 @@
                                     <action selector="downloadClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="1JP-c5-WUe"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5xT-2J-0gV">
+                                <rect key="frame" x="8" y="79" width="410" height="297"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="410" id="8K2-ei-v46"/>
+                                    <constraint firstAttribute="height" constant="297" id="NG5-xC-h87"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="file_white_full" translatesAutoresizingMaskIntoConstraints="NO" id="nwd-Dk-jZk">
+                                <rect key="frame" x="8" y="45" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="eaz-4N-gS2"/>
+                                    <constraint firstAttribute="width" constant="30" id="fDQ-52-CUd"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="nwd-Dk-jZk" firstAttribute="leading" secondItem="Zbg-pu-SrM" secondAttribute="leading" constant="8" id="026-HE-PdI"/>
-                            <constraint firstAttribute="bottom" secondItem="JWw-Nv-LIH" secondAttribute="bottom" constant="4" id="5YO-3e-bTI"/>
+                            <constraint firstItem="dwL-1M-LQq" firstAttribute="top" secondItem="Zbg-pu-SrM" secondAttribute="top" constant="8" id="5Ov-gI-Cl6"/>
                             <constraint firstItem="7M1-PY-trc" firstAttribute="top" secondItem="Zbg-pu-SrM" secondAttribute="top" constant="8" id="6uI-il-hVs"/>
                             <constraint firstAttribute="trailing" secondItem="7M1-PY-trc" secondAttribute="trailing" constant="8" id="7ob-2E-LQw"/>
-                            <constraint firstAttribute="bottom" secondItem="nwd-Dk-jZk" secondAttribute="bottom" constant="4" id="MYa-9z-Utl"/>
-                            <constraint firstItem="dwL-1M-LQq" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="4" id="WUM-so-dM7"/>
-                            <constraint firstItem="dwL-1M-LQq" firstAttribute="leading" secondItem="JWw-Nv-LIH" secondAttribute="trailing" constant="8" id="b1i-lD-EjW"/>
+                            <constraint firstItem="nwd-Dk-jZk" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="8" id="FoO-p8-Tdz"/>
+                            <constraint firstItem="JWw-Nv-LIH" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="8" id="K2O-xF-RN0"/>
+                            <constraint firstItem="5xT-2J-0gV" firstAttribute="leading" secondItem="Zbg-pu-SrM" secondAttribute="leading" constant="8" id="P2B-jz-WQD"/>
                             <constraint firstItem="JWw-Nv-LIH" firstAttribute="leading" secondItem="nwd-Dk-jZk" secondAttribute="trailing" constant="8" id="hML-ge-QfR"/>
-                            <constraint firstAttribute="bottom" secondItem="dwL-1M-LQq" secondAttribute="bottom" constant="4" id="inG-sa-Ri2"/>
                             <constraint firstAttribute="trailing" secondItem="dwL-1M-LQq" secondAttribute="trailing" constant="8" id="n4H-hY-Ln8"/>
-                            <constraint firstItem="JWw-Nv-LIH" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="4" id="sSt-d2-9Uo"/>
+                            <constraint firstItem="5xT-2J-0gV" firstAttribute="top" secondItem="nwd-Dk-jZk" secondAttribute="bottom" constant="4" id="rag-a7-IjP"/>
+                            <constraint firstAttribute="bottom" secondItem="5xT-2J-0gV" secondAttribute="bottom" constant="8" id="sf9-gd-JjX"/>
                             <constraint firstItem="7M1-PY-trc" firstAttribute="leading" secondItem="Zbg-pu-SrM" secondAttribute="leading" constant="8" id="uMC-Xk-Its"/>
-                            <constraint firstItem="nwd-Dk-jZk" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="4" id="xnQ-6e-sNh"/>
+                            <constraint firstAttribute="trailing" secondItem="5xT-2J-0gV" secondAttribute="trailing" constant="8" id="xCG-EV-3XN"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -92,38 +98,30 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5xT-2J-0gV">
-                        <rect key="frame" x="0.0" y="100" width="500" height="300"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="300" id="G0B-BC-VhP"/>
-                            <constraint firstAttribute="width" constant="500" id="iHS-Nq-1b0"/>
-                        </constraints>
-                    </imageView>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="5xT-2J-0gV" secondAttribute="bottom" id="0eW-lN-ZcT"/>
-                <constraint firstAttribute="trailing" secondItem="5xT-2J-0gV" secondAttribute="trailing" id="9sC-Pn-d7y"/>
                 <constraint firstAttribute="trailing" secondItem="Zbg-pu-SrM" secondAttribute="trailing" constant="8" id="EgX-6p-UDm"/>
                 <constraint firstItem="Zbg-pu-SrM" firstAttribute="leading" secondItem="UCM-AR-dD8" secondAttribute="trailing" constant="8" id="KHK-Le-awU"/>
                 <constraint firstItem="UCM-AR-dD8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="N0g-Lb-FMo"/>
                 <constraint firstItem="Zbg-pu-SrM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="Ogc-af-rxS"/>
-                <constraint firstItem="5xT-2J-0gV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="iHD-7n-0Qu"/>
+                <constraint firstAttribute="bottom" secondItem="Zbg-pu-SrM" secondAttribute="bottom" constant="8" id="wc2-lZ-Hed"/>
                 <constraint firstItem="UCM-AR-dD8" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="zhi-pu-Yhf"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="500" height="360"/>
             <connections>
                 <outlet property="downloadButton" destination="dwL-1M-LQq" id="gHm-hI-47K"/>
                 <outlet property="downloadButtonHeight" destination="P9K-hh-ybW" id="YtB-s4-0qg"/>
+                <outlet property="fileIcon" destination="nwd-Dk-jZk" id="KYO-BP-UmD"/>
                 <outlet property="fileIconHeight" destination="eaz-4N-gS2" id="vPA-vy-Key"/>
                 <outlet property="fileNameHeight" destination="co4-1V-L7T" id="CWQ-cg-DI1"/>
                 <outlet property="fileNameLabel" destination="JWw-Nv-LIH" id="IOJ-ja-lqH"/>
                 <outlet property="imageView" destination="UCM-AR-dD8" id="IkW-33-aUI"/>
                 <outlet property="messageContainer" destination="Zbg-pu-SrM" id="sjE-bQ-dls"/>
                 <outlet property="messageLabel" destination="7M1-PY-trc" id="aOc-uo-rKA"/>
-                <outlet property="photoImageHeight" destination="G0B-BC-VhP" id="Xso-la-h3F"/>
+                <outlet property="photoImageHeight" destination="NG5-xC-h87" id="djd-Dh-GC3"/>
                 <outlet property="photoImageView" destination="5xT-2J-0gV" id="CYW-PS-kYP"/>
+                <outlet property="photoImageWidth" destination="8K2-ei-v46" id="Q5z-Ze-RlI"/>
             </connections>
             <point key="canvasLocation" x="-11.594202898550726" y="235.04464285714283"/>
         </collectionViewCell>
