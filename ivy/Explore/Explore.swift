@@ -323,6 +323,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             return cellSize
         }else{
             let cellSize = CGSize(width: 130, height: self.recommendedFriendCollecView.frame.size.height)
+            checkForNewSFBatch() //also check if a new batch of suggested friends needs to be loaded atm
             return cellSize
         }
     }
@@ -340,6 +341,10 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) { //check when the user scrolls to see if need to obtain the next batch of data
+        checkForNewSFBatch()
+    }
+    
+    func checkForNewSFBatch(){ //check is we should load a new batch of suggested friends
         let visibleCells = recommendedFriendCollecView.visibleCells
         if(visibleCells.count > 0){
             if let lastCell = visibleCells[visibleCells.count - 1] as? profileCollectionViewCell {
@@ -428,7 +433,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     
-    func loadEvents(){ //load all the events except for the featured event
+    func loadEvents(){ //load all the events except for the featured event  
         self.allEvents = [Dictionary<String, Any>]()
         self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").whereField("end_time", isGreaterThan: Date().millisecondsSince1970).order(by: "end_time", descending: false).getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -513,9 +518,9 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                     for i in 0..<querSnapDocs.count { //go through all the fetched profiles
                             let document = querSnapDocs[i]
                             if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
+                                print("AZfetching: ",docData["first_name"] as! String)
                                 if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
                                     if (thisUserId != toAddId && !self.blockedBy.contains(where: { $0.key == toAddId}) && !self.blockList.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
-                                        print("AZfetching: ",docData["first_name"] as! String)
                                         self.allSuggestedFriends.append(docData)
                                     }
                                 }
@@ -527,6 +532,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                     
                         self.recommendedFriendCollecView.reloadData()
                 }else{
+                    print("loadedAllProfiles")
                     self.loadedAllProfiles = true
                 }
                 self.profileLoadInProgress = false

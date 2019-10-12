@@ -23,7 +23,6 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var fileNameHeight: NSLayoutConstraint!
     @IBOutlet weak var downloadButtonHeight: NSLayoutConstraint!
-    @IBOutlet weak var photoImageView: UIImageView!
     
     @IBAction func downloadClicked(_ sender: Any) { //downloading file
         if messageClickedOn != nil{
