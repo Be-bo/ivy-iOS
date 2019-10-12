@@ -39,8 +39,9 @@ class ViewFullProfileActivity: UIViewController{
     
     private var alsoBlock = false                                               //if friends, then block and unfriend
 
-    @IBOutlet weak var cardContainer: UIView!
-
+    @IBOutlet weak var shadowContainer: Card!
+    @IBOutlet weak var cardContainer: Card!
+    
 
 
 
@@ -55,7 +56,7 @@ class ViewFullProfileActivity: UIViewController{
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         getData()
-        setUpContainer()
+//        setUpContainer()
         hideKeyboardOnTapOutside()
         setUpKeyboardListeners()
     }
@@ -136,22 +137,22 @@ class ViewFullProfileActivity: UIViewController{
     @objc func flip() {
         let toView = showingBack ? front : back
         let fromView = showingBack ? back : front
-        UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight, completion: nil)
+        UIView.transition(from: fromView, to: toView, duration: 1, options: .transitionFlipFromRight) { (done) in}
         showingBack = !showingBack
-        setUpContainer()
-
     }
 
     func setUpContainer(){
-        front.flipButton.isHidden = true
-        back.flipButton.isHidden = true
-        cardContainer.layer.shadowPath = UIBezierPath(roundedRect: cardContainer.bounds, cornerRadius:cardContainer.layer.cornerRadius).cgPath
-        cardContainer.layer.shadowColor = UIColor.black.cgColor
-        cardContainer.layer.shadowOpacity = 0.25
-        cardContainer.layer.shadowOffset = CGSize(width: 2, height: 2)
-        cardContainer.layer.shadowRadius = 5
-        cardContainer.layer.cornerRadius = 5
-        cardContainer.layer.masksToBounds = false
+        front.frame = cardContainer.bounds
+        back.frame = cardContainer.bounds
+        cardContainer.addSubview(back)
+        cardContainer.addSubview(front)
+        
+        shadowContainer.bringSubviewToFront(cardContainer)
+        shadowContainer.bringSubviewToFront(cardContainer.back)
+        shadowContainer.bringSubviewToFront(cardContainer.front)
+        
+        front.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside) //set on click listener for send message button
+        back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside) //set on click listener for send message button
     }
 
 
@@ -437,13 +438,7 @@ class ViewFullProfileActivity: UIViewController{
         back.bio.text = otherUserProfile["bio"] as? String
         back.setUpInterests(interests: otherUserProfile["interests"] as? [String] ?? [String]())
 
-        front.frame = cardContainer.bounds
-        back.frame = cardContainer.bounds
-        cardContainer.addSubview(front)
-
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
-        singleTap.numberOfTapsRequired = 1
-        cardContainer.addGestureRecognizer(singleTap)
+        setUpContainer()
     }
 
 

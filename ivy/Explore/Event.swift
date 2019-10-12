@@ -26,7 +26,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     public var eventID: String?
     public var event = Dictionary<String, Any>()                                 //actual event that was clicked
     public var userProfile = Dictionary<String, Any>()                           //holds the current user profile
-    public var goingFriends = [String]()                                         //global that will hold all the friends that are going to the event
+    public var goingPeopleIds = [String]()                                         //global that will hold all the friends that are going to the event
     private var whosGoingProfileClickedID = ""                                   //holds the other profile id that was clicked from the suggested friends collection
 
     
@@ -44,6 +44,14 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonSpacer: UIView!
     @IBOutlet weak var buttonSpacerTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
+    @IBOutlet weak var registerButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var buttonSpacerCenterX: NSLayoutConstraint!
+    @IBOutlet weak var registerBtnTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var registerBtnLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonSpacerWidth: NSLayoutConstraint!
+    
+    
     
     
     
@@ -105,10 +113,17 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         self.goingCheckButton.imageView?.contentMode = .scaleAspectFit
         let imgWidth = eventImage.frame.width
         eventImageHeightConstr.constant = imgWidth
-        
-//        buttonSpacer.translatesAutoresizingMaskIntoConstraints = false
-//        buttonSpacer.trailingAnchor.constraint(equalTo: self.registerButton.trailingAnchor).isActive = true
-//        registerButton.isHidden = true
+        if self.event.contains(where: { $0.key == "link"}) {    //check if the event even contains a link to be clicked on, if not, hide the registration button
+            if let urlString = event["link"] as? String{
+                if urlString == "" {
+                    self.registerButtonWidth.constant = 0
+                    self.buttonSpacerCenterX.isActive = false
+                    self.registerBtnTrailingConstraint.constant = 0
+                    self.registerBtnLeadingConstraint.constant = 0
+                    self.buttonSpacerWidth.constant = 0
+                }
+            }
+        }
     }
     
     private func setUpNavigationBar(eventName: String){
@@ -133,6 +148,9 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                     print("error", error)
                 } else {
                     self.eventImage.image  = UIImage(data: data!)
+                    //in here we're done loading everything else as well, so we check the actual position of the bottom most elem (going button) and use that to give the scroll view a proper height
+                    let bottomMostPoint = self.imGoingButton.frame.origin.y + self.imGoingButton.frame.height
+                    self.scrollViewContentHeight.constant = bottomMostPoint + 32
                 }
             }
         }
@@ -172,42 +190,28 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func setUpGoingList() { //populate the collection view with the people that are going to this current event
-        
-        if let uniDomain = self.userProfile["uni_domain"] as? String {
-            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(self.userProfile["id"] as! String).collection("userlists").document("friends").getDocument { (document, error) in
-                if let document = document, document.exists {
-                    var friends = document.data()
-                    
-        
-                    
-                    if let goingIds = self.event["going_ids"] as? [String]{
-                        //if  my friends are going to this event, then add them to the list
-                        if (!goingIds.isEmpty && goingIds.count > 0){
-                            for (friendId, conversationId) in friends!{
-                                if goingIds.contains(friendId){    //friends[0] is his id: and friend[1] is the conversation id
-                                    self.goingFriends.append(friendId)
-                                }
-                            }
-                        }
-                    } else {
-                        print("Document does not exist")
+        if let goingIds = self.event["going_ids"] as? [String], let thisUserId = userProfile["id"] as? String{
+            //add all the people who are poing
+            if (!goingIds.isEmpty && goingIds.count > 0){
+                for i in 0..<goingIds.count{
+                    if(goingIds[i] != thisUserId){
+                        self.goingPeopleIds.append(goingIds[i])
                     }
-                    }
-
-                
-                if (self.goingFriends.count > 0) {
-                    self.whosGoingCollection.reloadData() //notify the collectionview that we have items to display
-                    
-                    self.whosGoingLabel.isHidden = false
-                    self.collectionViewHeightConstraint.constant = 150 //set the standard height to the collectionview
-                }else{
-                    self.whosGoingLabel.isHidden = true
-                    self.collectionViewHeightConstraint.constant = 0 //collapse the collectionview
                 }
             }
+        } else {
+            print("Document does not exist")
         }
         
-
+        if (self.goingPeopleIds.count > 0) {
+            self.whosGoingCollection.reloadData() //notify the collectionview that we have items to display
+            
+            self.whosGoingLabel.isHidden = false
+            self.collectionViewHeightConstraint.constant = 150 //set the standard height to the collectionview
+        }else{
+            self.whosGoingLabel.isHidden = true
+            self.collectionViewHeightConstraint.constant = 0 //collapse the collectionview
+        }
     }
     
     
@@ -264,20 +268,14 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     @objc func registerButtonClicked(_ sender: UIButton) {//on click of the im going button clicked
         if self.event.contains(where: { $0.key == "link"}) {    //check if the event even contains a link to be clicked on
-            if let urlString = event["link"] as? String{
+            if let urlString = event["link"] as? String, urlString != ""{
                 if let url = URL(string: urlString) { //open link
                     UIApplication.shared.open(url, options: [:])
                 }
-                
-//                if urlString == "" {
-//                }
             }
             if let uniDomain = self.userProfile["uni_domain"] as? String {
                 self.baseDatabaseReference.collection("universities").document(uniDomain).collection("events").document(self.event["id"] as! String).updateData(["clicks":FieldValue.arrayUnion([Date().timeIntervalSince1970])]) //update counter to indicate it was clicked on
             }
-
-            
-
         }
     }
     
@@ -355,12 +353,12 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     // MARK: Collection View Delegate and Datasource Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.goingFriends.count
+        return self.goingPeopleIds.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let profilePrevCard = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCollectionViewCell", for: indexPath) as! profileCollectionViewCell
-        profilePrevCard.setUp(userGoingId: self.goingFriends[indexPath.item], thisUserProfile: self.userProfile)
+        profilePrevCard.setUp(userGoingId: self.goingPeopleIds[indexPath.item], thisUserProfile: self.userProfile)
         return profilePrevCard
     }
 
@@ -370,7 +368,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
-            self.whosGoingProfileClickedID = self.goingFriends[indexPath.item]  //use currently clicked index to get conversation id
+            self.whosGoingProfileClickedID = self.goingPeopleIds[indexPath.item]  //use currently clicked index to get conversation id
             self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
     }
     

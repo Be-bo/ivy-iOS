@@ -50,7 +50,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     @IBOutlet weak var recommendedFriendCollecView: UICollectionView!
     @IBOutlet weak var searchCancelButton: UIButton!
     @IBOutlet weak var searchBar: UITextField!
-
+    @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
+    
     
     let eventCollectionIdentifier = "EventCollectionViewCell"
     let profileCollectionIdentifier = "profileCollectionViewCell"
@@ -238,6 +239,11 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             self.setFeaturedEvent()
             self.loadEvents()
         }
+    }
+    
+    private func adjustScrollViewHeight(){
+        let bottomMostPoint = self.recommendedFriendCollecView.frame.origin.y + self.recommendedFriendCollecView.frame.height
+        self.scrollViewContentHeight.constant = bottomMostPoint + 32
     }
     
     private func setUp(){ //initial setup method when the ViewController's first created
@@ -527,6 +533,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                             }
                             if(i >= querSnapDocs.count - 1){
                                 self.lastRetrievedProfile = document
+                                self.adjustScrollViewHeight()
                             }
                         }
                     
