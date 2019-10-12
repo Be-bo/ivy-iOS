@@ -1223,6 +1223,7 @@
                             <constraint firstItem="3dE-bc-nP2" firstAttribute="leading" secondItem="ekS-qL-GOH" secondAttribute="leading" id="U1h-g9-asf"/>
                             <constraint firstAttribute="bottom" secondItem="3dE-bc-nP2" secondAttribute="bottom" constant="8" id="YJ1-gw-3Hn"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="ktY-uS-TVB"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="xw5-Hf-YWN"/>
@@ -3149,7 +3150,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="igZ-uK-KIQ" userLabel="BottomSectionView">
                                 <rect key="frame" x="30" y="463.5" width="315" height="203.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fJ-fZ-l6L" customClass="ErrorLabel" customModule="ivy_iOS" customModuleProvider="target">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fJ-fZ-l6L" customClass="ErrorLabel" customModule="ivy_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="315" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -3387,9 +3388,8 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hub-dG-6yJ"/>
         <segue reference="9RO-mD-LBY"/>
-        <segue reference="qnE-MC-VUo"/>
+        <segue reference="uSB-K7-AQ8"/>
         <segue reference="N1a-aN-84L"/>
         <segue reference="GId-3d-sBt"/>
         <segue reference="7zV-q5-dwb"/>

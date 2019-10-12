@@ -23,11 +23,16 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var fileNameHeight: NSLayoutConstraint!
     @IBOutlet weak var downloadButtonHeight: NSLayoutConstraint!
+    @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var photoImageHeight: NSLayoutConstraint!
+    
     
     @IBAction func downloadClicked(_ sender: Any) { //downloading file
         if messageClickedOn != nil{
             if var fileReference = messageClickedOn["file_reference"] as? String{
                 let storageRefPath = self.baseStorageReference.child(fileReference)
+                
+                
                 
                 //if the message has a file reference
                 if (fileReference != ""){
