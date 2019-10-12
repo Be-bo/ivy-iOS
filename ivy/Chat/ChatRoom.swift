@@ -376,7 +376,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 metadata.contentType = "image/png" // Create the file metadata TODO: decide if this should be nil and find out how to let firestore decide what content type it should be
                 self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "Photo.png"
                 filePath = "conversationfiles/" + String(convId) + "/" + self.imagePicked!.accessibilityIdentifier!  //path of where the files shared for this particular conversation saved at
-                byteArray = (self.imagePicked!.jpegData(compressionQuality: 1.0)!) as NSData  //convert to jpeg
+                byteArray = (self.imagePicked!.jpegData(compressionQuality: 0.25)!) as NSData  //convert to jpeg
+                
                 self.fileNameLabel.text = nil //reset variables
                 self.xButton.isHidden = true
                 self.file_attached = false
@@ -648,12 +649,20 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                     let fileName = fileRef.components(separatedBy: "/").last!
                     cell.fileNameLabel.text = fileName
                     cell.setUp(msg: self.messages[indexPath.item], rulingVC: self)
+                    //get the image reference and load the photo sent into the chat conversation cell
+                    let storageImageRef = self.baseStorageReference.reference().child(fileRef)
+                    storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                        if let error = error {
+                            print("error", error)
+                        } else {
+                            cell.photoImageView.image = UIImage(data:data!)
+                        }
+                    }
                 }else{
                     //TODO: maybe needed if click still reacts after recycling cells?
                 }
             }
         }
-        
         return cell
     }
     
@@ -669,7 +678,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 if(isTxtOnly){
                     return CGSize(width: view.frame.width, height: 70) //alt +/- 30
                 }else{
-                    return CGSize(width: view.frame.width, height: 100) //alt +/- 30
+                    //TODO: edited the height to fill the image view here
+                    return CGSize(width: view.frame.width, height: 500) //alt +/- 30
                 }
             }
             if(isTxtOnly){

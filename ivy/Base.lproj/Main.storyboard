@@ -422,7 +422,7 @@
                                 <rect key="frame" x="32" y="248" width="350" height="400"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Current Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RFQ-4Y-zPq" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="126.5" width="350" height="50"/>
+                                        <rect key="frame" x="0.0" y="156.5" width="350" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="7yy-Uz-Q5Z"/>
                                         </constraints>
@@ -430,7 +430,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vVK-BN-0Qt" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="308.5" width="350" height="50"/>
+                                        <rect key="frame" x="0.0" y="338.5" width="350" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="suP-6P-nLr"/>
                                         </constraints>
@@ -440,7 +440,7 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4no-PZ-zGW" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="242.5" width="350" height="50"/>
+                                        <rect key="frame" x="0.0" y="272.5" width="350" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Nwn-nz-0ZZ"/>
                                         </constraints>
@@ -448,7 +448,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z2Y-3X-4ji" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="184.5" width="350" height="50"/>
+                                        <rect key="frame" x="0.0" y="214.5" width="350" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="qYP-bL-rEt"/>
                                         </constraints>
@@ -456,7 +456,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="749" text="When coming up with a new password try to include a capital letter, a number and a special symbol." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBZ-fk-Mun" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="8" width="350" height="86.5"/>
+                                        <rect key="frame" x="0.0" y="8" width="350" height="116.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -515,13 +515,13 @@
                                 <rect key="frame" x="32" y="248" width="350" height="400"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BKs-bF-laI">
-                                        <rect key="frame" x="0.0" y="45" width="350" height="281"/>
+                                        <rect key="frame" x="0.0" y="74.5" width="350" height="251.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="22"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your thoughts and feedback in here!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxT-UR-axS" customClass="MediumLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="29"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="58.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -866,7 +866,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LWC-8K-Imc">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -932,7 +932,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0cd-F1-Und">
-                                <rect key="frame" x="187.5" y="793" width="39" height="37"/>
+                                <rect key="frame" x="187.5" y="744" width="39" height="37"/>
                                 <color key="pageIndicatorTintColor" name="ivyGrey"/>
                                 <color key="currentPageIndicatorTintColor" name="ivyGreen"/>
                             </pageControl>
@@ -1321,7 +1321,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMY-zf-WJt">
-                                <rect key="frame" x="20" y="88" width="374" height="774"/>
+                                <rect key="frame" x="20" y="88" width="374" height="725"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GfM-OH-uVt">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="1300"/>
@@ -1501,7 +1501,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-jT-vQ0">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9E3-fC-hbh">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1400"/>
@@ -1797,25 +1797,25 @@
                                 <rect key="frame" x="32" y="211.5" width="350" height="385"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to ivy!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9v-dI-Hxv" customClass="GreenBoldTitleLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="45.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="43"/>
                                         <fontDescription key="fontDescription" name="CordiaNew-Bold" family="Cordia New" pointSize="39"/>
                                         <color key="textColor" name="ivyGreen"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Let's build your profile in a few easy steps:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haW-Fz-ivF" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="53.5" width="350" height="49"/>
+                                        <rect key="frame" x="0.0" y="51" width="350" height="24.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="21"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Your university email address:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dt8-YV-agO" customClass="MediumLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="110.5" width="350" height="36"/>
+                                        <rect key="frame" x="0.0" y="83.5" width="350" height="36"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="31"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AUz-EA-nNM" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="230.5" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="203.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="teV-da-mnQ"/>
                                         </constraints>
@@ -1823,7 +1823,7 @@
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your university email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3gX-Mw-n8k" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="162.5" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="135.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="Jwi-gD-ZvP"/>
                                         </constraints>
@@ -1831,7 +1831,7 @@
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUz-r1-D0t" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="306.5" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="279.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="T8q-Yw-bzM"/>
                                         </constraints>
@@ -1948,7 +1948,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EdN-3j-6oL" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="169" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="168.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="EbT-g2-BKj"/>
                                         </constraints>
@@ -1956,7 +1956,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VfI-OR-aKr" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="101" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="100.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="CIP-lk-rvj"/>
                                         </constraints>
@@ -1964,7 +1964,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ8-tv-ZCY" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="245" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="244.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="MIP-A7-BCx"/>
                                         </constraints>
@@ -1974,7 +1974,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="(Try to include a capital letter, a number and a special symbol)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgH-FY-Y8h" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="36" width="350" height="49"/>
+                                        <rect key="frame" x="0.0" y="36" width="350" height="48.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="21"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -2078,13 +2078,13 @@
                                 <rect key="frame" x="32" y="254" width="350" height="300"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. What's your first and last name?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZr-VS-HbW" customClass="MediumLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="68"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="33.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="29"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5HV-a5-knm" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="152" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="117.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="O4c-nf-VoY"/>
                                         </constraints>
@@ -2092,7 +2092,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CKP-6L-39o" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="228" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="193.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="JDo-Iu-Osm"/>
                                         </constraints>
@@ -2102,7 +2102,7 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uG6-KG-rpE" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="84" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="GlB-SB-WCy"/>
                                         </constraints>
@@ -2646,7 +2646,7 @@
                                 <rect key="frame" x="32" y="199" width="350" height="410"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mtz-QX-MKA">
-                                        <rect key="frame" x="0.0" y="84" width="350" height="200"/>
+                                        <rect key="frame" x="0.0" y="83" width="350" height="200"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="42y-Tx-kdb"/>
@@ -2655,19 +2655,19 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7. Care to share some extra info about yourself?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxX-sS-EdN" customClass="MediumLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="68"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="67"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="29"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/160" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbt-Yd-UFU" customClass="StandardGreenLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="306" y="288" width="44" height="21"/>
+                                        <rect key="frame" x="306" y="287" width="44" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" name="ivyGreen"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qZx-sA-UQH" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="325" width="350" height="60"/>
+                                        <rect key="frame" x="0.0" y="324" width="350" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="khi-4k-s9f"/>
                                         </constraints>
@@ -3058,7 +3058,6 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Pyi-Q3-SUE" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="p5W-kb-YLi"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="aJD-1W-m1s">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -3075,7 +3074,7 @@
         <!--loginScreen-->
         <scene sceneID="u5w-4a-xaI">
             <objects>
-                <viewController title="IntroRegisterScreen" id="KKY-MS-y0m" userLabel="loginScreen" customClass="Login" customModule="ivy_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="IntroRegisterScreen" modalPresentationStyle="fullScreen" id="KKY-MS-y0m" userLabel="loginScreen" customClass="Login" customModule="ivy_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lbM-k2-b4Q">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3148,7 +3147,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="igZ-uK-KIQ" userLabel="BottomSectionView">
                                 <rect key="frame" x="30" y="578" width="354" height="284"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fJ-fZ-l6L" customClass="ErrorLabel" customModule="ivy_iOS" customModuleProvider="target">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5fJ-fZ-l6L" customClass="ErrorLabel" customModule="ivy_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -3386,9 +3385,8 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DA2-nw-sG8"/>
         <segue reference="HZ8-MH-3bE"/>
-        <segue reference="qnE-MC-VUo"/>
+        <segue reference="uSB-K7-AQ8"/>
         <segue reference="N1a-aN-84L"/>
         <segue reference="GId-3d-sBt"/>
         <segue reference="7zV-q5-dwb"/>
