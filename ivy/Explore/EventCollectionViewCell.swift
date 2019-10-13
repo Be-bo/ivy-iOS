@@ -20,29 +20,30 @@ class EventCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var loadingWheel: UIActivityIndicatorView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        loadingWheel.startAnimating()
     }
     
     
     func setUp(event: Dictionary<String, Any>){
-        
         var imageLocation = ""
-        
         if let imagePath = event["image"] as? String{
             imageLocation = imagePath
         }
         
         let storageImageRef = baseStorageReference.child(imageLocation)
-        
         // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
         storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error", error)
             } else {
                 self.image.image  = UIImage(data: data!)
+                self.loadingWheel.stopAnimating()
+                self.loadingWheel.isHidden = true
+                self.image.isHidden = false
                 self.nameLabel.text = event["name"] as! String
             }
         }

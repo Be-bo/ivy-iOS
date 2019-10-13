@@ -27,9 +27,10 @@ struct UserProfile {
     var profile_picture: String? //path containing the storage reference to the useres profile picture
     var registration_millis : Int64?    //time they registered at in milliseconds
     var uni_domain : String?    //ex:@ucalgary.ca
+    var registration_platform: String?
     
     
-    init(age:Int64?=nil, banned:Bool?=nil, bio:String?=nil,birth_time:Int64?=nil, degree:String? = nil, email:String? = nil, first_name:String? = nil, gender:String? = nil, id:String?=nil, interests:Array<String>?=nil, last_name:String? = nil , last_post_id:String?=nil, picture_references:Array<String>?=nil, profile_hidden:Bool?=nil , profile_picture:String?=nil, registration_millis:Int64?=nil, uni_domain:String?=nil) {
+    init(age:Int64?=nil, banned:Bool?=nil, bio:String?=nil,birth_time:Int64?=nil, degree:String? = nil, email:String? = nil, first_name:String? = nil, gender:String? = nil, id:String?=nil, interests:Array<String>?=nil, last_name:String? = nil , last_post_id:String?=nil, picture_references:Array<String>?=nil, profile_hidden:Bool?=nil , profile_picture:String?=nil, registration_millis:Int64?=nil, uni_domain:String?=nil, registration_platform:String?=nil) {
         
         self.age = age;
         self.banned = banned;
@@ -48,6 +49,7 @@ struct UserProfile {
         self.profile_picture = profile_picture;
         self.registration_millis = registration_millis;
         self.uni_domain = uni_domain
+        self.registration_platform = registration_platform
     }
     
     //for returning a dictionary to allow me to push to firestore in Reg10
@@ -68,7 +70,8 @@ struct UserProfile {
                 "profile_hidden":profile_hidden,
                 "profile_picture":profile_picture,
                 "registration_millis":registration_millis,
-                "uni_domain":uni_domain]
+                "uni_domain":uni_domain,
+                "registration_platform":registration_platform]
     }
     var nsDictionary: NSDictionary {
         return dictionary as NSDictionary

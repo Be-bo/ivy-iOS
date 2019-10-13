@@ -29,9 +29,6 @@ class Settings: UIViewController{
     @IBOutlet weak var regDatePreference: StandardLabel!
     
     
-    
-    
-    
     @IBOutlet weak var aboutView: UIView!
     @IBOutlet weak var supportView: UIView!
     @IBOutlet weak var privacyView: UIView!
@@ -53,8 +50,8 @@ class Settings: UIViewController{
             privacyView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
             supportView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
 //            aboutView.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 0.5)
-
         }
+        
     }
 
     

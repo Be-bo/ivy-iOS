@@ -23,12 +23,12 @@ class profileCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var loadingWheel: UIActivityIndicatorView!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-//        self.backgroundColor = UIColor.blue
-        // Initialization code
+        self.loadingWheel.startAnimating()
     }
     
     
@@ -46,7 +46,10 @@ class profileCollectionViewCell: UICollectionViewCell {
                             print("error", error)
                         } else {
                             self.name.text = userGoingProfile!["first_name"] as? String //userGoingProfile doesn't need to be unwrapped since the doc data was unwrapped above and thus will exist
+                            self.loadingWheel.stopAnimating()
+                            self.loadingWheel.isHidden = true
                             self.imageView.image = UIImage(data: data!)
+                            self.imageView.isHidden = false
                             self.imageView.layer.borderWidth = 1.0
                             self.imageView.layer.masksToBounds = false
                             self.imageView.layer.borderColor = UIColor.white.cgColor
@@ -73,6 +76,9 @@ class profileCollectionViewCell: UICollectionViewCell {
                     print("error", error)
                 } else {
                     self.imageView.image  = UIImage(data: data!)    //data exists here no need to for unwrap
+                    self.loadingWheel.stopAnimating()
+                    self.loadingWheel.isHidden = true
+                    self.imageView.isHidden = false
                     self.name.text = profile["first_name"] as? String
                 }
             }

@@ -20,7 +20,7 @@ class LoadingWheel: UIActivityIndicatorView{
     }
     
     private func setUp(){
-        self.transform = CGAffineTransform(scaleX: 2, y: 2)
+//        self.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         self.color = Colors.ivy_green
         self.startAnimating()
     }

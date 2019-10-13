@@ -334,7 +334,20 @@ class ViewFullProfileActivity: UIViewController{
                     print("Error getting friend's list: ", err)
                 }else{
                     if let data = docSnap?.data(), !data.isEmpty, data[otherUser] != nil{
-                        self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over to
+                        var chatRoomExists = false
+                        if let viewControllers = self.navigationController?.viewControllers {
+                              for vc in viewControllers {
+                                   if vc.isKind(of: ChatRoom.classForCoder()) {
+                                    chatRoomExists = true
+                                    self.navigationController?.popViewController(animated: true)
+                                    self.dismiss(animated: true, completion: nil)
+                                    break
+                                   }
+                              }
+                        }
+                        if(!chatRoomExists){
+                            self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over
+                        }
                     }else{
                         PublicStaticMethodsAndData.createInfoDialog(titleText: "Failure", infoText: "This user's unfriended you. Sorry. :-(", context: self)
                     }
@@ -425,9 +438,9 @@ class ViewFullProfileActivity: UIViewController{
         }
 
         if var degree = otherUserProfile["degree"] as? String { //degree icon
-            degree = degree.replacingOccurrences(of: " ", with: "")
-            degree = degree.lowercased()
-            front.degreeIcon.image = UIImage(named: degree)
+            if let imgPos = PublicStaticMethodsAndData.degreeNames.firstIndex(of: degree), imgPos < PublicStaticMethodsAndData.iconNames.count{
+                front.degreeIcon.image = UIImage(named: PublicStaticMethodsAndData.iconNames[imgPos])
+            }
         }
 
 

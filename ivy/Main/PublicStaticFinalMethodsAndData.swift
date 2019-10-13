@@ -89,6 +89,18 @@ class PublicStaticMethodsAndData{
         return outputImage
     }
     
+    static func getHeightForShrunkenWidth(imgWidth: CGFloat, imgHeight: CGFloat, targetWidth: CGFloat) -> CGFloat{
+        let aspectRatio = imgHeight/imgWidth
+        let targetHeight = aspectRatio * targetWidth
+        return targetHeight
+    }
+    
+    static func getFileExtensionFromPath(filePath: String) -> String{
+        let fileName = filePath.components(separatedBy: "/").last!
+        let fileExt = fileName.components(separatedBy: ".").last!
+        return fileExt.lowercased()
+    }
+    
     static let iconNames = [
         "accounting", "actuarialScience", "ancientAndMedievalHistory", "anthropology", "appliedscience", "archaeology", "architecture", "artHistory", "astrophysics",
         "biology", "businessadministration", "biochemistry", "bioinformatics", "biomechanics", "biomedicalSciences", "businessAnalytics", "businessTechnologyManagement", "businessAdmin", "businessStrategy",

@@ -35,11 +35,10 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     var filePicked: ((URL))?
     var first_launch = true                             //for auto scroll (so it only happens once and not every time the user scrolls)
     private var isJustFile = true                       //is just file will be set when its jsut a file, not image sent over
-    
     var imageChosenToDownload:UIImage? = nil
-    
     /// Creating UIDocumentInteractionController instance.
     let documentInteractionController = UIDocumentInteractionController()
+    let screenSize: CGRect = UIScreen.main.bounds
     
     
     
@@ -51,6 +50,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var xButton: UIButton!   //x button that gets shown when a file is attached
     @IBOutlet weak var fileNameLabel: UILabel!  //the label that will display the name of the file thats attached
+    @IBOutlet weak var fileNameHeight: NSLayoutConstraint!
+    @IBOutlet weak var xButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var msgFieldHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendBtnHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var fileBtnHeightConstraint: NSLayoutConstraint!
@@ -86,6 +87,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
 //        configureTableView()
         xButton.isHidden = true //make sure the x button is hidden by default
+        xButtonHeight.constant = 0
+        fileNameHeight.constant = 0
     }
     
     private func setUpKeyboardListeners(){ //setup listeners for if they click on actions to show the keyboard, and when they click on button, to hide keyboard
@@ -297,7 +300,9 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     @IBAction func onClickX(_ sender: Any) { //when the user clicks the x button, remove the file, remove the name, collapse both the x and the name
         self.fileNameLabel.text = nil
         self.fileNameLabel.isHidden = true
+        self.fileNameHeight.constant = 0
         self.xButton.isHidden = true
+        self.xButtonHeight.constant = 0
         self.file_attached = false
         //reset the image and file picked
         self.imagePicked = nil
@@ -316,9 +321,11 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             self.fileNameLabel.text = image.accessibilityIdentifier ?? "Photo.png"
             
             self.fileNameLabel.isHidden = false
+            self.fileNameHeight.constant = 35
             
             //present the x that removes the image & name if clicked on
             self.xButton.isHidden = false
+            self.xButtonHeight.constant = 35
             //set the image picked to be the one chosen by the user so that we can easily access it later
             self.imagePicked = image
             self.filePicked = nil   //clear file picked
@@ -384,15 +391,19 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
 
                 self.fileNameLabel.text = nil //reset variables
                 self.xButton.isHidden = true
+                self.xButtonHeight.constant = 0
                 self.file_attached = false
                 self.fileNameLabel.isHidden = true
+                self.fileNameHeight.constant = 0
             }else{
                 //TODO deal with the file byte array and path/what not
                 filePath = "conversationfiles/" + String(convId) + "/" + self.filePicked!.lastPathComponent  //path of where the files shared for this particular conversation saved at
                 self.fileNameLabel.text = nil //reset variables
                 self.xButton.isHidden = true
+                self.xButtonHeight.constant = 0
                 self.file_attached = false
                 self.fileNameLabel.isHidden = true
+                self.fileNameHeight.constant = 0
             }
             
             let storageLocRef = storageRef.child(filePath) //storeageImageRef now points to the correctspot that this should be save in
@@ -413,6 +424,15 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             
             message["is_text_only"] = false
             message["file_reference"] = filePath
+            let ext = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: filePath)
+            if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+                let uiImg = UIImage(data: byteArray as! Data)
+                message["img_width"] = uiImg?.size.width
+                message["img_height"] = uiImg?.size.height
+            }else{
+                message["img_width"] = 0
+                message["img_height"] = 0
+            }
             message["id"] =  NSUUID().uuidString
             
             self.updatePendingMessagesForParticipants()
@@ -624,7 +644,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         let storageRef = self.baseStorageReference.reference()
         let storageImageRef = storageRef.child(authorProfilePicLoc)
         
-        storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+        storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in //get author's image and decide whether to show it or not (if the sender is this user then don't show it and adjust the layout)
             if let error = error {
                 PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "Maximum download size is 5MB", context: self)
                 print("error", error)
@@ -643,21 +663,18 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         
         if let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{ //adjust the cell based on whether the message has a file attached to it or not
-            if(isTxtOnly){
+            if(isTxtOnly){ //text only
                 cell.fileIconHeight.constant = 0
+                cell.fileNameHeight.constant = 0
+                cell.downloadButtonHeight.constant = 0
                 cell.downloadButtonHeight.constant = 0
                 cell.photoImageHeight.constant = 0
-                cell.photoImageWidth.constant = 0
-            }else{
-                cell.fileIconHeight.constant = 30
-                cell.downloadButtonHeight.constant = 30
-                if let fileRef = self.messages[indexPath.item]["file_reference"] as? String {
+                cell.photoImageView.isHidden = true
+            }else{ //contains a file
+                
+                if let fileRef = self.messages[indexPath.item]["file_reference"] as? String { //get the file
                     let fileName = fileRef.components(separatedBy: "/").last!
-                    let fileExt = fileName.components(separatedBy: ".").last!
-                   
-                    
-                    cell.fileNameLabel.text = fileName
-                    cell.setUp(msg: self.messages[indexPath.item], rulingVC: self)
+//                    let fileExt = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: fileRef)
                     
                     let storageImageRef = self.baseStorageReference.reference().child(fileRef)
                     storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
@@ -665,54 +682,69 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                             print("error", error)
                         } else {
                             
-                            if (fileExt.lowercased() == "jpg" || fileExt.lowercased() == "png" || fileExt.lowercased() == "jpeg"){  //if its a photo then the height should be bigger, else no
-                                cell.photoImageView.image = UIImage(data:data!)
-                                cell.photoImageHeight.constant = 297
-                                cell.photoImageWidth.constant = 410
-                                cell.fileNameLabel.text = ""
-                                cell.fileIcon.isHidden = true
-                                cell.downloadButtonHeight.constant = 30
+                            if let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, imgWidth > 0, imgHeight > 0{ //if the file is an image and we have it's dimens
                                 cell.fileIconHeight.constant = 0
-                            }else{  //regular file
+                                cell.downloadButtonHeight.constant = 0
+                                cell.photoImageView.isHidden = false
+                                cell.fileNameHeight.constant = 0
+                                cell.photoImageView.image = UIImage(data:data!)
                                 
-                                cell.fileIcon.isHidden = false
+                            }else{ //the file is either not an image or we don't have it's dimens in which case show it as a standard file
                                 cell.fileIconHeight.constant = 30
                                 cell.downloadButtonHeight.constant = 30
+                                cell.photoImageHeight.constant = 0
+                                cell.photoImageView.isHidden = true
+                                cell.fileNameHeight.constant = 30
+                                cell.fileNameLabel.text = fileName
                             }
                         }
                     }
-                }else{
-                    //TODO: maybe needed if click still reacts after recycling cells?
                 }
             }
         }
         
+        cell.setUp(msg: self.messages[indexPath.item], rulingVC: self) //set up the actual cell
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if let messageText = self.messages[indexPath.item]["message_text"] as? String, let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{
-            let size = CGSize(width: view.frame.width, height: 0)
-            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-            let font = UIFont.systemFont(ofSize: 25)
-            let attributes = [NSAttributedString.Key.font: font]
-            let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
-            if(estimatedFrame.height < 38){ //a check in case the message label is too small in terms of height (the container would get cut off)
-                if(isTxtOnly || self.isJustFile == true){
-                    return CGSize(width: view.frame.width, height: 70) //alt +/- 30
-                }else{
-                    
-                    //TODO: edited the height to fill the image view here
-                    //TODO: if just file, set height to be less, or itll get set to huge like the image
-                    return CGSize(width: view.frame.width, height: 400) //alt +/- 30
-                    
-                }
+//            let size = CGSize(width: screenSize.size.width-90, height: 0)
+//            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+////            let font = UIFont.systemFont(ofSize: 25)
+//            let font = UIFont.init(name: "Cordia New", size: 33)
+//            let attributes = [NSAttributedString.Key.font: font]
+//            let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
+//            print("abzlabelwidth: ", screenSize.width-90)
+//            print("abzheight: ",estimatedFrame.height)
+//            print("abzwidth: ",estimatedFrame.width)
+            var heightForImage = CGFloat(0)
+            
+            let estimatedHeight = messageText.height(withConstrainedWidth: screenSize.width-90, font: UIFont.init(name: "Cordia New", size: 25)!) //by trial and error we know that with these values a single line has a height of 29
+            
+            if let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, imgHeight>0, imgWidth>0{ //if the message contains an image and its dimens
+                let imgViewWidth = screenSize.width - 90 //screen width - 50 for profile preview img and then 32 for 4x8 margins, see chatBubbleCollectionViewCell for details
+                heightForImage = PublicStaticMethodsAndData.getHeightForShrunkenWidth(imgWidth: imgWidth, imgHeight: imgHeight, targetWidth: imgViewWidth)
             }
-            if(isTxtOnly){
-               return CGSize(width: view.frame.width, height: estimatedFrame.height + 32 /* + 20*/)
-            }else{
-                return CGSize(width: view.frame.width, height: estimatedFrame.height + 62 /* + 20*/)
+            
+            if(estimatedHeight < 40){ //a check in case the message label is too small in terms of height (the container would get cut off) -> set a minimum height to it that we tested doesn't cut anything off
+                if(isTxtOnly){ //text only
+                    return CGSize(width: view.frame.width, height: 70)
+                }else if(!isTxtOnly && heightForImage <= 0){ //contains a file that's not an image
+                    return CGSize(width: view.frame.width, height: 100)
+                }else{ //contains a file that is an image
+                    return CGSize(width: view.frame.width, height: 70 + heightForImage)
+                }
+                
+            }else{//if the message label is estimated to be longer then use the estimate, add the margins (again see chatBubbleCollectionViewCell for details)
+                if(isTxtOnly){ //text only
+                   return CGSize(width: view.frame.width, height: estimatedHeight + 41)//the constrained initial height for the label is 29 (also = a single line height for the estimated text box size) and the default cell size is 70 so 41 is all the constraints in between
+                }else if (!isTxtOnly && heightForImage <= 0){ //contains a file that' not an image
+                    return CGSize(width: view.frame.width, height: estimatedHeight + 71) //extra 30 is for the file layer (icon, file name and download button)
+                }else{ //contains a file that is an image
+                    return CGSize(width: view.frame.width, height: estimatedHeight + 41 + heightForImage)
+                }
             }
         }
         return CGSize(width: view.frame.width, height: 70)
@@ -723,6 +755,16 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
 
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: File Sharing Related Functions
     
     func savePdf(urlString:String, fileName:String) {
         DispatchQueue.main.async {
@@ -881,7 +923,21 @@ extension UICollectionView {
                                           section: lastSection)
         scrollToItem(at: lastItemIndexPath, at: .bottom, animated: false)
     }
-    
-    
+}
+
+extension String {
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+
+        return ceil(boundingBox.height)
+    }
+
+    func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+
+        return ceil(boundingBox.width)
+    }
 }
 

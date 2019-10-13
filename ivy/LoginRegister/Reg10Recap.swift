@@ -199,6 +199,7 @@ class Reg10Recap: UIViewController {
             self.registerInfoStruct.last_post_id = "" ///initialize
             self.registerInfoStruct.banned = false  //not banned by default
             self.registerInfoStruct.profile_hidden = false //not hidden by default
+            self.registerInfoStruct.registration_platform = "iOS"
             storageRef.child("userimages").child(self.registerInfoStruct.id!).child("preview.jpg").putData(previewImageBytes as Data)
             self.baseDatabaseReference.collection("universities").document(self.domain).collection("userprofiles").document(self.registerInfoStruct.id!).setData(self.registerInfoStruct.dictionary, completion: { (e) in
                 if(e != nil){

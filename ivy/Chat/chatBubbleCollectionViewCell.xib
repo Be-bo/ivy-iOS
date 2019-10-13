@@ -15,14 +15,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="chatBubbleCollectionViewCell" customModule="ivy_iOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="500" height="400"/>
-            <autoresizingMask key="autoresizingMask"/>
+            <rect key="frame" x="0.0" y="0.0" width="500" height="70"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="500" height="400"/>
+                <rect key="frame" x="0.0" y="0.0" width="500" height="70"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zbg-pu-SrM" userLabel="MessageLabel Container">
-                        <rect key="frame" x="66" y="8" width="426" height="384"/>
+                        <rect key="frame" x="66" y="8" width="426" height="54"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7M1-PY-trc" userLabel="MessageLabel">
                                 <rect key="frame" x="8" y="8" width="410" height="29"/>
@@ -31,18 +31,18 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="file" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWw-Nv-LIH" userLabel="File Name">
-                                <rect key="frame" x="46" y="45" width="21" height="30"/>
+                                <rect key="frame" x="46" y="42" width="21" height="0.0"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="co4-1V-L7T"/>
+                                    <constraint firstAttribute="height" id="co4-1V-L7T"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwL-1M-LQq" userLabel="Download Button">
-                                <rect key="frame" x="388" y="8" width="30" height="30"/>
+                                <rect key="frame" x="388" y="42" width="30" height="0.0"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="P9K-hh-ybW"/>
+                                    <constraint firstAttribute="height" id="P9K-hh-ybW"/>
                                     <constraint firstAttribute="width" constant="30" id="QeW-wc-TOB"/>
                                 </constraints>
                                 <state key="normal" image="download"/>
@@ -51,30 +51,29 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5xT-2J-0gV">
-                                <rect key="frame" x="8" y="79" width="410" height="297"/>
+                                <rect key="frame" x="8" y="46" width="410" height="0.0"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="410" id="8K2-ei-v46"/>
-                                    <constraint firstAttribute="height" constant="297" id="NG5-xC-h87"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" id="NG5-xC-h87"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="file_white_full" translatesAutoresizingMaskIntoConstraints="NO" id="nwd-Dk-jZk">
-                                <rect key="frame" x="8" y="45" width="30" height="30"/>
+                                <rect key="frame" x="8" y="42" width="30" height="0.0"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="eaz-4N-gS2"/>
+                                    <constraint firstAttribute="height" id="eaz-4N-gS2"/>
                                     <constraint firstAttribute="width" constant="30" id="fDQ-52-CUd"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="nwd-Dk-jZk" firstAttribute="leading" secondItem="Zbg-pu-SrM" secondAttribute="leading" constant="8" id="026-HE-PdI"/>
-                            <constraint firstItem="dwL-1M-LQq" firstAttribute="top" secondItem="Zbg-pu-SrM" secondAttribute="top" constant="8" id="5Ov-gI-Cl6"/>
                             <constraint firstItem="7M1-PY-trc" firstAttribute="top" secondItem="Zbg-pu-SrM" secondAttribute="top" constant="8" id="6uI-il-hVs"/>
                             <constraint firstAttribute="trailing" secondItem="7M1-PY-trc" secondAttribute="trailing" constant="8" id="7ob-2E-LQw"/>
-                            <constraint firstItem="nwd-Dk-jZk" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="8" id="FoO-p8-Tdz"/>
-                            <constraint firstItem="JWw-Nv-LIH" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="8" id="K2O-xF-RN0"/>
+                            <constraint firstItem="nwd-Dk-jZk" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="5" id="FoO-p8-Tdz"/>
+                            <constraint firstItem="JWw-Nv-LIH" firstAttribute="top" secondItem="7M1-PY-trc" secondAttribute="bottom" constant="5" id="K2O-xF-RN0"/>
                             <constraint firstItem="5xT-2J-0gV" firstAttribute="leading" secondItem="Zbg-pu-SrM" secondAttribute="leading" constant="8" id="P2B-jz-WQD"/>
                             <constraint firstItem="JWw-Nv-LIH" firstAttribute="leading" secondItem="nwd-Dk-jZk" secondAttribute="trailing" constant="8" id="hML-ge-QfR"/>
                             <constraint firstAttribute="trailing" secondItem="dwL-1M-LQq" secondAttribute="trailing" constant="8" id="n4H-hY-Ln8"/>
+                            <constraint firstItem="5xT-2J-0gV" firstAttribute="top" secondItem="dwL-1M-LQq" secondAttribute="bottom" constant="4" id="pZN-Vt-rga"/>
                             <constraint firstItem="5xT-2J-0gV" firstAttribute="top" secondItem="nwd-Dk-jZk" secondAttribute="bottom" constant="4" id="rag-a7-IjP"/>
                             <constraint firstAttribute="bottom" secondItem="5xT-2J-0gV" secondAttribute="bottom" constant="8" id="sf9-gd-JjX"/>
                             <constraint firstItem="7M1-PY-trc" firstAttribute="leading" secondItem="Zbg-pu-SrM" secondAttribute="leading" constant="8" id="uMC-Xk-Its"/>
@@ -121,7 +120,6 @@
                 <outlet property="messageLabel" destination="7M1-PY-trc" id="aOc-uo-rKA"/>
                 <outlet property="photoImageHeight" destination="NG5-xC-h87" id="djd-Dh-GC3"/>
                 <outlet property="photoImageView" destination="5xT-2J-0gV" id="CYW-PS-kYP"/>
-                <outlet property="photoImageWidth" destination="8K2-ei-v46" id="Q5z-Ze-RlI"/>
             </connections>
             <point key="canvasLocation" x="-11.594202898550726" y="235.04464285714283"/>
         </collectionViewCell>

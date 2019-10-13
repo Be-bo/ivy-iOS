@@ -38,6 +38,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var noConvLabel: MediumGreenLabel!
+    @IBOutlet weak var loadingWheel: LoadingWheel!
     
     
     
@@ -53,7 +54,11 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     private func setUp(){
         self.tableView.isHidden = true
-        self.noConvLabel.isHidden = false
+        self.noConvLabel.isHidden = true
+        self.noConvLabel.layoutIfNeeded()
+        self.loadingWheel.isHidden = false
+        self.loadingWheel.startAnimating()
+        self.loadingWheel.layoutIfNeeded()
         self.configureTableView()
         
         if let firstName = thisUserProfile["first_name"] as? String, let profPic = thisUserProfile["profile_picture"] as? String, let id = thisUserProfile["id"] as? String, let uni = thisUserProfile["uni_domain"] as? String, let thisId = thisUserProfile["id"] as? String{
@@ -199,6 +204,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             self.noConvLabel.isHidden = false
             self.tableView.isHidden = true
         }
+        self.loadingWheel.stopAnimating()
+        self.loadingWheel.isHidden = true
     }
     
     func locateIndexOfConvo (id:String) -> Int { //function used to located the index of the conversation from the activeChats array

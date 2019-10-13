@@ -44,6 +44,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     private var dataLoaded = false
     private var appMinimized = false
     
+    
+    @IBOutlet weak var featuredLoadingWheel: LoadingWheel!
     @IBOutlet weak var featuredHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var featuredEventImage: UIImageView!
     @IBOutlet weak var eventsCollectionView: UICollectionView!
@@ -318,7 +320,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }else{
             let profileCard = collectionView.dequeueReusableCell(withReuseIdentifier: profileCollectionIdentifier, for: indexPath) as! profileCollectionViewCell
             profileCard.setUpWithProfile(profile: allSuggestedFriends[indexPath.item])
-            print("AZbinding: ",allSuggestedFriends[indexPath.item]["first_name"] as! String)
             return profileCard
         }
     }
@@ -343,6 +344,20 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                 self.suggestedProfileClicked = self.allSuggestedFriends[indexPath.item]   //use currentley clicked index to get conversation id
                 self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self) //pass data over to
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == self.eventsCollectionView{
+            let eventCard = collectionView.dequeueReusableCell(withReuseIdentifier: eventCollectionIdentifier, for: indexPath) as! EventCollectionViewCell
+            eventCard.image.isHidden = true
+            eventCard.loadingWheel.isHidden = false
+            eventCard.loadingWheel.startAnimating()
+        }else{
+            let profileCard = collectionView.dequeueReusableCell(withReuseIdentifier: profileCollectionIdentifier, for: indexPath) as! profileCollectionViewCell
+            profileCard.imageView.isHidden = true
+            profileCard.loadingWheel.isHidden = false
+            profileCard.loadingWheel.startAnimating()
         }
     }
     
@@ -390,6 +405,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func setFeaturedEvent() {
+        self.featuredLoadingWheel.isHidden = false
         let featuredImgWidth = CGFloat(featuredEventImage.frame.width)
         featuredHeightConstraint.constant = featuredImgWidth
         
@@ -413,7 +429,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                                             print("error", error)
                                         } else {
                                             self.featuredEventImage.image  = UIImage(data: data!)   //populate cell with downloaded image
-                                            //add on click listener that takes them to the event page when they click on the image
+                                            self.featuredLoadingWheel.isHidden = true
                                             let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickFeatured))
                                             self.featuredEventImage.isUserInteractionEnabled = true
                                             self.featuredEventImage.addGestureRecognizer(singleTap)
