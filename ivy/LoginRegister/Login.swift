@@ -170,20 +170,20 @@ class Login: UIViewController, UITextFieldDelegate {
             let password = passwordField.text!
             authInstance.signIn(withEmail: email, password: password) { (result, error) in //try to authenticate user in Firebase Auth with their email and password
                 if(error == nil){
-//                    if(self.authInstance.currentUser!.isEmailVerified){
+                    if(self.authInstance.currentUser!.isEmailVerified){
                         if let range = email.range(of: "@") { //extract the domain the user's entered
                             self.thisUni = String(email[range.upperBound...])
                             self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines) //trim whitespace and new line incase accidentley add space
                         }
                         self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
                         self.performSegue(withIdentifier: "loginToMain" , sender: self)
-//                    }else{
-//                        self.errorLabel.text = "You need to verify your email address before you can log in. Didn't recieve an email? Click here to resend it."
-//
-//                        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.resendEmailValidation))
-//                        self.errorLabel.addGestureRecognizer(gesture)
-//                        self.allowInteraction()
-//                    }
+                    }else{
+                        self.errorLabel.text = "You need to verify your email address before you can log in. Didn't recieve an email? Click here to resend it."
+
+                        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.resendEmailValidation))
+                        self.errorLabel.addGestureRecognizer(gesture)
+                        self.allowInteraction()
+                    }
                     
                 }else{
                     self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label
@@ -195,21 +195,15 @@ class Login: UIViewController, UITextFieldDelegate {
     
     //actually send the verification email
     @objc func resendEmailValidation() {
-                
         Auth.auth().currentUser?.sendEmailVerification(completion: { (e) in
             if e != nil{
-                print("Error sending verification email, please email: theivysocialnetwork@gmail.com",e)
+                print("error sending reg email: ",e)
+                PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "There was an error sending the registration email. Please contact theivysocialnetwork@gmail.com.", context: self)
             }else{
-                if let usersEmail = Auth.auth().currentUser?.email {
-                    let alert = UIAlertController(title: "Registration Successful", message: "We sent " + usersEmail + " a verification email. Check your inbox.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                        //nothing
-                    }))
-                    self.present(alert, animated: true)
-                }
+                //nothing
             }
         })
-        
+        PublicStaticMethodsAndData.createInfoDialog(titleText: "Email Sent", infoText: "We sent you a verification email. Please check your inbox.", context: self)
     }
     
     
