@@ -205,7 +205,7 @@ class Login: UIViewController, UITextFieldDelegate {
                         self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
                         self.performSegue(withIdentifier: "loginToMain" , sender: self)
                     }else{
-                        self.errorLabel.text = "You need to verify your email address before you can log in. Didn't recieve an email? Click here to resend it."
+                        self.errorLabel.attributedText = self.createResendEmailErrorText()
                         let tap = UITapGestureRecognizer(target: self, action: #selector(Login.resendEmailValidation)) //make a tap event handler that starts registration and attach it to the sign up label
                         self.errorLabel.isUserInteractionEnabled = true
                         self.errorLabel.addGestureRecognizer(tap)
