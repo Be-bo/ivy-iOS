@@ -47,14 +47,21 @@ class Reg10Recap: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let theImageByteArray = self.imageByteArray as? Data {
+            let frontImage = UIImage(data: theImageByteArray,scale: 1.0)
+            
+            
+            back.frame = shadowContainer.bounds
+            front.frame = shadowContainer.bounds
+            front.img.image = frontImage
+            front.name.text = self.registerInfoStruct.first_name!
+            shadowContainer.addSubview(back)
+            shadowContainer.addSubview(front)
+        }
         
-        let frontImage = UIImage(data: self.imageByteArray! as Data,scale: 1.0)
-        back.frame = shadowContainer.bounds
-        front.frame = shadowContainer.bounds
-        front.img.image = frontImage
-        front.name.text = self.registerInfoStruct.first_name!
-        shadowContainer.addSubview(back)
-        shadowContainer.addSubview(front)
+//        let frontImage = UIImage(data: self.imageByteArray! as Data,scale: 1.0)
+                
+    
         
         let firstAndLast = self.registerInfoStruct.first_name! + " " + self.registerInfoStruct.last_name!
        
