@@ -50,6 +50,15 @@ class Login: UIViewController, UITextFieldDelegate {
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // MARK: Override and Base Functions
     
     override func viewDidLoad() {
@@ -95,6 +104,15 @@ class Login: UIViewController, UITextFieldDelegate {
             vc.thisUniDomain = thisUni
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -160,6 +178,15 @@ class Login: UIViewController, UITextFieldDelegate {
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // MARK: Authentication Functions
     
     func attemptLogin(){
@@ -179,6 +206,8 @@ class Login: UIViewController, UITextFieldDelegate {
                         self.performSegue(withIdentifier: "loginToMain" , sender: self)
                     }else{
                         self.errorLabel.text = "You need to verify your email address before you can log in. Didn't recieve an email? Click here to resend it."
+                        
+                        self.errorLabel.attributedText = self.createResendEmailErrorText()
 
                         let gesture = UITapGestureRecognizer(target: self, action: #selector(self.resendEmailValidation))
                         self.errorLabel.addGestureRecognizer(gesture)
@@ -222,7 +251,22 @@ class Login: UIViewController, UITextFieldDelegate {
     
     
     
+    
+    
+    
+    
+    
+    
+    
     // MARK: Other Functions
+    
+    private func createResendEmailErrorText() -> NSMutableAttributedString{
+        let strNumber: NSString = "Your email is not verified. Need to resend the verification email? Click here" as NSString // you must set your
+        let range = (strNumber).range(of: "Click here")
+        let attribute = NSMutableAttributedString.init(string: strNumber as String)
+        attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.ivyGreen , range: range)
+        return attribute
+    }
     
     @objc func startRegistration(sender: UITapGestureRecognizer){ //move to the first registration view controller
         self.performSegue(withIdentifier: "loginToReg1Segue" , sender: self)

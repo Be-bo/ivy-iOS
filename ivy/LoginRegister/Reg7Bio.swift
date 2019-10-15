@@ -36,7 +36,7 @@ class Reg7Bio: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardOnTapOutside()
-        cofigureBioTextView()
+        configureTextView()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segway is called
@@ -78,7 +78,7 @@ class Reg7Bio: UIViewController, UITextViewDelegate {
         return changedText.count <= 160
     }
     
-    func cofigureBioTextView() { //setup the bio text view with rounded corners and what not
+    func configureTextView() { //setup the bio text view with rounded corners and what not
         //Setting border color of the bio text field
         self.bioTextView.layer.masksToBounds = true;
         self.bioTextView.layer.borderColor = UIColor.ivyGrey.cgColor
