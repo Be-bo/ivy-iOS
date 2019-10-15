@@ -123,6 +123,7 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{ //extract the non "edited" image from our info
             self.actualFinalImage.image = originalImage
             self.actualFinalImage.layer.borderWidth = 0.0;    //get rid of the image border
+            picker.view.isUserInteractionEnabled = false      //disable interaction to prevent bug of people tapping on the image multiple times
         }
         dismiss(animated: true, completion: nil)    //dismiss the imagepickercontroller view
         presentCropViewController()

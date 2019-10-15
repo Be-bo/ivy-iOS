@@ -226,6 +226,8 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
         cell.selectionStyle = .none
         
         let friendsname = String(self.allPossibleFriends[indexPath.row]["first_name"] as! String) + " " + String(self.allPossibleFriends[indexPath.row]["last_name"] as! String) //the author of the last message that was sent
+        
+        
         let friendpicloc = "userimages/" + String(self.allPossibleFriends[indexPath.row]["id"] as! String) + "/preview.jpg"
 
         // Create a storage reference from our storage service
@@ -256,7 +258,7 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
         nameAndID =  ["id": (self.allPossibleFriends[indexPath.row]["id"] as! String) , "first_name": (self.allPossibleFriends[indexPath.row]["first_name"] as! String)]  //format: "id":"first_name"
         
 
-        //if they click on the same interest again then remove ir from the array and get rid of checkmark
+        //if they click on the same person again then remove ir from the array and get rid of checkmark
         if (addTheseFriends.contains(nameAndID)){
             let index = self.addTheseFriends.firstIndex(of: nameAndID)
             self.addTheseFriends.remove(at: index!)
@@ -264,7 +266,6 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
         }else{
              self.addTheseFriends.append(nameAndID)
             cl.checkBox.isHidden = false
-
         }
     }
 }
