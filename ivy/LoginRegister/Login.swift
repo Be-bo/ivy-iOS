@@ -288,19 +288,19 @@ class Login: UIViewController, UITextFieldDelegate {
                 if let verDic = docSnap?.data() as? Dictionary<String, Any>, let latest = verDic["iOS"] as? String, let local = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String, latest != local { //check if the doc's ok and whether the version is up to date
                     let alert = UIAlertController(title: "There's a newer version of the app available.", message: .none, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alert:UIAlertAction) in
-//                        let appleID = "1479966843"
-//                        let appStoreLink = "itms-apps://itunes.apple.com/app/id1479966843"
-//                        UIApplication.shared.open(URL(string: appStoreLink)!, options: [:], completionHandler: nil)
                         
-//                        if let url = URL(string: "itms-apps://itunes.apple.ca/app/id1479966843") { //open link
-//                            UIApplication.shared.open(url, options: [:])
-//                        }
                         var url  = NSURL(string: "itms-apps://itunes.apple.com/app/bars/id1479966843")
                         if UIApplication.shared.canOpenURL(url! as URL) {
                             UIApplication.shared.openURL(url! as URL)
                         }
 //                        self.performSegue(withIdentifier: "loginToMain", sender: self)
                     }))
+                    
+                    alert.addAction(UIAlertAction(title: "Update Later", style: .cancel, handler: { (alert:UIAlertAction) in
+                        self.performSegue(withIdentifier: "loginToMain", sender: self)
+                    }))
+                    
+                    
                     self.present(alert, animated: true)
                 }else{
                     self.performSegue(withIdentifier: "loginToMain", sender: self)
