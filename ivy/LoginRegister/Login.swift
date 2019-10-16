@@ -18,6 +18,7 @@ class Login: UIViewController, UITextFieldDelegate {
     private let authInstance = Auth.auth()
     private var thisUni = ""
     var dontAutoLog = false
+    let baseDatabaseReference = Firestore.firestore()
     
     
     
@@ -65,16 +66,6 @@ class Login: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         checkAutoLogin()
         setUp()
-        
-        
-//        let alert = UIAlertController(title: "Did you bring your towel?", message: "It's recommended you bring your towel before continuing.", preferredStyle: .alert)
-//
-//        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-//        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-//            print("Yay! You brought your towel!")
-//        }))
-//
-//        self.present(alert, animated: true)
     }
     
     func setUp(){
@@ -169,6 +160,8 @@ class Login: UIViewController, UITextFieldDelegate {
     func hideElems(){ //in a case of auto login hide everything except the top container (which contains the ivy logo so that we can still display the loading animation)
         middleContainer.isHidden = true
         bottomContainer.isHidden = true
+        emailField.isHidden = true
+        passwordField.isHidden = true
     }
     
     
@@ -203,7 +196,7 @@ class Login: UIViewController, UITextFieldDelegate {
                             self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines) //trim whitespace and new line incase accidentley add space
                         }
                         self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
-                        self.performSegue(withIdentifier: "loginToMain" , sender: self)
+                        self.checkForNewerVersion()
                     }else{
                         self.errorLabel.attributedText = self.createResendEmailErrorText()
                         let tap = UITapGestureRecognizer(target: self, action: #selector(Login.resendEmailValidation)) //make a tap event handler that starts registration and attach it to the sign up label
@@ -239,7 +232,7 @@ class Login: UIViewController, UITextFieldDelegate {
             saveLocalData()
             barInteraction()
             hideElems()
-            self.performSegue(withIdentifier: "loginToMain", sender: self)
+            self.checkForNewerVersion()
         }else{
             //errorLabel.text = "Couldn't perform auto-login, please log in manually."
         }
@@ -283,6 +276,37 @@ class Login: UIViewController, UITextFieldDelegate {
         }else{
             return false
         }
-    } 
+    }
+    
+    private func checkForNewerVersion(){
+        self.baseDatabaseReference.collection("other").document("version_document").getDocument { (docSnap, e) in
+            if(e != nil){
+                print("There was an error obtaining app's version: ",e)
+                self.performSegue(withIdentifier: "loginToMain", sender: self)
+            }else{
+                self.allowInteraction()
+                if let verDic = docSnap?.data() as? Dictionary<String, Any>, let latest = verDic["iOS"] as? String, let local = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String, latest != local { //check if the doc's ok and whether the version is up to date
+                    let alert = UIAlertController(title: "There's a newer version of the app available.", message: .none, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alert:UIAlertAction) in
+//                        let appleID = "1479966843"
+//                        let appStoreLink = "itms-apps://itunes.apple.com/app/id1479966843"
+//                        UIApplication.shared.open(URL(string: appStoreLink)!, options: [:], completionHandler: nil)
+                        
+//                        if let url = URL(string: "itms-apps://itunes.apple.ca/app/id1479966843") { //open link
+//                            UIApplication.shared.open(url, options: [:])
+//                        }
+                        var url  = NSURL(string: "itms-apps://itunes.apple.com/app/bars/id1479966843")
+                        if UIApplication.shared.canOpenURL(url! as URL) {
+                            UIApplication.shared.openURL(url! as URL)
+                        }
+//                        self.performSegue(withIdentifier: "loginToMain", sender: self)
+                    }))
+                    self.present(alert, animated: true)
+                }else{
+                    self.performSegue(withIdentifier: "loginToMain", sender: self)
+                }
+            }
+        }
+    }
 }
 

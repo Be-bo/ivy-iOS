@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -36,11 +38,11 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>"We need your permission to take pictures."</string>
+	<string>&quot;We need your permission to take pictures.&quot;</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Our application needs permission to download files or images!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>"We need your permission to save files into the phone."</string>
+	<string>&quot;We need your permission to save files into the phone.&quot;</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>cordia.ttf</string>
