@@ -410,78 +410,82 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         featuredHeightConstraint.constant = featuredImgWidth
         
         //extract the university this person is a part of
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).getDocument { (document, error) in
-            if let document = document, document.exists {
-                if let uni = document.data(), let featuredId = uni["featured_id"] as? String, featuredId != ""{  //extract that featured event from that university
-                    self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").document(featuredId).getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            self.featuredEventClicked = document.data()!
-                            let isFeatured = self.featuredEventClicked["is_featured"] as! Bool
-                            let isActive = self.featuredEventClicked["is_active"] as! Bool
-                            let endTime = self.featuredEventClicked["end_time"] as! CLong
-                            if(isFeatured && isActive && endTime > Int(Date().timeIntervalSince1970)){  //make sure its active and actually a featured event, check exp time
-                                self.featuredEventImage.isHidden = false
-                                
-                                if let clickFeaturedImageString = self.featuredEventClicked["image"] as? String {
-                                    //TODO: set text of featured image to be visible here if we choose to have the text hidden @ other times
-                                    self.baseStorageReference.reference().child(clickFeaturedImageString).getData(maxSize: 1 * 1024 * 1024) { data, error in  //download image
-                                        if let error = error {
-                                            print("error", error)
-                                        } else {
-                                            self.featuredEventImage.image  = UIImage(data: data!)   //populate cell with downloaded image
-                                            self.featuredLoadingWheel.isHidden = true
-                                            let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickFeatured))
-                                            self.featuredEventImage.isUserInteractionEnabled = true
-                                            self.featuredEventImage.addGestureRecognizer(singleTap)
+        if let userDomain = self.thisUserProfile["uni_domain"] as? String{
+            self.baseDatabaseReference.collection("universities").document(userDomain).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let uni = document.data(), let featuredId = uni["featured_id"] as? String, featuredId != ""{  //extract that featured event from that university
+                        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").document(featuredId).getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                self.featuredEventClicked = document.data()!
+                                let isFeatured = self.featuredEventClicked["is_featured"] as! Bool
+                                let isActive = self.featuredEventClicked["is_active"] as! Bool
+                                let endTime = self.featuredEventClicked["end_time"] as! CLong
+                                if(isFeatured && isActive && endTime > Int(Date().timeIntervalSince1970)){  //make sure its active and actually a featured event, check exp time
+                                    self.featuredEventImage.isHidden = false
+                                    
+                                    if let clickFeaturedImageString = self.featuredEventClicked["image"] as? String {
+                                        //TODO: set text of featured image to be visible here if we choose to have the text hidden @ other times
+                                        self.baseStorageReference.reference().child(clickFeaturedImageString).getData(maxSize: 1 * 1024 * 1024) { data, error in  //download image
+                                            if let error = error {
+                                                print("error", error)
+                                            } else {
+                                                self.featuredEventImage.image  = UIImage(data: data!)   //populate cell with downloaded image
+                                                self.featuredLoadingWheel.isHidden = true
+                                                let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickFeatured))
+                                                self.featuredEventImage.isUserInteractionEnabled = true
+                                                self.featuredEventImage.addGestureRecognizer(singleTap)
+                                            }
                                         }
                                     }
+                                    
+                                }else{
+                                    //TODO: set text of featured image to be INVISIBLE here if we choose to have the text hidden @ other times
+                                    self.featuredEventImage.isHidden = true
                                 }
-                                
-
-                                
-                                
-                            }else{
-                                //TODO: set text of featured image to be INVISIBLE here if we choose to have the text hidden @ other times
-                                self.featuredEventImage.isHidden = true
+                            } else {
+                                print("Document does not exist")
                             }
-                        } else {
-                            print("Document does not exist")
                         }
                     }
+                } else {
+                    print("Document does not exist")
                 }
-            } else {
-                print("Document does not exist")
             }
         }
+        
+
     }
     
-    func loadEvents(){ //load all the events except for the featured event  
+    func loadEvents(){ //load all the events except for the featured event
         self.allEvents = [Dictionary<String, Any>]()
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").whereField("end_time", isGreaterThan: Date().millisecondsSince1970).order(by: "end_time", descending: false).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    if (!document.data().isEmpty){
-                        var event = document.data()
-                        let isFeatured = event["is_featured"] as! Bool
-                        let isActive = event["is_active"] as! Bool
-                        let endTime = event["end_time"] as! Int64
-                        if (!isFeatured && isActive && endTime > Int64(Date().millisecondsSince1970)){
-                            var eventAlreadyAdded = false
-                            if(!self.allEvents.contains(where: { (currentEvent) -> Bool in //if not true that an event with this id already exists in our events
-                                if let aboutToAddId = event["id"] as? String, let testingAgainstId = currentEvent["id"] as? String, aboutToAddId == testingAgainstId{
-                                    return true
-                                }else{
-                                    return false
+        
+        if let userDomain = self.thisUserProfile["uni_domain"] as? String{
+            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").whereField("end_time", isGreaterThan: Date().millisecondsSince1970).order(by: "end_time", descending: false).getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        if (!document.data().isEmpty){
+                            var event = document.data()
+                            let isFeatured = event["is_featured"] as! Bool
+                            let isActive = event["is_active"] as! Bool
+                            let endTime = event["end_time"] as! Int64
+                            if (!isFeatured && isActive && endTime > Int64(Date().millisecondsSince1970)){
+                                var eventAlreadyAdded = false
+                                if(!self.allEvents.contains(where: { (currentEvent) -> Bool in //if not true that an event with this id already exists in our events
+                                    if let aboutToAddId = event["id"] as? String, let testingAgainstId = currentEvent["id"] as? String, aboutToAddId == testingAgainstId{
+                                        return true
+                                    }else{
+                                        return false
+                                    }
+                                })){
+                                    self.allEvents.append(event)
                                 }
-                            })){
-                                self.allEvents.append(event)
                             }
                         }
                     }
+                    self.eventsCollectionView.reloadData()
                 }
-                self.eventsCollectionView.reloadData()
             }
         }
     }
