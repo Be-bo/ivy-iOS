@@ -35,6 +35,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     private var thisConversation = Dictionary<String, Any>()        //the conversation they actually click on when accepting/rejecting
     private var thisCell: ConversationCell? = nil
     
+
+    
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var noConvLabel: MediumGreenLabel!
@@ -137,19 +139,15 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 
                 snapshot.documentChanges.forEach { diff in //FOR EACH individual conversation the user has, when its added
                     
-                    print("active chats: ", self.activeChats)
                     
                     if (diff.type == .added) {
                         self.activeChats.append(diff.document.data())
-                        print("active chats added: ", self.activeChats)
-
 //                        self.configureTableView()
                         self.checkIfShowtableView()
                         self.tableView.reloadData() //reload rows and section in table view
                     }
                     
                     if (diff.type == .modified) { //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
-                        print("modified:")
                         let modifiedData = diff.document.data()
                         if let modifiedID = modifiedData["id"] as? String, let posModified = self.locateIndexOfConvo(id: modifiedID) as? Int, let originalData = self.activeChats[posModified] as? Dictionary<String, Any>, let modifiedCounts = modifiedData["message_count"] as? Int, let originalCounts = originalData["message_count"] as? Int {
                             if(modifiedCounts != originalCounts){
@@ -168,7 +166,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                                 self.checkIfShowtableView()
                                 self.tableView.reloadData()
                             }
-                            print("active chats modified: ", self.activeChats)
                         }
                     }
                     

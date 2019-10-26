@@ -12,7 +12,6 @@
 		A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */; };
 		A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266422A4B214005E8965 /* cordiabold.ttf */; };
 		A90D266722A4B215005E8965 /* cordia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266522A4B215005E8965 /* cordia.ttf */; };
-		A912EA2F234BD01200F953D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A912EA2E234BD01200F953D0 /* GoogleService-Info.plist */; };
 		A91D4B692331D2AD00D55286 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A91D4B682331D2AD00D55286 /* Assets.xcassets */; };
 		A920C4E522D281B60088DD58 /* CardBack.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E422D281B60088DD58 /* CardBack.xib */; };
 		A920C4E722D281C20088DD58 /* CardFront.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E622D281C20088DD58 /* CardFront.xib */; };
@@ -50,6 +49,8 @@
 		A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BB05E522C04A06008B35AA /* Reg7Bio.swift */; };
 		A9D013192328A91B0049353C /* AddParticipantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */; };
 		A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */; };
+		A9F7B1CC23639F7500B7283E /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F7B1CB23639F7500B7283E /* PushNotificationSender.swift */; };
+		A9F7B1D42363DC1600B7283E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9F7B1D32363DC1600B7283E /* GoogleService-Info.plist */; };
 		A9FD1961231497E200ECA848 /* profileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */; };
 		A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */; };
 		A9FD19642314EC6E00ECA848 /* organizationPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD19632314EC6E00ECA848 /* organizationPage.swift */; };
@@ -125,7 +126,6 @@
 		A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editInterestsPopUpViewController.swift; sourceTree = "<group>"; };
 		A90D266422A4B214005E8965 /* cordiabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordiabold.ttf; sourceTree = "<group>"; };
 		A90D266522A4B215005E8965 /* cordia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordia.ttf; sourceTree = "<group>"; };
-		A912EA2E234BD01200F953D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A91D4B682331D2AD00D55286 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A920C4E422D281B60088DD58 /* CardBack.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardBack.xib; sourceTree = "<group>"; };
 		A920C4E622D281C20088DD58 /* CardFront.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardFront.xib; sourceTree = "<group>"; };
@@ -164,6 +164,9 @@
 		A9D0131223288D310049353C /* ivy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ivy.entitlements; sourceTree = "<group>"; };
 		A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParticipantTableViewCell.swift; sourceTree = "<group>"; };
 		A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddParticipantTableViewCell.xib; sourceTree = "<group>"; };
+		A9F7B1C4236394E300B7283E /* ivy-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ivy-iOS.entitlements"; sourceTree = "<group>"; };
+		A9F7B1CB23639F7500B7283E /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
+		A9F7B1D32363DC1600B7283E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A9FD195F231497E200ECA848 /* profileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9FD1960231497E200ECA848 /* profileCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = profileCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9FD19632314EC6E00ECA848 /* organizationPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = organizationPage.swift; sourceTree = "<group>"; };
@@ -352,6 +355,7 @@
 				A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */,
 				A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */,
 				A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */,
+				A9F7B1CB23639F7500B7283E /* PushNotificationSender.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -418,6 +422,7 @@
 		FA6058FD22A4B12C00383F9F = {
 			isa = PBXGroup;
 			children = (
+				A9F7B1C4236394E300B7283E /* ivy-iOS.entitlements */,
 				FA60590822A4B12C00383F9F /* ivy */,
 				FA60590722A4B12C00383F9F /* Products */,
 				AB71219703D1BBDED6353DAF /* Pods */,
@@ -453,7 +458,7 @@
 				FA60590922A4B12C00383F9F /* AppDelegate.swift */,
 				A9BB05E322B5D2F8008B35AA /* Constants.swift */,
 				FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */,
-				A912EA2E234BD01200F953D0 /* GoogleService-Info.plist */,
+				A9F7B1D32363DC1600B7283E /* GoogleService-Info.plist */,
 				FA60591522A4B12E00383F9F /* Info.plist */,
 			);
 			path = ivy;
@@ -558,7 +563,6 @@
 				A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */,
 				A90D266722A4B215005E8965 /* cordia.ttf in Resources */,
 				A91D4B692331D2AD00D55286 /* Assets.xcassets in Resources */,
-				A912EA2F234BD01200F953D0 /* GoogleService-Info.plist in Resources */,
 				A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */,
 				A9FD1980231DB5D100ECA848 /* galleryImageView.xib in Resources */,
 				A9B57E8323137482008DC63B /* EventCollectionViewCell.xib in Resources */,
@@ -567,6 +571,7 @@
 				FA6F7C9622EE713D00610046 /* SettingsButton.xib in Resources */,
 				A920C4E722D281C20088DD58 /* CardFront.xib in Resources */,
 				A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */,
+				A9F7B1D42363DC1600B7283E /* GoogleService-Info.plist in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
 				A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */,
 				FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */,
@@ -639,6 +644,7 @@
 				FAD461A122ED3329003B10D8 /* OpacityButton.swift in Sources */,
 				FA0A0348232729D500F9FDAC /* LegalStuff.swift in Sources */,
 				A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */,
+				A9F7B1CC23639F7500B7283E /* PushNotificationSender.swift in Sources */,
 				A9FD1988231F223B00ECA848 /* ChangePassword.swift in Sources */,
 				A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */,
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
@@ -857,6 +863,7 @@
 			baseConfigurationReference = EDA2E067AA5E2F6DD384B0A7 /* Pods-ivy-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ivy-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 87U2W3H4TZ;
 				INFOPLIST_FILE = ivy/Info.plist;
@@ -865,7 +872,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ivythesocialnetwork.ivy-iOS-tester1";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivythesocialnetwork.ivy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -877,6 +884,7 @@
 			baseConfigurationReference = D6946263A0018AF3FCC9047E /* Pods-ivy-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ivy-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 87U2W3H4TZ;
 				INFOPLIST_FILE = ivy/Info.plist;
@@ -885,7 +893,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ivythesocialnetwork.ivy-iOS-tester1";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivythesocialnetwork.ivy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
