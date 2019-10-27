@@ -40,7 +40,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     let documentInteractionController = UIDocumentInteractionController()
     let screenSize: CGRect = UIScreen.main.bounds
     
-    
+    let sender = PushNotificationSender()
+
     
     // MARK: IBOutlets and IBActions
     
@@ -458,6 +459,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
                 self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": self.messages.count + 1])
                 
+                self.sendNotification(message:message)
+                
                 //update last message count for this user
                 let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
                 if (thisUserPos != -1) {
@@ -467,6 +470,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
                     }
                 }
+                
+                
                 //TODO: decide if need to compensatefor listener bug here (Check android for code)
             }
             
@@ -531,8 +536,9 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
                     }
                 }
+                
+                self.sendNotification(message:message)
                 self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
-
                 //TODO: decide if need to compensatefor listener bug here (Check android for code)
             }
         }
@@ -550,6 +556,55 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             }
         }
     }
+    
+    
+    //NOTIFICATION SENDING
+    private func sendNotification(message:Dictionary<String,Any>) {
+        //if ifs a base conversation vs if its not a base conversation
+        if let booleanIsBaseConv = self.thisConversation["is_base_conversation"] as? Bool {
+                if let authorFirstName = message["author_first_name"] as? String, let authorLastName = message["author_last_name"] as? String, let messageText = message["message_text"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String {
+                    if (booleanIsBaseConv == true){
+                        self.otherId = getOtherParticipant(conversation: self.thisConversation, returnName: false)   //extract other participant id
+                        if (self.otherId != ""){ //if there is actually someone part of the conversation
+                            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(self.otherId).getDocument { (document, error) in
+                                if let document = document, document.exists {
+                                    let user = document.data()
+                                    //user will exist hhere since document data has to  exist here
+                                    if let usersMessagingToken = user!["messaging_token"] as? String {
+                                        print("BASE CONVO  other user messaging token: ", usersMessagingToken)
+                                        //actually notify the user of that device
+                                        self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText)
+                                        //else title is just name of author for base conversation
+                                    }
+                                } else {
+                                    print("Document does not exist")
+                                }
+                            }
+                        }
+                    }else if (booleanIsBaseConv == false){ //if group convo then title is name of the convo
+                        //extract all the id's of the users
+                        if let convName = self.thisConversation["name"] as? String, let participantIDs = self.thisConversation["participants"] as? [String], let thisUserId = thisUserProfile["id"] as? String {
+                            //for every participant either then yourself in this conversation, get their FCM token, then send a message to that token.
+                            for i in 0..<participantIDs.count{
+                                var currentId = participantIDs[i]
+                                if(currentId != thisUserId){
+                                    self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(currentId).getDocument { (document, error) in
+                                        if let document = document, document.exists {
+                                            let user = document.data()
+                                            if let usersMessagingToken = user!["messaging_token"] as? String {
+                                                self.sender.sendPushNotification(to: usersMessagingToken, title: convName , body: authorFirstName + " : " + messageText)
+                                            }
+                                        } else {
+                                            print("Document does not exist")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     
     
     

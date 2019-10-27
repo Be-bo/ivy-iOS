@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -38,15 +36,20 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>&quot;We need your permission to take pictures.&quot;</string>
+	<string>"We need your permission to take pictures."</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Our application needs permission to download files or images!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>&quot;We need your permission to save files into the phone.&quot;</string>
+	<string>"We need your permission to save files into the phone."</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>cordia.ttf</string>
 		<string>cordiabold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
@@ -69,5 +72,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>

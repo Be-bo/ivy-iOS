@@ -8,14 +8,16 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 import UserNotificationsUI
+import FirebaseFirestore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
-    
+
 
     //has to be done here to ensure the reference to the database is setup.
     override init() {
@@ -28,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+
 
         UINavigationBar.appearance().backgroundColor = UIColor.white
         UINavigationBar.appearance().barTintColor = UIColor.white
@@ -130,53 +134,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let baseDatabaseReference = Firestore.firestore()   //reference to the database
+
         print("APNS token retrieved",deviceToken)
         Messaging.messaging().apnsToken = deviceToken
+        
+        if let id = Auth.auth().currentUser?.uid as? String{
+            //on token refresh update the auth users FCM token
+            if let refreshedToken = Messaging.messaging().fcmToken {
+                print("InstanceID token: \(refreshedToken)")
+                var tokenMerger = Dictionary<String,Any>()
+                tokenMerger["messaging_token"] = refreshedToken
+                baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(id).setData(tokenMerger, merge: true)
+            }
+        }
+        
     }
 
    
 
 }
-//
-//@available(iOS 10, *)
-//extension AppDelegate : UNUserNotificationCenterDelegate {
-//
-//    // Receive displayed notifications for iOS 10 devices.
-//    func userNotificationCenter(_ center: UNUserNotificationCenter,
-//                                willPresent notification: UNNotification,
-//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        let userInfo = notification.request.content.userInfo
-//
-//        // With swizzling disabled you must let Messaging know about the message, for Analytics
-//        // Messaging.messaging().appDidReceiveMessage(userInfo)
-//
-//        // Print message ID.
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-//
-//        // Print full message.
-//        print("UserInfo:", userInfo)
-//
-//        // Change this to your preferred presentation option
-//        completionHandler([.alert])
-//    }
-//
-//    func userNotificationCenter(_ center: UNUserNotificationCenter,
-//                                didReceive response: UNNotificationResponse,
-//                                withCompletionHandler completionHandler: @escaping () -> Void) {
-//        let userInfo = response.notification.request.content.userInfo
-//        // Print message ID.
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-//
-//        // Print full message.
-//        print("user info: ", userInfo)
-//
-//        completionHandler()
-//    }
-//}
+
 
 // [START ios_10_message_handling]
 @available(iOS 10, *)
@@ -209,6 +187,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         Messaging.messaging().appDidReceiveMessage(userInfo)
         completionHandler()
     }
+    
+    
 }
 // [END ios_10_message_handling]
 
@@ -216,13 +196,22 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 extension AppDelegate: MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("Firebase registration token: \(fcmToken)")
+        let baseDatabaseReference = Firestore.firestore()   //reference to the database
+
+        //when new registration token is made update it for the user
+        if let id = Auth.auth().currentUser?.uid as? String{
+            var tokenMerger = Dictionary<String,Any>()
+            tokenMerger["messaging_token"] = fcmToken
+            baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(id).setData(tokenMerger, merge: true)
+        }
+        
         
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
+    
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
         print("Message Data", remoteMessage.appData)
