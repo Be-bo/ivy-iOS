@@ -174,7 +174,10 @@ class ViewFullProfileActivity: UIViewController{
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let kbHeight = keyboardRectangle.height
-        self.keyboardHeight = kbHeight
+        let innerHeight = CGFloat(view.safeAreaLayoutGuide.layoutFrame.size.height) //is 0 for rectangular screens but adds extra screen real estate on "notch" design
+        let outerHeight = CGFloat(UIScreen.main.bounds.height)
+        let chinForehead = (outerHeight - innerHeight)/2
+        self.keyboardHeight = kbHeight + 60 - chinForehead //have to take the safe area around the notch and the chin into account - for iPhone X, XR, XS, XS Max and above
         UIView.animate(withDuration: 0.5){
             self.back.sayHiHeightConstraint.constant = self.keyboardHeight
             self.back.sayHiMessageTextField.layoutIfNeeded()

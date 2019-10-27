@@ -131,8 +131,4 @@ class editDegreePopUpViewController: UIViewController, UITableViewDelegate, UITa
         self.currentDegree = newCell.degreeLabel.text!
         newCell.checkImageView.image = UIImage(named: "check")
     }
-    
-    
-    
-    
 }

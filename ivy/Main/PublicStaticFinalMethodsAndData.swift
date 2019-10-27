@@ -101,6 +101,19 @@ class PublicStaticMethodsAndData{
         return fileExt.lowercased()
     }
     
+    
+    static func verifyUrl (urlString: String?) -> Bool {
+        //Check for nil
+        if let urlString = urlString {
+            // create NSURL instance
+            if let url = NSURL(string: urlString) {
+                // check if your application can open the NSURL instance
+                return UIApplication.shared.canOpenURL(url as URL)
+            }
+        }
+        return false
+    }
+    
     static let iconNames = [
         "accounting", "actuarialScience", "ancientAndMedievalHistory", "anthropology", "appliedscience", "archaeology", "architecture", "artHistory", "astrophysics",
         "biology", "businessadministration", "biochemistry", "bioinformatics", "biomechanics", "biomedicalSciences", "businessAnalytics", "businessTechnologyManagement", "businessAdmin", "businessStrategy",
