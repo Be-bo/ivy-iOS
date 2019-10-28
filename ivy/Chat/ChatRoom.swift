@@ -562,7 +562,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     private func sendNotification(message:Dictionary<String,Any>) {
         //if ifs a base conversation vs if its not a base conversation
         if let booleanIsBaseConv = self.thisConversation["is_base_conversation"] as? Bool {
-                if let authorFirstName = message["author_first_name"] as? String, let authorLastName = message["author_last_name"] as? String, let messageText = message["message_text"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String {
+            if let authorFirstName = message["author_first_name"] as? String, let authorLastName = message["author_last_name"] as? String, let messageText = message["message_text"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String, let conversationID = self.thisConversation["id"] as? String {
                     if (booleanIsBaseConv == true){
                         self.otherId = getOtherParticipant(conversation: self.thisConversation, returnName: false)   //extract other participant id
                         if (self.otherId != ""){ //if there is actually someone part of the conversation
@@ -573,7 +573,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                                     if let usersMessagingToken = user!["messaging_token"] as? String {
                                         print("BASE CONVO  other user messaging token: ", usersMessagingToken)
                                         //actually notify the user of that device
-                                        self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText)
+                                        print("conversation id: ", conversationID)
+                                        self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText, conversationID: conversationID)
                                         //else title is just name of author for base conversation
                                     }
                                 } else {
@@ -592,7 +593,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                                         if let document = document, document.exists {
                                             let user = document.data()
                                             if let usersMessagingToken = user!["messaging_token"] as? String {
-                                                self.sender.sendPushNotification(to: usersMessagingToken, title: convName , body: authorFirstName + " : " + messageText)
+                                                print("conversation id: ", conversationID)
+                                                self.sender.sendPushNotification(to: usersMessagingToken, title: convName , body: authorFirstName + " : " + messageText, conversationID:conversationID)
                                             }
                                         } else {
                                             print("Document does not exist")
@@ -656,15 +658,20 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         //                    self.messageCollectionView.beginUpdates()
                         self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                         
-                        self.messageCollectionView.insertItems(at: [
-                            NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath])
-                        //                    self.messageCollectionView.endUpdates()
-                        self.messageCollectionView.scrollToLast()
-//                        self.messageCollectionView.reloadData()
+                        //use reload data instead of insert cause that fucks it up sometimes
+                        self.messageCollectionView.reloadData()
+
                         
-                        //                    self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
+                        
                     }
                 }
+                self.messageCollectionView.reloadData()
+                
+                let lastItemIndex = self.messageCollectionView.numberOfItems(inSection: 0) - 1
+                let indexPath:IndexPath = IndexPath(item: lastItemIndex, section: 0)
+                self.messageCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+                
+
             }
         }
     }
@@ -691,6 +698,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         
         self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
+        
+        
         let lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as? String ?? "" //first name of last message author
         let lastMessage = self.messages[indexPath.row]["message_text"] as? String
         authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as? String ?? "") + "/preview.jpg"

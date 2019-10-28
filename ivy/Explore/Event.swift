@@ -115,7 +115,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         eventImageHeightConstr.constant = imgWidth
         if self.event.contains(where: { $0.key == "link"}) {    //check if the event even contains a link to be clicked on, if not, hide the registration button
             if let urlString = event["link"] as? String{
-                if urlString == "" {
+                if !PublicStaticMethodsAndData.verifyUrl(urlString: urlString) {
                     self.registerButtonWidth.constant = 0
                     self.buttonSpacerCenterX.isActive = false
                     self.registerBtnTrailingConstraint.constant = 0

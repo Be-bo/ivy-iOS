@@ -658,13 +658,13 @@
         <!--Chat Room-->
         <scene sceneID="e0I-6e-i0K">
             <objects>
-                <viewController modalPresentationStyle="currentContext" hidesBottomBarWhenPushed="YES" id="o21-X7-06M" customClass="ChatRoom" customModule="ivy_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatRoom" modalPresentationStyle="currentContext" hidesBottomBarWhenPushed="YES" id="o21-X7-06M" customClass="ChatRoom" customModule="ivy_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t7y-p7-dVb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Your Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WBe-8c-U5n" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                <rect key="frame" x="51" y="769" width="312" height="35"/>
+                                <rect key="frame" x="51" y="823" width="312" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="jxN-rQ-ixv"/>
                                 </constraints>
@@ -672,7 +672,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m0d-be-zeF">
-                                <rect key="frame" x="8" y="769" width="35" height="35"/>
+                                <rect key="frame" x="8" y="823" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="35" id="70v-z9-OSp"/>
                                     <constraint firstAttribute="height" constant="35" id="9yy-Ha-6dq"/>
@@ -683,7 +683,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pag-xo-v3d">
-                                <rect key="frame" x="371" y="769" width="35" height="35"/>
+                                <rect key="frame" x="371" y="823" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="3lZ-rh-9sA"/>
                                     <constraint firstAttribute="width" constant="35" id="Nha-Ts-gbZ"/>
@@ -694,7 +694,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kfw-Xs-4JK">
-                                <rect key="frame" x="8" y="718" width="35" height="35"/>
+                                <rect key="frame" x="8" y="772" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="4bY-CM-D1b"/>
                                     <constraint firstAttribute="width" constant="35" id="RQH-Td-ybY"/>
@@ -705,7 +705,7 @@
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BLQ-M3-ele">
-                                <rect key="frame" x="51" y="726" width="343" height="35"/>
+                                <rect key="frame" x="51" y="780" width="343" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="g9S-iC-isw"/>
                                 </constraints>
@@ -714,7 +714,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4lm-u2-AbF">
-                                <rect key="frame" x="0.0" y="56" width="414" height="654"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="720"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CEK-Gu-hVc">
                                     <size key="itemSize" width="50" height="50"/>
@@ -875,7 +875,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LWC-8K-Imc">
-                                <rect key="frame" x="0.0" y="56" width="414" height="703"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -3443,13 +3443,12 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lle-NI-9eA"/>
         <segue reference="9RO-mD-LBY"/>
         <segue reference="qnE-MC-VUo"/>
         <segue reference="NU5-32-VUu"/>
         <segue reference="GId-3d-sBt"/>
         <segue reference="RKH-ld-RbM"/>
-        <segue reference="YTv-ER-BkX"/>
+        <segue reference="VzR-Zf-QpA"/>
         <segue reference="6lo-aV-DON"/>
         <segue reference="Ory-Dh-AbO"/>
         <segue reference="jvT-Df-EJa"/>

@@ -94,6 +94,14 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+//        fileIcon = nil
+//        downloadButton = nil
+//        messageLabel.text = ""
+    }
+    
     func setUp(msg: Dictionary<String, Any>, rulingVC: ChatRoom){
         messageClickedOn = msg
         vc = rulingVC

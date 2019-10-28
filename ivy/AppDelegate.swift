@@ -179,14 +179,64 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
+        let baseDatabaseReference = Firestore.firestore()
+                 
         let userInfo = response.notification.request.content.userInfo
         if let messageID = userInfo[gcmMessageIDKey] {
             debugPrint("Message ID: \(messageID)")
         }
+        
+        
+        //main storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+
+        // instantiate the view controller we want to show from storyboard
+        // root nav is the main navigation controller we have
+        //then extract the main tab bar controller so we can get the next navivation controller
+        //then get the chat navigation controller from that tab bar
+        //our order is NAV --> TAB BAR --> NAV. Thats why our root is the first nav and we go from there
+        if  let conversationVC = storyboard.instantiateViewController(withIdentifier: "ChatRoom") as? ChatRoom,
+            let rootNav = self.window?.rootViewController as? UINavigationController,
+            let mainTabBarController = rootNav.topViewController as? UITabBarController,
+            let chatNavController = mainTabBarController.selectedViewController as? UINavigationController{
+            
+                //from the request being sent in, extract the conversation id so we know which chat to goto
+                conversationVC.conversationID = response.notification.request.content.userInfo["conversationID"] as! String
+            
+                
+                //TODO: change the domain to be grabbed dynamically not jsut "ucalgary.ca"
+                //get the current signed in user to pull that persons user object so that can be passed to the chat
+                var user = Auth.auth().currentUser;
+                if let user = user {
+                    let uid = user.uid  //user id unique to firebase project
+                    
+                    baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(uid).getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            let userObject = document.data()
+                            conversationVC.thisUserProfile = userObject!    //must exist here of doc data wont exists
+                            
+                            
+                            //actually push the view controller after the user object is loadeed
+                            // you can access custom data of the push notification by using userInfo property
+                            // response.n otification.request.content.userInfo
+                            chatNavController.popViewController(animated: true)    //pop first so it doesn't add a bunch in a row.
+                            chatNavController.pushViewController(conversationVC, animated: true)
+                        } else {
+                            print("Document does not exist")
+                        }
+                    }
+                }
+                
+        }
+        
         //Handle the notification ON BACKGROUND
         Messaging.messaging().appDidReceiveMessage(userInfo)
         completionHandler()
     }
+    
+
+    
     
     
 }
@@ -220,3 +270,4 @@ extension AppDelegate: MessagingDelegate {
     
     
 }
+

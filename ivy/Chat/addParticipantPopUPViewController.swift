@@ -227,7 +227,6 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
         
         let friendsname = String(self.allPossibleFriends[indexPath.row]["first_name"] as! String) + " " + String(self.allPossibleFriends[indexPath.row]["last_name"] as! String) //the author of the last message that was sent
         
-        
         let friendpicloc = "userimages/" + String(self.allPossibleFriends[indexPath.row]["id"] as! String) + "/preview.jpg"
 
         // Create a storage reference from our storage service
@@ -242,6 +241,15 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
                 //actually populate the cell data, done here to avoid returning the cell before the document data is pulled async
                 cell.nameLabel.text = friendsname     //name of the chat this user is involved in
                 cell.img.image  = UIImage(data: data!) //image corresponds to the last_message_author profile pic
+            }
+        }
+        
+        if let id = self.allPossibleFriends[indexPath.row]["id"] as? String, let firstName = self.allPossibleFriends[indexPath.row]["first_name"] as? String{ //either display or hide checkmark based on whether the user's been selected in the past
+            let idName = ["id": (id) , "first_name": (firstName)]
+            if (self.addTheseFriends.contains(idName)){
+                cell.checkBox.image = UIImage(named: "check")
+            }else{
+                cell.checkBox.image = nil
             }
         }
         
@@ -262,10 +270,10 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
         if (addTheseFriends.contains(nameAndID)){
             let index = self.addTheseFriends.firstIndex(of: nameAndID)
             self.addTheseFriends.remove(at: index!)
-            cl.checkBox.isHidden = true
+            cl.checkBox.image = nil
         }else{
              self.addTheseFriends.append(nameAndID)
-            cl.checkBox.isHidden = false
+            cl.checkBox.image = UIImage(named: "check")
         }
     }
 }
