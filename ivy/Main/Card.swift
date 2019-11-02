@@ -18,7 +18,9 @@ class Card: UICollectionViewCell {
     private var showingBack = false
     private var firstSetup = true
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
-    let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
+    let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options:
+        nil)?.first as! CardBack
+    public var id = ""  //the id that will be associated with each card for reporting/blocking
     
     
     
@@ -55,6 +57,14 @@ class Card: UICollectionViewCell {
     // MARK: Card Functions
     
     func setUp(user: Dictionary<String, Any>){ //set all the variables from user's profile to display on the card
+        
+       
+        
+        if let userID = user["id"] as? String{
+            self.id = userID
+        }
+        
+        
     
         if(firstSetup){ //if it's the first time this xib is being created set up the subviews (front and back cards need to have the dimensions of the card container)
             front.frame = cardContainer.bounds

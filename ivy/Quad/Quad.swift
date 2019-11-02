@@ -39,7 +39,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     // MARK: Base and Override Functions
     
     override func viewDidLoad() {
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         super.viewDidLoad()
         self.hideKeyboardOnTapOutside()
         setUpNavigationBar()
@@ -85,26 +85,71 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! Settings
-        vc.thisUserProfile = self.thisUserProfile
+        if segue.identifier == "quadToSettings" {
+            let vc = segue.destination as! Settings
+            vc.thisUserProfile = self.thisUserProfile
+        }
+        else if segue.identifier == "viewFullProfileSegue" {
+            let vc = segue.destination as! ViewFullProfileActivity
+            vc.isFriend = true
+            vc.thisUserProfile = self.thisUserProfile
+            vc.otherUserID = self.cardClicked?.id
+        }
+        
     }
     
     
     //TODO get rid of this stuff when we can have the actions on the back of the card appear
-//    @objc func showActions() {
-//        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
-//        actionSheet.view.tintColor = UIColor.ivyGreen
-//
-//        //ADDING ACTIONS TO THE ACTION SHEET
-//        actionSheet.addAction(UIAlertAction(title: "message", style: .default, handler: self.onClickSendHiMsg))
-//        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//
-//        self.present(actionSheet, animated: true, completion: nil)
-//    }
+    @objc func showActions() {
+        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
+        actionSheet.view.tintColor = UIColor.ivyGreen
+
+        //ADDING ACTIONS TO THE ACTION SHEET
+        actionSheet.addAction(UIAlertAction(title: "View Profile", style: .default, handler: self.onClickViewProfile))
+        actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
+
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        self.present(actionSheet, animated: true, completion: nil)
+    }
     
+
     
+    //on click view profile take them to that users profile
+    func onClickViewProfile(alert:UIAlertAction!){
+        //segue to view full profile
+         self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self)
+        
+    }
     
-    //when user wants to send hi message to another user from quad from the back of the card.
+    //TODO: get the id from the card thats clicked
+    func reportUser(alert: UIAlertAction!){ //when they click on reporting the USER send them here
+        var report = Dictionary<String, Any>()
+        
+        
+        report["reportee"] = self.thisUserProfile["id"] as! String
+        report["report_type"] = "user"
+        report["target"] = self.cardClicked?.id //current card that they're on, id from that card
+        report["time"] = Date().millisecondsSince1970
+        let reportId = self.baseDatabaseReference.collection("reports").document().documentID   //create unique id for this document
+        report["id"] = reportId
+        //TODO: change self.card clicked to be the id of that person from the card
+        self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.cardClicked?.id ).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                if(!querySnapshot!.isEmpty){
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You have already reported this user.", context: self)
+                }else{
+                    self.baseDatabaseReference.collection("reports").document(reportId).setData(report)
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "The user has been reported.", context: self)
+                }
+            }
+        }
+    }
+
+    
+//    //when user wants to send hi message to another user from quad from the back of the card.
 //    func onClickSendHiMsg(alert:UIAlertAction!){
 //
 //        //TODO: figure out how to click on text label/button from back of card, and actually send message to user
