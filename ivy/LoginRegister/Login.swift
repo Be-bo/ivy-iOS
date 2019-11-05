@@ -190,20 +190,20 @@ class Login: UIViewController, UITextFieldDelegate {
             let password = passwordField.text!
             authInstance.signIn(withEmail: email, password: password) { (result, error) in //try to authenticate user in Firebase Auth with their email and password
                 if(error == nil){
-                    if(self.authInstance.currentUser!.isEmailVerified){
+//                    if(self.authInstance.currentUser!.isEmailVerified){
                         if let range = email.range(of: "@") { //extract the domain the user's entered
                             self.thisUni = String(email[range.upperBound...])
                             self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines) //trim whitespace and new line incase accidentley add space
                         }
                         self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
                         self.checkForNewerVersion()
-                    }else{
-                        self.errorLabel.attributedText = self.createResendEmailErrorText()
-                        let tap = UITapGestureRecognizer(target: self, action: #selector(Login.resendEmailValidation)) //make a tap event handler that starts registration and attach it to the sign up label
-                        self.errorLabel.isUserInteractionEnabled = true
-                        self.errorLabel.addGestureRecognizer(tap)
-                        self.allowInteraction()
-                    }
+//                    }else{
+//                        self.errorLabel.attributedText = self.createResendEmailErrorText()
+//                        let tap = UITapGestureRecognizer(target: self, action: #selector(Login.resendEmailValidation)) //make a tap event handler that starts registration and attach it to the sign up label
+//                        self.errorLabel.isUserInteractionEnabled = true
+//                        self.errorLabel.addGestureRecognizer(tap)
+//                        self.allowInteraction()
+//                    }
                     
                 }else{
                     self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label

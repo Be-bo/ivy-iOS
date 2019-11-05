@@ -167,7 +167,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     private func loadQuadProfiles(){
         if let uni = thisUserProfile["uni_domain"] as? String, let id = thisUserProfile["id"] as? String{
-    
             baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("requests").getDocument() { (docSnapshot, err) in
                 if let err = err{
                     print("Error getting requests: \(err)")
@@ -176,7 +175,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                         self.requests = docSnapshot?.data() ?? Dictionary<String, Any>()
                     }
                 }
-                
                 self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("friends").getDocument() { (docSnapshot1, err1) in
                     if let err1 = err1 {
                         print("Error getting friends: \(err1)")
@@ -185,7 +183,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                             self.friends = docSnapshot1?.data() ?? Dictionary<String, Any>()
                         }
                     }
-                    
                     self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("block_list").getDocument() { (docSnapshot2, err2) in
                         if let err2 = err2 {
                             print("Error getting block list: \(err2)")
@@ -194,8 +191,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                 self.block_list = docSnapshot2?.data() ?? Dictionary<String, Any>()
                             }
                         }
-                        
-                        self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("blocked_by").getDocument() { (docSnapshot3, err3) in
+                    self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("blocked_by").getDocument() { (docSnapshot3, err3) in
                             if let err3 = err3 {
                                 print("Error getting blocked by list: \(err3)")
                             }else{
@@ -340,6 +336,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         //push pbject to db
         self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).setData(newConversation)
         
+        print("new conversation ovject: ", newConversation)
+        
         
         //create new message object
         var requestMessage = Dictionary<String, Any>()
@@ -356,7 +354,17 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
         
         
+        //TODO: check if all this stuff is working once the loading is done correctley.
+        //assuming the position is passed in correctley this will remove the user from all the wuad profiles then reload it to no longer show them
         //remove profile from quad
+        self.allQuadProfiles.remove(at: pos)
+//        quadCard.back.sayHiMessageTextField.text = "" //reset the message text on the back of the card
+        quadCard.flip() //flip to eliminate the problem where the quad starts on the back side after removing the previous person you just messaged
+        print("pos to remove: ", pos)
+        print("user to remove: ", self.allQuadProfiles[pos])
+
+        
+        
         self.quadCollectionView.reloadData()
         
         //TODO:remove the card from the collection view once a user has sent a request over to that other user
