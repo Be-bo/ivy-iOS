@@ -77,8 +77,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.startListeningToChangesInThisConversation()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
+        startListeningToChangesInThisConversation()
+        
         hideKeyboardOnTapOutside()
         setUpKeyboardListeners()
         
@@ -90,6 +90,24 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         xButton.isHidden = true //make sure the x button is hidden by default
         xButtonHeight.constant = 0
         fileNameHeight.constant = 0
+    }
+    
+    
+    private func setUpNavigationBar(){
+        let titleView = MediumGreenLabel()
+        titleView.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
+        if let chatName = thisConversation["name"] as? String, let isBaseConv = self.thisConversation["is_base_conversation"] as? Bool{
+            if isBaseConv{ //standard friend conversation -> title should be the name of the other person
+                titleView.text = getOtherParticipant(conversation: thisConversation, returnName: true)
+            }else{ //group conversation -> title should be the name of the conversation
+                titleView.text = chatName
+            }
+        }else{
+            titleView.text = "Conversation"
+        }
+        titleView.textAlignment = .center
+        navigationItem.titleView = titleView
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
     }
     
     private func setUpKeyboardListeners(){ //setup listeners for if they click on actions to show the keyboard, and when they click on button, to hide keyboard
@@ -119,6 +137,19 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             self.messageTextField.layoutIfNeeded()
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -635,6 +666,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 if(self.firstDataAquisition) {
                     self.startRetrievingMessages()
                     self.firstDataAquisition = false
+                    self.setUpNavigationBar()
                 }
                 //TODO: decide if setUpActionBar() needs to be called here or not
             }
