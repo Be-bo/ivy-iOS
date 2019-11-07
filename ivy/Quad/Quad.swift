@@ -30,8 +30,17 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     @IBOutlet weak var quadCollectionView: UICollectionView!
     
+    //PAGINATION
+    private let SF_BATCH_SIZE = 10    //size of single query fetch
+    private let SF_BATCH_TOLERANCE = 2  //before loading more profiles
+    private var loadedAllProfiles = false
+    private var profileLoadInProgress = false
+    private var sfDefaultQuery:Firebase.Query?=nil
+    private var lastRetrievedProfile:QueryDocumentSnapshot?=nil
+    var quadUserListsListenerRegistration: ListenerRegistration? = nil
+    private var dataLoaded = false
     
-    
+    private var actualPos = 0           //actual position we are at in the quad collection view
     
     
     
@@ -54,7 +63,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
 //        quadCollectionView.contentInset = UIEdgeInsets(top: 0, left: sidePadding, bottom: 0, right: sidePadding)
         
         if(!thisUserProfile.values.isEmpty){
-            loadQuadProfiles()
+            self.startListeningToQuadLists()
+//            loadQuadProfiles()
         }
     }
     
@@ -165,78 +175,168 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         thisUserProfile = updatedProfile
     }
     
-    private func loadQuadProfiles(){
-        if let uni = thisUserProfile["uni_domain"] as? String, let id = thisUserProfile["id"] as? String{
-            baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("requests").getDocument() { (docSnapshot, err) in
-                if let err = err{
-                    print("Error getting requests: \(err)")
-                }else{
-                    if(docSnapshot?.exists ?? false){
-                        self.requests = docSnapshot?.data() ?? Dictionary<String, Any>()
-                    }
-                }
-                self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("friends").getDocument() { (docSnapshot1, err1) in
-                    if let err1 = err1 {
-                        print("Error getting friends: \(err1)")
-                    }else{
-                        if(docSnapshot1?.exists ?? false){
-                            self.friends = docSnapshot1?.data() ?? Dictionary<String, Any>()
-                        }
-                    }
-                    self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("block_list").getDocument() { (docSnapshot2, err2) in
-                        if let err2 = err2 {
-                            print("Error getting block list: \(err2)")
-                        }else{
-                            if(docSnapshot2?.exists ?? false){
-                                self.block_list = docSnapshot2?.data() ?? Dictionary<String, Any>()
-                            }
-                        }
-                    self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("blocked_by").getDocument() { (docSnapshot3, err3) in
-                            if let err3 = err3 {
-                                print("Error getting blocked by list: \(err3)")
+    
+    
+    
+    //listener that will keep track of the current profiles avaialble and load them in batch sizes
+    func startListeningToQuadLists(){
+        
+        
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
+            self.sfDefaultQuery = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").order(by: "registration_millis", descending: true).limit(to: SF_BATCH_SIZE) //assign the default query for loading suggested profiles
+            
+            //make sure the user is actually signed in and authenticated first to prevent the signout error
+            Auth.auth().addStateDidChangeListener { (auth, user) in
+                       if user != nil {
+                        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisId = self.thisUserProfile["id"] as? String{
+                            self.quadUserListsListenerRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(thisId).collection("userlists").addSnapshotListener { (querSnap, err) in
+                            if err != nil {
+                                print("Error loading user's lists in Explore: ", err)
                             }else{
-                                if(docSnapshot3?.exists ?? false){
-                                    self.blocked_by = docSnapshot3?.data() ?? Dictionary<String, Any>()
-                                }
+                                print("userlists changes registered")
+                                querSnap?.documentChanges.forEach({ (docChan) in
+                                    switch(docChan.document.documentID){
+                                    case "requests": self.requests = docChan.document.data()
+                                        break
+                                    case "block_list": self.block_list = docChan.document.data()
+                                        break
+                                    case "blocked_by": self.blocked_by = docChan.document.data()
+                                        break
+                                    case "friends": self.friends = docChan.document.data()
+                                        break
+                                    default:
+                                        break
+                                    }
+                                })
+                                self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
+                                self.allQuadProfiles = [Dictionary<String, Any>]()
+                                self.getQuadFriends(query: self.sfDefaultQuery!)
                             }
-                            
-                            self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").getDocuments() { (querySnapshot, err4) in
-                                if let err4 = err4 {
-                                    print("Error getting Quad profiles: \(err4)")
-                                } else {
-                                    var newBatch = [Dictionary<String, Any>]()
-                                    for document in querySnapshot!.documents {
-                                        if(document.exists){
-                                            newBatch.append(document.data())
+                        }
+                    }
+                } else { // user is not signed in so don't attach any listeners and dont load any data
+                        self.quadUserListsListenerRegistration?.remove()
+                }
+            }
+        }
+    }
+    
+    //load the possible friends real time from firestore accounting for the blocked peole
+    func getQuadFriends(query: Firebase.Query) {
+
+            profileLoadInProgress = true
+            
+            query.getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    if let querSnapDocs = querySnapshot?.documents, !querSnapDocs.isEmpty{
+                        for i in 0..<querSnapDocs.count { //go through all the fetched profiles
+                                let document = querSnapDocs[i]
+                                if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
+                                    print("AZfetching: ",docData["first_name"] as! String)
+                                    if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
+                                        if (thisUserId != toAddId && !self.blocked_by.contains(where: { $0.key == toAddId}) && !self.block_list.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
+                                            self.allQuadProfiles.append(docData)
                                         }
                                     }
-                                    self.addBatch(newProfiles: newBatch)
-                                    self.quadCollectionView.reloadData()
+                                }
+                                if(i >= querSnapDocs.count - 1){
+                                    self.lastRetrievedProfile = document
+                                    //TODO: decide if need to adjust scroll view height here or not
+//                                    self.adjustScrollViewHeight()
                                 }
                             }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    private func addBatch(newProfiles: [Dictionary<String, Any>]){
-        for profile in newProfiles {
-            if let profileId = profile["id"] as? String, let thisUserId = thisUserProfile["id"] as? String{
-                if(profileId != thisUserId && requests[profileId] == nil && friends[profileId] == nil && block_list[profileId] == nil && blocked_by[profileId] == nil){
-                    if let profileHidden = profile["profile_hidden"] as? Bool {
-                        if(!profileHidden){
-                            self.allQuadProfiles.append(profile)
-                        }
+                            //don't reload entire quad to avoid the card's flashing... just add to the end of the quad
+                        
+                            self.quadCollectionView.reloadData()
+                        
+                        
+                        
                     }else{
-                        self.allQuadProfiles.append(profile)
+                        print("loadedAllProfiles")
+                        self.loadedAllProfiles = true
                     }
+                    self.profileLoadInProgress = false
                 }
             }
         }
-    }
+        
+        
+    
+    
+//    private func loadQuadProfiles(){
+//        if let uni = thisUserProfile["uni_domain"] as? String, let id = thisUserProfile["id"] as? String{
+//            baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("requests").getDocument() { (docSnapshot, err) in
+//                if let err = err{
+//                    print("Error getting requests: \(err)")
+//                }else{
+//                    if(docSnapshot?.exists ?? false){
+//                        self.requests = docSnapshot?.data() ?? Dictionary<String, Any>()
+//                    }
+//                }
+//                self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("friends").getDocument() { (docSnapshot1, err1) in
+//                    if let err1 = err1 {
+//                        print("Error getting friends: \(err1)")
+//                    }else{
+//                        if(docSnapshot1?.exists ?? false){
+//                            self.friends = docSnapshot1?.data() ?? Dictionary<String, Any>()
+//                        }
+//                    }
+//                    self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("block_list").getDocument() { (docSnapshot2, err2) in
+//                        if let err2 = err2 {
+//                            print("Error getting block list: \(err2)")
+//                        }else{
+//                            if(docSnapshot2?.exists ?? false){
+//                                self.block_list = docSnapshot2?.data() ?? Dictionary<String, Any>()
+//                            }
+//                        }
+//                    self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("blocked_by").getDocument() { (docSnapshot3, err3) in
+//                            if let err3 = err3 {
+//                                print("Error getting blocked by list: \(err3)")
+//                            }else{
+//                                if(docSnapshot3?.exists ?? false){
+//                                    self.blocked_by = docSnapshot3?.data() ?? Dictionary<String, Any>()
+//                                }
+//                            }
+//
+//                            self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").getDocuments() { (querySnapshot, err4) in
+//                                if let err4 = err4 {
+//                                    print("Error getting Quad profiles: \(err4)")
+//                                } else {
+//                                    var newBatch = [Dictionary<String, Any>]()
+//                                    for document in querySnapshot!.documents {
+//                                        if(document.exists){
+//                                            newBatch.append(document.data())
+//                                        }
+//                                    }
+//                                    self.addBatch(newProfiles: newBatch)
+//                                    self.quadCollectionView.reloadData()
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
+    
+//    private func addBatch(newProfiles: [Dictionary<String, Any>]){
+//        for profile in newProfiles {
+//            if let profileId = profile["id"] as? String, let thisUserId = thisUserProfile["id"] as? String{
+//                if(profileId != thisUserId && requests[profileId] == nil && friends[profileId] == nil && block_list[profileId] == nil && blocked_by[profileId] == nil){
+//                    if let profileHidden = profile["profile_hidden"] as? Bool {
+//                        if(!profileHidden){
+//                            self.allQuadProfiles.append(profile)
+//                        }
+//                    }else{
+//                        self.allQuadProfiles.append(profile)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     //TODO: add the actual position for dealing with the infinite scrolling feature
     func setRequest(quadCard:Card, pos: Int){
@@ -389,6 +489,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
 //        let actualPos = indexPath.item % allQuadProfiles.count
 //        let current = allQuadProfiles[actualPos]
         let pos = indexPath.item
+        self.actualPos = pos
         self.setRequest(quadCard: quadCard, pos: pos);
         
         
@@ -414,6 +515,9 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     // MARK: Collection View Behavior Functions
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        checkForNewSFBatch()
+
         let collectionViewCenterX = self.quadCollectionView.center.x //get the center of the collection view
         
         for cell in self.quadCollectionView.visibleCells {
@@ -453,6 +557,64 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         //the card that the scroll view lands on is the same card the user is seeing, thus this is the card theyll be clicking, save it
         self.cardClicked = self.quadCollectionView.cellForItem(at: IndexPath(item: indexOfLargestCell, section: 0)) as! Card
     }
+    
+    
+    
+    func checkForNewSFBatch(){
+        
+        
+        
+        //I need to check how many profiles have been binded to the collection view,
+        
+        print("allQuadProfiles.count " , allQuadProfiles.count )
+        //if there has been Batch size - batch tolerance profils loaded then I need to load 10 more
+        
+        //if there is a cell in the index of the batch tolerance then we should load more
+//        if(!profileLoadInProgress && )
+        
+        
+//        if(!profileLoadInProgress &&  >= (self.allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //new batch tolerance means within how many last items do we want to start loading the next batch (i.e. we have 20 items and tolerance 2 -> the next batch will start loading once the user scrolls to the position 18 or 19)
+//            if(lastRetrievedProfile != null && !loadedAllProfiles){
+//                obtainBatch(default_query.startAfter(last_retrieved_document)); //next batch has to be loaded from where the previous one left off
+//            }
+//        }
+        
+        
+        if(!profileLoadInProgress && self.actualPos  >= (allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
+            if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
+                let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
+                self.getQuadFriends(query: continuationQuery!)
+            }
+        }
+        
+        
+//        //check is we should load a new batch of suggested friends
+//        let visibleCells = quadCollectionView.visibleCells
+//        if(visibleCells.count > 0){
+//            if let lastCell = visibleCells[visibleCells.count - 1] as? profileCollectionViewCell {
+//                if let lastCellId = lastCell.profile["id"] as? String{
+//                    if let index = allQuadProfiles.firstIndex(where: {($0["id"] as? String) == lastCellId}){
+//                        if(!profileLoadInProgress && index >= (allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
+//                            if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
+//                                let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
+//                                self.getQuadFriends(query: continuationQuery!)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
 }
 
 //extend UIButton to be able to add the card as a parameter to the button for adding on click target
