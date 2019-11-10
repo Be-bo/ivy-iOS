@@ -234,10 +234,17 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                         for i in 0..<querSnapDocs.count { //go through all the fetched profiles
                                 let document = querSnapDocs[i]
                                 if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
-                                    print("AZfetching: ",docData["first_name"] as! String)
+//                                    print("AZfetching: ",docData["first_name"] as! String)
                                     if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
                                         if (thisUserId != toAddId && !self.blocked_by.contains(where: { $0.key == toAddId}) && !self.block_list.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
+                                            
+                                            //insert this person to the end of the quad collection view
+                                            let indexPath = IndexPath(row: self.allQuadProfiles.count, section: 0)
                                             self.allQuadProfiles.append(docData)
+                                            self.quadCollectionView?.insertItems(at: [indexPath])
+
+
+                                            
                                         }
                                     }
                                 }
@@ -248,8 +255,10 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                 }
                             }
                             //don't reload entire quad to avoid the card's flashing... just add to the end of the quad
-                        
-                            self.quadCollectionView.reloadData()
+
+//                            self.quadCollectionView.insertItems(at: [
+//                                NSIndexPath(row: self.allQuadProfiles.count-1, section: 0) as IndexPath])
+//                            self.quadCollectionView.reloadData()
                         
                         
                         

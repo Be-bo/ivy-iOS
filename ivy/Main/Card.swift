@@ -90,25 +90,28 @@ class Card: UICollectionViewCell {
                     print("Error obtaining image: ", e)
                 }else{
                     self.front.img.image = UIImage(data: data!)
+                    
+                    
+                    if var degree = user["degree"] as? String { //degree icon
+                        degree = degree.replacingOccurrences(of: " ", with: "")
+                        degree = degree.lowercased()
+                        self.front.degreeIcon.image = UIImage(named: degree)
+                        self.front.degreeIcon.tintColor = Colors.ivy_grey
+                        
+                    }
+                    
+                    self.front.name.text = user["first_name"] as? String //text data
+                    self.back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name")
+                    self.back.degree.text = user["degree"] as? String
+                    self.back.age.text = user["age"] as? String
+                    self.back.bio.text = user["bio"] as? String
+                    self.back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
                 }
             }
         }
 
         
-        if var degree = user["degree"] as? String { //degree icon
-            degree = degree.replacingOccurrences(of: " ", with: "")
-            degree = degree.lowercased()
-            front.degreeIcon.image = UIImage(named: degree)
-            front.degreeIcon.tintColor = Colors.ivy_grey
-            
-        }
-        
-        front.name.text = user["first_name"] as? String //text data
-        back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name")
-        back.degree.text = user["degree"] as? String
-        back.age.text = user["age"] as? String
-        back.bio.text = user["bio"] as? String
-        back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
+
     }
     
     
