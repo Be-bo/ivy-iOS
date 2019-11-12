@@ -18,8 +18,7 @@ class Card: UICollectionViewCell {
     private var showingBack = false
     private var firstSetup = true
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
-    let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options:
-        nil)?.first as! CardBack
+    let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
     public var id = ""  //the id that will be associated with each card for reporting/blocking
     
     
@@ -29,6 +28,7 @@ class Card: UICollectionViewCell {
     
     @IBOutlet weak var cardContainer: Card!
     @IBOutlet weak var shadowOuterContainer: Card!
+    @IBOutlet weak var loadingWheel: LoadingWheel!
     
 
     
@@ -57,14 +57,10 @@ class Card: UICollectionViewCell {
     // MARK: Card Functions
     
     func setUp(user: Dictionary<String, Any>){ //set all the variables from user's profile to display on the card
-        
-       
-        
+        startLoading()
         if let userID = user["id"] as? String{
             self.id = userID
         }
-        
-        
     
         if(firstSetup){ //if it's the first time this xib is being created set up the subviews (front and back cards need to have the dimensions of the card container)
             front.frame = cardContainer.bounds
@@ -72,15 +68,10 @@ class Card: UICollectionViewCell {
             cardContainer.addSubview(back)
             cardContainer.addSubview(front)
             
-
-            
 //            self.shadowOuterContainer.bringSubviewToFront(self.cardContainer)
 //            self.shadowOuterContainer.bringSubviewToFront(self.cardContainer.back)
 //            self.cardContainer.back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside)
             
-            
-
-
             firstSetup = false
         }
         
@@ -90,8 +81,6 @@ class Card: UICollectionViewCell {
                     print("Error obtaining image: ", e)
                 }else{
                     self.front.img.image = UIImage(data: data!)
-                    
-                    
                     if var degree = user["degree"] as? String { //degree icon
                         degree = degree.replacingOccurrences(of: " ", with: "")
                         degree = degree.lowercased()
@@ -106,12 +95,11 @@ class Card: UICollectionViewCell {
                     self.back.age.text = user["age"] as? String
                     self.back.bio.text = user["bio"] as? String
                     self.back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
+                    
+                    self.endLoading()
                 }
             }
         }
-
-        
-
     }
     
     
@@ -123,6 +111,26 @@ class Card: UICollectionViewCell {
             self.translatesAutoresizingMaskIntoConstraints = true
         }
         showingBack = !showingBack
+    }
+    
+    
+    
+    
+    
+    // MARK: Loading Logic
+    
+    func startLoading(){
+        loadingWheel.startAnimating()
+        loadingWheel.isHidden = false
+        front.isHidden = true
+        back.isHidden = true
+    }
+    
+    func endLoading(){
+        loadingWheel.stopAnimating()
+        loadingWheel.isHidden = true
+        front.isHidden = false
+        back.isHidden = false
     }
 
 }

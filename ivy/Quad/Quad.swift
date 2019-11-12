@@ -22,13 +22,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     private var friends = Dictionary<String, Any>()
     private var block_list = Dictionary<String, Any>()
     private var blocked_by = Dictionary<String, Any>()
-    
+    var keyboardHeight:CGFloat = 0
     private var cardClicked:Card? = nil
-    
-    
-    // MARK: IBOutlets and IBActions
-    
-    @IBOutlet weak var quadCollectionView: UICollectionView!
     
     //PAGINATION
     private let SF_BATCH_SIZE = 10    //size of single query fetch
@@ -39,18 +34,28 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     private var lastRetrievedProfile:QueryDocumentSnapshot?=nil
     var quadUserListsListenerRegistration: ListenerRegistration? = nil
     private var dataLoaded = false
-    
     private var actualPos = 0           //actual position we are at in the quad collection view
     
     
+    // MARK: IBOutlets and IBActions
+    
+    @IBOutlet weak var quadCollectionView: UICollectionView!
     
     
-    // MARK: Base and Override Functions
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Setup and Override Functions
     
     override func viewDidLoad() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         super.viewDidLoad()
         self.hideKeyboardOnTapOutside()
+        self.setUpKeyboardListeners()
         setUpNavigationBar()
         setUp()
     }
@@ -74,7 +79,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
         
-        
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
         settingsButton.setImage(UIImage(named:"settings"), for: .normal)
@@ -89,8 +93,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         self.navigationItem.rightBarButtonItem = settingsButtonItem
     }
     
-    //if settings clicked, segue over to the settings page
-    @objc func settingsClicked() {
+    @objc func settingsClicked() { //if settings clicked, segue over to the settings page
         self.performSegue(withIdentifier: "quadToSettings" , sender: self) //pass data over to
     }
     
@@ -105,7 +108,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
             vc.thisUserProfile = self.thisUserProfile
             vc.otherUserID = self.cardClicked?.id
         }
-        
     }
     
     
@@ -113,7 +115,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     @objc func showActions() {
         let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
         actionSheet.view.tintColor = UIColor.ivyGreen
-
         //ADDING ACTIONS TO THE ACTION SHEET
         actionSheet.addAction(UIAlertAction(title: "View Profile", style: .default, handler: self.onClickViewProfile))
         actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
@@ -123,10 +124,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         self.present(actionSheet, animated: true, completion: nil)
     }
     
-
-    
-    //on click view profile take them to that users profile
-    func onClickViewProfile(alert:UIAlertAction!){
+    func onClickViewProfile(alert:UIAlertAction!){ //on click view profile take them to that users profile
         //segue to view full profile
          self.performSegue(withIdentifier: "viewFullProfileSegue" , sender: self)
         
@@ -169,19 +167,22 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
 //    }
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // MARK: Data Acquisition Functions
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){ //a method called from the outside by the MainTabController which listens to changes in this user's profile and pushes them right away
         thisUserProfile = updatedProfile
     }
     
-    
-    
-    
-    //listener that will keep track of the current profiles avaialble and load them in batch sizes
-    func startListeningToQuadLists(){
-        
-        
+    func startListeningToQuadLists(){ //listener that will keep track of the current profiles avaialble and load them in batch sizes
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
             self.sfDefaultQuery = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").order(by: "registration_millis", descending: true).limit(to: SF_BATCH_SIZE) //assign the default query for loading suggested profiles
             
@@ -210,7 +211,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                 })
                                 self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
                                 self.allQuadProfiles = [Dictionary<String, Any>]()
-                                self.getQuadFriends(query: self.sfDefaultQuery!)
+                                self.obtainNewBatch(query: self.sfDefaultQuery!, insertAtTheBeginning: false, firstLoad: true)
+                                //TODO: scroll to the middle
                             }
                         }
                     }
@@ -221,142 +223,130 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
-    //load the possible friends real time from firestore accounting for the blocked peole
-    func getQuadFriends(query: Firebase.Query) {
-
-            profileLoadInProgress = true
-            
-            query.getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    if let querSnapDocs = querySnapshot?.documents, !querSnapDocs.isEmpty{
-                        for i in 0..<querSnapDocs.count { //go through all the fetched profiles
-                                let document = querSnapDocs[i]
-                                if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
-//                                    print("AZfetching: ",docData["first_name"] as! String)
-                                    if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
-                                        if (thisUserId != toAddId && !self.blocked_by.contains(where: { $0.key == toAddId}) && !self.block_list.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
-                                            
-                                            //insert this person to the end of the quad collection view
-                                            let indexPath = IndexPath(row: self.allQuadProfiles.count, section: 0)
-                                            self.allQuadProfiles.append(docData)
-                                            self.quadCollectionView?.insertItems(at: [indexPath])
-
-
-                                            
-                                        }
-                                    }
-                                }
-                                if(i >= querSnapDocs.count - 1){
-                                    self.lastRetrievedProfile = document
-                                    //TODO: decide if need to adjust scroll view height here or not
-//                                    self.adjustScrollViewHeight()
+    func obtainNewBatch(query: Firebase.Query, insertAtTheBeginning: Bool, firstLoad: Bool) { //load the possible friends real time from firestore accounting for the blocked peole
+        var newBatch = [Dictionary<String, Any>]()
+        let posThatTriggeredLoading = actualPos
+        profileLoadInProgress = true
+        query.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                if let querSnapDocs = querySnapshot?.documents, !querSnapDocs.isEmpty{
+                    for i in 0..<querSnapDocs.count { //go through all the fetched profiles
+                        let document = querSnapDocs[i]
+                        if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
+                            if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
+                                if (thisUserId != toAddId && !self.blocked_by.contains(where: { $0.key == toAddId}) && !self.block_list.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
+                                    newBatch.append(docData)
                                 }
                             }
-                            //don't reload entire quad to avoid the card's flashing... just add to the end of the quad
-
-//                            self.quadCollectionView.insertItems(at: [
-//                                NSIndexPath(row: self.allQuadProfiles.count-1, section: 0) as IndexPath])
-//                            self.quadCollectionView.reloadData()
-                        
-                        
-                        
-                    }else{
-                        print("loadedAllProfiles")
-                        self.loadedAllProfiles = true
+                        }
+                        if(i >= querSnapDocs.count - 1){
+                            self.lastRetrievedProfile = document
+                            //TODO: decide if need to adjust scroll view height here or not
+                            //self.adjustScrollViewHeight()
+                        }
                     }
-                    self.profileLoadInProgress = false
+                    
+                    //now add all the items of the new batch depending on which way the user's scrolling
+                    if(insertAtTheBeginning){ //insert this person to the beginning of the quad collection view
+                        let indexPath = IndexPath(row: 0, section: 0)
+                        self.allQuadProfiles.insert(contentsOf: newBatch, at: 0)
+                        self.quadCollectionView?.insertItems(at: [indexPath])
+                        self.quadCollectionView.scrollToItem(at: IndexPath(item: posThatTriggeredLoading + newBatch.count, section: 0), at: .centeredHorizontally, animated: false)
+                    }else{ //insert this person to the end of the quad collection view
+                        let indexPath = IndexPath(row: self.allQuadProfiles.count, section: 0)
+                        self.allQuadProfiles.append(contentsOf: newBatch)
+                        self.quadCollectionView?.insertItems(at: [indexPath])
+                    }
+                    
+                    if(firstLoad){ //if loading for the first time -> have to scroll to the middle of the quad
+                        self.quadCollectionView.scrollToItem(at: IndexPath(item: self.allQuadProfiles.count/2, section: 0), at: .centeredHorizontally, animated: false)
+                    }
+                    
+                    //don't reload entire quad to avoid the card's flashing... just add to the end of the quad
+                    
+                    //                            self.quadCollectionView.insertItems(at: [
+                    //                                NSIndexPath(row: self.allQuadProfiles.count-1, section: 0) as IndexPath])
+                    //                            self.quadCollectionView.reloadData()
+                }else{
+                    print("loadedAllProfiles")
+                    self.loadedAllProfiles = true
                 }
+                self.profileLoadInProgress = false
             }
         }
-        
-        
+    }
+    
+        func checkForNewBatch(){ //DOESN'T BELONG HERE! NOT AN OVERRIDE METHOD!
+            //I need to check how many profiles have been binded to the collection view,
+            
+            print("allQuadProfiles.count " , allQuadProfiles.count )
+            //if there has been Batch size - batch tolerance profils loaded then I need to load 10 more
+            
+            //if there is a cell in the index of the batch tolerance then we should load more
+    //        if(!profileLoadInProgress && )
+            
+            
+    //        if(!profileLoadInProgress &&  >= (self.allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //new batch tolerance means within how many last items do we want to start loading the next batch (i.e. we have 20 items and tolerance 2 -> the next batch will start loading once the user scrolls to the position 18 or 19)
+    //            if(lastRetrievedProfile != null && !loadedAllProfiles){
+    //                obtainBatch(default_query.startAfter(last_retrieved_document)); //next batch has to be loaded from where the previous one left off
+    //            }
+    //        }
+            
+            
+            if(!profileLoadInProgress && self.actualPos  >= (allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
+                if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
+                    let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
+                    self.obtainNewBatch(query: continuationQuery!, insertAtTheBeginning: false, firstLoad: false)
+                }
+            }else if(!profileLoadInProgress && self.actualPos <= SF_BATCH_TOLERANCE){
+                if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
+                    let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
+                    self.obtainNewBatch(query: continuationQuery!, insertAtTheBeginning: true, firstLoad: false)
+                }
+            }
+            
+            
+    //        //check is we should load a new batch of suggested friends
+    //        let visibleCells = quadCollectionView.visibleCells
+    //        if(visibleCells.count > 0){
+    //            if let lastCell = visibleCells[visibleCells.count - 1] as? profileCollectionViewCell {
+    //                if let lastCellId = lastCell.profile["id"] as? String{
+    //                    if let index = allQuadProfiles.firstIndex(where: {($0["id"] as? String) == lastCellId}){
+    //                        if(!profileLoadInProgress && index >= (allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
+    //                            if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
+    //                                let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
+    //                                self.getQuadFriends(query: continuationQuery!)
+    //                            }
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+        }
     
     
-//    private func loadQuadProfiles(){
-//        if let uni = thisUserProfile["uni_domain"] as? String, let id = thisUserProfile["id"] as? String{
-//            baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("requests").getDocument() { (docSnapshot, err) in
-//                if let err = err{
-//                    print("Error getting requests: \(err)")
-//                }else{
-//                    if(docSnapshot?.exists ?? false){
-//                        self.requests = docSnapshot?.data() ?? Dictionary<String, Any>()
-//                    }
-//                }
-//                self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("friends").getDocument() { (docSnapshot1, err1) in
-//                    if let err1 = err1 {
-//                        print("Error getting friends: \(err1)")
-//                    }else{
-//                        if(docSnapshot1?.exists ?? false){
-//                            self.friends = docSnapshot1?.data() ?? Dictionary<String, Any>()
-//                        }
-//                    }
-//                    self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("block_list").getDocument() { (docSnapshot2, err2) in
-//                        if let err2 = err2 {
-//                            print("Error getting block list: \(err2)")
-//                        }else{
-//                            if(docSnapshot2?.exists ?? false){
-//                                self.block_list = docSnapshot2?.data() ?? Dictionary<String, Any>()
-//                            }
-//                        }
-//                    self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").document(id).collection("userlists").document("blocked_by").getDocument() { (docSnapshot3, err3) in
-//                            if let err3 = err3 {
-//                                print("Error getting blocked by list: \(err3)")
-//                            }else{
-//                                if(docSnapshot3?.exists ?? false){
-//                                    self.blocked_by = docSnapshot3?.data() ?? Dictionary<String, Any>()
-//                                }
-//                            }
-//
-//                            self.baseDatabaseReference.collection("universities").document(uni).collection("userprofiles").getDocuments() { (querySnapshot, err4) in
-//                                if let err4 = err4 {
-//                                    print("Error getting Quad profiles: \(err4)")
-//                                } else {
-//                                    var newBatch = [Dictionary<String, Any>]()
-//                                    for document in querySnapshot!.documents {
-//                                        if(document.exists){
-//                                            newBatch.append(document.data())
-//                                        }
-//                                    }
-//                                    self.addBatch(newProfiles: newBatch)
-//                                    self.quadCollectionView.reloadData()
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
     
     
-//    private func addBatch(newProfiles: [Dictionary<String, Any>]){
-//        for profile in newProfiles {
-//            if let profileId = profile["id"] as? String, let thisUserId = thisUserProfile["id"] as? String{
-//                if(profileId != thisUserId && requests[profileId] == nil && friends[profileId] == nil && block_list[profileId] == nil && blocked_by[profileId] == nil){
-//                    if let profileHidden = profile["profile_hidden"] as? Bool {
-//                        if(!profileHidden){
-//                            self.allQuadProfiles.append(profile)
-//                        }
-//                    }else{
-//                        self.allQuadProfiles.append(profile)
-//                    }
-//                }
-//            }
-//        }
-//    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Individual Card Methods
     
     //TODO: add the actual position for dealing with the infinite scrolling feature
     func setRequest(quadCard:Card, pos: Int){
-
-      
         //moving text field to the front to make it clickable
         quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer)
         quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.back)
         quadCard.back.sayHiButton.addTarget(self, action: #selector(sayHiButtonClicked), for: .touchUpInside) //set on click listener for send message button
-
-        
         
         //TODO: find a better solution for this where we can make the items from Card.swift clickable
         //moving sync arrow to front to be clickable
@@ -365,31 +355,21 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         quadCard.back.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside)
         quadCard.front.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside)
         self.cardClicked = quadCard
-        
-        
     
         //attach the card,pos, and orig pos to button to be able to use when clicked
         quadCard.back.sayHiButton.Card = quadCard
         quadCard.back.sayHiButton.pos = pos
-        
-
-        
-
     }
     
     //on click of the send hi message on back of card
     @objc func flipButtonClicked(_ sender: subclassedUIButton) {
-
         self.cardClicked!.flip()
-
     }
     
     //on click of the send hi message on back of card
     @objc func sayHiButtonClicked(_ sender: subclassedUIButton) {
-        
         let card = sender.Card
         let pos = sender.pos
-        
         //check length of input field, default is 0 if they didnt input anything
         if (sender.Card?.back.sayHiMessageTextField.text?.count ?? 0 > 1){
             self.sendRequest(quadCard: card!, pos: pos!)
@@ -397,7 +377,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
             //TODO: display the error message when message si to short to front end
             print("Your message is to short!")
         }
-        
     }
     
     //TODO: deal with actual position once infinite collection view is added
@@ -447,7 +426,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         
         print("new conversation ovject: ", newConversation)
         
-        
         //create new message object
         var requestMessage = Dictionary<String, Any>()
         requestMessage["message_text"] = quadCard.back.sayHiMessageTextField.text
@@ -461,8 +439,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
         //push message object to db
         self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
-        
-        
         //TODO: check if all this stuff is working once the loading is done correctley.
         //assuming the position is passed in correctley this will remove the user from all the wuad profiles then reload it to no longer show them
         //remove profile from quad
@@ -471,9 +447,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         quadCard.flip() //flip to eliminate the problem where the quad starts on the back side after removing the previous person you just messaged
         print("pos to remove: ", pos)
         print("user to remove: ", self.allQuadProfiles[pos])
-
-        
-        
         self.quadCollectionView.reloadData()
         
         //TODO:remove the card from the collection view once a user has sent a request over to that other user
@@ -483,7 +456,18 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     
     
-    // MARK: Collection View Delegate and Datasource Methods
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Collection View Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allQuadProfiles.count
@@ -492,24 +476,36 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let quadCard = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! Card
         quadCard.setUp(user: allQuadProfiles[indexPath.item])
-        
-        
-        //TODO: implement logic for dealing with actual pos
-//        let actualPos = indexPath.item % allQuadProfiles.count
-//        let current = allQuadProfiles[actualPos]
         let pos = indexPath.item
         self.actualPos = pos
-        self.setRequest(quadCard: quadCard, pos: pos);
-        
-        
-        //TODO: this has a weird bug where if I am scrolling forward and stop it abruptly with one card back, then it doesnt know which card was at the centre of the screen so the flipping doesnt work.
-        //TODO: decide if this is best practise or not.
-        //the card that the scroll view lands on is the same card the user is seeing, thus this is the card theyll be clicking, save it
+        self.setRequest(quadCard: quadCard, pos: pos)
         self.cardClicked = quadCard
-
-
-        
         return quadCard
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { //infinity behavior (add all current profiles at the beginning or at the start but only once everything from the database is fetched)
+        if(allQuadProfiles.count - indexPath.item < 3 && !profileLoadInProgress && loadedAllProfiles){ // within 3 of the end -> insert at the end
+            profileLoadInProgress = true
+            for i in 0...allQuadProfiles.count-1{
+                let newIndexPath = IndexPath(row: self.allQuadProfiles.count, section: 0)
+                allQuadProfiles.append(allQuadProfiles[i])
+                quadCollectionView?.insertItems(at: [newIndexPath])
+            }
+            profileLoadInProgress = false
+            
+        }else if (indexPath.item < 3 && !profileLoadInProgress && loadedAllProfiles){ //within 3 of the beginning -> insert at the end
+            profileLoadInProgress = true
+            let posThatTriggeredLoading = actualPos
+            quadCollectionView.isHidden = true
+            for i in 0...allQuadProfiles.count-1{
+                let newIndexPath = IndexPath(row: self.allQuadProfiles.count, section: 0)
+                allQuadProfiles.append(allQuadProfiles[i])
+                quadCollectionView?.insertItems(at: [newIndexPath])
+            }
+            quadCollectionView.scrollToItem(at: IndexPath(item: posThatTriggeredLoading + allQuadProfiles.count/2, section: 0), at: .centeredHorizontally, animated: false)
+            quadCollectionView.isHidden = false
+            profileLoadInProgress = false
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { //item size has to adjust based on current collection view dimensions (90% of the its size, the rest is padding - see the setUp() function)
@@ -517,16 +513,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         return cellSize
     }
     
-    
-    
-    
-    
-    // MARK: Collection View Behavior Functions
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        checkForNewSFBatch()
-
+        checkForNewBatch()
         let collectionViewCenterX = self.quadCollectionView.center.x //get the center of the collection view
         
         for cell in self.quadCollectionView.visibleCells {
@@ -541,15 +529,12 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                 scale = 1.0
             }
             cell.transform = CGAffineTransform(scaleX: scale, y: scale) //apply the size change
-            
         }
-        
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { //find the largest visibile cell once the scrolling animation finishes and scroll that one to the center
         var indexOfLargestCell = 0
         var largestWidth: CGFloat = 1
-        
         for cell in self.quadCollectionView.visibleCells{
             if cell.frame.size.width >= largestWidth {
                 largestWidth = cell.frame.size.width
@@ -558,66 +543,53 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                 }
             }
         }
-        
         self.quadCollectionView.scrollToItem(at: IndexPath(item: indexOfLargestCell, section: 0), at: .centeredHorizontally, animated: true)
         
         //TODO: this has a weird bug where if I am scrolling forward and stop it abruptly with one card back, then it doesnt know which card was at the centre of the screen so the flipping doesnt work.
         //TODO: decide if this is best practise or not.
         //the card that the scroll view lands on is the same card the user is seeing, thus this is the card theyll be clicking, save it
-        self.cardClicked = self.quadCollectionView.cellForItem(at: IndexPath(item: indexOfLargestCell, section: 0)) as! Card
+        if let cClicked = self.quadCollectionView.cellForItem(at: IndexPath(item: indexOfLargestCell, section: 0)) as? Card{
+            self.cardClicked = cClicked
+        }
     }
     
     
     
-    func checkForNewSFBatch(){
-        
-        
-        
-        //I need to check how many profiles have been binded to the collection view,
-        
-        print("allQuadProfiles.count " , allQuadProfiles.count )
-        //if there has been Batch size - batch tolerance profils loaded then I need to load 10 more
-        
-        //if there is a cell in the index of the batch tolerance then we should load more
-//        if(!profileLoadInProgress && )
-        
-        
-//        if(!profileLoadInProgress &&  >= (self.allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //new batch tolerance means within how many last items do we want to start loading the next batch (i.e. we have 20 items and tolerance 2 -> the next batch will start loading once the user scrolls to the position 18 or 19)
-//            if(lastRetrievedProfile != null && !loadedAllProfiles){
-//                obtainBatch(default_query.startAfter(last_retrieved_document)); //next batch has to be loaded from where the previous one left off
-//            }
-//        }
-        
-        
-        if(!profileLoadInProgress && self.actualPos  >= (allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
-            if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
-                let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
-                self.getQuadFriends(query: continuationQuery!)
-            }
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Keyboard Functions
+
+    private func setUpKeyboardListeners(){ //setup listeners for if they click on actions to show the keyboard, and when they click on button, to hide keyboard
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc func keyboardWillShow(notification: Notification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let kbHeight = keyboardRectangle.height
+        let innerHeight = CGFloat(view.safeAreaLayoutGuide.layoutFrame.size.height) //is 0 for rectangular screens but adds extra screen real estate on "notch" design
+        let outerHeight = CGFloat(UIScreen.main.bounds.height)
+        let chinForehead = (outerHeight - innerHeight)/2
+        self.keyboardHeight = kbHeight + 20 - chinForehead //have to take the safe area around the notch and the chin into account - for iPhone X, XR, XS, XS Max and above
+        UIView.animate(withDuration: 0.5){
+            self.cardClicked?.back.sayHiHeightConstraint.constant = self.keyboardHeight
+            self.cardClicked?.back.sayHiMessageTextField.layoutIfNeeded()
         }
-        
-        
-//        //check is we should load a new batch of suggested friends
-//        let visibleCells = quadCollectionView.visibleCells
-//        if(visibleCells.count > 0){
-//            if let lastCell = visibleCells[visibleCells.count - 1] as? profileCollectionViewCell {
-//                if let lastCellId = lastCell.profile["id"] as? String{
-//                    if let index = allQuadProfiles.firstIndex(where: {($0["id"] as? String) == lastCellId}){
-//                        if(!profileLoadInProgress && index >= (allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
-//                            if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
-//                                let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
-//                                self.getQuadFriends(query: continuationQuery!)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        
-        
-        
-        
-        
+    }
+
+    @objc func keyboardWillHide(notification: Notification) {
+        UIView.animate(withDuration: 0.5){
+            self.cardClicked?.back.sayHiHeightConstraint.constant = 40
+            self.cardClicked?.back.sayHiMessageTextField.layoutIfNeeded()
+        }
     }
     
     
