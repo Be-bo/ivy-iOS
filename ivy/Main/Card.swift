@@ -15,7 +15,7 @@ class Card: UICollectionViewCell {
     // MARK: Variables and Constants
     
     private let baseStorageReference = Storage.storage().reference()
-    private var showingBack = false
+    var showingBack = false
     private var firstSetup = true
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
     let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack

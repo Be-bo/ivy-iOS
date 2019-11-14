@@ -23,18 +23,18 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     private var block_list = Dictionary<String, Any>()
     private var blocked_by = Dictionary<String, Any>()
     var keyboardHeight:CGFloat = 0
-    private var cardClicked:Card? = nil
+    private var currentCard:Card? = nil
     
     //PAGINATION
-    private let SF_BATCH_SIZE = 10    //size of single query fetch
-    private let SF_BATCH_TOLERANCE = 2  //before loading more profiles
+    private let QUAD_BATCH_SIZE = 10    //size of single query fetch
+    private let QUAD_BATCH_TOLERANCE = 2  //before loading more profiles
     private var loadedAllProfiles = false
     private var profileLoadInProgress = false
     private var sfDefaultQuery:Firebase.Query?=nil
     private var lastRetrievedProfile:QueryDocumentSnapshot?=nil
     var quadUserListsListenerRegistration: ListenerRegistration? = nil
     private var dataLoaded = false
-    private var actualPos = 0           //actual position we are at in the quad collection view
+    private var currentPos = 0           //actual position we are at in the quad collection view
     
     
     // MARK: IBOutlets and IBActions
@@ -106,7 +106,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
             let vc = segue.destination as! ViewFullProfileActivity
             vc.isFriend = true
             vc.thisUserProfile = self.thisUserProfile
-            vc.otherUserID = self.cardClicked?.id
+            vc.otherUserID = self.currentCard?.id
         }
     }
     
@@ -137,12 +137,12 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         
         report["reportee"] = self.thisUserProfile["id"] as! String
         report["report_type"] = "user"
-        report["target"] = self.cardClicked?.id //current card that they're on, id from that card
+        report["target"] = self.currentCard?.id //current card that they're on, id from that card
         report["time"] = Date().millisecondsSince1970
         let reportId = self.baseDatabaseReference.collection("reports").document().documentID   //create unique id for this document
         report["id"] = reportId
         //TODO: change self.card clicked to be the id of that person from the card
-        self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.cardClicked?.id ).getDocuments() { (querySnapshot, err) in
+        self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.currentCard?.id ).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -184,7 +184,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     func startListeningToQuadLists(){ //listener that will keep track of the current profiles avaialble and load them in batch sizes
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
-            self.sfDefaultQuery = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").order(by: "registration_millis", descending: true).limit(to: SF_BATCH_SIZE) //assign the default query for loading suggested profiles
+            self.sfDefaultQuery = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").order(by: "registration_millis", descending: true).limit(to: QUAD_BATCH_SIZE) //assign the default query for loading suggested profiles
             
             //make sure the user is actually signed in and authenticated first to prevent the signout error
             Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -225,7 +225,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     func obtainNewBatch(query: Firebase.Query, insertAtTheBeginning: Bool, firstLoad: Bool) { //load the possible friends real time from firestore accounting for the blocked peole
         var newBatch = [Dictionary<String, Any>]()
-        let posThatTriggeredLoading = actualPos
+        let posThatTriggeredLoading = currentPos
         profileLoadInProgress = true
         query.getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -295,12 +295,12 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     //        }
             
             
-            if(!profileLoadInProgress && self.actualPos  >= (allQuadProfiles.count - SF_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
+            if(!profileLoadInProgress && self.currentPos  >= (allQuadProfiles.count - QUAD_BATCH_TOLERANCE)){ //check for pagination (we have to be at the end of the current batch of data within the set tolerance and there can be no load in progress)
                 if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
                     let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
                     self.obtainNewBatch(query: continuationQuery!, insertAtTheBeginning: false, firstLoad: false)
                 }
-            }else if(!profileLoadInProgress && self.actualPos <= SF_BATCH_TOLERANCE){
+            }else if(!profileLoadInProgress && self.currentPos <= QUAD_BATCH_TOLERANCE){
                 if(lastRetrievedProfile != nil && !loadedAllProfiles){ //also make sure we haven't loaded everyone we could yet and that last retrieved profile has been assigned
                     let continuationQuery = sfDefaultQuery?.start(afterDocument: lastRetrievedProfile!) //continue grabbing profiles from where we left off in the database
                     self.obtainNewBatch(query: continuationQuery!, insertAtTheBeginning: true, firstLoad: false)
@@ -354,7 +354,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.front)
         quadCard.back.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside)
         quadCard.front.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside)
-        self.cardClicked = quadCard
+        self.currentCard = quadCard
     
         //attach the card,pos, and orig pos to button to be able to use when clicked
         quadCard.back.sayHiButton.Card = quadCard
@@ -363,7 +363,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     //on click of the send hi message on back of card
     @objc func flipButtonClicked(_ sender: subclassedUIButton) {
-        self.cardClicked!.flip()
+        self.currentCard!.flip()
     }
     
     //on click of the send hi message on back of card
@@ -477,9 +477,9 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         let quadCard = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! Card
         quadCard.setUp(user: allQuadProfiles[indexPath.item])
         let pos = indexPath.item
-        self.actualPos = pos
+        self.currentPos = pos
         self.setRequest(quadCard: quadCard, pos: pos)
-        self.cardClicked = quadCard
+        self.currentCard = quadCard
         return quadCard
     }
     
@@ -495,7 +495,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
             
         }else if (indexPath.item < 3 && !profileLoadInProgress && loadedAllProfiles){ //within 3 of the beginning -> insert at the end
             profileLoadInProgress = true
-            let posThatTriggeredLoading = actualPos
+            let posThatTriggeredLoading = currentPos
             quadCollectionView.isHidden = true
             for i in 0...allQuadProfiles.count-1{
                 let newIndexPath = IndexPath(row: self.allQuadProfiles.count, section: 0)
@@ -516,6 +516,10 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         checkForNewBatch()
         let collectionViewCenterX = self.quadCollectionView.center.x //get the center of the collection view
+        
+        if(currentCard?.showingBack ?? false){
+            currentCard?.flip()
+        }
         
         for cell in self.quadCollectionView.visibleCells {
             let basePosition = cell.convert(CGPoint.zero, to: self.view)
@@ -549,7 +553,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         //TODO: decide if this is best practise or not.
         //the card that the scroll view lands on is the same card the user is seeing, thus this is the card theyll be clicking, save it
         if let cClicked = self.quadCollectionView.cellForItem(at: IndexPath(item: indexOfLargestCell, section: 0)) as? Card{
-            self.cardClicked = cClicked
+            self.currentCard = cClicked
         }
     }
     
@@ -580,15 +584,15 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         let chinForehead = (outerHeight - innerHeight)/2
         self.keyboardHeight = kbHeight + 20 - chinForehead //have to take the safe area around the notch and the chin into account - for iPhone X, XR, XS, XS Max and above
         UIView.animate(withDuration: 0.5){
-            self.cardClicked?.back.sayHiHeightConstraint.constant = self.keyboardHeight
-            self.cardClicked?.back.sayHiMessageTextField.layoutIfNeeded()
+            self.currentCard?.back.sayHiHeightConstraint.constant = self.keyboardHeight
+            self.currentCard?.back.sayHiMessageTextField.layoutIfNeeded()
         }
     }
 
     @objc func keyboardWillHide(notification: Notification) {
         UIView.animate(withDuration: 0.5){
-            self.cardClicked?.back.sayHiHeightConstraint.constant = 40
-            self.cardClicked?.back.sayHiMessageTextField.layoutIfNeeded()
+            self.currentCard?.back.sayHiHeightConstraint.constant = 40
+            self.currentCard?.back.sayHiMessageTextField.layoutIfNeeded()
         }
     }
     
