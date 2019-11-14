@@ -20,6 +20,7 @@ class Card: UICollectionViewCell {
     let front = Bundle.main.loadNibNamed("CardFront", owner: nil, options: nil)?.first as! CardFront
     let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
     public var id = ""  //the id that will be associated with each card for reporting/blocking
+    var assignedPosition = -1
     
     
     
@@ -57,7 +58,6 @@ class Card: UICollectionViewCell {
     // MARK: Card Functions
     
     func setUp(user: Dictionary<String, Any>){ //set all the variables from user's profile to display on the card
-        startLoading()
         if let userID = user["id"] as? String{
             self.id = userID
         }
@@ -68,9 +68,9 @@ class Card: UICollectionViewCell {
             cardContainer.addSubview(back)
             cardContainer.addSubview(front)
             
-//            self.shadowOuterContainer.bringSubviewToFront(self.cardContainer)
-//            self.shadowOuterContainer.bringSubviewToFront(self.cardContainer.back)
-//            self.cardContainer.back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside)
+            self.shadowOuterContainer.bringSubviewToFront(self.cardContainer)
+            self.shadowOuterContainer.bringSubviewToFront(self.cardContainer.back)
+            self.cardContainer.back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside)
             
             firstSetup = false
         }
@@ -86,16 +86,15 @@ class Card: UICollectionViewCell {
                         degree = degree.lowercased()
                         self.front.degreeIcon.image = UIImage(named: degree)
                         self.front.degreeIcon.tintColor = Colors.ivy_grey
-                        
                     }
-                    
                     self.front.name.text = user["first_name"] as? String //text data
                     self.back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name")
                     self.back.degree.text = user["degree"] as? String
-                    self.back.age.text = user["age"] as? String
+                    if let userAge = user["age"] as? Int{
+                        self.back.age.text = String(userAge)
+                    }
                     self.back.bio.text = user["bio"] as? String
                     self.back.setUpInterests(interests: user["interests"] as? [String] ?? [String]())
-                    
                     self.endLoading()
                 }
             }
