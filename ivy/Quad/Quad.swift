@@ -241,7 +241,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                 })
                                 self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
                                 self.allQuadProfiles = [Dictionary<String, Any>]()
-                                self.obtainNewBatch(query: self.quadDefaultQuery!, firstLoad: true)
+                                self.obtainNewBatch(query: self.quadDefaultQuery!, firstLoad: self.firstLoad)
                             }
                         }
                     }
@@ -278,6 +278,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                         let ip = IndexPath(item: 0, section: 0)
                         self.quadCollectionView.reloadItems(at: [ip])
                         self.quadCollectionView.scrollToItem(at: ip, at: .centeredHorizontally, animated: true)
+                        self.firstLoad = false
                     }
 //                    self.quadCollectionView.reloadData()
                 }else{
