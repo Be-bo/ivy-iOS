@@ -176,7 +176,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
 
     func blockUser(alert: UIAlertAction!){ //when the user clicks on block user send it here to actually block them
         
-        if let userIDToBlock = self.currentCard?.id as? String{
+        if let userIDToBlock = self.currentCard?.id as? String, let cc = currentCard as? Card{
             
             var toMerge = Dictionary<String,Any>() //update this users block list
             toMerge[String(userIDToBlock)] = Date().timeIntervalSince1970
@@ -190,8 +190,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                 if error != nil {
                     print("error while uplaoding other persons block list")
                 }
-                
-                
+                self.allQuadProfiles.remove(at: cc.assignedPosition)
+                self.quadCollectionView.reloadData()
             })
         }
     }
