@@ -547,9 +547,22 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                 if let querSnapDocs = querySnapshot?.documents, !querSnapDocs.isEmpty{
                     for i in 0..<querSnapDocs.count { //go through all the fetched profiles
                         let document = querSnapDocs[i]
-                        if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
+                        if var docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
                             if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
                                 if (thisUserId != toAddId && !self.blockedBy.contains(where: { $0.key == toAddId}) && !self.blockList.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
+                                    
+                                    if var theirInterests = docData["interests"] as? [String], var myInterests = self.thisUserProfile["interests"] as? [String]{ //get this user's interests and the other person interests
+                                        for j in 0..<myInterests.count{ //lower case this user's interests
+                                            myInterests[j] = myInterests[j].lowercased()
+                                        }
+                                        var matchCount = 0 //start count at 0
+                                        for k in 0..<theirInterests.count{
+                                            if(myInterests.contains(theirInterests[k].lowercased())){ //increment the matches by 1 if there's a match
+                                                matchCount += 1
+                                            }
+                                        }
+                                        docData["match_count"] = matchCount //add the match count number to the other person's profile
+                                    }
                                     self.allSuggestedFriends.append(docData)
                                 }
                             }
@@ -560,15 +573,30 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         }
                     }
                     
-                    if self.allSuggestedFriends.count < 9, let lastRetr = self.lastRetrievedProfile as? QueryDocumentSnapshot, let newQuery = self.sfDefaultQuery?.start(afterDocument: lastRetr){
+                    if self.allSuggestedFriends.count < 9, let lastRetr = self.lastRetrievedProfile as? QueryDocumentSnapshot, let newQuery = self.sfDefaultQuery?.start(afterDocument: lastRetr){ //check if the batch didn't provide enough people and keep fetching if that's the case
                         self.getSuggestedFriends(query: newQuery)
                     }
+                    self.sortSFBasedOnInterests() //sort suggested friends by matches
                     self.recommendedFriendCollecView.reloadData()
+                    
+                    if(self.allSuggestedFriends.count > 15){ //only load till we have at least 15 people with whom you have the most interest matches
+                        self.loadedAllProfiles = true
+                    }
                     
                 }else{
                     self.loadedAllProfiles = true
                 }
                 self.profileLoadInProgress = false
+            }
+        }
+    }
+    
+    func sortSFBasedOnInterests(){
+        allSuggestedFriends.sort { (profile1, profile2) -> Bool in
+            if let prof1matches = profile1["match_count"] as? Int, let prof2matches = profile2["match_count"] as? Int, prof1matches > prof2matches{
+                return true
+            }else{
+                return false
             }
         }
     }
