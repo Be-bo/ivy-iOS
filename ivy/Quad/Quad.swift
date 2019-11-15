@@ -122,6 +122,14 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     @objc func showActions() {
         let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
         actionSheet.view.tintColor = UIColor.ivyGreen
+        
+        if let popoverController = actionSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        
         //ADDING ACTIONS TO THE ACTION SHEET
 //        actionSheet.addAction(UIAlertAction(title: "View Profile", style: .default, handler: self.onClickViewProfile))
         actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
