@@ -424,7 +424,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         //assuming the position is passed in correctley this will remove the user from all the wuad profiles then reload it to no longer show them
         //remove profile from quad
         self.allQuadProfiles.remove(at: pos)
-//        quadCard.back.sayHiMessageTextField.text = "" //reset the message text on the back of the card
+        quadCard.back.sayHiMessageTextField.text = "" //reset the message text on the back of the card
         quadCard.flip() //flip to eliminate the problem where the quad starts on the back side after removing the previous person you just messaged
         
 //
