@@ -442,7 +442,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         self.quadCollectionView.scrollToItem(at: IndexPath(item: pos, section: 0), at: .centeredHorizontally, animated: true)
         self.allQuadProfiles.remove(at: pos)
         quadCard.back.sayHiMessageTextField.text = "" //reset the message text on the back of the card
-        quadCard.flip() //flip to eliminate the problem where the quad starts on the back side after removing the previous person you just messaged
+//        quadCard.flip() //flip to eliminate the problem where the quad starts on the back side after removing the previous person you just messaged
         
 //
 //        self.quadCollectionView.scrollToItem(at: IndexPath(item: self.currentCard!.assignedPosition + 1, section: 0), at: .centeredHorizontally, animated: true)
