@@ -73,6 +73,8 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "blockedAccTableViewCell", bundle: nil), forCellReuseIdentifier: "blockedAccTableViewCell")
+        tableView.allowsSelectionDuringEditing = false
+        tableView.allowsSelection = false
 //        tableView.rowHeight = 100
 //        tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
@@ -82,11 +84,11 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
         return self.allBLockedAccounts.count
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let selectedCell = self.tableView.cellForRow(at: indexPath) as? blockedAccTableViewCell{
-            userToUnblock = selectedCell.userToUnblock
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if let selectedCell = self.tableView.cellForRow(at: indexPath) as? blockedAccTableViewCell{
+//            userToUnblock = selectedCell.userToUnblock
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // called for every single cell thats displayed on screen
         let cell = tableView.dequeueReusableCell(withIdentifier: "blockedAccTableViewCell", for: indexPath) as! blockedAccTableViewCell
@@ -94,10 +96,12 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.bringSubviewToFront(cell.unblockUserButton)
         cell.setUp(user: self.allBLockedAccounts[indexPath.item], thisUserProfile: self.thisUserProfile, previousVC: self)
         cell.unblockUserButton.addTarget(self, action: #selector(didXButtonClick), for: .touchUpInside)
+        cell.unblockUserButton.tag = indexPath.item
         return cell
     }
     
     @objc func didXButtonClick(sender: AnyObject) {
+        self.userToUnblock = self.allBLockedAccounts[sender.tag]
         unblockUser()
     }
     
