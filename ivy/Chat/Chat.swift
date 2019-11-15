@@ -141,10 +141,14 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     
                     
                     if (diff.type == .added) {
-                        self.activeChats.append(diff.document.data())
-//                        self.configureTableView()
-                        self.checkIfShowtableView()
-                        self.tableView.reloadData() //reload rows and section in table view
+                        let docData = diff.document.data()
+                        if let isReq = docData["is_request"] as? Bool, isReq{
+                            self.activeChats.insert(docData, at: 0)
+                            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+                        }else{
+                            self.activeChats.append(docData)
+                            self.tableView.reloadRows(at: [IndexPath(row: self.activeChats.count-1, section: 0)], with: .none)
+                        }
                     }
                     
                     if (diff.type == .modified) { //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
@@ -163,7 +167,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                                 self.tableView.reloadData() //reload rows and section in table view
                             } else {    //any other type of update, so just update the current conv in its current position
                                 self.activeChats[posModified] = modifiedData
-                                self.checkIfShowtableView()
                                 self.tableView.reloadData()
                             }
                         }
@@ -179,11 +182,11 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         if let modifiedID = modifiedData["id"] as? String{
                             let posModified = self.locateIndexOfConvo(id: modifiedID) //with the conversation ID, I get the index of that conversation in the active chats array
                             self.activeChats.remove(at: posModified)
-                            
-                            self.checkIfShowtableView()
                             self.tableView.reloadData() //reload rows and section in table view
                         }
                     }
+                    
+                    self.checkIfShowtableView()
                 }
             }
         }
