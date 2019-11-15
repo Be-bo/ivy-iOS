@@ -23,7 +23,7 @@ class MainTabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startListeningToUserProfile()
-        self.selectedIndex = 1          //set selected index to be the explore tab on launch
+        self.selectedIndex = 2          //set selected index to be the explore tab on launch
     }
     
     private func startListeningToUserProfile(){
