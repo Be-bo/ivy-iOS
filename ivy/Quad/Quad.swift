@@ -228,20 +228,26 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                 querSnap?.documentChanges.forEach({ (docChan) in
                                     switch(docChan.document.documentID){
                                     case "requests": self.requests = docChan.document.data()
+                                    self.quadCollectionView.reloadData()
                                         break
                                     case "block_list": self.block_list = docChan.document.data()
+                                    self.quadCollectionView.reloadData()
                                         break
                                     case "blocked_by": self.blocked_by = docChan.document.data()
+                                    self.quadCollectionView.reloadData()
                                         break
                                     case "friends": self.friends = docChan.document.data()
+                                    self.quadCollectionView.reloadData()
                                         break
                                     default:
                                         break
                                     }
                                 })
-                                self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
-                                self.allQuadProfiles = [Dictionary<String, Any>]()
-                                self.obtainNewBatch(query: self.quadDefaultQuery!, firstLoad: self.firstLoad)
+                                if(firstLoad){
+                                    self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
+                                    self.allQuadProfiles = [Dictionary<String, Any>]()
+                                    self.obtainNewBatch(query: self.quadDefaultQuery!, firstLoad: self.firstLoad)
+                                }
                             }
                         }
                     }
