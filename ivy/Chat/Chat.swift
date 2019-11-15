@@ -144,10 +144,12 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                         let docData = diff.document.data()
                         if let isReq = docData["is_request"] as? Bool, isReq{
                             self.activeChats.insert(docData, at: 0)
-                            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+                            self.tableView.reloadData()
+//                            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
                         }else{
-                            self.activeChats.append(docData)
-                            self.tableView.reloadRows(at: [IndexPath(row: self.activeChats.count-1, section: 0)], with: .none)
+                        self.activeChats.append(docData)
+                        self.tableView.reloadData()
+//                            self.tableView.reloadRows(at: [IndexPath(row: self.activeChats.count-1, section: 0)], with: .none)
                         }
                     }
                     
