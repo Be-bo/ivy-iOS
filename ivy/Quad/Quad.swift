@@ -227,8 +227,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                 print("userlists changes registered")
                                 querSnap?.documentChanges.forEach({ (docChan) in
                                     switch(docChan.document.documentID){
-//                                    case "requests": self.requests = docChan.document.data()
-//                                        break
+                                    case "requests": self.requests = docChan.document.data()
+                                        break
                                     case "block_list": self.block_list = docChan.document.data()
                                         break
                                     case "blocked_by": self.blocked_by = docChan.document.data()
