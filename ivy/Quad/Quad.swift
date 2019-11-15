@@ -56,7 +56,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     // MARK: Setup and Override Functions
     
     override func viewDidLoad() {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         super.viewDidLoad()
         self.hideKeyboardOnTapOutside()
         self.setUpKeyboardListeners()
@@ -105,11 +105,15 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
             let vc = segue.destination as! Settings
             vc.thisUserProfile = self.thisUserProfile
         }
-        else if segue.identifier == "viewFullProfileSegue" {
-            let vc = segue.destination as! ViewFullProfileActivity
-            vc.isFriend = true
-            vc.thisUserProfile = self.thisUserProfile
-            vc.otherUserID = self.currentCard?.id
+        else if segue.identifier == "quadToUserGallery" {
+            let vc = segue.destination as! UserGallery
+            
+            if let otherID = self.currentCard?.id as? String,  let otherDomain = self.thisUserProfile["uni_domain"] as? String{
+                vc.thisUniDomain = otherDomain
+                vc.otherUserId = otherID
+                vc.previousQuadVC = self
+            }
+            
         }
     }
     
@@ -119,7 +123,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
         actionSheet.view.tintColor = UIColor.ivyGreen
         //ADDING ACTIONS TO THE ACTION SHEET
-        actionSheet.addAction(UIAlertAction(title: "View Profile", style: .default, handler: self.onClickViewProfile))
+//        actionSheet.addAction(UIAlertAction(title: "View Profile", style: .default, handler: self.onClickViewProfile))
         actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
         actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.blockUser))
 
@@ -306,6 +310,12 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         quadCard.shadowOuterContainer.bringSubviewToFront(quadCard.cardContainer.front)
         quadCard.back.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside)
         quadCard.front.flipButton.addTarget(self, action: #selector(flipButtonClicked), for: .touchUpInside)
+        
+        //add listeners more the gallery and more option buttons
+        quadCard.front.galleryButton.addTarget(self, action: #selector(self.galleryButtonClick), for: .touchUpInside)
+        quadCard.front.moreButton.addTarget(self, action: #selector(self.moreButtonClick), for: .touchUpInside)
+
+        
         self.currentCard = quadCard
     
         //attach the card,pos, and orig pos to button to be able to use when clicked
@@ -330,6 +340,17 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
             print("Your message is to short!")
         }
     }
+    
+    @objc func galleryButtonClick() {
+        self.performSegue(withIdentifier: "quadToUserGallery" , sender: self)
+    }
+    
+    
+    //when more clicked prompt them with the action sheet to choose block and report
+    @objc func moreButtonClick() {
+        showActions()
+    }
+
     
     //TODO: deal with actual position once infinite collection view is added
     func sendRequest(quadCard:Card, pos: Int){

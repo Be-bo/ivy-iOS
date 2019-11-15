@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,6 +24,14 @@
                         <constraint firstAttribute="height" constant="40" id="nIY-Cp-0Y5"/>
                     </constraints>
                     <state key="normal" image="flip"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RGe-zp-6bG" userLabel="Gallery Button" customClass="OpacityButton" customModule="ivy_iOS" customModuleProvider="target">
+                    <rect key="frame" x="340" y="80" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Qjx-yw-pcH"/>
+                        <constraint firstAttribute="width" constant="40" id="Tmj-Qy-gWR"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="photo"/>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GgG-O1-zf7">
                     <rect key="frame" x="0.0" y="550" width="400" height="50"/>
@@ -64,12 +72,24 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gmN-IT-WNH" userLabel="More Button" customClass="OpacityButton" customModule="ivy_iOS" customModuleProvider="target">
+                    <rect key="frame" x="340" y="140" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="lWw-z6-uCk"/>
+                        <constraint firstAttribute="height" constant="40" id="su3-OR-rUm"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="more"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="RGe-zp-6bG" firstAttribute="top" secondItem="zS6-4O-EXv" secondAttribute="bottom" constant="20" id="4TP-ZK-eyJ"/>
+                <constraint firstAttribute="trailing" secondItem="RGe-zp-6bG" secondAttribute="trailing" constant="20" id="6sZ-7w-9Sf"/>
                 <constraint firstAttribute="bottom" secondItem="5am-zD-iMj" secondAttribute="bottom" id="B9m-Gf-5Du"/>
                 <constraint firstItem="5am-zD-iMj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BzQ-Pn-pfp"/>
                 <constraint firstAttribute="bottom" secondItem="GgG-O1-zf7" secondAttribute="bottom" id="HXf-Na-iGt"/>
+                <constraint firstAttribute="trailing" secondItem="gmN-IT-WNH" secondAttribute="trailing" constant="20" id="JhS-hD-8fW"/>
+                <constraint firstItem="gmN-IT-WNH" firstAttribute="top" secondItem="RGe-zp-6bG" secondAttribute="bottom" constant="20" id="NHT-km-L88"/>
                 <constraint firstItem="zS6-4O-EXv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="TEl-68-XhS"/>
                 <constraint firstItem="GgG-O1-zf7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="rC5-pv-Mrm"/>
                 <constraint firstAttribute="trailing" secondItem="GgG-O1-zf7" secondAttribute="trailing" id="s9e-3h-49R"/>
@@ -86,7 +106,9 @@
             <connections>
                 <outlet property="degreeIcon" destination="GzR-xe-FYu" id="1wz-VD-7ct"/>
                 <outlet property="flipButton" destination="zS6-4O-EXv" id="lgC-en-9Bu"/>
+                <outlet property="galleryButton" destination="RGe-zp-6bG" id="TB7-K1-YSe"/>
                 <outlet property="img" destination="5am-zD-iMj" id="6k5-YI-uaf"/>
+                <outlet property="moreButton" destination="gmN-IT-WNH" id="zCh-Bd-61j"/>
                 <outlet property="name" destination="Ojt-Nh-2RT" id="2O9-nv-NXY"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="153.34821428571428"/>
@@ -95,6 +117,8 @@
     <resources>
         <image name="flip" width="240" height="240"/>
         <image name="hat" width="240" height="240"/>
+        <image name="more" width="240" height="240"/>
+        <image name="photo" width="240" height="240"/>
         <image name="quad_placeholder" width="417" height="417"/>
         <namedColor name="ivyOpacity">
             <color red="1" green="1" blue="1" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>

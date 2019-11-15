@@ -19,6 +19,7 @@ class UserGallery: UIViewController, UIScrollViewDelegate {
     private let baseStorageReference = Storage.storage().reference()
     private let baseDatabaseReference = Firestore.firestore()
     public var previousVC = ViewFullProfileActivity()
+    public var previousQuadVC = Quad()
     public  var pages: [galleryImageView] = []
     private var deleteVisible = false
     private var otherUserProfile = Dictionary<String, Any>()

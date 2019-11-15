@@ -70,7 +70,7 @@ class Card: UICollectionViewCell {
             
             self.shadowOuterContainer.bringSubviewToFront(self.cardContainer)
             self.shadowOuterContainer.bringSubviewToFront(self.cardContainer.back)
-            self.cardContainer.back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside)
+//            self.cardContainer.back.flipButton.addTarget(self, action: #selector(flip), for: .touchUpInside)
             
             firstSetup = false
         }

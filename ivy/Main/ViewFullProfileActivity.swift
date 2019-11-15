@@ -54,7 +54,7 @@ class ViewFullProfileActivity: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
         getData()
 //        setUpContainer()
         hideKeyboardOnTapOutside()
@@ -73,7 +73,7 @@ class ViewFullProfileActivity: UIViewController{
 
         //if they're friends add these options to option sheet
         if (isFriend){
-            actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
+//            actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
             actionSheet.addAction(UIAlertAction(title: "Message", style: .default, handler: self.messageUser))
             actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.buildBlockDialog))
             
@@ -81,7 +81,7 @@ class ViewFullProfileActivity: UIViewController{
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
 
         }else{  //not friends so these are the options
-            actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
+//            actionSheet.addAction(UIAlertAction(title: "View Gallery", style: .default, handler: self.viewGallery))
             if let otherUser = self.otherUserID, thisUsersBlockList[otherUser] != nil{
                 actionSheet.addAction(UIAlertAction(title: "Unblock", style: .default, handler: self.unblockUser))
             }else{
@@ -436,6 +436,19 @@ class ViewFullProfileActivity: UIViewController{
                     print("Error obtaining image: ", e)
                 }else{
                     self.front.img.image = UIImage(data: data!)
+                    
+                    self.front.name.text = self.otherUserProfile["first_name"] as? String //text data
+                    self.back.name.text = String(self.otherUserProfile["first_name"] as? String ?? "Name") + " " + String(self.otherUserProfile["last_name"] as? String ?? "Name")  + ","
+                    self.back.degree.text = self.otherUserProfile["degree"] as? String
+                    self.back.age.text = String(self.otherUserProfile["age"] as! Int)
+                    self.back.bio.text = self.otherUserProfile["bio"] as? String
+                    self.back.setUpInterests(interests: self.otherUserProfile["interests"] as? [String] ?? [String]())
+                    
+                    //add listeners more the gallery and more option buttons
+                    self.front.galleryButton.addTarget(self, action: #selector(self.galleryButtonClick), for: .touchUpInside)
+                    self.front.moreButton.addTarget(self, action: #selector(self.moreButtonClick), for: .touchUpInside)
+
+                    
                 }
             }
         }
@@ -446,21 +459,22 @@ class ViewFullProfileActivity: UIViewController{
             }
         }
 
-
-        front.name.text = otherUserProfile["first_name"] as? String //text data
-        back.name.text = String(otherUserProfile["first_name"] as? String ?? "Name") + " " + String(otherUserProfile["last_name"] as? String ?? "Name")  + ","
-        back.degree.text = otherUserProfile["degree"] as? String
-        back.age.text = String(otherUserProfile["age"] as! Int)
-        back.bio.text = otherUserProfile["bio"] as? String
-        back.setUpInterests(interests: otherUserProfile["interests"] as? [String] ?? [String]())
-
         setUpContainer()
     }
 
 
 
 
-
+    @objc func galleryButtonClick() {
+        self.performSegue(withIdentifier: "fullProfileToUserGallery" , sender: self)
+    }
+    
+    
+    //when more clicked prompt them with the action sheet to choose block and report
+    @objc func moreButtonClick() {
+        print("enter more button")
+        showActions()
+    }
 
 
 
