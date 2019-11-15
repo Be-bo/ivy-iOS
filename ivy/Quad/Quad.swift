@@ -121,6 +121,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         //ADDING ACTIONS TO THE ACTION SHEET
         actionSheet.addAction(UIAlertAction(title: "View Profile", style: .default, handler: self.onClickViewProfile))
         actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportUser))
+        actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: self.blockUser))
 
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
@@ -133,7 +134,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         
     }
     
-    //TODO: get the id from the card thats clicked
+    
     func reportUser(alert: UIAlertAction!){ //when they click on reporting the USER send them here
         var report = Dictionary<String, Any>()
         
@@ -156,6 +157,30 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "The user has been reported.", context: self)
                 }
             }
+        }
+    }
+    
+    
+
+    func blockUser(alert: UIAlertAction!){ //when the user clicks on block user send it here to actually block them
+        
+        if let userIDToBlock = self.currentCard?.id as? String{
+            
+            var toMerge = Dictionary<String,Any>() //update this users block list
+            toMerge[String(userIDToBlock)] = Date().timeIntervalSince1970
+            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").setData(toMerge, merge: true)
+            
+            toMerge = Dictionary<String,Any>() //update other persons block list
+            toMerge[String(self.thisUserProfile["id"] as! String)] = Date().timeIntervalSince1970
+            
+            
+            self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(userIDToBlock).collection("userlists").document("blocked_by").setData(toMerge, merge: true, completion: { (error) in
+                if error != nil {
+                    print("error while uplaoding other persons block list")
+                }
+                
+                
+            })
         }
     }
     
@@ -351,7 +376,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         //push pbject to db
         self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).setData(newConversation)
         
-        print("new conversation ovject: ", newConversation)
         
         //create new message object
         var requestMessage = Dictionary<String, Any>()
@@ -373,8 +397,11 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         self.allQuadProfiles.remove(at: pos)
 //        quadCard.back.sayHiMessageTextField.text = "" //reset the message text on the back of the card
         quadCard.flip() //flip to eliminate the problem where the quad starts on the back side after removing the previous person you just messaged
-        print("pos to remove: ", pos)
-        print("user to remove: ", self.allQuadProfiles[pos])
+        
+//
+//        self.quadCollectionView.scrollToItem(at: IndexPath(item: self.currentCard!.assignedPosition + 1, section: 0), at: .centeredHorizontally, animated: true)
+//        print("pos to remove: ", pos)
+//        print("user to remove: ", self.allQuadProfiles[pos])
         self.quadCollectionView.reloadData()
     }
     

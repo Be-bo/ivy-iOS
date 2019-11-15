@@ -81,15 +81,20 @@ class Card: UICollectionViewCell {
                     print("Error obtaining image: ", e)
                 }else{
                     self.front.img.image = UIImage(data: data!)
+                    
+                    
                     if var degree = user["degree"] as? String { //degree icon
-                        degree = degree.replacingOccurrences(of: " ", with: "")
-                        degree = degree.lowercased()
-                        self.front.degreeIcon.image = UIImage(named: degree)
-                        self.front.degreeIcon.tintColor = Colors.ivy_grey
+                        if let imgPos = PublicStaticMethodsAndData.degreeNames.firstIndex(of: degree), imgPos < PublicStaticMethodsAndData.iconNames.count{
+                            self.front.degreeIcon.image = UIImage(named: PublicStaticMethodsAndData.iconNames[imgPos])
+                            self.front.degreeIcon.tintColor = Colors.ivy_grey
+
+                        }
                     }
+    
                     self.front.name.text = user["first_name"] as? String //text data
                     self.back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name")
                     self.back.degree.text = user["degree"] as? String
+                    
                     if let userAge = user["age"] as? Int{
                         self.back.age.text = String(userAge)
                     }
