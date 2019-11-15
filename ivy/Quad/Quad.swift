@@ -190,6 +190,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                 if error != nil {
                     print("error while uplaoding other persons block list")
                 }
+                self.quadCollectionView.scrollToItem(at: IndexPath(item: cc.assignedPosition + 1, section: 0), at: .centeredHorizontally, animated: false)
                 self.quadCollectionView.scrollToItem(at: IndexPath(item: cc.assignedPosition, section: 0), at: .centeredHorizontally, animated: true)
                 self.allQuadProfiles.remove(at: cc.assignedPosition)
                 self.quadCollectionView.reloadData()
