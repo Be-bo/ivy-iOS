@@ -228,16 +228,12 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                 querSnap?.documentChanges.forEach({ (docChan) in
                                     switch(docChan.document.documentID){
                                     case "requests": self.requests = docChan.document.data()
-                                    self.quadCollectionView.reloadData()
                                         break
                                     case "block_list": self.block_list = docChan.document.data()
-                                    self.quadCollectionView.reloadData()
                                         break
                                     case "blocked_by": self.blocked_by = docChan.document.data()
-                                    self.quadCollectionView.reloadData()
                                         break
                                     case "friends": self.friends = docChan.document.data()
-                                    self.quadCollectionView.reloadData()
                                         break
                                     default:
                                         break
@@ -349,10 +345,21 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         let pos = sender.pos
         //check length of input field, default is 0 if they didnt input anything
         if (sender.Card?.back.sayHiMessageTextField.text?.count ?? 0 > 1){
-            self.sendRequest(quadCard: card!, pos: pos!)
+            if !requests.contains(where: {$0.key == card?.id}){
+                if(!blocked_by.contains(where: {$0.key == card?.id})){
+                    if(!friends.contains(where: {$0.key == card?.id})){
+                        self.sendRequest(quadCard: card!, pos: pos!)
+                    }else{
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You're already friends with this person.", context: self)
+                    }
+                }else{
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You've been blocked by this user.", context: self)
+                }
+            }else{
+                PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "This user has already sent you a request, check you messages.", context: self)
+            }
         }else{
-            //TODO: display the error message when message si to short to front end
-            print("Your message is to short!")
+            PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "Your message is too short, it has to be at least length 2.", context: self)
         }
     }
     
