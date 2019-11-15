@@ -243,7 +243,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                         break
                                     }
                                 })
-                                if(firstLoad){
+                                if(self.firstLoad){
                                     self.lastRetrievedProfile = nil //restart the pagination (we want to load suggested friends all over again when there's a change in user lists)
                                     self.allQuadProfiles = [Dictionary<String, Any>]()
                                     self.obtainNewBatch(query: self.quadDefaultQuery!, firstLoad: self.firstLoad)
