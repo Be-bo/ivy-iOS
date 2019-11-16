@@ -15,7 +15,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     // MARK: Variables and Constants
     
     private let QUAD_BATCH_SIZE = 20    //size of single query fetch
-    private let QUAD_BATCH_TOLERANCE = 4  //before loading more profiles
+    private let QUAD_BATCH_TOLERANCE = 5  //before loading more profiles
     private let MAX_SIZE = 10000
     
     private var thisUserProfile = Dictionary<String, Any>()
@@ -290,8 +290,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                     }
                     if(firstLoad){
                         let ip = IndexPath(item: 0, section: 0)
-                        self.quadCollectionView.reloadItems(at: [ip])
                         self.quadCollectionView.scrollToItem(at: ip, at: .centeredHorizontally, animated: true)
+                        self.quadCollectionView.reloadData()
                         self.firstLoad = false
                     }
 //                    self.quadCollectionView.reloadData()
