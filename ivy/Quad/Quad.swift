@@ -549,7 +549,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
             let distance = abs(cellCenterX - collectionViewCenterX) //distance between them
             
             let tolerance : CGFloat = 0.02
-            let multiplier : CGFloat = 0.250
+            let multiplier : CGFloat = 0.205
             var scale = 1.00 + tolerance - ((distance/collectionViewCenterX)*multiplier) //scale the car based on how far it is from the center (tolerance and the multiplier are both arbitrary)
             if(scale > 1.0){ //don't go beyond 100% size
                 scale = 1.0
