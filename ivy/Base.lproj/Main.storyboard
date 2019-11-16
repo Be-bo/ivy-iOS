@@ -91,6 +91,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quad is empty for now. Come back later for more!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C3s-4O-jnu" customClass="GreenBoldTitleLabel" customModule="ivy_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="85" width="414" height="725"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1ut-Vx-Qn8">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -123,6 +130,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="4QC-wC-XQv"/>
                     <connections>
+                        <outlet property="emptyQuadLabel" destination="C3s-4O-jnu" id="FIA-dP-hho"/>
                         <outlet property="quadCollectionView" destination="1ut-Vx-Qn8" id="DkB-bD-eVU"/>
                         <segue destination="DpA-Ba-Ufr" kind="show" identifier="quadToSettings" id="gU9-S9-Tho"/>
                         <segue destination="s8e-1d-68m" kind="show" identifier="quadToUserGallery" id="vAN-1D-qRd"/>
@@ -130,7 +138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cmo-T7-cNn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2913" y="-4071"/>
+            <point key="canvasLocation" x="2911.594202898551" y="-4071.4285714285711"/>
         </scene>
         <!--Legal Stuff-->
         <scene sceneID="2u9-9Y-uK3">
