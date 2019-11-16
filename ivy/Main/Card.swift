@@ -51,6 +51,14 @@ class Card: UICollectionViewCell {
         awakeFromNib()
     }
     
+    //called just before deque cell with identifier... its like a clean up method.
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        print("prepare for reuse")
+        self.front.img.image = UIImage()
+        self.front.name.text = "Name"
+        self.front.degreeIcon.image = UIImage()
+    }
     
     
     
@@ -58,6 +66,7 @@ class Card: UICollectionViewCell {
     // MARK: Card Functions
     
     func setUp(user: Dictionary<String, Any>){ //set all the variables from user's profile to display on the card
+        self.front.img.image = nil // reset the image
         if let userID = user["id"] as? String{
             self.id = userID
         }
@@ -90,8 +99,9 @@ class Card: UICollectionViewCell {
 
                         }
                     }
-    
+                    
                     self.front.name.text = user["first_name"] as? String //text data
+                    print("name: ", self.front.name.text)
                     self.back.name.text = String(user["first_name"] as? String ?? "Name") + " " + String(user["last_name"] as? String ?? "Name")
                     self.back.degree.text = user["degree"] as? String
                     

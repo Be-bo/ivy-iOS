@@ -14,8 +14,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     // MARK: Variables and Constants
     
-    private let QUAD_BATCH_SIZE = 10    //size of single query fetch
-    private let QUAD_BATCH_TOLERANCE = 2  //before loading more profiles
+    private let QUAD_BATCH_SIZE = 20    //size of single query fetch
+    private let QUAD_BATCH_TOLERANCE = 4  //before loading more profiles
     private let MAX_SIZE = 10000
     
     private var thisUserProfile = Dictionary<String, Any>()
@@ -54,6 +54,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     
     
+    
     // MARK: Setup and Override Functions
     
     override func viewDidLoad() {
@@ -69,6 +70,13 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         quadCollectionView.delegate = self
         quadCollectionView.dataSource = self
         quadCollectionView.register(UINib(nibName: "Card", bundle: nil), forCellWithReuseIdentifier: cellId)
+
+
+
+//        print("quadCollectionView.decelerationRate.rawValue / 4", quadCollectionView.decelerationRate.rawValue / 4, "quadCollectionView.decelerationRate.rawValue", quadCollectionView.decelerationRate.rawValue)
+//        quadCollectionView.decelerationRate = .init(rawValue: 0.993)
+                
+//        quadCollectionView.decelerationRate = .init(rawValue: 0.5)
 //        let sidePadding = (quadCollectionView.frame.size.width - cell width)/2 //side padding for each card is 5% of collection view's width
 //        quadCollectionView.contentInset = UIEdgeInsets(top: 0, left: sidePadding, bottom: 0, right: sidePadding)
         if(!thisUserProfile.values.isEmpty){
@@ -267,6 +275,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                 if let querSnapDocs = querySnapshot?.documents, !querSnapDocs.isEmpty{
                     for i in 0..<querSnapDocs.count { //go through all the fetched profiles
                         
+
+                        
                         let document = querSnapDocs[i]
                         if let docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
                             if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
@@ -275,8 +285,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                                 }
                             }
                         }
-                        if(i >= querSnapDocs.count - 1){self.lastRetrievedProfile = document
-                        }
+                        if(i >= querSnapDocs.count - 1){self.lastRetrievedProfile = document}
                         
                     }
                     if(firstLoad){
@@ -486,16 +495,28 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     // MARK: Collection View Methods
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return MAX_SIZE
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let quadCard = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! Card
+        //deque resuses cells so we wanna clear the old image in there so it doesn't show other prfiles
+        quadCard.front.img.image = nil
+        quadCard.front.degreeIcon.image = nil
+        quadCard.front.name.text = "Name"
+//        quadCard.prepareForReuse()
+        
+        
 //        if(firstLoad && indexPath.item == 0){
 //            self.quadCollectionView.scrollToItem(at: IndexPath(item: 5000, section: 0), at: .centeredHorizontally, animated: false)
 //            firstLoad = false
 //        }
+        
+
+        
         if(allQuadProfiles.count > 0){
             quadCard.startLoading()
             var actualPos = indexPath.item % allQuadProfiles.count
@@ -507,7 +528,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                 }else{
                     quadCard.assignedPosition = actualPos
                 }
-
                 quadCard.setUp(user: currentProfile)
                 currentCard = quadCard
                 setRequest(quadCard: quadCard, pos: actualPos)
@@ -528,6 +548,9 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         return cellSize
     }
     
+    
+    
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let collectionViewCenterX = self.quadCollectionView.center.x //get the center of the collection view
         
@@ -535,20 +558,27 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
             currentCard?.flip()
         }
         
+        
+        
         for cell in self.quadCollectionView.visibleCells {
             let basePosition = cell.convert(CGPoint.zero, to: self.view)
             let cellCenterX = basePosition.x + self.quadCollectionView.frame.size.width / 2.0 //get the center of the current cell
             let distance = abs(cellCenterX - collectionViewCenterX) //distance between them
             
             let tolerance : CGFloat = 0.02
-            let multiplier : CGFloat = 0.105
+            let multiplier : CGFloat = 0.250
             var scale = 1.00 + tolerance - ((distance/collectionViewCenterX)*multiplier) //scale the car based on how far it is from the center (tolerance and the multiplier are both arbitrary)
             if(scale > 1.0){ //don't go beyond 100% size
                 scale = 1.0
             }
             cell.transform = CGAffineTransform(scaleX: scale, y: scale) //apply the size change
         }
+        
+        
     }
+    
+    
+    
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { //find the largest visibile cell once the scrolling animation finishes and scroll that one to the center
         var indexOfLargestCell = 0
@@ -561,6 +591,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                 }
             }
         }
+        
         self.quadCollectionView.scrollToItem(at: IndexPath(item: indexOfLargestCell, section: 0), at: .centeredHorizontally, animated: true)
     }
     
@@ -632,3 +663,5 @@ class subclassedUIButton: UIButton {
     var pos: Int?
     var origPos: Int?
 }
+
+
