@@ -44,6 +44,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     // MARK: IBOutlets and IBActions
     
     @IBOutlet weak var quadCollectionView: UICollectionView!
+    @IBOutlet weak var emptyQuadLabel: GreenBoldTitleLabel!
     
     
     
@@ -287,9 +288,25 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
 //                    self.quadCollectionView.reloadData()
                 }else{
                     self.loadedAllProfiles = true
+                    self.checkForEmptyQuad()
                 }
                 self.profileLoadInProgress = false
+                if (self.lastRetrievedProfile != nil){ //if a batch is empty, we need to make sure we keep fetching more profiles from the database
+                    let continuationQuery = self.quadDefaultQuery?.start(afterDocument: self.lastRetrievedProfile!)
+                    self.obtainNewBatch(query: continuationQuery!, firstLoad: false)
+                }
             }
+        }
+    }
+    
+    func checkForEmptyQuad(){
+        if(allQuadProfiles.count < 1){
+            emptyQuadLabel.isHidden = false
+            quadCollectionView.isHidden = true
+            self.view.bringSubviewToFront(emptyQuadLabel)
+        }else{
+            emptyQuadLabel.isHidden = true
+            quadCollectionView.isHidden = false
         }
     }
     
