@@ -19,6 +19,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     private let SF_BATCH_SIZE = 15                                              //size of a single query fetch for our pagination system
     private let SF_BATCH_TOLERANCE = 6                                          //how far the user has to be from the end of the list to start loading a new batch
+    private let SF_CUT_OFF_CAPACITY = 15                                        //once we surpass that number of sf profiles, stop loading more
 
     private let baseDatabaseReference = Firestore.firestore()                    //reference to the database
     private let baseStorageReference = Storage.storage()                         //reference to storage
@@ -549,7 +550,18 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         let document = querSnapDocs[i]
                         if var docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
                             if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
-                                if (thisUserId != toAddId && !self.blockedBy.contains(where: { $0.key == toAddId}) && !self.blockList.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId}) ){
+                                if (thisUserId != toAddId && !self.blockedBy.contains(where: { $0.key == toAddId}) && !self.blockList.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId})){
+                                    
+                                    var containsDuplicate = false //check for duplicates before adding
+                                    for n in 0..<self.allSuggestedFriends.count{
+                                        if let curId = self.allSuggestedFriends[n]["id"] as? String, curId == toAddId{
+                                            containsDuplicate = true
+                                            break
+                                        }
+                                    }
+                                    if(containsDuplicate){
+                                        break
+                                    }
                                     
                                     if var theirInterests = docData["interests"] as? [String], var myInterests = self.thisUserProfile["interests"] as? [String]{ //get this user's interests and the other person interests
                                         for j in 0..<myInterests.count{ //lower case this user's interests
@@ -573,15 +585,13 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         }
                     }
                     
-                    if self.allSuggestedFriends.count < 9, let lastRetr = self.lastRetrievedProfile as? QueryDocumentSnapshot, let newQuery = self.sfDefaultQuery?.start(afterDocument: lastRetr){ //check if the batch didn't provide enough people and keep fetching if that's the case
+                    if self.allSuggestedFriends.count <= self.SF_CUT_OFF_CAPACITY, let lastRetr = self.lastRetrievedProfile as? QueryDocumentSnapshot, let newQuery = self.sfDefaultQuery?.start(afterDocument: lastRetr){ //check if the batch didn't provide enough people and keep fetching if that's the case
                         self.getSuggestedFriends(query: newQuery)
+                    }else{
+                        self.loadedAllProfiles = true
                     }
                     self.sortSFBasedOnInterests() //sort suggested friends by matches
                     self.recommendedFriendCollecView.reloadData()
-                    
-                    if(self.allSuggestedFriends.count > 15){ //only load till we have at least 15 people with whom you have the most interest matches
-                        self.loadedAllProfiles = true
-                    }
                     
                 }else{
                     self.loadedAllProfiles = true
@@ -607,4 +617,5 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
 protocol SearchCellDelegator { //a delgator that allows SearchCell.swift trigger segues in this view controller through the SearchLauncher (when they click on the given search result they'll be taken to the appropriate view controller)
     func callSegueFromCell(searchResult: Dictionary<String, Any>)
 }
+
 

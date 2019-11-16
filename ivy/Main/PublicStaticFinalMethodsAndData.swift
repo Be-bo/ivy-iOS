@@ -22,7 +22,6 @@ class PublicStaticMethodsAndData{
     
     static func calculateAge(millis: Int64) -> Int64 {
         let currentMillis = Int64(Date().millisecondsSince1970)
-        print("current millis: ",currentMillis, " born millis: ", millis)
         let difference = Int64(currentMillis - millis)
         let age = (difference) / 31536000000
         return age
