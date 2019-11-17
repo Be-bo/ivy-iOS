@@ -67,6 +67,7 @@ class Reg10Recap: UIViewController {
        
         if let tiiime = registerInfoStruct.birth_time{
             let age = PublicStaticMethodsAndData.calculateAge(millis: tiiime)
+            print("reg10: age", age)
             back.age.text = String(age)
             self.registerInfoStruct.age = age
         }
