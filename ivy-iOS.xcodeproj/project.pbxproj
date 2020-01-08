@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9BDC54E66CF4A26EB7F0F4A8 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499B35A25ED6BF9F788F16DF /* Pods_ivy_iOS.framework */; };
 		A90205E7231FBDF700EB6B2E /* editDegreePopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E6231FBDF700EB6B2E /* editDegreePopUpViewController.swift */; };
 		A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */; };
 		A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266422A4B214005E8965 /* cordiabold.ttf */; };
@@ -35,6 +34,9 @@
 		A9990C7222C95AAE00E95B2C /* RegisterInterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */; };
 		A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7322C986AA00E95B2C /* Reg2Password.swift */; };
 		A9990C7822C9A2F600E95B2C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9990C7722C9A2F600E95B2C /* UserProfile.swift */; };
+		A9A2BFD223C55AF300BEC473 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A2BFD123C55AF300BEC473 /* ChatViewController.swift */; };
+		A9A2BFD423C55D1300BEC473 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A2BFD323C55D1300BEC473 /* Message.swift */; };
+		A9A2BFD623C5655500BEC473 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A2BFD523C5655500BEC473 /* Conversation.swift */; };
 		A9A57D0F23216C8E00867D84 /* chatBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */; };
 		A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */; };
 		A9A57D162321C1C900867D84 /* SettingsButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */; };
@@ -71,6 +73,7 @@
 		A9FD198C231F237E00ECA848 /* ContactUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD198B231F237E00ECA848 /* ContactUs.swift */; };
 		A9FD198F231F364A00ECA848 /* blockedAccTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD198D231F364A00ECA848 /* blockedAccTableViewCell.swift */; };
 		A9FD1990231F364A00ECA848 /* blockedAccTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FD198E231F364A00ECA848 /* blockedAccTableViewCell.xib */; };
+		E057862F732422C32C6FFAD2 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A8972AF530C83BA545562BE /* Pods_ivy_iOS.framework */; };
 		FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */; };
 		FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA06DE3A22C0659900B07EDC /* DegreeCell.xib */; };
 		FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */; };
@@ -120,8 +123,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		499B35A25ED6BF9F788F16DF /* Pods_ivy_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BCF3E5BF603A0F3A703E3A0 /* Pods-ivy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.debug.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.debug.xcconfig"; sourceTree = "<group>"; };
+		6B5EEC0FEF74BF1527FCE9FB /* Pods-ivy-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		7A8972AF530C83BA545562BE /* Pods_ivy_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90205E6231FBDF700EB6B2E /* editDegreePopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editDegreePopUpViewController.swift; sourceTree = "<group>"; };
 		A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editInterestsPopUpViewController.swift; sourceTree = "<group>"; };
 		A90D266422A4B214005E8965 /* cordiabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordiabold.ttf; sourceTree = "<group>"; };
@@ -149,6 +152,9 @@
 		A9990C7122C95AAE00E95B2C /* RegisterInterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestsCell.swift; sourceTree = "<group>"; };
 		A9990C7322C986AA00E95B2C /* Reg2Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg2Password.swift; sourceTree = "<group>"; };
 		A9990C7722C9A2F600E95B2C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		A9A2BFD123C55AF300BEC473 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		A9A2BFD323C55D1300BEC473 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		A9A2BFD523C5655500BEC473 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = chatBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonLabel.swift; sourceTree = "<group>"; };
@@ -187,9 +193,7 @@
 		A9FD198B231F237E00ECA848 /* ContactUs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUs.swift; sourceTree = "<group>"; };
 		A9FD198D231F364A00ECA848 /* blockedAccTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = blockedAccTableViewCell.swift; sourceTree = "<group>"; };
 		A9FD198E231F364A00ECA848 /* blockedAccTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = blockedAccTableViewCell.xib; sourceTree = "<group>"; };
-		CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
-		D6946263A0018AF3FCC9047E /* Pods-ivy-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.release.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		EDA2E067AA5E2F6DD384B0A7 /* Pods-ivy-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D0BFAC5DACF366DA0EAAD7CB /* Pods-ivy-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.release.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
 		FA06DE3A22C0659900B07EDC /* DegreeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DegreeCell.xib; sourceTree = "<group>"; };
 		FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg5Degree.swift; sourceTree = "<group>"; };
@@ -245,21 +249,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9BDC54E66CF4A26EB7F0F4A8 /* Pods_ivy_iOS.framework in Frameworks */,
+				E057862F732422C32C6FFAD2 /* Pods_ivy_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7961A218203316DF2278AE3D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				499B35A25ED6BF9F788F16DF /* Pods_ivy_iOS.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		A90D266322A4B205005E8965 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,10 +305,8 @@
 		AB71219703D1BBDED6353DAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7BCF3E5BF603A0F3A703E3A0 /* Pods-ivy.debug.xcconfig */,
-				CBF3320F264C8776505CF954 /* Pods-ivy.release.xcconfig */,
-				EDA2E067AA5E2F6DD384B0A7 /* Pods-ivy-iOS.debug.xcconfig */,
-				D6946263A0018AF3FCC9047E /* Pods-ivy-iOS.release.xcconfig */,
+				6B5EEC0FEF74BF1527FCE9FB /* Pods-ivy-iOS.debug.xcconfig */,
+				D0BFAC5DACF366DA0EAAD7CB /* Pods-ivy-iOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -356,6 +350,9 @@
 				A9D013172328A91B0049353C /* AddParticipantTableViewCell.swift */,
 				A9D013182328A91B0049353C /* AddParticipantTableViewCell.xib */,
 				A9F7B1CB23639F7500B7283E /* PushNotificationSender.swift */,
+				A9A2BFD123C55AF300BEC473 /* ChatViewController.swift */,
+				A9A2BFD323C55D1300BEC473 /* Message.swift */,
+				A9A2BFD523C5655500BEC473 /* Conversation.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -426,7 +423,7 @@
 				FA60590822A4B12C00383F9F /* ivy */,
 				FA60590722A4B12C00383F9F /* Products */,
 				AB71219703D1BBDED6353DAF /* Pods */,
-				7961A218203316DF2278AE3D /* Frameworks */,
+				FE12640863C95779C6C6556B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -488,6 +485,14 @@
 			path = LoginRegister;
 			sourceTree = "<group>";
 		};
+		FE12640863C95779C6C6556B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A8972AF530C83BA545562BE /* Pods_ivy_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -495,11 +500,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA60591822A4B12E00383F9F /* Build configuration list for PBXNativeTarget "ivy-iOS" */;
 			buildPhases = (
-				DC27DE73283A642798538021 /* [CP] Check Pods Manifest.lock */,
+				6B295022CE432D1BE0DEDEBC /* [CP] Check Pods Manifest.lock */,
 				FA60590222A4B12C00383F9F /* Sources */,
 				FA60590322A4B12C00383F9F /* Frameworks */,
 				FA60590422A4B12C00383F9F /* Resources */,
-				284BBCC8234C7F30FE180C51 /* [CP] Embed Pods Frameworks */,
+				1E1DFDF54420A5D511E063EA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -588,13 +593,12 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		284BBCC8234C7F30FE180C51 /* [CP] Embed Pods Frameworks */ = {
+		1E1DFDF54420A5D511E063EA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks.sh",
@@ -614,7 +618,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
@@ -636,7 +639,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DC27DE73283A642798538021 /* [CP] Check Pods Manifest.lock */ = {
+		6B295022CE432D1BE0DEDEBC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -675,6 +678,7 @@
 				FAD461A122ED3329003B10D8 /* OpacityButton.swift in Sources */,
 				FA0A0348232729D500F9FDAC /* LegalStuff.swift in Sources */,
 				A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */,
+				A9A2BFD223C55AF300BEC473 /* ChatViewController.swift in Sources */,
 				A9F7B1CC23639F7500B7283E /* PushNotificationSender.swift in Sources */,
 				A9FD1988231F223B00ECA848 /* ChangePassword.swift in Sources */,
 				A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */,
@@ -701,6 +705,7 @@
 				FA1B412622F4ACB9005817C5 /* QuadNavigationViewController.swift in Sources */,
 				A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */,
 				A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */,
+				A9A2BFD423C55D1300BEC473 /* Message.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
 				A9FD1976231B9A1900ECA848 /* ProfileCardFront.swift in Sources */,
@@ -711,6 +716,7 @@
 				A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */,
 				A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */,
 				FA6D733F22DA8172009020B5 /* StandardGreenLabel.swift in Sources */,
+				A9A2BFD623C5655500BEC473 /* Conversation.swift in Sources */,
 				FA6D733722DA8117009020B5 /* LargeLabel.swift in Sources */,
 				A9FD197A231B9AE900ECA848 /* ProfileCardBack.swift in Sources */,
 				A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */,
@@ -891,7 +897,7 @@
 		};
 		FA60591922A4B12E00383F9F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDA2E067AA5E2F6DD384B0A7 /* Pods-ivy-iOS.debug.xcconfig */;
+			baseConfigurationReference = 6B5EEC0FEF74BF1527FCE9FB /* Pods-ivy-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ivy-iOS.entitlements";
@@ -912,7 +918,7 @@
 		};
 		FA60591A22A4B12E00383F9F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6946263A0018AF3FCC9047E /* Pods-ivy-iOS.release.xcconfig */;
+			baseConfigurationReference = D0BFAC5DACF366DA0EAAD7CB /* Pods-ivy-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ivy-iOS.entitlements";
