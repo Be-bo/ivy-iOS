@@ -38,7 +38,7 @@ class MainTabController: UITabBarController {
                         }else{
                             if(docSnap?.exists ?? false && docSnap?.data() != nil){
                                 self.thisUserProfile = (docSnap?.data())!
-                                if let age = self.thisUserProfile["age"] as? Int64, let milliBirth = self.thisUserProfile["birth_time"] as? Int64{
+                                if let age = self.thisUserProfile["age"] as? Int64, let milliBirth = self.thisUserProfile["birth_time"] as? Int64{                                    
                                     if PublicStaticMethodsAndData.calculateAge(millis: milliBirth) != age, let uni = self.thisUserProfile["uni_domain"] as? String, let id = self.thisUserProfile["id"] as? String{ //update age if there's a mismatch
                                         var merger = Dictionary<String, Any>()
                                         merger["age"] = PublicStaticMethodsAndData.calculateAge(millis: milliBirth)

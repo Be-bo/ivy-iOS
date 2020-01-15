@@ -331,10 +331,10 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.eventsCollectionView {
-            let cellSize = CGSize(width: 130, height: self.eventsCollectionView.frame.size.height)
+            let cellSize = CGSize(width: 150, height: self.eventsCollectionView.frame.size.height)
             return cellSize
         }else{
-            let cellSize = CGSize(width: 130, height: self.recommendedFriendCollecView.frame.size.height)
+            let cellSize = CGSize(width: 150, height: self.recommendedFriendCollecView.frame.size.height)
             checkForNewSFBatch() //also check if a new batch of suggested friends needs to be loaded atm
             return cellSize
         }
