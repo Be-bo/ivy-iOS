@@ -274,11 +274,11 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         navigationItem.titleView = titleImgView
         
         //u of c logo in the top left gotta be a button just dont add target
-//        let uOfCImgView = UIButton(type: .custom)
-//        uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
-//        uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
-//
-//        
+        let uOfCImgView = UIButton(type: .custom)
+        uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 30, height: 35)
+        uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
+
+
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
         settingsButton.setImage(UIImage(named:"settings"), for: .normal)
@@ -290,14 +290,14 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         currHeight?.isActive = true
         
-//        let uOfCButtonItem = UIBarButtonItem(customView: settingsButton)
-//        let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-//        curruOfCWidth?.isActive = true
-//        let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-//        curruOfCHeight?.isActive = true
-//
+        let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
+        let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+        curruOfCWidth?.isActive = true
+        let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        curruOfCHeight?.isActive = true
+
         
-//        self.navigationItem.leftBarButtonItem = uOfCButtonItem
+        self.navigationItem.leftBarButtonItem = uOfCButtonItem
         self.navigationItem.rightBarButtonItem = settingsButtonItem
     }
     

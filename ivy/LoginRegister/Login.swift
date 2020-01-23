@@ -28,6 +28,7 @@ class Login: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordField: StandardTextField!
     @IBOutlet weak var signupLabel: UILabel!
     @IBOutlet weak var errorLabel: ErrorLabel!
+    @IBOutlet weak var forgotPassLabel: MediumGreenLabel!
     @IBOutlet weak var middleContainer: StandardButton!
     @IBOutlet weak var bottomContainer: UIView!
     @IBOutlet weak var ivyLogo: UIImageView!
@@ -74,9 +75,13 @@ class Login: UIViewController, UITextFieldDelegate {
         passwordField.delegate = self
         emailField.tag = 0 //and give the text fields an order via tags
         passwordField.tag = 1
-        let tap = UITapGestureRecognizer(target: self, action: #selector(Login.startRegistration)) //make a tap event handler that starts registration and attach it to the sign up label
+        let tapSignUp = UITapGestureRecognizer(target: self, action: #selector(Login.startRegistration)) //make a tap event handler that starts registration and attach it to the sign up label
         signupLabel.isUserInteractionEnabled = true
-        signupLabel.addGestureRecognizer(tap)
+        signupLabel.addGestureRecognizer(tapSignUp)
+        
+        let tapForgotPass = UITapGestureRecognizer(target: self, action: #selector(Login.sendRecoveryEmail))
+        forgotPassLabel.isUserInteractionEnabled = true
+        forgotPassLabel.addGestureRecognizer(tapForgotPass)
         self.navigationController?.setNavigationBarHidden(true, animated: false) //hide navigation bar for this view controller
     }
     
@@ -125,6 +130,7 @@ class Login: UIViewController, UITextFieldDelegate {
             }
             else if(password!.count < 6) {
                 errorLabel.text = "Your password is not long enough. Are you sure you entered it correctly?"
+                forgotPassLabel.text = "Forgot password?"
                 retVal = false
             }
         }else{
@@ -261,6 +267,10 @@ class Login: UIViewController, UITextFieldDelegate {
     
     @objc func startRegistration(sender: UITapGestureRecognizer){ //move to the first registration view controller
         self.performSegue(withIdentifier: "loginToReg1Segue" , sender: self)
+    }
+    
+    @objc func sendRecoveryEmail(sender: UITapGestureRecognizer){
+        
     }
     
     func saveLocalData(){ //save this user's university domain locally

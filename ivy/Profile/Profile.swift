@@ -43,26 +43,59 @@ class Profile: UIViewController {
 //        setUp(user: self.thisUserProfile)
 //    }
 
+//    private func setUpNavigationBar(){
+//        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
+//        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+//        titleImgView.contentMode = .scaleAspectFit
+//        navigationItem.titleView = titleImgView
+//
+//        let settingsButton = UIButton(type: .custom)
+//        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
+//        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
+//        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
+//
+//        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
+//        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+//        currWidth?.isActive = true
+//        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+//        currHeight?.isActive = true
+//
+//        self.navigationItem.rightBarButtonItem = settingsButtonItem
+//    }
+
     private func setUpNavigationBar(){
-        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
-        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        titleImgView.contentMode = .scaleAspectFit
-        navigationItem.titleView = titleImgView
+           let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
+           titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+           titleImgView.contentMode = .scaleAspectFit
+           navigationItem.titleView = titleImgView
+           
+           //u of c logo in the top left gotta be a button just dont add target
+           let uOfCImgView = UIButton(type: .custom)
+           uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 30, height: 35)
+           uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
 
-        let settingsButton = UIButton(type: .custom)
-        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
-        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
-        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
 
-        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
-        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-        currWidth?.isActive = true
-        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-        currHeight?.isActive = true
+           let settingsButton = UIButton(type: .custom)
+           settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
+           settingsButton.setImage(UIImage(named:"settings"), for: .normal)
+           settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
+           
+           let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
+           let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+           currWidth?.isActive = true
+           let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+           currHeight?.isActive = true
+           
+           let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
+           let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+           curruOfCWidth?.isActive = true
+           let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+           curruOfCHeight?.isActive = true
 
-        self.navigationItem.rightBarButtonItem = settingsButtonItem
-    }
-
+           
+           self.navigationItem.leftBarButtonItem = uOfCButtonItem
+           self.navigationItem.rightBarButtonItem = settingsButtonItem
+       }
     @objc func settingsClicked() {
         self.performSegue(withIdentifier: "profileToSettings" , sender: self) //pass data over to
     }
