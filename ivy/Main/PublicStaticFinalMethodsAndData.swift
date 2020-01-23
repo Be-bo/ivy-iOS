@@ -20,6 +20,9 @@ class PublicStaticMethodsAndData{
         context.present(alert, animated: true)
     }
     
+    
+    
+    
     static func calculateAge(millis: Int64) -> Int64 {
         let currentMillis = Int64(Date().millisecondsSince1970)
         let difference = Int64(currentMillis - millis)
