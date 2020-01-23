@@ -275,12 +275,12 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         
         //u of c logo in the top left gotta be a button just dont add target
         let uOfCImgView = UIButton(type: .custom)
-        uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 30, height: 35)
+        uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
         uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
 
 
         let settingsButton = UIButton(type: .custom)
-        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
+        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
         settingsButton.setImage(UIImage(named:"settings"), for: .normal)
         settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
         
@@ -291,7 +291,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         currHeight?.isActive = true
         
         let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
-        let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+        let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
         curruOfCWidth?.isActive = true
         let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         curruOfCHeight?.isActive = true
