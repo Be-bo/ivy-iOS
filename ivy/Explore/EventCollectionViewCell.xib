@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,17 +12,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="EventCollectionViewCell" customModule="ivy_iOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="130" height="150"/>
+            <rect key="frame" x="0.0" y="0.0" width="130" height="140"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="130" height="150"/>
+                <rect key="frame" x="0.0" y="0.0" width="130" height="140"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dVL-cH-Vtw">
-                        <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
+                        <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="130" id="Ydd-Zd-RWS"/>
-                            <constraint firstAttribute="width" constant="130" id="lpn-iQ-WjS"/>
+                            <constraint firstAttribute="height" constant="120" id="Ydd-Zd-RWS"/>
+                            <constraint firstAttribute="width" constant="120" id="lpn-iQ-WjS"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -31,7 +31,7 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cJ-7z-Dhf" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="135" width="130" height="0.0"/>
+                        <rect key="frame" x="0.0" y="125" width="130" height="0.0"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="130" id="Rto-bN-6Ju"/>
                         </constraints>
@@ -40,7 +40,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="7iM-j4-TQx" customClass="LoadingWheel" customModule="ivy_iOS" customModuleProvider="target">
-                        <rect key="frame" x="55" y="55" width="20" height="20"/>
+                        <rect key="frame" x="50" y="50" width="20" height="20"/>
                         <color key="tintColor" name="ivyGreen"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="DQT-ZJ-MXu"/>
@@ -52,9 +52,9 @@
             <constraints>
                 <constraint firstItem="9cJ-7z-Dhf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Bl4-RZ-lT5"/>
                 <constraint firstItem="dVL-cH-Vtw" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="PCh-aU-Qo8"/>
-                <constraint firstItem="7iM-j4-TQx" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="55" id="bMk-sl-rPU"/>
+                <constraint firstItem="7iM-j4-TQx" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="bMk-sl-rPU"/>
                 <constraint firstItem="9cJ-7z-Dhf" firstAttribute="top" secondItem="dVL-cH-Vtw" secondAttribute="bottom" constant="5" id="bTC-py-Sdb"/>
-                <constraint firstItem="7iM-j4-TQx" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="55" id="lgf-pz-Gvp"/>
+                <constraint firstItem="7iM-j4-TQx" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="50" id="lgf-pz-Gvp"/>
                 <constraint firstItem="dVL-cH-Vtw" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ok8-2F-a7Z"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>

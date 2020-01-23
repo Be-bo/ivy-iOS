@@ -672,6 +672,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Your Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WBe-8c-U5n" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
+                                <rect key="frame" x="51" y="823" width="312" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="jxN-rQ-ixv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m0d-be-zeF">
                                 <rect key="frame" x="8" y="823" width="35" height="35"/>
                                 <constraints>
@@ -706,7 +714,7 @@
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BLQ-M3-ele">
-                                <rect key="frame" x="51" y="784" width="343" height="35"/>
+                                <rect key="frame" x="51" y="780" width="343" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="g9S-iC-isw"/>
                                 </constraints>
@@ -734,47 +742,24 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3mC-1B-ykx">
-                                <rect key="frame" x="47" y="823" width="320" height="35"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <integer key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                        <color key="value" name="ivyLightGrey"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="textContainer.maximumNumberOfLines">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Pag-xo-v3d" firstAttribute="leading" secondItem="WBe-8c-U5n" secondAttribute="trailing" constant="8" id="5Nd-Gn-Kis"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="Pag-xo-v3d" secondAttribute="trailing" constant="8" id="6Hp-7i-Q4Q"/>
-                            <constraint firstItem="3mC-1B-ykx" firstAttribute="top" secondItem="BLQ-M3-ele" secondAttribute="bottom" constant="4" id="ARi-Ee-oyv"/>
                             <constraint firstItem="4lm-u2-AbF" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" id="BFG-V7-OnY"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="trailing" secondItem="BLQ-M3-ele" secondAttribute="trailing" constant="20" id="IOe-gl-c7H"/>
                             <constraint firstItem="4lm-u2-AbF" firstAttribute="trailing" secondItem="9Ye-Eq-YQq" secondAttribute="trailing" id="Iri-un-qm4"/>
                             <constraint firstItem="m0d-be-zeF" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" constant="8" id="MFn-so-cvZ"/>
+                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="WBe-8c-U5n" secondAttribute="bottom" constant="4" id="PWw-1L-qwn"/>
                             <constraint firstItem="BLQ-M3-ele" firstAttribute="leading" secondItem="Kfw-Xs-4JK" secondAttribute="trailing" constant="8" id="QEe-x8-TWG"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="Pag-xo-v3d" secondAttribute="bottom" constant="4" id="XAW-sj-4sJ"/>
-                            <constraint firstItem="3mC-1B-ykx" firstAttribute="leading" secondItem="m0d-be-zeF" secondAttribute="trailing" constant="4" id="XkE-aC-8c5"/>
                             <constraint firstItem="m0d-be-zeF" firstAttribute="top" secondItem="Kfw-Xs-4JK" secondAttribute="bottom" constant="16" id="Zts-Io-Y5n"/>
-                            <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="3mC-1B-ykx" secondAttribute="bottom" constant="4" id="bjU-Q0-vy0"/>
                             <constraint firstItem="Kfw-Xs-4JK" firstAttribute="top" secondItem="4lm-u2-AbF" secondAttribute="bottom" constant="8" id="fVA-ML-zO0"/>
                             <constraint firstItem="Kfw-Xs-4JK" firstAttribute="leading" secondItem="9Ye-Eq-YQq" secondAttribute="leading" constant="8" id="iFh-jz-gYJ"/>
-                            <constraint firstItem="Pag-xo-v3d" firstAttribute="leading" secondItem="3mC-1B-ykx" secondAttribute="trailing" constant="4" id="lUO-3D-j88"/>
+                            <constraint firstItem="WBe-8c-U5n" firstAttribute="leading" secondItem="m0d-be-zeF" secondAttribute="trailing" constant="8" id="mGT-FR-j8w"/>
+                            <constraint firstItem="WBe-8c-U5n" firstAttribute="top" secondItem="BLQ-M3-ele" secondAttribute="bottom" constant="8" id="nC7-f1-n5R"/>
                             <constraint firstItem="4lm-u2-AbF" firstAttribute="top" secondItem="9Ye-Eq-YQq" secondAttribute="top" id="oQh-Wp-aSR"/>
-                            <constraint firstItem="3mC-1B-ykx" firstAttribute="centerY" secondItem="m0d-be-zeF" secondAttribute="centerY" id="qN5-Qd-boh"/>
                             <constraint firstItem="9Ye-Eq-YQq" firstAttribute="bottom" secondItem="m0d-be-zeF" secondAttribute="bottom" constant="4" id="qOd-ai-r8B"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9Ye-Eq-YQq"/>
@@ -785,6 +770,8 @@
                         <outlet property="fileNameHeight" destination="g9S-iC-isw" id="2QR-77-DNp"/>
                         <outlet property="fileNameLabel" destination="BLQ-M3-ele" id="b0I-Ab-g8I"/>
                         <outlet property="messageCollectionView" destination="4lm-u2-AbF" id="PJb-aR-JIx"/>
+                        <outlet property="messageTextField" destination="WBe-8c-U5n" id="Wg0-ee-Xfb"/>
+                        <outlet property="msgFieldHeightConstraint" destination="PWw-1L-qwn" id="RjI-KT-2bl"/>
                         <outlet property="sendBtnHeightConstraint" destination="XAW-sj-4sJ" id="tDM-Vn-a2T"/>
                         <outlet property="xButton" destination="Kfw-Xs-4JK" id="Bh5-oj-Ns4"/>
                         <outlet property="xButtonHeight" destination="4bY-CM-D1b" id="PrF-R2-5NF"/>
@@ -796,7 +783,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UVg-8N-41g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4482.608695652174" y="-1777.2321428571429"/>
+            <point key="canvasLocation" x="4483" y="-1777"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="xXe-oX-8cL">
@@ -3486,9 +3473,6 @@
         </namedColor>
         <namedColor name="ivyGrey">
             <color red="0.41200000047683716" green="0.41200000047683716" blue="0.41200000047683716" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="ivyLightGrey">
-            <color red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ivyNotification">
             <color red="0.99599999189376831" green="0.23499999940395355" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
