@@ -38,26 +38,6 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        navigationController?.setNavigationBarHidden(false, animated: animated)
-//    }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -79,7 +59,7 @@ class Login: UIViewController, UITextFieldDelegate {
         signupLabel.isUserInteractionEnabled = true
         signupLabel.addGestureRecognizer(tapSignUp)
         
-        let tapForgotPass = UITapGestureRecognizer(target: self, action: #selector(Login.sendRecoveryEmail))
+        let tapForgotPass = UITapGestureRecognizer(target: self, action: #selector(Login.promptRecoveryEmail))
         forgotPassLabel.isUserInteractionEnabled = true
         forgotPassLabel.addGestureRecognizer(tapForgotPass)
         self.navigationController?.setNavigationBarHidden(true, animated: false) //hide navigation bar for this view controller
@@ -203,14 +183,6 @@ class Login: UIViewController, UITextFieldDelegate {
                         }
                         self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
                         self.checkForNewerVersion()
-//                    }else{
-//                        self.errorLabel.attributedText = self.createResendEmailErrorText()
-//                        let tap = UITapGestureRecognizer(target: self, action: #selector(Login.resendEmailValidation)) //make a tap event handler that starts registration and attach it to the sign up label
-//                        self.errorLabel.isUserInteractionEnabled = true
-//                        self.errorLabel.addGestureRecognizer(tap)
-//                        self.allowInteraction()
-//                    }
-                    
                 }else{
                     self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label
                     self.allowInteraction()
@@ -269,8 +241,44 @@ class Login: UIViewController, UITextFieldDelegate {
         self.performSegue(withIdentifier: "loginToReg1Segue" , sender: self)
     }
     
-    @objc func sendRecoveryEmail(sender: UITapGestureRecognizer){
+    @objc func promptRecoveryEmail(sender: UITapGestureRecognizer){
         
+//        self.showTextInputDialog(title: "Add number",
+//                        subtitle: "Please enter the new number below.",
+//                        actionTitle: "Send",
+//                        cancelTitle: "Cancel",
+//                        inputPlaceholder: "New number",
+//            inputKeyboardType: .default)
+//        { (input:String?) in
+//            print("The new number is \(input ?? "")")
+//        }
+//
+//        self.alertWithTextField(title: "bork", message: "borkborkbork", placeholder: "bork?") { result in
+//            print(result)
+//        }
+        
+        let alert = UIAlertController(title: "titleText", message: "infoText", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+        
+    }
+    
+    @objc func alertWithTextField(title: String? = nil, message: String? = nil, placeholder: String? = nil, completion: @escaping ((String) -> Void) = { _ in }) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addTextField() { newTextField in
+            newTextField.placeholder = placeholder
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completion("") })
+        alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
+            if
+                let textFields = alert.textFields,
+                let tf = textFields.first,
+                let result = tf.text
+            { completion(result) }
+            else
+            { completion("") }
+        })
+        self.present(alert, animated: true)
     }
     
     func saveLocalData(){ //save this user's university domain locally
@@ -320,3 +328,33 @@ class Login: UIViewController, UITextFieldDelegate {
     }
 }
 
+
+extension UIViewController {
+    func showTextInputDialog(title:String? = nil,
+                         subtitle:String? = nil,
+                         actionTitle:String? = "Send",
+                         cancelTitle:String? = "Cancel",
+                         inputPlaceholder:String? = nil,
+                         inputKeyboardType:UIKeyboardType = UIKeyboardType.default,
+                         cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
+                         actionHandler: ((_ text: String?) -> Void)? = nil) {
+
+        let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
+        alert.addTextField { (textField:UITextField) in
+            textField.placeholder = inputPlaceholder
+            textField.keyboardType = inputKeyboardType
+        }
+        alert.addAction(UIAlertAction(title: cancelTitle, style: .destructive, handler: cancelHandler))
+
+        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { (action:UIAlertAction) in
+            guard let textField =  alert.textFields?.first else {
+                actionHandler?(nil)
+                return
+            }
+            actionHandler?(textField.text)
+        }))
+
+        self.present(alert, animated: true, completion: nil)
+
+    }
+}
