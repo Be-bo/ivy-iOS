@@ -242,44 +242,40 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     @objc func promptRecoveryEmail(sender: UITapGestureRecognizer){
-        
-//        self.showTextInputDialog(title: "Add number",
-//                        subtitle: "Please enter the new number below.",
-//                        actionTitle: "Send",
-//                        cancelTitle: "Cancel",
-//                        inputPlaceholder: "New number",
-//            inputKeyboardType: .default)
-//        { (input:String?) in
-//            print("The new number is \(input ?? "")")
-//        }
-//
-//        self.alertWithTextField(title: "bork", message: "borkborkbork", placeholder: "bork?") { result in
-//            print(result)
-//        }
-        
-        let alert = UIAlertController(title: "titleText", message: "infoText", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alert, animated: true)
-        
+
+        var nameField: UITextField?
+        let alertController = UIAlertController(title: "Add Number", message: nil, preferredStyle: .alert)
+        // Add textfield to alert view
+        alertController.addTextField { (textField) in
+            nameField = textField
+        }
+
+        self.present(alertController, animated: true)
+
     }
     
-    @objc func alertWithTextField(title: String? = nil, message: String? = nil, placeholder: String? = nil, completion: @escaping ((String) -> Void) = { _ in }) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addTextField() { newTextField in
-            newTextField.placeholder = placeholder
-        }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completion("") })
-        alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
-            if
-                let textFields = alert.textFields,
-                let tf = textFields.first,
-                let result = tf.text
-            { completion(result) }
-            else
-            { completion("") }
-        })
-        self.present(alert, animated: true)
-    }
+//    @IBAction func addButtonClicked(sender : AnyObject){
+//        let alertController = UIAlertController(title: "Add New Name", message: "", preferredStyle: UIAlertController.Style.alert)
+//        alertController.addTextField { (textField : UITextField!) -> Void in
+//            textField.placeholder = "Enter Second Name"
+//        }
+//        let saveAction = UIAlertAction(title: "Save", style: UIAlertAction.Style.default, handler: { alert -> Void in
+//            let firstTextField = alertController.textFields![0] as UITextField
+//            let secondTextField = alertController.textFields![1] as UITextField
+//        })
+//        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {
+//            (action : UIAlertAction!) -> Void in })
+//        alertController.addTextField { (textField : UITextField!) -> Void in
+//            textField.placeholder = "Enter First Name"
+//        }
+//
+//        alertController.addAction(saveAction)
+//        alertController.addAction(cancelAction)
+//
+//        self.present(alertController, animated: true, completion: nil)
+//    }
+//
+//
     
     func saveLocalData(){ //save this user's university domain locally
         let defaults = UserDefaults.standard
