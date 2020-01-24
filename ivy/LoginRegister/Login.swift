@@ -28,7 +28,7 @@ class Login: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordField: StandardTextField!
     @IBOutlet weak var signupLabel: UILabel!
     @IBOutlet weak var errorLabel: ErrorLabel!
-    @IBOutlet weak var forgotPassLabel: MediumGreenLabel!
+//    @IBOutlet weak var forgotPassLabel: MediumGreenLabel!
     @IBOutlet weak var middleContainer: StandardButton!
     @IBOutlet weak var bottomContainer: UIView!
     @IBOutlet weak var ivyLogo: UIImageView!
@@ -38,9 +38,12 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     
-    
-    
-    
+    //fix the error of when going to sign up and coming back the top bar held over
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController!.navigationBar.isHidden = true
+
+    }
+
     // MARK: Override and Base Functions
     
     override func viewDidLoad() {
@@ -59,9 +62,10 @@ class Login: UIViewController, UITextFieldDelegate {
         signupLabel.isUserInteractionEnabled = true
         signupLabel.addGestureRecognizer(tapSignUp)
         
-        let tapForgotPass = UITapGestureRecognizer(target: self, action: #selector(Login.promptRecoveryEmail))
-        forgotPassLabel.isUserInteractionEnabled = true
-        forgotPassLabel.addGestureRecognizer(tapForgotPass)
+        //TODO: forgot password stuff
+//        let tapForgotPass = UITapGestureRecognizer(target: self, action: #selector(Login.promptRecoveryEmail))
+//        forgotPassLabel.isUserInteractionEnabled = true
+//        forgotPassLabel.addGestureRecognizer(tapForgotPass)
         self.navigationController?.setNavigationBarHidden(true, animated: false) //hide navigation bar for this view controller
     }
     
@@ -110,7 +114,6 @@ class Login: UIViewController, UITextFieldDelegate {
             }
             else if(password!.count < 6) {
                 errorLabel.text = "Your password is not long enough. Are you sure you entered it correctly?"
-                forgotPassLabel.text = "Forgot password?"
                 retVal = false
             }
         }else{
@@ -241,18 +244,18 @@ class Login: UIViewController, UITextFieldDelegate {
         self.performSegue(withIdentifier: "loginToReg1Segue" , sender: self)
     }
     
-    @objc func promptRecoveryEmail(sender: UITapGestureRecognizer){
-
-        var nameField: UITextField?
-        let alertController = UIAlertController(title: "Add Number", message: nil, preferredStyle: .alert)
-        // Add textfield to alert view
-        alertController.addTextField { (textField) in
-            nameField = textField
-        }
-
-        self.present(alertController, animated: true)
-
-    }
+//    @objc func promptRecoveryEmail(sender: UITapGestureRecognizer){
+//
+//        var nameField: UITextField?
+//        let alertController = UIAlertController(title: "Add Number", message: nil, preferredStyle: .alert)
+//        // Add textfield to alert view
+//        alertController.addTextField { (textField) in
+//            nameField = textField
+//        }
+//
+//        self.present(alertController, animated: true)
+//
+//    }
     
 //    @IBAction func addButtonClicked(sender : AnyObject){
 //        let alertController = UIAlertController(title: "Add New Name", message: "", preferredStyle: UIAlertController.Style.alert)

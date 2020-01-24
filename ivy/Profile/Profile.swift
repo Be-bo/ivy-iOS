@@ -85,6 +85,10 @@ class Profile: UIViewController {
            currWidth?.isActive = true
            let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
            currHeight?.isActive = true
+        
+           uOfCImgView.adjustsImageWhenHighlighted = false //keep color when button is diabled
+           uOfCImgView.isEnabled = false //make u of c button unclickable
+
            
            let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
            let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)

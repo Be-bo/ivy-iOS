@@ -3136,12 +3136,11 @@
         <!--Navigation Controller-->
         <scene sceneID="Q2L-pb-QJK">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Pyi-Q3-SUE" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" navigationBarHidden="YES" id="Pyi-Q3-SUE" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="p5W-kb-YLi"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="aJD-1W-m1s">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -3190,12 +3189,6 @@
                                             <action selector="loginClicked:" destination="KKY-MS-y0m" eventType="touchUpInside" id="5KE-yT-7Hm"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLY-mI-yJ8" userLabel="Forgot Label" customClass="MediumGreenLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="224" width="354" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -3208,12 +3201,9 @@
                                     <constraint firstItem="yTP-4Y-hh1" firstAttribute="top" secondItem="bMu-92-28F" secondAttribute="top" constant="20" id="9Z0-8s-s7m"/>
                                     <constraint firstItem="Ezn-zm-AsL" firstAttribute="leading" secondItem="bMu-92-28F" secondAttribute="leading" id="B7q-dS-2cy"/>
                                     <constraint firstItem="BDg-OG-FWr" firstAttribute="top" secondItem="Ezn-zm-AsL" secondAttribute="bottom" constant="8" id="CKe-PU-ASg"/>
-                                    <constraint firstItem="cLY-mI-yJ8" firstAttribute="top" secondItem="BDg-OG-FWr" secondAttribute="bottom" constant="8" id="NX3-t4-EcC"/>
-                                    <constraint firstItem="cLY-mI-yJ8" firstAttribute="leading" secondItem="bMu-92-28F" secondAttribute="leading" id="RZS-AQ-X74"/>
                                     <constraint firstAttribute="trailing" secondItem="Ezn-zm-AsL" secondAttribute="trailing" id="Ty8-yo-0Rn"/>
                                     <constraint firstItem="yTP-4Y-hh1" firstAttribute="centerX" secondItem="bMu-92-28F" secondAttribute="centerX" id="bIy-2L-nel"/>
                                     <constraint firstAttribute="trailing" secondItem="yTP-4Y-hh1" secondAttribute="trailing" id="kLa-8d-tay"/>
-                                    <constraint firstAttribute="trailing" secondItem="cLY-mI-yJ8" secondAttribute="trailing" id="mIE-7a-IPO"/>
                                     <constraint firstItem="Ezn-zm-AsL" firstAttribute="centerX" secondItem="bMu-92-28F" secondAttribute="centerX" id="sZd-h3-5gY"/>
                                 </constraints>
                             </view>
@@ -3336,12 +3326,10 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="D0h-Mu-hG6"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="bottomContainer" destination="igZ-uK-KIQ" id="YKO-tv-84h"/>
                         <outlet property="emailField" destination="yTP-4Y-hh1" id="Bo8-LX-y2r"/>
                         <outlet property="errorLabel" destination="5fJ-fZ-l6L" id="qbC-3e-QcH"/>
-                        <outlet property="forgotPassLabel" destination="cLY-mI-yJ8" id="aaK-Vr-BQs"/>
                         <outlet property="ivyLogo" destination="0d1-b6-AhD" id="hVv-fi-oJ3"/>
                         <outlet property="middleContainer" destination="BDg-OG-FWr" id="vwn-2l-XlM"/>
                         <outlet property="passwordField" destination="Ezn-zm-AsL" id="LwM-8P-RHS"/>

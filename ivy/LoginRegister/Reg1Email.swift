@@ -36,7 +36,11 @@ class Reg1Email: UIViewController, UITextFieldDelegate {
     }
     
     
-    
+    //to reappear the top bar 
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController!.navigationBar.isHidden = false
+
+    }
     
     
     
