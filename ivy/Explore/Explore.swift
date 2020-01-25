@@ -54,7 +54,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     @IBOutlet weak var recommendedFriendCollecView: UICollectionView!
     @IBOutlet weak var searchCancelButton: UIButton!
     @IBOutlet weak var searchBar: UITextField!
-    @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     let eventCollectionIdentifier = "EventCollectionViewCell"
@@ -173,21 +173,22 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             vc.userProfile = self.thisUserProfile
             //        self.baseDatabaseReference.collection("universities").document(self.eventClicked["uni_domain"] as! String).collection("events").document(self.eventClicked["id"] as! String).updateData(["views": FieldValue.arrayUnion([Date().millisecondsSince1970])]) //log a view for the event
         }
-        if segue.identifier == "viewFullProfileSegue" {
+        else if segue.identifier == "viewFullProfileSegue" {
             let vc = segue.destination as! ViewFullProfileActivity
             vc.isFriend = true
             vc.thisUserProfile = self.thisUserProfile
             vc.otherUserID = self.suggestedProfileClicked["id"] as? String
         }
-        if segue.identifier == "exploreToSettings" {
+        else if segue.identifier == "exploreToSettings" {
             let vc = segue.destination as! Settings
             vc.thisUserProfile = self.thisUserProfile
         }
-        if segue.identifier == "exploreToOrganizationSegue" {
+        else if segue.identifier == "exploreToOrganizationSegue" {
             let vc = segue.destination as! organizationPage
             vc.userProfile = self.thisUserProfile
             vc.organizationId = (self.organizationClicked["id"] as? String)!
         }
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     func callSegueFromCell(searchResult: Dictionary<String, Any>) { //calling segues through the SearchCellDelegator (i.e. segues triggered from SearchCell.swift = items of SearchLauncher's collection view)
@@ -219,6 +220,11 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         self.performSegue(withIdentifier: "exploreToEventPageSegue" , sender: self) //pass data over to
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    
 //    override func viewDidDisappear(_ animated: Bool) {
 //        print("EXPLORE DISAPPEARED")
 //        if userListsRegistration != nil{
@@ -243,11 +249,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             self.setFeaturedEvent()
             self.loadEvents()
         }
-    }
-    
-    private func adjustScrollViewHeight(){
-        let bottomMostPoint = self.recommendedFriendCollecView.frame.origin.y + self.recommendedFriendCollecView.frame.height
-        self.scrollViewContentHeight.constant = bottomMostPoint + 32
     }
     
     private func setUp(){ //initial setup method when the ViewController's first created
@@ -457,6 +458,10 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                                                 let singleTap = UITapGestureRecognizer(target: self, action: #selector(self.onClickFeatured))
                                                 self.featuredEventImage.isUserInteractionEnabled = true
                                                 self.featuredEventImage.addGestureRecognizer(singleTap)
+                                                
+                                                self.featuredHeightConstraint.constant = self.view.frame.width - 32
+                                                
+                                                self.scrollView.contentSize.height += (self.view.frame.width - 32 - 288)
                                             }
                                         }
                                     }
@@ -489,7 +494,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                 } else {
                     for document in querySnapshot!.documents {
                         if (!document.data().isEmpty){
-                            var event = document.data()
+                            let event = document.data()
                             let isFeatured = event["is_featured"] as! Bool
                             let isActive = event["is_active"] as! Bool
                             let endTime = event["end_time"] as! Int64
@@ -581,7 +586,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                                         break
                                     }
                                     
-                                    if var theirInterests = docData["interests"] as? [String], var myInterests = self.thisUserProfile["interests"] as? [String]{ //get this user's interests and the other person interests
+                                    if let theirInterests = docData["interests"] as? [String], var myInterests = self.thisUserProfile["interests"] as? [String]{ //get this user's interests and the other person interests
                                         for j in 0..<myInterests.count{ //lower case this user's interests
                                             myInterests[j] = myInterests[j].lowercased()
                                         }
@@ -599,7 +604,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         }
                         if(i >= querSnapDocs.count - 1){
                             self.lastRetrievedProfile = document
-                            self.adjustScrollViewHeight()
                         }
                     }
                     
