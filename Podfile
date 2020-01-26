@@ -15,5 +15,7 @@ target 'ivy-iOS' do
   pod 'MessageKit'
   pod 'CropViewController'
   pod 'InstantSearchClient', '~> 6.0'
+  pod 'TagListView', '~> 1.4.0'
+  pod 'Toast-Swift', '~> 5.0.0'
 
 end

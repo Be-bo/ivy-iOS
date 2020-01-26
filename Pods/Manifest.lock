@@ -310,6 +310,8 @@ PODS:
   - nanopb/encode (0.3.9011)
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.2)
+  - TagListView (1.4.0)
+  - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
   - CropViewController
@@ -321,9 +323,11 @@ DEPENDENCIES:
   - Firebase/Storage
   - InstantSearchClient (~> 6.0)
   - MessageKit
+  - TagListView (~> 1.4.0)
+  - Toast-Swift (~> 5.0.0)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/cocoapods/specs.git:
     - abseil
     - BoringSSL-GRPC
     - CropViewController
@@ -355,6 +359,8 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
+    - TagListView
+    - Toast-Swift
 
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
@@ -388,7 +394,9 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: dd1aaea7140debfe4dd0683fb8ef208e527ae153
+  TagListView: 987b0bdbb16cd9d9e7c0e2ec32aff37ecba8b173
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 5a86044ce9e1042196f8e29d320889830e511b08
+PODFILE CHECKSUM: 8fb35d5fed814ba345a9ed8ecfd46ec98ab78768
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.6.1
