@@ -431,7 +431,7 @@
                                 <rect key="frame" x="32" y="84" width="256" height="400"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Current Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RFQ-4Y-zPq" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="155" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="186" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="7yy-Uz-Q5Z"/>
                                         </constraints>
@@ -439,7 +439,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vVK-BN-0Qt" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="337" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="368" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="suP-6P-nLr"/>
                                         </constraints>
@@ -449,7 +449,7 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4no-PZ-zGW" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="271" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="302" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Nwn-nz-0ZZ"/>
                                         </constraints>
@@ -457,7 +457,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z2Y-3X-4ji" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="213" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="244" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="qYP-bL-rEt"/>
                                         </constraints>
@@ -465,7 +465,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="749" text="When coming up with a new password try to include a capital letter, a number and a special symbol." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBZ-fk-Mun" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="8" width="256" height="115"/>
+                                        <rect key="frame" x="0.0" y="8" width="256" height="146"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -524,13 +524,13 @@
                                 <rect key="frame" x="32" y="84" width="256" height="400"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BKs-bF-laI">
-                                        <rect key="frame" x="0.0" y="73.5" width="256" height="252.5"/>
+                                        <rect key="frame" x="0.0" y="74.5" width="256" height="251.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="22"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your thoughts and feedback in here!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxT-UR-axS" customClass="MediumLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="256" height="57.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="256" height="58.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
