@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -24,11 +24,19 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zbg-pu-SrM" userLabel="MessageLabel Container">
                         <rect key="frame" x="66" y="8" width="426" height="54"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7M1-PY-trc" userLabel="MessageLabel">
-                                <rect key="frame" x="8" y="8" width="410" height="29"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7M1-PY-trc" userLabel="MessageLabel" customClass="GreenChatLabel" customModule="ivy_iOS" customModuleProvider="target">
+                                <rect key="frame" x="377" y="8" width="41" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="adq-ks-7yH"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="file" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWw-Nv-LIH" userLabel="File Name">
                                 <rect key="frame" x="46" y="42" width="21" height="0.0"/>
@@ -36,7 +44,7 @@
                                     <constraint firstAttribute="height" id="co4-1V-L7T"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwL-1M-LQq" userLabel="Download Button">
@@ -76,14 +84,9 @@
                             <constraint firstItem="5xT-2J-0gV" firstAttribute="top" secondItem="dwL-1M-LQq" secondAttribute="bottom" constant="4" id="pZN-Vt-rga"/>
                             <constraint firstItem="5xT-2J-0gV" firstAttribute="top" secondItem="nwd-Dk-jZk" secondAttribute="bottom" constant="4" id="rag-a7-IjP"/>
                             <constraint firstAttribute="bottom" secondItem="5xT-2J-0gV" secondAttribute="bottom" constant="8" id="sf9-gd-JjX"/>
-                            <constraint firstItem="7M1-PY-trc" firstAttribute="leading" secondItem="Zbg-pu-SrM" secondAttribute="leading" constant="8" id="uMC-Xk-Its"/>
+                            <constraint firstItem="7M1-PY-trc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Zbg-pu-SrM" secondAttribute="leading" constant="8" id="uMC-Xk-Its"/>
                             <constraint firstAttribute="trailing" secondItem="5xT-2J-0gV" secondAttribute="trailing" constant="8" id="xCG-EV-3XN"/>
                         </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <integer key="value" value="15"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UCM-AR-dD8">
                         <rect key="frame" x="8" y="8" width="50" height="50"/>
@@ -102,8 +105,8 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Zbg-pu-SrM" secondAttribute="trailing" constant="8" id="EgX-6p-UDm"/>
                 <constraint firstItem="Zbg-pu-SrM" firstAttribute="leading" secondItem="UCM-AR-dD8" secondAttribute="trailing" constant="8" id="KHK-Le-awU"/>
-                <constraint firstItem="UCM-AR-dD8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="N0g-Lb-FMo"/>
                 <constraint firstItem="Zbg-pu-SrM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="Ogc-af-rxS"/>
+                <constraint firstItem="UCM-AR-dD8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="f5S-My-hOz"/>
                 <constraint firstAttribute="bottom" secondItem="Zbg-pu-SrM" secondAttribute="bottom" constant="8" id="wc2-lZ-Hed"/>
                 <constraint firstItem="UCM-AR-dD8" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="zhi-pu-Yhf"/>
             </constraints>
@@ -118,6 +121,7 @@
                 <outlet property="imageView" destination="UCM-AR-dD8" id="IkW-33-aUI"/>
                 <outlet property="messageContainer" destination="Zbg-pu-SrM" id="sjE-bQ-dls"/>
                 <outlet property="messageLabel" destination="7M1-PY-trc" id="aOc-uo-rKA"/>
+                <outlet property="messageLabelHeightConstraint" destination="adq-ks-7yH" id="58Z-dl-7cg"/>
                 <outlet property="photoImageHeight" destination="NG5-xC-h87" id="djd-Dh-GC3"/>
                 <outlet property="photoImageView" destination="5xT-2J-0gV" id="CYW-PS-kYP"/>
             </connections>

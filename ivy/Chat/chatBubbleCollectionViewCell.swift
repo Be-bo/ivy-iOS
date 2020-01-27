@@ -26,14 +26,13 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var downloadButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var photoImageHeight: NSLayoutConstraint!
+    @IBOutlet weak var messageLabelHeightConstraint: NSLayoutConstraint!
     
     
     @IBAction func downloadClicked(_ sender: Any) { //downloading file
         if messageClickedOn != nil{
             if var fileReference = messageClickedOn["file_reference"] as? String{
                 let storageRefPath = self.baseStorageReference.child(fileReference)
-                
-                
                 
                 //if the message has a file reference
                 if (fileReference != ""){
@@ -88,7 +87,6 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -96,15 +94,10 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-//        fileIcon = nil
-//        downloadButton = nil
-//        messageLabel.text = ""
     }
     
     func setUp(msg: Dictionary<String, Any>, rulingVC: ChatRoom){
         messageClickedOn = msg
         vc = rulingVC
     }
-
 }
