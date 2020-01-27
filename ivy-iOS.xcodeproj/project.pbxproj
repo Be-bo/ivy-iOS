@@ -11,6 +11,8 @@
 		A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */; };
 		A90D266622A4B215005E8965 /* cordiabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266422A4B214005E8965 /* cordiabold.ttf */; };
 		A90D266722A4B215005E8965 /* cordia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A90D266522A4B215005E8965 /* cordia.ttf */; };
+		A9114F3323DE06E5003535F4 /* AddEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9114F3223DE06E5003535F4 /* AddEvent.swift */; };
+		A9114F3623DE1F43003535F4 /* UIImage+Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9114F3523DE1F43003535F4 /* UIImage+Compression.swift */; };
 		A91D4B692331D2AD00D55286 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A91D4B682331D2AD00D55286 /* Assets.xcassets */; };
 		A920C4E522D281B60088DD58 /* CardBack.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E422D281B60088DD58 /* CardBack.xib */; };
 		A920C4E722D281C20088DD58 /* CardFront.xib in Resources */ = {isa = PBXBuildFile; fileRef = A920C4E622D281C20088DD58 /* CardFront.xib */; };
@@ -134,6 +136,8 @@
 		A90205E8231FCC8600EB6B2E /* editInterestsPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editInterestsPopUpViewController.swift; sourceTree = "<group>"; };
 		A90D266422A4B214005E8965 /* cordiabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordiabold.ttf; sourceTree = "<group>"; };
 		A90D266522A4B215005E8965 /* cordia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cordia.ttf; sourceTree = "<group>"; };
+		A9114F3223DE06E5003535F4 /* AddEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEvent.swift; sourceTree = "<group>"; };
+		A9114F3523DE1F43003535F4 /* UIImage+Compression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Compression.swift"; sourceTree = "<group>"; };
 		A91D4B682331D2AD00D55286 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A920C4E422D281B60088DD58 /* CardBack.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardBack.xib; sourceTree = "<group>"; };
 		A920C4E622D281C20088DD58 /* CardFront.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardFront.xib; sourceTree = "<group>"; };
@@ -275,6 +279,14 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		A9114F3423DE1F25003535F4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A9114F3523DE1F43003535F4 /* UIImage+Compression.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A9BB05DA22B5D2E2008B35AA /* UIElements */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +400,7 @@
 				FACA64F123202368007ABDB7 /* SearchCell.swift */,
 				FACA64F223202368007ABDB7 /* SearchCell.xib */,
 				FACA64F5232027E1007ABDB7 /* SearchLauncher.swift */,
+				A9114F3223DE06E5003535F4 /* AddEvent.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -453,6 +466,7 @@
 		FA60590822A4B12C00383F9F /* ivy */ = {
 			isa = PBXGroup;
 			children = (
+				A9114F3423DE1F25003535F4 /* Extensions */,
 				A91D4B682331D2AD00D55286 /* Assets.xcassets */,
 				A9D0131223288D310049353C /* ivy.entitlements */,
 				A9FD1984231ED3B300ECA848 /* Settings */,
@@ -617,9 +631,28 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/InputBarAccessoryView/InputBarAccessoryView.framework",
+				"${BUILT_PRODUCTS_DIR}/InstantSearchClient/InstantSearchClient.framework",
+				"${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/TagListView/TagListView.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/abseil/absl.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -682,6 +715,7 @@
 				A97A661722F7755A004A6BBE /* addParticipantPopUPViewController.swift in Sources */,
 				FACA64F6232027E1007ABDB7 /* SearchLauncher.swift in Sources */,
 				A90205E7231FBDF700EB6B2E /* editDegreePopUpViewController.swift in Sources */,
+				A9114F3623DE1F43003535F4 /* UIImage+Compression.swift in Sources */,
 				A9B57E8223137482008DC63B /* EventCollectionViewCell.swift in Sources */,
 				FA6F7C9822EE770000610046 /* SettingsButton.swift in Sources */,
 				FA1B412422F4AC6F005817C5 /* BoardNavigationViewController.swift in Sources */,
@@ -704,6 +738,7 @@
 				FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */,
 				FA13E59322F9D04000F8FFA1 /* CardInterestCell.swift in Sources */,
 				FA121C1E22EE420300C175F7 /* Chat.swift in Sources */,
+				A9114F3323DE06E5003535F4 /* AddEvent.swift in Sources */,
 				A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */,
 				A9990C7422C986AA00E95B2C /* Reg2Password.swift in Sources */,
 				FA6D733F22DA8172009020B5 /* StandardGreenLabel.swift in Sources */,

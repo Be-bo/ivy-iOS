@@ -169,9 +169,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         if segue.identifier == "exploreToEventPageSegue" {
             let vc = segue.destination as! Event
             vc.event = self.eventClicked
-            //        vc.eventID = self.eventClicked["id"] as! String
             vc.userProfile = self.thisUserProfile
-            //        self.baseDatabaseReference.collection("universities").document(self.eventClicked["uni_domain"] as! String).collection("events").document(self.eventClicked["id"] as! String).updateData(["views": FieldValue.arrayUnion([Date().millisecondsSince1970])]) //log a view for the event
         }
         else if segue.identifier == "viewFullProfileSegue" {
             let vc = segue.destination as! ViewFullProfileActivity
@@ -187,6 +185,10 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             let vc = segue.destination as! organizationPage
             vc.userProfile = self.thisUserProfile
             vc.organizationId = (self.organizationClicked["id"] as? String)!
+        }
+        else if segue.identifier == "exploreToAddEventSegue" {
+            let vc = segue.destination as! AddEvent
+            vc.userProfile = self.thisUserProfile
         }
         self.tabBarController?.tabBar.isHidden = true
     }
@@ -309,6 +311,12 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     @objc func settingsClicked() {
         self.performSegue(withIdentifier: "exploreToSettings" , sender: self) //pass data over to
     }
+    
+    
+    @IBAction func onClickAddEvent(_ sender: Any) {
+        self.performSegue(withIdentifier: "exploreToAddEventSegue" , sender: self)
+    }
+    
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         self.thisUserProfile = updatedProfile
