@@ -1,16 +1,16 @@
 //
-//  chatBubbleCollectionViewCell.swift
-//  ivy
+//  chatBubbleCollectionViewCellLeftCollectionViewCell.swift
+//  ivy-iOS
 //
-//  Created by paul dan on 2019-09-05.
-//  Copyright © 2019 ivy social network. All rights reserved.
+//  Created by Robert on 2020-01-26.
+//  Copyright © 2020 ivy social network. All rights reserved.
 //
 
 import UIKit
 import Firebase
 
-class chatBubbleCollectionViewCell: UICollectionViewCell {
-
+class chatBubbleCollectionViewCellLeft: UICollectionViewCell {
+    
     var messageClickedOn = Dictionary<String, Any>()
     let baseStorageReference = Storage.storage().reference()
     var vc = ChatRoom()
@@ -100,4 +100,5 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
         messageClickedOn = msg
         vc = rulingVC
     }
+
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Pyi-Q3-SUE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Pyi-Q3-SUE">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1404,18 +1404,18 @@
                                                     <action selector="searchTextChanged:" destination="WvK-cN-8BU" eventType="editingChanged" id="j4G-dO-3Hk"/>
                                                 </connections>
                                             </textField>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1o-0b-MWO">
-                                                <rect key="frame" x="0.0" y="72" width="288" height="26"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1o-0b-MWO" customClass="ExploreLabel" customModule="ivy_iOS" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="72" width="288" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="2Xq-iB-clE"/>
-                                                    <constraint firstAttribute="height" constant="26" id="ein-HL-yao"/>
+                                                    <constraint firstAttribute="height" constant="30" id="ein-HL-yao"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tBb-V1-6rw">
-                                                <rect key="frame" x="0.0" y="106" width="288" height="288"/>
+                                                <rect key="frame" x="0.0" y="110" width="288" height="288"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="9dg-TH-irb"/>
                                                     <constraint firstAttribute="height" constant="288" id="s4q-1j-H74"/>
@@ -1426,10 +1426,10 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPR-xc-zPh">
-                                                <rect key="frame" x="0.0" y="418" width="86" height="26"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPR-xc-zPh" customClass="ExploreLabel" customModule="ivy_iOS" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="422" width="86" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="26" id="NM5-Rp-KsF"/>
+                                                    <constraint firstAttribute="height" constant="30" id="NM5-Rp-KsF"/>
                                                     <constraint firstAttribute="width" constant="86" id="RjE-pW-J1J"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
@@ -1437,7 +1437,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7So-AE-U5c">
-                                                <rect key="frame" x="0.0" y="452" width="288" height="165"/>
+                                                <rect key="frame" x="0.0" y="460" width="288" height="165"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="165" id="lm5-TJ-8GT"/>
@@ -1463,10 +1463,10 @@
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Suggested Friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X18-OG-GRE">
-                                                <rect key="frame" x="0.0" y="641" width="288" height="26"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Suggested Friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X18-OG-GRE" customClass="ExploreLabel" customModule="ivy_iOS" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="649" width="288" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="26" id="UKi-cA-QjM"/>
+                                                    <constraint firstAttribute="height" constant="30" id="UKi-cA-QjM"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="mNc-n1-Fui"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
@@ -1474,7 +1474,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bgc-Dz-ign" userLabel="Rec Friend Collection View">
-                                                <rect key="frame" x="0.0" y="675" width="288" height="150"/>
+                                                <rect key="frame" x="0.0" y="687" width="288" height="150"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="eP8-KZ-ea0"/>
@@ -1509,20 +1509,20 @@
                                                 </connections>
                                             </button>
                                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="fwY-Si-6rq" customClass="LoadingWheel" customModule="ivy_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="240" width="288" height="20"/>
+                                                <rect key="frame" x="0.0" y="244" width="288" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="Jrr-cC-Ppe"/>
                                                     <constraint firstAttribute="height" constant="20" id="N3c-sA-uTd"/>
                                                 </constraints>
                                             </activityIndicatorView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYx-OM-Y2J">
-                                                <rect key="frame" x="208" y="418" width="80" height="26"/>
+                                                <rect key="frame" x="208" y="422" width="80" height="26"/>
                                                 <color key="backgroundColor" red="0.16899999979999999" green="0.59200000760000004" blue="0.1289999932" alpha="0.24946489729999999" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="26" id="eNK-t8-WJL"/>
                                                     <constraint firstAttribute="width" constant="80" id="i6e-B8-9EB"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                <fontDescription key="fontDescription" name="CordiaNew-Bold" family="Cordia New" pointSize="25"/>
                                                 <state key="normal" title="Create">
                                                     <color key="titleColor" name="ivyGreen"/>
                                                 </state>

@@ -114,6 +114,11 @@
 		FA6F7C9A22EE84B900610046 /* ExploreNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F7C9922EE84B900610046 /* ExploreNavigationController.swift */; };
 		FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D86922A898020055FCE7 /* Reg1Email.swift */; };
 		FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D87022A8A3BD0055FCE7 /* Extensions.swift */; };
+		FAC5A81723DE023400C38E5D /* ExploreLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC5A81623DE023400C38E5D /* ExploreLabel.swift */; };
+		FAC5A81A23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC5A81823DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift */; };
+		FAC5A81B23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAC5A81923DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib */; };
+		FAC5A81D23DE77B600C38E5D /* GreenChatLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC5A81C23DE77B600C38E5D /* GreenChatLabel.swift */; };
+		FAC5A81F23DE797F00C38E5D /* GreyChatLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC5A81E23DE797F00C38E5D /* GreyChatLabel.swift */; };
 		FAC5CC6B231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC5CC6A231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift */; };
 		FACA64F323202368007ABDB7 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACA64F123202368007ABDB7 /* SearchCell.swift */; };
 		FACA64F423202368007ABDB7 /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FACA64F223202368007ABDB7 /* SearchCell.xib */; };
@@ -236,6 +241,11 @@
 		FA6F7C9922EE84B900610046 /* ExploreNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreNavigationController.swift; sourceTree = "<group>"; };
 		FA90D86922A898020055FCE7 /* Reg1Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg1Email.swift; sourceTree = "<group>"; };
 		FA90D87022A8A3BD0055FCE7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		FAC5A81623DE023400C38E5D /* ExploreLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreLabel.swift; sourceTree = "<group>"; };
+		FAC5A81823DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatBubbleCollectionViewCellLeft.swift; sourceTree = "<group>"; };
+		FAC5A81923DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = chatBubbleCollectionViewCellLeft.xib; sourceTree = "<group>"; };
+		FAC5A81C23DE77B600C38E5D /* GreenChatLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenChatLabel.swift; sourceTree = "<group>"; };
+		FAC5A81E23DE797F00C38E5D /* GreyChatLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyChatLabel.swift; sourceTree = "<group>"; };
 		FAC5CC6A231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicStaticFinalMethodsAndData.swift; sourceTree = "<group>"; };
 		FACA64F123202368007ABDB7 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		FACA64F223202368007ABDB7 /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
@@ -281,6 +291,9 @@
 				FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */,
 				FAD461A022ED3329003B10D8 /* OpacityButton.swift */,
 				A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */,
+				FAC5A81623DE023400C38E5D /* ExploreLabel.swift */,
+				FAC5A81C23DE77B600C38E5D /* GreenChatLabel.swift */,
+				FAC5A81E23DE797F00C38E5D /* GreyChatLabel.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -353,6 +366,8 @@
 				A9A2BFD123C55AF300BEC473 /* ChatViewController.swift */,
 				A9A2BFD323C55D1300BEC473 /* Message.swift */,
 				A9A2BFD523C5655500BEC473 /* Conversation.swift */,
+				FAC5A81823DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift */,
+				FAC5A81923DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -580,6 +595,7 @@
 				A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */,
 				A9AF67E3237FCCC3007E30CC /* GoogleService-Info.plist in Resources */,
 				FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */,
+				FAC5A81B23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib in Resources */,
 				FA1FE3F522F7563900C36E6B /* Card.xib in Resources */,
 				A920C4E522D281B60088DD58 /* CardBack.xib in Resources */,
 				FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */,
@@ -656,6 +672,7 @@
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
 				FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */,
 				FA0A034D23272C2D00F9FDAC /* LegalStuffCell.swift in Sources */,
+				FAC5A81F23DE797F00C38E5D /* GreyChatLabel.swift in Sources */,
 				FA1B412822F4ACE5005817C5 /* ProfileNavigationViewController.swift in Sources */,
 				FA121C2C22EE4C2B00C175F7 /* ConversationCell.swift in Sources */,
 				A9FD196B2315C84A00ECA848 /* BoardPostTableViewCell.swift in Sources */,
@@ -676,8 +693,11 @@
 				FA1B412622F4ACB9005817C5 /* QuadNavigationViewController.swift in Sources */,
 				A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */,
 				A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */,
+				FAC5A81D23DE77B600C38E5D /* GreenChatLabel.swift in Sources */,
+				FAC5A81723DE023400C38E5D /* ExploreLabel.swift in Sources */,
 				A9A2BFD423C55D1300BEC473 /* Message.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
+				FAC5A81A23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,
 				A9FD1976231B9A1900ECA848 /* ProfileCardFront.swift in Sources */,
 				A9BB05E222B5D2E2008B35AA /* StandardTextField.swift in Sources */,

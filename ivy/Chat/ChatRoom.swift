@@ -85,6 +85,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         messageCollectionView.delegate = self
         messageCollectionView.dataSource = self
         messageCollectionView.register(UINib(nibName:"chatBubbleCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "chatBubbleCollectionViewCell")
+        messageCollectionView.register(UINib(nibName:"chatBubbleCollectionViewCellLeft", bundle: nil), forCellWithReuseIdentifier: "chatBubbleCollectionViewCellLeft")
         
 //        configureTableView()
         xButton.isHidden = true //make sure the x button is hidden by default
@@ -377,13 +378,14 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 //Add the image name to the chat so they know what they just attached
                 self.fileNameLabel.text = url.lastPathComponent
                 self.fileNameLabel.isHidden = false
+                self.fileNameHeight.constant = 35
                 
                 //present the x that removes the image & name if clicked on
                 self.xButton.isHidden = false
+                self.xButtonHeight.constant = 35
                 
                 //set the image picked to be the one chosen by the user so that we can easily access it later
                 self.filePicked = url   //url of where the path is on the device
-                
                 self.imagePicked = nil //clear image picked incase its not empty
             }else{
                 PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "Please limit the file size to less than 5MB", context: self)
@@ -416,7 +418,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             //if image not nill then user self.image, else use file since that must be ethe picked one
             if ( self.imagePicked != nil ){
                 metadata.contentType = "image/png" // Create the file metadata TODO: decide if this should be nil and find out how to let firestore decide what content type it should be
-                self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "Photo.png"
+                self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "Photo"+UUID().uuidString+".png"
                 filePath = "conversationfiles/" + String(convId) + "/" + self.imagePicked!.accessibilityIdentifier!  //path of where the files shared for this particular conversation saved at
 //                byteArray = (self.imagePicked!.jpegData(compressionQuality: 1.0)!) as NSData  //convert to jpeg
                 byteArray = (self.imagePicked!.jpegData(compressionQuality: 0.25)!) as NSData  //convert to jpeg
@@ -456,8 +458,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             
             message["is_text_only"] = false
             message["file_reference"] = filePath
-            let ext = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: filePath)
-            if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+            let ext = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: filePath).lowercased()
+            if(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "heic"){
                 let uiImg = UIImage(data: byteArray as! Data)
                 message["img_width"] = uiImg?.size.width
                 message["img_height"] = uiImg?.size.height
@@ -725,84 +727,146 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         return self.messages.count
     }
     
+    
+    
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
-        
         self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
-        
-        
         let lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as? String ?? "" //first name of last message author
         let lastMessage = self.messages[indexPath.row]["message_text"] as? String
         authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as? String ?? "") + "/preview.jpg"
-        
-        // Create a storage reference from our storage service
-        let storageRef = self.baseStorageReference.reference()
-        let storageImageRef = storageRef.child(authorProfilePicLoc)
-        
-        storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in //get author's image and decide whether to show it or not (if the sender is this user then don't show it and adjust the layout)
-            if let error = error {
-                PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "Maximum download size is 5MB", context: self)
-                print("error", error)
-            } else {
-                cell.messageLabel.text = lastMessage
-                if let authorId = self.messages[indexPath.row]["author_id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String, thisUserId == authorId{
-                    cell.imageView.isHidden = true
-                    cell.messageContainer.backgroundColor = UIColor.ivyGreen
-                }else{
-                    cell.imageView.isHidden = false
-                    cell.messageContainer.backgroundColor = UIColor.ivyLightGrey
-                    cell.imageView.image  = UIImage(data: data!)
-                }
-            }
-        }
-        
-        
-        if let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{ //adjust the cell based on whether the message has a file attached to it or not
-            if(isTxtOnly){ //text only
-                cell.fileIconHeight.constant = 0
-                cell.fileNameHeight.constant = 0
-                cell.downloadButtonHeight.constant = 0
-                cell.downloadButtonHeight.constant = 0
-                cell.photoImageHeight.constant = 0
-                cell.photoImageView.isHidden = true
-            }else{ //contains a file
+        let storageImageRef = Storage.storage().reference(withPath: authorProfilePicLoc)
+        if let authorId = self.messages[indexPath.row]["author_id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String{
                 
-                if let fileRef = self.messages[indexPath.item]["file_reference"] as? String { //get the file
-                    let fileName = fileRef.components(separatedBy: "/").last!
-//                    let fileExt = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: fileRef)
-                    
-                    let storageImageRef = self.baseStorageReference.reference().child(fileRef)
-                    storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                        if let error = error {
-                            print("error", error)
-                        } else {
-                            
-                            if let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, imgWidth > 0, imgHeight > 0{ //if the file is an image and we have it's dimens
-                                cell.fileIconHeight.constant = 0
-                                cell.downloadButtonHeight.constant = 0
-                                cell.photoImageView.isHidden = false
-                                cell.fileNameHeight.constant = 0
-                                cell.photoImageView.image = UIImage(data:data!)
-                                
-                            }else{ //the file is either not an image or we don't have it's dimens in which case show it as a standard file
-                                cell.fileIconHeight.constant = 30
-                                cell.downloadButtonHeight.constant = 30
-                                cell.photoImageHeight.constant = 0
-                                cell.photoImageView.isHidden = true
-                                cell.fileNameHeight.constant = 30
-                                cell.fileNameLabel.text = fileName
+            
+            //MARK: It's this user -> chat layout aligned right (base cell)
+            if(thisUserId == authorId){
+                var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
+                cell.messageLabel.text = lastMessage
+                cell.imageView.isHidden = true
+                cell.messageLabelHeightConstraint.constant = cell.frame.height - 41 //to make sure the retarded text label stretches to the max without cutting anything off
+                
+                if let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{ //adjust the cell based on whether the message has a file attached to it or not
+                    if(isTxtOnly){ //text only
+                        cell.fileIconHeight.constant = 0
+                        cell.fileNameHeight.constant = 0
+                        cell.downloadButtonHeight.constant = 0
+                        cell.photoImageHeight.constant = 0
+                        cell.photoImageView.isHidden = true
+                    }else{ //contains a file
+                        
+                        if let fileRef = self.messages[indexPath.item]["file_reference"] as? String { //get the file
+                            let fileName = fileRef.components(separatedBy: "/").last!
+                            //                    let fileExt = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: fileRef)
+
+                            let storageImageRef = self.baseStorageReference.reference().child(fileRef)
+                            storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                                if let error = error {
+                                    print("error", error)
+                                } else {
+
+                                    if let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, imgWidth > 0, imgHeight > 0{ //if the file is an image and we have it's dimens
+                                        cell.fileIconHeight.constant = 0
+                                        cell.downloadButtonHeight.constant = 0
+                                        cell.photoImageView.isHidden = false
+                                        cell.fileNameHeight.constant = 0
+                                        cell.photoImageView.image = UIImage(data:data!)
+                                        let imgViewWidth = self.screenSize.width - 90 //screen width - 50 for profile preview img and then 32 for 4x8 margins, see chatBubbleCollectionViewCell for details
+                                        let heightForImage = PublicStaticMethodsAndData.getHeightForShrunkenWidth(imgWidth: imgWidth, imgHeight: imgHeight, targetWidth: imgViewWidth)
+                                        cell.messageLabelHeightConstraint.constant = cell.frame.height - 41 - heightForImage //to make sure the retarded text label stretches to the max without cutting anything off
+
+                                    }else{ //the file is either not an image or we don't have it's dimens in which case show it as a standard file
+                                        cell.fileIconHeight.constant = 30
+                                        cell.downloadButtonHeight.constant = 30
+                                        cell.photoImageHeight.constant = 0
+                                        cell.photoImageView.isHidden = true
+                                        cell.fileNameHeight.constant = 30
+                                        cell.fileNameLabel.text = fileName
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                
+                cell.setUp(msg: self.messages[indexPath.item], rulingVC: self) //set up the actual cell
+                return cell
+                
+                
+                
+            //MARK: It's another participant -> chat layout aligned left ()
+            }else{
+                var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCellLeft", for: indexPath) as! chatBubbleCollectionViewCellLeft
+                cell.messageLabel.text = lastMessage
+                cell.messageLabelHeightConstraint.constant = cell.frame.height - 41 //to make sure the retarded text label stretches to the max without cutting anything off
+                
+                storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in //get author's image and decide whether to show it or not (if the sender is this user then don't show it and adjust the layout)
+                    if let error = error {
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Failed to obtain profile picture", context: self)
+                        print("error", error)
+                    } else {
+                        cell.imageView.image  = UIImage(data: data!)
+                    }
+                }
+                
+                if let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{ //adjust the cell based on whether the message has a file attached to it or not
+                    if(isTxtOnly){ //text only
+                        cell.fileIconHeight.constant = 0
+                        cell.fileNameHeight.constant = 0
+                        cell.downloadButtonHeight.constant = 0
+                        cell.photoImageHeight.constant = 0
+                        cell.photoImageView.isHidden = true
+                    }else{ //contains a file
+                        
+                        if let fileRef = self.messages[indexPath.item]["file_reference"] as? String { //get the file
+                            let fileName = fileRef.components(separatedBy: "/").last!
+                            //                    let fileExt = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: fileRef)
+                            
+                            let storageImageRef = self.baseStorageReference.reference().child(fileRef)
+                            storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                                if let error = error {
+                                    print("error", error)
+                                } else {
+                                    
+                                    if let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, imgWidth > 0, imgHeight > 0{ //if the file is an image and we have it's dimens
+                                        cell.fileIconHeight.constant = 0
+                                        cell.downloadButtonHeight.constant = 0
+                                        cell.photoImageView.isHidden = false
+                                        cell.fileNameHeight.constant = 0
+                                        cell.photoImageView.image = UIImage(data:data!)
+                                        let imgViewWidth = self.screenSize.width - 90 //screen width - 50 for profile preview img and then 32 for 4x8 margins, see chatBubbleCollectionViewCell for details
+                                        let heightForImage = PublicStaticMethodsAndData.getHeightForShrunkenWidth(imgWidth: imgWidth, imgHeight: imgHeight, targetWidth: imgViewWidth)
+                                        cell.messageLabelHeightConstraint.constant = cell.frame.height - 41 - heightForImage //to make sure the retarded text label stretches to the max without cutting anything off
+                                        
+                                    }else{ //the file is either not an image or we don't have it's dimens in which case show it as a standard file
+                                        cell.fileIconHeight.constant = 30
+                                        cell.downloadButtonHeight.constant = 30
+                                        cell.photoImageHeight.constant = 0
+                                        cell.photoImageView.isHidden = true
+                                        cell.fileNameHeight.constant = 30
+                                        cell.fileNameLabel.text = fileName
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                cell.setUp(msg: self.messages[indexPath.item], rulingVC: self) //set up the actual cell
+                return cell
             }
+        }else{
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
         }
-        
-        cell.setUp(msg: self.messages[indexPath.item], rulingVC: self) //set up the actual cell
-        return cell
     }
+
     
+
+
+
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if let messageText = self.messages[indexPath.item]["message_text"] as? String, let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{
@@ -817,7 +881,10 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
 //            print("abzwidth: ",estimatedFrame.width)
             var heightForImage = CGFloat(0)
             
-            let estimatedHeight = messageText.height(withConstrainedWidth: screenSize.width-90, font: UIFont.init(name: "Cordia New", size: 25)!) //by trial and error we know that with these values a single line has a height of 29
+            let estimatedHeight = messageText.height(withConstrainedWidth: screenSize.width-106, font: UIFont.init(name: "Cordia New", size: 25)!)+11 //by trial and error we know that with these values a single line has a height of 29 + 11 for top and bottom insets and 16 for left right insets + 90 for all the other padding on left and right
+            print("TEXT estimated height: ", estimatedHeight, " for ", messageText)
+            
+            //TODO: get estimated height for the text field, check if img attached, if so get estimated height if not 0, check if file attached that's not an image if so add file layout height if not 0
             
             if let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, imgHeight>0, imgWidth>0{ //if the message contains an image and its dimens
                 let imgViewWidth = screenSize.width - 90 //screen width - 50 for profile preview img and then 32 for 4x8 margins, see chatBubbleCollectionViewCell for details
@@ -956,7 +1023,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                             if let err = err {
                                 print("Error updating document: \(err)")
                             } else {
-                                print("Update last seen message document successfully updated")
+//                                print("Update last seen message document successfully updated")
                             }
                         }
                         break
