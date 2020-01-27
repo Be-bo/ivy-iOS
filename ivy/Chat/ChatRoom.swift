@@ -553,24 +553,32 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 
                 self.updatePendingMessagesForParticipants()
                 
-                baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message)
-                baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
-                baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
-                baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
-                baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": self.messages.count + 1])
-                
-                let thisUserPos = locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
-                if (thisUserPos != -1) {
-                    var lastMsgCounts = thisConversation["last_message_counts"] as? [CLong]
-                    if(lastMsgCounts != nil) {
-                        lastMsgCounts![thisUserPos] = self.messages.count + 1
-                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
+                baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message) { (error) in
+                    if ((error != nil)){
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": self.messages.count + 1])
+                        
+                        let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
+                        if (thisUserPos != -1) {
+                            var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
+                            if(lastMsgCounts != nil) {
+                                lastMsgCounts![thisUserPos] = self.messages.count + 1
+                                self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
+                            }
+                        }
+                        
+                        self.sendNotification(message:message)
+                        self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
+                    }else{
+                        print("Error occured when trying to send message")
                     }
                 }
                 
-                self.sendNotification(message:message)
-                self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
-                //TODO: decide if need to compensatefor listener bug here (Check android for code)
+                
+                
+
             }
         }
     }

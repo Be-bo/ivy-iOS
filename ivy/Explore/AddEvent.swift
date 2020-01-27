@@ -35,6 +35,9 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addImageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var addImageButton: UIButton!
+    @IBOutlet weak var eventLinkTextField: UITextField!
+    @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var submitButton: StandardButton!
     
 
     let datePickerFrom = UIDatePicker()
@@ -46,7 +49,7 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Create Event"
-
+        submitButton.isUserInteractionEnabled = true    //make sure submit button is clickable
         self.configureComponents()
 
         initializeDatePicker(
@@ -93,10 +96,19 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
     
     
     @IBAction func submitEvent(_ sender: Any) {
-        guard let university = self.userProfile["uni_domain"] else {
+        
+         guard let university = self.userProfile["uni_domain"] else {
+              return
+          }
+        
+         guard let authorID = self.userProfile["id"] else {  //so we know who pushed
+              return
+          }
+        
+        guard let authorUniDomain = self.userProfile["uni_domain"] else {
              return
          }
-
+        
          guard let eventName = eventNameTextField.text else {
              self.view.makeToast("Event name is missing")
              return
@@ -126,11 +138,32 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
              self.view.makeToast("Description is missing!")
              return
          }
+        
+         if description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("Description is Empty!")
+            return
+         }
+        
+        if eventName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+           self.view.makeToast("Name is Empty!")
+           return
+        }
+        
+        if location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+           self.view.makeToast("Location is Empty!")
+           return
+        }
+        
+        
+
+        
+
 
 //         let uuid = UUID().uuidString
          let eventImgPath = "organizationResources/\(eventName).jpg"
          let from = datePickerFrom.date.millisecondsSince1970
          let to = datePickerTo.date.millisecondsSince1970
+         let link = eventLinkTextField.text  //can be empty so doesn't need gaurd
 
          if to - from <= 0 {
              self.view.makeToast("Please enter valid date range")
@@ -149,27 +182,33 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
                      self.view.makeToast("Failed to upload an image")
                      return
                  }
+                
+
 
                  let eventModel: [String: Any] = [
                      "id": eventName,
                      "creation_time": from,
+                     "start_time": from,
                      "name": eventName,
                      "description": description,
                      "end_time": to,
                      "going_ids": [],
                      "image": eventImgPath,
                      "keywords": self.tagArray,
-                     "link": "link",
+                     "link": link,
                      "location": location,
                      "uni_domain": university,
                      "views": [],
-                     "is_active": true,
+                     "is_active": false,    //false until we decide otherwise for now
                      "is_featured": false,
+                     "author_id" : authorID
+                     
                  ]
+                 self.submitButton.isUserInteractionEnabled = false
 
                  self.databaseReference
                      .collection("universities")
-                     .document(self.userProfile["uni_domain"] as! String)
+                    .document(authorUniDomain as! String)
                      .collection("events")
                      .document(eventName)
                     .setData(eventModel) { err in
@@ -177,9 +216,26 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
                              self.view.makeToast("Failed to create an event")
                              print(err)
                          } else {
-                             self.view.makeToast("Event has been created!")
+                            
+
+                             self.view.makeToast("Your event has been submitted for approval.")
+                            //disable submit button so they cant spam click
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {   //dismiss view controller after 2 seconds
+                                _ = self.navigationController?.popToRootViewController(animated: true)
+                            }
+
+                            
+                            //push to the ucalgary document array that holds the pending events
+                              self.databaseReference
+                                  .collection("universities")
+                                  .document(authorUniDomain as! String)
+                                  .updateData([
+                                      "pendingevents": FieldValue.arrayUnion([eventName])
+                                  ])
                          }
                  }
+                
+  
              }
          }
     }
@@ -201,6 +257,7 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
 
         self.eventNameTextField.delegate = self
         self.eventDescriptionTextview.delegate = self
+        self.eventLinkTextField.delegate = self
         self.eventFromDateTextfield.delegate = self
         self.eventToDateTextfield.delegate = self
         self.eventLocationTextfield.delegate = self
@@ -304,14 +361,12 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
     func addTag(){
         let tagTextMaxLength = 50
         var tagText = eventTagsTextfield.text ?? ""
-
         if !tagText.isEmpty {
             //truncate if too long
             if (tagText.count > tagTextMaxLength) {
                 let dropChars = tagText.count - tagTextMaxLength
                 tagText = String(tagText.dropLast(dropChars))
             }
-
             //check if tag already exists
             if !tagArray.contains (tagText) {
                 tagArray.insert(tagText, at: 0)
@@ -319,11 +374,10 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
                 let tagHeight = tagView.intrinsicContentSize.height;
                 if (Int(tagHeight) > self.tagListHeight) {
                     self.scrollView.contentSize.height += 28
+                    self.contentViewHeightConstraint.constant += 28 //so the button remains clickable
                     self.tagListHeight = Int(tagHeight)
                 }
-                
             }
-
             // erase tag textfield
             eventTagsTextfield.text = ""
         }
@@ -332,9 +386,6 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
         self.tagView.removeTag(title)
         self.tagArray = tagArray.filter{ $0 != title }
-        let tagHeight = tagView.intrinsicContentSize.height;
-        self.tagListHeight = Int(tagHeight)
-        self.scrollView.contentSize.height -= 28
     }
     
     func setUpTags() {
