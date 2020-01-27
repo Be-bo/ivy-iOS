@@ -406,138 +406,142 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     // MARK: Sending Message Functions
-    
-    func sendFileMessage(){ //send a file over the chat. differentiate b/w image or regular files (pdf's,word docs, etc.)
-        let storageRef = self.baseStorageReference.reference()
-        var filePath = ""
-        var byteArray:NSData? =  nil
-        var metadata = StorageMetadata()    //decided whether file is image/jpeg or w.e other type
-        var uploadTask: StorageUploadTask   //differing upload tasks
+     func sendFileMessage(){ //send a file over the chat. differentiate b/w image or regular files (pdf's,word docs, etc.)
+            let storageRef = self.baseStorageReference.reference()
+            var filePath = ""
+            var byteArray:NSData? =  nil
+            var metadata = StorageMetadata()    //decided whether file is image/jpeg or w.e other type
+            var uploadTask: StorageUploadTask   //differing upload tasks
 
-        if let convId = self.thisConversation["id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String{
-            //if image not nill then user self.image, else use file since that must be ethe picked one
-            if ( self.imagePicked != nil ){
-                metadata.contentType = "image/png" // Create the file metadata TODO: decide if this should be nil and find out how to let firestore decide what content type it should be
-                self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "Photo"+UUID().uuidString+".png"
-                filePath = "conversationfiles/" + String(convId) + "/" + self.imagePicked!.accessibilityIdentifier!  //path of where the files shared for this particular conversation saved at
-//                byteArray = (self.imagePicked!.jpegData(compressionQuality: 1.0)!) as NSData  //convert to jpeg
-                byteArray = (self.imagePicked!.jpegData(compressionQuality: 0.25)!) as NSData  //convert to jpeg
+            if let convId = self.thisConversation["id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String{
+                //if image not nill then user self.image, else use file since that must be ethe picked one
+                if ( self.imagePicked != nil ){
+                    metadata.contentType = "image/png" // Create the file metadata TODO: decide if this should be nil and find out how to let firestore decide what content type it should be
+                    self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "Photo"+UUID().uuidString+".png"
+                    filePath = "conversationfiles/" + String(convId) + "/" + self.imagePicked!.accessibilityIdentifier!  //path of where the files shared for this particular conversation saved at
+    //                byteArray = (self.imagePicked!.jpegData(compressionQuality: 1.0)!) as NSData  //convert to jpeg
+                    byteArray = (self.imagePicked!.jpegData(compressionQuality: 0.25)!) as NSData  //convert to jpeg
 
-                self.fileNameLabel.text = nil //reset variables
-                self.xButton.isHidden = true
-                self.xButtonHeight.constant = 0
-                self.file_attached = false
-                self.fileNameLabel.isHidden = true
-                self.fileNameHeight.constant = 0
-            }else{
-                //TODO deal with the file byte array and path/what not
-                filePath = "conversationfiles/" + String(convId) + "/" + self.filePicked!.lastPathComponent  //path of where the files shared for this particular conversation saved at
-                self.fileNameLabel.text = nil //reset variables
-                self.xButton.isHidden = true
-                self.xButtonHeight.constant = 0
-                self.file_attached = false
-                self.fileNameLabel.isHidden = true
-                self.fileNameHeight.constant = 0
-            }
-            
-            let storageLocRef = storageRef.child(filePath) //storeageImageRef now points to the correctspot that this should be save in
-            var message = Dictionary<String, Any>()
-            message["author_first_name"] = self.thisUserProfile["first_name"]
-            message["author_last_name"] = self.thisUserProfile["last_name"]
-            message["author_id"] = thisUserId
-            message["conversation_id"] = convId
-            message["creation_time"] =  Date().millisecondsSince1970   //millis
-            
-            
-            if let messageText = messageTextField.text, messageText.count < 1{
-                message["message_text"] =  "Sent a file:"
-            }else{
-                message["message_text"] =  messageTextField.text
-            }
-            
-            
-            message["is_text_only"] = false
-            message["file_reference"] = filePath
-            let ext = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: filePath).lowercased()
-            if(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "heic"){
-                let uiImg = UIImage(data: byteArray as! Data)
-                message["img_width"] = uiImg?.size.width
-                message["img_height"] = uiImg?.size.height
-            }else{
-                message["img_width"] = 0
-                message["img_height"] = 0
-            }
-            message["id"] =  NSUUID().uuidString
-            
-            self.updatePendingMessagesForParticipants()
-            
-            //different upload task based on if its a file or if its an image
-            if ( self.imagePicked != nil ){
-                uploadTask = storageLocRef.putData(byteArray! as Data, metadata: metadata) { (metadata, error) in
+                    self.fileNameLabel.text = nil //reset variables
+                    self.xButton.isHidden = true
+                    self.xButtonHeight.constant = 0
+                    self.file_attached = false
+                    self.fileNameLabel.isHidden = true
+                    self.fileNameHeight.constant = 0
+                }else{
+                    //TODO deal with the file byte array and path/what not
+                    filePath = "conversationfiles/" + String(convId) + "/" + self.filePicked!.lastPathComponent  //path of where the files shared for this particular conversation saved at
+                    self.fileNameLabel.text = nil //reset variables
+                    self.xButton.isHidden = true
+                    self.xButtonHeight.constant = 0
+                    self.file_attached = false
+                    self.fileNameLabel.isHidden = true
+                    self.fileNameHeight.constant = 0
                 }
-            }else{
-                uploadTask = storageLocRef.putFile(from: self.filePicked!, metadata: nil)
-            }
-            
-            // Upload completed successfully
-            uploadTask.observe(.success) { snapshot in
-                self.messageTextField.text = ""
-                self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
+                
+                let storageLocRef = storageRef.child(filePath) //storeageImageRef now points to the correctspot that this should be save in
+                var message = Dictionary<String, Any>()
+                message["author_first_name"] = self.thisUserProfile["first_name"]
+                message["author_last_name"] = self.thisUserProfile["last_name"]
+                message["author_id"] = thisUserId
+                message["conversation_id"] = convId
+                message["creation_time"] =  Date().millisecondsSince1970   //millis
                 
                 
-                //update all the data to match accordingly
-                self.baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message)
-                self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
-                self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
-                self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
-                self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": self.messages.count + 1])
+                if let messageText = messageTextField.text, messageText.count < 1{
+                    message["message_text"] =  "Sent a file:"
+                }else{
+                    message["message_text"] =  messageTextField.text
+                }
                 
-                self.sendNotification(message:message)
                 
-                //update last message count for this user
-                let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
-                if (thisUserPos != -1) {
-                    var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
-                    if(lastMsgCounts != nil) {
-                        lastMsgCounts![thisUserPos] = self.messages.count + 1
-                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
+                message["is_text_only"] = false
+                message["file_reference"] = filePath
+                let ext = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: filePath).lowercased()
+                if(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "heic"){
+                    let uiImg = UIImage(data: byteArray as! Data)
+                    message["img_width"] = uiImg?.size.width
+                    message["img_height"] = uiImg?.size.height
+                }else{
+                    message["img_width"] = 0
+                    message["img_height"] = 0
+                }
+                message["id"] =  NSUUID().uuidString
+                
+                self.updatePendingMessagesForParticipants()
+                
+                //different upload task based on if its a file or if its an image
+                if ( self.imagePicked != nil ){
+                    uploadTask = storageLocRef.putData(byteArray! as Data, metadata: metadata) { (metadata, error) in
                     }
+                }else{
+                    uploadTask = storageLocRef.putFile(from: self.filePicked!, metadata: nil)
                 }
                 
+                // Upload completed successfully
+                uploadTask.observe(.success) { snapshot in
+                    self.messageTextField.text = ""
+                    self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
+                    
+                    
+                    //update all the data to match accordingly
+                    self.baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message, completion: { (e) in
+                        if(e != nil){
+                            print("Error while sending plain message: ",e)
+                        }else{
+                            self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
+                            self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
+                            self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
+                            self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": self.messages.count + 1])
+                            
+                            self.sendNotification(message:message)
+                            
+                            //update last message count for this user
+                            let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
+                            if (thisUserPos != -1) {
+                                var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
+                                if(lastMsgCounts != nil) {
+                                    lastMsgCounts![thisUserPos] = self.messages.count + 1
+                                    self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
+                                }
+                            }
+                            }
+                        })
+                    
+                    
+                    //TODO: decide if need to compensatefor listener bug here (Check android for code)
+                }
                 
-                //TODO: decide if need to compensatefor listener bug here (Check android for code)
-            }
-            
-            //upload task failed
-            uploadTask.observe(.failure) { snapshot in
-                if let error = snapshot.error as NSError? {
-                    switch (StorageErrorCode(rawValue: error.code)!) {
-                    case .objectNotFound:
-                        print("File doesn't exist")
-                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "The file you're trying to upload doesn't exist.", context: self)
-                        break
-                    case .unauthorized:
-                        print("User doesn't have permission to access file")
-                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "You don't have permission to access the file you're trying to upload.", context: self)
-                        break
-                    case .cancelled:
-                        print("User canceled the upload")
-                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Upload cancelled.", context: self)
-                        break
-                    case .unknown:
-                        print("unknown error")
-                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "An unknown error occurred.", context: self)
-                        break
-                    default:
-                        print("retry the upload here if it fails")
-                        break
+                //upload task failed
+                uploadTask.observe(.failure) { snapshot in
+                    if let error = snapshot.error as NSError? {
+                        switch (StorageErrorCode(rawValue: error.code)!) {
+                        case .objectNotFound:
+                            print("File doesn't exist")
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "The file you're trying to upload doesn't exist.", context: self)
+                            break
+                        case .unauthorized:
+                            print("User doesn't have permission to access file")
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "You don't have permission to access the file you're trying to upload.", context: self)
+                            break
+                        case .cancelled:
+                            print("User canceled the upload")
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Upload cancelled.", context: self)
+                            break
+                        case .unknown:
+                            print("unknown error")
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "An unknown error occurred.", context: self)
+                            break
+                        default:
+                            print("retry the upload here if it fails")
+                            break
+                        }
                     }
                 }
             }
         }
-    }
     
-    func sendMessage() { //actually sends the message to the conversation they are clicked on
+  func sendMessage() { //actually sends the message to the conversation they are clicked on
         let inputMessage = messageTextField.text //extract the text field input
         if(inputMessage != ""), let thisUserId = self.thisUserProfile["id"] as? String, let convId = self.thisConversation["id"] as? String{ //if not empty
             messageTextField.text = "" //reset the message field to be empty
@@ -555,36 +559,32 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 
                 self.updatePendingMessagesForParticipants()
                 
-                baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message) { (error) in
-                    if ((error != nil)){
+            baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message, completion: { (e) in
+                if(e != nil){
+                    print("Error while sending plain message: ",e)
+                }else{
+                    
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": self.messages.count + 1])
-                        
+                    
                         let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
                         if (thisUserPos != -1) {
                             var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
                             if(lastMsgCounts != nil) {
-                                lastMsgCounts![thisUserPos] = self.messages.count + 1
+                               lastMsgCounts![thisUserPos] = self.messages.count + 1
                                 self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
                             }
                         }
-                        
                         self.sendNotification(message:message)
                         self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
-                    }else{
-                        print("Error occured when trying to send message")
                     }
-                }
-                
-                
-                
-
+                })
             }
         }
     }
-    
+
     private func updatePendingMessagesForParticipants(){
         if let participants = thisConversation["participants"] as? [String], let thisUserId = thisUserProfile["id"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String{
             for i in 0..<participants.count{
