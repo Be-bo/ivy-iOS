@@ -12,10 +12,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="EventCollectionViewCell" customModule="ivy_iOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="130" height="140"/>
+            <rect key="frame" x="0.0" y="0.0" width="120" height="160"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="130" height="140"/>
+                <rect key="frame" x="0.0" y="0.0" width="120" height="160"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dVL-cH-Vtw">
@@ -30,10 +30,11 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cJ-7z-Dhf" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="125" width="130" height="0.0"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cJ-7z-Dhf" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="120" width="120" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="130" id="Rto-bN-6Ju"/>
+                            <constraint firstAttribute="width" constant="120" id="Rto-bN-6Ju"/>
+                            <constraint firstAttribute="height" constant="30" id="vuK-zn-YAN"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -53,7 +54,7 @@
                 <constraint firstItem="9cJ-7z-Dhf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Bl4-RZ-lT5"/>
                 <constraint firstItem="dVL-cH-Vtw" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="PCh-aU-Qo8"/>
                 <constraint firstItem="7iM-j4-TQx" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="bMk-sl-rPU"/>
-                <constraint firstItem="9cJ-7z-Dhf" firstAttribute="top" secondItem="dVL-cH-Vtw" secondAttribute="bottom" constant="5" id="bTC-py-Sdb"/>
+                <constraint firstItem="9cJ-7z-Dhf" firstAttribute="top" secondItem="dVL-cH-Vtw" secondAttribute="bottom" id="bTC-py-Sdb"/>
                 <constraint firstItem="7iM-j4-TQx" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="50" id="lgf-pz-Gvp"/>
                 <constraint firstItem="dVL-cH-Vtw" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ok8-2F-a7Z"/>
             </constraints>

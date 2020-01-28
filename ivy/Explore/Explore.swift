@@ -55,6 +55,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     @IBOutlet weak var searchCancelButton: UIButton!
     @IBOutlet weak var searchBar: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
     
     
     let eventCollectionIdentifier = "EventCollectionViewCell"
@@ -245,6 +246,11 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     
     // MARK: Setup Functions
+    
+    private func adjustScrollViewHeight(){
+        let bottomMostPoint = self.recommendedFriendCollecView.frame.origin.y + self.recommendedFriendCollecView.frame.height
+        self.scrollViewHeight.constant = bottomMostPoint + 32
+    }
     
     @objc private func refresh(){ //method for reloading data that doesn't update automatically (events), called when the user maximizes the app
         if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
@@ -467,9 +473,9 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                                                 self.featuredEventImage.isUserInteractionEnabled = true
                                                 self.featuredEventImage.addGestureRecognizer(singleTap)
                                                 
-                                                self.featuredHeightConstraint.constant = self.view.frame.width - 32
-                                                
-                                                self.scrollView.contentSize.height += (self.view.frame.width - 32 - 288)
+//                                                self.featuredHeightConstraint.constant = self.view.frame.width - 32
+//
+//                                                self.scrollView.contentSize.height += (self.view.frame.width - 32 - 288)
                                             }
                                         }
                                     }
@@ -612,6 +618,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         }
                         if(i >= querSnapDocs.count - 1){
                             self.lastRetrievedProfile = document
+                            self.adjustScrollViewHeight()
                         }
                     }
                     
