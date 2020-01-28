@@ -431,7 +431,7 @@
                                 <rect key="frame" x="32" y="84" width="256" height="400"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Current Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RFQ-4Y-zPq" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="186" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="155" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="7yy-Uz-Q5Z"/>
                                         </constraints>
@@ -439,7 +439,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vVK-BN-0Qt" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="368" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="337" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="suP-6P-nLr"/>
                                         </constraints>
@@ -449,7 +449,7 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4no-PZ-zGW" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="302" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="271" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Nwn-nz-0ZZ"/>
                                         </constraints>
@@ -457,7 +457,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z2Y-3X-4ji" customClass="StandardTextField" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="244" width="256" height="50"/>
+                                        <rect key="frame" x="0.0" y="213" width="256" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="qYP-bL-rEt"/>
                                         </constraints>
@@ -465,7 +465,7 @@
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="749" text="When coming up with a new password try to include a capital letter, a number and a special symbol." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBZ-fk-Mun" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="8" width="256" height="146"/>
+                                        <rect key="frame" x="0.0" y="8" width="256" height="115"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -524,13 +524,13 @@
                                 <rect key="frame" x="32" y="84" width="256" height="400"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BKs-bF-laI">
-                                        <rect key="frame" x="0.0" y="74.5" width="256" height="251.5"/>
+                                        <rect key="frame" x="0.0" y="73.5" width="256" height="252.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="22"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your thoughts and feedback in here!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxT-UR-axS" customClass="MediumLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="256" height="58.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="256" height="57.5"/>
                                         <fontDescription key="fontDescription" name="CordiaNew" family="Cordia New" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1624,7 +1624,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-jT-vQ0">
-                                <rect key="frame" x="0.0" y="56" width="339.5" height="443"/>
+                                <rect key="frame" x="0.0" y="0.0" width="339.5" height="548"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9E3-fC-hbh">
                                         <rect key="frame" x="0.0" y="0.0" width="339.5" height="1400"/>
@@ -3489,7 +3489,7 @@
                                 <rect key="frame" x="0.0" y="56" width="320" height="492"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="lqw-FC-Pee" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1250"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1275"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="SrU-zG-Js7" userLabel="Event Image View">
                                                 <rect key="frame" x="25" y="136" width="270" height="360"/>
@@ -3528,17 +3528,6 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="RWp-8O-FDX" userLabel="Event Description Textview">
-                                                <rect key="frame" x="25" y="874" width="270" height="182"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="182" id="4db-qP-jH1"/>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="6UC-8s-YE3"/>
-                                                </constraints>
-                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                            </textView>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Link" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V94-2U-iz6" userLabel="Event Link Textfield">
                                                 <rect key="frame" x="25" y="786" width="270" height="40"/>
                                                 <color key="backgroundColor" red="0.92941176469999998" green="0.92941176469999998" blue="0.92941176469999998" alpha="0.34999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3701,6 +3690,17 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="RWp-8O-FDX" userLabel="Event Description Textview">
+                                                <rect key="frame" x="25" y="874" width="270" height="182"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="182" id="4db-qP-jH1"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="6UC-8s-YE3"/>
+                                                </constraints>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
@@ -3718,7 +3718,7 @@
                                             <constraint firstAttribute="trailing" secondItem="Bh9-PX-SFk" secondAttribute="trailing" constant="120" id="AIy-ce-8Kf"/>
                                             <constraint firstItem="9BS-Ec-k2X" firstAttribute="top" secondItem="yx5-1B-hFs" secondAttribute="bottom" constant="8" id="AL2-ME-4nd"/>
                                             <constraint firstItem="RWp-8O-FDX" firstAttribute="leading" secondItem="lqw-FC-Pee" secondAttribute="leading" constant="25" id="C73-Sz-fae"/>
-                                            <constraint firstAttribute="height" constant="1250" id="C7I-jC-0of"/>
+                                            <constraint firstAttribute="height" constant="1275" id="C7I-jC-0of"/>
                                             <constraint firstItem="Bh9-PX-SFk" firstAttribute="top" secondItem="JB2-Nq-6bP" secondAttribute="bottom" constant="22" id="Dtd-iK-53G"/>
                                             <constraint firstItem="PjF-IC-vwr" firstAttribute="centerX" secondItem="lqw-FC-Pee" secondAttribute="centerX" id="FBi-oy-omk"/>
                                             <constraint firstItem="8ZW-fZ-6yw" firstAttribute="top" secondItem="GR0-qE-aOf" secondAttribute="bottom" constant="8" id="FOl-jk-9OI"/>
@@ -3844,11 +3844,11 @@
     <inferredMetricsTieBreakers>
         <segue reference="HZ8-MH-3bE"/>
         <segue reference="qnE-MC-VUo"/>
-        <segue reference="N1a-aN-84L"/>
+        <segue reference="NU5-32-VUu"/>
         <segue reference="GId-3d-sBt"/>
         <segue reference="RKH-ld-RbM"/>
         <segue reference="vAN-1D-qRd"/>
-        <segue reference="yJ0-z0-GDl"/>
+        <segue reference="YTv-ER-BkX"/>
         <segue reference="9lb-Kb-J7u"/>
         <segue reference="6DB-Uu-9yT"/>
         <segue reference="jvT-Df-EJa"/>
