@@ -1603,6 +1603,7 @@
                         <outlet property="featuredLoadingWheel" destination="fwY-Si-6rq" id="Cpr-2t-HgR"/>
                         <outlet property="recommendedFriendCollecView" destination="bgc-Dz-ign" id="qCA-De-LDw"/>
                         <outlet property="scrollView" destination="KMY-zf-WJt" id="RZJ-rC-zhX"/>
+                        <outlet property="scrollViewHeight" destination="HeU-VT-exZ" id="QC8-pD-9po"/>
                         <outlet property="searchBar" destination="OLA-7z-vII" id="BRf-Hw-6Hu"/>
                         <outlet property="searchCancelButton" destination="e4c-ZX-PuJ" id="3bQ-4Y-rUm"/>
                         <segue destination="Yjf-Fr-ihs" kind="show" identifier="viewFullProfileSegue" id="YTv-ER-BkX"/>
@@ -3558,7 +3559,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JB2-Nq-6bP" userLabel="Tag View" customClass="TagListView" customModule="TagListView">
+                                            <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JB2-Nq-6bP" userLabel="Tag View" customClass="TagListView" customModule="TagListView">
                                                 <rect key="frame" x="25" y="1162" width="270" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="6aj-p0-QbD"/>
@@ -3610,7 +3611,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bh9-PX-SFk" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bh9-PX-SFk" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="120" y="1204" width="80" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="G1m-ss-eCm"/>
