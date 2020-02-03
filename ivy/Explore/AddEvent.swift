@@ -170,6 +170,7 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
              return
          }
 
+
          let compressedImage = eventImage.compress()
 
          let eventImageRef = storageReference.child(eventImgPath)
