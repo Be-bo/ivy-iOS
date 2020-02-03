@@ -160,7 +160,7 @@ class Reg10Recap: UIViewController {
                         if e != nil{
                             print("Error sending verification email: ",e)
                         }else{
-                            let alert = UIAlertController(title: "Registration Successful", message: "We sent you a verification email. Check your inbox.", preferredStyle: .alert)
+                            let alert = UIAlertController(title: "Success", message: "Registration successful. Thanks for joining ivy!", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                                 //nothing
                             }))

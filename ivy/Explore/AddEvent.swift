@@ -14,13 +14,24 @@ import Toast_Swift
 
 
 class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, TagListViewDelegate {
+    
+    //MARK: Variables and Constants
 
     private let DATE_FORMAT = "dd MMM yyyy, HH:mm"
     private let databaseReference = Firestore.firestore()
     private let storageReference = Storage.storage().reference()
-
     public var userProfile = Dictionary<String, Any>()
-
+    let datePickerFrom = UIDatePicker()
+    let datePickerTo = UIDatePicker()
+    var tagListHeight = 28 //height of one taglistview row
+    var tagArray: [String] = []
+    var screenHeight = UIScreen.main.bounds.height
+    var keyboardHeight = CGFloat(0)
+    
+    
+    
+    
+    //MARK: IBActions and IBOutlets
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
@@ -38,13 +49,172 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
     @IBOutlet weak var eventLinkTextField: UITextField!
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var submitButton: StandardButton!
+    @IBOutlet weak var loadingWheel: LoadingWheel!
     
-
-    let datePickerFrom = UIDatePicker()
-    let datePickerTo = UIDatePicker()
-
-    var tagListHeight = 28 //height of one taglistview row
-    var tagArray: [String] = []
+    
+    @IBAction func addEventPhoto(_ sender: Any) {
+          let pickerController = UIImagePickerController()
+          pickerController.delegate = self
+          pickerController.allowsEditing = true
+          pickerController.mediaTypes = ["public.image"]
+          pickerController.sourceType = .photoLibrary
+          self.present(pickerController, animated: true, completion: nil)
+          
+      }
+      
+      func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+          if let chosenImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+              self.eventImageView.image = chosenImage
+          } else if let chosenImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+              self.eventImageView.image = chosenImage
+          }
+          eventImageView.layer.borderWidth = 0
+          dismiss(animated: true, completion: nil)
+      }
+      
+      
+    @IBAction func submitEvent(_ sender: Any) {
+        
+        guard let university = self.userProfile["uni_domain"] else {
+            return
+        }
+        
+        guard let authorID = self.userProfile["id"] else {  //so we know who pushed
+            return
+        }
+        
+        guard let authorUniDomain = self.userProfile["uni_domain"] else {
+            return
+        }
+        
+        guard let eventName = eventNameTextField.text else {
+            self.view.makeToast("Event name is missing")
+            return
+        }
+        
+        guard let eventImage = eventImageView.image else {
+            self.view.makeToast("Image is missing!")
+            return
+        }
+        
+        guard eventFromDateTextfield.text != nil else {
+            self.view.makeToast("From date is not set!")
+            return
+        }
+        
+        guard eventToDateTextfield.text != nil else {
+            self.view.makeToast("To date is not set!")
+            return
+        }
+        
+        guard let location = eventLocationTextfield.text else {
+            self.view.makeToast("Location is not set!")
+            return
+        }
+        
+        guard let description = eventDescriptionTextview.text else {
+            self.view.makeToast("Description is missing!")
+            return
+        }
+        
+        if description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("Description is Empty!")
+            return
+        }
+        
+        if eventName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("Name is Empty!")
+            return
+        }
+        
+        if location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.view.makeToast("Location is Empty!")
+            return
+        }
+        
+        
+        let eventId = NSUUID().uuidString
+        let eventImgPath = "organizationResources/\(eventId).jpg"
+        let from = datePickerFrom.date.millisecondsSince1970
+        let to = datePickerTo.date.millisecondsSince1970
+        let link = eventLinkTextField.text  //can be empty so doesn't need gaurd
+        
+        if to - from <= 0 {
+            self.view.makeToast("Please enter valid date range")
+            return
+        }
+        
+        
+        
+        //save all data to Firebase
+        self.barInteraction()
+        let compressedImage = PublicStaticMethodsAndData.compressStandardImage(inputImage: eventImage.compress())
+        let eventImageRef = storageReference.child(eventImgPath)
+        if let imgData = compressedImage.jpegData(compressionQuality: 100.0) {
+            let imgMetadata = StorageMetadata()
+            imgMetadata.contentType = "image/jpeg"
+            eventImageRef.putData(imgData, metadata: imgMetadata) { (metadata, error) in
+                guard metadata != nil else {
+                    self.view.makeToast("Failed to upload event image.")
+                    self.allowInteraction()
+                    return
+                }
+                
+                let eventModel: [String: Any] = [
+                    "id": eventId,
+                    "creation_time": from,
+                    "start_time": from,
+                    "name": eventName,
+                    "description": description,
+                    "end_time": to,
+                    "going_ids": [],
+                    "image": eventImgPath,
+                    "keywords": self.tagArray,
+                    "link": link,
+                    "location": location,
+                    "uni_domain": university,
+                    "views": [],
+                    "is_active": false,    //false until we decide otherwise for now
+                    "is_featured": false,
+                    "author_id" : authorID
+                    
+                ]
+                
+                self.databaseReference.collection("universities").document(authorUniDomain as! String).collection("events").document(eventId).setData(eventModel) { err in
+                    if let err = err {
+                        self.allowInteraction()
+                        self.view.makeToast("Failed to add event data.")
+                        print(err)
+                    } else {
+                        
+                        //push to the ucalgary document array that holds the pending events
+                        self.databaseReference.collection("universities").document(authorUniDomain as! String).updateData(["pendingevents": FieldValue.arrayUnion([eventId])]) {
+                            err2 in
+                            if let err2 = err2{
+                                self.allowInteraction()
+                                self.view.makeToast("Failed to add event approval id.")
+                                print(err2)
+                            }else{
+                                self.view.makeToast("Your event has been submitted for approval.")
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {   //dismiss view controller after 2 seconds
+                                    _ = self.navigationController?.popToRootViewController(animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    //MARK: Setup Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,189 +242,55 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
         self.addImageTopConstraint.constant = (self.view.frame.width/2) - (self.addImageButton.frame.width/2) + 23
     }
     
-    
-    
-    @IBAction func addEventPhoto(_ sender: Any) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.allowsEditing = true
-        pickerController.mediaTypes = ["public.image"]
-        pickerController.sourceType = .photoLibrary
-        self.present(pickerController, animated: true, completion: nil)
-        
+    func barInteraction(){
+        self.view.isUserInteractionEnabled = false
+        submitButton.isHidden = true
+        loadingWheel.isHidden = false
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let chosenImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            self.eventImageView.image = chosenImage
-        } else if let chosenImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            self.eventImageView.image = chosenImage
-        }
-        eventImageView.layer.borderWidth = 0
-        dismiss(animated: true, completion: nil)
+    func allowInteraction(){
+        self.view.isUserInteractionEnabled = true
+        submitButton.isHidden = false
+        loadingWheel.isHidden = true
     }
-    
-    
-    @IBAction func submitEvent(_ sender: Any) {
-        
-         guard let university = self.userProfile["uni_domain"] else {
-              return
-          }
-        
-         guard let authorID = self.userProfile["id"] else {  //so we know who pushed
-              return
-          }
-        
-        guard let authorUniDomain = self.userProfile["uni_domain"] else {
-             return
-         }
-        
-         guard let eventName = eventNameTextField.text else {
-             self.view.makeToast("Event name is missing")
-             return
-         }
-
-         guard let eventImage = eventImageView.image else {
-             self.view.makeToast("Image is missing!")
-             return
-         }
-
-         guard eventFromDateTextfield.text != nil else {
-             self.view.makeToast("From date is not set!")
-             return
-         }
-
-         guard eventToDateTextfield.text != nil else {
-             self.view.makeToast("To date is not set!")
-             return
-         }
-
-         guard let location = eventLocationTextfield.text else {
-             self.view.makeToast("Location is not set!")
-             return
-         }
-
-         guard let description = eventDescriptionTextview.text else {
-             self.view.makeToast("Description is missing!")
-             return
-         }
-        
-         if description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            self.view.makeToast("Description is Empty!")
-            return
-         }
-        
-        if eventName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-           self.view.makeToast("Name is Empty!")
-           return
-        }
-        
-        if location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-           self.view.makeToast("Location is Empty!")
-           return
-        }
-        
-        
-
-        
-
-
-//         let uuid = UUID().uuidString
-         let eventImgPath = "organizationResources/\(eventName).jpg"
-         let from = datePickerFrom.date.millisecondsSince1970
-         let to = datePickerTo.date.millisecondsSince1970
-         let link = eventLinkTextField.text  //can be empty so doesn't need gaurd
-
-         if to - from <= 0 {
-             self.view.makeToast("Please enter valid date range")
-             return
-         }
-
-
-         let compressedImage = eventImage.compress()
-
-         let eventImageRef = storageReference.child(eventImgPath)
-
-         if let imgData = compressedImage.jpegData(compressionQuality: 100.0) {
-             let imgMetadata = StorageMetadata()
-             imgMetadata.contentType = "image/jpeg"
-             eventImageRef.putData(imgData, metadata: imgMetadata) { (metadata, error) in
-                 guard metadata != nil else {
-                     self.view.makeToast("Failed to upload an image")
-                     return
-                 }
-                
-
-
-                 let eventModel: [String: Any] = [
-                     "id": eventName,
-                     "creation_time": from,
-                     "start_time": from,
-                     "name": eventName,
-                     "description": description,
-                     "end_time": to,
-                     "going_ids": [],
-                     "image": eventImgPath,
-                     "keywords": self.tagArray,
-                     "link": link,
-                     "location": location,
-                     "uni_domain": university,
-                     "views": [],
-                     "is_active": false,    //false until we decide otherwise for now
-                     "is_featured": false,
-                     "author_id" : authorID
-                     
-                 ]
-                 self.submitButton.isUserInteractionEnabled = false
-
-                 self.databaseReference
-                     .collection("universities")
-                    .document(authorUniDomain as! String)
-                     .collection("events")
-                     .document(eventName)
-                    .setData(eventModel) { err in
-                         if let err = err {
-                             self.view.makeToast("Failed to create an event")
-                             print(err)
-                         } else {
-                            
-
-                             self.view.makeToast("Your event has been submitted for approval.")
-                            //disable submit button so they cant spam click
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {   //dismiss view controller after 2 seconds
-                                _ = self.navigationController?.popToRootViewController(animated: true)
-                            }
-
-                            
-                            //push to the ucalgary document array that holds the pending events
-                              self.databaseReference
-                                  .collection("universities")
-                                  .document(authorUniDomain as! String)
-                                  .updateData([
-                                      "pendingevents": FieldValue.arrayUnion([eventName])
-                                  ])
-                         }
-                 }
-                
-  
-             }
-         }
-    }
-    
     
     func configureComponents() {
-        self.eventDescriptionTextview.layer.masksToBounds = true;
-        self.eventDescriptionTextview.layer.borderColor = UIColor.lightGray.cgColor.copy(alpha: 0.3)
+        //tags for return key continuity
+        self.eventNameTextField.tag = 10
+        self.eventFromDateTextfield.tag = 11
+        self.eventFromDateTextfield.tag = 12
+        self.eventLocationTextfield.tag = 13
+        self.eventLinkTextField.tag = 14
+        self.eventDescriptionTextview.tag = 15
+        self.eventTagsTextfield.tag = 16
         
+        //event description
+        self.eventDescriptionTextview.layer.masksToBounds = true;
+        self.eventDescriptionTextview.layer.borderColor = UIColor.ivyGrey.cgColor
         self.eventDescriptionTextview.layer.borderWidth = 1.0;    //thickness
         self.eventDescriptionTextview.layer.cornerRadius = 10.0;  //rounded corner
+        self.eventDescriptionTextview.font = UIFont(name: "Cordia New", size: 25)
+        
+        //this block ain't working for some reason
+        self.eventDescriptionTextview.layer.shadowColor = UIColor.black.cgColor
+        self.eventDescriptionTextview.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        self.eventDescriptionTextview.layer.shadowRadius = 5
+        self.eventDescriptionTextview.layer.shadowOpacity = 0.3
+        self.eventDescriptionTextview.clipsToBounds = true
 
+        //event imageview
         self.eventImageView.layer.masksToBounds = true;
-        self.eventImageView.layer.borderColor = UIColor.lightGray.cgColor.copy(alpha: 0.3)
+        self.eventImageView.layer.borderColor = UIColor.ivyGrey.cgColor
         self.eventImageView.layer.borderWidth = 1.0;    //thickness
         self.eventImageView.layer.cornerRadius = 10.0;  //rounded corner
+        self.eventImageView.layer.shadowColor = UIColor.black.cgColor
+        self.eventImageView.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        self.eventImageView.layer.shadowRadius = 5
+        self.eventImageView.layer.shadowOpacity = 0.3
+        self.eventImageView.clipsToBounds = true
         
         self.imageHeightConstraint.constant = self.view.frame.width - 50
+        self.loadingWheel.isHidden = true
 
         self.eventNameTextField.delegate = self
         self.eventDescriptionTextview.delegate = self
@@ -268,23 +304,33 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
         keyboardTopBar.sizeToFit()
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(textFieldShouldReturn(_:)))
         keyboardTopBar.items = [doneButton]
-        self.eventDescriptionTextview.inputAccessoryView = keyboardTopBar
+        self.hideKeyboardOnTapOutside()
+//        self.eventDescriptionTextview.inputAccessoryView = keyboardTopBar
     }
     
-    //MARK: Keyboard Functions
     func setUpKeyboardPusher(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    func setUpTags() {
+        tagView.delegate = self
+        tagView.textFont = UIFont.systemFont(ofSize: 18)
+    }
+    
+    
+    
+    
+    
+    
+    
+    //MARK: UI Functions
+    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            
+            self.keyboardHeight = keyboardSize.height
             if (eventTagsTextfield.isFirstResponder) {
                 self.view.frame.origin.y = -(keyboardSize.height)
-            }
-            else if (eventDescriptionTextview.isFirstResponder) {
-                self.view.frame.origin.y = -(keyboardSize.height/2)
             }
         }
     }
@@ -302,9 +348,20 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (textField == eventTagsTextfield){
             addTag()
+            return false
         }
-        self.view.endEditing(true)
-        return true
+        if(textField == eventLinkTextField){
+            eventDescriptionTextview.becomeFirstResponder()
+            return false
+        }
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField { //try to find next responder and choose it if it exists
+            textField.endEditing(true)
+            nextField.becomeFirstResponder()
+            let posToScrollTo = nextField.frame.origin.y
+            self.scrollView.setContentOffset(CGPoint(x: 0, y: posToScrollTo), animated: true)
+        }
+        
+        return false //don't add line break by default
     }
 
     func initializeDatePicker(with datePicker: UIDatePicker, textView: UITextField, action: Selector?) {
@@ -331,7 +388,7 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
             action: #selector(cancelDatePicker(sender:))
         )
 
-        toolbar.setItems([doneButton, spaceButton, cancelButton], animated: true)
+        toolbar.setItems([cancelButton, spaceButton, doneButton], animated: true)
 
         // add toolbar to eventFromDateTextfield
         textView.inputAccessoryView = toolbar
@@ -388,11 +445,4 @@ class AddEvent: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIIma
         self.tagView.removeTag(title)
         self.tagArray = tagArray.filter{ $0 != title }
     }
-    
-    func setUpTags() {
-        tagView.delegate = self
-        tagView.textFont = UIFont.systemFont(ofSize: 18)
-    }
-    
-
 }
