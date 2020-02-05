@@ -143,7 +143,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         
         
         if let eventImage = self.event["image"] as? String{
-            self.baseStorageReference.child(eventImage).getData(maxSize: 1 * 1024 * 1024) { data, error in
+            self.baseStorageReference.child(eventImage).getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if let error = error {
                     print("error", error)
                 } else {
@@ -156,7 +156,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }
 
         if let eventLogo = self.event["logo"] as? String {
-            self.baseStorageReference.child(eventLogo).getData(maxSize: 1 * 1024 * 1024) { data, error in
+            self.baseStorageReference.child(eventLogo).getData(maxSize: 2 * 1024 * 1024) { data, error in
                 if let error = error {
                     print("error", error)
                 } else {

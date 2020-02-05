@@ -36,7 +36,7 @@ class EventCollectionViewCell: UICollectionViewCell {
         
         let storageImageRef = baseStorageReference.child(imageLocation)
         // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        storageImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+        storageImageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error", error)
             } else {
