@@ -36,7 +36,7 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>"We need your permission to take pictures."</string>
+	<string>"We need your permission to take pictures in order to set your profile image."</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Our application needs permission to download files or images!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
