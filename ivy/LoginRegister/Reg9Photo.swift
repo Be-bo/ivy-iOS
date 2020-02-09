@@ -37,6 +37,9 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     @IBAction func clickAddPhoto(_ sender: Any) { //when they click on add photo take them to which photo they should choose
         showImagePickerController()
     }
+    @IBAction func randomButtonClicked(_ sender: Any) {
+        switchRandomStock()
+    }
     
     
     
@@ -57,7 +60,6 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         if (self.actualFinalImage.image == nil){ //if they press continue they must have chosen an image
         }else {
             self.performSegue(withIdentifier: "reg9ToReg10Segue" , sender: self) //pass data over to
-            
         }
     }
     
@@ -73,7 +75,16 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         vc.registerInfoStruct.interests = self.registerInfoStruct.interests ?? ["no interests chosen"]
         vc.imageByteArray = self.byteArray
         vc.password = self.password //set the password
-
+    }
+    
+    func switchRandomStock(){
+        actualFinalImage.layer.borderWidth = 0.0;    //thickness
+        let randInt = arc4random_uniform(10) + 1
+        let imgName = "stock"+String(randInt)
+        actualFinalImage.image = UIImage(named: imgName)
+        let image = UIImage(named: imgName)
+        let data = image?.jpegData(compressionQuality: 1.0)! as! NSData
+        self.byteArray = data
     }
     
     

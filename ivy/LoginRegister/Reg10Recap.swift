@@ -87,7 +87,7 @@ class Reg10Recap: UIViewController {
         }
         
         //hide gallery button and more button but show the sync arrow
-        back.flipButton.isHidden = true
+        back.flipButton.isHidden = false
         front.flipButton.isHidden = false
         front.galleryButton.isHidden = true
         front.moreButton.isHidden = true
@@ -108,6 +108,10 @@ class Reg10Recap: UIViewController {
         let singleTapSync = UITapGestureRecognizer(target: self, action: #selector(flip))
         singleTapSync.numberOfTapsRequired = 1
         front.flipButton.addGestureRecognizer(singleTapSync)
+        
+        let singleTapSyncBack = UITapGestureRecognizer(target: self, action: #selector(flip))
+        singleTapSyncBack.numberOfTapsRequired = 1
+        back.flipButton.addGestureRecognizer(singleTapSyncBack)
     }
     
     @objc func flip() {
