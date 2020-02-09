@@ -60,11 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerUserNotificationSettings(settings)
         }
         
-        //delete old token
-        let instance = InstanceID.instanceID()
-        instance.deleteID { (error) in
-            print(error.debugDescription)
-        }
+        
         //Request for new token
         InstanceID.instanceID().instanceID { (result, error) in
             if let error = error {
@@ -94,10 +90,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -217,8 +215,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             let mainTabBarController = rootNav.topViewController as? UITabBarController,
             let chatNavController = mainTabBarController.selectedViewController as? UINavigationController{
             
+                if let convID = response.notification.request.content.userInfo["conversationID"] as? String{
+                    conversationVC.conversationID = convID
+                
+                
                 //from the request being sent in, extract the conversation id so we know which chat to goto
-                conversationVC.conversationID = response.notification.request.content.userInfo["conversationID"] as! String
+//                conversationVC.conversationID = response.notification.request.content.userInfo["conversationID"] as! String
             
                 
                 //TODO: change the domain to be grabbed dynamically not jsut "ucalgary.ca"
@@ -243,6 +245,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                         }
                     }
                 }
+            
+            }
                 
         }
         
@@ -264,10 +268,22 @@ extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         let baseDatabaseReference = Firestore.firestore()   //reference to the database
 
+        
+        //Request for new token
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instange ID: \(error)")
+                } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+            }
+        }
+        Messaging.messaging().shouldEstablishDirectChannel = true
+        
         //when new registration token is made update it for the user
         if let id = Auth.auth().currentUser?.uid as? String{
             var tokenMerger = Dictionary<String,Any>()
             tokenMerger["messaging_token"] = fcmToken
+            print("token merger: ", tokenMerger["messaging_token"])
             baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(id).setData(tokenMerger, merge: true)
         }
         

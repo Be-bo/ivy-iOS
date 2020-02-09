@@ -24,7 +24,7 @@
 		A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F622DBA1270088DD58 /* Checkbox.swift */; };
 		A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */; };
 		A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */; };
-		A93CC6B023EF9A0100B294EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A93CC6AF23EF9A0100B294EB /* GoogleService-Info.plist */; };
+		A93CC6B223EFB7E900B294EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A93CC6B123EFB7E900B294EB /* GoogleService-Info.plist */; };
 		A976E4DD2304E5D200755774 /* ViewFullProfileActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */; };
 		A976E4DF2309FBDD00755774 /* viewParticipantsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */; };
 		A976E4E1230A2AF200755774 /* ChatNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4E0230A2AF200755774 /* ChatNavigationController.swift */; };
@@ -43,7 +43,6 @@
 		A9A57D0F23216C8E00867D84 /* chatBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */; };
 		A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */; };
 		A9A57D162321C1C900867D84 /* SettingsButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */; };
-		A9AF67E3237FCCC3007E30CC /* GoogleService-InfoTest.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9AF67E2237FCCC3007E30CC /* GoogleService-InfoTest.plist */; };
 		A9B57E8223137482008DC63B /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B57E8023137482008DC63B /* EventCollectionViewCell.swift */; };
 		A9B57E8323137482008DC63B /* EventCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B57E8123137482008DC63B /* EventCollectionViewCell.xib */; };
 		A9B57E8523138318008DC63B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B57E8423138317008DC63B /* Event.swift */; };
@@ -150,7 +149,7 @@
 		A920C4F622DBA1270088DD58 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg6Birthday.swift; sourceTree = "<group>"; };
 		A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg9Photo.swift; sourceTree = "<group>"; };
-		A93CC6AF23EF9A0100B294EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A93CC6B123EFB7E900B294EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFullProfileActivity.swift; sourceTree = "<group>"; };
 		A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewParticipantsActivity.swift; sourceTree = "<group>"; };
 		A976E4E0230A2AF200755774 /* ChatNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatNavigationController.swift; sourceTree = "<group>"; };
@@ -169,7 +168,6 @@
 		A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = chatBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonLabel.swift; sourceTree = "<group>"; };
-		A9AF67E2237FCCC3007E30CC /* GoogleService-InfoTest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-InfoTest.plist"; sourceTree = "<group>"; };
 		A9B57E8023137482008DC63B /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9B57E8123137482008DC63B /* EventCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9B57E8423138317008DC63B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -486,8 +484,7 @@
 				FA60590922A4B12C00383F9F /* AppDelegate.swift */,
 				A9BB05E322B5D2F8008B35AA /* Constants.swift */,
 				FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */,
-				A93CC6AF23EF9A0100B294EB /* GoogleService-Info.plist */,
-				A9AF67E2237FCCC3007E30CC /* GoogleService-InfoTest.plist */,
+				A93CC6B123EFB7E900B294EB /* GoogleService-Info.plist */,
 				FA60591522A4B12E00383F9F /* Info.plist */,
 			);
 			path = ivy;
@@ -596,7 +593,6 @@
 				FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */,
 				A9FD1978231B9AD500ECA848 /* ProfileCardBack.xib in Resources */,
 				A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */,
-				A93CC6B023EF9A0100B294EB /* GoogleService-Info.plist in Resources */,
 				FA60591422A4B12E00383F9F /* LaunchScreen.storyboard in Resources */,
 				A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */,
 				A90D266722A4B215005E8965 /* cordia.ttf in Resources */,
@@ -611,9 +607,9 @@
 				A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
 				A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */,
-				A9AF67E3237FCCC3007E30CC /* GoogleService-InfoTest.plist in Resources */,
 				FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */,
 				FAC5A81B23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib in Resources */,
+				A93CC6B223EFB7E900B294EB /* GoogleService-Info.plist in Resources */,
 				FA1FE3F522F7563900C36E6B /* Card.xib in Resources */,
 				A920C4E522D281B60088DD58 /* CardBack.xib in Resources */,
 				FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */,

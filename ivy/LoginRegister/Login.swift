@@ -307,6 +307,7 @@ class Login: UIViewController, UITextFieldDelegate {
         self.baseDatabaseReference.collection("other").document("version_document").getDocument { (docSnap, e) in
             if(e != nil){
                 print("There was an error obtaining app's version: ",e)
+                self.updateMessagingToken()
                 self.performSegue(withIdentifier: "loginToMain", sender: self)
             }else{
                 self.allowInteraction()
@@ -314,25 +315,47 @@ class Login: UIViewController, UITextFieldDelegate {
                     let alert = UIAlertController(title: "There's a newer version of the app available.", message: .none, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alert:UIAlertAction) in
                         
-                        var url  = NSURL(string: "itms-apps://itunes.apple.com/app/bars/id1479966843")
+                        let url  = NSURL(string: "itms-apps://itunes.apple.com/app/bars/id1479966843")
                         if UIApplication.shared.canOpenURL(url! as URL) {
-                            UIApplication.shared.openURL(url! as URL)
+                            UIApplication.shared.open(url! as URL, options: [:], completionHandler: nil)
                         }
 //                        self.performSegue(withIdentifier: "loginToMain", sender: self)
                     }))
                     
                     alert.addAction(UIAlertAction(title: "Update Later", style: .cancel, handler: { (alert:UIAlertAction) in
+                        self.updateMessagingToken()
                         self.performSegue(withIdentifier: "loginToMain", sender: self)
                     }))
                     
                     
                     self.present(alert, animated: true)
                 }else{
+                    self.updateMessagingToken()
                     self.performSegue(withIdentifier: "loginToMain", sender: self)
                 }
             }
         }
     }
+    
+    func updateMessagingToken(){
+        //Request for new token
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instange ID: \(error)")
+                } else if let result = result {
+                if let id = Auth.auth().currentUser?.uid as? String{
+                    var tokenMerger = Dictionary<String,Any>()
+                    tokenMerger["messaging_token"] = result.token
+                    self.baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(id).setData(tokenMerger, merge: true)
+
+                }
+                print("Remote instance ID token: \(result.token)")
+            }
+        }
+        Messaging.messaging().shouldEstablishDirectChannel = true
+    }
+    
+    
 }
 
 
