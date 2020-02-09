@@ -60,6 +60,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerUserNotificationSettings(settings)
         }
         
+        //delete old token
+        let instance = InstanceID.instanceID()
+        instance.deleteID { (error) in
+            print(error.debugDescription)
+        }
+        //Request for new token
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instange ID: \(error)")
+                } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+            }
+        }
+        Messaging.messaging().shouldEstablishDirectChannel = true
         
         application.registerForRemoteNotifications()
         
@@ -122,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Print full message.
-        print(userInfo)
+        print("user info: ", userInfo)
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -138,6 +152,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         print("APNS token retrieved",deviceToken)
         Messaging.messaging().apnsToken = deviceToken
+        
+
         
         if let id = Auth.auth().currentUser?.uid as? String{
             //on token refresh update the auth users FCM token
