@@ -86,9 +86,11 @@ class Reg10Recap: UIViewController {
             front.degreeIcon.image = UIImage(named: degree)
         }
         
-        //hide the message field and the say hi button and the sync arrow since were flipping by clicking card
+        //hide gallery button and more button but show the sync arrow
         back.flipButton.isHidden = true
-        front.flipButton.isHidden = true
+        front.flipButton.isHidden = false
+        front.galleryButton.isHidden = true
+        front.moreButton.isHidden = true
         back.sayHiMessageTextField.isHidden = true
         back.sayHiButton.isHidden = true
         
@@ -102,6 +104,10 @@ class Reg10Recap: UIViewController {
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(flip))
         singleTap.numberOfTapsRequired = 1
         shadowContainer.addGestureRecognizer(singleTap)
+        
+        let singleTapSync = UITapGestureRecognizer(target: self, action: #selector(flip))
+        singleTapSync.numberOfTapsRequired = 1
+        front.flipButton.addGestureRecognizer(singleTapSync)
     }
     
     @objc func flip() {

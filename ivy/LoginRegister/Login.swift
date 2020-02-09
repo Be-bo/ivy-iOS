@@ -32,6 +32,8 @@ class Login: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var middleContainer: StandardButton!
     @IBOutlet weak var bottomContainer: UIView!
     @IBOutlet weak var ivyLogo: UIImageView!
+    @IBOutlet weak var forgotPassLabel: StandardGreenLabel!
+    
     
     @IBAction func loginClicked(_ sender: Any) {
         attemptLogin()
@@ -63,9 +65,9 @@ class Login: UIViewController, UITextFieldDelegate {
         signupLabel.addGestureRecognizer(tapSignUp)
         
         //TODO: forgot password stuff
-//        let tapForgotPass = UITapGestureRecognizer(target: self, action: #selector(Login.promptRecoveryEmail))
-//        forgotPassLabel.isUserInteractionEnabled = true
-//        forgotPassLabel.addGestureRecognizer(tapForgotPass)
+        let tapForgotPass = UITapGestureRecognizer(target: self, action: #selector(Login.promptRecoveryEmail))
+        forgotPassLabel.isUserInteractionEnabled = true
+        forgotPassLabel.addGestureRecognizer(tapForgotPass)
         self.navigationController?.setNavigationBarHidden(true, animated: false) //hide navigation bar for this view controller
     }
     
@@ -154,21 +156,6 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // MARK: Authentication Functions
     
     func attemptLogin(){
@@ -178,17 +165,21 @@ class Login: UIViewController, UITextFieldDelegate {
             let email = emailField.text!
             let password = passwordField.text!
             authInstance.signIn(withEmail: email, password: password) { (result, error) in //try to authenticate user in Firebase Auth with their email and password
-                if(error == nil){
-//                    if(self.authInstance.currentUser!.isEmailVerified){
-                        if let range = email.range(of: "@") { //extract the domain the user's entered
-                            self.thisUni = String(email[range.upperBound...])
-                            self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines) //trim whitespace and new line incase accidentley add space
-                        }
-                        self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
-                        self.checkForNewerVersion()
-                }else{
-                    self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label
-                    self.allowInteraction()
+                    if(error == nil){
+                        if(self.authInstance.currentUser!.isEmailVerified){
+                            if let range = email.range(of: "@") { //extract the domain the user's entered
+                                self.thisUni = String(email[range.upperBound...])
+                                self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines) //trim whitespace and new line incase accidentley add space
+                            }
+                            self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
+                            self.checkForNewerVersion()
+                    }else{
+                            self.errorLabel.attributedText = self.createResendEmailErrorText()
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(Login.resendEmailValidation))
+                            self.errorLabel.isUserInteractionEnabled = true
+                            self.errorLabel.addGestureRecognizer(tap)
+                            self.allowInteraction()
+                    }
                 }
             }
         }
@@ -201,15 +192,15 @@ class Login: UIViewController, UITextFieldDelegate {
                 print("error sending reg email: ",e)
                 PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "There was an error sending the registration email. Please contact theivysocialnetwork@gmail.com.", context: self)
             }else{
-                //nothing
+                PublicStaticMethodsAndData.createInfoDialog(titleText: "Email Sent", infoText: "We sent you a verification email. Please check your inbox.", context: self)
             }
         })
-        PublicStaticMethodsAndData.createInfoDialog(titleText: "Email Sent", infoText: "We sent you a verification email. Please check your inbox.", context: self)
+
     }
     
     
     func checkAutoLogin(){ //check if we the necessary local data and if the user has logged in in the past to attempt an auto login
-        if(getLocalData() && authInstance.currentUser != nil  /*&& authInstance.currentUser!.isEmailVerified*/ && !dontAutoLog){
+        if(getLocalData() && authInstance.currentUser != nil  && authInstance.currentUser!.isEmailVerified && !dontAutoLog){
             saveLocalData()
             barInteraction()
             hideElems()
@@ -244,41 +235,58 @@ class Login: UIViewController, UITextFieldDelegate {
         self.performSegue(withIdentifier: "loginToReg1Segue" , sender: self)
     }
     
-//    @objc func promptRecoveryEmail(sender: UITapGestureRecognizer){
-//
-//        var nameField: UITextField?
-//        let alertController = UIAlertController(title: "Add Number", message: nil, preferredStyle: .alert)
-//        // Add textfield to alert view
-//        alertController.addTextField { (textField) in
-//            nameField = textField
-//        }
-//
-//        self.present(alertController, animated: true)
-//
-//    }
+    @objc func promptRecoveryEmail(sender: UITapGestureRecognizer){
+
+        let ac = UIAlertController(title: "Type your email:", message: nil, preferredStyle: .alert)
+        ac.addTextField()
+        
+        
+        let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned ac] _ in
+            let emailInput = ac.textFields![0]
+            print("answer here: ", emailInput.text as Any)
+            
+            //try to send reset email and if it works then prompt
+            if let emailInput = emailInput.text {
+                if(emailInput.count>5 && emailInput.contains("@")){
+                    //check if auth is successfull and complete else tell them it might not have sent
+                    Auth.auth().sendPasswordReset(withEmail: emailInput, completion: { (error) in
+                        //Make sure you execute the following code on the main queue
+                        DispatchQueue.main.async {
+                            //Use "if let" to access the error, if it is non-nil
+                            if let error = error {
+                                let resetFailedAlert = UIAlertController(title: "Reset Failed", message: "User might not exist", preferredStyle: .alert)
+                                resetFailedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                self.present(resetFailedAlert, animated: true, completion: nil)
+                            } else {
+                                let resetEmailSentAlert = UIAlertController(title: "Reset email sent successfully", message: "Check your email", preferredStyle: .alert)
+                                resetEmailSentAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                self.present(resetEmailSentAlert, animated: true, completion: nil)
+                            }
+                        }
+                    })
+                }else{
+                    //prompt them to enter a valid email
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a valid email domain", infoText: "", context: self)
+                }
+            }
+            
+
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { [unowned ac] _ in
+        }
+        
+        
+        ac.addAction(cancelAction)
+        ac.addAction(submitAction)
+
+
+        self.present(ac, animated: true)
+
+    }
     
-//    @IBAction func addButtonClicked(sender : AnyObject){
-//        let alertController = UIAlertController(title: "Add New Name", message: "", preferredStyle: UIAlertController.Style.alert)
-//        alertController.addTextField { (textField : UITextField!) -> Void in
-//            textField.placeholder = "Enter Second Name"
-//        }
-//        let saveAction = UIAlertAction(title: "Save", style: UIAlertAction.Style.default, handler: { alert -> Void in
-//            let firstTextField = alertController.textFields![0] as UITextField
-//            let secondTextField = alertController.textFields![1] as UITextField
-//        })
-//        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {
-//            (action : UIAlertAction!) -> Void in })
-//        alertController.addTextField { (textField : UITextField!) -> Void in
-//            textField.placeholder = "Enter First Name"
-//        }
-//
-//        alertController.addAction(saveAction)
-//        alertController.addAction(cancelAction)
-//
-//        self.present(alertController, animated: true, completion: nil)
-//    }
-//
-//
+
+
     
     func saveLocalData(){ //save this user's university domain locally
         let defaults = UserDefaults.standard
@@ -328,32 +336,3 @@ class Login: UIViewController, UITextFieldDelegate {
 }
 
 
-extension UIViewController {
-    func showTextInputDialog(title:String? = nil,
-                         subtitle:String? = nil,
-                         actionTitle:String? = "Send",
-                         cancelTitle:String? = "Cancel",
-                         inputPlaceholder:String? = nil,
-                         inputKeyboardType:UIKeyboardType = UIKeyboardType.default,
-                         cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
-                         actionHandler: ((_ text: String?) -> Void)? = nil) {
-
-        let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
-        alert.addTextField { (textField:UITextField) in
-            textField.placeholder = inputPlaceholder
-            textField.keyboardType = inputKeyboardType
-        }
-        alert.addAction(UIAlertAction(title: cancelTitle, style: .destructive, handler: cancelHandler))
-
-        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { (action:UIAlertAction) in
-            guard let textField =  alert.textFields?.first else {
-                actionHandler?(nil)
-                return
-            }
-            actionHandler?(textField.text)
-        }))
-
-        self.present(alert, animated: true, completion: nil)
-
-    }
-}

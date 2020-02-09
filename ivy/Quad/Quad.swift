@@ -19,6 +19,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     private let MAX_SIZE = 10000
     
     private var thisUserProfile = Dictionary<String, Any>()
+    private var userToSendRequestTo = Dictionary<String, Any>()
     private var allQuadProfiles = [Dictionary<String, Any>]()
     private var seenSet = Set<String>()
     private var requests = Dictionary<String, Any>()
@@ -48,7 +49,8 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     
     
-    
+    let sender = PushNotificationSender()
+
     
     
     
@@ -70,41 +72,12 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         quadCollectionView.delegate = self
         quadCollectionView.dataSource = self
         quadCollectionView.register(UINib(nibName: "Card", bundle: nil), forCellWithReuseIdentifier: cellId)
-
-
-
-//        print("quadCollectionView.decelerationRate.rawValue / 4", quadCollectionView.decelerationRate.rawValue / 4, "quadCollectionView.decelerationRate.rawValue", quadCollectionView.decelerationRate.rawValue)
-//        quadCollectionView.decelerationRate = .init(rawValue: 0.993)
-                
-//        quadCollectionView.decelerationRate = .init(rawValue: 0.5)
-//        let sidePadding = (quadCollectionView.frame.size.width - cell width)/2 //side padding for each card is 5% of collection view's width
-//        quadCollectionView.contentInset = UIEdgeInsets(top: 0, left: sidePadding, bottom: 0, right: sidePadding)
         if(!thisUserProfile.values.isEmpty){
             self.startListeningToQuadLists()
-//            loadQuadProfiles()
         }
     }
     
-    //old nav before add u of c logo
-//    private func setUpNavigationBar(){
-//        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo"))
-//        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-//        titleImgView.contentMode = .scaleAspectFit
-//        navigationItem.titleView = titleImgView
-//
-//        let settingsButton = UIButton(type: .custom)
-//        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
-//        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
-//        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
-//
-//        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
-//        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-//        currWidth?.isActive = true
-//        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-//        currHeight?.isActive = true
-//
-//        self.navigationItem.rightBarButtonItem = settingsButtonItem
-//    }
+
     private func setUpNavigationBar(){
            let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
            titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
@@ -445,6 +418,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     func sendRequest(quadCard:Card, pos: Int){
         var conversationReference: DocumentReference
         var current = allQuadProfiles[pos]
+        userToSendRequestTo = current   //so I can use it below in send notification
         conversationReference = self.baseDatabaseReference.collection("conversations").document()
         var participants = [String]()
         var participantNames = [String]()
@@ -499,22 +473,24 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         requestMessage["id"] = NSUUID().uuidString
         requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
         //push message object to db
-        self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
-        currentCard?.assignedPosition = -1
-        //TODO: check if all this stuff is working once the loading is done correctley.
-        //assuming the position is passed in correctley this will remove the user from all the wuad profiles then reload it to no longer show them
-        //remove profile from quad
-        self.quadCollectionView.scrollToItem(at: IndexPath(item: pos+1, section: 0), at: .centeredHorizontally, animated: false)
-        self.quadCollectionView.scrollToItem(at: IndexPath(item: pos, section: 0), at: .centeredHorizontally, animated: true)
-        self.allQuadProfiles.remove(at: pos)
-        quadCard.back.sayHiMessageTextField.text = "" //reset the message text on the back of the card
-//        quadCard.flip() //flip to eliminate the problem where the quad starts on the back side after removing the previous person you just messaged
-        
-//
-//        self.quadCollectionView.scrollToItem(at: IndexPath(item: self.currentCard!.assignedPosition + 1, section: 0), at: .centeredHorizontally, animated: true)
-//        print("pos to remove: ", pos)
-//        print("user to remove: ", self.allQuadProfiles[pos])
-        self.quadCollectionView.reloadData()
+        self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage, completion: { (e) in
+        if(e != nil){
+            print("Error while sending request message: ",e)
+        }else{
+            self.sendNotification(message:requestMessage)
+            self.currentCard?.assignedPosition = -1
+
+            //assuming the position is passed in correctley this will remove the user from all the wuad profiles then reload it to no longer show them
+            //remove profile from quad
+            self.quadCollectionView.scrollToItem(at: IndexPath(item: pos+1, section: 0), at: .centeredHorizontally, animated: false)
+            self.quadCollectionView.scrollToItem(at: IndexPath(item: pos, section: 0), at: .centeredHorizontally, animated: true)
+            self.allQuadProfiles.remove(at: pos)
+            quadCard.back.sayHiMessageTextField.text = "" //reset the message text on the back of the card
+
+            self.quadCollectionView.reloadData()
+
+            }
+        })
     }
     
     
@@ -523,6 +499,27 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     
     
+    //NOTIFICATION SENDING
+    private func sendNotification(message:Dictionary<String,Any>) {
+        //if ifs a base conversation vs if its not a base conversation
+        if let authorFirstName = message["author_first_name"] as? String, let authorLastName = message["author_last_name"] as? String, let messageText = message["message_text"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String, let conversationID = message["id"] as? String, let otherId = userToSendRequestTo["id"] as? String {
+                self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(otherId).getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let user = document.data()
+                        //user will exist hhere since document data has to  exist here
+                        if let usersMessagingToken = user!["messaging_token"] as? String {
+                            print("BASE CONVO  other user messaging token: ", usersMessagingToken)
+                            //actually notify the user of that device
+                            print("conversation id: ", conversationID)
+                            self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText, conversationID: conversationID)
+                            //else title is just name of author for base conversation
+                        }
+                    } else {
+                        print("Document does not exist")
+                    }
+                }
+            }
+        }
     
     
     

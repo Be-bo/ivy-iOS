@@ -64,56 +64,28 @@ class Gallery: UIViewController {
         titleView.text = "My Gallery"
         titleView.textAlignment = .center
         navigationItem.titleView = titleView
-    
-        
-        let addButton = UIButton(type: .custom)
-        addButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
-        addButton.setImage(UIImage(named:"plus"), for: .normal)
-        addButton.addTarget(self, action: #selector(self.didTapAddButton), for: .touchUpInside)
-        
-        let addBarItem = UIBarButtonItem(customView: addButton)
-        var currWidth = addBarItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-        currWidth?.isActive = true
-        var currHeight = addBarItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-        currHeight?.isActive = true
-        
-        
-        
-        let chooseProfileButton = UIButton(type: .custom)
-        chooseProfileButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
-        chooseProfileButton.setImage(UIImage(named:"set_profile_picture"), for: .normal)
-        chooseProfileButton.addTarget(self, action: #selector(self.tapChooseProfileButton), for: .touchUpInside)
-        
-        let chooseProfileItem = UIBarButtonItem(customView: chooseProfileButton)
-        currWidth = chooseProfileItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-        currWidth?.isActive = true
-        currHeight = chooseProfileItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-        currHeight?.isActive = true
-        
-
-
-        
-//        let deleteButton = UIButton(type: .custom)
-        deleteButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
-        deleteButton.setImage(UIImage(named:"trash"), for: .normal)
-        deleteButton.addTarget(self, action: #selector(self.tapDeleteImageButton), for: .touchUpInside)
-        
-        let deleteItem = UIBarButtonItem(customView: deleteButton)
-        currWidth = deleteItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-        currWidth?.isActive = true
-        currHeight = deleteItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-        currHeight?.isActive = true
-        
-        
-        
-        
-        self.navigationItem.rightBarButtonItems = [addBarItem, deleteItem, chooseProfileItem]
-        
-        
-        
-        
-
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(showActions))
     }
+    
+    @objc func showActions() {
+        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
+        actionSheet.view.tintColor = UIColor.ivyGreen
+        
+        if let popoverController = actionSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        actionSheet.addAction(UIAlertAction(title: "Add Image", style: .default, handler: self.didTapAddButton))
+        actionSheet.addAction(UIAlertAction(title: "Delete Image", style: .default, handler: self.tapDeleteImageButton))
+        actionSheet.addAction(UIAlertAction(title: "Choose Profile Image", style: .default, handler: self.tapChooseProfileButton))
+
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+
     
     
     @objc func tapChooseProfileButton(sender: AnyObject) {
@@ -134,7 +106,7 @@ class Gallery: UIViewController {
             alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true)
         }else{
-            let alert = UIAlertController(title: "Do you really want to delete this image?.", message: .none, preferredStyle: .alert)
+            let alert = UIAlertController(title: "Do you really want to delete this image?", message: .none, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { action in
                 self.deleteButton.isEnabled = false
