@@ -12,6 +12,7 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 import InstantSearchClient
+import MessageUI
 
 class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SearchCellDelegator {
 
@@ -278,40 +279,48 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     private func setUpNavigationBar(){
         let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
-        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        titleImgView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
         
-        //u of c logo in the top left gotta be a button just dont add target
+        //U of C Logo Left Top Corneur
         let uOfCImgView = UIButton(type: .custom)
         uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
         uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
-
-
-        let settingsButton = UIButton(type: .custom)
-        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
-        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
-        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
-        
-        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
-        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-        currWidth?.isActive = true
-        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-        currHeight?.isActive = true
-        
-        
         uOfCImgView.adjustsImageWhenHighlighted = false //keep color when button is diabled
         uOfCImgView.isEnabled = false //make u of c button unclickable
-        
         let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
         let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
         curruOfCWidth?.isActive = true
         let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         curruOfCHeight?.isActive = true
+        
+        
+        //Settings Button Right Top Corneur
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
+        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
+        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
+        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currWidth?.isActive = true
+        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currHeight?.isActive = true
 
         
+        //Share Button Next To Settings
+        let shareButton = UIButton(type: .custom)
+        shareButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        shareButton.setImage(UIImage(named:"share"), for: .normal)
+        shareButton.addTarget(self, action: #selector(self.shareTapped), for: .touchUpInside)
+        let shareButtonItem = UIBarButtonItem(customView: shareButton)
+        let currShareWidth = shareButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currShareWidth?.isActive = true
+        let currShareHeight = shareButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currShareHeight?.isActive = true
+        
         self.navigationItem.leftBarButtonItem = uOfCButtonItem
-        self.navigationItem.rightBarButtonItem = settingsButtonItem
+        self.navigationItem.rightBarButtonItems = [settingsButtonItem, shareButtonItem]
     }
     
     @objc func settingsClicked() {
@@ -330,6 +339,24 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
             startLoadingData()
         }
     }
+    
+    @objc func shareTapped(){ //TODO: potentially move this to the PublicStaticMethodsAndData
+        if MFMailComposeViewController.canSendMail(){
+            let shareAppController = ShareAppController()
+            shareAppController.owner = self
+            shareAppController.mailComposeDelegate = shareAppController //this was the annoying part, you can't do this inside viewDidLoad cuz this type of controller has any changes forbidden after present()
+            shareAppController.delegate = self.navigationController?.delegate
+            shareAppController.setMessageBody("Hi, thought you'd like ivy! Check it out here: https://apps.apple.com/ca/app/ivy/id1479966843.", isHTML: true)
+            shareAppController.setSubject("Cool App")
+            self.present(shareAppController, animated: true)
+        }else{
+            PublicStaticMethodsAndData.createInfoDialog(titleText: "Cannot Send Email", infoText: "You have no email account configured on your device. This is required for you to share ivy via email.", context: self)
+        }
+    }
+    
+    
+    
+    
     
     
     

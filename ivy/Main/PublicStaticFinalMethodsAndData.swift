@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MessageUI
 
 class PublicStaticMethodsAndData{
     
@@ -19,8 +20,6 @@ class PublicStaticMethodsAndData{
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         context.present(alert, animated: true)
     }
-    
-    
     
     
     static func calculateAge(millis: Int64) -> Int64 {
@@ -115,6 +114,12 @@ class PublicStaticMethodsAndData{
         }
         return false
     }
+    
+    
+    
+    
+    
+    
     
     static let iconNames = [
         "accounting", "actuarialScience", "ancientAndMedievalHistory", "anthropology", "appliedscience", "archaeology", "architecture", "artHistory", "astrophysics",

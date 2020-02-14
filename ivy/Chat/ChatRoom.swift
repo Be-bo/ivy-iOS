@@ -775,8 +775,11 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                                 if let error = error {
                                     print("error", error)
                                 } else {
-
+                            
                                     if let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, imgWidth > 0, imgHeight > 0{ //if the file is an image and we have it's dimens
+                                        
+                                        cell.photoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.imageTapped(_:)))) //make the photo fullscreen clickable
+                                        
                                         cell.fileIconHeight.constant = 0
                                         cell.downloadButtonHeight.constant = 0
                                         cell.photoImageView.isHidden = false
@@ -840,6 +843,9 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                                 } else {
                                     
                                     if let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, imgWidth > 0, imgHeight > 0{ //if the file is an image and we have it's dimens
+                                        
+                                        cell.photoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.imageTapped(_:)))) //make the photo fullscreen clickable
+                                        
                                         cell.fileIconHeight.constant = 0
                                         cell.downloadButtonHeight.constant = 0
                                         cell.photoImageView.isHidden = false
@@ -931,11 +937,39 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     
+    //MARK: Fullscreen Image Methods
+    
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+        let imageView = sender.view as! UIImageView
+        let newImageView = UIImageView(image: imageView.image)
+        newImageView.frame = UIScreen.main.bounds
+        newImageView.backgroundColor = .black
+        newImageView.contentMode = .scaleAspectFit
+        newImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        newImageView.addGestureRecognizer(tap)
+        self.view.addSubview(newImageView)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+    }
+
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        sender.view?.removeFromSuperview()
+    }
     
     
     
     
-    // MARK: File Sharing Related Functions
+    
+    
+    
+    
+    
+    
+    
+    //MARK: File Sharing Related Functions
     
     func savePdf(urlString:String, fileName:String) {
         DispatchQueue.main.async {

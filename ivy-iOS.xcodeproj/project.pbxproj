@@ -43,7 +43,6 @@
 		A9A57D0F23216C8E00867D84 /* chatBubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */; };
 		A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */; };
 		A9A57D162321C1C900867D84 /* SettingsButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */; };
-		A9AF67E3237FCCC3007E30CC /* GoogleService-InfoTest.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9AF67E2237FCCC3007E30CC /* GoogleService-InfoTest.plist */; };
 		A9B57E8223137482008DC63B /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B57E8023137482008DC63B /* EventCollectionViewCell.swift */; };
 		A9B57E8323137482008DC63B /* EventCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B57E8123137482008DC63B /* EventCollectionViewCell.xib */; };
 		A9B57E8523138318008DC63B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B57E8423138317008DC63B /* Event.swift */; };
@@ -106,6 +105,7 @@
 		FA60590C22A4B12C00383F9F /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60590B22A4B12C00383F9F /* Login.swift */; };
 		FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA60590D22A4B12C00383F9F /* Main.storyboard */; };
 		FA60591422A4B12E00383F9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */; };
+		FA6538EA23F6F663003142C3 /* ShareAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6538E923F6F663003142C3 /* ShareAppController.swift */; };
 		FA6D733522DA80FE009020B5 /* GreenBoldTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D733422DA80FE009020B5 /* GreenBoldTitleLabel.swift */; };
 		FA6D733722DA8117009020B5 /* LargeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D733622DA8117009020B5 /* LargeLabel.swift */; };
 		FA6D733922DA812D009020B5 /* MediumGreenLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D733822DA812D009020B5 /* MediumGreenLabel.swift */; };
@@ -169,7 +169,6 @@
 		A9A57D0D23216C8E00867D84 /* chatBubbleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatBubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9A57D0E23216C8E00867D84 /* chatBubbleCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = chatBubbleCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9A57D152321C1C900867D84 /* SettingsButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonLabel.swift; sourceTree = "<group>"; };
-		A9AF67E2237FCCC3007E30CC /* GoogleService-InfoTest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-InfoTest.plist"; sourceTree = "<group>"; };
 		A9B57E8023137482008DC63B /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9B57E8123137482008DC63B /* EventCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9B57E8423138317008DC63B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -236,6 +235,7 @@
 		FA60590E22A4B12C00383F9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA60591322A4B12E00383F9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA60591522A4B12E00383F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA6538E923F6F663003142C3 /* ShareAppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareAppController.swift; path = ivy/Explore/ShareAppController.swift; sourceTree = SOURCE_ROOT; };
 		FA6D733422DA80FE009020B5 /* GreenBoldTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenBoldTitleLabel.swift; sourceTree = "<group>"; };
 		FA6D733622DA8117009020B5 /* LargeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeLabel.swift; sourceTree = "<group>"; };
 		FA6D733822DA812D009020B5 /* MediumGreenLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumGreenLabel.swift; sourceTree = "<group>"; };
@@ -341,6 +341,7 @@
 		FA121C1922EE3B4100C175F7 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				FA6538E923F6F663003142C3 /* ShareAppController.swift */,
 				A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */,
 				A920C4E922D281D60088DD58 /* CardBack.swift */,
 				A920C4EA22D281D60088DD58 /* CardFront.swift */,
@@ -487,7 +488,6 @@
 				A9BB05E322B5D2F8008B35AA /* Constants.swift */,
 				FA60591222A4B12E00383F9F /* LaunchScreen.storyboard */,
 				A93CC6AF23EF9A0100B294EB /* GoogleService-Info.plist */,
-				A9AF67E2237FCCC3007E30CC /* GoogleService-InfoTest.plist */,
 				FA60591522A4B12E00383F9F /* Info.plist */,
 			);
 			path = ivy;
@@ -611,7 +611,6 @@
 				A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
 				A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */,
-				A9AF67E3237FCCC3007E30CC /* GoogleService-InfoTest.plist in Resources */,
 				FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */,
 				FAC5A81B23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib in Resources */,
 				FA1FE3F522F7563900C36E6B /* Card.xib in Resources */,
@@ -714,6 +713,7 @@
 				FA121C2C22EE4C2B00C175F7 /* ConversationCell.swift in Sources */,
 				A9FD196B2315C84A00ECA848 /* BoardPostTableViewCell.swift in Sources */,
 				FA121C1B22EE3B8400C175F7 /* MainTabController.swift in Sources */,
+				FA6538EA23F6F663003142C3 /* ShareAppController.swift in Sources */,
 				A920C4F322DAC78D0088DD58 /* Reg3Name.swift in Sources */,
 				FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */,
 				A97A661722F7755A004A6BBE /* addParticipantPopUPViewController.swift in Sources */,

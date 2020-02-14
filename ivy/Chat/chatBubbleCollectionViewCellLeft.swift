@@ -89,7 +89,7 @@ class chatBubbleCollectionViewCellLeft: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        photoImageView.isUserInteractionEnabled = true
     }
     
     override func prepareForReuse() {
