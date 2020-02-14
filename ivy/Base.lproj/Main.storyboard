@@ -3584,7 +3584,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JB2-Nq-6bP" userLabel="Tag View" customClass="TagListView" customModule="TagListView">
+                                            <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JB2-Nq-6bP" userLabel="Tag View" customClass="TagListView" customModule="TagListView">
                                                 <rect key="frame" x="25" y="1162" width="270" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="6aj-p0-QbD"/>
@@ -3636,7 +3636,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bh9-PX-SFk" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bh9-PX-SFk" customClass="StandardButton" customModule="ivy_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="120" y="1204" width="80" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="G1m-ss-eCm"/>
@@ -3647,7 +3647,7 @@
                                                     <action selector="submitEvent:" destination="i82-BB-Am3" eventType="touchUpInside" id="inB-sY-msU"/>
                                                 </connections>
                                             </button>
-                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="dbB-qf-Da1" customClass="LoadingWheel" customModule="ivy_iOS" customModuleProvider="target">
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="dbB-qf-Da1" customClass="LoadingWheel" customModule="ivy_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="150" y="1204" width="20" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="uUQ-iV-wpC"/>
