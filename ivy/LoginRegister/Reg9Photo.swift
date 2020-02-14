@@ -31,7 +31,6 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     
     @IBOutlet weak var actualFinalImage: UIImageView!
     @IBAction func onClickContinue(_ sender: Any) {
-        print("attempt to continue")
         attemptToContinue()
     }
     @IBAction func clickAddPhoto(_ sender: Any) { //when they click on add photo take them to which photo they should choose
@@ -119,6 +118,17 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         self.byteArray = (finalImage.jpegData(compressionQuality: 0.8)!) as NSData
     }
     
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        self.actualFinalImage.image = nil
+        //add the border back in
+        self.actualFinalImage.layer.masksToBounds = true;
+        self.actualFinalImage.layer.borderColor = UIColor.ivyGrey.cgColor
+        self.actualFinalImage.layer.borderWidth = 1.0;    //thickness
+        self.actualFinalImage.layer.cornerRadius = 10.0;  //rounded corner
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     func showImagePickerController() { //present the imagepicker controller which allows users to choose what image they want from the gallery
         let imagePicker = UIImagePickerController()
 //        imagePicker.modalPresentationStyle = .popover
@@ -139,4 +149,7 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         dismiss(animated: true, completion: nil)    //dismiss the imagepickercontroller view
         presentCropViewController()
     }
+    
+    
+
 }
