@@ -589,4 +589,12 @@ class ViewFullProfileActivity: UIViewController{
         }
 
     }
+    
+    
+    
+    
+    
+    
+    
+    
 }

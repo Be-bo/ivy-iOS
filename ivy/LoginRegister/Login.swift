@@ -180,6 +180,9 @@ class Login: UIViewController, UITextFieldDelegate {
                             self.errorLabel.addGestureRecognizer(tap)
                             self.allowInteraction()
                     }
+                }else{
+                    self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label
+                    self.allowInteraction()
                 }
             }
         }
