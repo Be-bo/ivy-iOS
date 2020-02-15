@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let error = error {
                 print("Error fetching remote instange ID: \(error)")
                 } else if let result = result {
-                print("Remote instance ID token: \(result.token)")
+//                print("Remote instance ID token: \(result.token)")
             }
         }
         Messaging.messaging().shouldEstablishDirectChannel = true
@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
+//            print("Message ID: \(messageID)")
         }
         
         // Print full message.
@@ -130,11 +130,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
+//            print("Message ID: \(messageID)")
         }
         
         // Print full message.
-        print("user info: ", userInfo)
+//        print("user info: ", userInfo)
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -148,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let baseDatabaseReference = Firestore.firestore()   //reference to the database
 
-        print("APNS token retrieved",deviceToken)
+//        print("APNS token retrieved",deviceToken)
         Messaging.messaging().apnsToken = deviceToken
         
 
@@ -156,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let id = Auth.auth().currentUser?.uid as? String{
             //on token refresh update the auth users FCM token
             if let refreshedToken = Messaging.messaging().fcmToken {
-                print("InstanceID token: \(refreshedToken)")
+//                print("InstanceID token: \(refreshedToken)")
                 var tokenMerger = Dictionary<String,Any>()
                 tokenMerger["messaging_token"] = refreshedToken
                 baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(id).setData(tokenMerger, merge: true)
@@ -181,9 +181,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         let userInfo = notification.request.content.userInfo
         if let messageID = userInfo[gcmMessageIDKey] {
-            debugPrint("Message ID: \(messageID)")
+//            debugPrint("Message ID: \(messageID)")
         }
-        debugPrint(userInfo)
+//        debugPrint(userInfo)
         //Handle the notification ON APP
         Messaging.messaging().appDidReceiveMessage(userInfo)
         completionHandler([.sound,.alert,.badge])
@@ -197,7 +197,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                  
         let userInfo = response.notification.request.content.userInfo
         if let messageID = userInfo[gcmMessageIDKey] {
-            debugPrint("Message ID: \(messageID)")
+//            debugPrint("Message ID: \(messageID)")
         }
         
         
@@ -274,7 +274,7 @@ extension AppDelegate: MessagingDelegate {
             if let error = error {
                 print("Error fetching remote instange ID: \(error)")
                 } else if let result = result {
-                print("Remote instance ID token: \(result.token)")
+//                print("Remote instance ID token: \(result.token)")
             }
         }
         Messaging.messaging().shouldEstablishDirectChannel = true
@@ -283,7 +283,6 @@ extension AppDelegate: MessagingDelegate {
         if let id = Auth.auth().currentUser?.uid as? String{
             var tokenMerger = Dictionary<String,Any>()
             tokenMerger["messaging_token"] = fcmToken
-            print("token merger: ", tokenMerger["messaging_token"])
             baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(id).setData(tokenMerger, merge: true)
         }
         
@@ -296,7 +295,7 @@ extension AppDelegate: MessagingDelegate {
     
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("Message Data", remoteMessage.appData)
+//        print("Message Data", remoteMessage.appData)
     }
     
     

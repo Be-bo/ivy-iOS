@@ -246,7 +246,6 @@ class Login: UIViewController, UITextFieldDelegate {
         
         let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned ac] _ in
             let emailInput = ac.textFields![0]
-            print("answer here: ", emailInput.text as Any)
             
             //try to send reset email and if it works then prompt
             if let emailInput = emailInput.text {

@@ -33,7 +33,7 @@ class MainTabController: UITabBarController {
                     self.userProfileListener = self.baseDatabaseReference.collection("universities").document(self.thisUniDomain).collection("userprofiles").document(self.thisUserId).addSnapshotListener() { (docSnap, e) in
                         if let e = e{
                             print("Error obtaining user profile: \(e)")
-                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't get your user data, try restarting the app. :-(", context: self)
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "We couldn't get your data, try restarting the app. :-(", context: self)
                             exit(0) //discouraged by Apple
                         }else{
                             if(docSnap?.exists ?? false && docSnap?.data() != nil){

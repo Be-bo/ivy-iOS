@@ -247,7 +247,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                             if err != nil {
                                 print("Error loading user's lists in Explore: ", err)
                             }else{
-                                print("userlists changes registered")
                                 querSnap?.documentChanges.forEach({ (docChan) in
                                     switch(docChan.document.documentID){
                                     case "requests": self.requests = docChan.document.data()
@@ -508,9 +507,7 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
                         let user = document.data()
                         //user will exist hhere since document data has to  exist here
                         if let usersMessagingToken = user!["messaging_token"] as? String {
-                            print("BASE CONVO  other user messaging token: ", usersMessagingToken)
                             //actually notify the user of that device
-                            print("conversation id: ", conversationID)
                             self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText, conversationID: conversationID)
                             //else title is just name of author for base conversation
                         }

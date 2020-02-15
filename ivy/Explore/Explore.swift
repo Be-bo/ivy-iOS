@@ -81,7 +81,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         if(!searchVisible){
             searchCancelButton.isHidden = false
             searchVisible = true
-            searchLauncher.triggerPanel(searchBar: searchBar, navBarHeight: self.navigationController?.navigationBar.frame.size.height ?? 100, thisUser: thisUserProfile, rulingVC: self)
+            searchLauncher.triggerPanel(searchBar: searchBar, navBarHeight: self.navigationController?.navigationBar.frame.size.height ?? 100, thisUser: thisUserProfile, rulingVC: self, owner: self)
         }
     }
     @IBAction func cancelSearchClicked(_ sender: Any) {
@@ -262,7 +262,8 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     private func setUp(){ //initial setup method when the ViewController's first created
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
-                
+    
+        self.hideKeyboardOnTapOutside()
         eventsCollectionView.delegate = self //events setup
         eventsCollectionView.dataSource = self
         eventsCollectionView.register(UINib(nibName:eventCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: eventCollectionIdentifier)
@@ -464,7 +465,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     // MARK: Data Acquisition Methods
     
     func startLoadingData(){
-        if (!self.thisUserProfile.isEmpty){ //make sure user profile exists
+        if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
             self.setFeaturedEvent()
             self.loadEvents()
             self.startListeningToUserLists()
@@ -530,7 +531,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     func loadEvents(){ //load all the events except for the featured event
         self.allEvents = [Dictionary<String, Any>]()
-        
         if let userDomain = self.thisUserProfile["uni_domain"] as? String{
             self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("events").whereField("end_time", isGreaterThan: Date().millisecondsSince1970).order(by: "end_time", descending: false).getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -565,7 +565,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     func startListeningToUserLists(){
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
             self.sfDefaultQuery = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").order(by: "registration_millis", descending: true).limit(to: SF_BATCH_SIZE) //assign the default query for loading suggested profiles
-            
             //make sure the user is actually signed in and authenticated first to prevent the signout error
             Auth.auth().addStateDidChangeListener { (auth, user) in
                        if user != nil {
@@ -574,7 +573,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                             if err != nil {
                                 print("Error loading user's lists in Explore: ", err)
                             }else{
-                                print("userlists changes registered")
                                 querSnap?.documentChanges.forEach({ (docChan) in
                                     switch(docChan.document.documentID){
                                     case "requests": self.requests = docChan.document.data()
@@ -607,7 +605,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     
     func getSuggestedFriends(query: Firebase.Query) { //load a new batch of user profiles based on the query in the argument 
         profileLoadInProgress = true
-        
         query.getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -618,7 +615,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
                         if var docData = document.data() as? Dictionary<String, Any>, !docData.isEmpty{
                             if let thisUserId = self.thisUserProfile["id"] as? String, let toAddId = docData["id"] as? String, let profHidden = docData["profile_hidden"] as? Bool, !profHidden{
                                 if (thisUserId != toAddId && !self.blockedBy.contains(where: { $0.key == toAddId}) && !self.blockList.contains(where: { $0.key == toAddId}) && !self.friends.contains(where: { $0.key == toAddId}) && !self.requests.contains(where: { $0.key == toAddId})){
-                                    
                                     var containsDuplicate = false //check for duplicates before adding
                                     for n in 0..<self.allSuggestedFriends.count{
                                         if let curId = self.allSuggestedFriends[n]["id"] as? String, curId == toAddId{

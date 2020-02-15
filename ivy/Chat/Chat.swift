@@ -208,7 +208,6 @@ private func setUpNavigationBar(){
                     
                     //if a message was removed we enter this
                     if (diff.type == .removed) {
-                        print("As soon as it enters removed ", self.activeChats)
 
                         //TODO: remove the actual conversation that was removed from android.
                         //TODO: start here tomorrow find out why its calling modified and removed

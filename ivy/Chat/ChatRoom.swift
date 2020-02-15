@@ -612,9 +612,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                                     let user = document.data()
                                     //user will exist hhere since document data has to  exist here
                                     if let usersMessagingToken = user!["messaging_token"] as? String {
-                                        print("BASE CONVO  other user messaging token: ", usersMessagingToken)
                                         //actually notify the user of that device
-                                        print("conversation id: ", conversationID)
                                         self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText, conversationID: conversationID)
                                         //else title is just name of author for base conversation
                                     }
@@ -980,7 +978,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             let actualPath = resourceDocPath.appendingPathComponent(pdfNameFromUrl)
             do {
                 try pdfData?.write(to: actualPath, options: .atomic)
-                print("pdf successfully saved!")
             } catch {
                 print("Pdf could not be saved")
             }
@@ -1064,8 +1061,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         ]) { err in
                             if let err = err {
                                 print("Error updating document: \(err)")
-                            } else {
-//                                print("Update last seen message document successfully updated")
                             }
                         }
                         break

@@ -17,6 +17,7 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
     let baseStorageReference = Storage.storage().reference()
     var thisUserProfile = Dictionary<String, Any>()
     var mediatorDelegate: SearchCellDelegator!
+    var exploreOwner: UIViewController!
     
     var noResultsCounter = 0
     var all_results = Array<Dictionary<String, Any>>()
@@ -64,9 +65,10 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
         searchCollectionView.register(UINib.init(nibName: "SearchCell", bundle: nil), forCellWithReuseIdentifier: searchCellId)
     }
     
-    func triggerPanel(searchBar: UITextField, navBarHeight: CGFloat, thisUser: Dictionary<String, Any>, rulingVC: SearchCellDelegator){ //trigger an animation of a sliding panel from the bottom of the screen and add the necessary ui elems onto it programatically
+    func triggerPanel(searchBar: UITextField, navBarHeight: CGFloat, thisUser: Dictionary<String, Any>, rulingVC: SearchCellDelegator, owner: UIViewController){ //trigger an animation of a sliding panel from the bottom of the screen and add the necessary ui elems onto it programatically
         thisUserProfile = thisUser
         mediatorDelegate = rulingVC
+        exploreOwner = owner
         if let window = UIApplication.shared.keyWindow{
             
             //COLLECTION VIEW
@@ -91,7 +93,6 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
         }
     }
     
-    
     @objc func panelDismiss(){ //hide the panel and its UI elements
         progressWheel.isHidden = true
         noResultsLabel.isHidden = true
@@ -112,11 +113,11 @@ class SearchLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDelega
     // MARK: Search Functions
     
     func search(hitJson: [String: Any]){ //run a single search query
+        exploreOwner.hideKeyboard()
         var userIds = Array<String>() //reset local lists with result ids
         var organizationIds = Array<String>()
         var eventIds = Array<String>()
         noResultsCounter = 0
-        
         //parse JSON
         if let jsonResultsArray = hitJson["results"] as? Array<[String: Any]>{//results[0] is users, results[1] is organizations, results[2] is events
             //USERS

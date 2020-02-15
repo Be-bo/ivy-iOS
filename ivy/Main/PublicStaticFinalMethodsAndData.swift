@@ -15,12 +15,20 @@ class PublicStaticMethodsAndData{
     static let IMAGE_MAX_DIMEN = CGFloat(1500)
     static let PREVIEW_IMAGE_DIVIDER = CGFloat(3)
     
+    //TODO: decide if all the vars need to be checked
+    static func checkProfileIntegrity(profileToCheck: Dictionary<String, Any>) -> Bool{
+        if ((profileToCheck["id"] as? String) != nil), ((profileToCheck["uni_domain"] as? String) != nil){ //checking if the minimum necessary data is present
+            return true
+        }else{
+            return false
+        }
+    }
+    
     static func createInfoDialog(titleText: String, infoText: String, context: UIViewController){
         let alert = UIAlertController(title: titleText, message: infoText, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         context.present(alert, animated: true)
     }
-    
     
     static func calculateAge(millis: Int64) -> Int64 {
         let currentMillis = Int64(Date().millisecondsSince1970)

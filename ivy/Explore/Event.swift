@@ -70,7 +70,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     
     
-    // MARK: Data Acquisition Functions
+    // MARK: Database Functions
     
     func getData(){
         if let uniDomain = userProfile["uni_domain"] as? String, let eve = event as? Dictionary<String, Any>, let evId = eve["id"] as? String{
@@ -97,6 +97,10 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
+    func incrementViewCount(){
+        //TODO: ...
+    }
+    
     
     
     
@@ -107,6 +111,7 @@ class Event: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     // MARK: Set Up Functions
     
     private func setUp(){
+        incrementViewCount()
         whosGoingCollection.delegate = self
         whosGoingCollection.dataSource = self
         whosGoingCollection.register(UINib(nibName: "profileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "profileCollectionViewCell")
