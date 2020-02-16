@@ -498,10 +498,10 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     
     
-    //NOTIFICATION SENDING
+    //MARK: Request Notification
     private func sendNotification(message:Dictionary<String,Any>) {
         //if ifs a base conversation vs if its not a base conversation
-        if let authorFirstName = message["author_first_name"] as? String, let authorLastName = message["author_last_name"] as? String, let messageText = message["message_text"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String, let conversationID = message["id"] as? String, let otherId = userToSendRequestTo["id"] as? String {
+        if let authorFirstName = message["author_first_name"] as? String, let authorLastName = message["author_last_name"] as? String, let messageText = message["message_text"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String, let conversationID = message["conversation_id"] as? String, let otherId = userToSendRequestTo["id"] as? String {
                 self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(otherId).getDocument { (document, error) in
                     if let document = document, document.exists {
                         let user = document.data()

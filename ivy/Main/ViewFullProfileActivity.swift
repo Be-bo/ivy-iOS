@@ -38,6 +38,7 @@ class ViewFullProfileActivity: UIViewController{
     let back = Bundle.main.loadNibNamed("CardBack", owner: nil, options: nil)?.first as! CardBack
     
     private var alsoBlock = false                                               //if friends, then block and unfriend
+    let sender = PushNotificationSender()
 
     @IBOutlet weak var shadowContainer: Card!
     @IBOutlet weak var cardContainer: Card!
@@ -572,7 +573,13 @@ class ViewFullProfileActivity: UIViewController{
             requestMessage["id"] = NSUUID().uuidString
             requestMessage["creation_time"] = Date().millisecondsSince1970   //millis
             //push message object to db
-            self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage)
+            self.baseDatabaseReference.collection("conversations").document(conversationReference.documentID).collection("messages").document(requestMessage["id"] as! String).setData(requestMessage) { (e) in
+                if e == nil{
+                    self.sendNotification(message: requestMessage)
+                }else{
+                    print("Failed to send request notification from Full Profile: ", e)
+                }
+            }
             
             if let thisUni = thisUserProfile["uni_domain"] as? String, let otherId = otherUserID{
                 var toMerge = Dictionary<String, Any>() //show message notification for the other user
@@ -594,7 +601,24 @@ class ViewFullProfileActivity: UIViewController{
     
     
     
+    //MARK: Sending Notification
     
-    
-    
+    private func sendNotification(message:Dictionary<String,Any>) {
+    //if ifs a base conversation vs if its not a base conversation
+    if let authorFirstName = message["author_first_name"] as? String, let authorLastName = message["author_last_name"] as? String, let messageText = message["message_text"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String, let conversationID = message["conversation_id"] as? String, let otherId = otherUserProfile["id"] as? String {
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(otherId).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let user = document.data()
+                    //user will exist hhere since document data has to  exist here
+                    if let usersMessagingToken = user!["messaging_token"] as? String {
+                        //actually notify the user of that device
+                        self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText, conversationID: conversationID)
+                        //else title is just name of author for base conversation
+                    }
+                } else {
+                    print("Document does not exist")
+                }
+            }
+        }
+    }
 }
