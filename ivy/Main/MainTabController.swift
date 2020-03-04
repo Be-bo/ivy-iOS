@@ -69,11 +69,11 @@ class MainTabController: UITabBarController {
                     explore.updateProfile(updatedProfile: thisUserProfile)
                 }
             }
-//            if let boardNVC = nvc as? BoardNavigationViewController{
-//                if let board = boardNVC.visibleViewController as? Board{
-//                    board.updateProfile(updatedProfile: thisUserProfile)
-//                }
-//            }
+            if let boardNVC = nvc as? BoardNavigationViewController{
+                if let board = boardNVC.visibleViewController as? Board{
+                    board.updateProfile(updatedProfile: thisUserProfile)
+                }
+            }
             if let quadNVC = nvc as? QuadNavigationViewController{
                if let quad = quadNVC.visibleViewController as? Quad{
                     quad.updateProfile(updatedProfile: thisUserProfile)

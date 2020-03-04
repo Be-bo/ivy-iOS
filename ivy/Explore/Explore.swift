@@ -334,6 +334,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     
+    //called externally from main under mainTabController
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         self.thisUserProfile = updatedProfile
         if(!dataLoaded){ //*option two, the UI's initiated but the data hasn't been loaded yet (because the user profile was nil during the UI setup)
@@ -344,18 +345,7 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     @objc func shareTapped(){ //TODO: potentially move this to the PublicStaticMethodsAndData
         let activityController = UIActivityViewController(activityItems: ["Hi, thought you'd like ivy! Check it out here: https://apps.apple.com/ca/app/ivy/id1479966843."], applicationActivities: nil)
         present(activityController, animated: true, completion: nil)
-        
-//        if MFMailComposeViewController.canSendMail(){
-//            let shareAppController = ShareAppController()
-//            shareAppController.owner = self
-//            shareAppController.mailComposeDelegate = shareAppController //this was the annoying part, you can't do this inside viewDidLoad cuz this type of controller has any changes forbidden after present()
-//            shareAppController.delegate = self.navigationController?.delegate
-//            shareAppController.setMessageBody("Hi, thought you'd like ivy! Check it out here: https://apps.apple.com/ca/app/ivy/id1479966843.", isHTML: true)
-//            shareAppController.setSubject("Cool App")
-//            self.present(shareAppController, animated: true)
-//        }else{
-//            PublicStaticMethodsAndData.createInfoDialog(titleText: "Cannot Send Email", infoText: "You have no email account configured on your device. This is required for you to share ivy via email.", context: self)
-//        }
+
     }
     
     

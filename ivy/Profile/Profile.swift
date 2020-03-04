@@ -39,44 +39,62 @@ class Profile: UIViewController {
 
 
     private func setUpNavigationBar(){
-           let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
-           titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-           titleImgView.contentMode = .scaleAspectFit
-           navigationItem.titleView = titleImgView
-           
-           //u of c logo in the top left gotta be a button just dont add target
-           let uOfCImgView = UIButton(type: .custom)
-           uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
-           uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
+        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
+        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        titleImgView.contentMode = .scaleAspectFit
+        navigationItem.titleView = titleImgView
+
+        //u of c logo in the top left gotta be a button just dont add target
+        let uOfCImgView = UIButton(type: .custom)
+        uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
 
 
-           let settingsButton = UIButton(type: .custom)
-           settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
-           settingsButton.setImage(UIImage(named:"settings"), for: .normal)
-           settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
-           
-           let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
-           let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-           currWidth?.isActive = true
-           let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-           currHeight?.isActive = true
-        
-           uOfCImgView.adjustsImageWhenHighlighted = false //keep color when button is diabled
-           uOfCImgView.isEnabled = false //make u of c button unclickable
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
+        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
 
-           
-           let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
-           let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-           curruOfCWidth?.isActive = true
-           let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-           curruOfCHeight?.isActive = true
+        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
+        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currWidth?.isActive = true
+        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currHeight?.isActive = true
 
-           
-           self.navigationItem.leftBarButtonItem = uOfCButtonItem
-           self.navigationItem.rightBarButtonItem = settingsButtonItem
-       }
+        uOfCImgView.adjustsImageWhenHighlighted = false //keep color when button is diabled
+        uOfCImgView.isEnabled = false //make u of c button unclickable
+
+
+        let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
+        let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        curruOfCWidth?.isActive = true
+        let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        curruOfCHeight?.isActive = true
+
+        //Share Button Next To Settings
+        let shareButton = UIButton(type: .custom)
+        shareButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        shareButton.setImage(UIImage(named:"share"), for: .normal)
+        shareButton.addTarget(self, action: #selector(self.shareTapped), for: .touchUpInside)
+        let shareButtonItem = UIBarButtonItem(customView: shareButton)
+        let currShareWidth = shareButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currShareWidth?.isActive = true
+        let currShareHeight = shareButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currShareHeight?.isActive = true
+
+
+        self.navigationItem.leftBarButtonItem = uOfCButtonItem
+        self.navigationItem.rightBarButtonItems = [settingsButtonItem, shareButtonItem]
+    }
+   
     @objc func settingsClicked() {
         self.performSegue(withIdentifier: "profileToSettings" , sender: self) //pass data over to
+    }
+    
+    @objc func shareTapped(){ //TODO: potentially move this to the PublicStaticMethodsAndData
+        let activityController = UIActivityViewController(activityItems: ["Hi, thought you'd like ivy! Check it out here: https://apps.apple.com/ca/app/ivy/id1479966843."], applicationActivities: nil)
+        present(activityController, animated: true, completion: nil)
+
     }
 
     func updateProfile(updatedProfile: Dictionary<String, Any>){
