@@ -21,14 +21,14 @@ class Reg4Gender: UIViewController {
     private let baseDatabaseReference = Firestore.firestore()   //reference to the database
     var password = ""   //carried over
 
-
     
     
     // MARK: IBOutlet and IBActions
     
-    @IBOutlet weak var maleCheckbox: Checkbox!
-    @IBOutlet weak var femaleCheckbox: Checkbox!
-    @IBOutlet weak var otherCheckbox: Checkbox!
+    
+    @IBOutlet weak var maleCheckbox: CheckBox!
+    @IBOutlet weak var femaleCheckbox: CheckBox!
+    @IBOutlet weak var otherCheckbox: CheckBox!
     @IBOutlet weak var errorLabel: UILabel!
     @IBAction func onClickContinue(_ sender: Any) {
         attemptToContinue()

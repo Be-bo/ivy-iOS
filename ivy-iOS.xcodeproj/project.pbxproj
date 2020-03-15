@@ -21,7 +21,6 @@
 		A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4EA22D281D60088DD58 /* CardFront.swift */; };
 		A920C4F322DAC78D0088DD58 /* Reg3Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F222DAC78D0088DD58 /* Reg3Name.swift */; };
 		A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F422DB99B10088DD58 /* Reg4Gender.swift */; };
-		A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F622DBA1270088DD58 /* Checkbox.swift */; };
 		A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */; };
 		A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */; };
 		A940564E240F2DE5008ED82D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A940564D240F2DE5008ED82D /* GoogleService-Info.plist */; };
@@ -33,6 +32,7 @@
 		A940565B240F5971008ED82D /* BoardTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940565A240F5971008ED82D /* BoardTopic.swift */; };
 		A940565E240F5E82008ED82D /* TopicCommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */; };
 		A940565F240F5E82008ED82D /* TopicCommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */; };
+		A940566524147CE6008ED82D /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940566424147CE6008ED82D /* CheckBox.swift */; };
 		A976E4DD2304E5D200755774 /* ViewFullProfileActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */; };
 		A976E4DF2309FBDD00755774 /* viewParticipantsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */; };
 		A976E4E1230A2AF200755774 /* ChatNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4E0230A2AF200755774 /* ChatNavigationController.swift */; };
@@ -154,7 +154,6 @@
 		A920C4EA22D281D60088DD58 /* CardFront.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardFront.swift; sourceTree = "<group>"; };
 		A920C4F222DAC78D0088DD58 /* Reg3Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg3Name.swift; sourceTree = "<group>"; };
 		A920C4F422DB99B10088DD58 /* Reg4Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg4Gender.swift; sourceTree = "<group>"; };
-		A920C4F622DBA1270088DD58 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg6Birthday.swift; sourceTree = "<group>"; };
 		A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg9Photo.swift; sourceTree = "<group>"; };
 		A940564D240F2DE5008ED82D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -166,6 +165,7 @@
 		A940565A240F5971008ED82D /* BoardTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTopic.swift; sourceTree = "<group>"; };
 		A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicCommentCollectionViewCell.xib; sourceTree = "<group>"; };
+		A940566424147CE6008ED82D /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFullProfileActivity.swift; sourceTree = "<group>"; };
 		A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewParticipantsActivity.swift; sourceTree = "<group>"; };
 		A976E4E0230A2AF200755774 /* ChatNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatNavigationController.swift; sourceTree = "<group>"; };
@@ -299,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				A9114F3523DE1F43003535F4 /* UIImage+Compression.swift */,
+				A940566424147CE6008ED82D /* CheckBox.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -539,7 +540,6 @@
 				A9990C7722C9A2F600E95B2C /* UserProfile.swift */,
 				A920C4F222DAC78D0088DD58 /* Reg3Name.swift */,
 				A920C4F422DB99B10088DD58 /* Reg4Gender.swift */,
-				A920C4F622DBA1270088DD58 /* Checkbox.swift */,
 				A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */,
 				A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */,
 			);
@@ -736,7 +736,6 @@
 				A9A2BFD223C55AF300BEC473 /* ChatViewController.swift in Sources */,
 				A9F7B1CC23639F7500B7283E /* PushNotificationSender.swift in Sources */,
 				A9FD1988231F223B00ECA848 /* ChangePassword.swift in Sources */,
-				A920C4F722DBA1270088DD58 /* Checkbox.swift in Sources */,
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
 				FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */,
 				FA0A034D23272C2D00F9FDAC /* LegalStuffCell.swift in Sources */,
@@ -769,6 +768,7 @@
 				FAC5A81D23DE77B600C38E5D /* GreenChatLabel.swift in Sources */,
 				FAC5A81723DE023400C38E5D /* ExploreLabel.swift in Sources */,
 				A9A2BFD423C55D1300BEC473 /* Message.swift in Sources */,
+				A940566524147CE6008ED82D /* CheckBox.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
 				FAC5A81A23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,

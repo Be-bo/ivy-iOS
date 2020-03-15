@@ -239,10 +239,8 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     @objc func promptRecoveryEmail(sender: UITapGestureRecognizer){
-
         let ac = UIAlertController(title: "Type your email:", message: nil, preferredStyle: .alert)
         ac.addTextField()
-        
         
         let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned ac] _ in
             let emailInput = ac.textFields![0]
@@ -271,20 +269,13 @@ class Login: UIViewController, UITextFieldDelegate {
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a valid email domain", infoText: "", context: self)
                 }
             }
-            
-
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { [unowned ac] _ in
         }
-        
-        
         ac.addAction(cancelAction)
         ac.addAction(submitAction)
-
-
         self.present(ac, animated: true)
-
     }
     
 

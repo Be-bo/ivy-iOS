@@ -13,7 +13,6 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 
-
 class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
    
     
@@ -33,6 +32,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     private var dataLoaded = false
 
+    
     
     
     // MARK: Base Functions
@@ -106,9 +106,9 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         self.navigationItem.rightBarButtonItems = [settingsButtonItem, shareButtonItem]
     }
     
-    
+    // MARK: Actions
     @objc func settingsClicked() {
-        self.performSegue(withIdentifier: "exploreToSettings" , sender: self) //pass data over to
+        self.performSegue(withIdentifier: "BoardToSettings" , sender: self) //pass data over to
     }
     
     @objc func shareTapped(){ //TODO: potentially move this to the PublicStaticMethodsAndData
@@ -116,6 +116,47 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         present(activityController, animated: true, completion: nil)
 
     }
+    
+    @IBAction func onClickCreateTopic(_ sender: Any) {
+        
+       
+        let ac = UIAlertController(title: "Post a Topic on the Board!", message: nil, preferredStyle: .alert)
+
+        ac.addTextField()
+        ac.textFields![0].placeholder = "Topic Name"
+     
+
+        
+        let submitAction = UIAlertAction(title: "Post", style: .default) { [unowned ac] _ in
+        let topicInput = ac.textFields![0]
+            if let topicInput = topicInput.text {
+                if(topicInput.count>1){
+                }else{
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
+                }
+            }
+        }
+        
+        
+        let submitAnonyAction = UIAlertAction(title: "Post Anon", style: .default) { [unowned ac] _ in
+        let topicInput = ac.textFields![0]
+            if let topicInput = topicInput.text {
+                if(topicInput.count>1){
+                }else{
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
+                }
+            }
+        }
+        
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { [unowned ac] _ in
+        }
+        ac.addAction(submitAction)
+        ac.addAction(submitAnonyAction)
+        ac.addAction(cancelAction)
+        self.present(ac, animated: true)
+    }
+    
     
     
     // MARK: Data Acquisition Methods
@@ -200,3 +241,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
 
 }
+
+
+
