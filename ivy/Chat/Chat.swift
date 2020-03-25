@@ -230,10 +230,10 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
                         //TODO: remove the actual conversation that was removed from android.
                         //TODO: start here tomorrow find out why its calling modified and removed
-                        let modifiedData = diff.document.data()
-                        if let modifiedID = modifiedData["id"] as? String{
-                            let posModified = self.locateIndexOfConvo(id: modifiedID) //with the conversation ID, I get the index of that conversation in the active chats array
-                            self.activeChats.remove(at: posModified)
+                        let removedData = diff.document.data()
+                        if let removedID = removedData["id"] as? String{
+                            let posRemoved = self.locateIndexOfConvo(id: removedID) //with the conversation ID, I get the index of that conversation in the active chats array
+                            self.activeChats.remove(at: posRemoved)
                             self.tableView.reloadData() //reload rows and section in table view
                         }
                     }

@@ -26,9 +26,9 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
     
     private var allTopicIdNamePairs = Dictionary<String, Any>()
-    private var allTopics = [Topic]()                                           //arraylist of all the topics
-    private var IDtopicClicked:String = ""                       //to know which topic cell been clicked
-
+    private var allTopics: [Dictionary<String, Any>] = []         //arraylist holding dics of all topics
+    private var topicClicked = Dictionary<String,Any>()                       //to know which topic cell been clicked
+    private var registration:ListenerRegistration? = nil
     
     private var dataLoaded = false
 
@@ -56,7 +56,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         topicCollectionView.delegate = self
         topicCollectionView.dataSource = self
         topicCollectionView.register(UINib(nibName:topicCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCollectionIdentifier)
-        startLoadingData() //start loading the topic data
+        startListeningToTopics()
     }
 
     
@@ -119,78 +119,212 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     @IBAction func onClickCreateTopic(_ sender: Any) {
         
-       
-        let ac = UIAlertController(title: "Post a Topic on the Board!", message: nil, preferredStyle: .alert)
-
-        ac.addTextField()
-        ac.textFields![0].placeholder = "Topic Name"
-     
-
         
-        let submitAction = UIAlertAction(title: "Post", style: .default) { [unowned ac] _ in
-        let topicInput = ac.textFields![0]
-            if let topicInput = topicInput.text {
-                if(topicInput.count>1){
-                }else{
-                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
+        if (self.checkIfTwoHoursSinceLastPosting()){
+            let ac = UIAlertController(title: "Post a Topic on the Board!", message: nil, preferredStyle: .alert)
+            ac.addTextField()
+            ac.textFields![0].placeholder = "Topic Name"
+            
+            let submitAction = UIAlertAction(title: "Post", style: .default) { [unowned ac] _ in
+                let topicInput = ac.textFields![0]
+                    if let topicInput = topicInput.text {
+                       if(topicInput.count>1){
+                        if(!self.checkForProfanity(topicInput: topicInput.lowercased())){  //if no profanity exists
+                            self.pushTopic(isAnonymous: false, inputText: topicInput, ac:ac)
+                            //TODO: show progress bar and dismiss the rest
+                        }
+                       }else{
+                           PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
+                       }
+                    }
+            }
+            
+            let submitAnonyAction = UIAlertAction(title: "Post Anonymously", style: .default) { [unowned ac] _ in
+                let topicInput = ac.textFields![0]
+                if let topicInput = topicInput.text {
+                   if(topicInput.count>1){
+                    if(!self.checkForProfanity(topicInput: topicInput.lowercased())){
+                        self.pushTopic(isAnonymous: true, inputText: topicInput, ac:ac)
+                        //TODO: show progress bar and dismiss the rest
+                    }
+                   }else{
+                       PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
+                   }
                 }
             }
+
+           let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { [unowned ac] _ in
+           }
+           ac.addAction(submitAction)
+           ac.addAction(submitAnonyAction)
+           ac.addAction(cancelAction)
+           self.present(ac, animated: true)
+        }else{
+            PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You posted it recently. Come back later!", context: self)
         }
-        
-        
-        let submitAnonyAction = UIAlertAction(title: "Post Anon", style: .default) { [unowned ac] _ in
-        let topicInput = ac.textFields![0]
-            if let topicInput = topicInput.text {
-                if(topicInput.count>1){
-                }else{
-                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
-                }
-            }
-        }
-        
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { [unowned ac] _ in
-        }
-        ac.addAction(submitAction)
-        ac.addAction(submitAnonyAction)
-        ac.addAction(cancelAction)
-        self.present(ac, animated: true)
     }
     
     
+    func pushTopic(isAnonymous:Bool, inputText:String, ac:UIAlertController) {
+        var newTopic = Dictionary<String, Any>()
+        newTopic["author_id"] = self.thisUserProfile["id"] as? String
+        newTopic["id"] = NSUUID().uuidString
+        newTopic["is_active"] = true
+        newTopic["is_anonymous"] = isAnonymous
+        newTopic["creation_millis"] = Date().millisecondsSince1970
+        newTopic["uni_domain"] = self.thisUserProfile["uni_domain"] as? String
+        newTopic["text"] = inputText
+        newTopic["looking_ids"] = []
+        newTopic["commenting_ids"] = []
+        
+        
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let userID = self.thisUserProfile["id"] as? String, let newTopicID = newTopic["id"] as? String {
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(userID).updateData(["last_topic_millis" : Date().timeIntervalSince1970]) { (err) in
+                if let err = err {
+                    print("Error updating universities document in Board with a new topic: \(err)")
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Oops!", infoText: "Something went wrong, try again in a moment. :-(", context: self)
+                } else {
+                    self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(newTopicID).setData(newTopic) { (err1) in
+                        if let err1 = err1{
+                            //TODO: dismiss progress bar
+                            print("Error pushing topic in board: \(err1)")
+                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Oops!", infoText: "Something went wrong, try again in a moment. :-(", context: self)
+                        }else{
+                            ac.dismiss(animated: true, completion: nil)
+                            self.topicClicked = newTopic
+                            self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over to
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    //if the topic input has no profanity then return true
+    func checkForProfanity(topicInput: String) -> Bool{
+        var hasProfanity:Bool = false
+        
+        for(index,_) in PublicStaticMethodsAndData.profanity_list.enumerated(){
+            if (topicInput.contains(PublicStaticMethodsAndData.profanity_list[index])){
+                var exceptionPresent:Bool  = false
+                for(_, profanityj) in PublicStaticMethodsAndData.profanity_exceptions_list.enumerated(){
+                    if (topicInput.contains(profanityj) && topicInput.contains(PublicStaticMethodsAndData.profanity_list[index])) {
+                        exceptionPresent = true
+                        break
+                    }
+                }
+                
+                if(exceptionPresent){ continue }
+
+
+                if let rangeForStart: Range<String.Index> = topicInput.range(of: PublicStaticMethodsAndData.profanity_list[index]),let startingIndex: Int = topicInput.distance(from: topicInput.startIndex, to: rangeForStart.lowerBound){
+                    let endingIndex = startingIndex + PublicStaticMethodsAndData.profanity_list[index].count
+                    if(startingIndex == 0 && topicInput.contains(PublicStaticMethodsAndData.profanity_list[index] + " ")){
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Profanity Problem", infoText: "The title contains a profanity", context: self)
+                        hasProfanity = true
+                        break
+                    }
+                    if (endingIndex == topicInput.count && topicInput.contains(" " + PublicStaticMethodsAndData.profanity_list[index])){
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Profanity Problem", infoText: "The title contains a profanity", context: self)
+                        hasProfanity = true
+                        break
+                    }
+                    
+                    if(topicInput.contains(" " + PublicStaticMethodsAndData.profanity_list[index] + " ")){
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Profanity Problem", infoText: "The title contains a profanity", context: self)
+                        hasProfanity = true
+                        break
+                    }
+                    if(topicInput.count == PublicStaticMethodsAndData.profanity_list[index].count){
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Profanity Problem", infoText: "The title contains a profanity", context: self)
+                        hasProfanity = true
+                        break
+                    }
+                }
+            }
+        }
+        return hasProfanity
+    }
+    
+    func checkIfTwoHoursSinceLastPosting() -> Bool{
+        if let userLastTopicMillis = self.thisUserProfile["last_topic_millis"] as? Int64{
+            var millisOfLastTopic = userLastTopicMillis
+            if(millisOfLastTopic != 0){
+                if((Date().millisecondsSince1970 - millisOfLastTopic) < PublicStaticMethodsAndData.LAST_TOPIC_CREATION_TIME_DIFFERENCE){
+                    return false
+                }
+            }
+        }
+        return true
+    }
     
     // MARK: Data Acquisition Methods
-    func startLoadingData(){
-        if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
-            self.baseDatabaseReference.collection("universities").document(uniDomain)
-                .collection("topics").document("all").getDocument { (document, error) in
-                    if let document = document, document.exists, let data = document.data() {
-                        self.allTopicIdNamePairs = data
-                        self.initializeData()
+    func startListeningToTopics(){
+        if let uniDomain =  self.thisUserProfile["uni_domain"] as? String{
+            registration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").addSnapshotListener({ (querySnapshot, err) in
+                
+                guard let snapshot = querySnapshot else {
+                    print("Error initializing in Board: \(err!)")
+                    return
+                }
+                
+                snapshot.documentChanges.forEach { diff in
+                    if (diff.type == .added) {
+                        let newTopic =  diff.document.data()
+                        if let newTopicID = newTopic["id"] as? String{ //if is question of day, return, dont add
+                            if(newTopicID == "oftheday") {return}
+                        }
+                        //TODO: check if exists before appending? Like in Android?
+                        self.allTopics.append(newTopic)
+                        let indexPath = IndexPath(item: self.allTopics.count - 1, section: 0)
+                        self.topicCollectionView.insertItems(at: [indexPath])
                     }
-                    else {
-                        print("Document 'all' does not exist (Board)")
+                    
+                    if (diff.type == .modified) {
+                        let modifiedTopic = diff.document.data()
+                        if let modifiedTopicID = modifiedTopic["id"] as? String{ //if is question of day, return, dont add
+                            if(modifiedTopicID == "oftheday") {return}
+                        }
+                        
+                        if let modifiedTopicID = modifiedTopic["id"] as? String{
+                            let posModifiedIndex = self.locateIndexOfTopic(id: modifiedTopicID)
+                            self.allTopics[posModifiedIndex] = modifiedTopic
+                            let indexPath = IndexPath(item: posModifiedIndex, section: 0)
+                            self.topicCollectionView.reloadItems(at: [indexPath])
+                            return
+                        }
                     }
-            }
+                    if (diff.type == .removed) {
+                        let removedTopic = diff.document.data()
+                        if let removedTopicID = removedTopic["id"] as? String{
+                            let posRemoved = self.locateIndexOfTopic(id: removedTopicID)
+                            self.allTopics.remove(at: posRemoved)
+                            self.topicCollectionView.reloadData()
+                            return
+                        }
+                    }
+                }
+            })
         }
     }
     
-    //loading all the topic id's and names into my giant list that holds all the topics
-    func initializeData(){
-        if (allTopicIdNamePairs.count >= 0){
-            for(id, name) in allTopicIdNamePairs{
-                self.allTopics.append(Topic(id: id,name: name as! String))
+    //so we know what index to removed from all topics when deleting
+    func locateIndexOfTopic(id:String) -> Int {
+        var position = 0
+        for (index, chat) in self.allTopics.enumerated(){
+            if id == chat["id"] as! String{
+                position = index
             }
-            self.topicCollectionView.reloadData()
         }
+        return position
     }
+    
+    
+
     
     //called externally from main under mainTabController
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         self.thisUserProfile = updatedProfile
-//        if(!dataLoaded){ //*option two, the UI's initiated but the data hasn't been loaded yet (because the user profile was nil during the UI setup)
-////            startLoadingData()
-//        }
     }
     
     
@@ -206,7 +340,13 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         
         let topicCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCollectionIdentifier, for: indexPath) as! TopicCollectionViewCell
         
-        topicCell.textView.text = allTopics[indexPath.item].getName()
+        
+        var currentTopic = self.allTopics[indexPath.item]
+        if let topicName = currentTopic["text"] as? String {
+            topicCell.textView.text = topicName
+        }
+        
+        
         
         //TODO: populate the topic cell with the title of the topic
         return topicCell
@@ -222,8 +362,10 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
         if self.allTopics.count >= 0 {
-            self.IDtopicClicked = self.allTopics[indexPath.item].getID()   //use currentley clicked index to get topic id
+            var currentTopic = self.allTopics[indexPath.item]
+            self.topicClicked = currentTopic
             self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over to
+
         }
     }
     
@@ -232,7 +374,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         if segue.identifier == "boardToTopicSegue" {
             let vc = segue.destination as! BoardTopic
-            vc.topicID = self.IDtopicClicked
+            vc.thisTopic = self.topicClicked
             vc.thisUserProfile = self.thisUserProfile
         }
 //        self.tabBarController?.tabBar.isHidden = true

@@ -54,7 +54,6 @@ class Card: UICollectionViewCell {
     //called just before deque cell with identifier... its like a clean up method.
     override func prepareForReuse() {
         super.prepareForReuse()
-        print("prepare for reuse")
         self.front.img.image = UIImage()
         self.front.name.text = "Name"
         self.front.degreeIcon.image = UIImage()
