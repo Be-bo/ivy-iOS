@@ -24,8 +24,8 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     private let topicCollectionIdentifier = "TopicCollectionViewCell"
     private let questionOfTheDayIdentifier = "QuestionOfDayCollectionViewCell"
 
-    @IBOutlet weak var topicCollectionView: UICollectionView!
 
+    @IBOutlet weak var boardCollectionView: UICollectionView!
     
     private var allTopicIdNamePairs = Dictionary<String, Any>()
     private var allTopics: [Dictionary<String, Any>] = []         //arraylist holding dics of all topics
@@ -34,8 +34,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     private var registration:ListenerRegistration? = nil
     private var ofthedayRegistration:ListenerRegistration? = nil
     
-    private var dataLoaded = false
-    private var questionOfDay = true
 
     
     
@@ -45,16 +43,12 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         super.viewDidLoad()
         if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
             setUpNavigationBar()
-            setUp()
+            setupCollectionViews()
         }
     }
     
     
-    private func setUp(){ //initial setup method when the ViewController's first created
-//        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
-    
-//        self.hideKeyboardOnTapOutside()
-      
+    private func setupCollectionViews(){
         //https://stackoverflow.com/questions/14674986/uicollectionview-set-number-of-columns
         let columnLayout = ColumnFlowLayout(
             cellsPerRow: 2,
@@ -62,10 +56,24 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             minimumLineSpacing: 10,
             sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         )
-        topicCollectionView.delegate = self
-        topicCollectionView.dataSource = self
-        topicCollectionView.collectionViewLayout = columnLayout
-        topicCollectionView.contentInsetAdjustmentBehavior = .always
+        //yes you can register multiple nibs -.-
+        boardCollectionView.register(UINib(nibName:questionOfTheDayIdentifier, bundle: nil), forCellWithReuseIdentifier: questionOfTheDayIdentifier)
+        boardCollectionView.register(UINib(nibName:topicCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCollectionIdentifier)
+        boardCollectionView.delegate = self
+        boardCollectionView.dataSource = self
+        boardCollectionView.collectionViewLayout = columnLayout
+        boardCollectionView.contentInsetAdjustmentBehavior = .always
+        
+        setUp()
+    }
+
+    
+    
+    private func setUp(){ //initial setup method when the ViewController's first created
+//        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
+    
+//        self.hideKeyboardOnTapOutside()
+      
         startListeningToQOTD()
         startListeningToTopics()
     }
@@ -280,7 +288,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 }
                 if let docData = documentSnapshot?.data(){
                     self.questionOfTheDay = docData
-                    self.topicCollectionView.reloadData()
+                    self.boardCollectionView.reloadData()
                 }
             })
 
@@ -306,7 +314,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         }
                         //TODO: check if exists before appending? Like in Android?
                         self.allTopics.append(newTopic)
-                        self.topicCollectionView.reloadData()
+                        self.boardCollectionView.reloadData()
                     }
                     
                     if (diff.type == .modified) {
@@ -318,7 +326,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         if let modifiedTopicID = modifiedTopic["id"] as? String{
                             let posModifiedIndex = self.locateIndexOfTopic(id: modifiedTopicID)
                             self.allTopics[posModifiedIndex] = modifiedTopic
-                            self.topicCollectionView.reloadData()
+                            self.boardCollectionView.reloadData()
                             return
                         }
                     }
@@ -327,7 +335,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         if let removedTopicID = removedTopic["id"] as? String{
                             let posRemoved = self.locateIndexOfTopic(id: removedTopicID)
                             self.allTopics.remove(at: posRemoved)
-                            self.topicCollectionView.reloadData()
+                            self.boardCollectionView.reloadData()
                             return
                         }
                     }
@@ -359,13 +367,12 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     //MARK: Collection View Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allTopics.count
+        return allTopics.count + 1 //plus one for the question of the day
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        topicCollectionView.register(UINib(nibName:questionOfTheDayIdentifier, bundle: nil), forCellWithReuseIdentifier: questionOfTheDayIdentifier)
-        topicCollectionView.register(UINib(nibName:topicCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCollectionIdentifier)
+
 
 
         //Don't let reloading of the 0th cell cause then it would become topic and we want it to be QOTD cell
@@ -471,12 +478,18 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
-        if self.allTopics.count >= 0 {
-            let currentTopic = self.allTopics[indexPath.item]
-            self.topicClicked = currentTopic
-            self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over to
 
+        if (indexPath == IndexPath(item: 0, section: 0)) {
+            let currentTopic = self.questionOfTheDay
+            self.topicClicked = currentTopic
+            self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over
         }
+        else if (self.allTopics.count >= 0 && indexPath.item > 0) {              //0th item is QOTD
+            let currentTopic = self.allTopics[indexPath.item - 1]                //since 0th item is QOTD always subtract one from whats chosen
+            self.topicClicked = currentTopic
+            self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over
+        }
+        
     }
     
     

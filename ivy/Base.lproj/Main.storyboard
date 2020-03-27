@@ -73,7 +73,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Tyd-PF-855"/>
                     <connections>
-                        <outlet property="topicCollectionView" destination="4wD-Jw-fmK" id="Dsv-pR-AdZ"/>
+                        <outlet property="boardCollectionView" destination="4wD-Jw-fmK" id="scD-Jn-uhY"/>
                         <segue destination="cwW-kI-NCT" kind="show" identifier="boardToTopicSegue" id="w59-XS-IAx"/>
                         <segue destination="DpA-Ba-Ufr" kind="show" identifier="BoardToSettings" id="scn-eP-kot"/>
                     </connections>
@@ -90,37 +90,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5tW-LH-RqN" userLabel="authorTopicHolder">
-                                <rect key="frame" x="0.0" y="44" width="320" height="75"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="knW-xw-hcv" userLabel="authorImage">
-                                        <rect key="frame" x="280" y="0.0" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="SRo-Yg-qZm"/>
-                                            <constraint firstAttribute="height" constant="40" id="W5G-eP-CEw"/>
-                                        </constraints>
-                                    </imageView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oY9-Tt-31g" userLabel="topicText">
-                                        <rect key="frame" x="0.0" y="8" width="272" height="59"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="59" id="wjA-xP-oaC"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstItem="knW-xw-hcv" firstAttribute="leading" secondItem="oY9-Tt-31g" secondAttribute="trailing" constant="8" id="79i-eY-oKV"/>
-                                    <constraint firstAttribute="trailing" secondItem="knW-xw-hcv" secondAttribute="trailing" id="977-Dj-46b"/>
-                                    <constraint firstItem="oY9-Tt-31g" firstAttribute="leading" secondItem="5tW-LH-RqN" secondAttribute="leading" id="B2p-Gq-0I5"/>
-                                    <constraint firstItem="knW-xw-hcv" firstAttribute="top" secondItem="5tW-LH-RqN" secondAttribute="top" id="ey7-PF-aYY"/>
-                                    <constraint firstAttribute="bottom" secondItem="oY9-Tt-31g" secondAttribute="bottom" constant="8" id="sLO-kP-o1r"/>
-                                    <constraint firstItem="oY9-Tt-31g" firstAttribute="top" secondItem="5tW-LH-RqN" secondAttribute="top" constant="8" id="w7u-Zw-mqt"/>
-                                </constraints>
-                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ONA-gQ-mUj">
-                                <rect key="frame" x="0.0" y="194" width="320" height="325"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="475"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="VSd-ty-Wnq">
                                     <size key="itemSize" width="50" height="50"/>
@@ -142,22 +113,16 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="5tW-LH-RqN" firstAttribute="top" secondItem="6DN-SA-JV7" secondAttribute="top" id="35Q-ZB-0fv"/>
-                            <constraint firstItem="ONA-gQ-mUj" firstAttribute="top" secondItem="6DN-SA-JV7" secondAttribute="top" constant="150" id="A4F-4K-Gyj"/>
                             <constraint firstItem="ONA-gQ-mUj" firstAttribute="trailing" secondItem="6DN-SA-JV7" secondAttribute="trailing" id="GHF-sL-nkv"/>
                             <constraint firstItem="ONA-gQ-mUj" firstAttribute="bottom" secondItem="6DN-SA-JV7" secondAttribute="bottom" id="ZwL-Gk-MQt"/>
-                            <constraint firstItem="5tW-LH-RqN" firstAttribute="trailing" secondItem="6DN-SA-JV7" secondAttribute="trailing" id="j5u-8a-FaM"/>
-                            <constraint firstItem="5tW-LH-RqN" firstAttribute="leading" secondItem="6DN-SA-JV7" secondAttribute="leading" id="vww-mk-cVM"/>
+                            <constraint firstItem="ONA-gQ-mUj" firstAttribute="top" secondItem="6DN-SA-JV7" secondAttribute="top" id="gcS-p0-HZQ"/>
                             <constraint firstItem="ONA-gQ-mUj" firstAttribute="leading" secondItem="6DN-SA-JV7" secondAttribute="leading" id="xle-PX-1g2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6DN-SA-JV7"/>
                     </view>
                     <navigationItem key="navigationItem" id="x5C-Un-NKJ"/>
                     <connections>
-                        <outlet property="authorImageView" destination="knW-xw-hcv" id="RLK-CN-7JQ"/>
-                        <outlet property="commentCollectionView" destination="ONA-gQ-mUj" id="a9u-1H-f1X"/>
-                        <outlet property="textHeight" destination="wjA-xP-oaC" id="u7r-6o-iQx"/>
-                        <outlet property="topicTextView" destination="oY9-Tt-31g" id="LJh-BO-JwH"/>
+                        <outlet property="topicCollectionView" destination="ONA-gQ-mUj" id="8jG-3a-DsB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Cw-Gj-YcQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -35,6 +35,10 @@
 		A940566524147CE6008ED82D /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940566424147CE6008ED82D /* CheckBox.swift */; };
 		A9405668242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405666242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift */; };
 		A9405669242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9405667242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib */; };
+		A9405670242E602F008ED82D /* TopicHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940566E242E602F008ED82D /* TopicHeaderCollectionViewCell.swift */; };
+		A9405671242E602F008ED82D /* TopicHeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A940566F242E602F008ED82D /* TopicHeaderCollectionViewCell.xib */; };
+		A9405674242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405672242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift */; };
+		A9405675242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9405673242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib */; };
 		A976E4DD2304E5D200755774 /* ViewFullProfileActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */; };
 		A976E4DF2309FBDD00755774 /* viewParticipantsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */; };
 		A976E4E1230A2AF200755774 /* ChatNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4E0230A2AF200755774 /* ChatNavigationController.swift */; };
@@ -170,6 +174,10 @@
 		A940566424147CE6008ED82D /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		A9405666242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionOfDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9405667242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionOfDayCollectionViewCell.xib; sourceTree = "<group>"; };
+		A940566E242E602F008ED82D /* TopicHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		A940566F242E602F008ED82D /* TopicHeaderCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicHeaderCollectionViewCell.xib; sourceTree = "<group>"; };
+		A9405672242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicAddCommentCollectionViewCell.swift; sourceTree = "<group>"; };
+		A9405673242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicAddCommentCollectionViewCell.xib; sourceTree = "<group>"; };
 		A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFullProfileActivity.swift; sourceTree = "<group>"; };
 		A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewParticipantsActivity.swift; sourceTree = "<group>"; };
 		A976E4E0230A2AF200755774 /* ChatNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatNavigationController.swift; sourceTree = "<group>"; };
@@ -478,6 +486,10 @@
 				A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */,
 				A9405666242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift */,
 				A9405667242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib */,
+				A940566E242E602F008ED82D /* TopicHeaderCollectionViewCell.swift */,
+				A940566F242E602F008ED82D /* TopicHeaderCollectionViewCell.xib */,
+				A9405672242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift */,
+				A9405673242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -630,6 +642,7 @@
 			files = (
 				FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */,
 				A9FD1978231B9AD500ECA848 /* ProfileCardBack.xib in Resources */,
+				A9405671242E602F008ED82D /* TopicHeaderCollectionViewCell.xib in Resources */,
 				A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */,
 				FA60591422A4B12E00383F9F /* LaunchScreen.storyboard in Resources */,
 				A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */,
@@ -651,6 +664,7 @@
 				A9405669242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib in Resources */,
 				FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */,
 				FAC5A81B23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib in Resources */,
+				A9405675242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib in Resources */,
 				FA1FE3F522F7563900C36E6B /* Card.xib in Resources */,
 				A920C4E522D281B60088DD58 /* CardBack.xib in Resources */,
 				FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */,
@@ -765,6 +779,7 @@
 				A940565B240F5971008ED82D /* BoardTopic.swift in Sources */,
 				FA6D733522DA80FE009020B5 /* GreenBoldTitleLabel.swift in Sources */,
 				FA30FCE8232697230032B564 /* UserGallery.swift in Sources */,
+				A9405674242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift in Sources */,
 				FA6D733922DA812D009020B5 /* MediumGreenLabel.swift in Sources */,
 				A9405659240F4088008ED82D /* Topic.swift in Sources */,
 				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
@@ -794,6 +809,7 @@
 				FA6D733722DA8117009020B5 /* LargeLabel.swift in Sources */,
 				A9FD197A231B9AE900ECA848 /* ProfileCardBack.swift in Sources */,
 				A920C4ED22D281D60088DD58 /* CardFront.swift in Sources */,
+				A9405670242E602F008ED82D /* TopicHeaderCollectionViewCell.swift in Sources */,
 				FA121C2622EE452200C175F7 /* Profile.swift in Sources */,
 				FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */,
 				FA6F7C9A22EE84B900610046 /* ExploreNavigationController.swift in Sources */,

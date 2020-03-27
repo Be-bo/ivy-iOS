@@ -28,36 +28,55 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     private var topicComments = [Dictionary<String, Any>]()
     private var firstLaunch = true
     
+    private let topicHeaderCollectionIdentifier = "TopicHeaderCollectionViewCell"
     private let topicCommentCollectionIdentifier = "TopicCommentCollectionViewCell"
-    @IBOutlet weak var commentCollectionView: UICollectionView!
+    private let topicAddCommentCollectionIdentifier = "TopicAddCommentCollectionViewCell"
+
+    @IBOutlet weak var topicCollectionView: UICollectionView!
     
     private var thisTopicRegistration:ListenerRegistration? = nil
 
+    private var topicHeaderAuthorImage:UIImage = UIImage()
+    private var topicHeaderTitle:String = String()
     
-    @IBOutlet weak var authorImageView: UIImageView!
-    @IBOutlet weak var topicTextView: UITextField!
-    @IBOutlet weak var textHeight: NSLayoutConstraint!
-    
+
     
     
     // MARK: Base Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
-        setUp()
+        setupCollectionViews()
+        prepareTopic()
     }
     
     
     private func setUpNavigationBar(){
     }
     
-    private func setUp(){
-        commentCollectionView.delegate = self
-        commentCollectionView.dataSource = self
-        commentCollectionView.register(UINib(nibName:topicCommentCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCommentCollectionIdentifier)
-        
-        prepareTopic() //start loading the topic data
+    private func setupCollectionViews(){
+        //https://stackoverflow.com/questions/14674986/uicollectionview-set-number-of-columns
+        let columnLayout = ColumnFlowLayout(
+            cellsPerRow: 1,
+            minimumInteritemSpacing: 10,
+            minimumLineSpacing: 10,
+            sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        )
+        topicCollectionView.delegate = self
+        topicCollectionView.dataSource = self
+        topicCollectionView.collectionViewLayout = columnLayout
+        topicCollectionView.contentInsetAdjustmentBehavior = .always
+        topicCollectionView.register(UINib(nibName:topicHeaderCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicHeaderCollectionIdentifier)
+        topicCollectionView.register(UINib(nibName:topicAddCommentCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicAddCommentCollectionIdentifier)
+        topicCollectionView.register(UINib(nibName:topicCommentCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCommentCollectionIdentifier)
     }
+    
+    private func setUp(){
+//        addThisUserToLookingIds()
+        
+    }
+    
+
     
     
     
@@ -76,21 +95,23 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 
                 if(self.firstLaunch){
                     self.firstLaunch = false
-                    if let isAnony = self.thisTopic["is_anonymous"] as? Bool, let topicAuthorID = self.thisTopic["author_id"] as? String{
+                    if let isAnony = self.thisTopic["is_anonymous"] as? Bool, let topicAuthorID = self.thisTopic["author_id"] as? String,
+                        let topicTitle = self.thisTopic["text"] as? String{
+                        
                         if (!isAnony){
                             self.baseStorageReference.child("userimages").child(topicAuthorID).child("preview.jpg").getData(maxSize: 5 * 1024 * 1024) { data, error in
                                 if let error = error {
                                     print("error", error)
                                 } else {
-                                    self.authorImageView.image = UIImage(data: data!)
-                                    let tapAuthorImage = UITapGestureRecognizer(target: self, action: #selector(self.tapAuthorImage))
-                                    self.authorImageView.isUserInteractionEnabled = true
-                                    self.authorImageView.addGestureRecognizer(tapAuthorImage)
+                                    self.topicHeaderAuthorImage = UIImage(data: data!)!
                                     
                                     //TODO: set on click listener for more button of this screen
+                                    self.topicCollectionView.reloadData()
                                 }
                             }
                         }
+                        self.topicHeaderTitle = topicTitle //title there regard of anonymity. setup rest
+                        self.setUp()
                     }
                     //TODO: set name of the topic regardless if anony or not
                     //TODO: setUp()
@@ -117,15 +138,68 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     //MARK: Collection View Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        topicComments.count
+        topicComments.count + 2 //plus 2 one for the topic header 1 for the ability to comment
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCommentCollectionIdentifier, for: indexPath) as! TopicCommentCollectionViewCell
+
+        //first one is just the topic header
+        if (indexPath == IndexPath(item: 0, section: 0)){
+            let cell: TopicHeaderCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicHeaderCollectionIdentifier, for: indexPath) as! TopicHeaderCollectionViewCell
+            cell.authorImage.image = self.topicHeaderAuthorImage
+            cell.authorTitle.text = self.topicHeaderTitle
+            
+//            let tapAuthorImage = UITapGestureRecognizer(target: self, action: #selector(self.tapAuthorImage))
+//            self.tapAuthorImage.isUserInteractionEnabled = true
+//            self.tapAuthorImage.addGestureRecognizer(tapAuthorImage)
+                
+            return cell
+            
+        }else if(indexPath == IndexPath(item: 1, section: 0)){ //second is the ability to add a comment yourslef
+            let cell: TopicAddCommentCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicAddCommentCollectionIdentifier, for: indexPath) as! TopicAddCommentCollectionViewCell
+            
+            //add onclick listener for comment submission
+            
+            //add image to the person whos commenting (current user)
+            if let thisUserID = self.thisUserProfile["id"] as? String{
+                self.baseStorageReference.child("userimages").child(thisUserID).child("preview.jpg").getData(maxSize: 5 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("error", error)
+                    } else {
+                        cell.addCommentAuthorImage.image = UIImage(data: data!)!
+                        
+                    }
+                }
+            }
+            
+            
+            return cell
+        }else{  //after 1st and second its jsut regular comments
+            let cell: TopicCommentCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCommentCollectionIdentifier, for: indexPath) as! TopicCommentCollectionViewCell
+            return cell
+        }
         
         
-        //TODO: populate the topic cell with the title of the topic
-        return commentCell
+        
+        
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let cellSize = CGSize(width: collectionView.frame.size.width, height: 140)  //as long as the collection view
+        return cellSize
+//        //first item will always be header so stretch to maximum screen length
+//        if (indexPath == IndexPath(item: 0, section: 0)) {
+//
+//            let cellSize = CGSize(width: collectionView.frame.size.width, height: 140)  //as long as the collection view
+//            return cellSize
+//        }else{
+//
+//            let cellSize = CGSize(width: 100, height: 140)
+//            return cellSize
+//        }
+    
     }
     
 
