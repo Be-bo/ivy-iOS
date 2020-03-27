@@ -11,12 +11,11 @@ import UIKit
 class TopicCollectionViewCell: UICollectionViewCell {
     
     
-    @IBOutlet weak var textView: UITextView!
     
+    @IBOutlet weak var textView: UILabel!
     @IBOutlet weak var viewingImage: UIImageView!
     @IBOutlet weak var numberViewingLabel: StandardLabel!
     @IBOutlet weak var authOrCommentLabel: StandardLabel!
-    @IBOutlet weak var textViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewHoldingBottonBit: UIView!
     
     
@@ -24,6 +23,18 @@ class TopicCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        setNeedsLayout()
+        layoutIfNeeded()
+        
+        let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
+        var frame = layoutAttributes.frame
+        frame.size.height = ceil(size.height)
+        layoutAttributes.frame = frame
+        return layoutAttributes
     }
 
 }

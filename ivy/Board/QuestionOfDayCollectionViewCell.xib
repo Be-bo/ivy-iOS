@@ -24,14 +24,12 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3E4-Nn-PJ4">
-                        <rect key="frame" x="0.0" y="29" width="642" height="85"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                    </textView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uzp-Zp-QZf" userLabel="textView">
+                        <rect key="frame" x="8" y="37" width="626" height="77"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9V-vG-UMA" userLabel="viewingAndCommentHolder">
                         <rect key="frame" x="0.0" y="122" width="642" height="30"/>
                         <subviews>
@@ -71,15 +69,15 @@
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="Uzp-Zp-QZf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="3MU-cy-JIu"/>
                 <constraint firstAttribute="trailing" secondItem="g9V-vG-UMA" secondAttribute="trailing" id="40a-TJ-6iH"/>
-                <constraint firstItem="3E4-Nn-PJ4" firstAttribute="top" secondItem="Kci-mp-vWL" secondAttribute="bottom" constant="8" id="590-HG-5Bn"/>
-                <constraint firstItem="3E4-Nn-PJ4" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Aq8-z2-0RD"/>
                 <constraint firstAttribute="bottom" secondItem="g9V-vG-UMA" secondAttribute="bottom" id="Asn-tg-gkz"/>
                 <constraint firstItem="Kci-mp-vWL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="MTS-eE-YU7"/>
-                <constraint firstAttribute="trailing" secondItem="3E4-Nn-PJ4" secondAttribute="trailing" id="U1S-ho-ojv"/>
+                <constraint firstItem="g9V-vG-UMA" firstAttribute="top" secondItem="Uzp-Zp-QZf" secondAttribute="bottom" constant="8" id="RKY-PP-5ZA"/>
                 <constraint firstAttribute="trailing" secondItem="Kci-mp-vWL" secondAttribute="trailing" constant="15" id="afe-LN-b15"/>
                 <constraint firstItem="Kci-mp-vWL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="bJi-hh-SBH"/>
-                <constraint firstItem="g9V-vG-UMA" firstAttribute="top" secondItem="3E4-Nn-PJ4" secondAttribute="bottom" constant="8" id="hBb-9E-k3q"/>
+                <constraint firstAttribute="trailing" secondItem="Uzp-Zp-QZf" secondAttribute="trailing" constant="8" id="mR9-3w-oEC"/>
+                <constraint firstItem="Uzp-Zp-QZf" firstAttribute="top" secondItem="Kci-mp-vWL" secondAttribute="bottom" constant="16" id="ohP-dJ-1ST"/>
                 <constraint firstItem="g9V-vG-UMA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ti8-Mw-334"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
@@ -87,7 +85,7 @@
             <connections>
                 <outlet property="commentLabel" destination="g4h-iq-6m4" id="3pq-Ug-7ay"/>
                 <outlet property="numberViewingLabel" destination="MOC-bn-y5X" id="ZV0-VW-BrB"/>
-                <outlet property="textView" destination="3E4-Nn-PJ4" id="BlT-V3-wKU"/>
+                <outlet property="textView" destination="Uzp-Zp-QZf" id="c2Q-jy-X2Z"/>
                 <outlet property="viewHoldingBottonBit" destination="g9V-vG-UMA" id="zvS-8j-t0Y"/>
             </connections>
             <point key="canvasLocation" x="349.27536231884062" y="184.82142857142856"/>

@@ -10,8 +10,8 @@ import UIKit
 
 class QuestionOfDayCollectionViewCell: UICollectionViewCell {
 
-    
-    @IBOutlet weak var textView: UITextView!
+        
+    @IBOutlet weak var textView: UILabel!
     @IBOutlet weak var numberViewingLabel: UILabel!
     @IBOutlet weak var commentLabel: StandardLabel!
     @IBOutlet weak var viewHoldingBottonBit: UIView!

@@ -458,9 +458,11 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         
         //first item will always be question of the day
         if (indexPath == IndexPath(item: 0, section: 0)) {
+            
             let cellSize = CGSize(width: collectionView.frame.size.width - 20, height: 140)  //as long as the collection view
             return cellSize
         }else{
+            
             let cellSize = CGSize(width: halfCollecViewWidth, height: 140)
             return cellSize
         }
@@ -527,3 +529,5 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
     }
 
 }
+
+
