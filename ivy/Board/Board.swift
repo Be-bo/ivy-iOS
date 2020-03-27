@@ -22,15 +22,20 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     private let baseStorageReference = Storage.storage()
     
     private let topicCollectionIdentifier = "TopicCollectionViewCell"
+    private let questionOfTheDayIdentifier = "QuestionOfDayCollectionViewCell"
+
     @IBOutlet weak var topicCollectionView: UICollectionView!
 
     
     private var allTopicIdNamePairs = Dictionary<String, Any>()
     private var allTopics: [Dictionary<String, Any>] = []         //arraylist holding dics of all topics
     private var topicClicked = Dictionary<String,Any>()                       //to know which topic cell been clicked
+    private var questionOfTheDay = Dictionary<String,Any>()
     private var registration:ListenerRegistration? = nil
+    private var ofthedayRegistration:ListenerRegistration? = nil
     
     private var dataLoaded = false
+    private var questionOfDay = true
 
     
     
@@ -46,16 +51,22 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     
     private func setUp(){ //initial setup method when the ViewController's first created
-        
-        
 //        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
     
 //        self.hideKeyboardOnTapOutside()
       
-        
+        //https://stackoverflow.com/questions/14674986/uicollectionview-set-number-of-columns
+        let columnLayout = ColumnFlowLayout(
+            cellsPerRow: 2,
+            minimumInteritemSpacing: 10,
+            minimumLineSpacing: 10,
+            sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        )
         topicCollectionView.delegate = self
         topicCollectionView.dataSource = self
-        topicCollectionView.register(UINib(nibName:topicCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCollectionIdentifier)
+        topicCollectionView.collectionViewLayout = columnLayout
+        topicCollectionView.contentInsetAdjustmentBehavior = .always
+        startListeningToQOTD()
         startListeningToTopics()
     }
 
@@ -259,6 +270,44 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     // MARK: Data Acquisition Methods
+    
+    func startListeningToQOTD(){
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
+            self.ofthedayRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document("oftheday").addSnapshotListener({ (documentSnapshot, err) in
+                guard documentSnapshot != nil else {
+                    print("Error initializing  QOTD in Board: \(err!)")
+                    return
+                }
+                if let docData = documentSnapshot?.data(){
+                    self.questionOfTheDay = docData
+                    self.updateQuestionOfTheDay()
+                }
+            })
+
+        }
+    }
+    
+    func updateQuestionOfTheDay(){
+        if let commentingIDs = self.questionOfTheDay["commenting_ids"] as? [String], let lookingIDs = self.questionOfTheDay["looking_ids"] as? [String], let thisUserID = self.thisUserProfile["id"] as? String {
+            if (!lookingIDs.isEmpty){
+                //TODO: set text of question of the day looking numbers
+                self.topicCollectionView.reloadData()
+
+                
+            }
+            if(!commentingIDs.isEmpty && commentingIDs.contains(thisUserID)){
+                //TODO: set text of wether or not they commented in the question of the day or not
+                self.topicCollectionView.reloadData()
+
+            }else{  //havent commented so hide the label
+                self.topicCollectionView.reloadData()
+
+                //TODO: set visibility of the labbel to hidden
+            }
+            
+        }
+    }
+    
     func startListeningToTopics(){
         if let uniDomain =  self.thisUserProfile["uni_domain"] as? String{
             registration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").addSnapshotListener({ (querySnapshot, err) in
@@ -276,11 +325,14 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         }
                         //TODO: check if exists before appending? Like in Android?
                         self.allTopics.append(newTopic)
-                        let indexPath = IndexPath(item: self.allTopics.count - 1, section: 0)
-                        self.topicCollectionView.insertItems(at: [indexPath])
+                        self.topicCollectionView.reloadData()
+
+//                        let indexPath = IndexPath(item: self.allTopics.count - 1, section: 0)
+//                        self.topicCollectionView.insertItems(at: [indexPath])
                     }
                     
                     if (diff.type == .modified) {
+                        print("changed")
                         let modifiedTopic = diff.document.data()
                         if let modifiedTopicID = modifiedTopic["id"] as? String{ //if is question of day, return, dont add
                             if(modifiedTopicID == "oftheday") {return}
@@ -289,8 +341,9 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         if let modifiedTopicID = modifiedTopic["id"] as? String{
                             let posModifiedIndex = self.locateIndexOfTopic(id: modifiedTopicID)
                             self.allTopics[posModifiedIndex] = modifiedTopic
-                            let indexPath = IndexPath(item: posModifiedIndex, section: 0)
-                            self.topicCollectionView.reloadItems(at: [indexPath])
+                            self.topicCollectionView.reloadData()
+//                            let indexPath = IndexPath(item: posModifiedIndex, section: 0)
+//                            self.topicCollectionView.reloadItems(at: [indexPath])
                             return
                         }
                     }
@@ -334,35 +387,115 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         return allTopics.count
     }
     
-    
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let topicCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCollectionIdentifier, for: indexPath) as! TopicCollectionViewCell
+        topicCollectionView.register(UINib(nibName:questionOfTheDayIdentifier, bundle: nil), forCellWithReuseIdentifier: questionOfTheDayIdentifier)
+        topicCollectionView.register(UINib(nibName:topicCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCollectionIdentifier)
+
+
+        //Don't let reloading of the 0th cell cause then it would become topic and we want it to be QOTD cell
+        if(indexPath == IndexPath(item: 0, section: 0)){
+            
+            let cell : QuestionOfDayCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: questionOfTheDayIdentifier, for: indexPath) as! QuestionOfDayCollectionViewCell
+            populateQOTDCell(cell:cell, topic:self.questionOfTheDay)
+            styleCell(cell: cell)
+            
+            //need to round the bottom view bit or itll stick out slightly
+            cell.viewHoldingBottonBit.layer.cornerRadius = 10
+            cell.viewHoldingBottonBit.layer.borderWidth = 0
+            
+            return cell
+        }else{
+            
+            let cell : TopicCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCollectionIdentifier, for: indexPath) as! TopicCollectionViewCell
+            let currentTopic = self.allTopics[indexPath.item - 1]   //- 1 since itll always satrt at 1 and we want the "0th" element of the regular topics
         
-        
-        var currentTopic = self.allTopics[indexPath.item]
-        if let topicName = currentTopic["text"] as? String {
-            topicCell.textView.text = topicName
+            populateTopicCell(cell:cell, topic:currentTopic)
+            styleCell(cell: cell)
+            
+            //need to round the bottom view bit or itll stick out slightly
+            cell.viewHoldingBottonBit.layer.cornerRadius = 10
+            cell.viewHoldingBottonBit.layer.borderWidth = 0
+            
+            return cell
         }
         
-        
-        
-        //TODO: populate the topic cell with the title of the topic
-        return topicCell
+
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = CGSize(width: 140, height: 140)
-        return cellSize
+    func populateTopicCell(cell:TopicCollectionViewCell, topic:Dictionary<String,Any>){
         
+
+        if let topicName = topic["text"] as? String, let lookingIDs = topic["looking_ids"] as? [String],
+            let commentingIDs = topic["commenting_ids"] as? [String], let topicAuthID = topic["author_id"] as? String,
+            let thisUserID = self.thisUserProfile["id"] as? String {
+            cell.textView.text = topicName
+            
+            if(!lookingIDs.isEmpty){cell.numberViewingLabel.text = String(lookingIDs.count)}else{cell.numberViewingLabel.text = "0"}
+            if (topicAuthID == thisUserID){ //this user created the topic so change the text to authored
+                cell.authOrCommentLabel.text = "Authored"
+            }else if(!commentingIDs.isEmpty && commentingIDs.contains(thisUserID)){ //commented
+                cell.authOrCommentLabel.text = "Commented"
+            }else{  //neither so empty be default
+                cell.authOrCommentLabel.text = ""
+            }
+            
+        }
+        
+    }
+    
+    func populateQOTDCell(cell:QuestionOfDayCollectionViewCell,topic:Dictionary<String,Any>){
+        if let topicName = topic["text"] as? String, let lookingIDs = topic["looking_ids"] as? [String],
+        let commentingIDs = topic["commenting_ids"] as? [String], let thisUserID = self.thisUserProfile["id"] as? String {
+            cell.textView.text = topicName
+            if(!lookingIDs.isEmpty){cell.numberViewingLabel.text = String(lookingIDs.count)}else{cell.numberViewingLabel.text = "0"}
+            if(!commentingIDs.isEmpty && commentingIDs.contains(thisUserID)){ //commented
+                cell.commentLabel.isHidden = false
+            }else{  //neither so empty be default
+                cell.commentLabel.isHidden = true
+            }
+
+        }
+    }
+    
+    //adding border to each cell here
+    func styleCell(cell:UICollectionViewCell){
+        
+        cell.layer.cornerRadius = 10
+        cell.layer.borderWidth = 1.0
+
+        cell.layer.borderColor = UIColor.lightGray.cgColor
+        cell.layer.backgroundColor = UIColor.white.cgColor
+        
+        cell.layer.shadowColor = UIColor.gray.cgColor
+        cell.layer.shadowOffset = CGSize(width: 2.0, height: 4.0)
+        cell.layer.shadowRadius = 2.0
+        cell.layer.shadowOpacity = 1.0
+        cell.layer.masksToBounds = false
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+
+        
+        let halfCollecViewWidth = (collectionView.frame.size.width / 2 ) - 20 //half the collection view size - 20 for edge insets defined above
+        
+        //first item will always be question of the day
+        if (indexPath == IndexPath(item: 0, section: 0)) {
+            let cellSize = CGSize(width: collectionView.frame.size.width - 20, height: 140)  //as long as the collection view
+            return cellSize
+        }else{
+            let cellSize = CGSize(width: halfCollecViewWidth, height: 140)
+            return cellSize
+        }
+    
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
         if self.allTopics.count >= 0 {
-            var currentTopic = self.allTopics[indexPath.item]
+            let currentTopic = self.allTopics[indexPath.item]
             self.topicClicked = currentTopic
             self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over to
 
@@ -386,3 +519,36 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
 
 
+class ColumnFlowLayout: UICollectionViewFlowLayout {
+
+    let cellsPerRow: Int
+
+    init(cellsPerRow: Int, minimumInteritemSpacing: CGFloat = 0, minimumLineSpacing: CGFloat = 0, sectionInset: UIEdgeInsets = .zero) {
+        self.cellsPerRow = cellsPerRow
+        super.init()
+
+        self.minimumInteritemSpacing = minimumInteritemSpacing
+        self.minimumLineSpacing = minimumLineSpacing
+        self.sectionInset = sectionInset
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepare() {
+        super.prepare()
+
+        guard let collectionView = collectionView else { return }
+        let marginsAndInsets = sectionInset.left + sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+        itemSize = CGSize(width: itemWidth, height: itemWidth)
+    }
+
+    override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+        let context = super.invalidationContext(forBoundsChange: newBounds) as! UICollectionViewFlowLayoutInvalidationContext
+        context.invalidateFlowLayoutDelegateMetrics = newBounds.size != collectionView?.bounds.size
+        return context
+    }
+
+}

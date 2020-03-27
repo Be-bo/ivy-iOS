@@ -33,6 +33,8 @@
 		A940565E240F5E82008ED82D /* TopicCommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */; };
 		A940565F240F5E82008ED82D /* TopicCommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */; };
 		A940566524147CE6008ED82D /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940566424147CE6008ED82D /* CheckBox.swift */; };
+		A9405668242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405666242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift */; };
+		A9405669242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9405667242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib */; };
 		A976E4DD2304E5D200755774 /* ViewFullProfileActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */; };
 		A976E4DF2309FBDD00755774 /* viewParticipantsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */; };
 		A976E4E1230A2AF200755774 /* ChatNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4E0230A2AF200755774 /* ChatNavigationController.swift */; };
@@ -166,6 +168,8 @@
 		A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicCommentCollectionViewCell.xib; sourceTree = "<group>"; };
 		A940566424147CE6008ED82D /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		A9405666242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionOfDayCollectionViewCell.swift; sourceTree = "<group>"; };
+		A9405667242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionOfDayCollectionViewCell.xib; sourceTree = "<group>"; };
 		A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFullProfileActivity.swift; sourceTree = "<group>"; };
 		A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewParticipantsActivity.swift; sourceTree = "<group>"; };
 		A976E4E0230A2AF200755774 /* ChatNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatNavigationController.swift; sourceTree = "<group>"; };
@@ -472,6 +476,8 @@
 				A940565A240F5971008ED82D /* BoardTopic.swift */,
 				A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */,
 				A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */,
+				A9405666242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift */,
+				A9405667242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 				A9D0131A2328A91B0049353C /* AddParticipantTableViewCell.xib in Resources */,
 				FA60590F22A4B12C00383F9F /* Main.storyboard in Resources */,
 				A9A57D1023216C8E00867D84 /* chatBubbleCollectionViewCell.xib in Resources */,
+				A9405669242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib in Resources */,
 				FA13E59422F9D04000F8FFA1 /* CardInterestCell.xib in Resources */,
 				FAC5A81B23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib in Resources */,
 				FA1FE3F522F7563900C36E6B /* Card.xib in Resources */,
@@ -795,6 +802,7 @@
 				FAC5CC6B231F3C8500CE9B24 /* PublicStaticFinalMethodsAndData.swift in Sources */,
 				A9990C6E22C9571200E95B2C /* Reg8Interests.swift in Sources */,
 				A9FD1986231ED41100ECA848 /* Settings.swift in Sources */,
+				A9405668242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift in Sources */,
 				A9B57E8523138318008DC63B /* Event.swift in Sources */,
 				A9A57D0F23216C8E00867D84 /* chatBubbleCollectionViewCell.swift in Sources */,
 				A920C4FB22DBEC700088DD58 /* Reg9Photo.swift in Sources */,

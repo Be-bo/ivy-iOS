@@ -58,8 +58,6 @@ class chatBubbleCollectionViewCell: UICollectionViewCell {
                             if let error = error {
                                 // Handle any errors
                             } else {
-                                print("else")
-                                
                                 // Get the download URL for 'images/stars.jpg'
                                 DispatchQueue.main.async {
                                     //                            let url = URL(string: urlString)
