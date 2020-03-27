@@ -280,33 +280,14 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 }
                 if let docData = documentSnapshot?.data(){
                     self.questionOfTheDay = docData
-                    self.updateQuestionOfTheDay()
+                    self.topicCollectionView.reloadData()
                 }
             })
 
         }
     }
     
-    func updateQuestionOfTheDay(){
-        if let commentingIDs = self.questionOfTheDay["commenting_ids"] as? [String], let lookingIDs = self.questionOfTheDay["looking_ids"] as? [String], let thisUserID = self.thisUserProfile["id"] as? String {
-            if (!lookingIDs.isEmpty){
-                //TODO: set text of question of the day looking numbers
-                self.topicCollectionView.reloadData()
 
-                
-            }
-            if(!commentingIDs.isEmpty && commentingIDs.contains(thisUserID)){
-                //TODO: set text of wether or not they commented in the question of the day or not
-                self.topicCollectionView.reloadData()
-
-            }else{  //havent commented so hide the label
-                self.topicCollectionView.reloadData()
-
-                //TODO: set visibility of the labbel to hidden
-            }
-            
-        }
-    }
     
     func startListeningToTopics(){
         if let uniDomain =  self.thisUserProfile["uni_domain"] as? String{
@@ -326,13 +307,9 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         //TODO: check if exists before appending? Like in Android?
                         self.allTopics.append(newTopic)
                         self.topicCollectionView.reloadData()
-
-//                        let indexPath = IndexPath(item: self.allTopics.count - 1, section: 0)
-//                        self.topicCollectionView.insertItems(at: [indexPath])
                     }
                     
                     if (diff.type == .modified) {
-                        print("changed")
                         let modifiedTopic = diff.document.data()
                         if let modifiedTopicID = modifiedTopic["id"] as? String{ //if is question of day, return, dont add
                             if(modifiedTopicID == "oftheday") {return}
@@ -342,8 +319,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                             let posModifiedIndex = self.locateIndexOfTopic(id: modifiedTopicID)
                             self.allTopics[posModifiedIndex] = modifiedTopic
                             self.topicCollectionView.reloadData()
-//                            let indexPath = IndexPath(item: posModifiedIndex, section: 0)
-//                            self.topicCollectionView.reloadItems(at: [indexPath])
                             return
                         }
                     }
