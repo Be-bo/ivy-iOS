@@ -352,19 +352,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     @objc func didClickAccept(sender: AnyObject) {
-        
-        
-        
-        
-        
         self.thisConversation = self.activeChats[sender.tag]
         self.thisCell = tableView.cellForRow(at: NSIndexPath(row: sender.tag, section: 0) as IndexPath) as! ConversationCell
-        
-
-        
         self.acceptRequest()
-
-        
     }
     
 

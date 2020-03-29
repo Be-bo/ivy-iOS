@@ -379,8 +379,9 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         if(indexPath == IndexPath(item: 0, section: 0)){
             
             let cell : QuestionOfDayCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: questionOfTheDayIdentifier, for: indexPath) as! QuestionOfDayCollectionViewCell
+            cell.styleCell(cell: cell)          //extension
+            
             populateQOTDCell(cell:cell, topic:self.questionOfTheDay)
-            styleCell(cell: cell)
             
             //need to round the bottom view bit or itll stick out slightly
             cell.viewHoldingBottonBit.layer.cornerRadius = 10
@@ -390,10 +391,11 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }else{
             
             let cell : TopicCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCollectionIdentifier, for: indexPath) as! TopicCollectionViewCell
+            cell.styleCell(cell: cell)          //extension
+
             let currentTopic = self.allTopics[indexPath.item - 1]   //- 1 since itll always satrt at 1 and we want the "0th" element of the regular topics
         
             populateTopicCell(cell:cell, topic:currentTopic)
-            styleCell(cell: cell)
             
             //need to round the bottom view bit or itll stick out slightly
             cell.viewHoldingBottonBit.layer.cornerRadius = 10
@@ -441,21 +443,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
-    //adding border to each cell here
-    func styleCell(cell:UICollectionViewCell){
-        
-        cell.layer.cornerRadius = 10
-        cell.layer.borderWidth = 1.0
-
-        cell.layer.borderColor = UIColor.lightGray.cgColor
-        cell.layer.backgroundColor = UIColor.white.cgColor
-        
-        cell.layer.shadowColor = UIColor.gray.cgColor
-        cell.layer.shadowOffset = CGSize(width: 2.0, height: 4.0)
-        cell.layer.shadowRadius = 2.0
-        cell.layer.shadowOpacity = 1.0
-        cell.layer.masksToBounds = false
-    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         

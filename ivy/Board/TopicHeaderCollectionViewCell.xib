@@ -18,33 +18,34 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="l3v-9C-rfa" userLabel="topicAuthorImage">
-                        <rect key="frame" x="232" y="0.0" width="75" height="75"/>
+                        <rect key="frame" x="247" y="8" width="60" height="60"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="75" id="XHH-ho-3Xq"/>
-                            <constraint firstAttribute="height" constant="75" id="ybi-7r-Evj"/>
+                            <constraint firstAttribute="width" constant="60" id="XHH-ho-3Xq"/>
+                            <constraint firstAttribute="height" constant="60" id="ybi-7r-Evj"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xni-tM-cVM">
-                        <rect key="frame" x="0.0" y="0.0" width="224" height="75"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5Rs-xC-bSd">
+                        <rect key="frame" x="0.0" y="8" width="239" height="67"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="l3v-9C-rfa" firstAttribute="leading" secondItem="xni-tM-cVM" secondAttribute="trailing" constant="8" id="1q6-n1-soM"/>
-                <constraint firstItem="xni-tM-cVM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="5CM-M5-ws3"/>
-                <constraint firstAttribute="bottom" secondItem="xni-tM-cVM" secondAttribute="bottom" id="K4N-Hp-C6O"/>
+                <constraint firstItem="5Rs-xC-bSd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="cQs-fk-dnH"/>
                 <constraint firstAttribute="trailing" secondItem="l3v-9C-rfa" secondAttribute="trailing" constant="8" id="cku-dn-rhJ"/>
-                <constraint firstItem="xni-tM-cVM" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="eaG-aQ-NOo"/>
-                <constraint firstItem="l3v-9C-rfa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ux0-Iy-I9e"/>
+                <constraint firstAttribute="bottom" secondItem="5Rs-xC-bSd" secondAttribute="bottom" id="oxg-Rj-tPn"/>
+                <constraint firstItem="l3v-9C-rfa" firstAttribute="leading" secondItem="5Rs-xC-bSd" secondAttribute="trailing" constant="8" id="u21-hI-hFM"/>
+                <constraint firstItem="l3v-9C-rfa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="ux0-Iy-I9e"/>
+                <constraint firstItem="5Rs-xC-bSd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="vGn-06-zKE"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="315" height="75"/>
             <connections>
                 <outlet property="authorImage" destination="l3v-9C-rfa" id="BpZ-iK-9px"/>
-                <outlet property="authorTitle" destination="xni-tM-cVM" id="3NI-4d-QzC"/>
+                <outlet property="authorTitle" destination="5Rs-xC-bSd" id="jVQ-Xm-jFT"/>
             </connections>
             <point key="canvasLocation" x="184.78260869565219" y="159.04017857142856"/>
         </collectionViewCell>

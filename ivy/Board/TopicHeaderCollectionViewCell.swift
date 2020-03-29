@@ -11,8 +11,7 @@ import UIKit
 class TopicHeaderCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var authorImage: UIImageView!
-    @IBOutlet weak var authorTitle: UILabel!
-    
+    @IBOutlet weak var authorTitle: UITextView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

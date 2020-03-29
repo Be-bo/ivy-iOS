@@ -18,7 +18,7 @@ class TopicAddCommentCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
     }
     
     @IBAction func beginEditingTextField(_ sender: Any) {
@@ -26,9 +26,16 @@ class TopicAddCommentCollectionViewCell: UICollectionViewCell {
     }
     
     
-    @IBAction func finishEditingTextField(_ sender: Any) {
-        addCommentSubmitButton.isHidden = false
+    @IBAction func doneEditing(_ sender: Any) {
+        addCommentSubmitButton.isHidden = true
+        
     }
     
+    
+
 
 }
+
+
+
+

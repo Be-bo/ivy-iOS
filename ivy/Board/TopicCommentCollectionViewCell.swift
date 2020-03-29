@@ -10,6 +10,12 @@ import UIKit
 
 class TopicCommentCollectionViewCell: UICollectionViewCell {
 
+    
+    @IBOutlet weak var commentAuthorImageView: UIImageView!
+    @IBOutlet weak var commentAuthorName: StandardBoldLabel!
+    @IBOutlet weak var commentText: UITextView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

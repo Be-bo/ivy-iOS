@@ -39,6 +39,11 @@
 		A9405671242E602F008ED82D /* TopicHeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A940566F242E602F008ED82D /* TopicHeaderCollectionViewCell.xib */; };
 		A9405674242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405672242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift */; };
 		A9405675242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9405673242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib */; };
+		A9405677242E9827008ED82D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405676242E9826008ED82D /* UIViewController.swift */; };
+		A9405679242E9F2B008ED82D /* boardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405678242E9F2B008ED82D /* boardCollectionViewCell.swift */; };
+		A940567D242EA282008ED82D /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940567C242EA282008ED82D /* UIImageView.swift */; };
+		A940567F242FBDC0008ED82D /* HSUnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940567E242FBDC0008ED82D /* HSUnderLineTextField.swift */; };
+		A9405681242FE2EB008ED82D /* UIViewTapGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405680242FE2EB008ED82D /* UIViewTapGesture.swift */; };
 		A976E4DD2304E5D200755774 /* ViewFullProfileActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */; };
 		A976E4DF2309FBDD00755774 /* viewParticipantsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */; };
 		A976E4E1230A2AF200755774 /* ChatNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976E4E0230A2AF200755774 /* ChatNavigationController.swift */; };
@@ -178,6 +183,11 @@
 		A940566F242E602F008ED82D /* TopicHeaderCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicHeaderCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9405672242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicAddCommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9405673242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicAddCommentCollectionViewCell.xib; sourceTree = "<group>"; };
+		A9405676242E9826008ED82D /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		A9405678242E9F2B008ED82D /* boardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = boardCollectionViewCell.swift; sourceTree = "<group>"; };
+		A940567C242EA282008ED82D /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		A940567E242FBDC0008ED82D /* HSUnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSUnderLineTextField.swift; sourceTree = "<group>"; };
+		A9405680242FE2EB008ED82D /* UIViewTapGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewTapGesture.swift; sourceTree = "<group>"; };
 		A976E4DC2304E5D200755774 /* ViewFullProfileActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFullProfileActivity.swift; sourceTree = "<group>"; };
 		A976E4DE2309FBDD00755774 /* viewParticipantsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewParticipantsActivity.swift; sourceTree = "<group>"; };
 		A976E4E0230A2AF200755774 /* ChatNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatNavigationController.swift; sourceTree = "<group>"; };
@@ -312,6 +322,10 @@
 			children = (
 				A9114F3523DE1F43003535F4 /* UIImage+Compression.swift */,
 				A940566424147CE6008ED82D /* CheckBox.swift */,
+				A9405676242E9826008ED82D /* UIViewController.swift */,
+				A9405678242E9F2B008ED82D /* boardCollectionViewCell.swift */,
+				A940567C242EA282008ED82D /* UIImageView.swift */,
+				A9405680242FE2EB008ED82D /* UIViewTapGesture.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -490,6 +504,7 @@
 				A940566F242E602F008ED82D /* TopicHeaderCollectionViewCell.xib */,
 				A9405672242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift */,
 				A9405673242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib */,
+				A940567E242FBDC0008ED82D /* HSUnderLineTextField.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -751,17 +766,21 @@
 				A9BB05DF22B5D2E2008B35AA /* StandardButton.swift in Sources */,
 				A9A57D162321C1C900867D84 /* SettingsButtonLabel.swift in Sources */,
 				A976E4DD2304E5D200755774 /* ViewFullProfileActivity.swift in Sources */,
+				A9405677242E9827008ED82D /* UIViewController.swift in Sources */,
 				FAD461A122ED3329003B10D8 /* OpacityButton.swift in Sources */,
+				A9405681242FE2EB008ED82D /* UIViewTapGesture.swift in Sources */,
 				FA0A0348232729D500F9FDAC /* LegalStuff.swift in Sources */,
 				A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */,
 				A9A2BFD223C55AF300BEC473 /* ChatViewController.swift in Sources */,
 				A9F7B1CC23639F7500B7283E /* PushNotificationSender.swift in Sources */,
 				A9FD1988231F223B00ECA848 /* ChangePassword.swift in Sources */,
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
+				A940567D242EA282008ED82D /* UIImageView.swift in Sources */,
 				FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */,
 				FA0A034D23272C2D00F9FDAC /* LegalStuffCell.swift in Sources */,
 				A9405650240F2E88008ED82D /* oldBoardLogic.swift in Sources */,
 				FAC5A81F23DE797F00C38E5D /* GreyChatLabel.swift in Sources */,
+				A9405679242E9F2B008ED82D /* boardCollectionViewCell.swift in Sources */,
 				FA1B412822F4ACE5005817C5 /* ProfileNavigationViewController.swift in Sources */,
 				FA121C2C22EE4C2B00C175F7 /* ConversationCell.swift in Sources */,
 				A9FD196B2315C84A00ECA848 /* BoardPostTableViewCell.swift in Sources */,
@@ -784,6 +803,7 @@
 				A9405659240F4088008ED82D /* Topic.swift in Sources */,
 				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
 				A9FD196E231A275400ECA848 /* boardHistory.swift in Sources */,
+				A940567F242FBDC0008ED82D /* HSUnderLineTextField.swift in Sources */,
 				FA1B412622F4ACB9005817C5 /* QuadNavigationViewController.swift in Sources */,
 				A90205E9231FCC8600EB6B2E /* editInterestsPopUpViewController.swift in Sources */,
 				A920C4F922DBB69B0088DD58 /* Reg6Birthday.swift in Sources */,

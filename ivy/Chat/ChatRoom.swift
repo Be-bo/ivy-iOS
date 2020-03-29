@@ -210,7 +210,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         }
         if segue.identifier == "viewFullProfileSegue" {
             let vc = segue.destination as! ViewFullProfileActivity
-            vc.isFriend = true
             vc.thisUserProfile = self.thisUserProfile
             vc.otherUserID = self.otherId
         }

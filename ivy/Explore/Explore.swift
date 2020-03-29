@@ -175,7 +175,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         }
         else if segue.identifier == "viewFullProfileSegue" {
             let vc = segue.destination as! ViewFullProfileActivity
-            vc.isFriend = true
             vc.thisUserProfile = self.thisUserProfile
             vc.otherUserID = self.suggestedProfileClicked["id"] as? String
         }
