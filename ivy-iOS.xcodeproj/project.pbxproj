@@ -146,6 +146,9 @@
 		FACA64F6232027E1007ABDB7 /* SearchLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACA64F5232027E1007ABDB7 /* SearchLauncher.swift */; };
 		FACD8FFE22C710060066F109 /* DegreeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACD8FFD22C710060066F109 /* DegreeCell.swift */; };
 		FAD461A122ED3329003B10D8 /* OpacityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD461A022ED3329003B10D8 /* OpacityButton.swift */; };
+		FAF92A13242FFC59004E2CC5 /* BoardCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF92A12242FFC59004E2CC5 /* BoardCollectionViewLayout.swift */; };
+		FAF92A1624301206004E2CC5 /* CreateTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF92A1424301206004E2CC5 /* CreateTopicCell.swift */; };
+		FAF92A1724301206004E2CC5 /* CreateTopicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF92A1524301206004E2CC5 /* CreateTopicCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -294,6 +297,9 @@
 		FACA64F5232027E1007ABDB7 /* SearchLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLauncher.swift; sourceTree = "<group>"; };
 		FACD8FFD22C710060066F109 /* DegreeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeCell.swift; sourceTree = "<group>"; };
 		FAD461A022ED3329003B10D8 /* OpacityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpacityButton.swift; sourceTree = "<group>"; };
+		FAF92A12242FFC59004E2CC5 /* BoardCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewLayout.swift; sourceTree = "<group>"; };
+		FAF92A1424301206004E2CC5 /* CreateTopicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTopicCell.swift; sourceTree = "<group>"; };
+		FAF92A1524301206004E2CC5 /* CreateTopicCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateTopicCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -505,6 +511,9 @@
 				A9405672242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift */,
 				A9405673242E6318008ED82D /* TopicAddCommentCollectionViewCell.xib */,
 				A940567E242FBDC0008ED82D /* HSUnderLineTextField.swift */,
+				FAF92A12242FFC59004E2CC5 /* BoardCollectionViewLayout.swift */,
+				FAF92A1424301206004E2CC5 /* CreateTopicCell.swift */,
+				FAF92A1524301206004E2CC5 /* CreateTopicCell.xib */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -685,6 +694,7 @@
 				FA121C2E22EE4C3700C175F7 /* ConversationCell.xib in Resources */,
 				FA0A034E23272C2D00F9FDAC /* LegalStuffCell.xib in Resources */,
 				FACA64F423202368007ABDB7 /* SearchCell.xib in Resources */,
+				FAF92A1724301206004E2CC5 /* CreateTopicCell.xib in Resources */,
 				A9FD1990231F364A00ECA848 /* blockedAccTableViewCell.xib in Resources */,
 				FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */,
 			);
@@ -798,6 +808,7 @@
 				A940565B240F5971008ED82D /* BoardTopic.swift in Sources */,
 				FA6D733522DA80FE009020B5 /* GreenBoldTitleLabel.swift in Sources */,
 				FA30FCE8232697230032B564 /* UserGallery.swift in Sources */,
+				FAF92A1624301206004E2CC5 /* CreateTopicCell.swift in Sources */,
 				A9405674242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift in Sources */,
 				FA6D733922DA812D009020B5 /* MediumGreenLabel.swift in Sources */,
 				A9405659240F4088008ED82D /* Topic.swift in Sources */,
@@ -820,6 +831,7 @@
 				FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */,
 				FA13E59322F9D04000F8FFA1 /* CardInterestCell.swift in Sources */,
 				FA121C1E22EE420300C175F7 /* Chat.swift in Sources */,
+				FAF92A13242FFC59004E2CC5 /* BoardCollectionViewLayout.swift in Sources */,
 				A9114F3323DE06E5003535F4 /* AddEvent.swift in Sources */,
 				A920C4F522DB99B20088DD58 /* Reg4Gender.swift in Sources */,
 				A940565E240F5E82008ED82D /* TopicCommentCollectionViewCell.swift in Sources */,

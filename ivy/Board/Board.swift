@@ -13,32 +13,34 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 
-class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
-   
-    
+class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, BoardLayoutDelegate{
+
+
+
     //MARK: Variables and Constant
+
     public var thisUserProfile = Dictionary<String, Any>()
     private let baseDatabaseReference = Firestore.firestore()
     private let baseStorageReference = Storage.storage()
-    
     private let topicCollectionIdentifier = "TopicCollectionViewCell"
     private let questionOfTheDayIdentifier = "QuestionOfDayCollectionViewCell"
-
+    private let createTopicButtonIdentifier = "CreateTopicCell"
 
     @IBOutlet weak var boardCollectionView: UICollectionView!
-    
+
     private var allTopicIdNamePairs = Dictionary<String, Any>()
     private var allTopics: [Dictionary<String, Any>] = []         //arraylist holding dics of all topics
     private var topicClicked = Dictionary<String,Any>()                       //to know which topic cell been clicked
     private var questionOfTheDay = Dictionary<String,Any>()
     private var registration:ListenerRegistration? = nil
     private var ofthedayRegistration:ListenerRegistration? = nil
-    
 
-    
-    
-    
+
+
+
+
     // MARK: Base Functions
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
@@ -46,45 +48,32 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             setupCollectionViews()
         }
     }
-    
-    
+
     private func setupCollectionViews(){
-        //https://stackoverflow.com/questions/14674986/uicollectionview-set-number-of-columns
-        let columnLayout = ColumnFlowLayout(
-            cellsPerRow: 2,
-            minimumInteritemSpacing: 10,
-            minimumLineSpacing: 10,
-            sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        )
-        //yes you can register multiple nibs -.-
+        boardCollectionView?.contentInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        if let layout = boardCollectionView?.collectionViewLayout as? BoardCollectionViewLayout {
+            layout.delegate = self
+        }
         boardCollectionView.register(UINib(nibName:questionOfTheDayIdentifier, bundle: nil), forCellWithReuseIdentifier: questionOfTheDayIdentifier)
         boardCollectionView.register(UINib(nibName:topicCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCollectionIdentifier)
+        boardCollectionView.register(UINib(nibName: createTopicButtonIdentifier, bundle: nil), forCellWithReuseIdentifier: createTopicButtonIdentifier)
         boardCollectionView.delegate = self
         boardCollectionView.dataSource = self
-        boardCollectionView.collectionViewLayout = columnLayout
-        boardCollectionView.contentInsetAdjustmentBehavior = .always
-        
         setUp()
     }
 
-    
-    
     private func setUp(){ //initial setup method when the ViewController's first created
-//        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
-    
-//        self.hideKeyboardOnTapOutside()
-      
-        startListeningToQOTD()
+        //      NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil)
+        //      self.hideKeyboardOnTapOutside()
         startListeningToTopics()
     }
 
-    
     private func setUpNavigationBar(){
         let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
         titleImgView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
-        
+
         //U of C Logo Left Top Corneur
         let uOfCImgView = UIButton(type: .custom)
         uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
@@ -96,8 +85,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         curruOfCWidth?.isActive = true
         let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         curruOfCHeight?.isActive = true
-        
-        
+
         //Settings Button Right Top Corneur
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
@@ -109,7 +97,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         currHeight?.isActive = true
 
-        
         //Share Button Next To Settings
         let shareButton = UIButton(type: .custom)
         shareButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
@@ -120,70 +107,76 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         currShareWidth?.isActive = true
         let currShareHeight = shareButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         currShareHeight?.isActive = true
-        
+
         self.navigationItem.leftBarButtonItem = uOfCButtonItem
         self.navigationItem.rightBarButtonItems = [settingsButtonItem, shareButtonItem]
     }
-    
-    // MARK: Actions
+
+
+
+
+
+
+
+
+    // MARK: IBActions and Topic Posting
+
     @objc func settingsClicked() {
         self.performSegue(withIdentifier: "BoardToSettings" , sender: self) //pass data over to
     }
-    
+
     @objc func shareTapped(){ //TODO: potentially move this to the PublicStaticMethodsAndData
         let activityController = UIActivityViewController(activityItems: ["Hi, thought you'd like ivy! Check it out here: https://apps.apple.com/ca/app/ivy/id1479966843."], applicationActivities: nil)
         present(activityController, animated: true, completion: nil)
-
     }
-    
-    @IBAction func onClickCreateTopic(_ sender: Any) {
-        
-        
+
+
+    @objc func createTopic() {
+
         if (self.checkIfTwoHoursSinceLastPosting()){
             let ac = UIAlertController(title: "Post a Topic on the Board!", message: nil, preferredStyle: .alert)
             ac.addTextField()
             ac.textFields![0].placeholder = "Topic Name"
-            
+
             let submitAction = UIAlertAction(title: "Post", style: .default) { [unowned ac] _ in
                 let topicInput = ac.textFields![0]
-                    if let topicInput = topicInput.text {
-                       if(topicInput.count>1){
+                if let topicInput = topicInput.text {
+                    if(topicInput.count>1){
                         if(!self.checkForProfanity(topicInput: topicInput.lowercased())){  //if no profanity exists
                             self.pushTopic(isAnonymous: false, inputText: topicInput, ac:ac)
                             //TODO: show progress bar and dismiss the rest
                         }
-                       }else{
-                           PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
-                       }
+                    }else{
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
                     }
-            }
-            
-            let submitAnonyAction = UIAlertAction(title: "Post Anonymously", style: .default) { [unowned ac] _ in
-                let topicInput = ac.textFields![0]
-                if let topicInput = topicInput.text {
-                   if(topicInput.count>1){
-                    if(!self.checkForProfanity(topicInput: topicInput.lowercased())){
-                        self.pushTopic(isAnonymous: true, inputText: topicInput, ac:ac)
-                        //TODO: show progress bar and dismiss the rest
-                    }
-                   }else{
-                       PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
-                   }
                 }
             }
 
-           let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { [unowned ac] _ in
-           }
-           ac.addAction(submitAction)
-           ac.addAction(submitAnonyAction)
-           ac.addAction(cancelAction)
-           self.present(ac, animated: true)
+            let submitAnonyAction = UIAlertAction(title: "Post Anonymously", style: .default) { [unowned ac] _ in
+                let topicInput = ac.textFields![0]
+                if let topicInput = topicInput.text {
+                    if(topicInput.count>1){
+                        if(!self.checkForProfanity(topicInput: topicInput.lowercased())){
+                            self.pushTopic(isAnonymous: true, inputText: topicInput, ac:ac)
+                            //TODO: show progress bar and dismiss the rest
+                        }
+                    }else{
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
+                    }
+                }
+            }
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { [unowned ac] _ in
+            }
+            ac.addAction(submitAction)
+            ac.addAction(submitAnonyAction)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
         }else{
             PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You posted it recently. Come back later!", context: self)
         }
     }
-    
-    
+
     func pushTopic(isAnonymous:Bool, inputText:String, ac:UIAlertController) {
         var newTopic = Dictionary<String, Any>()
         newTopic["author_id"] = self.thisUserProfile["id"] as? String
@@ -195,8 +188,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         newTopic["text"] = inputText
         newTopic["looking_ids"] = []
         newTopic["commenting_ids"] = []
-        
-        
+
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let userID = self.thisUserProfile["id"] as? String, let newTopicID = newTopic["id"] as? String {
             self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(userID).updateData(["last_topic_millis" : Date().timeIntervalSince1970]) { (err) in
                 if let err = err {
@@ -218,11 +210,34 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             }
         }
     }
-    
-    //if the topic input has no profanity then return true
-    func checkForProfanity(topicInput: String) -> Bool{
+
+    func checkIfTwoHoursSinceLastPosting() -> Bool{
+        if let userLastTopicMillis = self.thisUserProfile["last_topic_millis"] as? Int64{
+            var millisOfLastTopic = userLastTopicMillis
+            if(millisOfLastTopic != 0){
+                if((Date().millisecondsSince1970 - millisOfLastTopic) < PublicStaticMethodsAndData.LAST_TOPIC_CREATION_TIME_DIFFERENCE){
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // MARK: Profanity Checking
+
+    func checkForProfanity(topicInput: String) -> Bool{ //if the topic input has no profanity then return true
         var hasProfanity:Bool = false
-        
+
         for(index,_) in PublicStaticMethodsAndData.profanity_list.enumerated(){
             if (topicInput.contains(PublicStaticMethodsAndData.profanity_list[index])){
                 var exceptionPresent:Bool  = false
@@ -232,9 +247,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         break
                     }
                 }
-                
                 if(exceptionPresent){ continue }
-
 
                 if let rangeForStart: Range<String.Index> = topicInput.range(of: PublicStaticMethodsAndData.profanity_list[index]),let startingIndex: Int = topicInput.distance(from: topicInput.startIndex, to: rangeForStart.lowerBound){
                     let endingIndex = startingIndex + PublicStaticMethodsAndData.profanity_list[index].count
@@ -248,7 +261,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         hasProfanity = true
                         break
                     }
-                    
+
                     if(topicInput.contains(" " + PublicStaticMethodsAndData.profanity_list[index] + " ")){
                         PublicStaticMethodsAndData.createInfoDialog(titleText: "Profanity Problem", infoText: "The title contains a profanity", context: self)
                         hasProfanity = true
@@ -264,65 +277,44 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }
         return hasProfanity
     }
-    
-    func checkIfTwoHoursSinceLastPosting() -> Bool{
-        if let userLastTopicMillis = self.thisUserProfile["last_topic_millis"] as? Int64{
-            var millisOfLastTopic = userLastTopicMillis
-            if(millisOfLastTopic != 0){
-                if((Date().millisecondsSince1970 - millisOfLastTopic) < PublicStaticMethodsAndData.LAST_TOPIC_CREATION_TIME_DIFFERENCE){
-                    return false
-                }
-            }
-        }
-        return true
-    }
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     // MARK: Data Acquisition Methods
-    
-    func startListeningToQOTD(){
-        if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
-            self.ofthedayRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document("oftheday").addSnapshotListener({ (documentSnapshot, err) in
-                guard documentSnapshot != nil else {
-                    print("Error initializing  QOTD in Board: \(err!)")
-                    return
-                }
-                if let docData = documentSnapshot?.data(){
-                    self.questionOfTheDay = docData
-                    self.boardCollectionView.reloadData()
-                }
-            })
 
-        }
-    }
-    
-
-    
     func startListeningToTopics(){
         if let uniDomain =  self.thisUserProfile["uni_domain"] as? String{
             registration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").addSnapshotListener({ (querySnapshot, err) in
-                
+
                 guard let snapshot = querySnapshot else {
                     print("Error initializing in Board: \(err!)")
                     return
                 }
-                
+
+                if(self.allTopics.count == 0){
+                    self.allTopics.append(Dictionary<String, Any>()) //an empty topic for the first item representing the create topic button
+                }
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         let newTopic =  diff.document.data()
-                        if let newTopicID = newTopic["id"] as? String{ //if is question of day, return, dont add
-                            if(newTopicID == "oftheday") {return}
-                        }
                         //TODO: check if exists before appending? Like in Android?
                         self.allTopics.append(newTopic)
                         self.boardCollectionView.reloadData()
                     }
-                    
+
                     if (diff.type == .modified) {
                         let modifiedTopic = diff.document.data()
-                        if let modifiedTopicID = modifiedTopic["id"] as? String{ //if is question of day, return, dont add
-                            if(modifiedTopicID == "oftheday") {return}
-                        }
-                        
+
                         if let modifiedTopicID = modifiedTopic["id"] as? String{
                             let posModifiedIndex = self.locateIndexOfTopic(id: modifiedTopicID)
                             self.allTopics[posModifiedIndex] = modifiedTopic
@@ -340,12 +332,24 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         }
                     }
                 }
+                self.moveQOTDtoFront()
             })
         }
     }
-    
-    //so we know what index to removed from all topics when deleting
-    func locateIndexOfTopic(id:String) -> Int {
+
+    func moveQOTDtoFront(){
+        for i in 1..<allTopics.count{
+            if let topicId = allTopics[i]["id"] as? String, topicId == "oftheday"{
+                let topicToMove = allTopics[1]
+                allTopics[1] = allTopics[i]
+                allTopics[i] = topicToMove
+                break
+            }
+        }
+        self.boardCollectionView.reloadData()
+    }
+
+    func locateIndexOfTopic(id:String) -> Int { //so we know what index to removed from all topics when deleting
         var position = 0
         for (index, chat) in self.allTopics.enumerated(){
             if id == chat["id"] as! String{
@@ -354,68 +358,77 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }
         return position
     }
-    
-    
 
-    
-    //called externally from main under mainTabController
-    func updateProfile(updatedProfile: Dictionary<String, Any>){
+    func updateProfile(updatedProfile: Dictionary<String, Any>){ //called externally from main under mainTabController
         self.thisUserProfile = updatedProfile
     }
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     //MARK: Collection View Methods
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allTopics.count + 1 //plus one for the question of the day
+
+    func collectionView(collectionView: UICollectionView, heightForLabelAt indexPath: IndexPath, with width: CGFloat) -> CGFloat {
+        if(indexPath.item == 0){ //create topic button
+            return CGFloat(38)
+        }
+        if let topic = allTopics[indexPath.item] as? Dictionary<String, Any>, let topicText = topic["text"] as? String{
+            let labelHeight = self.height(for: topicText, with: UIFont(name: "Cordia New", size: 25)!, width: width)
+            if(indexPath.item == 1){
+                return labelHeight + CGFloat(100) //8 for margins, then 30 for image/authoredCommented/numLooking layer + trial and error + QOTD space
+            }else{
+                return labelHeight + CGFloat(75) //8 for margins, then 30 for image/authoredCommented/numLooking layer + trial and error
+            }
+        }
+        return 0
     }
-    
+
+    func height(for text: String, with font: UIFont, width: CGFloat) -> CGFloat{ //label height calculation based on text attributes
+        let nsstring = NSString(string: text)
+        let maxHeight = CGFloat(700)
+        let textAttributes = [NSAttributedString.Key.font : font]
+        let boundingRect = nsstring.boundingRect(with: CGSize(width: width, height: maxHeight), options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        return ceil(boundingRect.height)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return allTopics.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-
-
-
-        //Don't let reloading of the 0th cell cause then it would become topic and we want it to be QOTD cell
-        if(indexPath == IndexPath(item: 0, section: 0)){
-            
-            let cell : QuestionOfDayCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: questionOfTheDayIdentifier, for: indexPath) as! QuestionOfDayCollectionViewCell
-            cell.styleCell(cell: cell)          //extension
-            
-            populateQOTDCell(cell:cell, topic:self.questionOfTheDay)
-            
-            //need to round the bottom view bit or itll stick out slightly
-            cell.viewHoldingBottonBit.layer.cornerRadius = 10
-            cell.viewHoldingBottonBit.layer.borderWidth = 0
-            
+        if(indexPath.item == 0){ //if create topic button
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: createTopicButtonIdentifier, for: indexPath) as! CreateTopicCell
+            let tap = UITapGestureRecognizer(target: self, action: #selector(createTopic))
+            cell.createButton.addGestureRecognizer(tap)
             return cell
-        }else{
-            
-            let cell : TopicCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCollectionIdentifier, for: indexPath) as! TopicCollectionViewCell
-            cell.styleCell(cell: cell)          //extension
-
-            let currentTopic = self.allTopics[indexPath.item - 1]   //- 1 since itll always satrt at 1 and we want the "0th" element of the regular topics
-        
-            populateTopicCell(cell:cell, topic:currentTopic)
-            
-            //need to round the bottom view bit or itll stick out slightly
-            cell.viewHoldingBottonBit.layer.cornerRadius = 10
-            cell.viewHoldingBottonBit.layer.borderWidth = 0
-            
+        }else if(indexPath.item == 1){ //if QOTD
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: questionOfTheDayIdentifier, for: indexPath) as! QuestionOfDayCollectionViewCell
+            populateQOTDCell(cell:cell, topic: self.allTopics[indexPath.item])
+            styleCell(cell: cell)
+            return cell
+        }else{ //if standard topic
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCollectionIdentifier, for: indexPath) as! TopicCollectionViewCell
+            populateTopicCell(cell: cell, topic: self.allTopics[indexPath.item])
+            styleCell(cell: cell)
             return cell
         }
-        
-
-        
     }
-    
-    func populateTopicCell(cell:TopicCollectionViewCell, topic:Dictionary<String,Any>){
-        
 
+    func populateTopicCell(cell:TopicCollectionViewCell, topic:Dictionary<String,Any>){
         if let topicName = topic["text"] as? String, let lookingIDs = topic["looking_ids"] as? [String],
             let commentingIDs = topic["commenting_ids"] as? [String], let topicAuthID = topic["author_id"] as? String,
             let thisUserID = self.thisUserProfile["id"] as? String {
             cell.textView.text = topicName
-            
+
             if(!lookingIDs.isEmpty){cell.numberViewingLabel.text = String(lookingIDs.count)}else{cell.numberViewingLabel.text = "0"}
             if (topicAuthID == thisUserID){ //this user created the topic so change the text to authored
                 cell.authOrCommentLabel.text = "Authored"
@@ -424,14 +437,12 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             }else{  //neither so empty be default
                 cell.authOrCommentLabel.text = ""
             }
-            
         }
-        
     }
-    
+
     func populateQOTDCell(cell:QuestionOfDayCollectionViewCell,topic:Dictionary<String,Any>){
         if let topicName = topic["text"] as? String, let lookingIDs = topic["looking_ids"] as? [String],
-        let commentingIDs = topic["commenting_ids"] as? [String], let thisUserID = self.thisUserProfile["id"] as? String {
+            let commentingIDs = topic["commenting_ids"] as? [String], let thisUserID = self.thisUserProfile["id"] as? String {
             cell.textView.text = topicName
             if(!lookingIDs.isEmpty){cell.numberViewingLabel.text = String(lookingIDs.count)}else{cell.numberViewingLabel.text = "0"}
             if(!commentingIDs.isEmpty && commentingIDs.contains(thisUserID)){ //commented
@@ -442,59 +453,39 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
         }
     }
-    
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
 
-        
-        let halfCollecViewWidth = (collectionView.frame.size.width / 2 ) - 20 //half the collection view size - 20 for edge insets defined above
-        
-        //first item will always be question of the day
-        if (indexPath == IndexPath(item: 0, section: 0)) {
-            
-            let cellSize = CGSize(width: collectionView.frame.size.width - 20, height: 140)  //as long as the collection view
-            return cellSize
-        }else{
-            
-            let cellSize = CGSize(width: halfCollecViewWidth, height: 140)
-            return cellSize
-        }
-    
-    }
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
-
         if (indexPath == IndexPath(item: 0, section: 0)) {
-            let currentTopic = self.questionOfTheDay
+            //do nothing
+        }
+        else if (self.allTopics.count > 1 && indexPath.item > 0) {              //0th item create topic button
+            let currentTopic = self.allTopics[indexPath.item]
             self.topicClicked = currentTopic
             self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over
         }
-        else if (self.allTopics.count >= 0 && indexPath.item > 0) {              //0th item is QOTD
-            let currentTopic = self.allTopics[indexPath.item - 1]                //since 0th item is QOTD always subtract one from whats chosen
-            self.topicClicked = currentTopic
-            self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over
-        }
-        
     }
-    
-    
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
         if segue.identifier == "boardToTopicSegue" {
             let vc = segue.destination as! BoardTopic
             vc.thisTopic = self.topicClicked
             vc.thisUserProfile = self.thisUserProfile
         }
-//        self.tabBarController?.tabBar.isHidden = true
+        //        self.tabBarController?.tabBar.isHidden = true
     }
-    
-    
-
 }
 
 
+
+
+
+
+
+
+
+// MARK: Column Flow Layout https://stackoverflow.com/questions/14674986/uicollectionview-set-number-of-columns
 
 class ColumnFlowLayout: UICollectionViewFlowLayout {
 
@@ -529,5 +520,3 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
     }
 
 }
-
-

@@ -295,7 +295,6 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
         let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         curruOfCHeight?.isActive = true
         
-        
         //Settings Button Right Top Corneur
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)

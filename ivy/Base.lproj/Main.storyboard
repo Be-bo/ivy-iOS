@@ -26,48 +26,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdp-VD-jM2" userLabel="Create Topic Button">
-                                <rect key="frame" x="137" y="56" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="FnC-F0-5js"/>
-                                    <constraint firstAttribute="width" constant="46" id="h1c-V0-cr5"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="onClickCreateTopic:" destination="gIm-NV-OZK" eventType="touchUpInside" id="shw-iV-sjZ"/>
-                                </connections>
-                            </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4wD-Jw-fmK">
-                                <rect key="frame" x="0.0" y="136" width="320" height="363"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="475"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Xlp-Ra-hTK">
-                                    <size key="itemSize" width="138" height="160"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="BqS-2G-lt6">
-                                        <rect key="frame" x="0.0" y="0.0" width="138" height="160"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="M4f-me-hVH">
-                                            <rect key="frame" x="0.0" y="0.0" width="138" height="160"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                        <size key="customSize" width="138" height="160"/>
-                                    </collectionViewCell>
-                                </cells>
+                                <collectionViewLayout key="collectionViewLayout" id="uFm-nu-3zg" customClass="BoardCollectionViewLayout" customModule="ivy_iOS" customModuleProvider="target"/>
+                                <cells/>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="4wD-Jw-fmK" firstAttribute="trailing" secondItem="gvJ-ya-9lK" secondAttribute="trailing" id="4Lk-bi-8nt"/>
-                            <constraint firstItem="wdp-VD-jM2" firstAttribute="centerX" secondItem="QNi-ff-1dj" secondAttribute="centerX" id="NDY-KA-fdb"/>
                             <constraint firstItem="4wD-Jw-fmK" firstAttribute="leading" secondItem="gvJ-ya-9lK" secondAttribute="leading" id="Plo-pU-9Zz"/>
-                            <constraint firstItem="4wD-Jw-fmK" firstAttribute="top" secondItem="wdp-VD-jM2" secondAttribute="bottom" constant="50" id="RMp-B6-6Db"/>
-                            <constraint firstItem="wdp-VD-jM2" firstAttribute="top" secondItem="gvJ-ya-9lK" secondAttribute="top" id="VqS-c4-kYT"/>
                             <constraint firstItem="4wD-Jw-fmK" firstAttribute="bottom" secondItem="gvJ-ya-9lK" secondAttribute="bottom" id="Wcw-0A-u6w"/>
+                            <constraint firstItem="4wD-Jw-fmK" firstAttribute="top" secondItem="gvJ-ya-9lK" secondAttribute="top" id="b12-z1-p5r"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gvJ-ya-9lK"/>
                     </view>
@@ -974,14 +946,14 @@
             <objects>
                 <viewController autoresizesArchivedViewToFullSize="NO" hidesBottomBarWhenPushed="YES" id="Yjf-Fr-ihs" customClass="ViewFullProfileActivity" customModule="ivy_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tBF-i4-kFg">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zik-Jf-SM5" userLabel="Shadow">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zng-WA-sx8" userLabel="Container" customClass="Card" customModule="ivy_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="304" height="532"/>
+                                        <rect key="frame" x="8" y="8" width="304" height="508"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
@@ -1669,11 +1641,11 @@
             <objects>
                 <viewController id="XIj-ga-YOr" customClass="Event" customModule="ivy_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LLB-YF-zQr">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-jT-vQ0">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="475"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9E3-fC-hbh">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="1400"/>
@@ -1851,23 +1823,23 @@
             <objects>
                 <viewController title="Organization" id="Lwl-tx-F7d" customClass="organizationPage" customModule="ivy_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nZu-J5-0yp">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Pu-R2-qBG">
-                                <rect key="frame" x="8" y="8" width="304" height="250"/>
+                                <rect key="frame" x="8" y="52" width="304" height="250"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="0jk-CZ-05r"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="website" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhB-d8-QW6">
-                                <rect key="frame" x="8" y="274" width="304" height="20.5"/>
+                                <rect key="frame" x="8" y="318" width="304" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9i-Ft-dZK" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
-                                <rect key="frame" x="8" y="302.5" width="304" height="20.5"/>
+                                <rect key="frame" x="8" y="346.5" width="304" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -3929,14 +3901,14 @@
     <inferredMetricsTieBreakers>
         <segue reference="OfU-Ft-87X"/>
         <segue reference="9RO-mD-LBY"/>
-        <segue reference="qnE-MC-VUo"/>
-        <segue reference="N1a-aN-84L"/>
-        <segue reference="UkY-Va-3yW"/>
+        <segue reference="uSB-K7-AQ8"/>
+        <segue reference="NU5-32-VUu"/>
+        <segue reference="GId-3d-sBt"/>
         <segue reference="RKH-ld-RbM"/>
-        <segue reference="4JO-Rg-4oj"/>
-        <segue reference="GpN-oa-Bh7"/>
-        <segue reference="9lb-Kb-J7u"/>
-        <segue reference="rO4-E7-9yn"/>
+        <segue reference="vAN-1D-qRd"/>
+        <segue reference="YTv-ER-BkX"/>
+        <segue reference="6lo-aV-DON"/>
+        <segue reference="6DB-Uu-9yT"/>
         <segue reference="RbY-uu-zWa"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
