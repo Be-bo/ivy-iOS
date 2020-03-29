@@ -28,7 +28,6 @@
 		A9405652240F2EB0008ED82D /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405651240F2EB0008ED82D /* Board.swift */; };
 		A9405655240F322C008ED82D /* TopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405653240F322C008ED82D /* TopicCollectionViewCell.swift */; };
 		A9405656240F322C008ED82D /* TopicCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9405654240F322C008ED82D /* TopicCollectionViewCell.xib */; };
-		A9405659240F4088008ED82D /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405658240F4088008ED82D /* Topic.swift */; };
 		A940565B240F5971008ED82D /* BoardTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940565A240F5971008ED82D /* BoardTopic.swift */; };
 		A940565E240F5E82008ED82D /* TopicCommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */; };
 		A940565F240F5E82008ED82D /* TopicCommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */; };
@@ -175,7 +174,6 @@
 		A9405651240F2EB0008ED82D /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		A9405653240F322C008ED82D /* TopicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9405654240F322C008ED82D /* TopicCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicCollectionViewCell.xib; sourceTree = "<group>"; };
-		A9405658240F4088008ED82D /* Topic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		A940565A240F5971008ED82D /* BoardTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTopic.swift; sourceTree = "<group>"; };
 		A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicCommentCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -500,7 +498,6 @@
 				A9405651240F2EB0008ED82D /* Board.swift */,
 				A9405653240F322C008ED82D /* TopicCollectionViewCell.swift */,
 				A9405654240F322C008ED82D /* TopicCollectionViewCell.xib */,
-				A9405658240F4088008ED82D /* Topic.swift */,
 				A940565A240F5971008ED82D /* BoardTopic.swift */,
 				A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */,
 				A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */,
@@ -811,7 +808,6 @@
 				FAF92A1624301206004E2CC5 /* CreateTopicCell.swift in Sources */,
 				A9405674242E6318008ED82D /* TopicAddCommentCollectionViewCell.swift in Sources */,
 				FA6D733922DA812D009020B5 /* MediumGreenLabel.swift in Sources */,
-				A9405659240F4088008ED82D /* Topic.swift in Sources */,
 				FA60590C22A4B12C00383F9F /* Login.swift in Sources */,
 				A9FD196E231A275400ECA848 /* boardHistory.swift in Sources */,
 				A940567F242FBDC0008ED82D /* HSUnderLineTextField.swift in Sources */,

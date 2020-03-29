@@ -28,7 +28,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     private var allTopicComments = [Dictionary<String, Any>]()
     private var imageAuthorID = ""
     private var firstLaunch = true
-    private var firstCommentLoad = false
+    private var firstCommentLoad:Bool = Bool()
 
     private let topicHeaderCollectionIdentifier = "TopicHeaderCollectionViewCell"
     private let topicCommentCollectionIdentifier = "TopicCommentCollectionViewCell"
@@ -48,18 +48,51 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     // MARK: Base Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavigationBar()
-        self.hideKeyboardWhenTappedAround()     //extension defined in extensions for closing the keyboard
+        hideKeyboardWhenTappedAround()     //extension defined in extensions for closing the keyboard
         setupCollectionViews()
-        setUpCommentsListener()
         prepareTopic()
-        // TODO:       addThisUserToLookingIds()
+
+    
 
     }
     
+    
+    //TODO: write the on resume case incase they close the app while still in the board. detatching listeners and what not
+    override func viewDidDisappear(_ animated: Bool) {
+        detatchListeners()
 
+    }
+    
+    
     private func setUpNavigationBar(){
-        //TODO: add users viewing this post in the nav bar
+        
+        let moreButton = UIButton(type: .custom)
+        moreButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        moreButton.setImage(UIImage(named:"more"), for: .normal)
+        moreButton.addTarget(self, action: #selector(self.moreClicked), for: .touchUpInside)
+        let moreButtonItem = UIBarButtonItem(customView: moreButton)
+        let currWidth = moreButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currWidth?.isActive = true
+        let currHeight = moreButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currHeight?.isActive = true
+        
+        let groupButton = UIButton(type: .custom)
+        groupButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
+        groupButton.setImage(UIImage(named:"group"), for: .normal)
+        groupButton.isEnabled = false
+        let groupButtonItem = UIBarButtonItem(customView: groupButton)
+        let currGroupWidth = groupButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        currGroupWidth?.isActive = true
+        let currGroupHeight = groupButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        currGroupHeight?.isActive = true
+        
+        //TODO figure out how to customize the nav bar to have the group and text and be accessbile
+        
+//        self.navigationItem.leftBarButtonItem = groupButtonItem
+        self.navigationItem.rightBarButtonItem = moreButtonItem
+
+        setUp()
+
     }
     
     private func setupCollectionViews(){
@@ -80,8 +113,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     }
     
     private func setUp(){
-//   TODO:     addThisUserToLookingIds()
-        
+        addThisUserToLookingIds()
+        setUpCommentsListener()
     }
     
     private func setUpCommentsListener(){
@@ -98,6 +131,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         let newComment =  diff.document.data()
+                        //TODO: figure out why we get duplicates of all the comments on the topic
                         if(self.firstCommentLoad){
                             self.allTopicComments.append(newComment)
                             self.topicCollectionView.reloadData()
@@ -118,8 +152,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                         return
                     }
                 }
-                
-                
+
+                self.firstCommentLoad = false
                 
             })
 
@@ -155,13 +189,13 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                                     print("error", error)
                                 } else {
                                     self.topicHeaderAuthorImage = UIImage(data: data!)!
-                                    //TODO: set on click listener for more button of this screen
+                                    self.setUpNavigationBar()   //set on click listener for more button of this screen
                                     self.topicCollectionView.reloadData()
                                 }
                             }
                         }
                         self.topicHeaderTitle = topicTitle //title there regard of anonymity. setup rest
-                        self.setUp()
+                        self.setUpNavigationBar()
 
                     }
 
@@ -176,7 +210,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             })
         }
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisTopicID = self.thisTopic["id"] as? String{
-            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(thisTopicID).getDocument { (documentSnapshit, err) in
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(thisTopicID).getDocument { (documentSnapshot, err) in
                 }
         }
     }
@@ -185,7 +219,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     //MARK: Collection View Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        allTopicComments.count + 2 //plus 2 one for the topic header 1 for the ability to comment
+        print("count: ", allTopicComments.count)
+        return allTopicComments.count + 2 //plus 2 one for the topic header 1 for the ability to comment
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -294,13 +329,78 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     
     // MARK: Support Functions
+    
+    private func detatchListeners(){
+        if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
+            self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayRemove([thisUserID])])
+        }
+        if(thisTopicRegistration != nil){
+            print("remove lsitener for topic")
+            thisTopicRegistration?.remove()
+        }
+        if(commentsRegistration != nil){
+            print("remove lsitener for comments")
+            commentsRegistration?.remove()
+        }
+        
+    }
 
+    private func addThisUserToLookingIds(){
+        if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
+            self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayUnion([thisUserID])])
+        }
+    }
+    
+    //TODO get rid of this stuff when we can have the actions on the back of the card appear
+    @objc func showActions() {
+        let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
+        actionSheet.view.tintColor = UIColor.ivyGreen
+        
+        if let popoverController = actionSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        //ADDING ACTIONS TO THE ACTION SHEET
+        actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportTopic))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    @objc func moreClicked(){
+        showActions()
+    }
+    
+    @objc func reportTopic(alert: UIAlertAction!){
+        var report = Dictionary<String, Any>()
+        
+        
+        report["reportee"] = self.thisUserProfile["id"] as! String
+        report["report_type"] = "topic"
+        report["target"] = self.thisTopic["id"] as? String
+        report["time"] = Date().millisecondsSince1970
+        let reportId = self.baseDatabaseReference.collection("reports").document().documentID   //create unique id for this document
+        report["id"] = reportId
+        //TODO: change self.card clicked to be the id of that person from the card
+        self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.thisTopic["id"] as? String).addSnapshotListener { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                if(!querySnapshot!.isEmpty){
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You have already reported this topic.", context: self)
+                }else{
+                    self.baseDatabaseReference.collection("reports").document(reportId).setData(report)
+                    PublicStaticMethodsAndData.createInfoDialog(titleText: "Success", infoText: "The topic has been reported.", context: self)
+                }
+            }
+        }
+    }
+    
     @objc func postComment(){
-        
-        
-        
-        if let commentCell = self.topicCollectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? TopicCommentCollectionViewCell,
-            let currentInput = commentCell.commentText.text,
+        if let commentCell = (self.topicCollectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? TopicAddCommentCollectionViewCell),
+            let currentInput = commentCell.addCommentTextField.text,
             let thisUserID = self.thisUserProfile["id"] as? String,
             let thisUserFirst = self.thisUserProfile["first_name"] as? String,
             let thisUserLast = self.thisUserProfile["last_name"] as? String,
@@ -325,9 +425,9 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                         if let err = err{
                             print("Error pushing comment in topic: \(err)")
                         }else{
-                            commentCell.commentText.text = ""   //clear the text
+                            commentCell.addCommentTextField.text = ""   //clear the text
                             self.dismissKeyboard()
-                            commentCell.commentText.endEditing(true)
+                            commentCell.addCommentTextField.endEditing(true)
                             if(!commentingIDs.contains(thisUserID)){
                                 self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(thisTopicID!).updateData(["commenting_ids" : FieldValue.arrayUnion([thisUserID])])
                             }

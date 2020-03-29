@@ -88,29 +88,24 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
         let uOfCImgView = UIButton(type: .custom)
         uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
         uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
-
+        uOfCImgView.adjustsImageWhenHighlighted = false //keep color when button is diabled
+        uOfCImgView.isEnabled = false //make u of c button unclickable
+        let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
+        let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
+        curruOfCWidth?.isActive = true
+        let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
+        curruOfCHeight?.isActive = true
 
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
         settingsButton.setImage(UIImage(named:"settings"), for: .normal)
         settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
-
         let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
         let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
         currWidth?.isActive = true
         let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         currHeight?.isActive = true
 
-
-        uOfCImgView.adjustsImageWhenHighlighted = false //keep color when button is diabled
-        uOfCImgView.isEnabled = false //make u of c button unclickable
-
-
-        let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
-        let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-        curruOfCWidth?.isActive = true
-        let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-        curruOfCHeight?.isActive = true
 
         //Share Button Next To Settings
         let shareButton = UIButton(type: .custom)

@@ -314,7 +314,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
                     if (diff.type == .modified) {
                         let modifiedTopic = diff.document.data()
-
                         if let modifiedTopicID = modifiedTopic["id"] as? String{
                             let posModifiedIndex = self.locateIndexOfTopic(id: modifiedTopicID)
                             self.allTopics[posModifiedIndex] = modifiedTopic
@@ -324,6 +323,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                     }
                     if (diff.type == .removed) {
                         let removedTopic = diff.document.data()
+                        print("removed")
                         if let removedTopicID = removedTopic["id"] as? String{
                             let posRemoved = self.locateIndexOfTopic(id: removedTopicID)
                             self.allTopics.remove(at: posRemoved)
@@ -352,7 +352,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     func locateIndexOfTopic(id:String) -> Int { //so we know what index to removed from all topics when deleting
         var position = 0
         for (index, chat) in self.allTopics.enumerated(){
-            if id == chat["id"] as! String{
+            if id == chat["id"] as? String{
                 position = index
             }
         }
@@ -413,12 +413,12 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }else if(indexPath.item == 1){ //if QOTD
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: questionOfTheDayIdentifier, for: indexPath) as! QuestionOfDayCollectionViewCell
             populateQOTDCell(cell:cell, topic: self.allTopics[indexPath.item])
-            styleCell(cell: cell)
+            cell.styleCell(cell: cell)
             return cell
         }else{ //if standard topic
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCollectionIdentifier, for: indexPath) as! TopicCollectionViewCell
             populateTopicCell(cell: cell, topic: self.allTopics[indexPath.item])
-            styleCell(cell: cell)
+            cell.styleCell(cell: cell)
             return cell
         }
     }
