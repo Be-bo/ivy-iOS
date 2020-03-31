@@ -8,32 +8,27 @@
 
 import UIKit
 
-class TopicAddCommentCollectionViewCell: UICollectionViewCell {
-
+class TopicAddCommentCollectionViewCell: UICollectionViewCell, UITextViewDelegate {
     
     @IBOutlet weak var addCommentAuthorImage: UIImageView!
-    @IBOutlet weak var addCommentTextField: UITextField!
     @IBOutlet weak var addCommentSubmitButton: UIButton!
+    @IBOutlet weak var addCommentTextView: UITextView!
+    @IBOutlet weak var buttonHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        addCommentTextView.delegate = self
     }
     
-    @IBAction func beginEditingTextField(_ sender: Any) {
-        addCommentSubmitButton.isHidden = false
+    func showButton(){
+        if(!addCommentSubmitButton.isEnabled){
+            buttonHeightConstraint.constant = 50
+            addCommentSubmitButton.isEnabled = true
+            addCommentSubmitButton.isHidden = false
+        }
     }
-    
-    
-    @IBAction func doneEditing(_ sender: Any) {
-        addCommentSubmitButton.isHidden = true
-        
-    }
-    
-    
-
-
 }
 
 

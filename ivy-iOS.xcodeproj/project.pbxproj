@@ -132,8 +132,11 @@
 		FA6F7C9622EE713D00610046 /* SettingsButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA6F7C9522EE713D00610046 /* SettingsButton.xib */; };
 		FA6F7C9822EE770000610046 /* SettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F7C9722EE770000610046 /* SettingsButton.swift */; };
 		FA6F7C9A22EE84B900610046 /* ExploreNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F7C9922EE84B900610046 /* ExploreNavigationController.swift */; };
+		FA8DFB822432D479003674E1 /* DividerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DFB802432D479003674E1 /* DividerCell.swift */; };
+		FA8DFB832432D479003674E1 /* DividerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA8DFB812432D479003674E1 /* DividerCell.xib */; };
 		FA90D86A22A898020055FCE7 /* Reg1Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D86922A898020055FCE7 /* Reg1Email.swift */; };
 		FA90D87122A8A3BE0055FCE7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90D87022A8A3BD0055FCE7 /* Extensions.swift */; };
+		FAAB4B0C24329EDC00E5FD32 /* CommentTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAB4B0B24329EDC00E5FD32 /* CommentTextView.swift */; };
 		FAC5A81723DE023400C38E5D /* ExploreLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC5A81623DE023400C38E5D /* ExploreLabel.swift */; };
 		FAC5A81A23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC5A81823DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift */; };
 		FAC5A81B23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAC5A81923DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib */; };
@@ -282,8 +285,11 @@
 		FA6F7C9522EE713D00610046 /* SettingsButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsButton.xib; sourceTree = "<group>"; };
 		FA6F7C9722EE770000610046 /* SettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButton.swift; sourceTree = "<group>"; };
 		FA6F7C9922EE84B900610046 /* ExploreNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreNavigationController.swift; sourceTree = "<group>"; };
+		FA8DFB802432D479003674E1 /* DividerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerCell.swift; sourceTree = "<group>"; };
+		FA8DFB812432D479003674E1 /* DividerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DividerCell.xib; sourceTree = "<group>"; };
 		FA90D86922A898020055FCE7 /* Reg1Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg1Email.swift; sourceTree = "<group>"; };
 		FA90D87022A8A3BD0055FCE7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		FAAB4B0B24329EDC00E5FD32 /* CommentTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTextView.swift; sourceTree = "<group>"; };
 		FAC5A81623DE023400C38E5D /* ExploreLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreLabel.swift; sourceTree = "<group>"; };
 		FAC5A81823DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatBubbleCollectionViewCellLeft.swift; sourceTree = "<group>"; };
 		FAC5A81923DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = chatBubbleCollectionViewCellLeft.xib; sourceTree = "<group>"; };
@@ -365,6 +371,7 @@
 				FAC5A81623DE023400C38E5D /* ExploreLabel.swift */,
 				FAC5A81C23DE77B600C38E5D /* GreenChatLabel.swift */,
 				FAC5A81E23DE797F00C38E5D /* GreyChatLabel.swift */,
+				FAAB4B0B24329EDC00E5FD32 /* CommentTextView.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -511,6 +518,8 @@
 				FAF92A12242FFC59004E2CC5 /* BoardCollectionViewLayout.swift */,
 				FAF92A1424301206004E2CC5 /* CreateTopicCell.swift */,
 				FAF92A1524301206004E2CC5 /* CreateTopicCell.xib */,
+				FA8DFB802432D479003674E1 /* DividerCell.swift */,
+				FA8DFB812432D479003674E1 /* DividerCell.xib */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -664,6 +673,7 @@
 				FA14D5A222F8BCC700331E82 /* MainNavigationBar.xib in Resources */,
 				A9FD1978231B9AD500ECA848 /* ProfileCardBack.xib in Resources */,
 				A9405671242E602F008ED82D /* TopicHeaderCollectionViewCell.xib in Resources */,
+				FA8DFB832432D479003674E1 /* DividerCell.xib in Resources */,
 				A9990C7022C9597900E95B2C /* RegisterInterestsCell.xib in Resources */,
 				FA60591422A4B12E00383F9F /* LaunchScreen.storyboard in Resources */,
 				A9FD1962231497E200ECA848 /* profileCollectionViewCell.xib in Resources */,
@@ -783,6 +793,7 @@
 				A9FD1988231F223B00ECA848 /* ChangePassword.swift in Sources */,
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
 				A940567D242EA282008ED82D /* UIImageView.swift in Sources */,
+				FA8DFB822432D479003674E1 /* DividerCell.swift in Sources */,
 				FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */,
 				FA0A034D23272C2D00F9FDAC /* LegalStuffCell.swift in Sources */,
 				A9405650240F2E88008ED82D /* oldBoardLogic.swift in Sources */,
@@ -866,6 +877,7 @@
 				A9FD197C231DABFB00ECA848 /* Gallery.swift in Sources */,
 				A9BB05E422B5D2F8008B35AA /* Constants.swift in Sources */,
 				FA14D5A022F8BCB000331E82 /* MainNavigationBar.swift in Sources */,
+				FAAB4B0C24329EDC00E5FD32 /* CommentTextView.swift in Sources */,
 				A9BB05E622C04A06008B35AA /* Reg7Bio.swift in Sources */,
 				A97A660F22F3A6D9004A6BBE /* ChatRoom.swift in Sources */,
 				FA121C2A22EE455700C175F7 /* Explore.swift in Sources */,

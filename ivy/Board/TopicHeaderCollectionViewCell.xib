@@ -11,10 +11,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="TopicHeaderCollectionViewCell" customModule="ivy_iOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="315" height="75"/>
+            <rect key="frame" x="0.0" y="0.0" width="315" height="76"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="315" height="75"/>
+                <rect key="frame" x="0.0" y="0.0" width="315" height="76"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="l3v-9C-rfa" userLabel="topicAuthorImage">
@@ -25,7 +25,7 @@
                         </constraints>
                     </imageView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5Rs-xC-bSd">
-                        <rect key="frame" x="0.0" y="8" width="239" height="67"/>
+                        <rect key="frame" x="8" y="8" width="231" height="60"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -34,9 +34,9 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="5Rs-xC-bSd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="cQs-fk-dnH"/>
+                <constraint firstItem="5Rs-xC-bSd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="cQs-fk-dnH"/>
                 <constraint firstAttribute="trailing" secondItem="l3v-9C-rfa" secondAttribute="trailing" constant="8" id="cku-dn-rhJ"/>
-                <constraint firstAttribute="bottom" secondItem="5Rs-xC-bSd" secondAttribute="bottom" id="oxg-Rj-tPn"/>
+                <constraint firstAttribute="bottom" secondItem="5Rs-xC-bSd" secondAttribute="bottom" constant="8" id="oxg-Rj-tPn"/>
                 <constraint firstItem="l3v-9C-rfa" firstAttribute="leading" secondItem="5Rs-xC-bSd" secondAttribute="trailing" constant="8" id="u21-hI-hFM"/>
                 <constraint firstItem="l3v-9C-rfa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="ux0-Iy-I9e"/>
                 <constraint firstItem="5Rs-xC-bSd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="vGn-06-zKE"/>

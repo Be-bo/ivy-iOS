@@ -16,65 +16,63 @@ import FirebaseStorage
 
 
 
-class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate{
+    
     
     //MARK: Variables and Constant
+    
     public var thisUserProfile = Dictionary<String, Any>()
     private let baseDatabaseReference = Firestore.firestore()
     private let baseStorageReference = Storage.storage().reference()
-    
     
     public var thisTopic = Dictionary<String, Any>()
     private var allTopicComments = [Dictionary<String, Any>]()
     private var imageAuthorID = ""
     private var firstLaunch = true
     private var firstCommentLoad:Bool = Bool()
-
+    
     private let topicHeaderCollectionIdentifier = "TopicHeaderCollectionViewCell"
     private let topicCommentCollectionIdentifier = "TopicCommentCollectionViewCell"
     private let topicAddCommentCollectionIdentifier = "TopicAddCommentCollectionViewCell"
-
+    private let dividerCellIdentifier = "DividerCell"
+    
     @IBOutlet weak var topicCollectionView: UICollectionView!
     
     private var thisTopicRegistration:ListenerRegistration? = nil
     private var commentsRegistration:ListenerRegistration? = nil
-
+    
     private var topicHeaderAuthorImage:UIImage = UIImage()
     private var topicHeaderTitle:String = String()
+    private var addCommentCell: TopicAddCommentCollectionViewCell?
+    private var addCommentCellHeight: CGFloat = 76
+    
+    
+    
+    
+    
+    
+    
     
     
     
     
     // MARK: Base Functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()     //extension defined in extensions for closing the keyboard
         setupCollectionViews()
         prepareTopic()
-
-    
-
+        setUp()
     }
-    
     
     //TODO: write the on resume case incase they close the app while still in the board. detatching listeners and what not
     override func viewDidDisappear(_ animated: Bool) {
         detatchListeners()
-
     }
     
-    
     private func setUpNavigationBar(){
-        
-        let moreButton = UIButton(type: .custom)
-        moreButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
-        moreButton.setImage(UIImage(named:"more"), for: .normal)
-        moreButton.addTarget(self, action: #selector(self.moreClicked), for: .touchUpInside)
-        let moreButtonItem = UIBarButtonItem(customView: moreButton)
-        let currWidth = moreButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-        currWidth?.isActive = true
-        let currHeight = moreButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-        currHeight?.isActive = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(moreClicked))
         
         let groupButton = UIButton(type: .custom)
         groupButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
@@ -87,12 +85,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         currGroupHeight?.isActive = true
         
         //TODO figure out how to customize the nav bar to have the group and text and be accessbile
-        
-//        self.navigationItem.leftBarButtonItem = groupButtonItem
-        self.navigationItem.rightBarButtonItem = moreButtonItem
-
-        setUp()
-
+        //        self.navigationItem.leftBarButtonItem = groupButtonItem
     }
     
     private func setupCollectionViews(){
@@ -110,6 +103,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         topicCollectionView.register(UINib(nibName:topicHeaderCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicHeaderCollectionIdentifier)
         topicCollectionView.register(UINib(nibName:topicAddCommentCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicAddCommentCollectionIdentifier)
         topicCollectionView.register(UINib(nibName:topicCommentCollectionIdentifier, bundle: nil), forCellWithReuseIdentifier: topicCommentCollectionIdentifier)
+        topicCollectionView.register(UINib(nibName: dividerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dividerCellIdentifier)
     }
     
     private func setUp(){
@@ -117,55 +111,116 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         setUpCommentsListener()
     }
     
-    private func setUpCommentsListener(){
-        self.firstCommentLoad = true
-        //TODO: reload data here?
-        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisTopicID = self.thisTopic["id"] as? String {
-            self.commentsRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(thisTopicID).collection("comments").order(by: "creation_millis", descending: true).addSnapshotListener({ (querySnapshot, err) in
-           
-                guard let snapshot = querySnapshot else {
-                    print("Error initializing comments in Board: \(err!)")
-                    return
-                }
-                
-                snapshot.documentChanges.forEach { diff in
-                    if (diff.type == .added) {
-                        let newComment =  diff.document.data()
-                        //TODO: figure out why we get duplicates of all the comments on the topic
-                        if(self.firstCommentLoad){
-                            self.allTopicComments.append(newComment)
-                            self.topicCollectionView.reloadData()
-                        }else{
-                            self.allTopicComments.insert(newComment, at: 0)
-                            self.topicCollectionView.reloadData()
-                        }
-                    }
-                    
-                    if (diff.type == .modified) {
-                        //let modifiedComment = diff.document.data()
-                        //TODO: if they can edit their comment then add stuff here
-                        return
-                    }
-                    if (diff.type == .removed) {
-                        //let removedComment = diff.document.data()
-                        //TODO: if they can remove their comment then add stuff here
-                        return
-                    }
-                }
-
-                self.firstCommentLoad = false
-                
-            })
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Add Comment Functions
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if addCommentCell != nil{
+            //TODO: move the add comment item to the top of the screen
+            if(addCommentCell!.addCommentTextView.text == "Add a comment"){
+                addCommentCell!.addCommentTextView.textColor = UIColor.black
+                addCommentCell!.addCommentTextView.text = ""
+            }
+            addCommentCell!.showButton()
+            checkAndAdjustHeight()
         }
-        
     }
     
-
+    func textViewDidChange(_ textView: UITextView) {
+        if addCommentCell != nil{
+            checkAndAdjustHeight()
+        }
+    }
+    
+    func checkAndAdjustHeight(){
+        if addCommentCell != nil{
+            let newTextViewHeight = PublicStaticMethodsAndData.getHeight(for: addCommentCell!.addCommentTextView.text+"H", with: UIFont(name: "Cordia New", size: 25)!, width: addCommentCell!.addCommentTextView.layer.frame.width)
+            let newHeight = newTextViewHeight + 24 + addCommentCell!.buttonHeightConstraint.constant + 8
+            if(newHeight != addCommentCell!.layer.frame.height){ //don't wanna do it all the time unnecessarily
+                if (newHeight < 76){
+                    addCommentCellHeight = 76
+                }else{
+                    addCommentCellHeight = newHeight
+                }
+                addCommentCell!.textViewHeightConstraint.constant = newTextViewHeight
+                topicCollectionView.collectionViewLayout.invalidateLayout()
+            }
+        }
+    }
+    
+    func resetLayout(){
+        if addCommentCell != nil{
+            addCommentCell!.addCommentTextView.endEditing(true)
+            addCommentCell!.buttonHeightConstraint.constant = 0
+            addCommentCell!.addCommentSubmitButton.isEnabled = false
+            addCommentCell!.addCommentSubmitButton.isHidden = true
+            addCommentCell!.addCommentTextView.text = ""
+            checkAndAdjustHeight()
+        }
+    }
+    
+    @objc func postComment(){
+        if let commentCell = (self.topicCollectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? TopicAddCommentCollectionViewCell),
+            let currentInput = commentCell.addCommentTextView.text,
+            let thisUserID = self.thisUserProfile["id"] as? String,
+            let thisUserFirst = self.thisUserProfile["first_name"] as? String,
+            let thisUserLast = self.thisUserProfile["last_name"] as? String,
+            let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String,
+            let thisTopicID = self.thisTopic["id"] as? String{
+            
+            if(currentInput.count > 0){
+                var newComment:Dictionary<String,Any> = Dictionary<String,Any>()
+                newComment["id"] = NSUUID().uuidString
+                newComment["author_id"] = thisUserID
+                newComment["first_name"] = thisUserFirst
+                newComment["last_name"] = thisUserLast
+                newComment["creation_millis"] = Date().millisecondsSince1970
+                newComment["is_anonymous"] = false
+                newComment["text"] = currentInput
+                newComment["uni_domain"] = thisUserUniDomain
+                newComment["topic_id"] = thisTopicID
+                //TODO: bar interaction? YES !!!
+                if let newCommentID = newComment["id"] as? String, let commentingIDs = self.thisTopic["commenting_ids"] as? [String]{
+                    self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(thisTopicID).collection("comments").document(newCommentID).setData(newComment) { (err) in
+                        
+                        if let err = err{
+                            print("Error pushing comment in topic: \(err)")
+                        }else{
+                            self.resetLayout()
+                            if(!commentingIDs.contains(thisUserID)){
+                                self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(thisTopicID).updateData(["commenting_ids" : FieldValue.arrayUnion([thisUserID])])
+                            }
+                        }
+                        //TODO: re-allow interaction?
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
     
     
     
     // MARK: Data Acquisition Methods
+    
     func prepareTopic(){
         if let uniDomain = self.thisUserProfile["id"] as? String, let topicID = self.thisTopic["id"] as? String{
             thisTopicRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(topicID).addSnapshotListener({ (documentSnapshot, err) in
@@ -196,94 +251,140 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                         }
                         self.topicHeaderTitle = topicTitle //title there regard of anonymity. setup rest
                         self.setUpNavigationBar()
-
+                        
                     }
-
+                    
                 }else{ //not first launch, only thing that needs to change is "people looking at" number
                     if let lookingIds = self.thisTopic["looking_ids"] as? Array<String>{
                         if (lookingIds.isEmpty){
                             //TODO: set how many people are looking at htis topic in the nav bar
                         }
                     }
-
+                    
                 }
             })
         }
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisTopicID = self.thisTopic["id"] as? String{
             self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(thisTopicID).getDocument { (documentSnapshot, err) in
-                }
+            }
         }
     }
     
-
+    private func setUpCommentsListener(){
+        self.firstCommentLoad = true
+        //TODO: reload data here?
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisTopicID = self.thisTopic["id"] as? String {
+            self.commentsRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(thisTopicID).collection("comments").order(by: "creation_millis", descending: true).addSnapshotListener({ (querySnapshot, err) in
+                
+                guard let snapshot = querySnapshot else {
+                    print("Error initializing comments in Board: \(err!)")
+                    return
+                }
+                
+                snapshot.documentChanges.forEach { diff in
+                    if (diff.type == .added) {
+                        let newComment =  diff.document.data()
+                        //TODO: figure out why we get duplicates of all the comments on the topic
+                        if(self.firstCommentLoad){
+                            self.allTopicComments.append(newComment)
+                            self.topicCollectionView.reloadData()
+                        }else{
+                            self.allTopicComments.insert(newComment, at: 0)
+                            self.topicCollectionView.reloadData()
+                        }
+                    }
+                    
+                    if (diff.type == .modified) {
+                        //let modifiedComment = diff.document.data()
+                        //TODO: if they can edit their comment then add stuff here
+                        return
+                    }
+                    if (diff.type == .removed) {
+                        //let removedComment = diff.document.data()
+                        //TODO: if they can remove their comment then add stuff here
+                        return
+                    }
+                }
+                self.firstCommentLoad = false
+            })
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     //MARK: Collection View Methods
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("count: ", allTopicComments.count)
-        return allTopicComments.count + 2 //plus 2 one for the topic header 1 for the ability to comment
+        return allTopicComments.count + 3 //plus 3 for the first special cells (header, add comment layer, divider)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        //first one is just the topic header
-        if (indexPath == IndexPath(item: 0, section: 0)){
-            
-            let cell: TopicHeaderCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicHeaderCollectionIdentifier, for: indexPath) as! TopicHeaderCollectionViewCell
-            
+        if (indexPath.item == 0){ //header
+            let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: topicHeaderCollectionIdentifier, for: indexPath) as! TopicHeaderCollectionViewCell
             cell.authorImage.image = self.topicHeaderAuthorImage
-            cell.authorImage.maskCircle(anyImage: cell.authorImage.image!)          //extension used
+            cell.authorImage.maskCircle(anyImage: cell.authorImage.image!) //extension used
             cell.authorTitle.text = self.topicHeaderTitle
-            
             if let thisUserID = self.thisUserProfile["id"] as? String, let thisTopicAuthorID = self.thisTopic["author_id"] as? String{
-                //attach on click listener if the topic isn't authored by you
-                if !(thisUserID == thisTopicAuthorID){
-                    //extension function - adds Tap to each cell -  executes code in the brackets when the cell imageclicked
-                    cell.authorImage.addTapGestureRecognizer {
+                if !(thisUserID == thisTopicAuthorID){ //attach on click listener if the topic isn't authored by you
+                    cell.authorImage.addTapGestureRecognizer { //extension function - adds Tap to each cell -  executes code in the brackets when the cell imageclicked
                         self.imageAuthorID = thisTopicAuthorID
                         self.performSegue(withIdentifier: "topicToProfile" , sender: self) //pass data over to
                     }
                 }
             }
-            
             return cell
-        }else if(indexPath == IndexPath(item: 1, section: 0)){ //second is the ability to add a comment yourslef
             
-            let cell: TopicAddCommentCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicAddCommentCollectionIdentifier, for: indexPath) as! TopicAddCommentCollectionViewCell
-            cell.styleCell(cell: cell)  //extension
-                        
-            //add image to the person whos commenting (current user)
-            if let thisUserID = self.thisUserProfile["id"] as? String{
+        }else if(indexPath.item == 1){ //add comment layer
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: topicAddCommentCollectionIdentifier, for: indexPath) as! TopicAddCommentCollectionViewCell
+            cell.styleCell(cell: cell)
+            if let thisUserID = self.thisUserProfile["id"] as? String{ //add image to the person whos commenting (current user)
                 self.baseStorageReference.child("userimages").child(thisUserID).child("preview.jpg").getData(maxSize: 5 * 1024 * 1024) { data, error in
                     if let error = error {
                         print("error", error)
                     } else {
                         cell.addCommentAuthorImage.image = UIImage(data: data!)!
-                        cell.addCommentAuthorImage.maskCircle(anyImage: cell.addCommentAuthorImage.image!)          //extension used
-                        
+                        cell.addCommentAuthorImage.maskCircle(anyImage: cell.addCommentAuthorImage.image!)
+                        self.addCommentCell = cell //set up for later usage
+                        self.addCommentCell?.addCommentTextView.delegate = self
                         let tapSubmitComment = UITapGestureRecognizer(target: self, action: #selector(self.postComment))
                         cell.addCommentSubmitButton.addGestureRecognizer(tapSubmitComment)
                     }
                 }
             }
-            
             return cell
-        }else{  //after 1st and second its jsut regular comments
             
-            let cell: TopicCommentCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCommentCollectionIdentifier, for: indexPath) as! TopicCommentCollectionViewCell
-            let index = indexPath.item - 2 // -2 since its first two are taken always
-            let comment = self.allTopicComments[index]
+        }else if (indexPath.item == 2){ //divider cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: dividerCellIdentifier, for: indexPath) as! DividerCell
+            return cell
             
-            cell.styleCell(cell: cell)  //extension
-            populateCommentCell(cell:cell, comment:comment, index:index)
-
+        }else{ //the actual comment
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCommentCollectionIdentifier, for: indexPath) as! TopicCommentCollectionViewCell
+            let comment = self.allTopicComments[indexPath.item - 3]
+            cell.styleCell(cell: cell)
+            populateCommentCell(cell:cell, comment:comment, index: indexPath.item - 3)
             return cell
         }
     }
     
     func populateCommentCell(cell: TopicCommentCollectionViewCell, comment: Dictionary<String,Any>, index:Int){
         if let commentText = comment["text"] as? String, let commentAuthorID = comment["author_id"] as? String,
-        let commentAuthorFirst = comment["first_name"] as? String, let commentAuthorLast = comment["last_name"] as? String,
-        let thisUserID = self.thisUserProfile["id"] as? String{
+            let commentAuthorFirst = comment["first_name"] as? String, let commentAuthorLast = comment["last_name"] as? String,
+            let thisUserID = self.thisUserProfile["id"] as? String{
             
             self.baseStorageReference.child("userimages").child(commentAuthorID).child("preview.jpg").getData(maxSize: 5 * 1024 * 1024) { data, error in
                 if let error = error {
@@ -292,7 +393,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                     cell.commentAuthorImageView.image = UIImage(data: data!)!
                     cell.commentAuthorImageView.maskCircle(anyImage: cell.commentAuthorImageView.image!)          //extension used
                     
-                    cell.commentText.text = commentText
+                    cell.commentLabel .text = commentText
                     cell.commentAuthorName.text = commentAuthorFirst + " " + commentAuthorLast
                     
                     //attach on click listener if its not your profile image
@@ -308,27 +409,56 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         }
     }
     
-
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let cellSize = CGSize(width: collectionView.frame.size.width - 20, height: 140)  //as long as the collection view
-        return cellSize
-//        //first item will always be header so stretch to maximum screen length
-//        if (indexPath == IndexPath(item: 0, section: 0)) {
-//
-//            let cellSize = CGSize(width: collectionView.frame.size.width, height: 140)  //as long as the collection view
-//            return cellSize
-//        }else{
-//
-//            let cellSize = CGSize(width: 100, height: 140)
-//            return cellSize
-//        }
-    
+        if(indexPath.item == 0){ //header
+            if let topicText = self.thisTopic["text"] as? String{
+                let labelHeight = PublicStaticMethodsAndData.getHeight(for: topicText, with: UIFont(name: "Cordia New", size: 25)!, width: collectionView.frame.size.width - 20 - 84)
+                var height = labelHeight + 16
+                if(height < 76){
+                    height = 76
+                }
+                let cellSize = CGSize(width: collectionView.frame.size.width - 20, height: height)
+                return cellSize
+            }else{
+                return CGSize(width: collectionView.frame.size.width - 20, height: 76)
+            }
+            
+        }else if(indexPath.item == 1){ //add comment layer
+            let cellSize = CGSize(width: collectionView.frame.size.width - 20, height: addCommentCellHeight)
+            return cellSize
+            
+        }else if(indexPath.item == 2){ //divider
+            let cellSize = CGSize(width: collectionView.frame.size.width - 20, height: 0)
+            return cellSize
+            
+        }else{ //regular item
+            if let commentText = self.allTopicComments[indexPath.item - 3]["text"] as? String{
+                let labelHeight = PublicStaticMethodsAndData.getHeight(for: commentText, with: UIFont(name: "Cordia New", size: 25)!, width: collectionView.frame.size.width - 20 - 84)
+                let cellSize = CGSize(width: collectionView.frame.size.width - 20, height: labelHeight + 46)
+                return cellSize
+            }else{
+                return CGSize(width: collectionView.frame.size.width - 20, height: 76)
+            }
+        }
     }
     
     
     
-    // MARK: Support Functions
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: Other Functions
     
     private func detatchListeners(){
         if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
@@ -344,7 +474,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         }
         
     }
-
+    
     private func addThisUserToLookingIds(){
         if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
             self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayUnion([thisUserID])])
@@ -365,7 +495,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         //ADDING ACTIONS TO THE ACTION SHEET
         actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: self.reportTopic))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
+        
         self.present(actionSheet, animated: true, completion: nil)
     }
     
@@ -375,7 +505,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     @objc func reportTopic(alert: UIAlertAction!){
         var report = Dictionary<String, Any>()
-        
         
         report["reportee"] = self.thisUserProfile["id"] as! String
         report["report_type"] = "topic"
@@ -398,47 +527,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         }
     }
     
-    @objc func postComment(){
-        if let commentCell = (self.topicCollectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? TopicAddCommentCollectionViewCell),
-            let currentInput = commentCell.addCommentTextField.text,
-            let thisUserID = self.thisUserProfile["id"] as? String,
-            let thisUserFirst = self.thisUserProfile["first_name"] as? String,
-            let thisUserLast = self.thisUserProfile["last_name"] as? String,
-            let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String{
-            let thisTopicID = self.thisTopic["id"] as? String
-            
-            if(currentInput.count > 0){
-                var newComment:Dictionary<String,Any> = Dictionary<String,Any>()
-                newComment["id"] = NSUUID().uuidString
-                newComment["author_id"] = thisUserID
-                newComment["first_name"] = thisUserFirst
-                newComment["last_name"] = thisUserLast
-                newComment["creation_millis"] = Date().millisecondsSince1970
-                newComment["is_anonymous"] = false
-                newComment["text"] = currentInput
-                newComment["uni_domain"] = thisUserUniDomain
-                newComment["topic_id"] = thisTopicID
-                //TODO: bar interaction?
-                if let newCommentID = newComment["id"] as? String, let commentingIDs = self.thisTopic["commenting_ids"] as? [String]{
-                    self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(thisTopicID!).collection("comments").document(newCommentID).setData(newComment) { (err) in
-                        
-                        if let err = err{
-                            print("Error pushing comment in topic: \(err)")
-                        }else{
-                            commentCell.addCommentTextField.text = ""   //clear the text
-                            self.dismissKeyboard()
-                            commentCell.addCommentTextField.endEditing(true)
-                            if(!commentingIDs.contains(thisUserID)){
-                                self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(thisTopicID!).updateData(["commenting_ids" : FieldValue.arrayUnion([thisUserID])])
-                            }
-                        }
-                        //TODO: re-allow interaction?
-                    }
-                }
-            }
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segway is called
         if(segue.identifier == "topicToProfile"){
             let vc = segue.destination as! ViewFullProfileActivity
@@ -446,8 +534,5 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             vc.otherUserID = self.imageAuthorID
         }
     }
-    
-
-
 }
 

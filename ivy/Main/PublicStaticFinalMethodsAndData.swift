@@ -16,13 +16,20 @@ class PublicStaticMethodsAndData{
     static let PREVIEW_IMAGE_DIVIDER = CGFloat(3)
     static let LAST_TOPIC_CREATION_TIME_DIFFERENCE = Int64(7200000)
     
-    //TODO: decide if all the vars need to be checked
     static func checkProfileIntegrity(profileToCheck: Dictionary<String, Any>) -> Bool{
         if ((profileToCheck["id"] as? String) != nil), ((profileToCheck["uni_domain"] as? String) != nil){ //checking if the minimum necessary data is present
             return true
         }else{
             return false
         }
+    }
+    
+    static func getHeight(for text: String, with font: UIFont, width: CGFloat) -> CGFloat{ //label height calculation based on text attributes
+        let nsstring = NSString(string: text)
+        let maxHeight = CGFloat(700)
+        let textAttributes = [NSAttributedString.Key.font : font]
+        let boundingRect = nsstring.boundingRect(with: CGSize(width: width, height: maxHeight), options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        return ceil(boundingRect.height)
     }
     
     static func createInfoDialog(titleText: String, infoText: String, context: UIViewController){

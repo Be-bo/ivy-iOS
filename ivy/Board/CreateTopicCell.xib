@@ -24,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NzP-xY-MTe">
-                        <rect key="frame" x="4" y="2" width="80" height="26"/>
+                        <rect key="frame" x="0.0" y="2" width="80" height="26"/>
                         <color key="backgroundColor" red="0.16899999979999999" green="0.59200000760000004" blue="0.1289999932" alpha="0.24946489729999999" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="LBP-kD-t5t"/>
@@ -45,7 +45,7 @@
             </view>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="NzP-xY-MTe" secondAttribute="bottom" constant="2" id="J1g-ET-lzS"/>
-                <constraint firstItem="NzP-xY-MTe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="W5c-g1-KEq"/>
+                <constraint firstItem="NzP-xY-MTe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="W5c-g1-KEq"/>
                 <constraint firstItem="NzP-xY-MTe" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="2" id="lY4-Y9-D89"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>

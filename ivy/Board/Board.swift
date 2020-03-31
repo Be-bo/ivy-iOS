@@ -382,7 +382,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             return CGFloat(38)
         }
         if let topic = allTopics[indexPath.item] as? Dictionary<String, Any>, let topicText = topic["text"] as? String{
-            let labelHeight = self.height(for: topicText, with: UIFont(name: "Cordia New", size: 25)!, width: width)
+            let labelHeight = PublicStaticMethodsAndData.getHeight(for: topicText, with: UIFont(name: "Cordia New", size: 25)!, width: width)
             if(indexPath.item == 1){
                 return labelHeight + CGFloat(100) //8 for margins, then 30 for image/authoredCommented/numLooking layer + trial and error + QOTD space
             }else{
@@ -390,14 +390,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             }
         }
         return 0
-    }
-
-    func height(for text: String, with font: UIFont, width: CGFloat) -> CGFloat{ //label height calculation based on text attributes
-        let nsstring = NSString(string: text)
-        let maxHeight = CGFloat(700)
-        let textAttributes = [NSAttributedString.Key.font : font]
-        let boundingRect = nsstring.boundingRect(with: CGSize(width: width, height: maxHeight), options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
-        return ceil(boundingRect.height)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

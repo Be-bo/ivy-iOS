@@ -13,7 +13,7 @@ class TopicCommentCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var commentAuthorImageView: UIImageView!
     @IBOutlet weak var commentAuthorName: StandardBoldLabel!
-    @IBOutlet weak var commentText: UITextView!
+    @IBOutlet weak var commentLabel: StandardLabel!
     
     
     override func awakeFromNib() {
