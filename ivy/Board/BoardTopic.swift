@@ -373,15 +373,17 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             return cell
             
         }else{ //the actual comment
+            print("else")
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCommentCollectionIdentifier, for: indexPath) as! TopicCommentCollectionViewCell
-            let comment = self.allTopicComments[indexPath.item - 3]
             cell.styleCell(cell: cell)
+            let comment = self.allTopicComments[indexPath.item - 3]
             populateCommentCell(cell:cell, comment:comment, index: indexPath.item - 3)
             return cell
         }
     }
     
     func populateCommentCell(cell: TopicCommentCollectionViewCell, comment: Dictionary<String,Any>, index:Int){
+        
         if let commentText = comment["text"] as? String, let commentAuthorID = comment["author_id"] as? String,
             let commentAuthorFirst = comment["first_name"] as? String, let commentAuthorLast = comment["last_name"] as? String,
             let thisUserID = self.thisUserProfile["id"] as? String{
@@ -395,7 +397,9 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                     
                     cell.commentLabel .text = commentText
                     cell.commentAuthorName.text = commentAuthorFirst + " " + commentAuthorLast
-                    
+
+                    print("this user id; ", thisUserID, "commetn author id: ", commentAuthorID, "index: ", index)
+
                     //attach on click listener if its not your profile image
                     if !(thisUserID == commentAuthorID){
                         //extension function - adds Tap to each cell -  executes code in the brackets when the cell imageclicked
