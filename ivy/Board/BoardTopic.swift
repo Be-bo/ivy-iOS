@@ -63,12 +63,13 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         hideKeyboardWhenTappedAround()     //extension defined in extensions for closing the keyboard
         setupCollectionViews()
         prepareTopic()
+        NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
+        NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil) //when the app enters background/is killed remove the user from looking ids and detach the comment listener
         setUp()
     }
     
-    //TODO: write the on resume case incase they close the app while still in the board. detatching listeners and what not
-    override func viewDidDisappear(_ animated: Bool) {
-        detatchListeners()
+    override func viewDidDisappear(_ animated: Bool) { //if user goes back and dismissed the VC
+        detachListeners()
     }
     
     private func setUpNavigationBar(){
@@ -106,7 +107,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         topicCollectionView.register(UINib(nibName: dividerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dividerCellIdentifier)
     }
     
-    private func setUp(){
+    @objc private func setUp(){
         addThisUserToLookingIds()
         setUpCommentsListener()
     }
@@ -284,13 +285,22 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         let newComment =  diff.document.data()
-                        //TODO: figure out why we get duplicates of all the comments on the topic
-                        if(self.firstCommentLoad){
-                            self.allTopicComments.append(newComment)
-                            self.topicCollectionView.reloadData()
-                        }else{
-                            self.allTopicComments.insert(newComment, at: 0)
-                            self.topicCollectionView.reloadData()
+                        var dontAdd = self.allTopicComments.contains(where: { (comment) -> Bool in //first check against all existing comments to make sure the comment hasn't been added in the past
+                            if let newCommentId = newComment["id"] as? String, let currentlyCheckingId = comment["id"] as? String, newCommentId == currentlyCheckingId{ //if it has (id match) return true and do not even checking for adding
+                                return true
+                            }else{ //if there's no id match return false
+                                return false
+                            }
+                        })
+                        
+                        if(self.allTopicComments.count < 1 || dontAdd == false){
+                            if(self.firstCommentLoad){
+                                self.allTopicComments.append(newComment)
+                                self.topicCollectionView.reloadData()
+                            }else{
+                                self.allTopicComments.insert(newComment, at: 0)
+                                self.topicCollectionView.reloadData()
+                            }
                         }
                     }
                     
@@ -460,16 +470,14 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     // MARK: Other Functions
     
-    private func detatchListeners(){
+    @objc private func detachListeners(){
         if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
             self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayRemove([thisUserID])])
         }
         if(thisTopicRegistration != nil){
-            print("remove lsitener for topic")
             thisTopicRegistration?.remove()
         }
         if(commentsRegistration != nil){
-            print("remove lsitener for comments")
             commentsRegistration?.remove()
         }
         
