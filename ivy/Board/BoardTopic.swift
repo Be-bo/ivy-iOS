@@ -383,7 +383,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             return cell
             
         }else{ //the actual comment
-            print("else")
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: topicCommentCollectionIdentifier, for: indexPath) as! TopicCommentCollectionViewCell
             cell.styleCell(cell: cell)
             let comment = self.allTopicComments[indexPath.item - 3]
@@ -407,13 +406,10 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                     
                     cell.commentLabel .text = commentText
                     cell.commentAuthorName.text = commentAuthorFirst + " " + commentAuthorLast
-
-                    print("this user id; ", thisUserID, "commetn author id: ", commentAuthorID, "index: ", index)
-
-                    //attach on click listener if its not your profile image
-                    if !(thisUserID == commentAuthorID){
-                        //extension function - adds Tap to each cell -  executes code in the brackets when the cell imageclicked
-                        cell.commentAuthorImageView.addTapGestureRecognizer {
+                    
+                    
+                    cell.commentAuthorImageView.addTapGestureRecognizer {
+                        if !(thisUserID == commentAuthorID){
                             self.imageAuthorID = commentAuthorID
                             self.performSegue(withIdentifier: "topicToProfile" , sender: self) //pass data over to
                         }
