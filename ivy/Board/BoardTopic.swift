@@ -73,19 +73,14 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     private func setUpNavigationBar(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(moreClicked))
+
+
         
-        let groupButton = UIButton(type: .custom)
-        groupButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
-        groupButton.setImage(UIImage(named:"group"), for: .normal)
-        groupButton.isEnabled = false
-        let groupButtonItem = UIBarButtonItem(customView: groupButton)
-        let currGroupWidth = groupButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-        currGroupWidth?.isActive = true
-        let currGroupHeight = groupButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-        currGroupHeight?.isActive = true
+        let peopleViewingView = peopleViewingTopicView.createMyClassView()
+        //DONT USE question mark like self.navigationItem.titleView? = view... idk why but the question mark fucks it
+        self.navigationItem.titleView = peopleViewingView
         
-        //TODO figure out how to customize the nav bar to have the group and text and be accessbile
-        //        self.navigationItem.leftBarButtonItem = groupButtonItem
+
     }
     
     private func setupCollectionViews(){

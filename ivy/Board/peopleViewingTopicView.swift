@@ -17,5 +17,20 @@ class peopleViewingTopicView: UIView {
         // Drawing code
     }
     */
+    
+    
+    @IBOutlet weak var peopleLookingLabel: UITextField!
+    @IBOutlet weak var groupImage: UIImageView!
+    
+
+    class func createMyClassView() -> peopleViewingTopicView {
+        let myClassNib = UINib(nibName: "peopleViewingTopic", bundle: nil)
+        return myClassNib.instantiate(withOwner: nil, options: nil)[0] as! peopleViewingTopicView
+    }
+
+
+
+    
+
 
 }
