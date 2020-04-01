@@ -14,27 +14,28 @@
             <rect key="frame" x="0.0" y="0.0" width="231" height="30"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="group" translatesAutoresizingMaskIntoConstraints="NO" id="fTF-hc-BxI">
-                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                    <rect key="frame" x="0.0" y="-2.5" width="35" height="35"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="30" id="0V6-mV-EXv"/>
-                        <constraint firstAttribute="height" constant="30" id="zXP-it-jFN"/>
+                        <constraint firstAttribute="width" constant="35" id="0V6-mV-EXv"/>
+                        <constraint firstAttribute="height" constant="35" id="zXP-it-jFN"/>
                     </constraints>
                 </imageView>
-                <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0 people are looking at this topic" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w85-Bg-baA">
-                    <rect key="frame" x="34" y="0.0" width="197" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Looking at this" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hv2-An-R3C" customClass="StandardLabel" customModule="ivy_iOS" customModuleProvider="target">
+                    <rect key="frame" x="43" y="0.0" width="188" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
-                <constraint firstItem="w85-Bg-baA" firstAttribute="top" secondItem="GHR-hC-ERq" secondAttribute="top" id="20a-4L-mYR"/>
-                <constraint firstItem="w85-Bg-baA" firstAttribute="leading" secondItem="fTF-hc-BxI" secondAttribute="trailing" constant="4" id="Ld5-4E-EKY"/>
+                <constraint firstItem="hv2-An-R3C" firstAttribute="leading" secondItem="fTF-hc-BxI" secondAttribute="trailing" constant="8" id="1bh-nW-xaZ"/>
                 <constraint firstItem="fTF-hc-BxI" firstAttribute="leading" secondItem="GHR-hC-ERq" secondAttribute="leading" id="OXX-KG-Zqc"/>
+                <constraint firstAttribute="bottom" secondItem="hv2-An-R3C" secondAttribute="bottom" id="QGu-vx-eHD"/>
                 <constraint firstItem="fTF-hc-BxI" firstAttribute="centerY" secondItem="GHR-hC-ERq" secondAttribute="centerY" id="bWf-JU-Ac1"/>
+                <constraint firstItem="hv2-An-R3C" firstAttribute="top" secondItem="GHR-hC-ERq" secondAttribute="top" id="be8-R4-2TA"/>
                 <constraint firstItem="fTF-hc-BxI" firstAttribute="leading" secondItem="GHR-hC-ERq" secondAttribute="leading" id="g1h-gl-CFT"/>
-                <constraint firstAttribute="bottom" secondItem="w85-Bg-baA" secondAttribute="bottom" id="jIZ-SO-mG5"/>
-                <constraint firstAttribute="trailing" secondItem="w85-Bg-baA" secondAttribute="trailing" id="roV-jO-Uh1"/>
+                <constraint firstAttribute="trailing" secondItem="hv2-An-R3C" secondAttribute="trailing" id="qdr-K9-8FU"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
@@ -42,7 +43,7 @@
             <viewLayoutGuide key="safeArea" id="o8r-PY-a5z"/>
             <connections>
                 <outlet property="groupImage" destination="fTF-hc-BxI" id="B0Z-Xy-Wf5"/>
-                <outlet property="peopleLookingLabel" destination="w85-Bg-baA" id="V5m-T9-ZND"/>
+                <outlet property="peopleLookingLabel" destination="hv2-An-R3C" id="N8R-IX-cRY"/>
             </connections>
             <point key="canvasLocation" x="-454.34782608695656" y="-184.82142857142856"/>
         </view>

@@ -19,10 +19,9 @@ class peopleViewingTopicView: UIView {
     */
     
     
-    @IBOutlet weak var peopleLookingLabel: UITextField!
     @IBOutlet weak var groupImage: UIImageView!
+    @IBOutlet weak var peopleLookingLabel: StandardLabel!
     
-
     class func createMyClassView() -> peopleViewingTopicView {
         let myClassNib = UINib(nibName: "peopleViewingTopic", bundle: nil)
         return myClassNib.instantiate(withOwner: nil, options: nil)[0] as! peopleViewingTopicView
