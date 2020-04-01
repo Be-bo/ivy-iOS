@@ -220,6 +220,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     func prepareTopic(){
         if let uniDomain = self.thisUserProfile["id"] as? String, let topicID = self.thisTopic["id"] as? String{
             thisTopicRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(topicID).addSnapshotListener({ (documentSnapshot, err) in
+                                
                 guard documentSnapshot != nil else {
                     print("Error initializing in BoardTopic: \(err!)")
                     return
@@ -228,7 +229,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 if let docData = documentSnapshot?.data(){
                     self.thisTopic = docData
                 }
-                
+
                 if(self.firstLaunch){
                     self.firstLaunch = false
                     if let isAnony = self.thisTopic["is_anonymous"] as? Bool, let topicAuthorID = self.thisTopic["author_id"] as? String,
@@ -247,16 +248,17 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                         }
                         self.topicHeaderTitle = topicTitle //title there regard of anonymity. setup rest
                         self.setUpNavigationBar()
-                        
                     }
-                    
-                }else{ //not first launch, only thing that needs to change is "people looking at" number
-                    if let lookingIds = self.thisTopic["looking_ids"] as? Array<String>{
-                        if (lookingIds.isEmpty){
-                            //TODO: set how many people are looking at htis topic in the nav bar
-                        }
+                }
+                if let lookingIds = self.thisTopic["looking_ids"] as? Array<String>{
+                    if (!lookingIds.isEmpty){
+                        print("looking: ", String(lookingIds.count))
+                        var peopleViewingTopic = self.navigationItem.titleView as? peopleViewingTopicView
+                        peopleViewingTopic!.peopleLookingLabel.text? = (peopleViewingTopic!.peopleLookingLabel.text?.replace(String(lookingIds.count), at: 0))!
+                        self.navigationItem.titleView = peopleViewingTopic
+                        print("peopleViewingTopic!.peopleLookingLabel.text?", peopleViewingTopic!.peopleLookingLabel.text)
+                        //TODO: set how many people are looking at htis topic in the nav bar
                     }
-                    
                 }
             })
         }
@@ -265,6 +267,9 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             }
         }
     }
+    
+
+
     
     private func setUpCommentsListener(){
         self.firstCommentLoad = true
@@ -539,3 +544,12 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     }
 }
 
+extension String {
+    func replace(_ with: String, at index: Int) -> String {
+        var modifiedString = String()
+        for (i, char) in self.enumerated() {
+            modifiedString += String((i == index) ? with : String(char))
+        }
+        return modifiedString
+    }
+}
