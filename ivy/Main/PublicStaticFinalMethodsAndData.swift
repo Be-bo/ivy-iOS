@@ -131,6 +131,14 @@ class PublicStaticMethodsAndData{
         return false
     }
     
+    static func barInteraction(for view: UIView){ //disable user interaction and start loading animation (rotating the ivy logo)
+        view.isUserInteractionEnabled = false
+    }
+    
+    static func allowInteraction(for view: UIView){ //enable interaction again
+        view.isUserInteractionEnabled = true
+    }
+    
     
     
     

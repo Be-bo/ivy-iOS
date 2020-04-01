@@ -132,15 +132,15 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         self.performSegue(withIdentifier: "BoardToSettings" , sender: self) //pass data over to
     }
 
-    @objc func shareTapped(){ //TODO: potentially move this to the PublicStaticMethodsAndData
+    @objc func shareTapped(){
         let activityController = UIActivityViewController(activityItems: ["Hi, thought you'd like ivy! Check it out here: https://apps.apple.com/ca/app/ivy/id1479966843."], applicationActivities: nil)
         present(activityController, animated: true, completion: nil)
     }
 
-
     @objc func createTopic() {
         if (self.checkIfTwoHoursSinceLastPosting()){
-            let ac = UIAlertController(title: "Post a Topic on the Board!", message: nil, preferredStyle: .alert)
+            let ac = UIAlertController(title: "Post a Topic on the Board! (Use emojis for more engagement.)", message: nil, preferredStyle: .alert)
+            ac.view.tintColor = UIColor.ivyGreen
             ac.addTextField()
             ac.textFields![0].placeholder = "Topic Name"
 
@@ -150,7 +150,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                     if(topicInput.count>1){
                         if(!self.checkForProfanity(topicInput: topicInput.lowercased())){  //if no profanity exists
                             self.pushTopic(isAnonymous: false, inputText: topicInput, ac:ac)
-                            //TODO: show progress bar and dismiss the rest
+                            PublicStaticMethodsAndData.barInteraction(for: self.view)
                         }
                     }else{
                         PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
@@ -164,7 +164,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                     if(topicInput.count>1){
                         if(!self.checkForProfanity(topicInput: topicInput.lowercased())){
                             self.pushTopic(isAnonymous: true, inputText: topicInput, ac:ac)
-                            //TODO: show progress bar and dismiss the rest
+                            PublicStaticMethodsAndData.barInteraction(for: self.view)
                         }
                     }else{
                         PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
@@ -182,6 +182,8 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You posted it recently. Come back later!", context: self)
         }
     }
+    
+    //TODO: newly posted topic not showing when pushed (app has to be restarted) - Left off -> look at the discrepancy between added case and cellforitemat calls
 
     func pushTopic(isAnonymous:Bool, inputText:String, ac:UIAlertController) {
         var newTopic = Dictionary<String, Any>()
@@ -203,8 +205,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 } else {
                     self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(newTopicID).setData(newTopic) { (err1) in
                         if let err1 = err1{
-                            //TODO: dismiss progress bar
-                            print("Error pushing topic in board: \(err1)")
+                            print("Error pushing topic to the Board: \(err1)")
                             PublicStaticMethodsAndData.createInfoDialog(titleText: "Oops!", infoText: "Something went wrong, try again in a moment. :-(", context: self)
                         }else{
                             ac.dismiss(animated: true, completion: nil)
@@ -213,6 +214,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         }
                     }
                 }
+                PublicStaticMethodsAndData.allowInteraction(for: self.view)
             }
         }
     }
@@ -313,6 +315,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         let newTopic =  diff.document.data()
+                        print("WOAH BOARD adding ", newTopic["id"] as! String)
                         let dontAdd = self.allTopics.contains { (topic) -> Bool in
                             if let newTopicId = newTopic["id"] as? String, let currentlyCheckingId = topic["id"] as? String, newTopicId == currentlyCheckingId {
                                return true
@@ -499,6 +502,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
 
 // MARK: Column Flow Layout https://stackoverflow.com/questions/14674986/uicollectionview-set-number-of-columns
+// used in BoardTopic.swift for now, will be moved to a separate file
 
 class ColumnFlowLayout: UICollectionViewFlowLayout {
 

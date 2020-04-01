@@ -63,9 +63,9 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         hideKeyboardWhenTappedAround()     //extension defined in extensions for closing the keyboard
         setupCollectionViews()
         prepareTopic()
+        setUp()
         NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
         NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil) //when the app enters background/is killed remove the user from looking ids and detach the comment listener
-        setUp()
     }
     
     override func viewDidDisappear(_ animated: Bool) { //if user goes back and dismissed the VC
@@ -74,7 +74,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     private func setUpNavigationBar(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(moreClicked))
-        let peopleViewingView = peopleViewingTopicView.createMyClassView()
+        let peopleViewingView = PeopleLookingNavBarView.createMyClassView()
         self.navigationItem.titleView = peopleViewingView
     }
     
@@ -84,7 +84,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             cellsPerRow: 1,
             minimumInteritemSpacing: 10,
             minimumLineSpacing: 10,
-            sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            sectionInset: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         )
         topicCollectionView.delegate = self
         topicCollectionView.dataSource = self
@@ -99,6 +99,14 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     @objc private func setUp(){
         addThisUserToLookingIds()
         setUpCommentsListener()
+    }
+    
+    func barInteraction(){ //disable user interaction and start loading animation (rotating the ivy logo)
+        self.view.isUserInteractionEnabled = false
+    }
+    
+    func allowInteraction(){ //enable interaction again
+        self.view.isUserInteractionEnabled = true
     }
     
     
@@ -119,7 +127,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if addCommentCell != nil{
-            //TODO: move the add comment item to the top of the screen
+            topicCollectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: .top, animated: true)
             if(addCommentCell!.addCommentTextView.text == "Add a comment"){
                 addCommentCell!.addCommentTextView.textColor = UIColor.black
                 addCommentCell!.addCommentTextView.text = ""
@@ -172,6 +180,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             let thisTopicID = self.thisTopic["id"] as? String{
             
             if(currentInput.count > 0){
+                barInteraction()
                 var newComment:Dictionary<String,Any> = Dictionary<String,Any>()
                 newComment["id"] = NSUUID().uuidString
                 newComment["author_id"] = thisUserID
@@ -182,10 +191,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 newComment["text"] = currentInput
                 newComment["uni_domain"] = thisUserUniDomain
                 newComment["topic_id"] = thisTopicID
-                //TODO: bar interaction? YES !!!
                 if let newCommentID = newComment["id"] as? String, let commentingIDs = self.thisTopic["commenting_ids"] as? [String]{
                     self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(thisTopicID).collection("comments").document(newCommentID).setData(newComment) { (err) in
-                        
                         if let err = err{
                             print("Error pushing comment in topic: \(err)")
                         }else{
@@ -194,7 +201,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                                 self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(thisTopicID).updateData(["commenting_ids" : FieldValue.arrayUnion([thisUserID])])
                             }
                         }
-                        //TODO: re-allow interaction?
+                        self.allowInteraction()
                     }
                 }
             }
@@ -214,7 +221,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     func prepareTopic(){
         print("WOAH preparing topic")
         if let uniDomain = self.thisUserProfile["id"] as? String, let topicID = self.thisTopic["id"] as? String{
-            thisTopicRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(topicID).addSnapshotListener({ (documentSnapshot, err) in
+            thisTopicRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(topicID).addSnapshotListener(){ (documentSnapshot, err) in
                 print("WOAH inside listener")
                                 
                 guard documentSnapshot != nil else {
@@ -231,7 +238,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                     self.setUpNavigationBar()
                     if let isAnony = self.thisTopic["is_anonymous"] as? Bool, let topicAuthorID = self.thisTopic["author_id"] as? String,
                         let topicTitle = self.thisTopic["text"] as? String{
-                        
+                        self.topicHeaderTitle = topicTitle
                         if (!isAnony){
                             self.baseStorageReference.child("userimages").child(topicAuthorID).child("preview.jpg").getData(maxSize: 5 * 1024 * 1024) { data, error in
                                 if let error = error {
@@ -241,26 +248,25 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                                     self.topicCollectionView.reloadData()
                                 }
                             }
+                        }else{
+                            self.topicHeaderAuthorImage = UIImage(named: "quad_placeholder")!
+                            self.topicCollectionView.reloadData()
                         }
-                        self.topicHeaderTitle = topicTitle //title there regard of anonymity. setup rest
                     }
                 }
                 
                 if let lookingIds = self.thisTopic["looking_ids"] as? Array<String>{
                     if (!lookingIds.isEmpty){
                         print("WOAH inside")
-                        (self.navigationItem.titleView as! peopleViewingTopicView).updateCount(count: String(lookingIds.count))
-//                        peopleViewingTopic.updateCount(count: String(lookingIds.count))
-//                        self.navigationItem.titleView = nil
+                        (self.navigationItem.titleView as! PeopleLookingNavBarView).updateCount(count: String(lookingIds.count))
                     }
                 }
-            })
+            }
         }
     }
     
     private func setUpCommentsListener(){
         self.firstCommentLoad = true
-        //TODO: reload data here?
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisTopicID = self.thisTopic["id"] as? String {
             self.commentsRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(thisTopicID).collection("comments").order(by: "creation_millis", descending: true).addSnapshotListener({ (querySnapshot, err) in
                 
@@ -336,8 +342,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             cell.authorImage.image = self.topicHeaderAuthorImage
             cell.authorImage.maskCircle(anyImage: cell.authorImage.image!) //extension used
             cell.authorTitle.text = self.topicHeaderTitle
-            if let thisUserID = self.thisUserProfile["id"] as? String, let thisTopicAuthorID = self.thisTopic["author_id"] as? String{
-                if !(thisUserID == thisTopicAuthorID){ //attach on click listener if the topic isn't authored by you
+            if let thisUserID = self.thisUserProfile["id"] as? String, let thisTopicAuthorID = self.thisTopic["author_id"] as? String, let isAnon = thisTopic["is_anonymous"] as? Bool{
+                if(thisUserID != thisTopicAuthorID && !isAnon){ //attach on click listener if the topic isn't authored by you and it's not anonymous
                     cell.authorImage.addTapGestureRecognizer { //extension function - adds Tap to each cell -  executes code in the brackets when the cell imageclicked
                         self.imageAuthorID = thisTopicAuthorID
                         self.performSegue(withIdentifier: "topicToProfile" , sender: self) //pass data over to
@@ -379,7 +385,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     }
     
     func populateCommentCell(cell: TopicCommentCollectionViewCell, comment: Dictionary<String,Any>, index:Int){
-        
         if let commentText = comment["text"] as? String, let commentAuthorID = comment["author_id"] as? String,
             let commentAuthorFirst = comment["first_name"] as? String, let commentAuthorLast = comment["last_name"] as? String,
             let thisUserID = self.thisUserProfile["id"] as? String{
@@ -390,11 +395,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 } else {
                     cell.commentAuthorImageView.image = UIImage(data: data!)!
                     cell.commentAuthorImageView.maskCircle(anyImage: cell.commentAuthorImageView.image!)          //extension used
-                    
                     cell.commentLabel .text = commentText
                     cell.commentAuthorName.text = commentAuthorFirst + " " + commentAuthorLast
-                    
-                    
                     cell.commentAuthorImageView.addTapGestureRecognizer {
                         if !(thisUserID == commentAuthorID){
                             self.imageAuthorID = commentAuthorID
@@ -476,7 +478,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         }
     }
     
-    //TODO get rid of this stuff when we can have the actions on the back of the card appear
     @objc func showActions() {
         let actionSheet = UIAlertController(title: "Actions", message: .none, preferredStyle: .actionSheet)
         actionSheet.view.tintColor = UIColor.ivyGreen
@@ -507,7 +508,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         report["time"] = Date().millisecondsSince1970
         let reportId = self.baseDatabaseReference.collection("reports").document().documentID   //create unique id for this document
         report["id"] = reportId
-        //TODO: change self.card clicked to be the id of that person from the card
         self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.thisTopic["id"] as? String).addSnapshotListener { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")

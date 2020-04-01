@@ -14,6 +14,11 @@ import MobileCoreServices
 import FirebaseStorage
 import FirebaseFirestore
 
+
+
+
+//TODO: registrations, barring interaction
+
 class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
 
     
@@ -657,7 +662,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     
-    
     // MARK: Data Acquistion Functions
     
     func startListeningToChangesInThisConversation() { //listen and retrun the up to date conversation object
@@ -667,15 +671,13 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 print("Error fetching snapshots: \(err!)")
                 return
             }
-            if (snapshot.exists) {
+            if (snapshot.exists && snapshot.data() != nil) {
                 self.thisConversation = snapshot.data()!
-//                print("self.thisconversation", self.thisConversation)
                 if(self.firstDataAquisition) {
                     self.startRetrievingMessages()
                     self.firstDataAquisition = false
                     self.setUpNavigationBar()
                 }
-                //TODO: decide if setUpActionBar() needs to be called here or not
             }
         }
     }

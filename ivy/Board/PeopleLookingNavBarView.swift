@@ -8,7 +8,7 @@
 
 import UIKit
 
-class peopleViewingTopicView: UIView {
+class PeopleLookingNavBarView: UIView {
 
     /*
     // Only override draw() if you perform custom drawing.
@@ -22,9 +22,9 @@ class peopleViewingTopicView: UIView {
     @IBOutlet weak var groupImage: UIImageView!
     @IBOutlet weak var peopleLookingLabel: StandardLabel!
     
-    class func createMyClassView() -> peopleViewingTopicView {
-        let myClassNib = UINib(nibName: "peopleViewingTopic", bundle: nil)
-        return myClassNib.instantiate(withOwner: nil, options: nil)[0] as! peopleViewingTopicView
+    class func createMyClassView() -> PeopleLookingNavBarView {
+        let myClassNib = UINib(nibName: "PeopleLookingNavBarView", bundle: nil)
+        return myClassNib.instantiate(withOwner: nil, options: nil)[0] as! PeopleLookingNavBarView
     }
     
     func updateCount(count: String){
