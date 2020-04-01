@@ -26,10 +26,8 @@ class peopleViewingTopicView: UIView {
         let myClassNib = UINib(nibName: "peopleViewingTopic", bundle: nil)
         return myClassNib.instantiate(withOwner: nil, options: nil)[0] as! peopleViewingTopicView
     }
-
-
-
     
-
-
+    func updateCount(count: String){
+        peopleLookingLabel.text = count+" Looking at this"
+    }
 }

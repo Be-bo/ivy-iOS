@@ -74,14 +74,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     private func setUpNavigationBar(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(moreClicked))
-
-
-        
         let peopleViewingView = peopleViewingTopicView.createMyClassView()
-        //DONT USE question mark like self.navigationItem.titleView? = view... idk why but the question mark fucks it
         self.navigationItem.titleView = peopleViewingView
-        
-
     }
     
     private func setupCollectionViews(){
@@ -218,8 +212,10 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     // MARK: Data Acquisition Methods
     
     func prepareTopic(){
+        print("WOAH preparing topic")
         if let uniDomain = self.thisUserProfile["id"] as? String, let topicID = self.thisTopic["id"] as? String{
             thisTopicRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(topicID).addSnapshotListener({ (documentSnapshot, err) in
+                print("WOAH inside listener")
                                 
                 guard documentSnapshot != nil else {
                     print("Error initializing in BoardTopic: \(err!)")
@@ -232,6 +228,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 
                 if(self.firstLaunch){
                     self.firstLaunch = false
+                    self.setUpNavigationBar()
                     if let isAnony = self.thisTopic["is_anonymous"] as? Bool, let topicAuthorID = self.thisTopic["author_id"] as? String,
                         let topicTitle = self.thisTopic["text"] as? String{
                         
@@ -241,35 +238,25 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                                     print("error", error)
                                 } else {
                                     self.topicHeaderAuthorImage = UIImage(data: data!)!
-                                    self.setUpNavigationBar()   //set on click listener for more button of this screen
                                     self.topicCollectionView.reloadData()
                                 }
                             }
                         }
                         self.topicHeaderTitle = topicTitle //title there regard of anonymity. setup rest
-                        self.setUpNavigationBar()
                     }
                 }
+                
                 if let lookingIds = self.thisTopic["looking_ids"] as? Array<String>{
                     if (!lookingIds.isEmpty){
-                        print("looking: ", String(lookingIds.count))
-                        var peopleViewingTopic = self.navigationItem.titleView as? peopleViewingTopicView
-                        peopleViewingTopic!.peopleLookingLabel.text? = (peopleViewingTopic!.peopleLookingLabel.text?.replace(String(lookingIds.count), at: 0))!
-                        self.navigationItem.titleView = peopleViewingTopic
-                        print("peopleViewingTopic!.peopleLookingLabel.text?", peopleViewingTopic!.peopleLookingLabel.text)
-                        //TODO: set how many people are looking at htis topic in the nav bar
+                        print("WOAH inside")
+                        (self.navigationItem.titleView as! peopleViewingTopicView).updateCount(count: String(lookingIds.count))
+//                        peopleViewingTopic.updateCount(count: String(lookingIds.count))
+//                        self.navigationItem.titleView = nil
                     }
                 }
             })
         }
-        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let thisTopicID = self.thisTopic["id"] as? String{
-            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(thisTopicID).getDocument { (documentSnapshot, err) in
-            }
-        }
     }
-    
-
-
     
     private func setUpCommentsListener(){
         self.firstCommentLoad = true
@@ -471,6 +458,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     // MARK: Other Functions
     
     @objc private func detachListeners(){
+        print("WOAH detach listeners")
         if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
             self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayRemove([thisUserID])])
         }
@@ -480,7 +468,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         if(commentsRegistration != nil){
             commentsRegistration?.remove()
         }
-        
     }
     
     private func addThisUserToLookingIds(){

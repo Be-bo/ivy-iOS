@@ -31,7 +31,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     private var allTopicIdNamePairs = Dictionary<String, Any>()
     private var allTopics: [Dictionary<String, Any>] = []         //arraylist holding dics of all topics
     private var topicClicked = Dictionary<String,Any>()                       //to know which topic cell been clicked
-    private var questionOfTheDay = Dictionary<String,Any>()
     private var registration:ListenerRegistration? = nil
     private var ofthedayRegistration:ListenerRegistration? = nil
 
@@ -46,6 +45,8 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
             setUpNavigationBar()
             setupCollectionViews()
+            NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
         }
     }
 
@@ -59,13 +60,19 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         boardCollectionView.register(UINib(nibName: createTopicButtonIdentifier, bundle: nil), forCellWithReuseIdentifier: createTopicButtonIdentifier)
         boardCollectionView.delegate = self
         boardCollectionView.dataSource = self
-        setUp()
     }
 
-    private func setUp(){ //initial setup method when the ViewController's first created
-        //      NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: UIApplication.willEnterForegroundNotification, object: nil)
-        //      self.hideKeyboardOnTapOutside()
+    @objc private func setUp(){ //initial setup method when the ViewController's first created
+        print("WOAH BOARD setup")
         startListeningToTopics()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        detachListeners()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        setUp()
     }
 
     private func setUpNavigationBar(){
@@ -132,7 +139,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
 
     @objc func createTopic() {
-
         if (self.checkIfTwoHoursSinceLastPosting()){
             let ac = UIAlertController(title: "Post a Topic on the Board!", message: nil, preferredStyle: .alert)
             ac.addTextField()
@@ -290,12 +296,12 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
 
 
-    // MARK: Data Acquisition Methods
+    // MARK: Database Methods
 
     func startListeningToTopics(){
         if let uniDomain =  self.thisUserProfile["uni_domain"] as? String{
             registration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").addSnapshotListener({ (querySnapshot, err) in
-
+                
                 guard let snapshot = querySnapshot else {
                     print("Error initializing in Board: \(err!)")
                     return
@@ -307,28 +313,47 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         let newTopic =  diff.document.data()
-                        //TODO: check if exists before appending? Like in Android?
-                        self.allTopics.append(newTopic)
-                        self.boardCollectionView.reloadData()
+                        let dontAdd = self.allTopics.contains { (topic) -> Bool in
+                            if let newTopicId = newTopic["id"] as? String, let currentlyCheckingId = topic["id"] as? String, newTopicId == currentlyCheckingId {
+                               return true
+                            }else{
+                                return false
+                            }
+                        }
+                        if(self.allTopics.count < 1 || !dontAdd){
+                            self.allTopics.append(newTopic)
+                            self.boardCollectionView.reloadData()
+                        }
                     }
 
                     if (diff.type == .modified) {
                         let modifiedTopic = diff.document.data()
                         if let modifiedTopicID = modifiedTopic["id"] as? String{
-                            let posModifiedIndex = self.locateIndexOfTopic(id: modifiedTopicID)
-                            self.allTopics[posModifiedIndex] = modifiedTopic
-                            self.boardCollectionView.reloadData()
-                            return
+                            let optionalIndex = self.allTopics.firstIndex { (topic) -> Bool in
+                                if let currentlyCheckingId = topic["id"] as? String, modifiedTopicID == currentlyCheckingId{
+                                    return true
+                                }else{
+                                    return false
+                                }
+                            }
+                            if let posIndex = optionalIndex {
+                                self.allTopics[posIndex] = modifiedTopic
+                                self.boardCollectionView.reloadData()
+                            }
                         }
                     }
                     if (diff.type == .removed) {
                         let removedTopic = diff.document.data()
-                        print("removed")
-                        if let removedTopicID = removedTopic["id"] as? String{
-                            let posRemoved = self.locateIndexOfTopic(id: removedTopicID)
-                            self.allTopics.remove(at: posRemoved)
+                        let optionalIndex = self.allTopics.firstIndex { (topic) -> Bool in
+                            if let removedTopicId = removedTopic["id"] as? String, let currentlyCheckingId = topic["id"] as? String, removedTopicId == currentlyCheckingId{
+                                return true
+                            }else{
+                                return false
+                            }
+                        }
+                        if let posIndex = optionalIndex {
+                            self.allTopics.remove(at: posIndex)
                             self.boardCollectionView.reloadData()
-                            return
                         }
                     }
                 }
@@ -349,19 +374,16 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         self.boardCollectionView.reloadData()
     }
 
-    func locateIndexOfTopic(id:String) -> Int { //so we know what index to removed from all topics when deleting
-        var position = 0
-        for (index, chat) in self.allTopics.enumerated(){
-            if id == chat["id"] as? String{
-                position = index
-            }
-        }
-        return position
-    }
-
     func updateProfile(updatedProfile: Dictionary<String, Any>){ //called externally from main under mainTabController
         self.thisUserProfile = updatedProfile
     }
+    
+    @objc private func detachListeners(){
+           print("WOAH BOARD detach listeners")
+           if(registration != nil){
+               registration?.remove()
+           }
+       }
 
 
 
@@ -446,8 +468,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
 
-
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { //on click of the event, pass the data from the event through a segue to the event.swift page
         if (indexPath == IndexPath(item: 0, section: 0)) {
             //do nothing
@@ -455,6 +475,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         else if (self.allTopics.count > 1 && indexPath.item > 0) {              //0th item create topic button
             let currentTopic = self.allTopics[indexPath.item]
             self.topicClicked = currentTopic
+            self.detachListeners()
             self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over
         }
     }
