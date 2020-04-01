@@ -31,9 +31,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     private var thisUserProfile = Dictionary<String, Any>()
     private var requestCount = Dictionary<String, Any>()
     
-    
     private var thisConversation = Dictionary<String, Any>()        //the conversation they actually click on when accepting/rejecting
     private var thisCell: ConversationCell? = nil
+    private var chatsRegistration:ListenerRegistration? = nil
     
 
     
@@ -52,6 +52,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         super.viewDidLoad()
         setUp()
         setUpNavigationBar()
+        NotificationCenter.default.addObserver(self, selector: #selector(startListeningToConversations), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
+        NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil) //when the app enters background/is killed remove the user from looking ids and detach the comment listener
     }
     
     private func setUp(){
@@ -71,6 +73,10 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             self.thisUserId = thisId
             self.startListeningToConversations()
         }
+    }
+    
+    @objc private func detachListeners(){
+        chatsRegistration?.remove()
     }
     
 //    private func setUpNavigationBar(){
@@ -152,7 +158,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     }
     
-    
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         thisUserProfile = updatedProfile
     }
@@ -177,8 +182,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     // MARK: Data Acquistion Functions
     
-    func startListeningToConversations() {   //get all the conversations where this current user is a participant of, add
-        baseDatabaseReference.collection("conversations").whereField("participants", arrayContains: self.uid).order(by: "last_message_millis", descending: true).addSnapshotListener(){ (querySnapshot, err) in
+    @objc private func startListeningToConversations() {   //get all the conversations where this current user is a participant of, add
+        chatsRegistration = baseDatabaseReference.collection("conversations").whereField("participants", arrayContains: self.uid).order(by: "last_message_millis", descending: true).addSnapshotListener(){ (querySnapshot, err) in
             
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(err!)")
@@ -194,14 +199,20 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 
                 
                 snapshot.documentChanges.forEach { diff in //FOR EACH individual conversation the user has, when its added
-                    
-                    
                     if (diff.type == .added) {
                         let docData = diff.document.data()
-                        self.activeChats.append(docData)
-                        self.tableView.reloadData()
-//                            self.tableView.reloadRows(at: [IndexPath(row: self.activeChats.count-1, section: 0)], with: .none)
+                        var dontAdd = self.activeChats.contains { (conversation) -> Bool in //first check if the convo should be added or not
+                            if let currentlyCheckingId = conversation["id"] as? String, let newId = docData["id"] as? String, newId == currentlyCheckingId{
+                                return true
+                            }else{
+                                return false
+                            }
+                        }
                         
+                        if(self.conversations.count < 1 || dontAdd == false){ //if the chats are either empty or the convo hasn't been added yet -> actually add the conversation
+                            self.activeChats.append(docData)
+                            self.tableView.reloadData()
+                        }
                     }
                     
                     if (diff.type == .modified) { //FOR EACH!!!!!!!! individual conversation the user has, when its modified, we enter this
