@@ -220,9 +220,10 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     // MARK: Data Acquisition Methods
     
     func prepareTopic(){
-        if let uniDomain = self.thisUserProfile["id"] as? String, let topicID = self.thisTopic["id"] as? String{
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String{
             thisTopicRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(topicID).addSnapshotListener(){ (documentSnapshot, err) in
                                 
+                
                 guard documentSnapshot != nil else {
                     print("Error initializing in BoardTopic: \(err!)")
                     return
@@ -255,9 +256,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 }
                 
                 if let lookingIds = self.thisTopic["looking_ids"] as? [String]{
-                    print("looking count: ", lookingIds.count)
                     if (!lookingIds.isEmpty){
-                        print("WOAH inside")
                         (self.navigationItem.titleView as! PeopleLookingNavBarView).updateCount(count: String(lookingIds.count))    //PeopleLookingNavBarView.swift
                     }
                 }
