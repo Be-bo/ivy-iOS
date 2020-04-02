@@ -27,7 +27,7 @@ class BoardCollectionViewLayout: UICollectionViewLayout {
     private var cachedAttributes = [UICollectionViewLayoutAttributes]() //caching of specific layout vals for items to improve performance
     
     override func prepare() { //called when layout changed
-        if cachedAttributes.isEmpty{ //creating attributes from scratch
+//        if cachedAttributes.isEmpty{ //creating attributes from scratch
             let columnWidth = contentWidth/numberOfColumns
             
             var xOffsets = [CGFloat]() //size 2 for 2 columns
@@ -89,7 +89,7 @@ class BoardCollectionViewLayout: UICollectionViewLayout {
                     }
                 }
             }
-        }
+//        }
     }
     
     override var collectionViewContentSize: CGSize{
