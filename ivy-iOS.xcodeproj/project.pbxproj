@@ -31,7 +31,6 @@
 		A940565B240F5971008ED82D /* BoardTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940565A240F5971008ED82D /* BoardTopic.swift */; };
 		A940565E240F5E82008ED82D /* TopicCommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */; };
 		A940565F240F5E82008ED82D /* TopicCommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */; };
-		A940566524147CE6008ED82D /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940566424147CE6008ED82D /* CheckBox.swift */; };
 		A9405668242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9405666242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift */; };
 		A9405669242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9405667242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib */; };
 		A9405670242E602F008ED82D /* TopicHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A940566E242E602F008ED82D /* TopicHeaderCollectionViewCell.swift */; };
@@ -99,6 +98,7 @@
 		FA05BE5B22DB966F00EEDE28 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */; };
 		FA06DE3B22C0659900B07EDC /* DegreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA06DE3A22C0659900B07EDC /* DegreeCell.xib */; };
 		FA06DE3D22C0687F00B07EDC /* Reg5Degree.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */; };
+		FA08E74424358B400077CDDD /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08E74324358B400077CDDD /* CheckBox.swift */; };
 		FA0A0348232729D500F9FDAC /* LegalStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0A0347232729D500F9FDAC /* LegalStuff.swift */; };
 		FA0A034A23272AFF00F9FDAC /* ParagraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0A034923272AFF00F9FDAC /* ParagraphModel.swift */; };
 		FA0A034D23272C2D00F9FDAC /* LegalStuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0A034B23272C2D00F9FDAC /* LegalStuffCell.swift */; };
@@ -182,7 +182,6 @@
 		A940565A240F5971008ED82D /* BoardTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTopic.swift; sourceTree = "<group>"; };
 		A940565C240F5E82008ED82D /* TopicCommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		A940565D240F5E82008ED82D /* TopicCommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicCommentCollectionViewCell.xib; sourceTree = "<group>"; };
-		A940566424147CE6008ED82D /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		A9405666242D3350008ED82D /* QuestionOfDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionOfDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9405667242D3350008ED82D /* QuestionOfDayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionOfDayCollectionViewCell.xib; sourceTree = "<group>"; };
 		A940566E242E602F008ED82D /* TopicHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -252,6 +251,7 @@
 		FA05BE5A22DB966F00EEDE28 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
 		FA06DE3A22C0659900B07EDC /* DegreeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DegreeCell.xib; sourceTree = "<group>"; };
 		FA06DE3C22C0687F00B07EDC /* Reg5Degree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reg5Degree.swift; sourceTree = "<group>"; };
+		FA08E74324358B400077CDDD /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		FA0A0347232729D500F9FDAC /* LegalStuff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalStuff.swift; sourceTree = "<group>"; };
 		FA0A034923272AFF00F9FDAC /* ParagraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphModel.swift; sourceTree = "<group>"; };
 		FA0A034B23272C2D00F9FDAC /* LegalStuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalStuffCell.swift; sourceTree = "<group>"; };
@@ -335,7 +335,6 @@
 			isa = PBXGroup;
 			children = (
 				A9114F3523DE1F43003535F4 /* UIImage+Compression.swift */,
-				A940566424147CE6008ED82D /* CheckBox.swift */,
 				A9405676242E9826008ED82D /* UIViewController.swift */,
 				A9405678242E9F2B008ED82D /* boardCollectionViewCell.swift */,
 				A940567C242EA282008ED82D /* UIImageView.swift */,
@@ -596,6 +595,7 @@
 				A920C4F422DB99B10088DD58 /* Reg4Gender.swift */,
 				A920C4F822DBB69B0088DD58 /* Reg6Birthday.swift */,
 				A920C4FA22DBEC700088DD58 /* Reg9Photo.swift */,
+				FA08E74324358B400077CDDD /* CheckBox.swift */,
 			);
 			path = LoginRegister;
 			sourceTree = "<group>";
@@ -796,6 +796,7 @@
 				FA0A0348232729D500F9FDAC /* LegalStuff.swift in Sources */,
 				A920C4EB22D281D60088DD58 /* Reg10Recap.swift in Sources */,
 				A9A2BFD223C55AF300BEC473 /* ChatViewController.swift in Sources */,
+				FA08E74424358B400077CDDD /* CheckBox.swift in Sources */,
 				A9F7B1CC23639F7500B7283E /* PushNotificationSender.swift in Sources */,
 				A9FD1988231F223B00ECA848 /* ChangePassword.swift in Sources */,
 				FA6D733D22DA815C009020B5 /* StandardBoldLabel.swift in Sources */,
@@ -835,7 +836,6 @@
 				FAC5A81D23DE77B600C38E5D /* GreenChatLabel.swift in Sources */,
 				FAC5A81723DE023400C38E5D /* ExploreLabel.swift in Sources */,
 				A9A2BFD423C55D1300BEC473 /* Message.swift in Sources */,
-				A940566524147CE6008ED82D /* CheckBox.swift in Sources */,
 				A9BB05E022B5D2E2008B35AA /* LoadingWheel.swift in Sources */,
 				FAC5A81A23DE4FD300C38E5D /* chatBubbleCollectionViewCellLeft.swift in Sources */,
 				A9BB05E122B5D2E2008B35AA /* StandardLabel.swift in Sources */,

@@ -303,8 +303,18 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                         return
                     }
                     if (diff.type == .removed) {
-                        //let removedComment = diff.document.data()
-                        //TODO: if they can remove their comment then add stuff here
+                        let removedComment = diff.document.data()
+                        let optionalIndex = self.allTopicComments.firstIndex { (comment) -> Bool in
+                            if let removedCommentId = removedComment["id"] as? String, let currentlyCheckingId = comment["id"] as? String, removedCommentId == currentlyCheckingId{
+                                return true
+                            }else{
+                                return false
+                            }
+                        }
+                        if let posIndex = optionalIndex {
+                            self.allTopicComments.remove(at: posIndex)
+                            self.topicCollectionView.reloadData()
+                        }
                         return
                     }
                 }

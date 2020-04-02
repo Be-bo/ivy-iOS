@@ -183,7 +183,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     func reportUser(alert: UIAlertAction!){ //when they click on reporting the USER send them here
         var report = Dictionary<String, Any>()
         
-        
         report["reportee"] = self.thisUserProfile["id"] as! String
         report["report_type"] = "user"
         report["target"] = self.currentCard?.id //current card that they're on, id from that card
@@ -208,7 +207,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
 
     func blockUser(alert: UIAlertAction!){ //when the user clicks on block user send it here to actually block them
-        
         if let userIDToBlock = self.currentCard?.id as? String, let cc = currentCard as? Card{
             
             var toMerge = Dictionary<String,Any>() //update this users block list
@@ -539,8 +537,6 @@ class Quad: UIViewController, UICollectionViewDelegate, UICollectionViewDataSour
     
     
     // MARK: Collection View Methods
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return MAX_SIZE
