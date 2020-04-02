@@ -63,7 +63,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     @objc private func setUp(){ //initial setup method when the ViewController's first created
-        print("WOAH BOARD setup")
         startListeningToTopics()
     }
     
@@ -315,7 +314,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         let newTopic =  diff.document.data()
-                        print("WOAH BOARD adding ", newTopic["id"] as! String)
                         let dontAdd = self.allTopics.contains { (topic) -> Bool in
                             if let newTopicId = newTopic["id"] as? String, let currentlyCheckingId = topic["id"] as? String, newTopicId == currentlyCheckingId {
                                return true
@@ -382,7 +380,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     @objc private func detachListeners(){
-           print("WOAH BOARD detach listeners")
            if(registration != nil){
                registration?.remove()
            }

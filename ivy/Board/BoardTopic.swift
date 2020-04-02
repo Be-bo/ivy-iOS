@@ -62,7 +62,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()     //extension defined in extensions for closing the keyboard
         setupCollectionViews()
-        prepareTopic()
         setUp()
         NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
         NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil) //when the app enters background/is killed remove the user from looking ids and detach the comment listener
@@ -71,6 +70,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     override func viewDidDisappear(_ animated: Bool) { //if user goes back and dismissed the VC
         detachListeners()
     }
+    
+
     
     private func setUpNavigationBar(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(moreClicked))
@@ -219,10 +220,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     // MARK: Data Acquisition Methods
     
     func prepareTopic(){
-        print("WOAH preparing topic")
         if let uniDomain = self.thisUserProfile["id"] as? String, let topicID = self.thisTopic["id"] as? String{
             thisTopicRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(topicID).addSnapshotListener(){ (documentSnapshot, err) in
-                print("WOAH inside listener")
                                 
                 guard documentSnapshot != nil else {
                     print("Error initializing in BoardTopic: \(err!)")
@@ -255,10 +254,11 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                     }
                 }
                 
-                if let lookingIds = self.thisTopic["looking_ids"] as? Array<String>{
+                if let lookingIds = self.thisTopic["looking_ids"] as? [String]{
+                    print("looking count: ", lookingIds.count)
                     if (!lookingIds.isEmpty){
                         print("WOAH inside")
-                        (self.navigationItem.titleView as! PeopleLookingNavBarView).updateCount(count: String(lookingIds.count))
+                        (self.navigationItem.titleView as! PeopleLookingNavBarView).updateCount(count: String(lookingIds.count))    //PeopleLookingNavBarView.swift
                     }
                 }
             }
@@ -460,7 +460,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     // MARK: Other Functions
     
     @objc private func detachListeners(){
-        print("WOAH detach listeners")
         if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
             self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayRemove([thisUserID])])
         }
@@ -474,7 +473,28 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     private func addThisUserToLookingIds(){
         if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
-            self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayUnion([thisUserID])])
+            self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayUnion([thisUserID])], completion: { (err) in
+            if let err = err{
+                    print("Error adding user to looking ids in board topic: \(err)")
+                }else{
+                
+                
+                    ///updating the current topic to include me in the looking id's
+                
+                    // get existing items, or create new array if doesn't exist
+                    var existingItems = self.thisTopic["looking_ids"] as? [String] ?? [String]()
+
+                    // append the item
+                    existingItems.append(thisUserID)
+
+                    // replace back into `looking_ids`
+                    self.thisTopic["looking_ids"] = existingItems
+
+                    self.prepareTopic()
+
+
+                }
+            })
         }
     }
     
