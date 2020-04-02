@@ -676,8 +676,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 if(self.firstDataAquisition) {
                     self.startRetrievingMessages()
                     self.firstDataAquisition = false
-                    self.setUpNavigationBar()
                 }
+                self.setUpNavigationBar()
             }
         }
     }
@@ -701,9 +701,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         
                         //use reload data instead of insert cause that fucks it up sometimes
                         self.messageCollectionView.reloadData()
-
-                        
-                        
                     }
                 }
                 self.messageCollectionView.reloadData()
