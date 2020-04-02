@@ -32,32 +32,33 @@ class BlockedAccounts: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
 
     func loadBlockedAccounts() { //load all this users blocked accounts
-        self.baseDatabaseReference.collection("universities").document(self.thisUserProfile["uni_domain"] as! String).collection("userprofiles").document(self.thisUserProfile["id"] as! String).collection("userlists").document("block_list").getDocument { (document, error) in
-            if let document = document, document.exists {
-                if let docData = document.data(){
-                    for (blockedId, millis) in docData{
-                        
-                        if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
-                            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(blockedId).getDocument { (document, error) in
-                                if let document = document, document.exists, let blockedAccountData = document.data() {
-                                    self.allBLockedAccounts.append(blockedAccountData)
-                                    self.tableView.reloadData()
-                                    
-                                    let iPath = IndexPath(row: 0, section: 0) //first item selection block, gotta be called each time the "reloadData" is called because that call deselects all items
-                                    self.tableView.selectRow(at: iPath, animated: false, scrollPosition: .none)
-                                    self.tableView.delegate?.tableView?(self.tableView, didSelectRowAt: iPath)
-                                } else {
-                                    print("Document does not exist here!!!!")
+        if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let userId = self.thisUserProfile["id"] as? String{
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(userId).collection("userlists").document("block_list").getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let docData = document.data(){
+                        for (blockedId, millis) in docData{
+                            
+                            if let uniDomain = self.thisUserProfile["uni_domain"] as? String{
+                                self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(blockedId).getDocument { (document, error) in
+                                    if let document = document, document.exists, let blockedAccountData = document.data() {
+                                        self.allBLockedAccounts.append(blockedAccountData)
+                                        self.tableView.reloadData()
+                                        
+                                        let iPath = IndexPath(row: 0, section: 0) //first item selection block, gotta be called each time the "reloadData" is called because that call deselects all items
+                                        self.tableView.selectRow(at: iPath, animated: false, scrollPosition: .none)
+                                        self.tableView.delegate?.tableView?(self.tableView, didSelectRowAt: iPath)
+                                    } else {
+                                        print("Document does not exist here!!!!")
+                                    }
                                 }
                             }
                         }
                     }
+                } else {
+                    print("Document does not exist")
                 }
-            } else {
-                print("Document does not exist")
             }
         }
-
     }
     
     

@@ -27,6 +27,7 @@ class BoardCollectionViewLayout: UICollectionViewLayout {
     private var cachedAttributes = [UICollectionViewLayoutAttributes]() //caching of specific layout vals for items to improve performance
     
     override func prepare() { //called when layout changed
+        //TODO: is not caching a problem? (needed to take it out for when creating a new topic)
 //        if cachedAttributes.isEmpty{ //creating attributes from scratch
             let columnWidth = contentWidth/numberOfColumns
             

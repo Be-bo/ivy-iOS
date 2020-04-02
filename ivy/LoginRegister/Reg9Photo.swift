@@ -22,6 +22,7 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     private var croppedRect = CGRect.zero
     private var croppedAngle = 0
     private var byteArray:NSData? =  nil
+    private let STOCK_COUNT: UInt32 = 35 //actual num, inclusive of the last one
 
     
     
@@ -78,7 +79,7 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
     
     func switchRandomStock(){
         actualFinalImage.layer.borderWidth = 0.0;    //thickness
-        let randInt = arc4random_uniform(10) + 1
+        let randInt = arc4random_uniform(STOCK_COUNT) + 1
         let imgName = "stock"+String(randInt)
         actualFinalImage.image = UIImage(named: imgName)
         let image = UIImage(named: imgName)
@@ -128,7 +129,6 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         dismiss(animated: true, completion: nil)
     }
     
-    
     func showImagePickerController() { //present the imagepicker controller which allows users to choose what image they want from the gallery
         let imagePicker = UIImagePickerController()
 //        imagePicker.modalPresentationStyle = .popover
@@ -149,7 +149,4 @@ class Reg9Photo: UIViewController, CropViewControllerDelegate, UIImagePickerCont
         dismiss(animated: true, completion: nil)    //dismiss the imagepickercontroller view
         presentCropViewController()
     }
-    
-    
-
 }
