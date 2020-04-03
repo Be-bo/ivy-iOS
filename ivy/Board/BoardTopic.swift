@@ -180,7 +180,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String,
             let thisTopicID = self.thisTopic["id"] as? String{
 
-            if(currentInput.count > 0){
+            if(currentInput.count > 0 && !(currentInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)){
                 addCommentCell?.addCommentSubmitButton.isEnabled = false
                 var newComment:Dictionary<String,Any> = Dictionary<String,Any>()
                 newComment["id"] = NSUUID().uuidString
@@ -204,6 +204,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                         }
                     }
                 }
+            }else{
+                PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Input", infoText: "You can't post empty comments...", context: self)
             }
         }
     }
@@ -281,7 +283,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         let newComment =  diff.document.data()
-                        var dontAdd = self.allTopicComments.contains(where: { (comment) -> Bool in //first check against all existing comments to make sure the comment hasn't been added in the past
+                        let dontAdd = self.allTopicComments.contains(where: { (comment) -> Bool in //first check against all existing comments to make sure the comment hasn't been added in the past
                             if let newCommentId = newComment["id"] as? String, let currentlyCheckingId = comment["id"] as? String, newCommentId == currentlyCheckingId{ //if it has (id match) return true and do not even checking for adding
                                 return true
                             }else{ //if there's no id match return false
@@ -293,6 +295,9 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                             if(self.firstCommentLoad){
                                 self.allTopicComments.append(newComment)
                                 self.topicCollectionView.reloadData()
+                                
+                                #warning("This is an automated message from the Government of Canada.")
+                                //TODO: we don't want the keyboard to close when somebody else posts a comment, ideal solution is to override reloadData, we were too lazy to engage in cross site request forgery that was intitiated by the Director of ML whose identity is classified, we will engage in specific measures to target the concrete POST GREP sudo HTTP requests upon nano callbacks to the original mainframe console
                                 self.topicCollectionView.performBatchUpdates(nil, completion: {
                                     (result) in
                                     self.addCommentCell?.addCommentTextView.becomeFirstResponder()

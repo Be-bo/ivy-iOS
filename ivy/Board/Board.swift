@@ -146,7 +146,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             let submitAction = UIAlertAction(title: "Post", style: .default) { [unowned ac] _ in
                 let topicInput = ac.textFields![0]
                 if let topicInput = topicInput.text {
-                    if(topicInput.count>1){
+                    if(topicInput.count>1 && !(topicInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)){
 //                        if(!self.checkForProfanity(topicInput: topicInput.lowercased())){  //if no profanity exists
                         self.pushTopic(isAnonymous: false, inputText: topicInput, ac:ac)
                         PublicStaticMethodsAndData.barInteraction(for: self.view)
@@ -160,7 +160,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             let submitAnonyAction = UIAlertAction(title: "Post Anonymously", style: .default) { [unowned ac] _ in
                 let topicInput = ac.textFields![0]
                 if let topicInput = topicInput.text {
-                    if(topicInput.count>1){
+                    if(topicInput.count>1 && !(topicInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)){
 //                        if(!self.checkForProfanity(topicInput: topicInput.lowercased())){
                         self.pushTopic(isAnonymous: true, inputText: topicInput, ac:ac)
                         PublicStaticMethodsAndData.barInteraction(for: self.view)
