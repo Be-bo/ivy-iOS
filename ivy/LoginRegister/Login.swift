@@ -23,12 +23,12 @@ class Login: UIViewController, UITextFieldDelegate {
     
     
     // MARK: IBOutlets and IBActions
-
+    
     @IBOutlet weak var emailField: StandardTextField!
     @IBOutlet weak var passwordField: StandardTextField!
     @IBOutlet weak var signupLabel: UILabel!
     @IBOutlet weak var errorLabel: ErrorLabel!
-//    @IBOutlet weak var forgotPassLabel: MediumGreenLabel!
+    //    @IBOutlet weak var forgotPassLabel: MediumGreenLabel!
     @IBOutlet weak var middleContainer: StandardButton!
     @IBOutlet weak var bottomContainer: UIView!
     @IBOutlet weak var ivyLogo: UIImageView!
@@ -43,9 +43,9 @@ class Login: UIViewController, UITextFieldDelegate {
     //fix the error of when going to sign up and coming back the top bar held over
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController!.navigationBar.isHidden = true
-
+        
     }
-
+    
     // MARK: Override and Base Functions
     
     override func viewDidLoad() {
@@ -80,7 +80,7 @@ class Login: UIViewController, UITextFieldDelegate {
         return false
     }
     
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? MainTabController{
             vc.thisUniDomain = thisUni
@@ -165,21 +165,21 @@ class Login: UIViewController, UITextFieldDelegate {
             let email = emailField.text!
             let password = passwordField.text!
             authInstance.signIn(withEmail: email, password: password) { (result, error) in //try to authenticate user in Firebase Auth with their email and password
-                    if(error == nil){
-                        if(self.authInstance.currentUser!.isEmailVerified){
-                            if let range = email.range(of: "@") { //extract the domain the user's entered
-                                self.thisUni = String(email[range.upperBound...])
-                                self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines) //trim whitespace and new line incase accidentley add space
-                            }
-                            self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
-                            self.checkForNewerVersion()
-                    }else{
-                            self.errorLabel.attributedText = self.createResendEmailErrorText()
-                            let tap = UITapGestureRecognizer(target: self, action: #selector(Login.resendEmailValidation))
-                            self.errorLabel.isUserInteractionEnabled = true
-                            self.errorLabel.addGestureRecognizer(tap)
-                            self.allowInteraction()
-                    }
+                if(error == nil){
+//                    if(self.authInstance.currentUser!.isEmailVerified){
+                        if let range = email.range(of: "@") { //extract the domain the user's entered
+                            self.thisUni = String(email[range.upperBound...])
+                            self.thisUni = self.thisUni.trimmingCharacters(in: .whitespacesAndNewlines) //trim whitespace and new line incase accidentley add space
+                        }
+                        self.saveLocalData() //save the uni domain locally (we'll need it for a future auto login)
+                        self.checkForNewerVersion()
+//                    }else{
+//                        self.errorLabel.attributedText = self.createResendEmailErrorText()
+//                        let tap = UITapGestureRecognizer(target: self, action: #selector(Login.resendEmailValidation))
+//                        self.errorLabel.isUserInteractionEnabled = true
+//                        self.errorLabel.addGestureRecognizer(tap)
+//                        self.allowInteraction()
+//                    }
                 }else{
                     self.errorLabel.text = "Login failed, invalid email or password." //if the authentication fails let the user know through the error label
                     self.allowInteraction()
@@ -198,12 +198,12 @@ class Login: UIViewController, UITextFieldDelegate {
                 PublicStaticMethodsAndData.createInfoDialog(titleText: "Email Sent", infoText: "We sent you a verification email. Please check your inbox.", context: self)
             }
         })
-
+        
     }
     
     
     func checkAutoLogin(){ //check if we the necessary local data and if the user has logged in in the past to attempt an auto login
-        if(getLocalData() && authInstance.currentUser != nil  && authInstance.currentUser!.isEmailVerified && !dontAutoLog){
+        if(getLocalData() && authInstance.currentUser != nil  /*&& authInstance.currentUser!.isEmailVerified*/ && !dontAutoLog){
             saveLocalData()
             barInteraction()
             hideElems()
@@ -278,8 +278,8 @@ class Login: UIViewController, UITextFieldDelegate {
         self.present(ac, animated: true)
     }
     
-
-
+    
+    
     
     func saveLocalData(){ //save this user's university domain locally
         let defaults = UserDefaults.standard
@@ -312,7 +312,7 @@ class Login: UIViewController, UITextFieldDelegate {
                         if UIApplication.shared.canOpenURL(url! as URL) {
                             UIApplication.shared.open(url! as URL, options: [:], completionHandler: nil)
                         }
-//                        self.performSegue(withIdentifier: "loginToMain", sender: self)
+                        //                        self.performSegue(withIdentifier: "loginToMain", sender: self)
                     }))
                     
                     alert.addAction(UIAlertAction(title: "Update Later", style: .cancel, handler: { (alert:UIAlertAction) in
@@ -335,12 +335,12 @@ class Login: UIViewController, UITextFieldDelegate {
         InstanceID.instanceID().instanceID { (result, error) in
             if let error = error {
                 print("Error fetching remote instange ID: \(error)")
-                } else if let result = result {
+            } else if let result = result {
                 if let id = Auth.auth().currentUser?.uid as? String{
                     var tokenMerger = Dictionary<String,Any>()
                     tokenMerger["messaging_token"] = result.token
                     self.baseDatabaseReference.collection("universities").document("ucalgary.ca").collection("userprofiles").document(id).setData(tokenMerger, merge: true)
-
+                    
                 }
                 print("Remote instance ID token: \(result.token)")
             }

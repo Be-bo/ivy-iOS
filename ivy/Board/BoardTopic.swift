@@ -223,7 +223,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String{
             thisTopicRegistration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").document(topicID).addSnapshotListener(){ (documentSnapshot, err) in
                                 
-                
                 guard documentSnapshot != nil else {
                     print("Error initializing in BoardTopic: \(err!)")
                     return
