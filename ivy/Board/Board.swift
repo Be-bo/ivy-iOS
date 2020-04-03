@@ -209,6 +209,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         }else{
                             ac.dismiss(animated: true, completion: nil)
                             self.topicClicked = newTopic
+                            self.detachListeners()
                             self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over to
                         }
                     }
