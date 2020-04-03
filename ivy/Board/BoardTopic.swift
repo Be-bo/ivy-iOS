@@ -235,20 +235,26 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                     self.firstLaunch = false
                     self.setUpNavigationBar()
                     if let isAnony = self.thisTopic["is_anonymous"] as? Bool, let topicAuthorID = self.thisTopic["author_id"] as? String,
-                        let topicTitle = self.thisTopic["text"] as? String{
+                        let topicTitle = self.thisTopic["text"] as? String, let topicId = self.thisTopic["id"] as? String{
                         self.topicHeaderTitle = topicTitle
-                        if (!isAnony){
-                            self.baseStorageReference.child("userimages").child(topicAuthorID).child("preview.jpg").getData(maxSize: 5 * 1024 * 1024) { data, error in
-                                if let error = error {
-                                    print("error", error)
-                                } else {
-                                    self.topicHeaderAuthorImage = UIImage(data: data!)!
-                                    self.topicCollectionView.reloadData()
-                                }
-                            }
-                        }else{
-                            self.topicHeaderAuthorImage = UIImage(named: "quad_placeholder")!
+                        
+                        if(topicId == "oftheday"){
+                            self.topicHeaderAuthorImage = UIImage(named: "ivy_logo")!
                             self.topicCollectionView.reloadData()
+                        }else{
+                            if (!isAnony){
+                                self.baseStorageReference.child("userimages").child(topicAuthorID).child("preview.jpg").getData(maxSize: 5 * 1024 * 1024) { data, error in
+                                    if let error = error {
+                                        print("error", error)
+                                    } else {
+                                        self.topicHeaderAuthorImage = UIImage(data: data!)!
+                                        self.topicCollectionView.reloadData()
+                                    }
+                                }
+                            }else{
+                                self.topicHeaderAuthorImage = UIImage(named: "quad_placeholder")!
+                                self.topicCollectionView.reloadData()
+                            }
                         }
                     }
                 }
@@ -349,7 +355,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             cell.authorImage.image = self.topicHeaderAuthorImage
             cell.authorImage.maskCircle(anyImage: cell.authorImage.image!) //extension used
             cell.authorTitle.text = self.topicHeaderTitle
-            if let thisUserID = self.thisUserProfile["id"] as? String, let thisTopicAuthorID = self.thisTopic["author_id"] as? String, let isAnon = thisTopic["is_anonymous"] as? Bool{
+            if let thisUserID = self.thisUserProfile["id"] as? String, let thisTopicAuthorID = self.thisTopic["author_id"] as? String, let isAnon = thisTopic["is_anonymous"] as? Bool, let thisTopicId = thisTopic["id"] as? String, thisTopicId != "oftheday"{
                 if(thisUserID != thisTopicAuthorID && !isAnon){ //attach on click listener if the topic isn't authored by you and it's not anonymous
                     cell.authorImage.addTapGestureRecognizer { //extension function - adds Tap to each cell -  executes code in the brackets when the cell imageclicked
                         self.imageAuthorID = thisTopicAuthorID
@@ -535,7 +541,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         report["time"] = Date().millisecondsSince1970
         let reportId = self.baseDatabaseReference.collection("reports").document().documentID   //create unique id for this document
         report["id"] = reportId
-        self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.thisTopic["id"] as? String).getDocuments { (querySnapshot, err) in
+        self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.thisTopic["id"] as? String).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
