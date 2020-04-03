@@ -301,6 +301,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     // MARK: Database Methods
 
     func startListeningToTopics(){
+        self.allTopics = [] //clear the topics to make sure its empty and will repull everything 
         if let uniDomain =  self.thisUserProfile["uni_domain"] as? String{
             registration = self.baseDatabaseReference.collection("universities").document(uniDomain).collection("topics").addSnapshotListener({ (querySnapshot, err) in
                 
