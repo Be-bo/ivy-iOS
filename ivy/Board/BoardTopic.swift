@@ -293,9 +293,17 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                             if(self.firstCommentLoad){
                                 self.allTopicComments.append(newComment)
                                 self.topicCollectionView.reloadData()
+                                self.topicCollectionView.performBatchUpdates(nil, completion: {
+                                    (result) in
+                                    self.addCommentCell?.addCommentTextView.becomeFirstResponder()
+                                })
                             }else{
                                 self.allTopicComments.insert(newComment, at: 0)
                                 self.topicCollectionView.reloadData()
+                                self.topicCollectionView.performBatchUpdates(nil, completion: {
+                                    (result) in
+                                    self.addCommentCell?.addCommentTextView.becomeFirstResponder()
+                                })
                             }
                         }
                     }
