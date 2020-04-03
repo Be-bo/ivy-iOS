@@ -179,9 +179,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             let thisUserLast = self.thisUserProfile["last_name"] as? String,
             let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String,
             let thisTopicID = self.thisTopic["id"] as? String{
-            
+
             if(currentInput.count > 0){
-                barInteraction()
                 var newComment:Dictionary<String,Any> = Dictionary<String,Any>()
                 newComment["id"] = NSUUID().uuidString
                 newComment["author_id"] = thisUserID
@@ -202,7 +201,6 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                                 self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(thisTopicID).updateData(["commenting_ids" : FieldValue.arrayUnion([thisUserID])])
                             }
                         }
-                        self.allowInteraction()
                     }
                 }
             }
