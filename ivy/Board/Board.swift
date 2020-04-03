@@ -147,10 +147,10 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 let topicInput = ac.textFields![0]
                 if let topicInput = topicInput.text {
                     if(topicInput.count>1){
-                        if(!self.checkForProfanity(topicInput: topicInput.lowercased())){  //if no profanity exists
-                            self.pushTopic(isAnonymous: false, inputText: topicInput, ac:ac)
-                            PublicStaticMethodsAndData.barInteraction(for: self.view)
-                        }
+//                        if(!self.checkForProfanity(topicInput: topicInput.lowercased())){  //if no profanity exists
+                        self.pushTopic(isAnonymous: false, inputText: topicInput, ac:ac)
+                        PublicStaticMethodsAndData.barInteraction(for: self.view)
+//                        }
                     }else{
                         PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
                     }
@@ -161,10 +161,10 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 let topicInput = ac.textFields![0]
                 if let topicInput = topicInput.text {
                     if(topicInput.count>1){
-                        if(!self.checkForProfanity(topicInput: topicInput.lowercased())){
-                            self.pushTopic(isAnonymous: true, inputText: topicInput, ac:ac)
-                            PublicStaticMethodsAndData.barInteraction(for: self.view)
-                        }
+//                        if(!self.checkForProfanity(topicInput: topicInput.lowercased())){
+                        self.pushTopic(isAnonymous: true, inputText: topicInput, ac:ac)
+                        PublicStaticMethodsAndData.barInteraction(for: self.view)
+//                        }
                     }else{
                         PublicStaticMethodsAndData.createInfoDialog(titleText: "Please enter a Topic name atleast 2 characters long.", infoText: "", context: self)
                     }
