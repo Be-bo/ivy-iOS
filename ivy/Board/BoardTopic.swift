@@ -535,7 +535,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         report["time"] = Date().millisecondsSince1970
         let reportId = self.baseDatabaseReference.collection("reports").document().documentID   //create unique id for this document
         report["id"] = reportId
-        self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.thisTopic["id"] as? String).addSnapshotListener { (querySnapshot, err) in
+        self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: self.thisUserProfile["id"] as! String).whereField("target", isEqualTo: self.thisTopic["id"] as? String).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
