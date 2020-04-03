@@ -355,6 +355,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         if let posIndex = optionalIndex {
                             self.allTopics.remove(at: posIndex)
                             self.boardCollectionView.reloadData()
+                            //TODO: when removing invalidate layout since it'll need to recalc the layout
                         }
                     }
                 }
