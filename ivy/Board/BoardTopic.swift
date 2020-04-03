@@ -181,6 +181,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             let thisTopicID = self.thisTopic["id"] as? String{
 
             if(currentInput.count > 0){
+                addCommentCell?.addCommentSubmitButton.isEnabled = false
                 var newComment:Dictionary<String,Any> = Dictionary<String,Any>()
                 newComment["id"] = NSUUID().uuidString
                 newComment["author_id"] = thisUserID
