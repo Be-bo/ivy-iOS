@@ -38,7 +38,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     var otherId=""                                      //other persons id that will be exxtracted when figuring out who your conversating with
     var imagePicked: ((UIImage))?
     var filePicked: ((URL))?
-    var firstLaunch = true                             //for auto scroll (so it only happens once and not every time the user scrolls)
     private var isJustFile = true                       //is just file will be set when its jsut a file, not image sent over
     var imageChosenToDownload:UIImage? = nil
     /// Creating UIDocumentInteractionController instance.
@@ -113,7 +112,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     @objc private func detachListeners(){
         updateLastSeenMessage()
-        firstLaunch = true
+        firstDataAquisition = true
         thisConversationRegistration?.remove()
         messagesRegistration?.remove()
     }
@@ -520,6 +519,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         
                         self.sendNotification(message:message)
                         
+                        self.messageCollectionView.reloadData()
+                        
                         //update last message count for this user
                         let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
                         if (thisUserPos != -1) {
@@ -713,14 +714,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         self.messages.append(diff.document.data())  //append the message document to the messages array
-                        
-                        //                    self.messageCollectionView.reloadData()
-                        // Update Table Data
-                        //                    self.messageCollectionView.beginUpdates()
-                        //                        self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
-                        
-                        //use reload data instead of insert cause that fucks it up sometimes
-                        self.messageCollectionView.reloadData()
                     }
                 }
                 self.messageCollectionView.reloadData()
