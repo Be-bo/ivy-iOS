@@ -67,6 +67,8 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
         detachListeners()
     }
     

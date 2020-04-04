@@ -72,6 +72,8 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     }
     
     override func viewDidDisappear(_ animated: Bool) { //if user goes back and dismissed the VC
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
         detachListeners()
     }
     
@@ -495,6 +497,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayRemove([thisUserID])])
         }
         if(thisTopicRegistration != nil){
+            print("enter")
             thisTopicRegistration?.remove()
         }
         if(commentsRegistration != nil){
