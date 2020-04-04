@@ -60,8 +60,11 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
         hideKeyboardWhenTappedAround()     //extension defined in extensions for closing the keyboard
         setupCollectionViews()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -487,6 +490,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     // MARK: Other Functions
     
     @objc private func detachListeners(){
+        print("detatch")
         if let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String, let topicID = self.thisTopic["id"] as? String, let thisUserID = self.thisUserProfile["id"] as? String{
             self.baseDatabaseReference.collection("universities").document(thisUserUniDomain).collection("topics").document(topicID).updateData(["looking_ids" : FieldValue.arrayRemove([thisUserID])])
         }
