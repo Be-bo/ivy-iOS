@@ -20,7 +20,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     let baseDatabaseReference = Firestore.firestore()   //reference to the database
     let baseStorageReference = Storage.storage()    //reference to storage
     var activeChats: [Dictionary<String, Any>] = []
-    var conversations: [String: Int] = [:]  //Format: "conversationID":"messageCount"
     var conversationID = ""
     var userAuthFirstName = ""  //first name of the authenticated user
     var userProfilePic = ""
@@ -172,6 +171,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     // MARK: Data Acquistion Functions
     
     @objc private func startListeningToConversations() {   //get all the conversations where this current user is a participant of, add
+        
+        self.activeChats = []
         chatsRegistration = baseDatabaseReference.collection("conversations").whereField("participants", arrayContains: self.thisUserId).order(by: "last_message_millis", descending: true).addSnapshotListener(){ (querySnapshot, err) in
             
             guard let snapshot = querySnapshot else {
@@ -462,7 +463,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
             if (!participants.isEmpty){
                 if(lastMessageAuthor != ""){
                     for (index, participant) in participants.enumerated(){
-                        if(participant == lastMessageAuthor ){  //if the participant is same as last message author
+                        if(participant == lastMessageAuthor){  //if the participant is same as last message author
                             lastMessageAuthorPos = index  //position of the last message author
                             break
                         }
