@@ -62,9 +62,10 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()     //extension defined in extensions for closing the keyboard
         setupCollectionViews()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         setUp()
-        NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
-        NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil) //when the app enters background/is killed remove the user from looking ids and detach the comment listener
     }
     
     override func viewDidDisappear(_ animated: Bool) { //if user goes back and dismissed the VC

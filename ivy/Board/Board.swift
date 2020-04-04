@@ -45,8 +45,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
             setUpNavigationBar()
             setupCollectionViews()
-            NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
         }
     }
 
@@ -209,7 +207,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                         }else{
                             ac.dismiss(animated: true, completion: nil)
                             self.topicClicked = newTopic
-                            self.detachListeners()
+//                            self.detachListeners()
                             self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over to
                         }
                     }
@@ -478,7 +476,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         else if (self.allTopics.count > 1 && indexPath.item > 0) {              //0th item create topic button
             let currentTopic = self.allTopics[indexPath.item]
             self.topicClicked = currentTopic
-            self.detachListeners()
+//            self.detachListeners()
             self.performSegue(withIdentifier: "boardToTopicSegue" , sender: self) //pass data over
         }
     }
