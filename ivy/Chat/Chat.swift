@@ -189,17 +189,17 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 
                 snapshot.documentChanges.forEach { diff in //FOR EACH individual conversation the user has, when its added
                     if (diff.type == .added) {
-                        let docData = diff.document.data()
+                        let newConversation = diff.document.data()
                         var dontAdd = self.activeChats.contains { (conversation) -> Bool in //first check if the convo should be added or not
-                            if let currentlyCheckingId = conversation["id"] as? String, let newId = docData["id"] as? String, newId == currentlyCheckingId{
+                            if let currentlyCheckingId = conversation["id"] as? String, let newId = newConversation["id"] as? String, newId == currentlyCheckingId{
                                 return true
                             }else{
                                 return false
                             }
                         }
                         
-                        if(self.conversations.count < 1 || dontAdd == false){ //if the chats are either empty or the convo hasn't been added yet -> actually add the conversation
-                            self.activeChats.append(docData)
+                        if(self.activeChats.count < 1 || dontAdd == false){ //if the chats are either empty or the convo hasn't been added yet -> actually add the conversation
+                            self.activeChats.append(newConversation)
                             self.tableView.reloadData()
                         }
                     }
