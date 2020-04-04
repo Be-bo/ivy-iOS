@@ -20,7 +20,7 @@ import FirebaseFirestore
 //TODO: registrations, barring interaction
 
 class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
-
+    
     
     // MARK: Variables and Constants
     
@@ -48,13 +48,13 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     var messagesRegistration: ListenerRegistration? = nil
     
     let sender = PushNotificationSender()
-
+    
     
     // MARK: IBOutlets and IBActions
     
     @IBOutlet weak var messageCollectionView: UICollectionView!
     
-//    @IBOutlet weak var tableView: UITableView!
+    //    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var xButton: UIButton!   //x button that gets shown when a file is attached
     @IBOutlet weak var fileNameLabel: UILabel!  //the label that will display the name of the file thats attached
@@ -105,13 +105,15 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        updateLastSeenMessage()
         startListeningToChangesInThisConversation()
         NotificationCenter.default.addObserver(self, selector: #selector(startListeningToChangesInThisConversation), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     @objc private func detachListeners(){
-        self.firstLaunch = true
+        updateLastSeenMessage()
+        firstLaunch = true
         thisConversationRegistration?.remove()
         messagesRegistration?.remove()
     }
@@ -264,7 +266,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             self.performSegue(withIdentifier: "addParticipantSegue" , sender: self) //pass data over to
         }
         
-   
+        
     }
     
     func onClickViewParticipants(alert: UIAlertAction!){ //when they click "view participants"
@@ -317,9 +319,9 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         var report = Dictionary<String, Any>()
         if let thisId = self.thisUserProfile["id"] as? String, let convId = self.thisConversation["id"] as? String{
             report["reportee"] = thisId
-                report["report_type"] = "conversation"
+            report["report_type"] = "conversation"
             report["target"] =  convId //this current conversation id
-                report["time"] = Date().millisecondsSince1970
+            report["time"] = Date().millisecondsSince1970
             let reportId = self.baseDatabaseReference.collection("reports").document().documentID   //create unique id for this document
             report["id"] = reportId
             self.baseDatabaseReference.collection("reports").whereField("reportee", isEqualTo: thisId).whereField("target", isEqualTo: convId).getDocuments() { (querySnapshot, err) in
@@ -385,10 +387,10 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             self.filePicked = nil   //clear file picked
         }
         // ---------------------------------------------- IMAGE CHOOSING ----------------------------------------------
-
+        
         
         // ---------------------------------------------- FILE CHOOSING ----------------------------------------------
-
+        
         AttachmentHandler.shared.filePickedBlock = { (url) in
             
             //limit file size to < 5mb
@@ -416,10 +418,10 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             
         }
         // ---------------------------------------------- FILE CHOOSING ----------------------------------------------
-
+        
     }
     
-
+    
     
     
     
@@ -427,142 +429,143 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     // MARK: Sending Message Functions
-     func sendFileMessage(){ //send a file over the chat. differentiate b/w image or regular files (pdf's,word docs, etc.)
-            let storageRef = self.baseStorageReference.reference()
-            var filePath = ""
-            var byteArray:NSData? =  nil
-            var metadata = StorageMetadata()    //decided whether file is image/jpeg or w.e other type
-            var uploadTask: StorageUploadTask   //differing upload tasks
-
-            if let convId = self.thisConversation["id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String{
-                //if image not nill then user self.image, else use file since that must be ethe picked one
-                if ( self.imagePicked != nil ){
-                    metadata.contentType = "image/png" // Create the file metadata TODO: decide if this should be nil and find out how to let firestore decide what content type it should be
-                    self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "Photo"+UUID().uuidString+".png"
-                    filePath = "conversationfiles/" + String(convId) + "/" + self.imagePicked!.accessibilityIdentifier!  //path of where the files shared for this particular conversation saved at
-    //                byteArray = (self.imagePicked!.jpegData(compressionQuality: 1.0)!) as NSData  //convert to jpeg
-                    byteArray = (self.imagePicked!.jpegData(compressionQuality: 0.25)!) as NSData  //convert to jpeg
-
-                    self.fileNameLabel.text = nil //reset variables
-                    self.xButton.isHidden = true
-                    self.xButtonHeight.constant = 0
-                    self.file_attached = false
-                    self.fileNameLabel.isHidden = true
-                    self.fileNameHeight.constant = 0
-                }else{
-                    //TODO deal with the file byte array and path/what not
-                    filePath = "conversationfiles/" + String(convId) + "/" + self.filePicked!.lastPathComponent  //path of where the files shared for this particular conversation saved at
-                    self.fileNameLabel.text = nil //reset variables
-                    self.xButton.isHidden = true
-                    self.xButtonHeight.constant = 0
-                    self.file_attached = false
-                    self.fileNameLabel.isHidden = true
-                    self.fileNameHeight.constant = 0
+    func sendFileMessage(){ //send a file over the chat. differentiate b/w image or regular files (pdf's,word docs, etc.)
+        let storageRef = self.baseStorageReference.reference()
+        var filePath = ""
+        var byteArray:NSData? =  nil
+        var metadata = StorageMetadata()    //decided whether file is image/jpeg or w.e other type
+        var uploadTask: StorageUploadTask   //differing upload tasks
+        
+        if let convId = self.thisConversation["id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String{
+            //if image not nill then user self.image, else use file since that must be ethe picked one
+            if ( self.imagePicked != nil ){
+                metadata.contentType = "image/png" // Create the file metadata TODO: decide if this should be nil and find out how to let firestore decide what content type it should be
+                self.imagePicked!.accessibilityIdentifier = self.imagePicked?.accessibilityIdentifier ?? "Photo"+UUID().uuidString+".png"
+                filePath = "conversationfiles/" + String(convId) + "/" + self.imagePicked!.accessibilityIdentifier!  //path of where the files shared for this particular conversation saved at
+                //                byteArray = (self.imagePicked!.jpegData(compressionQuality: 1.0)!) as NSData  //convert to jpeg
+                byteArray = (self.imagePicked!.jpegData(compressionQuality: 0.25)!) as NSData  //convert to jpeg
+                
+                self.fileNameLabel.text = nil //reset variables
+                self.xButton.isHidden = true
+                self.xButtonHeight.constant = 0
+                self.file_attached = false
+                self.fileNameLabel.isHidden = true
+                self.fileNameHeight.constant = 0
+            }else{
+                //TODO deal with the file byte array and path/what not
+                filePath = "conversationfiles/" + String(convId) + "/" + self.filePicked!.lastPathComponent  //path of where the files shared for this particular conversation saved at
+                self.fileNameLabel.text = nil //reset variables
+                self.xButton.isHidden = true
+                self.xButtonHeight.constant = 0
+                self.file_attached = false
+                self.fileNameLabel.isHidden = true
+                self.fileNameHeight.constant = 0
+            }
+            
+            let storageLocRef = storageRef.child(filePath) //storeageImageRef now points to the correctspot that this should be save in
+            var message = Dictionary<String, Any>()
+            message["author_first_name"] = self.thisUserProfile["first_name"]
+            message["author_last_name"] = self.thisUserProfile["last_name"]
+            message["author_id"] = thisUserId
+            message["conversation_id"] = convId
+            message["creation_time"] =  Date().millisecondsSince1970   //millis
+            
+            
+            if let messageText = messageTextField.text, messageText.count < 1{
+                message["message_text"] =  "Sent a file:"
+            }else{
+                message["message_text"] =  messageTextField.text
+            }
+            
+            
+            message["is_text_only"] = false
+            message["file_reference"] = filePath
+            let ext = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: filePath).lowercased()
+            if(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "heic"){
+                let uiImg = UIImage(data: byteArray as! Data)
+                message["img_width"] = uiImg?.size.width
+                message["img_height"] = uiImg?.size.height
+            }else{
+                message["img_width"] = 0
+                message["img_height"] = 0
+            }
+            message["id"] =  NSUUID().uuidString
+            
+            self.updatePendingMessagesForParticipants()
+            
+            //different upload task based on if its a file or if its an image
+            if ( self.imagePicked != nil ){
+                uploadTask = storageLocRef.putData(byteArray! as Data, metadata: metadata) { (metadata, error) in
                 }
-                
-                let storageLocRef = storageRef.child(filePath) //storeageImageRef now points to the correctspot that this should be save in
-                var message = Dictionary<String, Any>()
-                message["author_first_name"] = self.thisUserProfile["first_name"]
-                message["author_last_name"] = self.thisUserProfile["last_name"]
-                message["author_id"] = thisUserId
-                message["conversation_id"] = convId
-                message["creation_time"] =  Date().millisecondsSince1970   //millis
-                
-                
-                if let messageText = messageTextField.text, messageText.count < 1{
-                    message["message_text"] =  "Sent a file:"
-                }else{
-                    message["message_text"] =  messageTextField.text
-                }
+            }else{
+                uploadTask = storageLocRef.putFile(from: self.filePicked!, metadata: nil)
+            }
+            
+            // Upload completed successfully
+            uploadTask.observe(.success) { snapshot in
+                self.messageTextField.text = ""
+                self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
                 
                 
-                message["is_text_only"] = false
-                message["file_reference"] = filePath
-                let ext = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: filePath).lowercased()
-                if(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "heic"){
-                    let uiImg = UIImage(data: byteArray as! Data)
-                    message["img_width"] = uiImg?.size.width
-                    message["img_height"] = uiImg?.size.height
-                }else{
-                    message["img_width"] = 0
-                    message["img_height"] = 0
-                }
-                message["id"] =  NSUUID().uuidString
-                
-                self.updatePendingMessagesForParticipants()
-                
-                //different upload task based on if its a file or if its an image
-                if ( self.imagePicked != nil ){
-                    uploadTask = storageLocRef.putData(byteArray! as Data, metadata: metadata) { (metadata, error) in
-                    }
-                }else{
-                    uploadTask = storageLocRef.putFile(from: self.filePicked!, metadata: nil)
-                }
-                
-                // Upload completed successfully
-                uploadTask.observe(.success) { snapshot in
-                    self.messageTextField.text = ""
-                    self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
-                    
-                    
-                    //update all the data to match accordingly
-                    self.baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message, completion: { (e) in
-                        if(e != nil){
-                            print("Error while sending plain message: ",e)
-                        }else{
-                            self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
-                            self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
-                            self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
-                            self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": self.messages.count + 1])
-                            
-                            self.sendNotification(message:message)
-                            
-                            //update last message count for this user
-                            let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
-                            if (thisUserPos != -1) {
-                                var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
-                                if(lastMsgCounts != nil) {
-                                    lastMsgCounts![thisUserPos] = self.messages.count + 1
-                                    self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
-                                }
+                //update all the data to match accordingly
+                self.baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message, completion: { (e) in
+                    if(e != nil){
+                        print("Error while sending plain message: ",e)
+                    }else{
+                        var lastLocalMessageCount = self.messages.count
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": lastLocalMessageCount])
+                        
+                        self.sendNotification(message:message)
+                        
+                        //update last message count for this user
+                        let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
+                        if (thisUserPos != -1) {
+                            var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
+                            if(lastMsgCounts != nil) {
+                                lastMsgCounts![thisUserPos] = lastLocalMessageCount
+                                self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
                             }
-                            }
-                        })
-                    
-                    
-                    //TODO: decide if need to compensatefor listener bug here (Check android for code)
-                }
-                
-                //upload task failed
-                uploadTask.observe(.failure) { snapshot in
-                    if let error = snapshot.error as NSError? {
-                        switch (StorageErrorCode(rawValue: error.code)!) {
-                        case .objectNotFound:
-                            print("File doesn't exist")
-                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "The file you're trying to upload doesn't exist.", context: self)
-                            break
-                        case .unauthorized:
-                            print("User doesn't have permission to access file")
-                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "You don't have permission to access the file you're trying to upload.", context: self)
-                            break
-                        case .cancelled:
-                            print("User canceled the upload")
-                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Upload cancelled.", context: self)
-                            break
-                        case .unknown:
-                            print("unknown error")
-                            PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "An unknown error occurred.", context: self)
-                            break
-                        default:
-                            print("retry the upload here if it fails")
-                            break
                         }
+                    }
+                })
+                
+                
+                //TODO: decide if need to compensatefor listener bug here (Check android for code)
+            }
+            
+            //upload task failed
+            uploadTask.observe(.failure) { snapshot in
+                if let error = snapshot.error as NSError? {
+                    switch (StorageErrorCode(rawValue: error.code)!) {
+                    case .objectNotFound:
+                        print("File doesn't exist")
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "The file you're trying to upload doesn't exist.", context: self)
+                        break
+                    case .unauthorized:
+                        print("User doesn't have permission to access file")
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "You don't have permission to access the file you're trying to upload.", context: self)
+                        break
+                    case .cancelled:
+                        print("User canceled the upload")
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "Upload cancelled.", context: self)
+                        break
+                    case .unknown:
+                        print("unknown error")
+                        PublicStaticMethodsAndData.createInfoDialog(titleText: "Error", infoText: "An unknown error occurred.", context: self)
+                        break
+                    default:
+                        print("retry the upload here if it fails")
+                        break
                     }
                 }
             }
         }
+    }
     
-  func sendMessage() { //actually sends the message to the conversation they are clicked on
+    func sendMessage() { //actually sends the message to the conversation they are clicked on
         let inputMessage = messageTextField.text //extract the text field input
         if(inputMessage != ""), let thisUserId = self.thisUserProfile["id"] as? String, let convId = self.thisConversation["id"] as? String{ //if not empty
             messageTextField.text = "" //reset the message field to be empty
@@ -580,21 +583,21 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 
                 self.updatePendingMessagesForParticipants()
                 
-            baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message, completion: { (e) in
-                if(e != nil){
-                    print("Error while sending plain message: ",e)
-                }else{
-                    
+                baseDatabaseReference.collection("conversations").document(convId).collection("messages").document(message["id"] as! String).setData(message, completion: { (e) in
+                    if(e != nil){
+                        print("Error while sending plain message: ",e)
+                    }else{
+                        var lastLocalMessageCount = self.messages.count
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
-                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": self.messages.count + 1])
-                    
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": lastLocalMessageCount])
+                        
                         let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
                         if (thisUserPos != -1) {
                             var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
                             if(lastMsgCounts != nil) {
-                               lastMsgCounts![thisUserPos] = self.messages.count + 1
+                                lastMsgCounts![thisUserPos] = lastLocalMessageCount
                                 self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": lastMsgCounts])
                             }
                         }
@@ -605,7 +608,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             }
         }
     }
-
+    
     private func updatePendingMessagesForParticipants(){
         if let participants = thisConversation["participants"] as? [String], let thisUserId = thisUserProfile["id"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String{
             for i in 0..<participants.count{
@@ -625,40 +628,39 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         //if ifs a base conversation vs if its not a base conversation
         if let booleanIsBaseConv = self.thisConversation["is_base_conversation"] as? Bool {
             if let authorFirstName = message["author_first_name"] as? String, let authorLastName = message["author_last_name"] as? String, let messageText = message["message_text"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String, let conversationID = self.thisConversation["id"] as? String {
-                    if (booleanIsBaseConv == true){
-                        self.otherId = getOtherParticipant(conversation: self.thisConversation, returnName: false)   //extract other participant id
-                        if (self.otherId != ""){ //if there is actually someone part of the conversation
-                            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(self.otherId).getDocument { (document, error) in
-                                if let document = document, document.exists {
-                                    let user = document.data()
-                                    //user will exist hhere since document data has to  exist here
-                                    if let usersMessagingToken = user!["messaging_token"] as? String {
-                                        //actually notify the user of that device
-                                        self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText, conversationID: conversationID)
-                                        //else title is just name of author for base conversation
-                                    }
-                                } else {
-                                    print("Document does not exist")
+                if (booleanIsBaseConv == true){
+                    self.otherId = getOtherParticipant(conversation: self.thisConversation, returnName: false)   //extract other participant id
+                    if (self.otherId != ""){ //if there is actually someone part of the conversation
+                        self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(self.otherId).getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let user = document.data()
+                                //user will exist hhere since document data has to  exist here
+                                if let usersMessagingToken = user!["messaging_token"] as? String {
+                                    //actually notify the user of that device
+                                    self.sender.sendPushNotification(to: usersMessagingToken, title: authorFirstName + " " + authorLastName, body: messageText, conversationID: conversationID)
+                                    //else title is just name of author for base conversation
                                 }
+                            } else {
+                                print("Document does not exist")
                             }
                         }
-                    }else if (booleanIsBaseConv == false){ //if group convo then title is name of the convo
-                        //extract all the id's of the users
-                        if let convName = self.thisConversation["name"] as? String, let participantIDs = self.thisConversation["participants"] as? [String], let thisUserId = thisUserProfile["id"] as? String {
-                            //for every participant either then yourself in this conversation, get their FCM token, then send a message to that token.
-                            for i in 0..<participantIDs.count{
-                                var currentId = participantIDs[i]
-                                if(currentId != thisUserId){
-                                    self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(currentId).getDocument { (document, error) in
-                                        if let document = document, document.exists {
-                                            let user = document.data()
-                                            if let usersMessagingToken = user!["messaging_token"] as? String {
-                                                print("conversation id: ", conversationID)
-                                                self.sender.sendPushNotification(to: usersMessagingToken, title: convName , body: authorFirstName + " : " + messageText, conversationID:conversationID)
-                                            }
-                                        } else {
-                                            print("Document does not exist")
+                    }
+                }else if (booleanIsBaseConv == false){ //if group convo then title is name of the convo
+                    //extract all the id's of the users
+                    if let convName = self.thisConversation["name"] as? String, let participantIDs = self.thisConversation["participants"] as? [String], let thisUserId = thisUserProfile["id"] as? String {
+                        //for every participant either then yourself in this conversation, get their FCM token, then send a message to that token.
+                        for i in 0..<participantIDs.count{
+                            var currentId = participantIDs[i]
+                            if(currentId != thisUserId){
+                                self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(currentId).getDocument { (document, error) in
+                                    if let document = document, document.exists {
+                                        let user = document.data()
+                                        if let usersMessagingToken = user!["messaging_token"] as? String {
+                                            print("conversation id: ", conversationID)
+                                            self.sender.sendPushNotification(to: usersMessagingToken, title: convName , body: authorFirstName + " : " + messageText, conversationID:conversationID)
                                         }
+                                    } else {
+                                        print("Document does not exist")
                                     }
                                 }
                             }
@@ -667,6 +669,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 }
             }
         }
+    }
     
     
     
@@ -714,7 +717,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         //                    self.messageCollectionView.reloadData()
                         // Update Table Data
                         //                    self.messageCollectionView.beginUpdates()
-                        self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
+                        //                        self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are sitting in the chat
                         
                         //use reload data instead of insert cause that fucks it up sometimes
                         self.messageCollectionView.reloadData()
@@ -726,7 +729,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 let indexPath:IndexPath = IndexPath(item: lastItemIndex, section: 0)
                 self.messageCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
                 
-
+                
             }
         }
     }
@@ -743,7 +746,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     // MARK: CollectionView Related Functions
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.messages.count
     }
@@ -754,14 +757,14 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are
+        //        self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
         let lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as? String ?? "" //first name of last message author
         let lastMessage = self.messages[indexPath.row]["message_text"] as? String
         authorProfilePicLoc = "userimages/" + String(self.messages[indexPath.row]["author_id"] as? String ?? "") + "/preview.jpg"
         let storageImageRef = Storage.storage().reference(withPath: authorProfilePicLoc)
         if let authorId = self.messages[indexPath.row]["author_id"] as? String, let thisUserId = self.thisUserProfile["id"] as? String{
-                
+            
             
             //MARK: It's this user -> chat layout aligned right (base cell)
             if(thisUserId == authorId){
@@ -782,13 +785,13 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         if let fileRef = self.messages[indexPath.item]["file_reference"] as? String { //get the file
                             let fileName = fileRef.components(separatedBy: "/").last!
                             //                    let fileExt = PublicStaticMethodsAndData.getFileExtensionFromPath(filePath: fileRef)
-
+                            
                             let storageImageRef = self.baseStorageReference.reference().child(fileRef)
                             storageImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
                                 if let error = error {
                                     print("error", error)
                                 } else {
-                            
+                                    
                                     if let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, imgWidth > 0, imgHeight > 0{ //if the file is an image and we have it's dimens
                                         
                                         cell.photoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.imageTapped(_:)))) //make the photo fullscreen clickable
@@ -801,7 +804,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                                         let imgViewWidth = self.screenSize.width - 90 //screen width - 50 for profile preview img and then 32 for 4x8 margins, see chatBubbleCollectionViewCell for details
                                         let heightForImage = PublicStaticMethodsAndData.getHeightForShrunkenWidth(imgWidth: imgWidth, imgHeight: imgHeight, targetWidth: imgViewWidth)
                                         cell.messageLabelHeightConstraint.constant = cell.frame.height - 41 - heightForImage //to make sure the retarded text label stretches to the max without cutting anything off
-
+                                        
                                     }else{ //the file is either not an image or we don't have it's dimens in which case show it as a standard file
                                         cell.fileIconHeight.constant = 30
                                         cell.downloadButtonHeight.constant = 30
@@ -821,7 +824,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 
                 
                 
-            //MARK: It's another participant -> chat layout aligned left ()
+                //MARK: It's another participant -> chat layout aligned left ()
             }else{
                 var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCellLeft", for: indexPath) as! chatBubbleCollectionViewCellLeft
                 cell.messageLabel.text = lastMessage
@@ -888,24 +891,24 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             return collectionView.dequeueReusableCell(withReuseIdentifier: "chatBubbleCollectionViewCell", for: indexPath) as! chatBubbleCollectionViewCell
         }
     }
-
     
-
-
-
-
+    
+    
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if let messageText = self.messages[indexPath.item]["message_text"] as? String, let isTxtOnly = self.messages[indexPath.item]["is_text_only"] as? Bool{
-//            let size = CGSize(width: screenSize.size.width-90, height: 0)
-//            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-////            let font = UIFont.systemFont(ofSize: 25)
-//            let font = UIFont.init(name: "Cordia New", size: 33)
-//            let attributes = [NSAttributedString.Key.font: font]
-//            let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
-//            print("abzlabelwidth: ", screenSize.width-90)
-//            print("abzheight: ",estimatedFrame.height)
-//            print("abzwidth: ",estimatedFrame.width)
+            //            let size = CGSize(width: screenSize.size.width-90, height: 0)
+            //            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            ////            let font = UIFont.systemFont(ofSize: 25)
+            //            let font = UIFont.init(name: "Cordia New", size: 33)
+            //            let attributes = [NSAttributedString.Key.font: font]
+            //            let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: attributes, context: nil)
+            //            print("abzlabelwidth: ", screenSize.width-90)
+            //            print("abzheight: ",estimatedFrame.height)
+            //            print("abzwidth: ",estimatedFrame.width)
             var heightForImage = CGFloat(0)
             
             let estimatedHeight = messageText.height(withConstrainedWidth: screenSize.width-106, font: UIFont.init(name: "Cordia New", size: 25)!)+11 //by trial and error we know that with these values a single line has a height of 29 + 11 for top and bottom insets and 16 for left right insets + 90 for all the other padding on left and right
@@ -929,7 +932,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 
             }else{//if the message label is estimated to be longer then use the estimate, add the margins (again see chatBubbleCollectionViewCell for details)
                 if(isTxtOnly){ //text only
-                   return CGSize(width: view.frame.width, height: estimatedHeight + 41)//the constrained initial height for the label is 29 (also = a single line height for the estimated text box size) and the default cell size is 70 so 41 is all the constraints in between
+                    return CGSize(width: view.frame.width, height: estimatedHeight + 41)//the constrained initial height for the label is 29 (also = a single line height for the estimated text box size) and the default cell size is 70 so 41 is all the constraints in between
                 }else if (!isTxtOnly && heightForImage <= 0){ //contains a file that' not an image
                     return CGSize(width: view.frame.width, height: estimatedHeight + 71) //extra 30 is for the file layer (icon, file name and download button)
                 }else{ //contains a file that is an image
@@ -942,7 +945,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     
-
+    
     
     
     
@@ -965,7 +968,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = true
     }
-
+    
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
@@ -1035,8 +1038,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         return status
     }
     
-
-
+    
+    
     
     
     
@@ -1062,18 +1065,16 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     }
     
     func updateLastSeenMessage() { //update the last seen message count for this user for this conversations but only once we've loaded all its messages
-
+        
         if let msgCount = self.thisConversation["message_count"] as? CLong, self.messages.count >= msgCount, var counts = self.thisConversation["last_message_counts"] as? [CLong], let participants = self.thisConversation["participants"] as? [String], let convId = self.thisConversation["id"] as? String{    //if we have more messages then the amount thats been seen
             
             //make sure we actually retrieved the data
             if(participants != nil && counts != nil){
                 for (index, participant) in participants.enumerated(){    //for every chat the user is part of
                     if(self.thisUserProfile["id"] as? String == participant){  //if the chat has the same id as the modifiedID passed in
-                        counts[index] = (self.messages.count)
+                        counts[index] = (msgCount)
                         //update the array in the db to contain the correct amount of messages now seen by this user
-                        self.baseDatabaseReference.collection("conversations").document(convId).updateData([
-                            "last_message_counts": counts,
-                        ]) { err in
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": counts,]) { err in
                             if let err = err {
                                 print("Error updating document: \(err)")
                             }
@@ -1081,7 +1082,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         break
                     }
                 }
-                
             }
         }
     }
@@ -1144,14 +1144,14 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-
+        
         return ceil(boundingBox.height)
     }
-
+    
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-
+        
         return ceil(boundingBox.width)
     }
 }
