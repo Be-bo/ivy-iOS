@@ -38,12 +38,14 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     var otherId=""                                      //other persons id that will be exxtracted when figuring out who your conversating with
     var imagePicked: ((UIImage))?
     var filePicked: ((URL))?
-    var first_launch = true                             //for auto scroll (so it only happens once and not every time the user scrolls)
+    var firstLaunch = true                             //for auto scroll (so it only happens once and not every time the user scrolls)
     private var isJustFile = true                       //is just file will be set when its jsut a file, not image sent over
     var imageChosenToDownload:UIImage? = nil
     /// Creating UIDocumentInteractionController instance.
     let documentInteractionController = UIDocumentInteractionController()
     let screenSize: CGRect = UIScreen.main.bounds
+    var thisConversationRegistration: ListenerRegistration? = nil
+    var messagesRegistration: ListenerRegistration? = nil
     
     let sender = PushNotificationSender()
 
@@ -82,7 +84,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startListeningToChangesInThisConversation()
         
         hideKeyboardOnTapOutside()
         setUpKeyboardListeners()
@@ -92,12 +93,28 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
         messageCollectionView.register(UINib(nibName:"chatBubbleCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "chatBubbleCollectionViewCell")
         messageCollectionView.register(UINib(nibName:"chatBubbleCollectionViewCellLeft", bundle: nil), forCellWithReuseIdentifier: "chatBubbleCollectionViewCellLeft")
         
-//        configureTableView()
         xButton.isHidden = true //make sure the x button is hidden by default
         xButtonHeight.constant = 0
         fileNameHeight.constant = 0
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        detachListeners()
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        startListeningToChangesInThisConversation()
+        NotificationCenter.default.addObserver(self, selector: #selector(startListeningToChangesInThisConversation), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
+    @objc private func detachListeners(){
+        self.firstLaunch = true
+        thisConversationRegistration?.remove()
+        messagesRegistration?.remove()
+    }
     
     private func setUpNavigationBar(){
         let titleView = MediumGreenLabel()
@@ -664,8 +681,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     // MARK: Data Acquistion Functions
     
-    func startListeningToChangesInThisConversation() { //listen and retrun the up to date conversation object
-        let thisConversationRegistration = baseDatabaseReference.collection("conversations").document(self.conversationID).addSnapshotListener(){ (querySnapshot, err) in
+    @objc private func startListeningToChangesInThisConversation() { //listen and retrun the up to date conversation object
+        thisConversationRegistration = baseDatabaseReference.collection("conversations").document(self.conversationID).addSnapshotListener(){ (querySnapshot, err) in
             
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(err!)")
@@ -673,18 +690,18 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             }
             if (snapshot.exists && snapshot.data() != nil) {
                 self.thisConversation = snapshot.data()!
+                self.setUpNavigationBar()
                 if(self.firstDataAquisition) {
                     self.startRetrievingMessages()
                     self.firstDataAquisition = false
                 }
-                self.setUpNavigationBar()
             }
         }
     }
     
     func startRetrievingMessages() { //used to get the messages that are present within the current conversation
         if let convId = self.thisConversation["id"] as? String{
-            baseDatabaseReference.collection("conversations").document(convId).collection("messages").order(by: "creation_time", descending: false).addSnapshotListener(){ (querySnapshot, err) in
+            messagesRegistration = baseDatabaseReference.collection("conversations").document(convId).collection("messages").order(by: "creation_time", descending: false).addSnapshotListener(){ (querySnapshot, err) in
                 guard let snapshot = querySnapshot else {
                     print("Error fetching snapshots: \(err!)")
                     return

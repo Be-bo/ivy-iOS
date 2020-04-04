@@ -45,8 +45,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
             setUpNavigationBar()
             setupCollectionViews()
-            NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
         }
     }
 
@@ -73,6 +71,8 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
         setUp()
     }
 

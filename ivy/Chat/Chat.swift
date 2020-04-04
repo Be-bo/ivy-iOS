@@ -21,7 +21,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     let baseStorageReference = Storage.storage()    //reference to storage
     var activeChats: [Dictionary<String, Any>] = []
     var conversations: [String: Int] = [:]  //Format: "conversationID":"messageCount"
-    var uid = ""    //user id for the authenticated user
     var conversationID = ""
     var userAuthFirstName = ""  //first name of the authenticated user
     var userProfilePic = ""
@@ -35,7 +34,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     private var thisCell: ConversationCell? = nil
     private var chatsRegistration:ListenerRegistration? = nil
     
-
+    
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -50,10 +49,24 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUp()
-        setUpNavigationBar()
-        NotificationCenter.default.addObserver(self, selector: #selector(startListeningToConversations), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
-        NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil) //when the app enters background/is killed remove the user from looking ids and detach the comment listener
+        if(PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){
+            setUp()
+            setUpNavigationBar()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        detachListeners()
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if(PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){
+            startListeningToConversations()
+            NotificationCenter.default.addObserver(self, selector: #selector(startListeningToConversations), name: UIApplication.willEnterForegroundNotification, object: nil) //add a listener to the app to call refresh inside of this VC when the app goes from background to foreground (is maximized)
+            NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil) //when the app enters background/is killed remove the user from looking ids and detach the comment listener
+        }
     }
     
     private func setUp(){
@@ -65,13 +78,9 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.loadingWheel.layoutIfNeeded()
         self.configureTableView()
         
-        if let firstName = thisUserProfile["first_name"] as? String, let profPic = thisUserProfile["profile_picture"] as? String, let id = thisUserProfile["id"] as? String, let uni = thisUserProfile["uni_domain"] as? String, let thisId = thisUserProfile["id"] as? String{
-            self.userAuthFirstName = firstName
-            self.userProfilePic = profPic
-            self.uid = id
+        if let uni = thisUserProfile["uni_domain"] as? String, let thisId = thisUserProfile["id"] as? String{
             self.uniDomain = uni
             self.thisUserId = thisId
-            self.startListeningToConversations()
         }
     }
     
@@ -79,59 +88,39 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         chatsRegistration?.remove()
     }
     
-//    private func setUpNavigationBar(){
-//        let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
-//        titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-//        titleImgView.contentMode = .scaleAspectFit
-//        navigationItem.titleView = titleImgView
-//
-//        let settingsButton = UIButton(type: .custom)
-//        settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 45, height: 35)
-//        settingsButton.setImage(UIImage(named:"settings"), for: .normal)
-//        settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
-//
-//        let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
-//        let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
-//        currWidth?.isActive = true
-//        let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
-//        currHeight?.isActive = true
-//
-//        self.navigationItem.rightBarButtonItem = settingsButtonItem
-//    }
-    
     private func setUpNavigationBar(){
         let titleImgView = UIImageView(image: UIImage.init(named: "ivy_logo_small"))
         titleImgView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         titleImgView.contentMode = .scaleAspectFit
         navigationItem.titleView = titleImgView
-
+        
         //u of c logo in the top left gotta be a button just dont add target
         let uOfCImgView = UIButton(type: .custom)
         uOfCImgView.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
         uOfCImgView.setImage(UIImage(named:"top_bar_uOfC_Logo"), for: .normal)
-
-
+        
+        
         let settingsButton = UIButton(type: .custom)
         settingsButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
         settingsButton.setImage(UIImage(named:"settings"), for: .normal)
         settingsButton.addTarget(self, action: #selector(self.settingsClicked), for: .touchUpInside)
-
+        
         let settingsButtonItem = UIBarButtonItem(customView: settingsButton)
         let currWidth = settingsButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
         currWidth?.isActive = true
         let currHeight = settingsButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         currHeight?.isActive = true
-
-
+        
+        
         uOfCImgView.adjustsImageWhenHighlighted = false //keep color when button is diabled
         uOfCImgView.isEnabled = false //make u of c button unclickable
-
+        
         let uOfCButtonItem = UIBarButtonItem(customView: uOfCImgView)
         let curruOfCWidth = uOfCButtonItem.customView?.widthAnchor.constraint(equalToConstant: 35)
         curruOfCWidth?.isActive = true
         let curruOfCHeight = uOfCButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         curruOfCHeight?.isActive = true
-
+        
         //Share Button Next To Settings
         let shareButton = UIButton(type: .custom)
         shareButton.frame = CGRect(x: 0.0, y: 0.0, width: 35, height: 35)
@@ -142,8 +131,8 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         currShareWidth?.isActive = true
         let currShareHeight = shareButtonItem.customView?.heightAnchor.constraint(equalToConstant: 35)
         currShareHeight?.isActive = true
-
-
+        
+        
         self.navigationItem.leftBarButtonItem = uOfCButtonItem
         self.navigationItem.rightBarButtonItems = [settingsButtonItem, shareButtonItem]
     }
@@ -155,7 +144,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @objc func shareTapped(){ //TODO: potentially move this to the PublicStaticMethodsAndData
         let activityController = UIActivityViewController(activityItems: ["Hi, thought you'd like ivy! Check it out here: https://apps.apple.com/ca/app/ivy/id1479966843."], applicationActivities: nil)
         present(activityController, animated: true, completion: nil)
-
+        
     }
     
     func updateProfile(updatedProfile: Dictionary<String, Any>){
@@ -179,11 +168,11 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     
-
+    
     // MARK: Data Acquistion Functions
     
     @objc private func startListeningToConversations() {   //get all the conversations where this current user is a participant of, add
-        chatsRegistration = baseDatabaseReference.collection("conversations").whereField("participants", arrayContains: self.uid).order(by: "last_message_millis", descending: true).addSnapshotListener(){ (querySnapshot, err) in
+        chatsRegistration = baseDatabaseReference.collection("conversations").whereField("participants", arrayContains: self.thisUserId).order(by: "last_message_millis", descending: true).addSnapshotListener(){ (querySnapshot, err) in
             
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(err!)")
@@ -238,7 +227,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     
                     //if a message was removed we enter this
                     if (diff.type == .removed) {
-
+                        
                         //TODO: remove the actual conversation that was removed from android.
                         //TODO: start here tomorrow find out why its calling modified and removed
                         let removedData = diff.document.data()
@@ -368,7 +357,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.acceptRequest()
     }
     
-
+    
     
     
     @objc func didClickReject(sender: AnyObject) {
@@ -376,10 +365,10 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         self.thisCell = tableView.cellForRow(at: NSIndexPath(row: sender.tag, section: 0) as IndexPath) as! ConversationCell
         
         //remove the chat from active chats since we deleted the request
-//        self.activeChats.remove(at: sender.tag)
-//        self.tableView.deleteRows(at: [
-//            NSIndexPath(row: sender.tag, section: 0) as IndexPath], with: .fade)
-//        self.tableView.reloadData()
+        //        self.activeChats.remove(at: sender.tag)
+        //        self.tableView.deleteRows(at: [
+        //            NSIndexPath(row: sender.tag, section: 0) as IndexPath], with: .fade)
+        //        self.tableView.reloadData()
         
         self.rejectRequest()
     }
@@ -452,7 +441,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
     // MARK: Support Functions
     
     func setPictureAndLastMessage(cell: ConversationCell, currentConversation: Dictionary<String,Any>){ //settting the picture and the last message of the current dell that is displayed
-       
+        
         var authorProfilePicLoc = ""
         let storageRef = self.baseStorageReference.reference()
         if var lastMessageAuthor = currentConversation["last_message_author"] as? String{ //the author of the last message that was sent
@@ -552,7 +541,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         var participantNames = [String]() //get their names too then if they exist
         if (currentConversation["participant_names"] != nil){
             participantNames = currentConversation["participant_names"] as! [String]
-
+            
         }
         
         var isBaseConv = false //cehck if its a 1-1 chat or if its a group chat
