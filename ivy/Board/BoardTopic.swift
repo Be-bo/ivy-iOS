@@ -45,6 +45,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     private var topicHeaderTitle:String = String()
     private var addCommentCell: TopicAddCommentCollectionViewCell?
     private var addCommentCellHeight: CGFloat = 76
+    private var dontCheckHeight = false //an exception variable when we don't want the textViewDidChange to react to when its text is changed (when its text cleared since that triggers textViewDidChange)
     
     
     
@@ -145,7 +146,7 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if addCommentCell != nil{
+        if addCommentCell != nil && !dontCheckHeight{
             checkAndAdjustHeight()
         }
     }
@@ -170,9 +171,9 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         if addCommentCell != nil{
             addCommentCell!.addCommentTextView.endEditing(true)
             addCommentCell!.buttonHeightConstraint.constant = 0
-            addCommentCell!.addCommentSubmitButton.isEnabled = false
-            addCommentCell!.addCommentSubmitButton.isHidden = true
-            addCommentCell!.addCommentTextView.text = ""
+            addCommentCell?.addCommentSubmitButton.isHidden = true
+            addCommentCell?.addCommentSubmitButton.isEnabled = false
+            dontCheckHeight = false
             checkAndAdjustHeight()
         }
     }
@@ -185,9 +186,11 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             let thisUserLast = self.thisUserProfile["last_name"] as? String,
             let thisUserUniDomain = self.thisUserProfile["uni_domain"] as? String,
             let thisTopicID = self.thisTopic["id"] as? String{
+            
+            self.dontCheckHeight = true //don't check height again till resetLayout is called
+            addCommentCell!.addCommentTextView.text = "" //clear the text of the addCommentTextView
 
             if(currentInput.count > 0 && !(currentInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)){
-                addCommentCell?.addCommentSubmitButton.isEnabled = false
                 var newComment:Dictionary<String,Any> = Dictionary<String,Any>()
                 newComment["id"] = NSUUID().uuidString
                 newComment["author_id"] = thisUserID
@@ -301,16 +304,11 @@ class BoardTopic: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                             if(self.firstCommentLoad){
                                 self.allTopicComments.append(newComment)
                                 self.topicCollectionView.reloadData()
-                                
-                                #warning("This is an automated message from the Government of Canada.")
-                                //TODO: we don't want the keyboard to close when somebody else posts a comment, ideal solution is to override reloadData, we were too lazy to engage in cross site request forgery that was intitiated by the Director of ML whose identity is classified, we will engage in specific measures to target the concrete POST GREP sudo HTTP requests upon nano callbacks to the original mainframe console
-                                self.topicCollectionView.performBatchUpdates(nil, completion: {
-                                    (result) in
-                                    self.addCommentCell?.addCommentTextView.becomeFirstResponder()
-                                })
                             }else{
                                 self.allTopicComments.insert(newComment, at: 0)
                                 self.topicCollectionView.reloadData()
+                                #warning("This is an automated message from the Government of Canada.")
+                                //TODO: we don't want the keyboard to close when somebody else posts a comment, ideal solution is to override reloadData, we were too lazy to engage in cross site request forgery that was intitiated by the Director of ML whose identity is classified, we will engage in specific measures to target the concrete POST GREP sudo HTTP requests upon nano callbacks to the original mainframe console
                                 self.topicCollectionView.performBatchUpdates(nil, completion: {
                                     (result) in
                                     self.addCommentCell?.addCommentTextView.becomeFirstResponder()
