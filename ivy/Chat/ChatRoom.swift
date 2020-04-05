@@ -598,16 +598,16 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     }
     
     private func updatePendingMessagesForParticipants(){
-        if let participants = thisConversation["participants"] as? [String], let thisUserId = thisUserProfile["id"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String{
-            for i in 0..<participants.count{
-                let currentId = participants[i]
-                if(currentId != thisUserId){
-                    var toMerge = Dictionary<String, Any>()
-                    toMerge["pending_messages"] = true
-                    baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(currentId).setData(toMerge, merge: true)
-                }
-            }
-        }
+//        if let participants = thisConversation["participants"] as? [String], let thisUserId = thisUserProfile["id"] as? String, let uniDomain = thisUserProfile["uni_domain"] as? String{
+//            for i in 0..<participants.count{
+//                let currentId = participants[i]
+//                if(currentId != thisUserId){
+//                    var toMerge = Dictionary<String, Any>()
+//                    toMerge["pending_messages"] = true
+//                    baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(currentId).setData(toMerge, merge: true)
+//                }
+//            }
+//        }
     }
     
     
