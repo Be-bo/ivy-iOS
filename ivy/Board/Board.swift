@@ -68,7 +68,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("WOAH board viewdidappear")
         NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
         setUp()
