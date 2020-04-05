@@ -208,6 +208,8 @@ class Login: UIViewController, UITextFieldDelegate {
             barInteraction()
             hideElems()
             self.checkForNewerVersion()
+
+
         }else{
             //errorLabel.text = "Couldn't perform auto-login, please log in manually."
         }
@@ -297,6 +299,8 @@ class Login: UIViewController, UITextFieldDelegate {
     }
     
     private func checkForNewerVersion(){
+        self.baseDatabaseReference.collection("universities").document(thisUni).collection("userprofiles").document(self.authInstance.currentUser!.uid).updateData(["last_login_millis" : Date().millisecondsSince1970])
+
         self.baseDatabaseReference.collection("other").document("version_document").getDocument { (docSnap, e) in
             if(e != nil){
                 print("There was an error obtaining app's version: ",e)

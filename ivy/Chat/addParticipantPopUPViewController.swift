@@ -31,6 +31,8 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
     let baseDatabaseReference = Firestore.firestore()   //reference to the database
     let baseStorageReference = Storage.storage()    //reference to storage
     
+    var newGroupConv = false                                //new conv is false by default
+    
     //outlets
     @IBOutlet weak var tableView: UITableView!
     
@@ -83,6 +85,7 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
     
     
     @IBAction func onClickDone(_ sender: Any) {
+        print("done")
         addParticipants()
     }
     
@@ -105,8 +108,8 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
             }
         }
         
-        self.view.removeFromSuperview()
-        dismiss(animated: true, completion: nil)    //actually dismiss the view so we can clickon stuff again
+//        self.view.removeFromSuperview()
+//        dismiss(animated: true, completion: nil)    //actually dismiss the view so we can clickon stuff again
         
     }
     
@@ -129,14 +132,27 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
             "last_message_counts": messageCounts,
         ]) { err in
             if let err = err {
-                print("Error updating document: \(err)")
+                print("Error updating document in add participant pop up (last_message_counts): \(err)")
             } else {
-                print("Document successfully updated")
+                self.baseDatabaseReference.collection("conversations").document(self.thisConvId).updateData(["participants": FieldValue.arrayUnion(idAL)]){
+                    err in
+                    if let err = err {
+                        print("Error updating document in add participant pop up (participants): \(err)")
+                    } else {
+                        self.baseDatabaseReference.collection("conversations").document(self.thisConvId).updateData(["participant_names": FieldValue.arrayUnion(nameAL)]){
+                            err in
+                            if let err = err {
+                                print("Error updating document add participant pop up (participant_names): \(err)")
+                            } else {
+                                self.newGroupConv = false
+                                //TODO: wont leave for any converstion since it stays in the same one
+                                self.leaveForNewConversation(convId: "")
+                            }
+                        }
+                    }
+                }
             }
         }
-        
-        baseDatabaseReference.collection("conversations").document(thisConvId).updateData(["participants": FieldValue.arrayUnion(idAL)])
-        baseDatabaseReference.collection("conversations").document(thisConvId).updateData(["participant_names": FieldValue.arrayUnion(nameAL)])
     }
     
     
@@ -186,18 +202,37 @@ class addParticipantPopUPViewController: UIViewController, UITableViewDelegate, 
                 print("Error writing document: \(err)")
             } else {
                 print("Document successfully written!")
+                self.newGroupConv = true
                 self.leaveForNewConversation(convId: convId)
             }
         }
     }
     
+
+    //TODO actually leave to the new conversation
     //open up the new conversationupon starting it
     func leaveForNewConversation(convId: String) {
-        self.view.removeFromSuperview()
-        dismiss(animated: true, completion: nil)    //actually dismiss the view so we can clickon stuff again
+        var alertController = UIAlertController(title: "Success!", message: "", preferredStyle: .alert)
+
+        if (newGroupConv){
+            alertController.message = "You have created a new group conversation, check the chat to see it."
+        }else{
+            alertController.message = "You have added new member(s) to the group coversation, check the participants to see them."
+        }
+        
+        
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        if let navigationController = rootViewController as? UINavigationController {
+            rootViewController = navigationController.viewControllers.first
+        }
+        if let tabBarController = rootViewController as? UITabBarController {
+            rootViewController = tabBarController.selectedViewController
+        }
+        rootViewController?.present(alertController, animated: true, completion: nil)
     }
-    
-    
+
+
     func configureTableView(){
         tableView.delegate = self
         tableView.dataSource = self
