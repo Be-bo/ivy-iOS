@@ -23,7 +23,7 @@ class MainTabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startListeningToUserProfile()
-        self.selectedIndex = 2          //set selected index to be the explore tab on launch
+        self.selectedIndex = 2 //set selected index to be the explore tab on launch
     }
     
     private func startListeningToUserProfile(){
@@ -96,6 +96,7 @@ class MainTabController: UITabBarController {
         userProfileListener?.remove() //stop listening to changes when the app quits or the user signs outs (i.e. the tab controller stops existing)
     }
     
+
     
     
     

@@ -335,9 +335,9 @@ class Explore: UIViewController, UICollectionViewDelegate, UICollectionViewDataS
     //called externally from main under mainTabController
     func updateProfile(updatedProfile: Dictionary<String, Any>){
         self.thisUserProfile = updatedProfile
-        if(!dataLoaded){ //*option two, the UI's initiated but the data hasn't been loaded yet (because the user profile was nil during the UI setup)
-            startLoadingData()
-        }
+//        if(!dataLoaded){ //*option two, the UI's initiated but the data hasn't been loaded yet (because the user profile was nil during the UI setup)
+//            startLoadingData()
+//        }
     }
     
     @objc func shareTapped(){ //TODO: potentially move this to the PublicStaticMethodsAndData
