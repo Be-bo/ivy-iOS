@@ -503,8 +503,12 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             vc.thisTopic = self.topicClicked
             vc.thisUserProfile = self.thisUserProfile
         }
-        //        self.tabBarController?.tabBar.isHidden = true
+        else if segue.identifier == "BoardToSettings" {
+            let vc = segue.destination as! Settings
+            vc.thisUserProfile = self.thisUserProfile
+        }
     }
+
 }
 
 
