@@ -33,6 +33,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     private var topicClicked = Dictionary<String,Any>()                       //to know which topic cell been clicked
     private var registration:ListenerRegistration? = nil
     private var ofthedayRegistration:ListenerRegistration? = nil
+    private var dataLoaded = false
 
 
 
@@ -42,10 +43,6 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
-            setUpNavigationBar()
-            setupCollectionViews()
-        }
     }
 
     private func setupCollectionViews(){
@@ -71,6 +68,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        print("WOAH board viewdidappear")
         NotificationCenter.default.addObserver(self, selector: #selector(setUp), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
         setUp()
@@ -383,6 +381,13 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
     func updateProfile(updatedProfile: Dictionary<String, Any>){ //called externally from main under mainTabController
         self.thisUserProfile = updatedProfile
+        if(!dataLoaded){
+            dataLoaded = true
+            if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
+                setUpNavigationBar()
+                setupCollectionViews()
+            }
+        }
     }
     
     @objc private func detachListeners(){
