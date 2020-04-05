@@ -320,9 +320,7 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
         
         //BOLDING OF MESSAGE TEXT
         if posInConversation != -1, let lastMsgAuthor = currentConversation["last_message_author"] as? String{
-            
-            print("LAUP id: ", currentConversation["id"]!)
-            
+                        
             //if the last message for the given conversation wasn't sent by this user determine if they've seen it or not and highlight it accordingly
             if(lastMsgAuthor == thisUserId){
                 cell.lastMessage?.font = UIFont(name:"Cordia New", size: 25.0)
@@ -331,9 +329,6 @@ class Chat: UIViewController, UITableViewDelegate, UITableViewDataSource{
                     if(lastMsgCounts.count >= 0){    //make sure there is actually something that exists in last_message_count
                         thisUsersLastCount = lastMsgCounts[posInConversation]
                         if let actualMsgCount = currentConversation["message_count"] as? CLong{
-                            
-                            print("LAUP id: ", conversationID, " message count: ", actualMsgCount, " user message count: ", thisUsersLastCount)
-                            
                             if(actualMsgCount >= 0 && thisUsersLastCount < actualMsgCount){
                                 cell.lastMessage?.font = UIFont(name:"Cordia New Bold", size: 25.0)
                             }else{

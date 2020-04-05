@@ -98,7 +98,7 @@ class ViewFullProfileActivity: UIViewController{
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { //called every single time a segue is called
-        if segue.identifier == "conversationToMessages" {
+        if segue.identifier == "profileToMessages" {
             let vc = segue.destination as! ChatRoom
             vc.conversationID = self.conversationID
             vc.thisUserProfile = self.thisUserProfile
@@ -339,19 +339,22 @@ class ViewFullProfileActivity: UIViewController{
                 }else{
                     if let data = docSnap?.data(), !data.isEmpty, data[otherUser] != nil{
                         var chatRoomExists = false
+                        var groupChatViewParticipants = false
                         if let viewControllers = self.navigationController?.viewControllers {
-                              for vc in viewControllers {
-                                   if vc.isKind(of: ChatRoom.classForCoder()) {
+                            for vc in viewControllers {
+                                if vc.isKind(of: ChatRoom.classForCoder()) {
                                     chatRoomExists = true
-                                    self.navigationController?.popViewController(animated: true)
-                                    self.dismiss(animated: true, completion: nil)
-                                    break
-                                   }
-                              }
+                                }
+                            }
                         }
-                        if(!chatRoomExists){
-                            self.performSegue(withIdentifier: "conversationToMessages" , sender: self) //pass data over
+                        if(chatRoomExists){  //chat room exists so back out to avoid infinite segue
+                            self.navigationController?.popViewController(animated: true)
+                            self.navigationController?.popViewController(animated: true)
+                            self.performSegue(withIdentifier: "profileToMessages" , sender: self) //pass data over
+                        }else{  //else outside chat so dont pop just segue over to allow them to go back to whereever they were coming from
+                            self.performSegue(withIdentifier: "profileToMessages" , sender: self) //pass data over
                         }
+                        
                     }else{
                         PublicStaticMethodsAndData.createInfoDialog(titleText: "Failure", infoText: "This user's unfriended you. Sorry. :-(", context: self)
                     }
@@ -359,7 +362,7 @@ class ViewFullProfileActivity: UIViewController{
             }
         }
     }
-
+    
     func viewGallery(alert:UIAlertAction!){
         self.performSegue(withIdentifier: "fullProfileToUserGallery" , sender: self)
     }

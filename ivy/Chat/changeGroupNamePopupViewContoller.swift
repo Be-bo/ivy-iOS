@@ -38,7 +38,7 @@ class changeGroupNamePopupViewController: UIViewController,UITextViewDelegate, U
         let newGroupName = groupNameTextField.text
         
         //5 char long & not = to old name
-        if (newGroupName!.count >= 5 && newGroupName != oldGroupName){
+        if (((newGroupName?.trimmingCharacters(in: .whitespacesAndNewlines).count)!) >= 5 && newGroupName != oldGroupName){
             self.baseDatabaseReference.collection("conversations").document(self.thisConversation["id"] as! String).updateData(["name": newGroupName])
         }else{
             PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "Please ensure the length of the new name is at least 5.", context: self)

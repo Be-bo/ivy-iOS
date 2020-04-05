@@ -180,7 +180,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             ac.addAction(cancelAction)
             self.present(ac, animated: true)
         }else{
-            PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You posted it recently. Come back later!", context: self)
+            PublicStaticMethodsAndData.createInfoDialog(titleText: "Invalid Action", infoText: "You posted a topic recently. Come back later!", context: self)
         }
     }
     
@@ -199,7 +199,7 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         newTopic["commenting_ids"] = []
 
         if let uniDomain = self.thisUserProfile["uni_domain"] as? String, let userID = self.thisUserProfile["id"] as? String, let newTopicID = newTopic["id"] as? String {
-            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(userID).updateData(["last_topic_millis" : Date().timeIntervalSince1970]) { (err) in
+            self.baseDatabaseReference.collection("universities").document(uniDomain).collection("userprofiles").document(userID).updateData(["last_topic_millis" : Date().millisecondsSince1970]) { (err) in
                 if let err = err {
                     print("Error updating universities document in Board with a new topic: \(err)")
                     PublicStaticMethodsAndData.createInfoDialog(titleText: "Oops!", infoText: "Something went wrong, try again in a moment. :-(", context: self)
@@ -223,9 +223,10 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
     func checkIfTwoHoursSinceLastPosting() -> Bool{
         if let userLastTopicMillis = self.thisUserProfile["last_topic_millis"] as? Int64{
-            var millisOfLastTopic = userLastTopicMillis
-            if(millisOfLastTopic != 0){
-                if((Date().millisecondsSince1970 - millisOfLastTopic) < PublicStaticMethodsAndData.LAST_TOPIC_CREATION_TIME_DIFFERENCE){
+            if(userLastTopicMillis != 0){
+                print("Date().millisecondsSince1970", Date().millisecondsSince1970)
+                print("user last topic millis: ", userLastTopicMillis)
+                if((Date().millisecondsSince1970 - userLastTopicMillis) < PublicStaticMethodsAndData.LAST_TOPIC_CREATION_TIME_DIFFERENCE){
                     return false
                 }
             }

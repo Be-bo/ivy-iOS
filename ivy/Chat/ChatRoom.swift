@@ -104,7 +104,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        updateLastSeenMessage()
         startListeningToChangesInThisConversation()
         NotificationCenter.default.addObserver(self, selector: #selector(startListeningToChangesInThisConversation), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(detachListeners), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -192,18 +191,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
                 popoverController.permittedArrowDirections = []
             }
-            
-            //        //if the conversation has been muted by atleast one person
-            //        if(mutedBy.count > 0){
-            //            if(mutedBy.contains(self.thisUserProfile["id"] as! String)){ //if you muted the conversation then add the option to unmute instead.
-            //                isMuted = true
-            //                actionSheet.addAction(UIAlertAction(title: "Unmute Conversation", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
-            //            }else{  //the conversation hasn't been muted by anyone
-            //                actionSheet.addAction(UIAlertAction(title: "Mute", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
-            //            }
-            //        }else{  //the conversation hasn't been muted by anyone
-            //            actionSheet.addAction(UIAlertAction(title: "Mute", style: .default, handler: self.onClickMuteConversation(isMuted: isMuted)))
-            //        }
             
             
             actionSheet.addAction(UIAlertAction(title: "Add Participants", style: .default, handler: self.onClickAddParticipants))
@@ -502,8 +489,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             
             // Upload completed successfully
             uploadTask.observe(.success) { snapshot in
-                self.messageTextField.text = ""
-                self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
                 
                 
                 //update all the data to match accordingly
@@ -514,14 +499,14 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         var lastLocalMessageCount = self.messages.count
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message": message["message_text"] as! String])
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
-                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64  ])
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_millis": message["creation_time"] as! Int64])
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": lastLocalMessageCount])
                         
+                        self.messageTextField.text = ""
                         self.sendNotification(message:message)
-                        
                         self.messageCollectionView.reloadData()
                         
-                        //update last message count for this user
+                        //update last message count for this particular user since as soon as he sends the message he's technically seen it
                         let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
                         if (thisUserPos != -1) {
                             var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
@@ -594,6 +579,7 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_author": message["author_id"] as! String])
                         self.baseDatabaseReference.collection("conversations").document(convId).updateData(["message_count": lastLocalMessageCount])
                         
+                        //update last message count for this particular user since as soon as he sends the message he's technically seen it
                         let thisUserPos = self.locateUser(id: thisUserId) //get the position of the user in the array of participants to modify
                         if (thisUserPos != -1) {
                             var lastMsgCounts = self.thisConversation["last_message_counts"] as? [CLong]
@@ -603,7 +589,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                             }
                         }
                         self.sendNotification(message:message)
-                        self.updateLastSeenMessage()    //when a new message is sent we want to make sure the last message count is accurate if they are
+                        self.messageCollectionView.reloadData()
+                        
                     }
                 })
             }
@@ -657,7 +644,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                                     if let document = document, document.exists {
                                         let user = document.data()
                                         if let usersMessagingToken = user!["messaging_token"] as? String {
-                                            print("conversation id: ", conversationID)
                                             self.sender.sendPushNotification(to: usersMessagingToken, title: convName , body: authorFirstName + " : " + messageText, conversationID:conversationID)
                                         }
                                     } else {
@@ -713,16 +699,28 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
                 //FOR EACH individual conversation the user has, when a message is added
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .added) {
-                        self.messages.append(diff.document.data())  //append the message document to the messages array
+                        let newMessage = diff.document.data()
+                        var dontAdd = self.messages.contains { (message) -> Bool in //first check if the convo should be added or not
+                            if let currentlyCheckingId = message["id"] as? String, let newMsgId = newMessage["id"] as? String, newMsgId == currentlyCheckingId{
+                                return true
+                            }else{
+                                return false
+                            }
+                        }
+                        if(self.messages.count < 1 || dontAdd == false){ //if the chats are either empty or the convo hasn't been added yet -> actually add the conversation
+                            self.messages.append(newMessage)
+                        }
+                        
+                        
                     }
                 }
+                //TODO: should we update last seen message count here as well?
                 self.messageCollectionView.reloadData()
+                
                 
                 let lastItemIndex = self.messageCollectionView.numberOfItems(inSection: 0) - 1
                 let indexPath:IndexPath = IndexPath(item: lastItemIndex, section: 0)
                 self.messageCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
-                
-                
             }
         }
     }
@@ -750,7 +748,6 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //        self.updateLastSeenMessage()    //when a new message is added we want to make sure the last message count is accurate if they are
         var authorProfilePicLoc = ""    //storage lcoation the profile pic is at
         let lastMessageAuthor =  self.messages[indexPath.row]["author_first_name"] as? String ?? "" //first name of last message author
         let lastMessage = self.messages[indexPath.row]["message_text"] as? String
@@ -905,8 +902,8 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
             var heightForImage = CGFloat(0)
             
             let estimatedHeight = messageText.height(withConstrainedWidth: screenSize.width-106, font: UIFont.init(name: "Cordia New", size: 25)!)+11 //by trial and error we know that with these values a single line has a height of 29 + 11 for top and bottom insets and 16 for left right insets + 90 for all the other padding on left and right
-            print("TEXT estimated height: ", estimatedHeight, " for ", messageText)
             
+            //            print("TEXT estimated height: ", estimatedHeight, " for ", messageText)
             //TODO: get estimated height for the text field, check if img attached, if so get estimated height if not 0, check if file attached that's not an image if so add file layout height if not 0
             
             if let imgHeight = self.messages[indexPath.item]["img_height"] as? CGFloat, let imgWidth = self.messages[indexPath.item]["img_width"] as? CGFloat, imgHeight>0, imgWidth>0{ //if the message contains an image and its dimens
@@ -1057,15 +1054,16 @@ class ChatRoom: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     func updateLastSeenMessage() { //update the last seen message count for this user for this conversations but only once we've loaded all its messages
         
-        if let msgCount = self.thisConversation["message_count"] as? CLong, self.messages.count >= msgCount, var counts = self.thisConversation["last_message_counts"] as? [CLong], let participants = self.thisConversation["participants"] as? [String], let convId = self.thisConversation["id"] as? String{    //if we have more messages then the amount thats been seen
+        if let msgCount = self.thisConversation["message_count"] as? CLong, self.messages.count >= msgCount,
+            var chatParticipantsMsgCounts = self.thisConversation["last_message_counts"] as? [CLong], let participants = self.thisConversation["participants"] as? [String],
+            let convId = self.thisConversation["id"] as? String{    //if we have more messages then the amount thats been seen
             
             //make sure we actually retrieved the data
-            if(participants != nil && counts != nil){
-                for (index, participant) in participants.enumerated(){    //for every chat the user is part of
-                    if(self.thisUserProfile["id"] as? String == participant){  //if the chat has the same id as the modifiedID passed in
-                        counts[index] = (msgCount)
-                        //update the array in the db to contain the correct amount of messages now seen by this user
-                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": counts,]) { err in
+            if(!participants.isEmpty && !chatParticipantsMsgCounts.isEmpty){
+                for (index, participant) in participants.enumerated(){    //for every participant in this chat
+                    if(self.thisUserProfile["id"] as? String == participant){  //if the participant has the same id as this current user
+                        chatParticipantsMsgCounts[index] = msgCount
+                        self.baseDatabaseReference.collection("conversations").document(convId).updateData(["last_message_counts": chatParticipantsMsgCounts]) { err in  //update the array in the db to contain the correct amount of messages now seen by this user
                             if let err = err {
                                 print("Error updating document: \(err)")
                             }
