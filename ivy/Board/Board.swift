@@ -43,6 +43,13 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
+            if(!dataLoaded){
+                dataLoaded = true
+                setUpNavigationBar()
+                setupCollectionViews()
+            }
+        }
     }
 
     private func setupCollectionViews(){
@@ -380,9 +387,9 @@ class Board: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
     func updateProfile(updatedProfile: Dictionary<String, Any>){ //called externally from main under mainTabController
         self.thisUserProfile = updatedProfile
-        if(!dataLoaded){
-            dataLoaded = true
-            if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
+        if (PublicStaticMethodsAndData.checkProfileIntegrity(profileToCheck: thisUserProfile)){ //make sure user profile exists
+            if(!dataLoaded){
+                dataLoaded = true
                 setUpNavigationBar()
                 setupCollectionViews()
             }
