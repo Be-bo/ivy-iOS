@@ -1,6 +1,0 @@
-framework module Pods_ivy_iOS {
-  umbrella header "Pods-ivy-iOS-umbrella.h"
-
-  export *
-  module * { export * }
-}
