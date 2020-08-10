@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */; };
 		A9B0A71D24B8058500A11A1D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B0A71C24B8058500A11A1D /* Main.swift */; };
 		FA5DEF9724B6970D00C397CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DEF9624B6970D00C397CB /* AppDelegate.swift */; };
 		FA5DEF9924B6970D00C397CB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5DEF9824B6970D00C397CB /* SceneDelegate.swift */; };
@@ -17,6 +18,9 @@
 
 /* Begin PBXFileReference section */
 		A9B0A71C24B8058500A11A1D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		AAD896C101B7ACAF6ED83D6D /* Pods-ivy-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		EAA7B1A92334F995822B5EE4 /* Pods-ivy-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.release.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5DEF9324B6970D00C397CB /* ivy-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ivy-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5DEF9624B6970D00C397CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA5DEF9824B6970D00C397CB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,12 +35,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		75F3619DFCE50A160930E83E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AAD896C101B7ACAF6ED83D6D /* Pods-ivy-iOS.debug.xcconfig */,
+				EAA7B1A92334F995822B5EE4 /* Pods-ivy-iOS.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		845D68FF259A139209829E19 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A9B0A71624B800C700A11A1D /* authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +96,8 @@
 			children = (
 				FA5DEF9524B6970D00C397CB /* ivy-iOS */,
 				FA5DEF9424B6970D00C397CB /* Products */,
+				75F3619DFCE50A160930E83E /* Pods */,
+				845D68FF259A139209829E19 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,9 +139,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA5DEFA724B6970E00C397CB /* Build configuration list for PBXNativeTarget "ivy-iOS" */;
 			buildPhases = (
+				4547C32487F45B3C090C4AC2 /* [CP] Check Pods Manifest.lock */,
 				FA5DEF8F24B6970D00C397CB /* Sources */,
 				FA5DEF9024B6970D00C397CB /* Frameworks */,
 				FA5DEF9124B6970D00C397CB /* Resources */,
+				D47F88F0B46C0057E49922B1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -172,6 +199,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4547C32487F45B3C090C4AC2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ivy-iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D47F88F0B46C0057E49922B1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FA5DEF8F24B6970D00C397CB /* Sources */ = {
@@ -314,6 +383,7 @@
 		};
 		FA5DEFA824B6970E00C397CB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AAD896C101B7ACAF6ED83D6D /* Pods-ivy-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -335,6 +405,7 @@
 		};
 		FA5DEFA924B6970E00C397CB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EAA7B1A92334F995822B5EE4 /* Pods-ivy-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
