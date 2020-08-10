@@ -14,21 +14,18 @@
 import SwiftUI
 
 struct Main: View {
-    @State private var selection = 0
+    @State private var email = ""
+    @State private var password = ""
     
     var body: some View {
-        Text("Main News Feed")
-            .font(.title)
+        Text("Main")
     }
-    
 }
 
 
 
-
-//shows preview of the UI code..
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        Main()
+        Login()
     }
 }
