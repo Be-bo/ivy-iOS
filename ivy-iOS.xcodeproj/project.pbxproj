@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */; };
+		8DF9DE7F24E321C900B21FF9 /* OrganizationSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF9DE7E24E321C900B21FF9 /* OrganizationSignup.swift */; };
 		A9B0A71D24B8058500A11A1D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B0A71C24B8058500A11A1D /* Main.swift */; };
 		FA14D5DF24E1C65600F1D9B1 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14D5DE24E1C65600F1D9B1 /* Login.swift */; };
 		FA14D5E224E1C85100F1D9B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA14D5E124E1C85100F1D9B1 /* Images.xcassets */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8DF9DE7E24E321C900B21FF9 /* OrganizationSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
 		A9B0A71C24B8058500A11A1D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		AAD896C101B7ACAF6ED83D6D /* Pods-ivy-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		EAA7B1A92334F995822B5EE4 /* Pods-ivy-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.release.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				FAE4734B24E1B7BA003E3991 /* AssetManager.swift */,
 				FAE4734F24E1BD6D003E3991 /* StandardTextField.swift */,
 				FA14D5DE24E1C65600F1D9B1 /* Login.swift */,
+				8DF9DE7E24E321C900B21FF9 /* OrganizationSignup.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */,
 				A9B0A71D24B8058500A11A1D /* Main.swift in Sources */,
 				FA5DEF9724B6970D00C397CB /* AppDelegate.swift in Sources */,
+				8DF9DE7F24E321C900B21FF9 /* OrganizationSignup.swift in Sources */,
 				FA5DEF9924B6970D00C397CB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
