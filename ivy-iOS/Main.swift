@@ -14,18 +14,25 @@
 import SwiftUI
 
 struct Main: View {
-    @State private var email = ""
-    @State private var password = ""
+    @State var loginPresented = false
     
     var body: some View {
-        Text("Main")
+        VStack{
+            Text("MAIN").padding()
+            Button(action: {
+                self.loginPresented.toggle()
+            }){
+                Text("Go to login").sheet(isPresented: $loginPresented){
+                    LoginView()
+                }
+            }
+        }
     }
 }
 
 
-
-struct ContentView_Previews: PreviewProvider {
+struct Main_Previews: PreviewProvider {
     static var previews: some View {
-        Login()
+        Main()
     }
 }
