@@ -14,6 +14,7 @@ struct LoginView: View {
     @ObservedObject var loginVM = LoginViewModel()
     @State var showingStudentSignup = false
     @State var showingOrgSignup = false
+    @State var errorText = ""
     @Environment(\.presentationMode) private var presentationMode
     
     
@@ -28,6 +29,8 @@ struct LoginView: View {
                 LinearGradient(gradient: .init(colors: [AssetManager.ivyGreen, Color.white, Color.white, Color.white]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
                 Image("LogoWhite")
                     .resizable().frame(width: 200, height: 200, alignment: .top)
+            }.onTapGesture { //hide keyboard when background tapped
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
             }
             
             
@@ -38,7 +41,8 @@ struct LoginView: View {
                 TextField("Email", text: $loginVM.email).textContentType(.emailAddress).autocapitalization(.none)
                 Divider().padding(.bottom)
                 SecureField("Password", text: $loginVM.password).textContentType(.password)
-                Divider().padding(.bottom).padding(.bottom)
+                Divider().padding(.bottom)
+                Text(errorText).foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom)
                 Button(action: {
                     self.loginVM.attemptLogin()
                 }){
@@ -49,6 +53,8 @@ struct LoginView: View {
                 .onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
                     if shouldDismiss {
                         self.presentationMode.wrappedValue.dismiss()
+                    }else{
+                        self.errorText = "Your email or password is invalid."
                     }
                 }
                 

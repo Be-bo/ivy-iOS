@@ -10,5 +10,8 @@ import SwiftUI
 
 struct AssetManager {
     static let ivyGreen = Color("IvyGreen")
+    static let ivyLightGrey = Color("IvyLightGrey")
+    static let ivyNotificationRed = Color("IvyNotification")
+    
     static let logoWhite = Image("LogoWhite")
 }
