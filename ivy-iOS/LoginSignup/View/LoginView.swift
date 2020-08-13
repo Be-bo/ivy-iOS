@@ -69,7 +69,6 @@ struct LoginView: View {
                         Text("Student Signup").foregroundColor(AssetManager.ivyGreen)
                     }
                     .sheet(isPresented: $showingStudentSignup){
-                        TestView()
                         StudentSignup()
                     }
                 }
@@ -82,7 +81,6 @@ struct LoginView: View {
                     }){
                         Text("Organization Signup").foregroundColor(AssetManager.ivyGreen)
                     }.sheet(isPresented: $showingOrgSignup){
-                        TestView()
                         OrganizationSignup()
                     }
                 }
