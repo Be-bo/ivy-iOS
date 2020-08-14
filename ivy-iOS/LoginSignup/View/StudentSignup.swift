@@ -31,23 +31,15 @@ struct StudentSignup: View {
             
             TextField("Confirm Password", text: $confirmPassword)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                            
-            
-            
-            
-            
-            
-            /*Picker(selection: $selectedFrameworkIndex, label: Text("Favorite Frameword")) {
-                ForEach(0 ..< frameworks.count) {
-                    Text(self.frameworks[$0])
-                }
-            } */
-            //.padding(.bottom, 30.0)
-            
-            
-            //DropDownMenu([1])
-            
-            
+                     
+            //MARK: TODO (temporary list)
+            DropDownMenu(
+                list: (1...50).map{"Degree #\($0)"},
+                hint: "Degree",
+                hintColor: Color.gray,
+                background: Color.white,
+                expandedHeight: 200
+            )
             
             Button(action: {
                 //self.loginVM.attemptLogin()
