@@ -16,6 +16,7 @@ struct DropDownMenu: View {
     var list: [String]
     var hint: String = "Expand"
     var background: Color? = nil
+    var expandedHeight: CGFloat = 200
     
     
     var body: some View {
@@ -32,14 +33,17 @@ struct DropDownMenu: View {
             }
             
             if expand {
-                ForEach(self.list, id: \.self) { item in
-                    Button(action: {
-                        self.expand.toggle()
-                        self.selected = item
-                    }) {
-                        Text(item).padding()
-                    }.foregroundColor(.black)
+                ScrollView {
+                    ForEach(self.list, id: \.self) { item in
+                        Button(action: {
+                            self.expand.toggle()
+                            self.selected = item
+                        }) {
+                            Text(item).padding()
+                        }.foregroundColor(.black)
+                    }
                 }
+            .frame(height: expandedHeight)
             }
             
         }
@@ -54,9 +58,10 @@ struct DropDownMenu: View {
 struct DropDownMenu_Previews: PreviewProvider {
     static var previews: some View {
         DropDownMenu(
-            list: (1...10).map{"Item \($0)"},
+            list: (1...100).map{"Item \($0)"},
             hint: "Choose a Number",
-            background: Color.gray
+            background: Color.gray,
+            expandedHeight: 200
         )
     }
 }
