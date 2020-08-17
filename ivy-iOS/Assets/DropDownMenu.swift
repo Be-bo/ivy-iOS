@@ -14,9 +14,9 @@ import SwiftUI
 
 struct DropDownMenu: View {
     @State var expand = false
-    @State var selected: String? = nil
     
     // (Optionally) Provide these arguments
+    @Binding var selected: String?
     var list: [String]
     var hint: String = "Expand"
     var hintColor: Color = .gray
@@ -69,17 +69,5 @@ struct DropDownMenu: View {
         .cornerRadius(7)
         .animation(.spring())
         
-    }
-}
-
-struct DropDownMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        DropDownMenu(
-            list: (1...100).map{"Item \($0)"},
-            hint: "Choose an Item",
-            hintColor: Color.yellow,
-            background: Color.green,
-            expandedHeight: 200
-        )
     }
 }

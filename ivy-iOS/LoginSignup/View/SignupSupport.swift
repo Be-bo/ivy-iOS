@@ -16,6 +16,14 @@ struct Gradient: View {
             startPoint: .bottom,
             endPoint: .top)
         .edgesIgnoringSafeArea(.all)
+        .onTapGesture { //hide keyboard when background tapped
+            UIApplication
+                .shared
+                .sendAction(
+                    #selector(UIResponder.resignFirstResponder),
+                    to:nil, from:nil, for:nil
+                )
+        }
     }
 }
 
@@ -27,3 +35,48 @@ struct Logo: View {
         .frame(width: 200, height: 200, alignment: .center)
     }
 }
+
+// Custom BackButton
+struct BackButton: View {
+    var action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: "chevron.left")
+                Text("Back")
+            }
+        }
+    }
+}
+
+// Email Field
+struct EmailField: View {
+    var hint = "Email"
+    var emailContainer: Binding<String>
+    
+    var body: some View {
+        Group {
+            TextField(hint, text: emailContainer)
+                .textContentType(.emailAddress)
+                .autocapitalization(.none)
+            Divider().padding(.bottom)
+        }
+    }
+}
+
+// Password Field
+struct PasswordField: View {
+    var hint = "Password"
+    var passwordContainer: Binding<String>
+    
+    var body: some View {
+        Group {
+            SecureField(hint, text: passwordContainer)
+                .textContentType(.password)
+            Divider().padding(.bottom)
+        }
+    }
+}
+
+

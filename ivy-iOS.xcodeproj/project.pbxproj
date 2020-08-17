@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */; };
+		8D515D0E24E6FFA700D67144 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */; };
+		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
+		8D515D1424E73D1E00D67144 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1324E73D1E00D67144 /* User.swift */; };
+		8D515D1624E8668400D67144 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1524E8668400D67144 /* Organization.swift */; };
+		8D515D1824E86A7E00D67144 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1724E86A7E00D67144 /* Student.swift */; };
+		8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */; };
+		8D515D1C24EAEA4900D67144 /* StaticDomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1B24EAEA4900D67144 /* StaticDomainList.swift */; };
 		8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */; };
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
 		8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13924E5B9F800A8F801 /* SignupSupport.swift */; };
@@ -30,6 +37,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StaticDegreesList.swift; path = "ivy-iOS/Assets/StaticDegreesList.swift"; sourceTree = SOURCE_ROOT; };
+		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
+		8D515D1324E73D1E00D67144 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8D515D1524E8668400D67144 /* Organization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
+		8D515D1724E86A7E00D67144 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
+		8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignupViewModel.swift; sourceTree = "<group>"; };
+		8D515D1B24EAEA4900D67144 /* StaticDomainList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StaticDomainList.swift; path = "ivy-iOS/LoginSignup/ViewModel/StaticDomainList.swift"; sourceTree = SOURCE_ROOT; };
 		8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
 		8DABC13924E5B9F800A8F801 /* SignupSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupSupport.swift; sourceTree = "<group>"; };
@@ -85,6 +99,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8D515D1124E73CE900D67144 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8D515D1324E73D1E00D67144 /* User.swift */,
+				8D515D1524E8668400D67144 /* Organization.swift */,
+				8D515D1724E86A7E00D67144 /* Student.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		FA14D5E024E1C81700F1D9B1 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +152,7 @@
 		FA5DEF9524B6970D00C397CB /* ivy-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				8D515D1124E73CE900D67144 /* Model */,
 				FAE4734424E1B0F3003E3991 /* App */,
 				FA96E8AE24E5AC3700E33BAD /* Profile */,
 				FA96E8AD24E5AC2F00E33BAD /* Events */,
@@ -249,6 +274,8 @@
 		FA96E8B824E5ACAF00E33BAD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */,
+				8D515D1B24EAEA4900D67144 /* StaticDomainList.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -257,6 +284,8 @@
 			isa = PBXGroup;
 			children = (
 				FAD2366924E488E500F92637 /* LoginViewModel.swift */,
+				8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */,
+				8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -400,15 +429,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D515D1624E8668400D67144 /* Organization.swift in Sources */,
+				8D515D1C24EAEA4900D67144 /* StaticDomainList.swift in Sources */,
+				8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */,
 				8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */,
 				8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */,
 				8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */,
+				8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */,
+				8D515D1424E73D1E00D67144 /* User.swift in Sources */,
 				FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */,
 				FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */,
 				FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
 				FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */,
 				A9B0A71D24B8058500A11A1D /* Main.swift in Sources */,
+				8D515D0E24E6FFA700D67144 /* StaticDegreesList.swift in Sources */,
+				8D515D1824E86A7E00D67144 /* Student.swift in Sources */,
 				FAD2366C24E48DF300F92637 /* TestView.swift in Sources */,
 				FA96E8AA24E5980E00E33BAD /* StandardButtonStyle.swift in Sources */,
 				FA5DEF9724B6970D00C397CB /* AppDelegate.swift in Sources */,

@@ -10,56 +10,64 @@ import SwiftUI
 
 // Main View
 struct StudentSignup: View {
-    @State private var email = ""
-    @State private var password = ""
-    @State private var confirmPassword = ""
-    @State private var isClub = true
-    
-    var frameworks = ["UIKit", "Core Data", "Cloud Kit", "SwiftUI"]
-    @State private var selectedFrameworkIndex = 0
+    @ObservedObject var studentSignupVM = StudentSignupViewModel()
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
-        VStack(spacing: 15){
-            
-            Logo()
-            
-            TextField("Email", text: $email)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            TextField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            TextField("Confirm Password", text: $confirmPassword)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                     
-            //MARK: TODO (temporary list)
-            DropDownMenu(
-                list: (1...50).map{"Degree #\($0)"},
-                hint: "Degree",
-                hintColor: Color.gray,
-                background: Color.white,
-                expandedHeight: 200
-            )
-            
-            Button(action: {
-                //self.loginVM.attemptLogin()
-            }){
-                Text("Sign Up")
+        ZStack(alignment: .topLeading) {
+        
+            VStack(){
+                
+                Logo()
+                
+                EmailField(emailContainer: $studentSignupVM.email)
+                PasswordField(passwordContainer: $studentSignupVM.password)
+                PasswordField(hint: "Confirm Password",
+                              passwordContainer: $studentSignupVM.confirmPassword)
+                    
+                DropDownMenu(
+                    selected: $studentSignupVM.degree,
+                    list: StaticDegreesList.degree_array,
+                    hint: "Degree",
+                    hintColor: Color.gray,
+                    background: Color.white,
+                    expandedHeight: 200
+                )
+                
+                Button(action: {
+                    self.studentSignupVM.attemptSignup()
+                }){
+                    Text("Sign Up")
+                }
+                // Button disabled either when input not ok or when waiting for a Firebase result
+                .disabled(!studentSignupVM.inputOk() || studentSignupVM.waitingForResult)
+                // setting button style where background color changes based on if input is ok
+                .buttonStyle(StandardButtonStyle(disabled: !studentSignupVM.inputOk()))
+                // when shouldDismiss changes to true, dismiss this sheet
+                .onReceive(studentSignupVM.viewDismissalModePublisher) { shouldDismiss in
+                    if shouldDismiss {
+                        self.presentationMode.wrappedValue.dismiss()
+                    } else {
+                        // MARK: TODO
+                        //self.errorText = "Your email or password is invalid."
+                    }
+                }
+                
+                Spacer()
             }
-            //.disabled(!loginVM.inputOk() || loginVM.waitingForResult) //button is disabled either when input not ok or when we're waiting for a Firebase result
-            //.buttonStyle(StandardButtonStyle(disabled: !loginVM.inputOk())) //setting button style where background color changes based on if input is ok
-            //.onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
-              //  if shouldDismiss {
-                //    self.presentationMode.wrappedValue.dismiss()
-                //} else {
-                  //  self.errorText = "Your email or password is invalid."
-                //}
-            //}
+            .padding(.horizontal, 30.0)
+            .background(Gradient())
             
-            Spacer()
+            // Back Button
+            HStack {
+                BackButton {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+                Spacer()
+            }
+            .padding(.top)
+            .padding(.leading)
         }
-        .padding(.horizontal, 30.0)
-        .background(Gradient())
     }
 }
 
@@ -69,7 +77,3 @@ struct StudentSignup_Previews: PreviewProvider {
         StudentSignup()
     }
 }
-
-
-
-
