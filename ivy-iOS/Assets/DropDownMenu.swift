@@ -19,7 +19,7 @@ struct DropDownMenu: View {
     @Binding var selected: String?
     var list: [String]
     var hint: String = "Expand"
-    var hintColor: Color = .gray
+    var hintColor: Color = Color.gray.opacity(0.5)
     var background: Color? = nil
     var expandedHeight: CGFloat = 200
     
@@ -38,6 +38,7 @@ struct DropDownMenu: View {
                 Image (systemName: expand ? "chevron.up" : "chevron.down")
                     .resizable()
                     .frame(width: 13, height: 6)
+                    .foregroundColor(hintColor)
             }
             .onTapGesture {
                 self.expand.toggle()
@@ -62,9 +63,15 @@ struct DropDownMenu: View {
                 }
             .frame(height: expandedHeight)
             }
+            else {
+                Divider()
+                    .background(selected != nil ? Color.green : hintColor)
+                    .padding(.bottom)
+            }
             
         }
-        .padding(7)
+        .padding(.horizontal, expand ? 7 : 0)
+        .padding(.vertical, 7)
         .background(background)
         .cornerRadius(7)
         .animation(.spring())

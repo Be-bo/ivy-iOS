@@ -8,6 +8,20 @@
 
 import SwiftUI
 
+
+// Error messages
+enum SignupError: String {
+    case invalidEmail = "Please enter a valid email."
+    case shortPassword = "Your password must be over six characteres long."
+    case invalidPasswordMatch = "Passwords do not match."
+    case noUniSelected = "Please choose a university."
+    case noDegreeSelected = "Please select your degree."
+    case invalidDomain = "Please choose a valid University Domain."
+    case emailExists = "Registration Failed! This email is already registered."
+    case other = "A Sign Up error occured. Please try again later."
+}
+
+
 // Gradient
 struct Gradient: View {
     var body: some View {
@@ -39,6 +53,7 @@ struct Logo: View {
 // Custom BackButton
 struct BackButton: View {
     var action: () -> Void
+    var color = Color.green
     
     var body: some View {
         Button(action: action) {
@@ -47,20 +62,23 @@ struct BackButton: View {
                 Text("Back")
             }
         }
+        .foregroundColor(color)
     }
 }
 
 // Email Field
 struct EmailField: View {
     var hint = "Email"
-    var emailContainer: Binding<String>
+    @Binding var email: String
     
     var body: some View {
         Group {
-            TextField(hint, text: emailContainer)
+            TextField(hint, text: $email)
                 .textContentType(.emailAddress)
                 .autocapitalization(.none)
-            Divider().padding(.bottom)
+            Divider()
+                .background(email != "" ? Color.green : nil)
+                .padding(.bottom)
         }
     }
 }
@@ -68,15 +86,55 @@ struct EmailField: View {
 // Password Field
 struct PasswordField: View {
     var hint = "Password"
-    var passwordContainer: Binding<String>
+    @Binding var password: String
+    
+    @State private var visible = false
     
     var body: some View {
-        Group {
-            SecureField(hint, text: passwordContainer)
-                .textContentType(.password)
-            Divider().padding(.bottom)
+        VStack {
+            
+            HStack {
+            
+                if (visible) {
+                    TextField(hint, text: $password)
+                        .textContentType(.password)
+                }
+                else {
+                    SecureField(hint, text: $password)
+                        .textContentType(.password)
+                }
+                
+                Button(action: {
+                    self.visible.toggle()
+                }) {
+                    Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
+                        .foregroundColor(Color.gray.opacity(0.5))
+                }
+            }
+            
+            Divider()
+                .background(password != "" ? Color.green : nil)
+                .padding(.bottom)
         }
     }
 }
 
+// Successful Sign up Alert dialog
+func SignupSuccessAlert() -> Alert {
+    return
+        Alert(
+            title: Text("Welcome to Ivy!"),
+            message: Text ("We've sent you a confirmation email."),
+            dismissButton: .default(Text("Okay"))
+        )
+}
 
+// Error Image [unused]
+struct ErrorImage: View {
+    var body: some View {
+        Image(systemName: "exclamation.circle.fill")
+            .resizable()
+            .frame(width: 10, height: 10)
+            .foregroundColor(.red)
+    }
+}

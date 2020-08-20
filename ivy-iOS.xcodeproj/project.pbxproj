@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */; };
+		8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */; };
 		8D515D0E24E6FFA700D67144 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */; };
 		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
 		8D515D1424E73D1E00D67144 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1324E73D1E00D67144 /* User.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinner.swift; sourceTree = "<group>"; };
 		8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StaticDegreesList.swift; path = "ivy-iOS/Assets/StaticDegreesList.swift"; sourceTree = SOURCE_ROOT; };
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1324E73D1E00D67144 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				FA5DEF9C24B6970E00C397CB /* Assets.xcassets */,
 				FAE4734924E1B761003E3991 /* Colors.xcassets */,
 				FA14D5E124E1C85100F1D9B1 /* Images.xcassets */,
+				8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */,
 				8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */,
 				8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */,
+				8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */,
 				8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */,
 				8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */,
 				8D515D1424E73D1E00D67144 /* User.swift in Sources */,

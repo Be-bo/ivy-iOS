@@ -11,10 +11,12 @@ import Firebase
 import Combine
 
 class OrgSignupViewModel: ObservableObject {
+    
+    @Published var uni_domain: String? = nil
     @Published var email = ""
     @Published var password = ""
     @Published var confirmPassword = ""
-    @Published var is_club = true
+    @Published var is_club = false    
     @Published var waitingForResult = false
     
     let db = Firestore.firestore()
@@ -27,19 +29,51 @@ class OrgSignupViewModel: ObservableObject {
         }
     }
     
-    // Check basic input checks are ok return true
+    
+/* INPUT CHECK */
+    
+    // Basic check before connecting to firebase
     func inputOk() -> Bool{
-        //MARK: TODO a better input check system and feedback
-        
         return (
-            !email.isEmpty && !password.isEmpty && email.contains("@") &&
-            email.contains(".") && password.count > 6 &&  confirmPassword == password
+            nonEmpty() && validEmail() && validPassword() && validConfirmPassword() && uni_domain != nil
         )
     }
+    
+    // Used to activate sign up button
+    func nonEmpty() -> Bool {
+        return (!email.isEmpty && !password.isEmpty && !confirmPassword.isEmpty)
+    }
+    
+    // Check if email is valid
+    func validEmail() -> Bool {
+        return (email.contains("@") && email.contains("."))
+    }
+    
+    // Check password is over 6 chars long
+    func validPassword() -> Bool {
+        return password.count > 6
+    }
+    
+    // Make sure passwords match
+    func validConfirmPassword() -> Bool {
+        return confirmPassword == password
+    }
+    
+    
+/* FIREBASE */
     
     // Create auth user
     func attemptSignup() {
         waitingForResult = true
+        
+        // Final Check
+        if (!inputOk()){
+            print("Invalid input.")
+            self.shouldDismissView = false
+            waitingForResult = false
+            return
+        }
+        
         Auth.auth().createUser(withEmail: email, password: password)
         { (result, error) in
             if (error == nil) {
@@ -64,6 +98,7 @@ class OrgSignupViewModel: ObservableObject {
     func registerinDB() {
         if let id = Auth.auth().currentUser?.uid {
             let newOrg = Organization(id: id, email: self.email, is_club: self.is_club)
+            newOrg.uni_domain = self.uni_domain
             
             do {
                 let _ = try db.collection("users").addDocument(from: newOrg)

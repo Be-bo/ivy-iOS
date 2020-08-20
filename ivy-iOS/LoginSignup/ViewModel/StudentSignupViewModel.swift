@@ -11,6 +11,7 @@ import Firebase
 import Combine
 
 class StudentSignupViewModel: ObservableObject {
+    
     @Published var email = ""
     @Published var password = ""
     @Published var confirmPassword = ""
@@ -25,18 +26,56 @@ class StudentSignupViewModel: ObservableObject {
         didSet {
             viewDismissalModePublisher.send(shouldDismissView)
         }
-    }
+    }    
     
-    // Check basic input checks are ok return true
+/* INPUT CHECK */
+    
+    // Basic check before connecting to firebase
     func inputOk() -> Bool{
-        //MARK: TODO a better input check system and feedback
-        
         return (
-            !email.isEmpty && !password.isEmpty && email.contains("@") &&
-            email.contains(".") && password.count > 6 &&  confirmPassword == password &&
-            degree != nil
+            nonEmpty() && validEmail() && validPassword() &&
+                validConfirmPassword() && degree != nil
         )
     }
+    
+    // Used to activate sign up button
+    func nonEmpty() -> Bool {
+        return (!email.isEmpty && !password.isEmpty && !confirmPassword.isEmpty)
+    }
+    
+    // Check if email is valid
+    func validEmail() -> Bool {
+        if (email.contains("@") && email.contains(".")) {
+            return validDomain()
+        }
+        return false
+    }
+    
+    // Check if email has a valid uni domain
+    func validDomain() -> Bool {
+        let email_array = email.split(separator: "@")
+        if email_array.count == 2 {
+            for domain in StaticDomainList.domain_list {
+                if (email_array[1] == domain) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    // Check password is over 6 chars long
+    func validPassword() -> Bool {
+        return password.count > 6
+    }
+    
+    // Make sure passwords match
+    func validConfirmPassword() -> Bool {
+        return confirmPassword == password
+    }
+    
+    
+/* FIREBASE */
     
     // Create auth user
     func attemptSignup() {

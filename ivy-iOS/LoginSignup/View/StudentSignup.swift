@@ -12,6 +12,8 @@ import SwiftUI
 struct StudentSignup: View {
     @ObservedObject var studentSignupVM = StudentSignupViewModel()
     @Environment(\.presentationMode) private var presentationMode
+    @State var errorText: SignupError? = nil
+    @State var showAlert = false
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -20,10 +22,10 @@ struct StudentSignup: View {
                 
                 Logo()
                 
-                EmailField(emailContainer: $studentSignupVM.email)
-                PasswordField(passwordContainer: $studentSignupVM.password)
+                EmailField(email: $studentSignupVM.email)
+                PasswordField(password: $studentSignupVM.password)
                 PasswordField(hint: "Confirm Password",
-                              passwordContainer: $studentSignupVM.confirmPassword)
+                              password: $studentSignupVM.confirmPassword)
                     
                 DropDownMenu(
                     selected: $studentSignupVM.degree,
@@ -34,22 +36,48 @@ struct StudentSignup: View {
                     expandedHeight: 200
                 )
                 
-                Button(action: {
-                    self.studentSignupVM.attemptSignup()
-                }){
-                    Text("Sign Up")
-                }
-                // Button disabled either when input not ok or when waiting for a Firebase result
-                .disabled(!studentSignupVM.inputOk() || studentSignupVM.waitingForResult)
-                // setting button style where background color changes based on if input is ok
-                .buttonStyle(StandardButtonStyle(disabled: !studentSignupVM.inputOk()))
-                // when shouldDismiss changes to true, dismiss this sheet
+                // Error text
+                Text(errorText?.rawValue ?? "")
+                    .foregroundColor(AssetManager.ivyNotificationRed)
+                    .padding(.bottom)
+                
+                // Display loading instead of button when waiting for results from Firebase
+                HStack {
+                    if (studentSignupVM.waitingForResult) {
+                        LoadingSpinner()
+                    }
+                    else {
+                        Button(action: {
+                            self.studentSignupVM.attemptSignup()
+                            self.errorText = nil
+                        }){
+                            Text("Sign Up")
+                        }
+                            // Button disabled either when input not ok or when waiting for a Firebase result
+                            .disabled(!studentSignupVM.inputOk() || studentSignupVM.waitingForResult)
+                            // setting button style where background color changes based on if input is ok
+                            .buttonStyle(StandardButtonStyle(disabled: !studentSignupVM.inputOk()))
+                    }
+                }// when shouldDismiss changes to true, dismiss this sheet
                 .onReceive(studentSignupVM.viewDismissalModePublisher) { shouldDismiss in
                     if shouldDismiss {
-                        self.presentationMode.wrappedValue.dismiss()
+                        self.showAlert = true
                     } else {
-                        // MARK: TODO
-                        //self.errorText = "Your email or password is invalid."
+                        if (!self.studentSignupVM.validEmail()) {
+                            self.errorText = .invalidEmail
+                        }
+                        else if (self.studentSignupVM.degree == nil) {
+                            self.errorText = .noDegreeSelected
+                        }
+                        else if (!self.studentSignupVM.validPassword()) {
+                            self.errorText = .shortPassword
+                        }
+                        else if (!self.studentSignupVM.validConfirmPassword()) {
+                            self.errorText = .invalidPasswordMatch
+                        }
+                        else {
+                            self.errorText = .emailExists
+                        }
                     }
                 }
                 
@@ -68,6 +96,8 @@ struct StudentSignup: View {
             .padding(.top)
             .padding(.leading)
         }
+        // Show an alert when successfully signed up
+        .alert(isPresented: $showAlert, content: SignupSuccessAlert)
     }
 }
 
