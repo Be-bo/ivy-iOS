@@ -119,14 +119,52 @@ struct PasswordField: View {
     }
 }
 
-// Successful Sign up Alert dialog
-func SignupSuccessAlert() -> Alert {
-    return
-        Alert(
-            title: Text("Welcome to Ivy!"),
-            message: Text ("We've sent you a confirmation email."),
-            dismissButton: .default(Text("Okay"))
-        )
+// Successful Sign up Alert dialog -> Must be placed in a ZStack!
+struct PopUpAlert: View {
+    
+    var message: String
+    var showImage = true
+    var buttonText = "Okay"
+    var action: () -> Void = {}
+    
+    var body: some View {
+        GeometryReader {_ in
+            ZStack {
+                
+                // Message and button
+                VStack {
+                    Text(self.message)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 5)
+                        .padding(.top, self.showImage ? 50 : 15)
+                    
+                    Button(action: self.action) {
+                        Text("Okay")
+                            .foregroundColor(.white)
+                    }
+                    .buttonStyle(StandardButtonStyle())
+                    .padding()
+                }
+                .background(Color.white)
+                .cornerRadius(30)
+                
+                // Logo on top
+                if (self.showImage) {
+                    Image("LogoGreen")
+                        .resizable()
+                        .frame(width: 90, height: 90, alignment: .center)
+                        .background(
+                            Circle()
+                                .fill(Color.white)
+                        )
+                        .offset(y: -90)
+                }
+            }
+            .padding(.horizontal)
+        }
+        .background(Color.black.opacity(0.5)
+        .edgesIgnoringSafeArea(.all))
+    }
 }
 
 // Error Image [unused]
@@ -136,5 +174,13 @@ struct ErrorImage: View {
             .resizable()
             .frame(width: 10, height: 10)
             .foregroundColor(.red)
+    }
+}
+
+
+// Preview
+struct SignupSupport_Previews: PreviewProvider {
+    static var previews: some View {
+        PopUpAlert(message: "hello!")
     }
 }

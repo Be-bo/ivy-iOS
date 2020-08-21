@@ -17,91 +17,101 @@ struct OrganizationSignup: View {
     @State var showAlert = false
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-                        
-            VStack(){
+        ZStack { // For alert popup
+        
+            ZStack(alignment: .topLeading) { // for backbutton
+                            
+                VStack(){
 
-                Logo()
-                
-                DropDownMenu(
-                    selected: $orgSignupVM.uni_domain,
-                    list: StaticDomainList.available_domain_list,
-                    hint: "University",
-                    background: Color.white,
-                    expandedHeight: 200
-                )
-                
-                EmailField(email: $orgSignupVM.email)
-                PasswordField(password: $orgSignupVM.password)
-                PasswordField(hint: "Confirm Password",
-                              password: $orgSignupVM.confirmPassword)
-                                
-                Toggle(isOn: $orgSignupVM.is_club) {
-                    Text("We are a club")
-                }
-                .padding(.bottom, 30.0)
-                
-                Text(errorText?.rawValue ?? "")
-                    .foregroundColor(AssetManager.ivyNotificationRed)
-                    .padding(.bottom)
+                    Logo()
+                    
+                    DropDownMenu(
+                        selected: $orgSignupVM.uni_domain,
+                        list: StaticDomainList.available_domain_list,
+                        hint: "University",
+                        background: Color.white,
+                        expandedHeight: 200
+                    )
+                    
+                    EmailField(email: $orgSignupVM.email)
+                    PasswordField(password: $orgSignupVM.password)
+                    PasswordField(hint: "Confirm Password",
+                                  password: $orgSignupVM.confirmPassword)
+                                    
+                    Toggle(isOn: $orgSignupVM.is_club) {
+                        Text("We are a club")
+                    }
+                    .padding(.bottom, 30.0)
+                    
+                    // Error Text
+                    Text(errorText?.rawValue ?? "")
+                        .foregroundColor(AssetManager.ivyNotificationRed)
+                        .padding(.bottom)
 
-                // Display loading instead of button when waiting for results from Firebase
-                HStack {
-                    if (orgSignupVM.waitingForResult) {
-                        LoadingSpinner()
-                    }
-                    else {
-                        Button(action: {
-                            self.orgSignupVM.attemptSignup()
-                            self.errorText = nil
-                        }){
-                            Text("Organization Sign Up")
-                        }
-                            // Button disabled either when input is empty or when waiting for a Firebase result
-                            .disabled(!orgSignupVM.nonEmpty() || orgSignupVM.waitingForResult)
-                            // setting button style where background color changes based on if input is ok
-                            .buttonStyle(StandardButtonStyle(disabled: !orgSignupVM.nonEmpty()))
-                    }
-                } // when shouldDismiss changes to true, dismiss this sheet
-                .onReceive(orgSignupVM.viewDismissalModePublisher) { shouldDismiss in
-                    if shouldDismiss {
-                        self.showAlert = true
-                    } else {
-                        if (self.orgSignupVM.uni_domain == nil) {
-                            self.errorText = .noUniSelected
-                        }
-                        else if (!self.orgSignupVM.validEmail()) {
-                            self.errorText = .invalidEmail
-                        }
-                        else if (!self.orgSignupVM.validPassword()) {
-                            self.errorText = .shortPassword
-                        }
-                        else if (!self.orgSignupVM.validConfirmPassword()) {
-                            self.errorText = .invalidPasswordMatch
+                    // Display loading instead of button when waiting for results from Firebase
+                    HStack {
+                        if (orgSignupVM.waitingForResult) {
+                            LoadingSpinner()
                         }
                         else {
-                            self.errorText = .emailExists
+                            Button(action: {
+                                self.orgSignupVM.attemptSignup()
+                                self.errorText = nil
+                            }){
+                                Text("Organization Sign Up")
+                            }
+                                .disabled(!orgSignupVM.nonEmpty() || orgSignupVM.waitingForResult)
+                                .buttonStyle(StandardButtonStyle(disabled: !orgSignupVM.nonEmpty()))
+                        }
+                    } // VM will send a signal whenever shouldDismiss changes value
+                    .onReceive(orgSignupVM.viewDismissalModePublisher) { shouldDismiss in
+                        if shouldDismiss {
+                            self.showAlert = true
+                        } else { // There was an error -> identify and give feedback to user
+                            if (self.orgSignupVM.uni_domain == nil) {
+                                self.errorText = .noUniSelected
+                            }
+                            else if (!self.orgSignupVM.validEmail()) {
+                                self.errorText = .invalidEmail
+                            }
+                            else if (!self.orgSignupVM.validPassword()) {
+                                self.errorText = .shortPassword
+                            }
+                            else if (!self.orgSignupVM.validConfirmPassword()) {
+                                self.errorText = .invalidPasswordMatch
+                            }
+                            else {
+                                self.errorText = .emailExists
+                            }
                         }
                     }
+                    
+                    Spacer()
                 }
+                .padding(.horizontal, 30.0)
+                .background(Gradient())
                 
-                Spacer()
-            }
-            .padding(.horizontal, 30.0)
-            .background(Gradient())
-            
-            // Back Button
-            HStack {
-                BackButton {
-                    self.presentationMode.wrappedValue.dismiss()
+                // Back Button
+                HStack {
+                    BackButton {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                    Spacer()
                 }
-                Spacer()
+                .padding(.top)
+                .padding(.leading)
             }
-            .padding(.top)
-            .padding(.leading)
+            
+            // Show an alert when successfully signed up
+            if showAlert {
+                PopUpAlert(
+                    message: "Welcome to Ivy! We've sent you a confirmation email.",
+                    action: {
+                        self.showAlert = false
+                        self.presentationMode.wrappedValue.dismiss()
+                })
+            }
         }
-        // Show an alert when successfully signed up
-        .alert(isPresented: $showAlert, content: SignupSuccessAlert)
     }
 }
 
