@@ -80,6 +80,15 @@ class StudentSignupViewModel: ObservableObject {
     // Create auth user
     func attemptSignup() {
         waitingForResult = true
+        
+        // Final Check
+        if (!inputOk()){
+            print("Invalid input.")
+            self.shouldDismissView = false
+            waitingForResult = false
+            return
+        }
+        
         Auth.auth().createUser(withEmail: email, password: password)
         { (result, error) in
             if (error == nil) {
@@ -107,7 +116,7 @@ class StudentSignupViewModel: ObservableObject {
             let newStudent = Student(id: id, email: self.email, degree: self.degree!)
             
             do {
-                let _ = try db.collection("users").addDocument(from: newStudent)
+                let _ = try db.collection("users").document(id).setData(from: newStudent)
                 
                 print("Student Document created successfully!")
                 self.shouldDismissView = true

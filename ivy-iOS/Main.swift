@@ -17,13 +17,19 @@ struct Main: View {
     @State var loginPresented = false
     
     var body: some View {
-        VStack{
-            Text("MAIN").padding()
-            Button(action: {
-                self.loginPresented.toggle()
-            }){
-                Text("Go to login").sheet(isPresented: $loginPresented){
-                    LoginView()
+        
+        NavigationView {
+            VStack{
+                Text("MAIN").padding()
+                Button(action: {
+                    self.loginPresented.toggle()
+                }){
+                    Text("Go to login").sheet(isPresented: $loginPresented){
+                        LoginView()
+                    }
+                }
+                NavigationLink(destination: StudentProfile(Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))) {
+                    Text("Test Student Profile")
                 }
             }
         }

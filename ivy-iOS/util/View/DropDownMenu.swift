@@ -71,7 +71,7 @@ struct DropDownMenu: View {
             
         }
         .padding(.horizontal, expand ? 7 : 0)
-        .padding(.vertical, 7)
+        .padding(.vertical, expand ? 7 : 0)
         .background(background)
         .cornerRadius(7)
         .animation(.spring())

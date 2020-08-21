@@ -54,16 +54,19 @@ struct StudentSignup: View {
                             Text("Sign Up")
                         }
                             // Button disabled either when input not ok or when waiting for a Firebase result
-                            .disabled(!studentSignupVM.inputOk() || studentSignupVM.waitingForResult)
+                            .disabled(!studentSignupVM.nonEmpty() || studentSignupVM.waitingForResult)
                             // setting button style where background color changes based on if input is ok
-                            .buttonStyle(StandardButtonStyle(disabled: !studentSignupVM.inputOk()))
+                            .buttonStyle(StandardButtonStyle(disabled: !studentSignupVM.nonEmpty()))
                     }
-                }// when shouldDismiss changes to true, dismiss this sheet
+                } // when shouldDismiss changes to true, dismiss this sheet
                 .onReceive(studentSignupVM.viewDismissalModePublisher) { shouldDismiss in
                     if shouldDismiss {
                         self.showAlert = true
                     } else {
-                        if (!self.studentSignupVM.validEmail()) {
+                        if (!self.studentSignupVM.validDomain()) {
+                            self.errorText = SignupError.invalidDomain
+                        }
+                        else if (!self.studentSignupVM.validEmail()) {
                             self.errorText = .invalidEmail
                         }
                         else if (self.studentSignupVM.degree == nil) {

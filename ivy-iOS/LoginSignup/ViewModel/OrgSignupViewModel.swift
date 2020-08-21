@@ -101,7 +101,7 @@ class OrgSignupViewModel: ObservableObject {
             newOrg.uni_domain = self.uni_domain
             
             do {
-                let _ = try db.collection("users").addDocument(from: newOrg)
+                let _ = try db.collection("users").document(id).setData(from: newOrg)
                 
                 print("Organization Document created successfully!")
                 self.shouldDismissView = true
