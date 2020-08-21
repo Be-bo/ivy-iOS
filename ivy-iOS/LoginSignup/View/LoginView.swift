@@ -27,7 +27,7 @@ struct LoginView: View {
             // MARK: Background and Logo
             ZStack(alignment: .top){
                 LinearGradient(gradient: .init(colors: [AssetManager.ivyGreen, Color.white, Color.white, Color.white]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
-                Image("LogoWhite")
+                AssetManager.logoWhite
                     .resizable().frame(width: 200, height: 200, alignment: .top)
             }.onTapGesture { //hide keyboard when background tapped
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)

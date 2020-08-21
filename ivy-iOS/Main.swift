@@ -15,10 +15,65 @@ import SwiftUI
 
 struct Main: View {
     @State var loginPresented = false
+    @State private var selection = 0
+    @State private var loggedIn = false
     
     var body: some View {
         
-        NavigationView {
+        
+        // MARK: Tab Bar
+        TabView(selection: $selection) {
+            
+            // MARK: Events
+            NavigationView{
+                EventsTabView()
+                    .navigationBarItems(leading:
+                        HStack {
+                            Button(action: {}) {
+                                Image(systemName: "gear").font(.system(size: 25))
+                            }
+                            AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                        }.padding(.leading, 0), trailing:
+                        HStack {
+                            Button(action: {}) {
+                                loggedIn == true ? Image(systemName: "square.and.pencil").font(.system(size: 25)) : Image(systemName: "arrow.right.circle").font(.system(size: 25))
+                            }
+                    })
+            }
+            .tabItem{
+                selection == 0 ? Image(systemName: "calendar").font(.system(size: 25)) : Image(systemName: "calendar").font(.system(size: 25))
+            }
+            .tag(0)
+            
+            
+            
+            
+            // MARK: Home
+            VStack{
+                NavigationView{
+                    Text("Home")
+                    .navigationBarItems(leading:
+                        HStack {
+                            Button(action: {}) {
+                                Image(systemName: "gear").font(.system(size: 25))
+                            }
+                            AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                        }.padding(.leading, 0), trailing:
+                        HStack {
+                            Button(action: {}) {
+                                Image(systemName: "square.and.pencil").font(.system(size: 25))
+                            }
+                    })
+                }
+            }
+            .tabItem {
+                selection == 1 ? Image(systemName: "house.fill").font(.system(size: 25)) : Image(systemName: "house").font(.system(size: 25))
+            }
+            .tag(1)
+            
+            
+            
+            // MARK: Profile
             VStack{
                 Text("MAIN").padding()
                 Button(action: {
@@ -32,7 +87,14 @@ struct Main: View {
                     Text("Test Student Profile")
                 }
             }
+            .tabItem {
+                selection == 2 ? Image(systemName: "person.fill").font(.system(size: 25)) : Image(systemName: "person").font(.system(size: 25))
+            }
+            .tag(2)
+            
+            
         }
+        .accentColor(AssetManager.ivyGreen)
     }
 }
 
@@ -41,4 +103,10 @@ struct Main_Previews: PreviewProvider {
     static var previews: some View {
         Main()
     }
+}
+
+extension UIScreen{
+    static let screenWidth = UIScreen.main.bounds.size.width
+    static let screenHeight = UIScreen.main.bounds.size.height
+    static let screenSize = UIScreen.main.bounds.size
 }
