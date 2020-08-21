@@ -5,6 +5,8 @@
 //  Created by Zahra Ghavasieh on 2020-08-20.
 //  Copyright © 2020 ivy. All rights reserved.
 //
+// This gridView is made exclusively for Post objects
+//
 
 import SwiftUI
 

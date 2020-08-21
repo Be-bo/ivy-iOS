@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */; };
+		8D002D6124F0349D00518590 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6024F0349D00518590 /* Event.swift */; };
 		8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */; };
 		8D30BF9B24EEE6E600970050 /* StudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9A24EEE6E600970050 /* StudentProfile.swift */; };
 		8D30BF9D24EEFD9A00970050 /* StudentProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9C24EEFD9A00970050 /* StudentProfileViewModel.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D002D6024F0349D00518590 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinner.swift; sourceTree = "<group>"; };
 		8D30BF9A24EEE6E600970050 /* StudentProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StudentProfile.swift; path = "ivy-iOS/Assets/StudentProfile.swift"; sourceTree = SOURCE_ROOT; };
 		8D30BF9C24EEFD9A00970050 /* StudentProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StudentProfileViewModel.swift; path = "ivy-iOS/Assets/StudentProfileViewModel.swift"; sourceTree = SOURCE_ROOT; };
@@ -153,6 +155,7 @@
 				8D515D1524E8668400D67144 /* Organization.swift */,
 				8D515D1724E86A7E00D67144 /* Student.swift */,
 				8D30BFAD24EF5ECA00970050 /* Post.swift */,
+				8D002D6024F0349D00518590 /* Event.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 				8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */,
 				8D515D1424E73D1E00D67144 /* User.swift in Sources */,
 				FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */,
+				8D002D6124F0349D00518590 /* Event.swift in Sources */,
 				8D30BFA124EF0EE000970050 /* EditStudentProfile.swift in Sources */,
 				FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */,
 				FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */,
