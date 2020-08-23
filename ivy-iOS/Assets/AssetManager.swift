@@ -18,4 +18,5 @@ struct AssetManager {
     static let logoGreen = Image("LogoGreen")
     
     static let eventPlaceholder = Image("EventPlaceholder")
+    static let pinIcon = Image("PinIcon")
 }

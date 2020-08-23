@@ -10,44 +10,61 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class Post: Identifiable, Codable {
+class Post: Identifiable/*, Codable*/ {
     
     @DocumentID var id: String?
-    var uni_domain: String
-    var author_id: String
-    var author_name: String
-    var author_is_organization: Bool
-    var is_event = false
+    var uni_domain: String = "" //cannot be null
+    var author_id: String = "" //cannot be null
+    var author_name: String = "" //cannot be null
+    var author_is_organization: Bool = false //cannot be null
+    var is_event = false //cannot be null
     var main_feed_visible = true
-    @ServerTimestamp var creation_millis: Timestamp?    // Created automatically when uploaded to Firebase
-    let creation_platform = "iOS"
-    var text = ""
+    var creation_millis: Int? = 0 //cannot be null
+    var creation_platform = "iOS" //cannot be null
+    var text = "" //cannot be null
     var visual = ""
     var pinned_id = ""
     var pinned_name = ""
     var views_id = [String]()
     
- 
-/* Initialization Methods */
     
-    init(id: String?, uni_domain: String, author_id: String, author_name: String, author_is_organization: Bool, main_feed_visible: Bool) {
-        self.id = id
-        self.uni_domain = uni_domain
-        self.author_id = author_id
-        self.author_name = author_name
-        self.author_is_organization = author_is_organization
-        self.main_feed_visible = main_feed_visible
+    func docToObject(doc: DocumentSnapshot){ //TODO: not ideal but good enough for now (use Codable when time available)
+        id = doc.documentID
+        if let uni = doc.get("uni_domain") as? String,
+            let auth_id = doc.get("author_id") as? String,
+            let auth_name = doc.get("author_name") as? String,
+            let auth_is_org = doc.get("author_is_organization") as? Bool,
+            let is_eve = doc.get("is_event") as? Bool,
+            let crea_mil = doc.get("creation_millis") as? Int,
+            let creat_plat = doc.get("creation_platform") as? String,
+            let txt = doc.get("text") as? String{
+            uni_domain = uni
+            author_id = auth_id
+            author_name = auth_name
+            author_is_organization = auth_is_org
+            is_event = is_eve
+            creation_millis = crea_mil
+            creation_platform = creat_plat
+            text = txt
+        }
+        
+        if let vis = doc.get("visual") as? String{
+            visual = vis
+        }
+        
+        if let pnd_id = doc.get("pinned_id") as? String{
+            pinned_id = pnd_id
+        }
+        
+        if let pnd_name = doc.get("pinned_name") as? String{
+            pinned_name = pnd_name
+        }
+        
+        if let views = doc.get("views_id") as? [String]{
+            views_id = views
+        }
     }
     
-//    convenience init(event: Event) {
-//        self.init(
-//            id: event.id,
-//            uni_domain: event.uni_domain,
-//            author_id: event.author_id,
-//            author_name: event.author_name,
-//            author_is_organization: event.author_is_organization,
-//            main_feed_visible: event.main_feed_visible)
-//    }
     
     // For convenience
     func addPin(id: String, name: String) {
@@ -58,19 +75,5 @@ class Post: Identifiable, Codable {
     
 /* Firebase & Storage Paths */
 
-    func postPath() -> String {
-        return "universities/\(uni_domain)/posts/\(self.id ?? "")"
-    }
-    
-    func postFullVisualPath() -> String {
-        return "postfiles/\(self.id ?? "")/\(self.id ?? "").jpg"
-    }
-    
-    func postPreviewImagePath() -> String {
-        return "postfiles/\(self.id ?? "")/previewimage.jpg"
-    }
-    
-    func postCommentsPath(commentID: String = "") -> String {
-        return postPath() + "/comments/" + commentID
-    }
+    //HAVE BEEN MOVED TO UTILS
 }

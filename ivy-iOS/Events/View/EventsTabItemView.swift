@@ -51,7 +51,7 @@ struct EventsTabItemView: View {
             
         
             HStack{
-                WebImage(url: URL(string: authorUrl)) //TODO: author image
+                WebImage(url: URL(string: authorUrl))
                     .resizable()
                     .placeholder(Image(systemName: "person.crop.circle.fill"))
                     .frame(width: 40, height: 40)
@@ -66,7 +66,7 @@ struct EventsTabItemView: View {
                             self.authorUrl = "\(url!)"
                         }
                 }
-                TextField("Author Name", text: $eventItemVM.event.name, onCommit: {
+                TextField("Name", text: $eventItemVM.event.name, onCommit: {
                     self.onCommit(self.eventItemVM.event)
                 })
                     .disabled(true)

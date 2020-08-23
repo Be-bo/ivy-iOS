@@ -58,7 +58,7 @@ struct Main: View {
             // MARK: Home
             VStack{
                 NavigationView{
-                    Text("Home")
+                    HomeTabView()
                         .navigationBarItems(leading:
                             HStack {
                                 Button(action: {}) {

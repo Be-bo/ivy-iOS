@@ -33,7 +33,7 @@ class Event: Identifiable/*, Codable*/ {
     var location: String = "Main Campus" //cannot be null
     
     
-    func docToObject(doc: DocumentSnapshot){ // TODO: not ideal but good enough for now (use Codable when time available)
+    func docToObject(doc: DocumentSnapshot){ //TODO: not ideal but good enough for now (use Codable when time available)
         id = doc.documentID
         if let nam = doc.get("name") as? String,
             let is_ev = doc.get("is_event") as? Bool,
