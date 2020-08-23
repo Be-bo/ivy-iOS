@@ -1,0 +1,79 @@
+//
+//  Utils.swift
+//  ivy-iOS
+//
+//  Created by Robert on 2020-08-22.
+//  Copyright © 2020 ivy. All rights reserved.
+//
+
+import Foundation
+
+final class Utils {
+    private init(){}
+    
+    static func getCampusUni() -> String{
+        let defaults = UserDefaults.standard
+        return defaults.string(forKey: "campus_uni") ?? "ucalgary.ca"
+    }
+    
+    static func setCampusUni(newUni: String){
+        let defaults = UserDefaults.standard
+        defaults.set(newUni, forKey: "campus_uni")
+    }
+    
+    static func getCurrentTimeInMillis() -> Double{
+        let since1970 = Date().timeIntervalSince1970*1000
+        return since1970
+    }
+    
+    static func getEndOfThisWeekMillis() -> Double{
+        if let thisWeekStartDate = Date(timeIntervalSince1970: getCurrentTimeInMillis()/1000).startOfWeek{ //set date to current time and set it to start of this week
+            return thisWeekStartDate.timeIntervalSince1970*1000 + Constant.millisInAWeek //set time to exactly 1 week away from now
+        }else{
+            return getCurrentTimeInMillis() + Constant.millisInAWeek //if getting week start date fails -> simply use 1 week away from now
+        }
+    }
+    
+    static func getTodayMidnightMillis() -> Double{
+        let cal = Calendar(identifier: .gregorian)
+        let midnightMillis = cal.startOfDay(for: Date(timeIntervalSince1970: (getCurrentTimeInMillis()/1000) + Constant.millisInADay/1000)).timeIntervalSince1970 * 1000 //get start of tomorrow millis = midnight today
+        return midnightMillis
+    }
+    
+    
+    static func postPath(postId: String, uni: String) -> String {
+        return "universities/\(uni)/posts/\(postId)"
+    }
+    
+    static func postFullVisualPath(postId: String) -> String {
+        return "postfiles/\(postId)/\(postId).jpg"
+    }
+    
+    static func postPreviewImagePath(postId: String) -> String {
+        return "postfiles/\(postId)/previewimage.jpg"
+    }
+    
+    static func postCommentsPath(commentId: String, uni: String, postId: String) -> String {
+        return postPath(postId: postId, uni: uni) + "/comments/" + commentId
+    }
+    
+    static func userPreviewImagePath(userId: String) -> String {
+        return  "userfiles/" + userId + "/previewimage.jpg"
+    }
+    
+    
+}
+
+extension Date {
+    var startOfWeek: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
+        return gregorian.date(byAdding: .day, value: 1, to: sunday)
+    }
+    
+    var endOfWeek: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
+        return gregorian.date(byAdding: .day, value: 7, to: sunday)
+    }
+}

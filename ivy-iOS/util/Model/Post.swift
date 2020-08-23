@@ -39,15 +39,15 @@ class Post: Identifiable, Codable {
         self.main_feed_visible = main_feed_visible
     }
     
-    convenience init(event: Event) {
-        self.init(
-            id: event.id,
-            uni_domain: event.uni_domain,
-            author_id: event.author_id,
-            author_name: event.author_name,
-            author_is_organization: event.author_is_organization,
-            main_feed_visible: event.main_feed_visible)
-    }
+//    convenience init(event: Event) {
+//        self.init(
+//            id: event.id,
+//            uni_domain: event.uni_domain,
+//            author_id: event.author_id,
+//            author_name: event.author_name,
+//            author_is_organization: event.author_is_organization,
+//            main_feed_visible: event.main_feed_visible)
+//    }
     
     // For convenience
     func addPin(id: String, name: String) {

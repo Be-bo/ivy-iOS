@@ -16,4 +16,6 @@ struct AssetManager {
     static let ucInterlock = Image("UCInterlock")
     static let logoWhite = Image("LogoWhite")
     static let logoGreen = Image("LogoGreen")
+    
+    static let eventPlaceholder = Image("EventPlaceholder")
 }

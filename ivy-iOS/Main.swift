@@ -26,7 +26,7 @@ struct Main: View {
             
             // MARK: Events
             NavigationView{
-                EventsTabView()
+                EventsTabView(screenWidth: UIScreen.screenWidth)
                     .navigationBarItems(leading:
                         HStack {
                             Button(action: {}) {
@@ -35,11 +35,17 @@ struct Main: View {
                             AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
                         }.padding(.leading, 0), trailing:
                         HStack {
-                            Button(action: {}) {
-                                loggedIn == true ? Image(systemName: "square.and.pencil").font(.system(size: 25)) : Image(systemName: "arrow.right.circle").font(.system(size: 25))
+                            Button(action: {
+                                self.loginPresented.toggle()
+                            }) {
+                                Image(systemName: loggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
+                                .sheet(isPresented: $loginPresented){
+                                    LoginView()
+                                }
                             }
                     })
             }
+                
             .tabItem{
                 selection == 0 ? Image(systemName: "calendar").font(.system(size: 25)) : Image(systemName: "calendar").font(.system(size: 25))
             }
@@ -48,28 +54,38 @@ struct Main: View {
             
             
             
+            
+            
             // MARK: Home
             VStack{
                 NavigationView{
                     Text("Home")
-                    .navigationBarItems(leading:
-                        HStack {
-                            Button(action: {}) {
-                                Image(systemName: "gear").font(.system(size: 25))
-                            }
-                            AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
-                        }.padding(.leading, 0), trailing:
-                        HStack {
-                            Button(action: {}) {
-                                Image(systemName: "square.and.pencil").font(.system(size: 25))
-                            }
-                    })
+                        .navigationBarItems(leading:
+                            HStack {
+                                Button(action: {}) {
+                                    Image(systemName: "gear").font(.system(size: 25))
+                                }
+                                AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                            }.padding(.leading, 0), trailing:
+                            HStack {
+                                Button(action: {
+                                    self.loginPresented.toggle()
+                                }) {
+                                    Image(systemName: loggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
+                                    .sheet(isPresented: $loginPresented){
+                                        LoginView()
+                                    }
+                                }
+                        })
                 }
             }
             .tabItem {
                 selection == 1 ? Image(systemName: "house.fill").font(.system(size: 25)) : Image(systemName: "house").font(.system(size: 25))
             }
             .tag(1)
+            
+            
+            
             
             
             
