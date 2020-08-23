@@ -25,7 +25,7 @@ struct EventsTabItemView: View {
                 Button(action: {
                     self.selection = 1
                 }){
-                    WebImage(url: URL(string: url)) //TODO: event image
+                    WebImage(url: URL(string: url))
                         .resizable()
                         .placeholder(AssetManager.logoWhite)
                         .background(AssetManager.ivyLightGrey)

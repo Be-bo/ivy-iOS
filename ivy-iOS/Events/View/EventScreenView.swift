@@ -24,34 +24,33 @@ struct EventScreenView: View {
             
             VStack{
                 
-                Group{
-                    //MARK: Image
-                    WebImage(url: URL(string: self.imageUrl))
-                        .resizable()
-                        .placeholder(AssetManager.logoWhite)
-                        .background(AssetManager.ivyLightGrey)
-                        .frame(width: self.screenWidth, height: self.screenWidth)
-                        .onAppear(){
-                            let storage = Storage.storage().reference()
-                            storage.child(self.eventVM.event.visual).downloadURL { (url, err) in
-                                if err != nil{
-                                    print("Error loading featured image.")
-                                    return
-                                }
-                                self.imageUrl = "\(url!)"
+                
+                //MARK: Image
+                WebImage(url: URL(string: self.imageUrl))
+                    .resizable()
+                    .placeholder(AssetManager.logoWhite)
+                    .background(AssetManager.ivyLightGrey)
+                    .frame(width: self.screenWidth, height: self.screenWidth)
+                    .onAppear(){
+                        let storage = Storage.storage().reference()
+                        storage.child(self.eventVM.event.visual).downloadURL { (url, err) in
+                            if err != nil{
+                                print("Error loading featured image.")
+                                return
                             }
-                    }
-                    
-                    
-                    
+                            self.imageUrl = "\(url!)"
+                        }
+                }
+                
+                
+                Group{
                     //MARK: Author Row
                     HStack(){
-                        WebImage(url: URL(string: authorUrl)) //TODO: author image
+                        WebImage(url: URL(string: authorUrl))
                             .resizable()
                             .placeholder(Image(systemName: "person.crop.circle.fill"))
                             .frame(width: 60, height: 60)
                             .clipShape(Circle())
-                            .padding(.leading)
                             .onAppear(){
                                 let storage = Storage.storage().reference()
                                 storage.child(Utils.userPreviewImagePath(userId: self.eventVM.event.author_id)).downloadURL { (url, err) in
@@ -70,7 +69,7 @@ struct EventScreenView: View {
                     
                     //MARK: Time Row
                     HStack{
-                        Image(systemName: "clock.fill").padding(.leading)
+                        Image(systemName: "clock.fill")
                         Text(Utils.getEventDate(millis:eventVM.event.start_millis) + " - " + Utils.getEventDate(millis:eventVM.event.end_millis))
                         Spacer()
                     }
@@ -78,16 +77,20 @@ struct EventScreenView: View {
                     
                     //MARK: Location Row
                     HStack{
-                        Image(systemName: "location.fill").padding(.leading)
+                        Image(systemName: "location.fill")
                         Text(eventVM.event.location)
                         Spacer()
                     }
+                    
+                    //MARK: Text
+                    Text(eventVM.event.text)
                 }
+                .padding(.leading)
+                .padding(.trailing)
                 
                 
                 
-                //MARK: Text & Going
-                Text(eventVM.event.text).padding(.top, 10)
+                //MARK: Going
                 if(eventVM.event.going_ids.count < 1){
                     Text("Nobody's going to this event yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                 }else{
