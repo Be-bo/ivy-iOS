@@ -7,9 +7,19 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class Utils {
     private init(){}
+    
+    static func verifyUrl (urlString: String?) -> Bool {
+        if let urlString = urlString {
+            if let url = NSURL(string: urlString) {
+                return UIApplication.shared.canOpenURL(url as URL)
+            }
+        }
+        return false
+    }
     
     static func getCampusUni() -> String{
         let defaults = UserDefaults.standard
@@ -61,6 +71,11 @@ final class Utils {
         return  "userfiles/" + userId + "/previewimage.jpg"
     }
     
+    static func getEventDate(millis: Int) -> String{
+        let date = Date(timeIntervalSince1970: TimeInterval(millis/1000))
+        return date.getFormattedDate(format: "yyyy-MM-dd HH:mm")
+    }
+    
     
 }
 
@@ -75,5 +90,11 @@ extension Date {
         let gregorian = Calendar(identifier: .gregorian)
         guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
         return gregorian.date(byAdding: .day, value: 7, to: sunday)
+    }
+    
+    func getFormattedDate(format: String) -> String {
+        let dateformat = DateFormatter()
+        dateformat.dateFormat = format
+        return dateformat.string(from: self)
     }
 }

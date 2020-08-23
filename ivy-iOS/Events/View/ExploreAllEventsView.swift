@@ -13,12 +13,13 @@ import Firebase
 
 struct ExploreAllEventsView: View {
     @ObservedObject var eventTabVM = EventTabViewModel();
+    var screenWidth: CGFloat = 300
     
     var body: some View {
         VStack{
             List{
                 ForEach(eventTabVM.exploreAllEventsVMs) { eventItemVM in
-                    ExploreAllEventsItemView(eventItemVM: eventItemVM)
+                    ExploreAllEventsItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
                 }
             }
         }

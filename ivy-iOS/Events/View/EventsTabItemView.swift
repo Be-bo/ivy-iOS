@@ -14,28 +14,42 @@ struct EventsTabItemView: View {
     @ObservedObject var eventItemVM: EventItemViewModel
     @State var url = ""
     @State var authorUrl = ""
+    @State var selection: Int? = nil
+    var screenWidth: CGFloat = 300
     var onCommit: (Event) -> (Void) = {_ in}
     
     var body: some View {
         
         VStack(alignment: .leading){
-            WebImage(url: URL(string: url)) //TODO: event image
-                .resizable()
-                .placeholder(AssetManager.logoWhite)
-                .background(AssetManager.ivyLightGrey)
-                .frame(width: 200, height: 200)
-                .clipShape(RoundedRectangle(cornerRadius: 30))
-                .onAppear(){
-                    let storage = Storage.storage().reference()
-                    storage.child(self.eventItemVM.event.visual).downloadURL { (url, err) in
-                        if err != nil{
-                            print("Error loading event image.")
-                            return
-                        }
-                        self.url = "\(url!)"
+            NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+                Button(action: {
+                    self.selection = 1
+                }){
+                    WebImage(url: URL(string: url)) //TODO: event image
+                        .resizable()
+                        .placeholder(AssetManager.logoWhite)
+                        .background(AssetManager.ivyLightGrey)
+                        .frame(width: 200, height: 200)
+                        .clipShape(RoundedRectangle(cornerRadius: 30))
+                        .onAppear(){
+                            let storage = Storage.storage().reference()
+                            storage.child(self.eventItemVM.event.visual).downloadURL { (url, err) in
+                                if err != nil{
+                                    print("Error loading event image.")
+                                    return
+                                }
+                                self.url = "\(url!)"
+                            }
                     }
+
+                    .buttonStyle(PlainButtonStyle()) //an extremely reta*ded situation, only doesn't overlay the image with button color when all 3 of these have PlainButtonStyle applied at the same time
+                }
+                .buttonStyle(PlainButtonStyle())
             }
+            .buttonStyle(PlainButtonStyle())
             
+            
+        
             HStack{
                 WebImage(url: URL(string: authorUrl)) //TODO: author image
                     .resizable()
@@ -52,7 +66,7 @@ struct EventsTabItemView: View {
                             self.authorUrl = "\(url!)"
                         }
                 }
-                TextField("placeholder", text: $eventItemVM.event.name, onCommit: {
+                TextField("Author Name", text: $eventItemVM.event.name, onCommit: {
                     self.onCommit(self.eventItemVM.event)
                 })
                     .disabled(true)

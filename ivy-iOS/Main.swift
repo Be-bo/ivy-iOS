@@ -45,7 +45,6 @@ struct Main: View {
                             }
                     })
             }
-                
             .tabItem{
                 selection == 0 ? Image(systemName: "calendar").font(.system(size: 25)) : Image(systemName: "calendar").font(.system(size: 25))
             }
@@ -113,6 +112,7 @@ struct Main: View {
         .accentColor(AssetManager.ivyGreen)
     }
 }
+
 
 
 struct Main_Previews: PreviewProvider {

@@ -12,16 +12,16 @@ import FirebaseFirestoreSwift
 
 class Event: Identifiable/*, Codable*/ {
     @DocumentID var id: String? //cannot be null
-    var name: String = "" //cannot be null
+    var name: String = "Name" //cannot be null
     var is_event = true //cannot be null
     var uni_domain: String = "" //cannot be null
     var author_id: String = "" //cannot be null
-    var author_name: String = "" //cannot be null
+    var author_name: String = "Author" //cannot be null
     var author_is_organization: Bool = false //cannot be null
     var main_feed_visible = true
     var creation_millis = 0 //cannot be null
     var creation_platform = "iOS" //cannot be null
-    var text = "" //cannot be null
+    var text = "Event Text" //cannot be null
     var visual = ""
     var views_id = [String]()
     var start_millis: Int = 0 //cannot be null
@@ -30,10 +30,10 @@ class Event: Identifiable/*, Codable*/ {
     var is_active = true //cannot be null
     var is_featured = false //cannot be null
     var link: String = ""
-    var location: String = "" //cannot be null
+    var location: String = "Main Campus" //cannot be null
     
     
-    func docToObject(doc: DocumentSnapshot){ // TODO: not ideal for now but had problems with the codable
+    func docToObject(doc: DocumentSnapshot){ // TODO: not ideal but good enough for now (use Codable when time available)
         id = doc.documentID
         if let nam = doc.get("name") as? String,
             let is_ev = doc.get("is_event") as? Bool,
