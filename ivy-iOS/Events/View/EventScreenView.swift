@@ -43,7 +43,7 @@ struct EventScreenView: View {
                 }
                 
                 
-                Group{
+                VStack(alignment: .leading){
                     //MARK: Author Row
                     HStack(){
                         WebImage(url: URL(string: authorUrl))
@@ -81,6 +81,7 @@ struct EventScreenView: View {
                         Text(eventVM.event.location)
                         Spacer()
                     }
+                    .padding(.bottom, 10)
                     
                     //MARK: Text
                     Text(eventVM.event.text)

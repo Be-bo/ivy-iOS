@@ -47,7 +47,7 @@ struct HomePostView: View {
             // MARK: Post Content
             VStack{
                 // MARK: Text
-                ZStack{ //a little trick to get rid of the default navlink arrow
+                ZStack(alignment: .leading){ //a little trick to get rid of the default navlink arrow
                     Button(action: {
                         self.selection = 1
                     }){
@@ -72,37 +72,39 @@ struct HomePostView: View {
                 
                 
                 // MARK: Image
-                ZStack{ //little trick to remove the default navlink arrow
-                    Button(action: {
-                        self.selection = 2
-                    }){
-                        WebImage(url: URL(string: url)) //TODO: event image
-                            .resizable()
-                            .placeholder(AssetManager.logoWhite)
-                            .background(AssetManager.ivyLightGrey)
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(RoundedRectangle(cornerRadius: 30))
-                            .onAppear(){
-                                let storage = Storage.storage().reference()
-                                storage.child(self.postItemVM.post.visual).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading post image.")
-                                        return
+                if(postItemVM.post.visual != "" && postItemVM.post.visual != "nothing"){
+                    ZStack{ //little trick to remove the default navlink arrow
+                        Button(action: {
+                            self.selection = 2
+                        }){
+                            WebImage(url: URL(string: url)) //TODO: event image
+                                .resizable()
+                                .placeholder(AssetManager.logoWhite)
+                                .background(AssetManager.ivyLightGrey)
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 30))
+                                .onAppear(){
+                                    let storage = Storage.storage().reference()
+                                    storage.child(self.postItemVM.post.visual).downloadURL { (url, err) in
+                                        if err != nil{
+                                            print("Error loading post image.")
+                                            return
+                                        }
+                                        self.url = "\(url!)"
                                     }
-                                    self.url = "\(url!)"
-                                }
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 2, selection: self.$selection) { //both post and image are clickable for post screen transition
+                            EmptyView()
                         }
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 2, selection: self.$selection) { //both post and image are clickable for post screen transition
-                        EmptyView()
-                    }
-                }
+                }   
             }
             .padding(.leading, 10)
         }
-        .padding(.top, 30)
-        .padding(.bottom, 30)
+        .padding(.top, 15)
+        .padding(.bottom, 15)
     }
 }

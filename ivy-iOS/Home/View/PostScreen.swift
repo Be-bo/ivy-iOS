@@ -23,24 +23,26 @@ struct PostScreen: View {
             VStack{
                 
                 //MARK: Image
-                WebImage(url: URL(string: self.imageUrl))
-                    .resizable()
-                    .placeholder(AssetManager.logoWhite)
-                    .background(AssetManager.ivyLightGrey)
-                    .aspectRatio(contentMode: .fit)
-                    .onAppear(){
-                        let storage = Storage.storage().reference()
-                        storage.child(self.postVM.post.visual).downloadURL { (url, err) in
-                            if err != nil{
-                                print("Error loading post screen image.")
-                                return
+                if(postVM.post.visual != "" && postVM.post.visual != "nothing"){
+                    WebImage(url: URL(string: self.imageUrl))
+                        .resizable()
+                        .placeholder(AssetManager.logoWhite)
+                        .background(AssetManager.ivyLightGrey)
+                        .aspectRatio(contentMode: .fit)
+                        .onAppear(){
+                            let storage = Storage.storage().reference()
+                            storage.child(self.postVM.post.visual).downloadURL { (url, err) in
+                                if err != nil{
+                                    print("Error loading post screen image.")
+                                    return
+                                }
+                                self.imageUrl = "\(url!)"
                             }
-                            self.imageUrl = "\(url!)"
-                        }
+                    }
                 }
                 
                 
-                Group{
+                VStack(alignment: .leading){
                     //MARK: Author Row
                     HStack(){
                         WebImage(url: URL(string: authorUrl))
