@@ -12,7 +12,7 @@ import Combine
 
 class OrgSignupViewModel: ObservableObject {
     
-    @Published var uni_domain: String = ""
+    @Published var uni_domain: String? = nil
     @Published var email = ""
     @Published var password = ""
     @Published var confirmPassword = ""
@@ -101,7 +101,7 @@ class OrgSignupViewModel: ObservableObject {
             newOrg.id = id
             newOrg.email = self.email
             newOrg.is_club = self.is_club
-            newOrg.uni_domain = self.uni_domain
+            newOrg.uni_domain = self.uni_domain!
             
             do {
                 let _ = try db.collection("users").document(id).setData(from: newOrg)

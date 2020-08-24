@@ -73,7 +73,7 @@ struct StudentProfile: View {
                             
                             GridView(
                                 cells: self.postListVM.postVMs,
-                                maxCol: 3
+                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                             ) { geo in
                                 { postVM in
                                     ZStack {
@@ -83,8 +83,8 @@ struct StudentProfile: View {
                                             FirebaseImage(
                                                 path: Utils.postPreviewImagePath(postId: postVM.id),
                                                 placeholder: AssetManager.logoGreen,
-                                                width: geo.size.width/3,
-                                                height: geo.size.width/3,
+                                                width: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT),
+                                                height: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT),
                                                 shape: RoundedRectangle(cornerRadius: 25)
                                             )
                                         }
