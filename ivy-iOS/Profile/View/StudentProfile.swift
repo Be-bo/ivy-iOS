@@ -70,32 +70,23 @@ struct StudentProfile: View {
                                 Spacer()
                             }
                             
-                            NavigationView {
-                                GridView(
-                                    cells: postListVM.posts,
-                                    maxCol: 3
-                                ) { post in
-                                    HStack {
-                                        //print(post.text)
-                                        Image(systemName: "star.fill")
-                                            .resizable()
-                                            .frame(width: 60, height: 60)
-                                        Text("Post Loaded! \(post.text)")
-                                    }
-                                    
-                                    
-                                    /*
+                            GridView(
+                                cells: postListVM.posts,
+                                maxCol: 3
+                            ) { post in
+                                GeometryReader { geo in
                                     //TODO: ASK ROBERT
                                     //NavigationLink(destination: PostScreen()) {
-                                        FirebaseImage(
-                                            path: Utils.postPreviewImagePath(postId: post.id ?? "nil"),
-                                            placeholder: AssetManager.logoWhite,
-                                            width: 150,
-                                            height: 150,
-                                            shape: RoundedRectangle(cornerRadius: 25)
-                                        )
+
+                                     FirebaseImage(
+                                         path: Utils.postPreviewImagePath(postId: post.id ?? "nil"),
+                                         placeholder: AssetManager.logoGreen,
+                                         width: geo.size.width/3,
+                                         height: geo.size.width/3,
+                                         shape: RoundedRectangle(cornerRadius: 25)
+                                     )
+                                     
                                     //}
-                                    */
                                 }
                             }
                         }
