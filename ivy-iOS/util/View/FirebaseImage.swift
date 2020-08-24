@@ -13,51 +13,37 @@
 import SwiftUI
 import Combine
 import FirebaseStorage
+import SDWebImageSwiftUI
 
 
 // Struct similar to Image used for firebase images
-struct FirebaseImage: View {
+struct FirebaseImage<S>: View where S:Shape{
     
-    @ObservedObject private var imageLoader: Loader
-    var placeholder: UIImage
+    @State private var imageURL = ""
+    let storage = Storage.storage().reference()
+
+    var path: String
+    var placeholder: Image
+    var width: CGFloat? = 100
+    var height: CGFloat? = 100
+    var shape: S
     
-    init(path: String, _ placeholderName: String = "LogoGreen.jpg") {
-        self.imageLoader = Loader(path)
-        self.placeholder = UIImage(named: placeholderName)!
-    }
-    
-    var image: UIImage? {
-        imageLoader.data.flatMap(UIImage.init)
-    }
-    
+        
     var body: some View {
-        Image(uiImage: image ?? placeholder)
+        WebImage(url: URL(string: imageURL))
+            .resizable()
+            .placeholder(placeholder)
+            .frame(width: width, height: height)
+            .clipShape(shape)
+            .onAppear(){
+                self.storage.child(self.path).downloadURL { (url, err) in
+                    if err != nil{
+                        print("Error loading image from storage.")
+                        return
+                    }
+                    self.imageURL = "\(url!)"
+                }
+        }
     }
 }
 
-// Loader to load images from firebase storage
-final class Loader : ObservableObject {
-    
-    let didChange = PassthroughSubject<Data?, Never>()
-    var data: Data? = nil {
-        didSet {
-            didChange.send(data)
-        }
-    }
-    
-    init(_ imgPath: String) {
-        let storage = Storage.storage()
-        
-        storage.reference().child(imgPath)
-            .getData(maxSize: 1 * 1024 * 1024) { data, error in
-                if let error = error {
-                    print("\(error)")
-                }
-                
-                DispatchQueue.main.async {
-                    self.data = data
-                }
-        }
-        
-    }
-}
