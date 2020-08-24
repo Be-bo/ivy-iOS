@@ -21,8 +21,8 @@ struct FirebaseImage: View {
     @ObservedObject private var imageLoader: Loader
     var placeholder: UIImage
     
-    init(id: String, _ placeholderName: String = "placeholder.jpg") {
-        self.imageLoader = Loader(id)
+    init(path: String, _ placeholderName: String = "LogoGreen.jpg") {
+        self.imageLoader = Loader(path)
         self.placeholder = UIImage(named: placeholderName)!
     }
     

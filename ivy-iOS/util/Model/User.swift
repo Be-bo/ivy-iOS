@@ -41,4 +41,12 @@ class User: Identifiable, Codable {
     func userPath() -> String {
         return "users/\(self.id ?? "")"
     }
+    
+    func profileImagePath() -> String {
+        return "userfiles/\(self.id ?? "")/profileimage.jpg"
+    }
+    
+    func previewImagePath() -> String {
+        return "userfiles/\(self.id ?? "")/previewimage.jpg"
+    }
 }

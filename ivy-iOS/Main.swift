@@ -75,16 +75,27 @@ struct Main: View {
             
             // MARK: Profile
             VStack{
-                Text("MAIN").padding()
-                Button(action: {
-                    self.loginPresented.toggle()
-                }){
-                    Text("Go to login").sheet(isPresented: $loginPresented){
-                        LoginView()
-                    }
-                }
-                NavigationLink(destination: StudentProfile(Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))) {
-                    Text("Test Student Profile")
+                NavigationView {
+                    
+                    StudentProfile(student: Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
+                        
+                        .navigationBarItems(leading:
+                            HStack {
+                                    Button(action: {}) {
+                                        Image(systemName: "gear").font(.system(size: 25))
+                                    }
+                                    AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                                }.padding(.leading, 0), trailing:
+                                HStack {
+                                    Button(action: {
+                                        self.loginPresented.toggle()
+                                    }) {
+                                        Image(systemName: "person.crop.circle").font(.system(size: 25))
+                                    }.sheet(isPresented: $loginPresented){
+                                        LoginView()
+                                    }
+                            }
+                    )
                 }
             }
             .tabItem {

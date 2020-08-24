@@ -9,23 +9,25 @@
 /* Begin PBXBuildFile section */
 		4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */; };
 		8D002D6124F0349D00518590 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6024F0349D00518590 /* Event.swift */; };
+		8D002D6F24F05FF100518590 /* EventsTabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6D24F05FF100518590 /* EventsTabItemView.swift */; };
+		8D002D7024F05FF100518590 /* EventsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6E24F05FF100518590 /* EventsTabView.swift */; };
 		8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */; };
-		8D30BF9B24EEE6E600970050 /* StudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9A24EEE6E600970050 /* StudentProfile.swift */; };
-		8D30BF9D24EEFD9A00970050 /* StudentProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9C24EEFD9A00970050 /* StudentProfileViewModel.swift */; };
 		8D30BF9F24EF024200970050 /* FirebaseImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9E24EF024200970050 /* FirebaseImage.swift */; };
-		8D30BFA124EF0EE000970050 /* EditStudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFA024EF0EE000970050 /* EditStudentProfile.swift */; };
 		8D30BFA324EF166000970050 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFA224EF166000970050 /* GridView.swift */; };
-		8D30BFA524EF16ED00970050 /* OrganizationProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFA424EF16ED00970050 /* OrganizationProfile.swift */; };
-		8D30BFA724EF173B00970050 /* OrganizationProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFA624EF173B00970050 /* OrganizationProfileViewModel.swift */; };
 		8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFAB24EF19AC00970050 /* SeeAllUsers.swift */; };
 		8D30BFAE24EF5ECA00970050 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFAD24EF5ECA00970050 /* Post.swift */; };
-		8D515D0E24E6FFA700D67144 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */; };
 		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
 		8D515D1424E73D1E00D67144 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1324E73D1E00D67144 /* User.swift */; };
 		8D515D1624E8668400D67144 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1524E8668400D67144 /* Organization.swift */; };
 		8D515D1824E86A7E00D67144 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1724E86A7E00D67144 /* Student.swift */; };
 		8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */; };
-		8D515D1C24EAEA4900D67144 /* StaticDomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1B24EAEA4900D67144 /* StaticDomainList.swift */; };
+		8D98D12724F0668800F58539 /* StudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12424F0668800F58539 /* StudentProfile.swift */; };
+		8D98D12824F0668800F58539 /* EditStudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12524F0668800F58539 /* EditStudentProfile.swift */; };
+		8D98D12924F0668800F58539 /* OrganizationProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12624F0668800F58539 /* OrganizationProfile.swift */; };
+		8D98D12C24F0669F00F58539 /* StaticDomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12A24F0669F00F58539 /* StaticDomainList.swift */; };
+		8D98D12D24F0669F00F58539 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12B24F0669F00F58539 /* StaticDegreesList.swift */; };
+		8D98D12F24F06BAE00F58539 /* PostListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12E24F06BAE00F58539 /* PostListViewModel.swift */; };
+		8D98D13124F06D3A00F58539 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D13024F06D3A00F58539 /* Constant.swift */; };
 		8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */; };
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
 		8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13924E5B9F800A8F801 /* SignupSupport.swift */; };
@@ -49,23 +51,25 @@
 
 /* Begin PBXFileReference section */
 		8D002D6024F0349D00518590 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		8D002D6D24F05FF100518590 /* EventsTabItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsTabItemView.swift; path = "ivy-iOS/Events/View/EventsTabItemView.swift"; sourceTree = SOURCE_ROOT; };
+		8D002D6E24F05FF100518590 /* EventsTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsTabView.swift; path = "ivy-iOS/Events/View/EventsTabView.swift"; sourceTree = SOURCE_ROOT; };
 		8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinner.swift; sourceTree = "<group>"; };
-		8D30BF9A24EEE6E600970050 /* StudentProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StudentProfile.swift; path = "ivy-iOS/Assets/StudentProfile.swift"; sourceTree = SOURCE_ROOT; };
-		8D30BF9C24EEFD9A00970050 /* StudentProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StudentProfileViewModel.swift; path = "ivy-iOS/Assets/StudentProfileViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		8D30BF9E24EF024200970050 /* FirebaseImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseImage.swift; sourceTree = "<group>"; };
-		8D30BFA024EF0EE000970050 /* EditStudentProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditStudentProfile.swift; path = "ivy-iOS/Assets/EditStudentProfile.swift"; sourceTree = SOURCE_ROOT; };
-		8D30BFA224EF166000970050 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = "ivy-iOS/Assets/GridView.swift"; sourceTree = SOURCE_ROOT; };
-		8D30BFA424EF16ED00970050 /* OrganizationProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OrganizationProfile.swift; path = "ivy-iOS/Assets/OrganizationProfile.swift"; sourceTree = SOURCE_ROOT; };
-		8D30BFA624EF173B00970050 /* OrganizationProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OrganizationProfileViewModel.swift; path = "ivy-iOS/Assets/OrganizationProfileViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		8D30BFA224EF166000970050 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = View/GridView.swift; sourceTree = SOURCE_ROOT; };
 		8D30BFAB24EF19AC00970050 /* SeeAllUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllUsers.swift; sourceTree = "<group>"; };
 		8D30BFAD24EF5ECA00970050 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StaticDegreesList.swift; path = "ivy-iOS/Assets/StaticDegreesList.swift"; sourceTree = SOURCE_ROOT; };
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1324E73D1E00D67144 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8D515D1524E8668400D67144 /* Organization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
 		8D515D1724E86A7E00D67144 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignupViewModel.swift; sourceTree = "<group>"; };
-		8D515D1B24EAEA4900D67144 /* StaticDomainList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StaticDomainList.swift; path = "ivy-iOS/LoginSignup/ViewModel/StaticDomainList.swift"; sourceTree = SOURCE_ROOT; };
+		8D98D12424F0668800F58539 /* StudentProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentProfile.swift; sourceTree = "<group>"; };
+		8D98D12524F0668800F58539 /* EditStudentProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditStudentProfile.swift; sourceTree = "<group>"; };
+		8D98D12624F0668800F58539 /* OrganizationProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationProfile.swift; sourceTree = "<group>"; };
+		8D98D12A24F0669F00F58539 /* StaticDomainList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDomainList.swift; sourceTree = "<group>"; };
+		8D98D12B24F0669F00F58539 /* StaticDegreesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDegreesList.swift; sourceTree = "<group>"; };
+		8D98D12E24F06BAE00F58539 /* PostListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewModel.swift; sourceTree = "<group>"; };
+		8D98D13024F06D3A00F58539 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
 		8DABC13924E5B9F800A8F801 /* SignupSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupSupport.swift; sourceTree = "<group>"; };
@@ -262,10 +266,10 @@
 		FA96E8AF24E5AC5600E33BAD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				8D30BF9A24EEE6E600970050 /* StudentProfile.swift */,
-				8D30BFA024EF0EE000970050 /* EditStudentProfile.swift */,
 				8D30BFA224EF166000970050 /* GridView.swift */,
-				8D30BFA424EF16ED00970050 /* OrganizationProfile.swift */,
+				8D98D12524F0668800F58539 /* EditStudentProfile.swift */,
+				8D98D12624F0668800F58539 /* OrganizationProfile.swift */,
+				8D98D12424F0668800F58539 /* StudentProfile.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -273,8 +277,7 @@
 		FA96E8B024E5AC5C00E33BAD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				8D30BF9C24EEFD9A00970050 /* StudentProfileViewModel.swift */,
-				8D30BFA624EF173B00970050 /* OrganizationProfileViewModel.swift */,
+				8D98D12E24F06BAE00F58539 /* PostListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 		FA96E8B124E5AC6400E33BAD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8D98D13024F06D3A00F58539 /* Constant.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -303,6 +307,8 @@
 		FA96E8B424E5AC8700E33BAD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8D002D6D24F05FF100518590 /* EventsTabItemView.swift */,
+				8D002D6E24F05FF100518590 /* EventsTabView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -331,8 +337,8 @@
 		FA96E8B824E5ACAF00E33BAD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */,
-				8D515D1B24EAEA4900D67144 /* StaticDomainList.swift */,
+				8D98D12B24F0669F00F58539 /* StaticDegreesList.swift */,
+				8D98D12A24F0669F00F58539 /* StaticDomainList.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -487,35 +493,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D515D1624E8668400D67144 /* Organization.swift in Sources */,
-				8D515D1C24EAEA4900D67144 /* StaticDomainList.swift in Sources */,
+				8D98D12D24F0669F00F58539 /* StaticDegreesList.swift in Sources */,
 				8D30BF9F24EF024200970050 /* FirebaseImage.swift in Sources */,
 				8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */,
 				8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */,
 				8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */,
-				8D30BF9B24EEE6E600970050 /* StudentProfile.swift in Sources */,
+				8D98D12824F0668800F58539 /* EditStudentProfile.swift in Sources */,
 				8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */,
+				8D98D13124F06D3A00F58539 /* Constant.swift in Sources */,
+				8D002D6F24F05FF100518590 /* EventsTabItemView.swift in Sources */,
+				8D98D12F24F06BAE00F58539 /* PostListViewModel.swift in Sources */,
 				8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */,
 				8D30BFAE24EF5ECA00970050 /* Post.swift in Sources */,
 				8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */,
 				8D515D1424E73D1E00D67144 /* User.swift in Sources */,
 				FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */,
 				8D002D6124F0349D00518590 /* Event.swift in Sources */,
-				8D30BFA124EF0EE000970050 /* EditStudentProfile.swift in Sources */,
 				FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */,
+				8D002D7024F05FF100518590 /* EventsTabView.swift in Sources */,
 				FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */,
-				8D30BF9D24EEFD9A00970050 /* StudentProfileViewModel.swift in Sources */,
-				8D30BFA524EF16ED00970050 /* OrganizationProfile.swift in Sources */,
+				8D98D12C24F0669F00F58539 /* StaticDomainList.swift in Sources */,
 				8D30BFA324EF166000970050 /* GridView.swift in Sources */,
+				8D98D12724F0668800F58539 /* StudentProfile.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
 				FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */,
 				A9B0A71D24B8058500A11A1D /* Main.swift in Sources */,
-				8D515D0E24E6FFA700D67144 /* StaticDegreesList.swift in Sources */,
 				8D515D1824E86A7E00D67144 /* Student.swift in Sources */,
-				8D30BFA724EF173B00970050 /* OrganizationProfileViewModel.swift in Sources */,
 				FAD2366C24E48DF300F92637 /* TestView.swift in Sources */,
 				8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */,
 				FA96E8AA24E5980E00E33BAD /* StandardButtonStyle.swift in Sources */,
 				FA5DEF9724B6970D00C397CB /* AppDelegate.swift in Sources */,
+				8D98D12924F0668800F58539 /* OrganizationProfile.swift in Sources */,
 				FA5DEF9924B6970D00C397CB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

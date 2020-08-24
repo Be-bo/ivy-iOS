@@ -31,9 +31,10 @@ struct EventsTabItemView: View {
     }
 }
 
-
+/*
 struct EventsTabItem_Previews: PreviewProvider {
     static var previews: some View {
         EventsTabItemView()
     }
 }
+ */

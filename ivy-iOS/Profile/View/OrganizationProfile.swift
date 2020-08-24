@@ -11,13 +11,19 @@ import SwiftUI
 
 struct OrganizationProfile: View {
     
-    @ObservedObject var orgProfileVM: OrganizationProfileViewModel
+    @ObservedObject var postListVM: PostListViewModel
     @State var editProfile = false
     @State var seeMemberRequests = false
+    var organization: Organization
     
-    // MARK: TODO: publish currently logged in student instead of passing it in
-    init(_ organization: Organization) {
-        self.orgProfileVM = OrganizationProfileViewModel(organization: organization)
+    
+    init(organization: Organization) {
+        self.organization = organization
+        self.postListVM = PostListViewModel(
+            user_id: organization.id ?? "",
+            uni_domain: organization.uni_domain ?? "",
+            limit: Constant.PROFILE_POST_LIMIT_ORG
+        )
     }
     
     var body: some View {
@@ -34,7 +40,7 @@ struct OrganizationProfile: View {
                     
                     VStack (alignment: .leading){
                         
-                        Text(orgProfileVM.organization.name)
+                        Text(organization.name)
                         Text("Members")
                             .padding(.bottom)
                         
@@ -64,7 +70,7 @@ struct OrganizationProfile: View {
                 
                 
                 Text("Posts")
-                GridView()
+                //GridView()
                 
                 Spacer()
             }
@@ -75,7 +81,7 @@ struct OrganizationProfile: View {
 
 struct OrganizationProfile_Previews: PreviewProvider {
     static var previews: some View {
-        OrganizationProfile(Organization(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", is_club: false))
+        OrganizationProfile(organization: Organization(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", is_club: false))
     }
 }
 
@@ -88,10 +94,11 @@ struct SeeMembers: View {
             
             ScrollView {
                 HStack {
-                    Image("LogoGreen")
-                    .resizable()
-                    .frame(width: 150, height: 150)
-                    
+                    ForEach(1...5, id: \.self) {_ in
+                        Image("LogoGreen")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                    }
                     Spacer()
                 }
             }
