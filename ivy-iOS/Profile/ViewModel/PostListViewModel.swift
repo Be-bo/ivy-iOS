@@ -8,52 +8,68 @@
 
 import FirebaseStorage
 import Foundation
+import SwiftUI
 import Firebase
 import Combine
 
 class PostListViewModel: ObservableObject {
     
     @Published var posts = [Post]()
-    @Published var postsLoaded = false
-    
-    var user_id: String
-    var uni_domain: String
-    
+    @Published var postsLoaded = true
+        
     let db = Firestore.firestore()
     
-    init(user_id: String, uni_domain: String, limit: Int) {
-        self.user_id = user_id
-        self.uni_domain = uni_domain
-        loadPosts(limit: limit)
-    }
     
-    func loadPosts(limit: Int) {
+    func loadPosts(limit: Int, uni_domain: String, user_id: String) {
+        postsLoaded = false
         let postsPath = "universities/\(uni_domain)/posts"
+        if (uni_domain == "" || user_id == "") {
+            print("This user not loaded yet! Cannot load posts for profile")
+            postsLoaded = true
+            return
+        }
         
-        // MARK: Robert
-//        db.collection(postsPath)
-//            .whereField("author_id", isEqualTo: user_id as Any)
-//            .order(by: "creation_millis", descending: true)
-//            .limit(to: limit)
-//            .addSnapshotListener { (querySnapshot, error) in
-//                if let querySnapshot = querySnapshot {
-//                    self.posts = querySnapshot.documents.compactMap { document in
-//                        do {
-//                            if (document.get("is_event") != nil && document.get("is_event") as! Bool) {
-//                                let x = try document.data(as: Post.self)
-//                                return x
-//                            } else {
-//                                let x = try document.data(as: Post.self)
-//                                return x
-//                            }
-//                        }
-//                        catch {
-//                            print(error)
-//                            return nil
-//                        }
-//                    }
-//                }
-//            }
+        /*db.collection(postsPath)
+            .whereField("author_id", isEqualTo: user_id as Any)
+            .order(by: "creation_millis", descending: true)
+            .limit(to: limit)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let querySnapshot = querySnapshot {
+                    self.posts = querySnapshot.documents.compactMap { document in
+                        do {
+                            if (document.get("is_event") != nil && document.get("is_event") as! Bool) {
+                                let x = try document.data(as: Event.self)
+                                return x
+                            } else {
+                                let x = try document.data(as: Post.self)
+                                return x
+                            }
+                        }
+                        catch {
+                            print(error)
+                            return nil
+                        }
+                    }
+                }
+            }*/
+        
+        // TODO: this is quick and dirty. must include events later and retrieve docs as objects
+        db.collection(postsPath)
+            .whereField("is_event", isEqualTo: false)
+            .whereField("author_id", isEqualTo: user_id as Any)
+            .order(by: "creation_millis", descending: true)
+            .limit(to: limit)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let querSnap = querySnapshot{
+                    for currentDoc in querSnap.documents{
+                        let newPost = Post()
+                        newPost.docToObject(doc: currentDoc)
+                        self.posts.append(newPost)
+                    }
+                    self.postsLoaded = true
+                    print("\(self.posts.count) posts were uploaded from database")
+                }
+        }
     }
 
 }

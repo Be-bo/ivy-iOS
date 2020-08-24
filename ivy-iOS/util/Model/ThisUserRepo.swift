@@ -17,13 +17,15 @@ class ThisUserRepo: ObservableObject{
     @Published var userLoggedIn = Auth.auth().currentUser != nil
     var handle: AuthStateDidChangeListenerHandle?
     
+    @Published var userDocLoaded = false
+    
     init(){
         loadUserProfile()
         listenToAuthChanges()
     }
     
     func loadUserProfile(){
-        if let user = Auth.auth().currentUser, let uid = user.uid as? String{
+        if let user = Auth.auth().currentUser, let uid = user.uid as String?{
             db.collection("users").document(uid).getDocument { (docSnap, err) in
                 if err != nil{
                     print("Error getting user profile.")
@@ -31,6 +33,7 @@ class ThisUserRepo: ObservableObject{
                 if let doc = docSnap{
                     print("GOT THIS USER")
                     self.thisUser.docToObject(doc: doc)
+                    self.userDocLoaded = true
                 }
             }
         }
@@ -38,7 +41,7 @@ class ThisUserRepo: ObservableObject{
     
     func listenToAuthChanges () {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in // monitor authentication changes using firebase
-            if let user = user {
+            if let _ = user {
                 self.userLoggedIn = true
             } else {
                 self.userLoggedIn = false

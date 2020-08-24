@@ -11,22 +11,21 @@ import SwiftUI
 
 struct OrganizationProfile: View {
     
-    @ObservedObject var postListVM: PostListViewModel
+    @ObservedObject var thisUserRepo: ThisUserRepo
+    @ObservedObject var postListVM = PostListViewModel()
     @State var editProfile = false
     @State var seeMemberRequests = false
-    // MARK: Robert
-//    var organization: Organization
-    var organization: User
     
-    // MARK: Robert
-//    init(organization: Organization) {
-//        self.organization = organization
-//        self.postListVM = PostListViewModel(
-//            user_id: organization.id ?? "",
-//            uni_domain: organization.uni_domain ?? "",
-//            limit: Constant.PROFILE_POST_LIMIT_ORG
-//        )
-//    }
+    
+    init(thisUserRepo: ThisUserRepo) {
+        self.thisUserRepo = thisUserRepo
+        self.postListVM.loadPosts(
+            limit: Constant.PROFILE_POST_LIMIT_STUDENT,
+            uni_domain: thisUserRepo.thisUser.uni_domain,
+            user_id: thisUserRepo.thisUser.id ?? ""
+        )
+    }
+    
     
     var body: some View {
         ScrollView {
@@ -42,7 +41,7 @@ struct OrganizationProfile: View {
                     
                     VStack (alignment: .leading){
                         
-                        Text(organization.name)
+                        Text(thisUserRepo.thisUser.name)
                         Text("Members")
                             .padding(.bottom)
                         
@@ -58,7 +57,7 @@ struct OrganizationProfile: View {
                             self.editProfile.toggle()
                         }){
                             Text("Edit").sheet(isPresented: $editProfile){
-                                EditStudentProfile()
+                                EditOrganizationProfile()
                             }
                         }
                         Spacer()
@@ -71,21 +70,53 @@ struct OrganizationProfile: View {
                 SeeMembers()
                 
                 
-                Text("Posts")
-                //GridView()
-                
-                Spacer()
+                // Posts
+                VStack() {
+                    if (postListVM.postsLoaded == true) {
+                        if (postListVM.posts.count > 0) {
+                            Text("Posts")
+                            
+                            NavigationView {
+                                GridView(
+                                    cells: postListVM.posts,
+                                    maxCol: 3
+                                ) { post in
+                                    Text(post.text)
+                                    
+                                    /*
+                                    //TODO: ASK ROBERT
+                                    //NavigationLink(destination: PostScreen()) {
+                                        FirebaseImage(
+                                            path: Utils.postPreviewImagePath(postId: post.id ?? "nil"),
+                                            placeholder: AssetManager.logoWhite,
+                                            width: 150,
+                                            height: 150,
+                                            shape: RoundedRectangle(cornerRadius: 25)
+                                        )
+                                    //}
+                                    */
+                                }
+                            }
+                        }
+                        else {
+                            Spacer()
+                            Text("No Posts yet!")
+                                .foregroundColor(.gray)
+                                .padding()
+                                .frame(alignment: .center)
+                        }
+                    }
+                    else {
+                        Spacer()
+                        LoadingSpinner()
+                    }
+                    Spacer()
+                }
             }
             .padding(.horizontal)
         }
     }
 }
-
-//struct OrganizationProfile_Previews: PreviewProvider {
-//    static var previews: some View {
-//        OrganizationProfile(organization: Organization(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", is_club: false))
-//    }
-//}
 
 /* SubViews */
 

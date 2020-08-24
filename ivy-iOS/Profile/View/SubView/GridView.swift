@@ -24,8 +24,9 @@ struct GridView<T, Label> : View where Label : View, T : Identifiable {
     
     var body: some View {
         ForEach(rows) { row in
-            HStack(alignment: .center) {
+            HStack {
                 ForEach(row.cells, content: self.cellView)
+                Spacer()
             }
         }
     }

@@ -26,6 +26,10 @@
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
 		8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13924E5B9F800A8F801 /* SignupSupport.swift */; };
 		8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13B24E5CA5C00A8F801 /* DropDownMenu.swift */; };
+		8DD2C37024F3FDB00067A507 /* StaticDomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C36E24F3FDB00067A507 /* StaticDomainList.swift */; };
+		8DD2C37124F3FDB00067A507 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C36F24F3FDB00067A507 /* StaticDegreesList.swift */; };
+		8DD2C37324F429FC0067A507 /* EditOrganizationProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37224F429FC0067A507 /* EditOrganizationProfile.swift */; };
+		8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */; };
 		A9B0A71D24B8058500A11A1D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B0A71C24B8058500A11A1D /* Main.swift */; };
 		FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14D5DE24E1C65600F1D9B1 /* LoginView.swift */; };
 		FA14D5E224E1C85100F1D9B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA14D5E124E1C85100F1D9B1 /* Images.xcassets */; };
@@ -75,7 +79,7 @@
 		8D002D6D24F05FF100518590 /* EventsTabItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsTabItemView.swift; path = "ivy-iOS/Events/View/EventsTabItemView.swift"; sourceTree = SOURCE_ROOT; };
 		8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinner.swift; sourceTree = "<group>"; };
 		8D30BF9E24EF024200970050 /* FirebaseImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseImage.swift; sourceTree = "<group>"; };
-		8D30BFA224EF166000970050 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = View/GridView.swift; sourceTree = SOURCE_ROOT; };
+		8D30BFA224EF166000970050 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = "ivy-iOS/Profile/View/SubView/GridView.swift"; sourceTree = SOURCE_ROOT; };
 		8D30BFAB24EF19AC00970050 /* SeeAllUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllUsers.swift; sourceTree = "<group>"; };
 		8D30BFAD24EF5ECA00970050 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
@@ -89,6 +93,10 @@
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
 		8DABC13924E5B9F800A8F801 /* SignupSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupSupport.swift; sourceTree = "<group>"; };
 		8DABC13B24E5CA5C00A8F801 /* DropDownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownMenu.swift; sourceTree = "<group>"; };
+		8DD2C36E24F3FDB00067A507 /* StaticDomainList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDomainList.swift; sourceTree = "<group>"; };
+		8DD2C36F24F3FDB00067A507 /* StaticDegreesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDegreesList.swift; sourceTree = "<group>"; };
+		8DD2C37224F429FC0067A507 /* EditOrganizationProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrganizationProfile.swift; sourceTree = "<group>"; };
+		8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileSupport.swift; sourceTree = "<group>"; };
 		A9B0A71C24B8058500A11A1D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		AAD896C101B7ACAF6ED83D6D /* Pods-ivy-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		EAA7B1A92334F995822B5EE4 /* Pods-ivy-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.release.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -211,6 +219,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8DD2C37424F432BC0067A507 /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				8D30BFA224EF166000970050 /* GridView.swift */,
+				8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */,
+			);
+			path = SubView;
+			sourceTree = "<group>";
+		};
 		FA14D5E024E1C81700F1D9B1 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,8 +330,9 @@
 		FA96E8AF24E5AC5600E33BAD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				8D30BFA224EF166000970050 /* GridView.swift */,
+				8DD2C37424F432BC0067A507 /* SubView */,
 				8D98D12524F0668800F58539 /* EditStudentProfile.swift */,
+				8DD2C37224F429FC0067A507 /* EditOrganizationProfile.swift */,
 				8D98D12624F0668800F58539 /* OrganizationProfile.swift */,
 				8D98D12424F0668800F58539 /* StudentProfile.swift */,
 			);
@@ -580,6 +598,7 @@
 				8D98D12F24F06BAE00F58539 /* PostListViewModel.swift in Sources */,
 				8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */,
 				FA4B722A24F2D96E008A86FC /* PostScreen.swift in Sources */,
+				8DD2C37324F429FC0067A507 /* EditOrganizationProfile.swift in Sources */,
 				8D30BFAE24EF5ECA00970050 /* Post.swift in Sources */,
 				FA201E8F24F06234003495DB /* EventItemViewModel.swift in Sources */,
 				8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */,
@@ -599,6 +618,7 @@
 				8D30BFA324EF166000970050 /* GridView.swift in Sources */,
 				8D98D12724F0668800F58539 /* StudentProfile.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
+				8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */,
 				FA8223EE24F058D400042AA2 /* EventsTabView.swift in Sources */,
 				FABA035F24F43631007C4878 /* Extensions.swift in Sources */,
 				FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */,
