@@ -30,6 +30,7 @@
 		8DD2C37124F3FDB00067A507 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C36F24F3FDB00067A507 /* StaticDegreesList.swift */; };
 		8DD2C37324F429FC0067A507 /* EditOrganizationProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37224F429FC0067A507 /* EditOrganizationProfile.swift */; };
 		8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */; };
+		8DD2C37A24F466FB0067A507 /* EditStudentProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37924F466FB0067A507 /* EditStudentProfileViewModel.swift */; };
 		A9B0A71D24B8058500A11A1D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B0A71C24B8058500A11A1D /* Main.swift */; };
 		FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14D5DE24E1C65600F1D9B1 /* LoginView.swift */; };
 		FA14D5E224E1C85100F1D9B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA14D5E124E1C85100F1D9B1 /* Images.xcassets */; };
@@ -92,6 +93,7 @@
 		8DD2C36F24F3FDB00067A507 /* StaticDegreesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDegreesList.swift; sourceTree = "<group>"; };
 		8DD2C37224F429FC0067A507 /* EditOrganizationProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrganizationProfile.swift; sourceTree = "<group>"; };
 		8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileSupport.swift; sourceTree = "<group>"; };
+		8DD2C37924F466FB0067A507 /* EditStudentProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStudentProfileViewModel.swift; sourceTree = "<group>"; };
 		A9B0A71C24B8058500A11A1D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		AAD896C101B7ACAF6ED83D6D /* Pods-ivy-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.debug.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		EAA7B1A92334F995822B5EE4 /* Pods-ivy-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy-iOS.release.xcconfig"; path = "Target Support Files/Pods-ivy-iOS/Pods-ivy-iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				8D98D12E24F06BAE00F58539 /* PostListViewModel.swift */,
+				8DD2C37924F466FB0067A507 /* EditStudentProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				FAA369D224F1EACC00F6CA63 /* EventScreenView.swift in Sources */,
 				8D515D1424E73D1E00D67144 /* User.swift in Sources */,
 				FA7DAF6F24F1837F00B25430 /* Utils.swift in Sources */,
+				8DD2C37A24F466FB0067A507 /* EditStudentProfileViewModel.swift in Sources */,
 				FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */,
 				8D002D6124F0349D00518590 /* Event.swift in Sources */,
 				FA2B0EE524F2C72700B746FB /* HomePostViewModel.swift in Sources */,

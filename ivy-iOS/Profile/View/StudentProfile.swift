@@ -13,6 +13,7 @@ struct StudentProfile: View {
     @ObservedObject var thisUserRepo: ThisUserRepo
     @ObservedObject var postListVM = PostListViewModel()
     @State var editProfile = false
+    @State var selection : Int? = nil
     
     
     init(thisUserRepo: ThisUserRepo) {
@@ -26,7 +27,7 @@ struct StudentProfile: View {
     
     var body: some View {
         ScrollView {
-            VStack (alignment: .leading){
+            VStack (alignment: .leading) {
                 
                 HStack { // Profile image and quick info
                     
@@ -50,7 +51,7 @@ struct StudentProfile: View {
                             self.editProfile.toggle()
                         }){
                             Text("Edit").sheet(isPresented: $editProfile){
-                                EditStudentProfile()
+                                EditStudentProfile(thisUserRepo: self.thisUserRepo)
                             }
                         }
                         Spacer()
@@ -64,30 +65,32 @@ struct StudentProfile: View {
                 // Posts
                 VStack() {
                     if (postListVM.postsLoaded == true) {
-                        if (postListVM.posts.count > 0) {
+                        if (postListVM.postVMs.count > 0) {
                             HStack {
                                 Text("Posts")
                                 Spacer()
                             }
                             
                             GridView(
-                                cells: postListVM.posts,
+                                cells: self.postListVM.postVMs,
                                 maxCol: 3
-                            ) { post in
-                                GeometryReader { geo in
-                                    //TODO: ASK ROBERT
-                                    //NavigationLink(destination: PostScreen()) {
+                            ) { geo in
+                                { postVM in
+                                    ZStack {
+                                         FirebaseImage(
+                                             path: Utils.postPreviewImagePath(postId: postVM.id),
+                                             placeholder: AssetManager.logoGreen,
+                                             width: geo.size.width/3,
+                                             height: geo.size.width/3,
+                                             shape: RoundedRectangle(cornerRadius: 25)
+                                         )
 
-                                     FirebaseImage(
-                                         path: Utils.postPreviewImagePath(postId: post.id ?? "nil"),
-                                         placeholder: AssetManager.logoGreen,
-                                         width: geo.size.width/3,
-                                         height: geo.size.width/3,
-                                         shape: RoundedRectangle(cornerRadius: 25)
-                                     )
-                                     
-                                    //}
+                                        NavigationLink(destination: PostScreen(postVM: postVM), tag: 1, selection: self.$selection) {
+                                            EmptyView()
+                                        }
+                                    }
                                 }
+
                             }
                         }
                         else {
