@@ -43,7 +43,9 @@ struct GridView_Previews: PreviewProvider {
             maxCol: 3
         ) { geo in
             { cell in
-                Text("Cell #\(cell.value)")
+                Rectangle()
+                    .frame(width: geo.size.width/3, height: geo.size.width/3)
+                    .foregroundColor(.red)
             }
         }
     }

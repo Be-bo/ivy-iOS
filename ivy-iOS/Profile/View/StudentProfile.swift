@@ -77,17 +77,25 @@ struct StudentProfile: View {
                             ) { geo in
                                 { postVM in
                                     ZStack {
-                                         FirebaseImage(
-                                             path: Utils.postPreviewImagePath(postId: postVM.id),
-                                             placeholder: AssetManager.logoGreen,
-                                             width: geo.size.width/3,
-                                             height: geo.size.width/3,
-                                             shape: RoundedRectangle(cornerRadius: 25)
-                                         )
-
-                                        NavigationLink(destination: PostScreen(postVM: postVM), tag: 1, selection: self.$selection) {
-                                            EmptyView()
+                                        Button(action: {
+                                            self.selection = 1
+                                        }){
+                                            FirebaseImage(
+                                                path: Utils.postPreviewImagePath(postId: postVM.id),
+                                                placeholder: AssetManager.logoGreen,
+                                                width: geo.size.width/3,
+                                                height: geo.size.width/3,
+                                                shape: RoundedRectangle(cornerRadius: 25)
+                                            )
                                         }
+                                        .buttonStyle(PlainButtonStyle())
+
+                                        // TODO: quick and dirty
+                                        NavigationLink(
+                                            destination: PostScreen(postVM: postVM)
+                                                .navigationBarTitle(postVM.post.author_name+"'s Post"),
+                                            tag: 1, selection: self.$selection)
+                                        { EmptyView() }
                                     }
                                 }
 
@@ -105,7 +113,6 @@ struct StudentProfile: View {
                         Spacer()
                         LoadingSpinner()
                     }
-                    Spacer()
                 }
             }
             .padding(.horizontal)
