@@ -13,10 +13,10 @@ struct StudentProfile: View {
     @ObservedObject var studentProfileVM: StudentProfileViewModel
     @State var editProfile = false
     
-    // MARK: TODO: publish currently logged in student instead of passing it in
-    init(_ student: Student) {
-        self.studentProfileVM = StudentProfileViewModel(student: student)
-    }
+//    // MARK: TODO: publish currently logged in student instead of passing it in
+//    init(_ student: Student) {
+//        self.studentProfileVM = StudentProfileViewModel(student: student)
+//    }
     
     var body: some View {
         ScrollView {
@@ -62,8 +62,8 @@ struct StudentProfile: View {
     }
 }
 
-struct StudentProfile_Previews: PreviewProvider {
-    static var previews: some View {
-        StudentProfile(Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
-    }
-}
+//struct StudentProfile_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StudentProfile(Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
+//    }
+//}

@@ -12,7 +12,7 @@ import Combine
 
 class OrgSignupViewModel: ObservableObject {
     
-    @Published var uni_domain: String? = nil
+    @Published var uni_domain: String = ""
     @Published var email = ""
     @Published var password = ""
     @Published var confirmPassword = ""
@@ -97,7 +97,10 @@ class OrgSignupViewModel: ObservableObject {
     // Create an Organization document in Database
     func registerinDB() {
         if let id = Auth.auth().currentUser?.uid {
-            let newOrg = Organization(id: id, email: self.email, is_club: self.is_club)
+            let newOrg = User()
+            newOrg.id = id
+            newOrg.email = self.email
+            newOrg.is_club = self.is_club
             newOrg.uni_domain = self.uni_domain
             
             do {

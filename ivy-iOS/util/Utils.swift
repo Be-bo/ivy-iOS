@@ -76,6 +76,10 @@ final class Utils {
         return date.getFormattedDate(format: "yyyy-MM-dd HH:mm")
     }
     
+    static func getUserPath(userId: String) -> String {
+        return "users/\(userId)"
+    }
+    
     
 }
 

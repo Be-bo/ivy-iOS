@@ -12,35 +12,46 @@
 
 
 import SwiftUI
+import Firebase
 
 struct Main: View {
-    @State var loginPresented = false
+    @ObservedObject var thisUserRepo = ThisUserRepo()
+    @State var sheetPresented = false
     @State private var selection = 0
-    @State private var loggedIn = false
+    @State private var showingSignOutAlert = false
     
     var body: some View {
         
         
         // MARK: Tab Bar
-        TabView(selection: $selection) {
+        TabView() {
             
             // MARK: Events
             NavigationView{
                 EventsTabView(screenWidth: UIScreen.screenWidth)
                     .navigationBarItems(leading:
                         HStack {
-                            Button(action: {}) {
-                                Image(systemName: "gear").font(.system(size: 25))
+                            Button(action: {
+                                try? Auth.auth().signOut()
+                            }) {
+                                Image(systemName: thisUserRepo.userLoggedIn ? "arrow.left.circle" : "").font(.system(size: 25))
+                                .alert(isPresented: $showingSignOutAlert){
+                                    Alert(title: Text("Signed Out"), message: Text("You've been signed out."), dismissButton: .default(Text("OK")))
+                                }
                             }
-                            AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                            AssetManager.ucInterlock.padding(.leading, self.thisUserRepo.userLoggedIn ? UIScreen.screenWidth/2 - 82 : UIScreen.screenWidth/2 - 57)
                         }.padding(.leading, 0), trailing:
                         HStack {
                             Button(action: {
-                                self.loginPresented.toggle()
+                                self.sheetPresented.toggle()
                             }) {
-                                Image(systemName: loggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
-                                .sheet(isPresented: $loginPresented){
-                                    LoginView()
+                                Image(systemName: thisUserRepo.userLoggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
+                                    .sheet(isPresented: $sheetPresented){
+                                        if(self.thisUserRepo.userLoggedIn){
+                                            CreatePostView(thisUser: self.thisUserRepo.thisUser)
+                                        }else{
+                                            LoginView()
+                                        }
                                 }
                             }
                     })
@@ -62,17 +73,24 @@ struct Main: View {
                         .navigationBarItems(leading:
                             HStack {
                                 Button(action: {}) {
-                                    Image(systemName: "gear").font(.system(size: 25))
+                                    Image(systemName: thisUserRepo.userLoggedIn ? "arrow.left.circle" : "").font(.system(size: 25))
+                                    .alert(isPresented: $showingSignOutAlert){
+                                        Alert(title: Text("Signed Out"), message: Text("You've been signed out."), dismissButton: .default(Text("OK")))
+                                    }
                                 }
-                                AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                                AssetManager.ucInterlock.padding(.leading, self.thisUserRepo.userLoggedIn ? UIScreen.screenWidth/2 - 82 : UIScreen.screenWidth/2 - 57)
                             }.padding(.leading, 0), trailing:
                             HStack {
                                 Button(action: {
-                                    self.loginPresented.toggle()
+                                    self.sheetPresented.toggle()
                                 }) {
-                                    Image(systemName: loggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
-                                    .sheet(isPresented: $loginPresented){
-                                        LoginView()
+                                    Image(systemName: thisUserRepo.userLoggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
+                                        .sheet(isPresented: $sheetPresented){
+                                            if(self.thisUserRepo.userLoggedIn){
+                                                CreatePostView(thisUser: self.thisUserRepo.thisUser)
+                                            }else{
+                                                LoginView()
+                                            }
                                     }
                                 }
                         })
@@ -89,24 +107,15 @@ struct Main: View {
             
             
             // MARK: Profile
-            VStack{
-                Text("MAIN").padding()
-                Button(action: {
-                    self.loginPresented.toggle()
-                }){
-                    Text("Go to login").sheet(isPresented: $loginPresented){
-                        LoginView()
-                    }
+            if(thisUserRepo.userLoggedIn){
+                VStack{
+                    Text("Profile").padding()
                 }
-                NavigationLink(destination: StudentProfile(Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))) {
-                    Text("Test Student Profile")
+                .tabItem {
+                    selection == 2 ? Image(systemName: "person.fill").font(.system(size: 25)) : Image(systemName: "person").font(.system(size: 25))
                 }
+                .tag(2)
             }
-            .tabItem {
-                selection == 2 ? Image(systemName: "person.fill").font(.system(size: 25)) : Image(systemName: "person").font(.system(size: 25))
-            }
-            .tag(2)
-            
             
         }
         .accentColor(AssetManager.ivyGreen)
@@ -126,3 +135,4 @@ extension UIScreen{
     static let screenHeight = UIScreen.main.bounds.size.height
     static let screenSize = UIScreen.main.bounds.size
 }
+

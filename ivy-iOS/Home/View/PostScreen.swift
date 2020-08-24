@@ -44,24 +44,34 @@ struct PostScreen: View {
                 
                 VStack(alignment: .leading){
                     //MARK: Author Row
-                    HStack(){
-                        WebImage(url: URL(string: authorUrl))
-                            .resizable()
-                            .placeholder(Image(systemName: "person.crop.circle.fill"))
-                            .frame(width: 60, height: 60)
-                            .clipShape(Circle())
-                            .onAppear(){
-                                let storage = Storage.storage().reference()
-                                storage.child(Utils.userPreviewImagePath(userId: self.postVM.post.author_id)).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading post screen author image.")
-                                        return
+                    ZStack{
+                        HStack(){
+                            WebImage(url: URL(string: authorUrl))
+                                .resizable()
+                                .placeholder(Image(systemName: "person.crop.circle.fill"))
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                                .onAppear(){
+                                    let storage = Storage.storage().reference()
+                                    storage.child(Utils.userPreviewImagePath(userId: self.postVM.post.author_id)).downloadURL { (url, err) in
+                                        if err != nil{
+                                            print("Error loading post screen author image.")
+                                            return
+                                        }
+                                        self.authorUrl = "\(url!)"
                                     }
-                                    self.authorUrl = "\(url!)"
-                                }
+                            }
+                            Text(self.postVM.post.author_name)
+                            Spacer()
                         }
-                        Text(self.postVM.post.author_name)
-                        Spacer()
+                        //TODO when profile ready
+                        //                        NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle("Profile"), tag: 1, selection: self.$selection) {
+                        //                            Button(action: {
+                        //                                self.selection = 1
+                        //                            }){
+                        //                                EmptyView()
+                        //                            }
+                        //                        }
                     }
                     
                     // MARK: Pinned Layout
@@ -80,10 +90,9 @@ struct PostScreen: View {
                 .padding(.leading)
                 .padding(.trailing)
                 
-                
-                
+
                 Divider().padding(.top, 20).padding(.bottom, 20)
-                // TODO: Comments
+                Text("Comments coming soon!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
             }
         }
     }

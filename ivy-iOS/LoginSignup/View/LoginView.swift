@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct LoginView: View {
     

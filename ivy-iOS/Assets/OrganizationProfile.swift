@@ -15,10 +15,10 @@ struct OrganizationProfile: View {
     @State var editProfile = false
     @State var seeMemberRequests = false
     
-    // MARK: TODO: publish currently logged in student instead of passing it in
-    init(_ organization: Organization) {
-        self.orgProfileVM = OrganizationProfileViewModel(organization: organization)
-    }
+//    // MARK: TODO: publish currently logged in student instead of passing it in
+//    init(_ organization: Organization) {
+//        self.orgProfileVM = OrganizationProfileViewModel(organization: organization)
+//    }
     
     var body: some View {
         ScrollView {
@@ -73,11 +73,11 @@ struct OrganizationProfile: View {
     }
 }
 
-struct OrganizationProfile_Previews: PreviewProvider {
-    static var previews: some View {
-        OrganizationProfile(Organization(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", is_club: false))
-    }
-}
+//struct OrganizationProfile_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OrganizationProfile(Organization(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", is_club: false))
+//    }
+//}
 
 /* SubViews */
 

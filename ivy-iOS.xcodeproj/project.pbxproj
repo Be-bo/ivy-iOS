@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,8 +22,6 @@
 		8D515D0E24E6FFA700D67144 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */; };
 		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
 		8D515D1424E73D1E00D67144 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1324E73D1E00D67144 /* User.swift */; };
-		8D515D1624E8668400D67144 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1524E8668400D67144 /* Organization.swift */; };
-		8D515D1824E86A7E00D67144 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1724E86A7E00D67144 /* Student.swift */; };
 		8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */; };
 		8D515D1C24EAEA4900D67144 /* StaticDomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1B24EAEA4900D67144 /* StaticDomainList.swift */; };
 		8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */; };
@@ -36,6 +34,7 @@
 		FA201E8D24F0610B003495DB /* EventRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA201E8C24F0610B003495DB /* EventRepo.swift */; };
 		FA201E8F24F06234003495DB /* EventItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA201E8E24F06234003495DB /* EventItemViewModel.swift */; };
 		FA201E9124F06332003495DB /* EventTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA201E9024F06332003495DB /* EventTabViewModel.swift */; };
+		FA221D0524F301590067DB80 /* ThisUserRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA221D0424F301590067DB80 /* ThisUserRepo.swift */; };
 		FA2B0ED524F2031D00B746FB /* PersonCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B0ED424F2031D00B746FB /* PersonCircleView.swift */; };
 		FA2B0EDF24F2117600B746FB /* CalendarUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B0EDE24F2117600B746FB /* CalendarUtil.swift */; };
 		FA2B0EE124F2C65500B746FB /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B0EE024F2C65500B746FB /* HomeTabView.swift */; };
@@ -63,6 +62,9 @@
 		FAE4734A24E1B761003E3991 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAE4734924E1B761003E3991 /* Colors.xcassets */; };
 		FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4734B24E1B7BA003E3991 /* AssetManager.swift */; };
 		FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4734F24E1BD6D003E3991 /* StandardTextField.swift */; };
+		FAFC909A24F357E000177273 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC909924F357E000177273 /* CreatePostView.swift */; };
+		FAFC909F24F3712B00177273 /* PhotoLibraryPicker in Frameworks */ = {isa = PBXBuildFile; productRef = FAFC909E24F3712B00177273 /* PhotoLibraryPicker */; };
+		FAFC90A124F3736E00177273 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC90A024F3736E00177273 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,8 +82,6 @@
 		8D515D0D24E6FFA700D67144 /* StaticDegreesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StaticDegreesList.swift; path = "ivy-iOS/Assets/StaticDegreesList.swift"; sourceTree = SOURCE_ROOT; };
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1324E73D1E00D67144 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		8D515D1524E8668400D67144 /* Organization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
-		8D515D1724E86A7E00D67144 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1B24EAEA4900D67144 /* StaticDomainList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StaticDomainList.swift; path = "ivy-iOS/LoginSignup/ViewModel/StaticDomainList.swift"; sourceTree = SOURCE_ROOT; };
 		8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
@@ -97,6 +97,7 @@
 		FA201E8C24F0610B003495DB /* EventRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRepo.swift; sourceTree = "<group>"; };
 		FA201E8E24F06234003495DB /* EventItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemViewModel.swift; sourceTree = "<group>"; };
 		FA201E9024F06332003495DB /* EventTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTabViewModel.swift; sourceTree = "<group>"; };
+		FA221D0424F301590067DB80 /* ThisUserRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisUserRepo.swift; sourceTree = "<group>"; };
 		FA2B0ED424F2031D00B746FB /* PersonCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonCircleView.swift; sourceTree = "<group>"; };
 		FA2B0EDE24F2117600B746FB /* CalendarUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUtil.swift; sourceTree = "<group>"; };
 		FA2B0EE024F2C65500B746FB /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
@@ -126,6 +127,8 @@
 		FAE4734924E1B761003E3991 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		FAE4734B24E1B7BA003E3991 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		FAE4734F24E1BD6D003E3991 /* StandardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
+		FAFC909924F357E000177273 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		FAFC90A024F3736E00177273 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */,
+				FAFC909F24F3712B00177273 /* PhotoLibraryPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +170,7 @@
 				FA7DAF6E24F1837F00B25430 /* Utils.swift */,
 				FA7DAF7024F1858200B25430 /* Constant.swift */,
 				FA2B0EDE24F2117600B746FB /* CalendarUtil.swift */,
+				FAFC90A024F3736E00177273 /* ImagePicker.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -191,9 +196,8 @@
 		8D515D1124E73CE900D67144 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FA221D0424F301590067DB80 /* ThisUserRepo.swift */,
 				8D515D1324E73D1E00D67144 /* User.swift */,
-				8D515D1524E8668400D67144 /* Organization.swift */,
-				8D515D1724E86A7E00D67144 /* Student.swift */,
 				8D30BFAD24EF5ECA00970050 /* Post.swift */,
 				8D002D6024F0349D00518590 /* Event.swift */,
 			);
@@ -361,6 +365,7 @@
 				FA2B0EE024F2C65500B746FB /* HomeTabView.swift */,
 				FA2B0EEA24F2CC2B00B746FB /* HomePostView.swift */,
 				FA4B722924F2D96E008A86FC /* PostScreen.swift */,
+				FAFC909924F357E000177273 /* CreatePostView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -440,6 +445,9 @@
 			dependencies = (
 			);
 			name = "ivy-iOS";
+			packageProductDependencies = (
+				FAFC909E24F3712B00177273 /* PhotoLibraryPicker */,
+			);
 			productName = "ivy-iOS";
 			productReference = FA5DEF9324B6970D00C397CB /* ivy-iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -468,6 +476,9 @@
 				Base,
 			);
 			mainGroup = FA5DEF8A24B6970D00C397CB;
+			packageReferences = (
+				FAFC909D24F3712B00177273 /* XCRemoteSwiftPackageReference "swiftUI-photo-library-picker" */,
+			);
 			productRefGroup = FA5DEF9424B6970D00C397CB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -540,8 +551,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D515D1624E8668400D67144 /* Organization.swift in Sources */,
 				8D515D1C24EAEA4900D67144 /* StaticDomainList.swift in Sources */,
+				FAFC909A24F357E000177273 /* CreatePostView.swift in Sources */,
 				FA2B0EE924F2C74A00B746FB /* PostRepo.swift in Sources */,
 				8D30BF9F24EF024200970050 /* FirebaseImage.swift in Sources */,
 				8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */,
@@ -562,10 +573,12 @@
 				8D30BFA124EF0EE000970050 /* EditStudentProfile.swift in Sources */,
 				FA2B0EE524F2C72700B746FB /* HomePostViewModel.swift in Sources */,
 				FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */,
+				FA221D0524F301590067DB80 /* ThisUserRepo.swift in Sources */,
 				FA2B0EDF24F2117600B746FB /* CalendarUtil.swift in Sources */,
 				FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */,
 				FA2B0EE324F2C71300B746FB /* HomeTabViewModel.swift in Sources */,
 				8D30BF9D24EEFD9A00970050 /* StudentProfileViewModel.swift in Sources */,
+				FAFC90A124F3736E00177273 /* ImagePicker.swift in Sources */,
 				8D30BFA524EF16ED00970050 /* OrganizationProfile.swift in Sources */,
 				8D30BFA324EF166000970050 /* GridView.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
@@ -575,7 +588,6 @@
 				A9B0A71D24B8058500A11A1D /* Main.swift in Sources */,
 				8D515D0E24E6FFA700D67144 /* StaticDegreesList.swift in Sources */,
 				FA7DAF7124F1858200B25430 /* Constant.swift in Sources */,
-				8D515D1824E86A7E00D67144 /* Student.swift in Sources */,
 				8D30BFA724EF173B00970050 /* OrganizationProfileViewModel.swift in Sources */,
 				FA7274AA24F1E2FA0071A98C /* ExploreAllEventsView.swift in Sources */,
 				FAD2366C24E48DF300F92637 /* TestView.swift in Sources */,
@@ -786,6 +798,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FAFC909D24F3712B00177273 /* XCRemoteSwiftPackageReference "swiftUI-photo-library-picker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/moifort/swiftUI-photo-library-picker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FAFC909E24F3712B00177273 /* PhotoLibraryPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAFC909D24F3712B00177273 /* XCRemoteSwiftPackageReference "swiftUI-photo-library-picker" */;
+			productName = PhotoLibraryPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA5DEF8B24B6970D00C397CB /* Project object */;
 }

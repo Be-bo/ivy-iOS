@@ -16,6 +16,7 @@ struct EventScreenView: View {
     var screenWidth: CGFloat = 300
     @State var imageUrl = ""
     @State var authorUrl = ""
+    @State var selection: Int? = nil
     @State private var isShareSheetShowing = false
     @State private var showingCalendarAlert = false
     
@@ -30,7 +31,7 @@ struct EventScreenView: View {
                     .resizable()
                     .placeholder(AssetManager.logoWhite)
                     .background(AssetManager.ivyLightGrey)
-                    .frame(width: self.screenWidth, height: self.screenWidth)
+                    .aspectRatio(contentMode: .fit)
                     .onAppear(){
                         let storage = Storage.storage().reference()
                         storage.child(self.eventVM.event.visual).downloadURL { (url, err) in
@@ -44,26 +45,47 @@ struct EventScreenView: View {
                 
                 
                 VStack(alignment: .leading){
+                    
+                    
+                    
+                    
                     //MARK: Author Row
-                    HStack(){
-                        WebImage(url: URL(string: authorUrl))
-                            .resizable()
-                            .placeholder(Image(systemName: "person.crop.circle.fill"))
-                            .frame(width: 60, height: 60)
-                            .clipShape(Circle())
-                            .onAppear(){
-                                let storage = Storage.storage().reference()
-                                storage.child(Utils.userPreviewImagePath(userId: self.eventVM.event.author_id)).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading event image.")
-                                        return
+                    ZStack{
+                        HStack(){
+                            WebImage(url: URL(string: authorUrl))
+                                .resizable()
+                                .placeholder(Image(systemName: "person.crop.circle.fill"))
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                                .onAppear(){
+                                    let storage = Storage.storage().reference()
+                                    storage.child(Utils.userPreviewImagePath(userId: self.eventVM.event.author_id)).downloadURL { (url, err) in
+                                        if err != nil{
+                                            print("Error loading event image.")
+                                            return
+                                        }
+                                        self.authorUrl = "\(url!)"
                                     }
-                                    self.authorUrl = "\(url!)"
-                                }
+                            }
+                            Text(self.eventVM.event.author_name)
+                            Spacer()
                         }
-                        Text(self.eventVM.event.author_name)
-                        Spacer()
+                        
+                        //TODO when profile ready
+//                        NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle("Profile"), tag: 1, selection: self.$selection) {
+//                            Button(action: {
+//                                self.selection = 1
+//                            }){
+//                                EmptyView()
+//                            }
+//                        }
                     }
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -100,40 +122,32 @@ struct EventScreenView: View {
                             ForEach(eventVM.event.going_ids, id: \.self) { currentId in
                                 PersonCircleView(personId: currentId)
                             }
+                            if(eventVM.thisUserGoing){ //have this user as going always as the last item but decide whether to make them visible or not based on a bool value
+                                PersonCircleView(personId: Auth.auth().currentUser!.uid)
+                            }
                         }
                         .padding(.top, 30).padding(.bottom, 30)
                     }
+                    .frame(width: screenWidth)
                 }
             }
             
             
             
             //MARK: Button Row
-            HStack{
+            HStack(alignment: .center){
                 
-                //MARK: Share
                 Spacer()
+                //MARK: Share
                 Button(action: {//TODO: time formatting
                     self.isShareSheetShowing.toggle()
                     let av = UIActivityViewController(activityItems: [self.eventVM.event.name, "from: \(Utils.getEventDate(millis:self.eventVM.event.start_millis)) to: \(Utils.getEventDate(millis:self.eventVM.event.end_millis)),", "at: \(self.eventVM.event.location),", self.eventVM.event.text, "link: \(self.eventVM.event.link)"], applicationActivities: nil)
-                    
                     UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true)
                 }) {
-                    Image(systemName: "square.and.arrow.up").font(.system(size: 40)).foregroundColor(AssetManager.ivyGreen)
+                    Image(systemName: "square.and.arrow.up").font(.system(size: 40)).foregroundColor(AssetManager.ivyGreen).padding(.bottom, 10)
                 }
-                
-                //MARK: Link
                 Spacer()
-                if(Utils.verifyUrl(urlString: eventVM.event.link)){ //if link is valid, only then show the link button
-                    Button(action: {
-                        if let url = URL(string: self.eventVM.event.link) {
-                            UIApplication.shared.open(url)
-                        }
-                    }) {
-                        Image(systemName: "link").font(.system(size: 40)).foregroundColor(AssetManager.ivyGreen)
-                    }
-                    Spacer()
-                }
+                
                 
                 //MARK: Calendar
                 Button(action: {
@@ -145,14 +159,34 @@ struct EventScreenView: View {
                 .alert(isPresented: $showingCalendarAlert){
                     Alert(title: Text("Event Added"), message: Text("\(self.eventVM.event.name) is now in your default calendar"), dismissButton: .default(Text("OK")))
                 }
+                Spacer()
+                
+                //MARK: Link
+                if(Utils.verifyUrl(urlString: eventVM.event.link)){ //if link is valid, only then show the link button
+                    Button(action: {
+                        if let url = URL(string: self.eventVM.event.link) {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        Image(systemName: "link").font(.system(size: 40)).foregroundColor(AssetManager.ivyGreen).padding(.bottom, 5)
+                    }
+                    Spacer()
+                }
+                
                 
                 //MARK: Going
-                //TODO: together with interaction
-                Spacer()
-                Button(action: {}) {
-                    Image(systemName: "checkmark.circle").font(.system(size: 40)).foregroundColor(AssetManager.ivyGreen)
+                if(Auth.auth().currentUser != nil){
+                    Button(action: {
+                        if(self.eventVM.thisUserGoing){
+                            self.eventVM.removeFromGoing()
+                        }else{
+                            self.eventVM.addToGoing()
+                        }
+                    }) {
+                        Image(systemName: self.eventVM.thisUserGoing ? "checkmark.circle.fill" : "checkmark.circle").font(.system(size: 40)).foregroundColor(AssetManager.ivyGreen).padding(.bottom, 5)
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
             .padding()
             
@@ -163,8 +197,7 @@ struct EventScreenView: View {
             
             
             
-            //MARK: Comments
-            //TODO
+            Text("Comments coming soon!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
             
         }
     }

@@ -28,6 +28,7 @@ struct EventsTabItemView: View {
                     WebImage(url: URL(string: url))
                         .resizable()
                         .placeholder(AssetManager.logoWhite)
+                        .aspectRatio(1, contentMode: .fit)
                         .background(AssetManager.ivyLightGrey)
                         .frame(width: 200, height: 200)
                         .clipShape(RoundedRectangle(cornerRadius: 30))

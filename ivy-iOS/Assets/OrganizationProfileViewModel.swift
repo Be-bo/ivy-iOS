@@ -13,9 +13,9 @@ import Combine
 
 class OrganizationProfileViewModel: ObservableObject {
     
-    @Published var organization: Organization
+    @Published var organization: User
     
-    init(organization: Organization) {
+    init(organization: User) {
         self.organization = organization
     }
     

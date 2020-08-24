@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "PhotoLibraryPicker",
+        "repositoryURL": "https://github.com/moifort/swiftUI-photo-library-picker.git",
+        "state": {
+          "branch": null,
+          "revision": "4805ea1bef9b8eb6db27dbeef66caa9f6cf55469",
+          "version": "1.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

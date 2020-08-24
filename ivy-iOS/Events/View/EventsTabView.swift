@@ -25,18 +25,25 @@ import Firebase
 //}
 
 struct EventsTabView: View {
-    @ObservedObject var eventTabVM = EventTabViewModel();
+    @ObservedObject var eventTabVM = EventTabViewModel()
     var screenWidth: CGFloat = 300.0
     @State var featuredUrl = ""
     @State var eventScreenPresented = false
+    @State var loginPresented = false
     @State var selection: Int? = nil
+    @State private var loggedIn = false
+    var onCommit: (User) -> (Void) = {_ in}
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
-            
+                
             
             // MARK: Featured
-            VStack(alignment: .leading){
+            HStack{
                 Text("Featured").font(.system(size: 25))
+                Spacer()
+            }
+            .padding(.leading)
+            VStack(alignment: .leading){
                 ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
                     NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
                         Button(action: {
@@ -58,7 +65,7 @@ struct EventsTabView: View {
                                         self.featuredUrl = "\(url!)"
                                     }
                             }
-                            .buttonStyle(PlainButtonStyle()) //an extremely reta*ded situation, only doesn't overlay the image with button color when all 3 of these have PlainButtonStyle applied at the same time
+                                .buttonStyle(PlainButtonStyle()) //an extremely reta*ded situation, only doesn't overlay the image with button color when all 3 of these have PlainButtonStyle applied at the same time
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
@@ -71,58 +78,65 @@ struct EventsTabView: View {
             
             
             // MARK: Tuday
-            VStack(alignment: .leading){
-                Text("Today").font(.system(size: 25)).padding(.leading)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20) {
-                        ForEach(eventTabVM.todayEventVMs) { eventItemVM in
-                            EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
-                        }
-                    }.padding()
-                        .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                            , height: 260, alignment: .leading)
+            if(eventTabVM.todayEventVMs.count > 0){
+                VStack(alignment: .leading){
+                    Text("Today").font(.system(size: 25)).padding(.leading)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 20) {
+                            ForEach(eventTabVM.todayEventVMs) { eventItemVM in
+                                EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                            }
+                        }.padding()
+                            .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
+                                , height: 260, alignment: .leading)
+                    }
+                    .padding(.bottom, 30)
                 }
-                .padding(.bottom, 30)
             }
+            
             
             
             
             // MARK: This Week
-            VStack(alignment: .leading){
-                Text("This Week").font(.system(size: 25)).padding(.leading)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20) {
-                        ForEach(eventTabVM.thisWeekEventVMs) { eventItemVM in
-                            EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
-                        }
-                    }.padding()
-                        .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                            , height: 260, alignment: .leading)
+            if(eventTabVM.thisWeekEventVMs.count > 0){
+                VStack(alignment: .leading){
+                    Text("This Week").font(.system(size: 25)).padding(.leading)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 20) {
+                            ForEach(eventTabVM.thisWeekEventVMs) { eventItemVM in
+                                EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                            }
+                        }.padding()
+                            .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
+                                , height: 260, alignment: .leading)
+                    }
+                    .padding(.bottom, 30)
                 }
-                .padding(.bottom, 30)
             }
+            
             
             
             
             // MARK: Upcoming
-            VStack(alignment: .leading){
-                Text("Upcoming").font(.system(size: 25)).padding(.leading)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20) {
-                        ForEach(eventTabVM.upcomingEventVMs) { eventItemVM in
-                            EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
-                        }
-                    }.padding()
-                        .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                            , height: 260, alignment: .leading)
+            if(eventTabVM.upcomingEventVMs.count > 0){
+                VStack(alignment: .leading){
+                    Text("Upcoming").font(.system(size: 25)).padding(.leading)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 20) {
+                            ForEach(eventTabVM.upcomingEventVMs) { eventItemVM in
+                                EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                            }
+                        }.padding()
+                            .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
+                                , height: 260, alignment: .leading)
+                    }
+                    .padding(.bottom, 30)
                 }
-                .padding(.bottom, 30)
-            }
-            
-            
-            
-            // MARK: Explore All
-            if eventTabVM.upcomingEventVMs.count > 0{
+                
+                
+                
+                
+                // MARK: Explore All
                 NavigationLink(destination: ExploreAllEventsView(eventTabVM: self.eventTabVM, screenWidth: self.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
                     Button(action: {
                         self.selection = 2
@@ -137,15 +151,6 @@ struct EventsTabView: View {
                 }
             }
         }
-        
-        
     }
 }
 
-
-
-struct EventsTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        EventsTabView()
-    }
-}

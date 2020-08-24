@@ -13,9 +13,9 @@ import Combine
 
 class StudentProfileViewModel: ObservableObject {
     
-    @Published var student: Student
+    @Published var student: User
     
-    init(student: Student) {
+    init(student: User) {
         self.student = student
     }
     
