@@ -30,29 +30,30 @@ class PostListViewModel: ObservableObject {
     func loadPosts(limit: Int) {
         let postsPath = "universities/\(uni_domain)/posts"
         
-        db.collection(postsPath)
-            .whereField("author_id", isEqualTo: user_id as Any)
-            .order(by: "creation_millis", descending: true)
-            .limit(to: limit)
-            .addSnapshotListener { (querySnapshot, error) in
-                if let querySnapshot = querySnapshot {
-                    self.posts = querySnapshot.documents.compactMap { document in
-                        do {
-                            if (document.get("is_event") != nil && document.get("is_event") as! Bool) {
-                                let x = try document.data(as: Post.self)
-                                return x
-                            } else {
-                                let x = try document.data(as: Post.self)
-                                return x
-                            }
-                        }
-                        catch {
-                            print(error)
-                            return nil
-                        }
-                    }
-                }
-            }
+        // MARK: Robert
+//        db.collection(postsPath)
+//            .whereField("author_id", isEqualTo: user_id as Any)
+//            .order(by: "creation_millis", descending: true)
+//            .limit(to: limit)
+//            .addSnapshotListener { (querySnapshot, error) in
+//                if let querySnapshot = querySnapshot {
+//                    self.posts = querySnapshot.documents.compactMap { document in
+//                        do {
+//                            if (document.get("is_event") != nil && document.get("is_event") as! Bool) {
+//                                let x = try document.data(as: Post.self)
+//                                return x
+//                            } else {
+//                                let x = try document.data(as: Post.self)
+//                                return x
+//                            }
+//                        }
+//                        catch {
+//                            print(error)
+//                            return nil
+//                        }
+//                    }
+//                }
+//            }
     }
 
 }

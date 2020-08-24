@@ -14,17 +14,19 @@ struct OrganizationProfile: View {
     @ObservedObject var postListVM: PostListViewModel
     @State var editProfile = false
     @State var seeMemberRequests = false
-    var organization: Organization
+    // MARK: Robert
+//    var organization: Organization
+    var organization: User
     
-    
-    init(organization: Organization) {
-        self.organization = organization
-        self.postListVM = PostListViewModel(
-            user_id: organization.id ?? "",
-            uni_domain: organization.uni_domain ?? "",
-            limit: Constant.PROFILE_POST_LIMIT_ORG
-        )
-    }
+    // MARK: Robert
+//    init(organization: Organization) {
+//        self.organization = organization
+//        self.postListVM = PostListViewModel(
+//            user_id: organization.id ?? "",
+//            uni_domain: organization.uni_domain ?? "",
+//            limit: Constant.PROFILE_POST_LIMIT_ORG
+//        )
+//    }
     
     var body: some View {
         ScrollView {
@@ -79,11 +81,11 @@ struct OrganizationProfile: View {
     }
 }
 
-struct OrganizationProfile_Previews: PreviewProvider {
-    static var previews: some View {
-        OrganizationProfile(organization: Organization(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", is_club: false))
-    }
-}
+//struct OrganizationProfile_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OrganizationProfile(organization: Organization(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", is_club: false))
+//    }
+//}
 
 /* SubViews */
 

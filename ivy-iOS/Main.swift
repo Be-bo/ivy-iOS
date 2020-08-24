@@ -110,7 +110,8 @@ struct Main: View {
             VStack{
                 NavigationView {
                     
-                    StudentProfile(student: Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
+                    // MARK: Robert
+//                    StudentProfile(student: Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
                         
                         .navigationBarItems(leading:
                             HStack {
@@ -121,10 +122,10 @@ struct Main: View {
                                 }.padding(.leading, 0), trailing:
                                 HStack {
                                     Button(action: {
-                                        self.loginPresented.toggle()
+                                        self.sheetPresented.toggle()
                                     }) {
                                         Image(systemName: "person.crop.circle").font(.system(size: 25))
-                                    }.sheet(isPresented: $loginPresented){
+                                    }.sheet(isPresented: $sheetPresented){
                                         LoginView()
                                     }
                             }

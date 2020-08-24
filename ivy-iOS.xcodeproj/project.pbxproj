@@ -10,7 +10,6 @@
 		4FD192141C090BC0F778B070 /* Pods_ivy_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DB6E37439DBF7AC28449AC /* Pods_ivy_iOS.framework */; };
 		8D002D6124F0349D00518590 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6024F0349D00518590 /* Event.swift */; };
 		8D002D6F24F05FF100518590 /* EventsTabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6D24F05FF100518590 /* EventsTabItemView.swift */; };
-		8D002D7024F05FF100518590 /* EventsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6E24F05FF100518590 /* EventsTabView.swift */; };
 		8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */; };
 		8D30BF9F24EF024200970050 /* FirebaseImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9E24EF024200970050 /* FirebaseImage.swift */; };
 		8D30BFA324EF166000970050 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFA224EF166000970050 /* GridView.swift */; };
@@ -22,10 +21,7 @@
 		8D98D12724F0668800F58539 /* StudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12424F0668800F58539 /* StudentProfile.swift */; };
 		8D98D12824F0668800F58539 /* EditStudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12524F0668800F58539 /* EditStudentProfile.swift */; };
 		8D98D12924F0668800F58539 /* OrganizationProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12624F0668800F58539 /* OrganizationProfile.swift */; };
-		8D98D12C24F0669F00F58539 /* StaticDomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12A24F0669F00F58539 /* StaticDomainList.swift */; };
-		8D98D12D24F0669F00F58539 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12B24F0669F00F58539 /* StaticDegreesList.swift */; };
 		8D98D12F24F06BAE00F58539 /* PostListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12E24F06BAE00F58539 /* PostListViewModel.swift */; };
-		8D98D13124F06D3A00F58539 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D13024F06D3A00F58539 /* Constant.swift */; };
 		8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */; };
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
 		8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13924E5B9F800A8F801 /* SignupSupport.swift */; };
@@ -72,7 +68,6 @@
 /* Begin PBXFileReference section */
 		8D002D6024F0349D00518590 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8D002D6D24F05FF100518590 /* EventsTabItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsTabItemView.swift; path = "ivy-iOS/Events/View/EventsTabItemView.swift"; sourceTree = SOURCE_ROOT; };
-		8D002D6E24F05FF100518590 /* EventsTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsTabView.swift; path = "ivy-iOS/Events/View/EventsTabView.swift"; sourceTree = SOURCE_ROOT; };
 		8D30BF9824EC58AA00970050 /* LoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinner.swift; sourceTree = "<group>"; };
 		8D30BF9E24EF024200970050 /* FirebaseImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseImage.swift; sourceTree = "<group>"; };
 		8D30BFA224EF166000970050 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = View/GridView.swift; sourceTree = SOURCE_ROOT; };
@@ -87,7 +82,6 @@
 		8D98D12A24F0669F00F58539 /* StaticDomainList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDomainList.swift; sourceTree = "<group>"; };
 		8D98D12B24F0669F00F58539 /* StaticDegreesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDegreesList.swift; sourceTree = "<group>"; };
 		8D98D12E24F06BAE00F58539 /* PostListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewModel.swift; sourceTree = "<group>"; };
-		8D98D13024F06D3A00F58539 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
 		8DABC13924E5B9F800A8F801 /* SignupSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupSupport.swift; sourceTree = "<group>"; };
@@ -237,6 +231,7 @@
 				FA5DEF9424B6970D00C397CB /* Products */,
 				75F3619DFCE50A160930E83E /* Pods */,
 				845D68FF259A139209829E19 /* Frameworks */,
+				FAFC90A324F3AAD400177273 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -329,7 +324,6 @@
 		FA96E8B124E5AC6400E33BAD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8D98D13024F06D3A00F58539 /* Constant.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -429,6 +423,14 @@
 				FA5DEF9624B6970D00C397CB /* AppDelegate.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		FAFC90A324F3AAD400177273 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				8D002D6D24F05FF100518590 /* EventsTabItemView.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -555,7 +557,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D515D1C24EAEA4900D67144 /* StaticDomainList.swift in Sources */,
 				FAFC909A24F357E000177273 /* CreatePostView.swift in Sources */,
 				FA2B0EE924F2C74A00B746FB /* PostRepo.swift in Sources */,
 				8D30BF9F24EF024200970050 /* FirebaseImage.swift in Sources */,
@@ -564,7 +565,6 @@
 				8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */,
 				8D98D12824F0668800F58539 /* EditStudentProfile.swift in Sources */,
 				8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */,
-				8D98D13124F06D3A00F58539 /* Constant.swift in Sources */,
 				8D002D6F24F05FF100518590 /* EventsTabItemView.swift in Sources */,
 				8D98D12F24F06BAE00F58539 /* PostListViewModel.swift in Sources */,
 				8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */,
@@ -577,16 +577,13 @@
 				FA7DAF6F24F1837F00B25430 /* Utils.swift in Sources */,
 				FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */,
 				8D002D6124F0349D00518590 /* Event.swift in Sources */,
-				8D30BFA124EF0EE000970050 /* EditStudentProfile.swift in Sources */,
 				FA2B0EE524F2C72700B746FB /* HomePostViewModel.swift in Sources */,
 				FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */,
 				FA221D0524F301590067DB80 /* ThisUserRepo.swift in Sources */,
 				FA2B0EDF24F2117600B746FB /* CalendarUtil.swift in Sources */,
 				FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */,
 				FA2B0EE324F2C71300B746FB /* HomeTabViewModel.swift in Sources */,
-				8D30BF9D24EEFD9A00970050 /* StudentProfileViewModel.swift in Sources */,
 				FAFC90A124F3736E00177273 /* ImagePicker.swift in Sources */,
-				8D30BFA524EF16ED00970050 /* OrganizationProfile.swift in Sources */,
 				8D30BFA324EF166000970050 /* GridView.swift in Sources */,
 				8D98D12724F0668800F58539 /* StudentProfile.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
@@ -594,9 +591,7 @@
 				FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */,
 				FA2B0EE124F2C65500B746FB /* HomeTabView.swift in Sources */,
 				A9B0A71D24B8058500A11A1D /* Main.swift in Sources */,
-				8D515D0E24E6FFA700D67144 /* StaticDegreesList.swift in Sources */,
 				FA7DAF7124F1858200B25430 /* Constant.swift in Sources */,
-				8D30BFA724EF173B00970050 /* OrganizationProfileViewModel.swift in Sources */,
 				FA7274AA24F1E2FA0071A98C /* ExploreAllEventsView.swift in Sources */,
 				FAD2366C24E48DF300F92637 /* TestView.swift in Sources */,
 				FA7274AC24F1E3B70071A98C /* ExploreAllEventsItemView.swift in Sources */,

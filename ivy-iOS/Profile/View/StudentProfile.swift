@@ -12,17 +12,20 @@ struct StudentProfile: View {
     
     @ObservedObject var postListVM : PostListViewModel
     @State var editProfile = false
-    var student: Student
+    // MARK: Robert
+//    var student: Student
+    var student: User
     
+    // MARK: Robert
     // MARK: TODO: publish currently logged in student instead of passing it in
-    init(student: Student) {
-        self.student = student
-        self.postListVM = PostListViewModel(
-            user_id: student.id ?? "",
-            uni_domain: student.uni_domain ?? "",
-            limit: Constant.PROFILE_POST_LIMIT_STUDENT
-        )
-    }
+//    init(student: Student) {
+//        self.student = student
+//        self.postListVM = PostListViewModel(
+//            user_id: student.id ?? "",
+//            uni_domain: student.uni_domain ?? "",
+//            limit: Constant.PROFILE_POST_LIMIT_STUDENT
+//        )
+//    }
     
     var body: some View {
         ScrollView {
@@ -67,8 +70,9 @@ struct StudentProfile: View {
     }
 }
 
-struct StudentProfile_Previews: PreviewProvider {
-    static var previews: some View {
-        StudentProfile(student: Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
-    }
-}
+// MARK: Robert
+//struct StudentProfile_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StudentProfile(student: Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
+//    }
+//}
