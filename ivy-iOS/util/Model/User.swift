@@ -77,4 +77,12 @@ class User: Identifiable/*, Codable*/, Encodable {
             birth_millis = birth_mil
         }
     }
+    
+    func profileImagePath() -> String {
+        return "userfiles/\(self.id ?? "")/profileimage.jpg"
+    }
+    
+    func previewImagePath() -> String {
+        return "userfiles/\(self.id ?? "")/previewimage.jpg"
+    }
 }

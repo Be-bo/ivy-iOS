@@ -107,12 +107,28 @@ struct Main: View {
             
             
             // MARK: Profile
-            if(thisUserRepo.userLoggedIn){
-                VStack{
-                    Text("Profile").padding()
-                }
-                .tabItem {
-                    selection == 2 ? Image(systemName: "person.fill").font(.system(size: 25)) : Image(systemName: "person").font(.system(size: 25))
+            VStack{
+                NavigationView {
+                    
+                    StudentProfile(student: Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
+                        
+                        .navigationBarItems(leading:
+                            HStack {
+                                    Button(action: {}) {
+                                        Image(systemName: "gear").font(.system(size: 25))
+                                    }
+                                    AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                                }.padding(.leading, 0), trailing:
+                                HStack {
+                                    Button(action: {
+                                        self.loginPresented.toggle()
+                                    }) {
+                                        Image(systemName: "person.crop.circle").font(.system(size: 25))
+                                    }.sheet(isPresented: $loginPresented){
+                                        LoginView()
+                                    }
+                            }
+                    )
                 }
                 .tag(2)
             }
