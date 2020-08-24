@@ -35,14 +35,21 @@ struct EventsTabView: View {
     var onCommit: (User) -> (Void) = {_ in}
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
-                
+            
+            
+            
+            // MARK: Empty Text
+            if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){
+                Text("No events on this campus right now!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
+            }
             
             // MARK: Featured
-            HStack{
-                Text("Featured").font(.system(size: 25))
-                Spacer()
+            if(eventTabVM.featuredEventVMs.count > 0){
+                HStack{
+                    Text("Featured").font(.system(size: 25))
+                    Spacer()
+                }.padding(.leading)
             }
-            .padding(.leading)
             VStack(alignment: .leading){
                 ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
                     NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {

@@ -80,6 +80,10 @@ final class Utils {
         return "users/\(userId)"
     }
     
+    static func uniLogoPath() -> String{
+        return "unilogos/\(Utils.getCampusUni()).png"
+    }
+    
     
 }
 

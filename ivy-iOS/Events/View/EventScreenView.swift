@@ -114,16 +114,16 @@ struct EventScreenView: View {
                 
                 
                 //MARK: Going
-                if(eventVM.event.going_ids.count < 1){
+                if(eventVM.event.going_ids.count < 1 && !eventVM.thisUserGoing){ //special edge case, when user is the first to go, "thisUserGoing" is listened to and will make sure the Nobody going text disappears
                     Text("Nobody's going to this event yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                 }else{
                     ScrollView(.horizontal){
                         HStack{
-                            ForEach(eventVM.event.going_ids, id: \.self) { currentId in
-                                PersonCircleView(personId: currentId)
-                            }
                             if(eventVM.thisUserGoing){ //have this user as going always as the last item but decide whether to make them visible or not based on a bool value
                                 PersonCircleView(personId: Auth.auth().currentUser!.uid)
+                            }
+                            ForEach(eventVM.goingIdsWithoutThisUser, id: \.self) { currentId in
+                                PersonCircleView(personId: currentId)
                             }
                         }
                         .padding(.top, 30).padding(.bottom, 30)

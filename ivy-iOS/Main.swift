@@ -13,12 +13,15 @@
 
 import SwiftUI
 import Firebase
+import SDWebImageSwiftUI
 
 struct Main: View {
-    @ObservedObject var thisUserRepo = ThisUserRepo()
-    @State var sheetPresented = false
+    @ObservedObject private var thisUserRepo = ThisUserRepo()
+    @State private var settingsPresented = false
+    @State private var createPostOrLoginPresented = false
     @State private var selection = 0
     @State private var showingSignOutAlert = false
+    @ObservedObject var uniInfo = UniInfo()
     
     var body: some View {
         
@@ -26,27 +29,45 @@ struct Main: View {
         // MARK: Tab Bar
         TabView() {
             
+            
             // MARK: Events
             NavigationView{
                 EventsTabView(screenWidth: UIScreen.screenWidth)
                     .navigationBarItems(leading:
                         HStack {
                             Button(action: {
-                                try? Auth.auth().signOut()
+                                self.settingsPresented.toggle()
                             }) {
-                                Image(systemName: thisUserRepo.userLoggedIn ? "arrow.left.circle" : "").font(.system(size: 25))
-                                .alert(isPresented: $showingSignOutAlert){
-                                    Alert(title: Text("Signed Out"), message: Text("You've been signed out."), dismissButton: .default(Text("OK")))
+                                Image(systemName: "gear").font(.system(size: 25))
+                                    .sheet(isPresented: $settingsPresented){
+                                        SettingsView(uniInfo: self.uniInfo)
                                 }
                             }
-                            AssetManager.ucInterlock.padding(.leading, self.thisUserRepo.userLoggedIn ? UIScreen.screenWidth/2 - 82 : UIScreen.screenWidth/2 - 57)
+                            
+                            WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                                .resizable()
+                                .placeholder(AssetManager.uniLogoPlaceholder)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 40, height: 40)
+                                .padding(.leading, (UIScreen.screenWidth/2 - 80))
+                                .onAppear(){
+                                    let storage = Storage.storage().reference()
+                                    storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
+                                        if err != nil{
+                                            print("Error loading uni logo image.")
+                                            return
+                                        }
+                                        self.uniInfo.uniLogoUrl = "\(url!)"
+                                    }
+                            }
+                            
                         }.padding(.leading, 0), trailing:
                         HStack {
                             Button(action: {
-                                self.sheetPresented.toggle()
+                                self.createPostOrLoginPresented.toggle()
                             }) {
                                 Image(systemName: thisUserRepo.userLoggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
-                                    .sheet(isPresented: $sheetPresented){
+                                    .sheet(isPresented: $createPostOrLoginPresented){
                                         if(self.thisUserRepo.userLoggedIn){
                                             CreatePostView(thisUser: self.thisUserRepo.thisUser)
                                         }else{
@@ -72,20 +93,39 @@ struct Main: View {
                     HomeTabView()
                         .navigationBarItems(leading:
                             HStack {
-                                Button(action: {}) {
-                                    Image(systemName: thisUserRepo.userLoggedIn ? "arrow.left.circle" : "").font(.system(size: 25))
-                                    .alert(isPresented: $showingSignOutAlert){
-                                        Alert(title: Text("Signed Out"), message: Text("You've been signed out."), dismissButton: .default(Text("OK")))
+                                Button(action: {
+                                    self.settingsPresented.toggle()
+                                }) {
+                                    Image(systemName: "gear").font(.system(size: 25))
+                                        .sheet(isPresented: $settingsPresented){
+                                            SettingsView(uniInfo: self.uniInfo)
                                     }
                                 }
-                                AssetManager.ucInterlock.padding(.leading, self.thisUserRepo.userLoggedIn ? UIScreen.screenWidth/2 - 82 : UIScreen.screenWidth/2 - 57)
+                                
+                                WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                                    .resizable()
+                                    .placeholder(AssetManager.uniLogoPlaceholder)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40, height: 40)
+                                    .padding(.leading, (UIScreen.screenWidth/2 - 80))
+                                    .onAppear(){
+                                        let storage = Storage.storage().reference()
+                                        storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
+                                            if err != nil{
+                                                print("Error loading uni logo image.")
+                                                return
+                                            }
+                                            self.uniInfo.uniLogoUrl = "\(url!)"
+                                        }
+                                }
+                                
                             }.padding(.leading, 0), trailing:
                             HStack {
                                 Button(action: {
-                                    self.sheetPresented.toggle()
+                                    self.createPostOrLoginPresented.toggle()
                                 }) {
                                     Image(systemName: thisUserRepo.userLoggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
-                                        .sheet(isPresented: $sheetPresented){
+                                        .sheet(isPresented: $createPostOrLoginPresented){
                                             if(self.thisUserRepo.userLoggedIn){
                                                 CreatePostView(thisUser: self.thisUserRepo.thisUser)
                                             }else{
@@ -95,6 +135,7 @@ struct Main: View {
                                 }
                         })
                 }
+            .navigationBarHidden(false)
             }
             .tabItem {
                 selection == 1 ? Image(systemName: "house.fill").font(.system(size: 25)) : Image(systemName: "house").font(.system(size: 25))
@@ -111,23 +152,24 @@ struct Main: View {
                 NavigationView {
                     
                     // MARK: Robert
-//                    StudentProfile(student: Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
+                    //                    StudentProfile(student: Student(id: "HaJEXFHBNhgLrHm0EhSjgR0KXhF2", email: "test4@asd.ca", degree: "Computer Science"))
+                    Text("Profile")
                         
                         .navigationBarItems(leading:
                             HStack {
-                                    Button(action: {}) {
-                                        Image(systemName: "gear").font(.system(size: 25))
-                                    }
-                                    AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
-                                }.padding(.leading, 0), trailing:
-                                HStack {
-                                    Button(action: {
-                                        self.sheetPresented.toggle()
-                                    }) {
-                                        Image(systemName: "person.crop.circle").font(.system(size: 25))
-                                    }.sheet(isPresented: $sheetPresented){
-                                        LoginView()
-                                    }
+                                Button(action: {}) {
+                                    Image(systemName: "gear").font(.system(size: 25))
+                                }
+                                AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                            }.padding(.leading, 0), trailing:
+                            HStack {
+                                Button(action: {
+                                    self.createPostOrLoginPresented.toggle()
+                                }) {
+                                    Image(systemName: "person.crop.circle").font(.system(size: 25))
+                                }.sheet(isPresented: $createPostOrLoginPresented){
+                                    LoginView()
+                                }
                             }
                     )
                 }

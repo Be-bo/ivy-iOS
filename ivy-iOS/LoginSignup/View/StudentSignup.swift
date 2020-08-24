@@ -14,6 +14,7 @@ struct StudentSignup: View {
     @Environment(\.presentationMode) private var presentationMode
     @State var errorText: SignupError? = nil
     @State var showAlert = false
+    private var degree_array = StaticDegreesList.degree_array
 
     var body: some View {
         ZStack { // for alert dialog
@@ -31,7 +32,7 @@ struct StudentSignup: View {
                         
                     DropDownMenu(
                         selected: $studentSignupVM.degree,
-                        list: StaticDegreesList.degree_array,
+                        list: degree_array,
                         hint: "Degree",
                         hintColor: Color.gray,
                         background: Color.white,

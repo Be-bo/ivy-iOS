@@ -54,12 +54,17 @@
 		FA8223EF24F058D400042AA2 /* EventsTabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8223EC24F058D400042AA2 /* EventsTabItemView.swift */; };
 		FA96E8AA24E5980E00E33BAD /* StandardButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96E8A924E5980E00E33BAD /* StandardButtonStyle.swift */; };
 		FAA369D224F1EACC00F6CA63 /* EventScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA369D124F1EACC00F6CA63 /* EventScreenView.swift */; };
+		FABA035C24F432E9007C4878 /* StaticDomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA035A24F432E9007C4878 /* StaticDomainList.swift */; };
+		FABA035D24F432E9007C4878 /* StaticDegreesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA035B24F432E9007C4878 /* StaticDegreesList.swift */; };
+		FABA035F24F43631007C4878 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA035E24F43631007C4878 /* Extensions.swift */; };
+		FABA036124F446D1007C4878 /* CreatePostRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036024F446D1007C4878 /* CreatePostRepo.swift */; };
+		FABA036324F457D5007C4878 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036224F457D5007C4878 /* SettingsView.swift */; };
+		FABA036524F46317007C4878 /* UniInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036424F46317007C4878 /* UniInfo.swift */; };
 		FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2366924E488E500F92637 /* LoginViewModel.swift */; };
 		FAD2366C24E48DF300F92637 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2366B24E48DF300F92637 /* TestView.swift */; };
 		FAD2366E24E496C200F92637 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAD2366D24E496C200F92637 /* GoogleService-Info.plist */; };
 		FAE4734A24E1B761003E3991 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAE4734924E1B761003E3991 /* Colors.xcassets */; };
 		FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4734B24E1B7BA003E3991 /* AssetManager.swift */; };
-		FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4734F24E1BD6D003E3991 /* StandardTextField.swift */; };
 		FAFC909A24F357E000177273 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC909924F357E000177273 /* CreatePostView.swift */; };
 		FAFC909F24F3712B00177273 /* PhotoLibraryPicker in Frameworks */ = {isa = PBXBuildFile; productRef = FAFC909E24F3712B00177273 /* PhotoLibraryPicker */; };
 		FAFC90A124F3736E00177273 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC90A024F3736E00177273 /* ImagePicker.swift */; };
@@ -79,8 +84,6 @@
 		8D98D12424F0668800F58539 /* StudentProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentProfile.swift; sourceTree = "<group>"; };
 		8D98D12524F0668800F58539 /* EditStudentProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditStudentProfile.swift; sourceTree = "<group>"; };
 		8D98D12624F0668800F58539 /* OrganizationProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationProfile.swift; sourceTree = "<group>"; };
-		8D98D12A24F0669F00F58539 /* StaticDomainList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDomainList.swift; sourceTree = "<group>"; };
-		8D98D12B24F0669F00F58539 /* StaticDegreesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDegreesList.swift; sourceTree = "<group>"; };
 		8D98D12E24F06BAE00F58539 /* PostListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewModel.swift; sourceTree = "<group>"; };
 		8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
@@ -119,12 +122,17 @@
 		FA8223EC24F058D400042AA2 /* EventsTabItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsTabItemView.swift; sourceTree = "<group>"; };
 		FA96E8A924E5980E00E33BAD /* StandardButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButtonStyle.swift; sourceTree = "<group>"; };
 		FAA369D124F1EACC00F6CA63 /* EventScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventScreenView.swift; sourceTree = "<group>"; };
+		FABA035A24F432E9007C4878 /* StaticDomainList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDomainList.swift; sourceTree = "<group>"; };
+		FABA035B24F432E9007C4878 /* StaticDegreesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticDegreesList.swift; sourceTree = "<group>"; };
+		FABA035E24F43631007C4878 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		FABA036024F446D1007C4878 /* CreatePostRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostRepo.swift; sourceTree = "<group>"; };
+		FABA036224F457D5007C4878 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		FABA036424F46317007C4878 /* UniInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniInfo.swift; sourceTree = "<group>"; };
 		FAD2366924E488E500F92637 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		FAD2366B24E48DF300F92637 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FAD2366D24E496C200F92637 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FAE4734924E1B761003E3991 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		FAE4734B24E1B7BA003E3991 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
-		FAE4734F24E1BD6D003E3991 /* StandardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
 		FAFC909924F357E000177273 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		FAFC90A024F3736E00177273 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,6 +177,7 @@
 				FA7DAF7024F1858200B25430 /* Constant.swift */,
 				FA2B0EDE24F2117600B746FB /* CalendarUtil.swift */,
 				FAFC90A024F3736E00177273 /* ImagePicker.swift */,
+				FABA035E24F43631007C4878 /* Extensions.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -205,7 +214,6 @@
 		FA14D5E024E1C81700F1D9B1 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				FAE4734F24E1BD6D003E3991 /* StandardTextField.swift */,
 				FA96E8A924E5980E00E33BAD /* StandardButtonStyle.swift */,
 				FAE4734B24E1B7BA003E3991 /* AssetManager.swift */,
 				FA5DEF9C24B6970E00C397CB /* Assets.xcassets */,
@@ -364,6 +372,7 @@
 				FA2B0EEA24F2CC2B00B746FB /* HomePostView.swift */,
 				FA4B722924F2D96E008A86FC /* PostScreen.swift */,
 				FAFC909924F357E000177273 /* CreatePostView.swift */,
+				FABA036224F457D5007C4878 /* SettingsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -381,6 +390,8 @@
 			isa = PBXGroup;
 			children = (
 				FA2B0EE824F2C74A00B746FB /* PostRepo.swift */,
+				FABA036024F446D1007C4878 /* CreatePostRepo.swift */,
+				FABA036424F46317007C4878 /* UniInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -388,8 +399,8 @@
 		FA96E8B824E5ACAF00E33BAD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8D98D12B24F0669F00F58539 /* StaticDegreesList.swift */,
-				8D98D12A24F0669F00F58539 /* StaticDomainList.swift */,
+				FABA035B24F432E9007C4878 /* StaticDegreesList.swift */,
+				FABA035A24F432E9007C4878 /* StaticDomainList.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -580,21 +591,26 @@
 				FA2B0EE524F2C72700B746FB /* HomePostViewModel.swift in Sources */,
 				FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */,
 				FA221D0524F301590067DB80 /* ThisUserRepo.swift in Sources */,
+				FABA036124F446D1007C4878 /* CreatePostRepo.swift in Sources */,
 				FA2B0EDF24F2117600B746FB /* CalendarUtil.swift in Sources */,
-				FAE4735024E1BD6D003E3991 /* StandardTextField.swift in Sources */,
+				FABA036324F457D5007C4878 /* SettingsView.swift in Sources */,
 				FA2B0EE324F2C71300B746FB /* HomeTabViewModel.swift in Sources */,
 				FAFC90A124F3736E00177273 /* ImagePicker.swift in Sources */,
 				8D30BFA324EF166000970050 /* GridView.swift in Sources */,
 				8D98D12724F0668800F58539 /* StudentProfile.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
 				FA8223EE24F058D400042AA2 /* EventsTabView.swift in Sources */,
+				FABA035F24F43631007C4878 /* Extensions.swift in Sources */,
 				FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */,
 				FA2B0EE124F2C65500B746FB /* HomeTabView.swift in Sources */,
 				A9B0A71D24B8058500A11A1D /* Main.swift in Sources */,
+				FABA036524F46317007C4878 /* UniInfo.swift in Sources */,
 				FA7DAF7124F1858200B25430 /* Constant.swift in Sources */,
 				FA7274AA24F1E2FA0071A98C /* ExploreAllEventsView.swift in Sources */,
 				FAD2366C24E48DF300F92637 /* TestView.swift in Sources */,
+				FABA035D24F432E9007C4878 /* StaticDegreesList.swift in Sources */,
 				FA7274AC24F1E3B70071A98C /* ExploreAllEventsItemView.swift in Sources */,
+				FABA035C24F432E9007C4878 /* StaticDomainList.swift in Sources */,
 				FA201E8D24F0610B003495DB /* EventRepo.swift in Sources */,
 				8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */,
 				FA96E8AA24E5980E00E33BAD /* StandardButtonStyle.swift in Sources */,

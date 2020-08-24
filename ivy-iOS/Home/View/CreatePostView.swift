@@ -16,6 +16,7 @@ struct CreatePostView: View {
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     var thisUser: User
+    @ObservedObject private var createPostRepo = CreatePostRepo()
     @State private var typePick = 0
     @State private var visualPick = 0
     @State private var textInput = ""
@@ -23,15 +24,13 @@ struct CreatePostView: View {
     @State private var location = ""
     @State private var link = ""
     @State private var pinnedName: String?
-    @State private var pinnedId: String?
-    @State var startDate = Date()
-    @State var endDate = Date()
+    @State private var startDate = Date()
+    @State private var endDate = Date()
     @State private var image: Image?
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
-    @State private var pinned_ids = [String]()
-    @State private var pinned_names = [String]()
     @Environment(\.presentationMode) var presentationMode
+
     
     
     // MARK: Functions
@@ -49,21 +48,6 @@ struct CreatePostView: View {
         image = Image(uiImage: inputImage)
     }
     
-    func loadPinnedNames(){
-        db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).getDocuments { (querSnapshot, error) in
-            if let querSnap = querSnapshot{
-                print("inside")
-                for doc in querSnap.documents{
-                    if let id = doc.get("id") as? String, let nam = doc.get("name") as? String{
-                        self.pinned_ids.append(id)
-                        self.pinned_names.append(nam)
-                        print("adding: "+nam)
-                    }
-                }
-            }
-        }
-    }
-    
     func uploadPost(){
         var newPost = [String: Any]()
         
@@ -79,8 +63,13 @@ struct CreatePostView: View {
             newPost["creation_millis"] = Int(Utils.getCurrentTimeInMillis())
             newPost["creation_platform"] = "iOS"
             newPost["text"] = textInput
-            newPost["pinned_name"] = pinnedName
-            newPost["pinned_id"] = pinnedId
+            if let pinName = pinnedName{
+                newPost["pinned_name"] = pinnedName
+                newPost["pinned_id"] = createPostRepo.pinnedIds[createPostRepo.pinnedNames.firstIndex(of: pinName)!]
+            }else{
+                newPost["pinned_name"] = ""
+                newPost["pinned_id"] = ""
+            }
             newPost["views_id"] = [String]()
             
             
@@ -153,6 +142,7 @@ struct CreatePostView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
             VStack{
+                Text("Create Post").font(.largeTitle).padding(.bottom, 10)
                 
                 // MARK: Type
                 HStack{
@@ -175,79 +165,85 @@ struct CreatePostView: View {
                     Text("Nothing").tag(0)
                     Text("Image").tag(1)
                 }.pickerStyle(SegmentedPickerStyle())
-                .padding(.bottom, 10)
+                    .padding(.bottom, 10)
                 
-                // MARK: Image Picker
-                if(visualPick == 1){
-                    VStack {
-                        Button(action: {
-                            self.showingImagePicker = true
-                        }) {
-                            Text("Add Image").foregroundColor(AssetManager.ivyGreen)
-                            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                                ImagePicker(image: self.$inputImage)
+    
+                
+                Group{ // background on click dismisses keyboard, couldn't apply to the entire layout because it bugs the segmented control
+                    // MARK: Image Picker
+                    if(visualPick == 1){
+                        VStack {
+                            Button(action: {
+                                self.showingImagePicker = true
+                            }) {
+                                Text("Add Image").foregroundColor(AssetManager.ivyGreen)
+                                .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                                    ImagePicker(image: self.$inputImage)
+                                }
+                            }
+                            if(image != nil){
+                                image?.resizable().aspectRatio(1, contentMode: .fit)
                             }
                         }
-                        if(image != nil){
-                            image?.resizable().aspectRatio(contentMode: .fit)
-                        }
-                    }
-                    .padding(.bottom, 10)
-                }
-                
-                
-                // MARK: Text
-                TextField("Text", text: $textInput)
-                Divider().padding(.bottom, 10)
-                
-                
-                // MARK: Pinned
-                if(typePick == 0){
-                    Group{
-                        DropDownMenu(
-                            selected: $pinnedName,
-                            list: self.pinned_names,
-                            hint: "Pinned Event",
-                            hintColor: Color.gray,
-                            expandedHeight: 200
-                        )
                         .padding(.bottom, 10)
                     }
                     
+                    // MARK: Text
+                    TextField("Text", text: $textInput)
+                    Divider().padding(.bottom, 10)
                     
-                // MARK: Event Fields
-                }else{
-                    Group{
-                        TextField("Event Name", text: $eventName)
-                        Divider().padding(.bottom, 10)
+                    
+                    // MARK: Pinned
+                    if(typePick == 0){
+                        Group{
+                            DropDownMenu(
+                                selected: $pinnedName,
+                                list: self.createPostRepo.pinnedNames,
+                                hint: "Pinned Event",
+                                hintColor: AssetManager.ivyHintGreen,
+                                expandedHeight: 200
+                            )
+                            .padding(.bottom, 10)
+                        }
                         
-                        TextField("Location", text: $location)
-                        Divider().padding(.bottom, 10)
                         
-                        TextField("Link (optional)", text: $link)
-                        Divider().padding(.bottom, 10)
-                        
-                        DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
-                        
-                        DatePicker("End", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
+                    // MARK: Event Fields
+                    }else{
+                        Group{
+                            TextField("Text", text: $eventName)
+                            Divider().padding(.bottom, 10)
+                            
+                            TextField("Text", text: $location)
+                            Divider().padding(.bottom, 10)
+                            
+                            TextField("Text", text: $link)
+                            Divider().padding(.bottom, 10)
+                            
+                            DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
+                            
+                            DatePicker("End", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
+                        }
                     }
+                    
+                    
+                    // MARK: Button
+                    Button(action: {
+                        self.uploadPost()
+                    }){
+                        Text("Post")
+                    }
+                    .disabled(!inputOk())
+                    .buttonStyle(StandardButtonStyle(disabled: !inputOk()))
                 }
-                
-                
-                // MARK: Button
-                Button(action: {
-                    self.uploadPost()
-                }){
-                    Text("Post")
+                .onTapGesture { //hide keyboard when background tapped
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
                 }
-                .disabled(!inputOk())
-                .buttonStyle(StandardButtonStyle(disabled: !inputOk()))
-                
-                
                 
             }
         }
         .padding()
+        .keyboardAdaptive()
     }
 }
+
 
