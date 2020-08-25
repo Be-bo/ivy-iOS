@@ -23,9 +23,9 @@ struct GridView<T, Label> : View where Label : View, T : Identifiable {
     }
     
     var body: some View {
-        VStack (alignment: .center) {
-            ForEach(rows) { row in
-                GeometryReader { geo in
+        GeometryReader { geo in
+            VStack (alignment: .leading) {
+                ForEach(self.rows) { row in
                     HStack (alignment: .center) {
                         ForEach(row.cells, content: self.cellView(geo))
                     }
@@ -71,12 +71,10 @@ struct Row<T>: Identifiable {
             // Make new Row if max columns reached
             if row.cells.count < numberOfColumns {
                 row.cells.append(cell)
-                print("appended: \(cell)")
             }
             else {
                 grid.append(row)
                 row = Row(cells: [cell])
-                print("new row: \(cell)")
             }
         }
         

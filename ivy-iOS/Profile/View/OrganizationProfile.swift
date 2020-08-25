@@ -100,7 +100,7 @@ struct OrganizationProfile: View {
                                 Text("Posts")
                                 Spacer()
                             }
-                            
+                            /*
                             NavigationView {
                                 GridView(
                                     cells: postListVM.postVMs,
@@ -121,7 +121,7 @@ struct OrganizationProfile: View {
                                         //}
                                     }
                                 }
-                            }
+                            }*/
                         }
                         else {
                             Spacer()

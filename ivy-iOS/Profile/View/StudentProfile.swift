@@ -7,6 +7,10 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
+import Firebase
+
+
 
 struct StudentProfile: View {
     
@@ -14,7 +18,7 @@ struct StudentProfile: View {
     @ObservedObject var postListVM = PostListViewModel()
     @State var editProfile = false
     @State var selection : Int? = nil
-    
+        
     
     init(thisUserRepo: ThisUserRepo) {
         self.thisUserRepo = thisUserRepo
@@ -78,13 +82,14 @@ struct StudentProfile: View {
                                 { postVM in
                                     ZStack {
                                         Button(action: {
-                                            self.selection = 1
+                                            self.selection = postVM.post.creation_millis ?? 1
+                                            print("selected post: \(postVM.post.text)")
                                         }){
                                             FirebaseImage(
                                                 path: Utils.postPreviewImagePath(postId: postVM.id),
                                                 placeholder: AssetManager.logoGreen,
-                                                width: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT),
-                                                height: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT),
+                                                width: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT)-10,
+                                                height: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT)-10,
                                                 shape: RoundedRectangle(cornerRadius: 25)
                                             )
                                         }
@@ -94,7 +99,7 @@ struct StudentProfile: View {
                                         NavigationLink(
                                             destination: PostScreen(postVM: postVM)
                                                 .navigationBarTitle(postVM.post.author_name+"'s Post"),
-                                            tag: 1, selection: self.$selection)
+                                            tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
                                         { EmptyView() }
                                     }
                                 }
