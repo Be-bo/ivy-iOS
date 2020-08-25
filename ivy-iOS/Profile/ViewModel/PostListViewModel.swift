@@ -15,6 +15,7 @@ import Combine
 class PostListViewModel: ObservableObject {
     
     @Published var postVMs = [HomePostViewModel]()
+    @Published var eventVMs = [EventItemViewModel]()    //TODO: quick and dirty
     @Published var postsLoaded = true
         
     let db = Firestore.firestore()
@@ -53,21 +54,27 @@ class PostListViewModel: ObservableObject {
                 }
             }*/
         
-        // TODO: this is quick and dirty. must include events later and retrieve docs as objects
+        // TODO: this is quick and dirty. must retrieve docs as objects later and apply pagination
         db.collection(postsPath)
-            .whereField("is_event", isEqualTo: false)
             .whereField("author_id", isEqualTo: user_id as Any)
             .order(by: "creation_millis", descending: true)
             //.limit(to: limit) //TODO: apply pagination later
             .addSnapshotListener { (querySnapshot, error) in
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
-                        let newPost = Post()
-                        newPost.docToObject(doc: currentDoc)
-                        self.postVMs.append(HomePostViewModel(post: newPost))
+                        if (currentDoc.get("is_event") != nil && currentDoc.get("is_event") as! Bool) {
+                            let newEvent = Event()
+                            newEvent.docToObject(doc: currentDoc)
+                            self.eventVMs.append(EventItemViewModel(event: newEvent))
+                        }
+                        else {
+                            let newPost = Post()
+                            newPost.docToObject(doc: currentDoc)
+                            self.postVMs.append(HomePostViewModel(post: newPost))
+                        }
                     }
                     self.postsLoaded = true
-                    print("\(self.postVMs.count) posts were uploaded from database")
+                    print("\(self.postVMs.count) posts and \(self.eventVMs.count) events were uploaded from database")
                 }
         }
     }

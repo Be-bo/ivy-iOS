@@ -107,11 +107,52 @@ struct OrganizationProfile: View {
                 // MARK: Posts
                 VStack() {
                     if (postListVM.postsLoaded == true) {
+                        
+                        // EVENTS
+                        if (postListVM.eventVMs.count > 0) {
+                            HStack {
+                                Text("Events")
+                                Spacer()
+                            }
+                            
+                            //TODO: quick and dirty
+                            GridView(
+                                cells: self.postListVM.eventVMs,
+                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                            ) //{ geo in
+                                { eventVM in
+                                    ZStack {
+                                            FirebaseImage(
+                                                path: Utils.postPreviewImagePath(postId: eventVM.id),
+                                                placeholder: AssetManager.logoGreen,
+                                                width: 105,
+                                                height: 105,
+                                                shape: RoundedRectangle(cornerRadius: 25)
+                                            )
+                                                .onTapGesture {
+                                                    self.selection = eventVM.event.creation_millis
+                                                    print("selected post: \(eventVM.event.text)")
+                                            }
+
+                                        // TODO: quick and dirty
+                                        NavigationLink(
+                                            destination: EventScreenView(eventVM: eventVM)
+                                                .navigationBarTitle(eventVM.event.author_name+"'s Post"),
+                                            tag: eventVM.event.creation_millis, selection: self.$selection)
+                                        { EmptyView() }
+                                    }
+                                //}
+
+                            }
+                        }
+                        
+                        // POSTS
                         if (postListVM.postVMs.count > 0) {
-                            HStack{
+                            HStack {
                                 Text("Posts")
                                 Spacer()
                             }
+                            
                             //TODO: quick and dirty
                             GridView(
                                 cells: self.postListVM.postVMs,
@@ -119,10 +160,6 @@ struct OrganizationProfile: View {
                             ) //{ geo in
                                 { postVM in
                                     ZStack {
-                                        /*Button(action: {
-                                            self.selection = postVM.post.creation_millis ?? 1
-                                            print("selected post: \(postVM.post.text)")
-                                        }){*/
                                             FirebaseImage(
                                                 path: Utils.postPreviewImagePath(postId: postVM.id),
                                                 placeholder: AssetManager.logoGreen,
@@ -134,8 +171,6 @@ struct OrganizationProfile: View {
                                                     self.selection = postVM.post.creation_millis ?? 1
                                                     print("selected post: \(postVM.post.text)")
                                             }
-                                        //}
-                                        //.buttonStyle(PlainButtonStyle())
 
                                         // TODO: quick and dirty
                                         NavigationLink(
@@ -147,7 +182,7 @@ struct OrganizationProfile: View {
                                 //}
 
                             }
-                        } else {
+                        } else if postListVM.eventVMs.count == 0 {
                             Spacer()
                             Text("No Posts yet!")
                                 .foregroundColor(.gray)

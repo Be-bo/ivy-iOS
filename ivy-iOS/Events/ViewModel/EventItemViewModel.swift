@@ -21,7 +21,7 @@ class EventItemViewModel: ObservableObject, Identifiable{
     
     init(event: Event){
         self.event = event
-        if Auth.auth().currentUser != nil, let id = Auth.auth().currentUser!.uid as? String{
+        if Auth.auth().currentUser != nil, let id = Auth.auth().currentUser?.uid{
             if(event.going_ids.contains(id)){
                 thisUserGoing = true
                 goingIdsWithoutThisUser = [String](event.going_ids)
