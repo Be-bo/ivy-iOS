@@ -27,28 +27,26 @@ struct EventScreenView: View {
                 
                 
                 //MARK: Image
-                WebImage(url: URL(string: self.imageUrl))
-                    .resizable()
-                    .placeholder(AssetManager.logoWhite)
-                    .background(AssetManager.ivyLightGrey)
-                    .aspectRatio(contentMode: .fit)
-                    .onAppear(){
-                        let storage = Storage.storage().reference()
-                        storage.child(self.eventVM.event.visual).downloadURL { (url, err) in
-                            if err != nil{
-                                print("Error loading featured image.")
-                                return
+                if (!eventVM.event.visual.isEmpty && eventVM.event.visual != "nothing") {
+                    WebImage(url: URL(string: self.imageUrl))
+                        .resizable()
+                        .placeholder(AssetManager.logoWhite)
+                        .background(AssetManager.ivyLightGrey)
+                        .aspectRatio(contentMode: .fit)
+                        .onAppear(){
+                            let storage = Storage.storage().reference()
+                            storage.child(self.eventVM.event.visual).downloadURL { (url, err) in
+                                if err != nil{
+                                    print("Error loading featured image.")
+                                    return
+                                }
+                                self.imageUrl = "\(url!)"
                             }
-                            self.imageUrl = "\(url!)"
-                        }
+                    }
                 }
                 
                 
                 VStack(alignment: .leading){
-                    
-                    
-                    
-                    
                     //MARK: Author Row
                     ZStack{
                         HStack(){
@@ -73,6 +71,7 @@ struct EventScreenView: View {
                          .onTapGesture {
                             self.selection = 1
                         }
+                        .padding(.bottom)
                         
                         
                         if (eventVM.event.author_is_organization) {
@@ -100,21 +99,12 @@ struct EventScreenView: View {
                         }
                     }
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     //MARK: Time Row
                     HStack{
                         Image(systemName: "clock.fill")
                         Text(Utils.getEventDate(millis:eventVM.event.start_millis) + " - " + Utils.getEventDate(millis:eventVM.event.end_millis))
                         Spacer()
                     }
-                    
                     
                     //MARK: Location Row
                     HStack{
@@ -135,7 +125,7 @@ struct EventScreenView: View {
                 //MARK: Going
                 if(eventVM.event.going_ids.count < 1 && !eventVM.thisUserGoing){ //special edge case, when user is the first to go, "thisUserGoing" is listened to and will make sure the Nobody going text disappears
                     Text("Nobody's going to this event yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
-                }else{
+                } else {
                     ScrollView(.horizontal){
                         HStack{
                             if(eventVM.thisUserGoing){ //have this user as going always as the last item but decide whether to make them visible or not based on a bool value
@@ -207,15 +197,10 @@ struct EventScreenView: View {
                     Spacer()
                 }
             }
-            .padding()
+            .padding(.leading)
+            .padding(.trailing)
             
             Divider().padding(.top, 20).padding(.bottom, 20)
-            
-            
-            
-            
-            
-            
             Text("Comments coming soon!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
             
         }

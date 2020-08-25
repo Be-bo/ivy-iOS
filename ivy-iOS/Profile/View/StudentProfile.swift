@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 
-
 struct StudentProfile: View {
     
     @ObservedObject var userRepo: UserRepo
@@ -73,55 +72,53 @@ struct StudentProfile: View {
                 
                 
                 // Posts
-                VStack() {
-                    if (postListVM.postsLoaded == true) {
-                        
-                        // EVENTS
-                        if (postListVM.eventVMs.count > 0) {
-                            HStack {
-                                Text("Events")
-                                Spacer()
-                            }
-                            
-                            GridView(
-                                cells: self.postListVM.eventVMs,
-                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) //{ geo in
-                                { eventVM in
-                                    ProfileEventItemView(eventVM: eventVM)
-                                }
-                            //}
-                        }
-                        
-                        // POSTS
-                        if (postListVM.postVMs.count > 0) {
-                            HStack {
-                                Text("Posts")
-                                Spacer()
-                            }
-                            
-                            GridView(
-                                cells: self.postListVM.postVMs,
-                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) //{ geo in
-                                { postVM in
-                                    ProfilePostItemView(postVM: postVM)
-                                }
-                            //}
-                        }
-                        
-                        else if postListVM.eventVMs.count == 0 {
+                if (postListVM.postsLoaded == true) {
+                    
+                    // EVENTS
+                    if (postListVM.eventVMs.count > 0) {
+                        HStack {
+                            Text("Events")
                             Spacer()
-                            Text("No Posts yet!")
-                                .foregroundColor(.gray)
-                                .padding()
-                                .frame(alignment: .center)
                         }
+                        
+                        GridView(
+                            cells: self.postListVM.eventVMs,
+                            maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                        ) //{ geo in
+                            { eventVM in
+                                ProfileEventItemView(eventVM: eventVM)
+                            }
+                        //}
                     }
-                    else {
+                    
+                    // POSTS
+                    if (postListVM.postVMs.count > 0) {
+                        HStack {
+                            Text("Posts")
+                            Spacer()
+                        }
+                        
+                        GridView(
+                            cells: self.postListVM.postVMs,
+                            maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                        ) //{ geo in
+                            { postVM in
+                                ProfilePostItemView(postVM: postVM)
+                            }
+                        //}
+                    }
+                    
+                    else if postListVM.eventVMs.count == 0 {
                         Spacer()
-                        LoadingSpinner()
+                        Text("No Posts yet!")
+                            .foregroundColor(.gray)
+                            .padding()
+                            .frame(alignment: .center)
                     }
+                    Spacer()
+                }
+                else {
+                    LoadingSpinner().padding(160)   // TODO: quick and dirty
                 }
             }
             .padding(.horizontal)

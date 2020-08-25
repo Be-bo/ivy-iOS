@@ -25,6 +25,7 @@ import Firebase
 //}
 
 struct EventsTabView: View {
+    
     @ObservedObject var eventTabVM = EventTabViewModel()
     var screenWidth: CGFloat = 300.0
     @State var featuredUrl = ""
@@ -33,10 +34,11 @@ struct EventsTabView: View {
     @State var selection: Int? = nil
     @State private var loggedIn = false
     var onCommit: (User) -> (Void) = {_ in}
+    
+    
     var body: some View {
+        
         ScrollView(.vertical, showsIndicators: false){
-            
-            
             
             // MARK: Empty Text
             if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){

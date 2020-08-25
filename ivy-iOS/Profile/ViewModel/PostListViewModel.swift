@@ -16,13 +16,12 @@ class PostListViewModel: ObservableObject {
     
     @Published var postVMs = [HomePostViewModel]()
     @Published var eventVMs = [EventItemViewModel]()    //TODO: quick and dirty
-    @Published var postsLoaded = true
+    @Published var postsLoaded = false
         
     let db = Firestore.firestore()
     
     
     init (limit: Int, uni_domain: String, user_id: String) {
-        postsLoaded = false
         let postsPath = "universities/\(uni_domain)/posts"
         if (uni_domain == "" || user_id == "") {
             print("This user not loaded yet! Cannot load posts for profile")

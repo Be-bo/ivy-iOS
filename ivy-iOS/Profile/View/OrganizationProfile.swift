@@ -129,9 +129,9 @@ struct OrganizationProfile: View {
                 
                 
                 // MARK: Posts
-                VStack() {
-                    if (postListVM.postsLoaded == true) {
-                        
+                if (postListVM.postsLoaded == true) {
+                    VStack {
+                            
                         // EVENTS
                         if (postListVM.eventVMs.count > 0) {
                             HStack {
@@ -174,11 +174,10 @@ struct OrganizationProfile: View {
                                 .frame(alignment: .center)
                         }
                     }
-                    else {
-                        Spacer()
-                        LoadingSpinner()
-                    }
                     Spacer()
+                }
+                else {
+                    LoadingSpinner().padding(160)   // TODO: quick and dirty
                 }
             }
             .padding(.horizontal)

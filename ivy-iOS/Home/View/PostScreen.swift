@@ -68,7 +68,6 @@ struct PostScreen: View {
                         }
                         .onTapGesture {
                             self.selection = 1
-                            print("selected author")
                         }
                         
                         
