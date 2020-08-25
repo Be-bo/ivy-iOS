@@ -16,7 +16,7 @@ struct ProfileEventItemView: View {
     @State private var selection: Int?
     
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
+        ZStack(alignment: .bottomLeading) { // alignment is for banner
             // No visual?
             if (eventVM.event.visual.isEmpty || eventVM.event.visual == "nothing") {
                 ProfileNoPicPostItemView(text: eventVM.event.name)
@@ -47,6 +47,7 @@ struct ProfileEventItemView: View {
                 tag: eventVM.event.creation_millis, selection: self.$selection)
             { EmptyView() }
         }
+    .padding(3)
     }
 }
 
@@ -87,6 +88,7 @@ struct ProfilePostItemView: View {
                 tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
             { EmptyView() }
         }
+        .padding(3)
     }
 }
 

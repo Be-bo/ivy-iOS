@@ -116,28 +116,36 @@ struct OrganizationProfile: View {
                                 }
                             }
                         }
-                        
-                        Spacer()
                     }
                     
-                    
-                    // MARK: Bembers
-                    if(userRepo.user.member_ids.count > 0){
-                        MemberListRow(memberIds: userRepo.user.member_ids, orgId: userRepo.user.id ?? "", userIsOrg: false).padding(.top, 20).padding(.bottom, 10)
-                    }
-                    
-                    
-                    // MARK: Bember Requests
-                    if(userRepo.user.request_ids.count > 0 && Auth.auth().currentUser != nil && userRepo.user.id == Auth.auth().currentUser!.uid){
-                        MemberListRow(memberIds: userRepo.user.request_ids, orgId: userRepo.user.id ?? "", titleText: "Member Requests", userIsOrg: false).padding(.top, 20).padding(.bottom, 20)
-                    }
-                    
-                    
-                    
-                    
-                    // MARK: Posts
-                    VStack() {
-                        if (postListVM.postsLoaded == true) {
+                    Spacer()
+                }
+                
+                
+                // MARK: Bembers
+                if(userRepo.user.member_ids.count > 0){
+                    MemberListRow(memberIds: userRepo.user.member_ids, orgId: userRepo.user.id ?? "", userIsOrg: false).padding(.top, 20).padding(.bottom, 10)
+                }
+                
+                
+                // MARK: Bember Requests
+                if(userRepo.user.request_ids.count > 0 && Auth.auth().currentUser != nil && userRepo.user.id == Auth.auth().currentUser!.uid){
+                    MemberListRow(memberIds: userRepo.user.request_ids, orgId: userRepo.user.id ?? "", titleText: "Member Requests", userIsOrg: false).padding(.top, 20).padding(.bottom, 20)
+                }
+                
+                
+                
+                
+                // MARK: Posts
+                if (postListVM.postsLoaded == true) {
+                    VStack {
+                            
+                        // EVENTS
+                        if (postListVM.eventVMs.count > 0) {
+                            HStack {
+                                Text("Events")
+                                Spacer()
+                            }
                             
                             // EVENTS
                             if (postListVM.eventVMs.count > 0) {
@@ -185,17 +193,17 @@ struct OrganizationProfile: View {
                             Spacer()
                             LoadingSpinner()
                         }
-                        Spacer()
                     }
+                    Spacer()
                 }
-                .padding(.horizontal)
-                .onAppear(perform: {
-                    if(!self.userRepo.userDocLoaded){ //if not loaded, start listening again
-                        self.userRepo.loadUserProfile()
-                    }
-                })
-                    .onDisappear { //stop listening to realtime updates
-                        self.userRepo.removeListener()
+                else {
+                    LoadingSpinner().padding(160)   // TODO: quick and dirty
+                }
+            }
+            .padding(.horizontal)
+            .onAppear(perform: {
+                if(!self.userRepo.userDocLoaded){ //if not loaded, start listening again
+                    self.userRepo.loadUserProfile()
                 }
             }
                 

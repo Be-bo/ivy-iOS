@@ -36,6 +36,8 @@ struct EventsTabView: View {
     @State var selection: Int? = nil
     @State private var loggedIn = false
     var onCommit: (User) -> (Void) = {_ in}
+    
+    
     var body: some View {
         
         NavigationView{

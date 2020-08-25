@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 
-
 struct StudentProfile: View {
     @ObservedObject var uniInfo = UniInfo()
     @ObservedObject private var thisUserRepo = ThisUserRepo()
@@ -49,96 +48,69 @@ struct StudentProfile: View {
                     // MARK: Header
                     HStack {
                         
-                        // MARK: Image
-                        FirebaseImage(
-                            path: userRepo.user.profileImagePath(),
-                            placeholder: Image(systemName: "person.crop.circle.fill"),
-                            width: 150,
-                            height: 150,
-                            shape: Circle()
-                        )
-                            .padding(.trailing, 10)
-                        
-                        // MARK: Text Info
-                        VStack (alignment: .leading){
-                            Text(userRepo.user.name).padding(.bottom, 10)
-                            Text(userRepo.user.degree).padding(.bottom, 10)
-                            
-                            // If this is thisUserProfile, then show edit button
-                            if userRepo is ThisUserRepo {
-                                Button(action: {
-                                    self.editProfile.toggle()
-                                }){
-                                    Text("Edit").sheet(isPresented: $editProfile){
-                                        EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
-                                    }
-                                }.padding(.bottom, 10)
-                            }
-                        }
-                        Spacer()
-                    }
-                    
-                    
-                    // Posts
-                    VStack() {
-                        if (postListVM.postsLoaded == true) {
-                            
-                            // EVENTS
-                            if (postListVM.eventVMs.count > 0) {
-                                HStack {
-                                    Text("Events")
-                                    Spacer()
+                        // If this is thisUserProfile, then show edit button
+                        if userRepo is ThisUserRepo {
+                            Button(action: {
+                                self.editProfile.toggle()
+                            }){
+                                Text("Edit").sheet(isPresented: $editProfile){
+                                    EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
                                 }
-                                
-                                GridView(
-                                    cells: self.postListVM.eventVMs,
-                                    maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                                ) //{ geo in
-                                    { eventVM in
-                                        ProfileEventItemView(eventVM: eventVM)
-                                    }
-                                //}
-                            }
-                            
-                            // POSTS
-                            if (postListVM.postVMs.count > 0) {
-                                HStack {
-                                    Text("Posts")
-                                    Spacer()
-                                }
-                                
-                                GridView(
-                                    cells: self.postListVM.postVMs,
-                                    maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                                ) //{ geo in
-                                    { postVM in
-                                        ProfilePostItemView(postVM: postVM)
-                                    }
-                                //}
-                            }
-                            
-                            else if postListVM.eventVMs.count == 0 {
-                                Spacer()
-                                Text("No Posts yet!")
-                                    .foregroundColor(.gray)
-                                    .padding()
-                                    .frame(alignment: .center)
-                            }
-                        }
-                        else {
-                            Spacer()
-                            LoadingSpinner()
+                            }.padding(.bottom, 10)
                         }
                     }
+                    Spacer()
                 }
-                .padding(.horizontal)
-                .onAppear(perform: {
-                    if(!self.userRepo.userDocLoaded){ //if not loaded, start listening again
-                        self.userRepo.loadUserProfile()
+                
+                
+                // Posts
+                if (postListVM.postsLoaded == true) {
+                    
+                    // EVENTS
+                    if (postListVM.eventVMs.count > 0) {
+                        HStack {
+                            Text("Events")
+                            Spacer()
+                        }
+                        
+                        GridView(
+                            cells: self.postListVM.eventVMs,
+                            maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                        ) //{ geo in
+                            { eventVM in
+                                ProfileEventItemView(eventVM: eventVM)
+                            }
+                        //}
                     }
-                })
-                    .onDisappear { //stop listening to realtime updates
-                        self.userRepo.removeListener()
+                    
+                    // POSTS
+                    if (postListVM.postVMs.count > 0) {
+                        HStack {
+                            Text("Posts")
+                            Spacer()
+                        }
+                        
+                        GridView(
+                            cells: self.postListVM.postVMs,
+                            maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                        ) //{ geo in
+                            { postVM in
+                                ProfilePostItemView(postVM: postVM)
+                            }
+                        //}
+                    }
+                    
+                    else if postListVM.eventVMs.count == 0 {
+                        Spacer()
+                        Text("No Posts yet!")
+                            .foregroundColor(.gray)
+                            .padding()
+                            .frame(alignment: .center)
+                    }
+                    Spacer()
+                }
+                else {
+                    LoadingSpinner().padding(160)   // TODO: quick and dirty
                 }
             }
             

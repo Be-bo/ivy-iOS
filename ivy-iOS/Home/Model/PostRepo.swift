@@ -12,8 +12,10 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 
 class PostRepo: ObservableObject{
+    
     let db = Firestore.firestore()
     @Published var homePosts = [Post]()
+    @Published var postsLoaded = false
     
     init() {
         print("calling load posts")
@@ -28,6 +30,7 @@ class PostRepo: ObservableObject{
                         newPost.docToObject(doc: currentDoc)
                         self.homePosts.append(newPost)
                     }
+                    self.postsLoaded = true
                 }
         }
     }
