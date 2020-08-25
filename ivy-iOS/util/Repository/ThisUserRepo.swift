@@ -11,44 +11,28 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
-class ThisUserRepo: ObservableObject{
-    let db = Firestore.firestore()
-    @Published var thisUser = User()
+class ThisUserRepo: UserRepo {
+    
     @Published var userLoggedIn = Auth.auth().currentUser != nil
     var handle: AuthStateDidChangeListenerHandle?
     
-    @Published var userDocLoaded = false
     
-    init(){
+    override init(){
+        super.init()
         loadUserProfile()
         listenToAuthChanges()
     }
     
     // TODO: change to snapshot listener later
-    func loadUserProfile(){
+    override func loadUserProfile(){
         if let user = Auth.auth().currentUser, let uid = user.uid as String?{
-            db.collection("users").document(uid).getDocument { (docSnap, err) in
-                if err != nil{
-                    print("Error getting user profile.")
-                }
-                if let doc = docSnap{
-                    print("GOT THIS USER")
-                    self.thisUser.docToObject(doc: doc)
-                    self.userDocLoaded = true
-                }
-            }
+            loadProfile(userid: uid)
         }
     }
     
-    func updateUserProfile(user: User) {
+    override func updateUserProfile(updatedUser: User) {
         if let id = Auth.auth().currentUser?.uid {
-            do {
-                let _ = try db.collection("users").document(id).setData(from: user)
-                loadUserProfile()
-            }
-            catch {
-                print("Unable to encode task: \(error.localizedDescription)")
-            }
+            updateProfile(userid: id, updatedUser: updatedUser)
         }
     }
     

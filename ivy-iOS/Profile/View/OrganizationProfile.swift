@@ -11,19 +11,19 @@ import SwiftUI
 
 struct OrganizationProfile: View {
     
-    @ObservedObject var thisUserRepo: ThisUserRepo
+    @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM = PostListViewModel()
     @State var editProfile = false
     @State var seeMemberRequests = false
     @State var selection : Int? = nil
     
     
-    init(thisUserRepo: ThisUserRepo) {
-        self.thisUserRepo = thisUserRepo
+    init(userRepo: UserRepo) {
+        self.userRepo = userRepo
         self.postListVM.loadPosts(
             limit: Constant.PROFILE_POST_LIMIT_STUDENT,
-            uni_domain: thisUserRepo.thisUser.uni_domain,
-            user_id: thisUserRepo.thisUser.id ?? ""
+            uni_domain: userRepo.user.uni_domain,
+            user_id: userRepo.user.id ?? ""
         )
     }
     
@@ -38,7 +38,7 @@ struct OrganizationProfile: View {
                     
                     // MARK: Profile Image
                     FirebaseImage(
-                        path: thisUserRepo.thisUser.profileImagePath(),
+                        path: userRepo.user.profileImagePath(),
                         placeholder: Image(systemName: "person.crop.circle.fill"),
                         width: 150,
                         height: 150,
@@ -48,28 +48,34 @@ struct OrganizationProfile: View {
                     
                     // MARK: Profile Info
                     VStack (alignment: .leading){
-                        Text(thisUserRepo.thisUser.name).padding(.bottom, 10)
-                        if(thisUserRepo.thisUser.member_ids.count == 1){
-                            Text("\(thisUserRepo.thisUser.member_ids.count) Member").padding(.bottom, 10)
+                        Text(userRepo.user.name).padding(.bottom, 10)
+                        if(userRepo.user.member_ids.count == 1){
+                            Text("\(userRepo.user.member_ids.count) Member").padding(.bottom, 10)
                         }else{
-                            Text("\(thisUserRepo.thisUser.member_ids.count) Members").padding(.bottom, 10)
+                            Text("\(userRepo.user.member_ids.count) Members").padding(.bottom, 10)
                         }
                         
-//                        Button(action: {
-//                            self.seeMemberRequests.toggle()
-//                        }){
-//                            Text("Member Requests (\(thisUserRepo.thisUser.request_ids.count))").sheet(isPresented: $seeMemberRequests){
-//                                SeeAllUsers()
-//                            }
-//                        }.padding(.bottom, 10)
+                        if userRepo is ThisUserRepo { // check if this is 3rd person user
                         
-                        Button(action: {
-                            self.editProfile.toggle()
-                        }){
-                            Text("Edit").sheet(isPresented: $editProfile){
-                                EditOrganizationProfile(userProfile: self.thisUserRepo.thisUser, nameInput: self.thisUserRepo.thisUser.name)
-                            }
-                        }.padding(.bottom, 10)
+    //                        Button(action: {
+    //                            self.seeMemberRequests.toggle()
+    //                        }){
+    //                            Text("Member Requests (\(userRepo.user.request_ids.count))").sheet(isPresented: $seeMemberRequests){
+    //                                SeeAllUsers()
+    //                            }
+    //                        }.padding(.bottom, 10)
+                            
+                            Button(action: {
+                                self.editProfile.toggle()
+                            }){
+                                Text("Edit").sheet(isPresented: $editProfile){
+                                    EditOrganizationProfile(userProfile: self.userRepo.user, nameInput: self.userRepo.user.name)
+                                }
+                            }.padding(.bottom, 10)
+                        }
+                        else {
+                            // MARK: TODO: JOIN BUTTON
+                        }
                         
                         Spacer()
                     }
@@ -80,14 +86,14 @@ struct OrganizationProfile: View {
                 
                 
                 // MARK: Bembers
-                if(thisUserRepo.thisUser.member_ids.count > 0){
-                    MemberListRow(memberIds: thisUserRepo.thisUser.member_ids).padding(.top, 20).padding(.bottom, 10)
+                if(userRepo.user.member_ids.count > 0){
+                    MemberListRow(memberIds: userRepo.user.member_ids).padding(.top, 20).padding(.bottom, 10)
                 }
                 
                 
                 // MARK: Bember Requests
-                if(thisUserRepo.thisUser.request_ids.count > 0){
-                    MemberListRow(memberIds: thisUserRepo.thisUser.request_ids, titleText: "Member Requests").padding(.top, 20).padding(.bottom, 20)
+                if(userRepo.user.request_ids.count > 0){
+                    MemberListRow(memberIds: userRepo.user.request_ids, titleText: "Member Requests").padding(.top, 20).padding(.bottom, 20)
                 }
                 
                 

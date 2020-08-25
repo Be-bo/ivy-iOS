@@ -40,10 +40,10 @@ class EditStudentProfileViewModel: ObservableObject {
     // Initialize all fields to their current values
     init(thisUserRepo: ThisUserRepo) {
         self.thisUserRepo = thisUserRepo
-        self.name = thisUserRepo.thisUser.name
-        self.degree = thisUserRepo.thisUser.degree
-        self.selectedBD = Utils.convertMillisToDate(millis: Double(thisUserRepo.thisUser.birth_millis))
-        self.is_private = thisUserRepo.thisUser.is_private
+        self.name = thisUserRepo.user.name
+        self.degree = thisUserRepo.user.degree
+        self.selectedBD = Utils.convertMillisToDate(millis: Double(thisUserRepo.user.birth_millis))
+        self.is_private = thisUserRepo.user.is_private
     }
         
     // Basic check before connecting to firebase
@@ -74,7 +74,7 @@ class EditStudentProfileViewModel: ObservableObject {
             return
         }
         
-        let updatedStudent = thisUserRepo.thisUser
+        let updatedStudent = thisUserRepo.user
         updatedStudent.name = self.name
         if let degree = self.degree {
             updatedStudent.degree = degree

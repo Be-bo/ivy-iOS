@@ -14,18 +14,18 @@ import Firebase
 
 struct StudentProfile: View {
     
-    @ObservedObject var thisUserRepo: ThisUserRepo
+    @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM = PostListViewModel()
     @State var editProfile = false
     @State var selection : Int? = nil
         
     
-    init(thisUserRepo: ThisUserRepo) {
-        self.thisUserRepo = thisUserRepo
+    init(userRepo: UserRepo) {
+        self.userRepo = userRepo
         self.postListVM.loadPosts(
             limit: Constant.PROFILE_POST_LIMIT_STUDENT,
-            uni_domain: thisUserRepo.thisUser.uni_domain,
-            user_id: thisUserRepo.thisUser.id ?? ""
+            uni_domain: userRepo.user.uni_domain,
+            user_id: userRepo.user.id ?? ""
         )
     }
     
@@ -36,7 +36,7 @@ struct StudentProfile: View {
                 HStack { // Profile image and quick info
                     
                     FirebaseImage(
-                        path: thisUserRepo.thisUser.profileImagePath(),
+                        path: userRepo.user.profileImagePath(),
                         placeholder: Image(systemName: "person.crop.circle.fill"),
                         width: 100,
                         height: 100,
@@ -46,22 +46,24 @@ struct StudentProfile: View {
                     
                     VStack (alignment: .leading){
                         
-                        Text(thisUserRepo.thisUser.name)
-                        Text(thisUserRepo.thisUser.degree)
+                        Text(userRepo.user.name)
+                        Text(userRepo.user.degree)
                             .padding(.bottom)
                         
-                        
-                        Button(action: {
-                            self.editProfile.toggle()
-                        }){
-                            Text("Edit").sheet(isPresented: $editProfile){
-                                EditStudentProfile(thisUserRepo: self.thisUserRepo)
+                        // If this is thisUserProfile, then show edit button
+                        if userRepo is ThisUserRepo {
+                            Button(action: {
+                                self.editProfile.toggle()
+                            }){
+                                Text("Edit").sheet(isPresented: $editProfile){
+                                    EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
+                                }
                             }
                         }
                         Spacer()
                     }
                     .padding(.top)
-                    
+
                     Spacer()
                 }
                 

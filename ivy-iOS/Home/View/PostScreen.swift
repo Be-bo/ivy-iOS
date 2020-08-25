@@ -16,6 +16,8 @@ struct PostScreen: View {
     @State var authorUrl = ""
     var onCommit: (Post) -> (Void) = {_ in}
     
+    @State private var selection : Int? = nil
+    
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: true){
@@ -64,6 +66,10 @@ struct PostScreen: View {
                             Text(self.postVM.post.author_name)
                             Spacer()
                         }
+                        .onTapGesture {
+                                self.selection = 1
+                                print("selected author")
+                        }
                         //TODO when profile ready
                         //                        NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle("Profile"), tag: 1, selection: self.$selection) {
                         //                            Button(action: {
@@ -72,6 +78,27 @@ struct PostScreen: View {
                         //                                EmptyView()
                         //                            }
                         //                        }
+                        
+                        
+                        //TODO: quick and dirty
+                        if (postVM.post.author_is_organization) {
+                            NavigationLink(
+                                destination: OrganizationProfile(userRepo: UserRepo(userid: postVM.post.author_id))
+                                    .navigationBarTitle("Profile"),
+                                tag: 1,
+                                selection: self.$selection) {
+                                    EmptyView()
+                                }
+                        } else {
+                            NavigationLink(
+                                    destination: StudentProfile(userRepo: UserRepo(userid: postVM.post.author_id))
+                                        .navigationBarTitle("Profile"),
+                                    tag: 1,
+                                    selection: self.$selection) {
+                                            EmptyView()
+                                        }
+                        }
+                        
                     }
                     
                     // MARK: Pinned Layout

@@ -39,7 +39,7 @@ struct EditStudentProfile: View {
                         .padding(.bottom, 10)
                 } else {
                     FirebaseImage(
-                        path: thisUserRepo.thisUser.profileImagePath(),
+                        path: thisUserRepo.user.profileImagePath(),
                         placeholder: Image(systemName: "person.crop.circle.fill"),
                         width: 200,
                         height: 200,

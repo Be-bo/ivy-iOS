@@ -70,7 +70,7 @@ struct Main: View {
                                 Image(systemName: thisUserRepo.userLoggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
                                     .sheet(isPresented: $createPostOrLoginPresented){
                                         if(self.thisUserRepo.userLoggedIn){
-                                            CreatePostView(thisUser: self.thisUserRepo.thisUser)
+                                            CreatePostView(thisUser: self.thisUserRepo.user)
                                         }else{
                                             LoginView()
                                         }
@@ -128,7 +128,7 @@ struct Main: View {
                                     Image(systemName: thisUserRepo.userLoggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
                                         .sheet(isPresented: $createPostOrLoginPresented){
                                             if(self.thisUserRepo.userLoggedIn){
-                                                CreatePostView(thisUser: self.thisUserRepo.thisUser)
+                                                CreatePostView(thisUser: self.thisUserRepo.user)
                                             }else{
                                                 LoginView()
                                             }
@@ -154,8 +154,8 @@ struct Main: View {
                 VStack{
                     NavigationView {
                         
-                        if thisUserRepo.thisUser.is_organization {
-                            OrganizationProfile(thisUserRepo: self.thisUserRepo)
+                        if thisUserRepo.user.is_organization {
+                            OrganizationProfile(userRepo: self.thisUserRepo)
                                 .navigationBarItems(leading:
                                     HStack {
                                             Button(action: {
@@ -197,7 +197,7 @@ struct Main: View {
                                     }
                             )
                         } else {
-                            StudentProfile(thisUserRepo: self.thisUserRepo)
+                            StudentProfile(userRepo: self.thisUserRepo)
                                 .navigationBarItems(leading:
                                     HStack {
                                             Button(action: {

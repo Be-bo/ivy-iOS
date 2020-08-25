@@ -58,7 +58,7 @@ class PostListViewModel: ObservableObject {
             .whereField("is_event", isEqualTo: false)
             .whereField("author_id", isEqualTo: user_id as Any)
             .order(by: "creation_millis", descending: true)
-            .limit(to: limit)
+            //.limit(to: limit) //TODO: apply pagination later
             .addSnapshotListener { (querySnapshot, error) in
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
