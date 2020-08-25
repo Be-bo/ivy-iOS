@@ -17,6 +17,7 @@ struct CreatePostView: View {
     let storageRef = Storage.storage().reference()
     var thisUser: User
     @ObservedObject private var createPostRepo = CreatePostRepo()
+    @State private var loadInProgress = false
     @State private var typePick = 0
     @State private var visualPick = 0
     @State private var textInput = ""
@@ -49,6 +50,7 @@ struct CreatePostView: View {
     }
     
     func uploadPost(){
+        loadInProgress = true
         var newPost = [String: Any]()
         
         // MARK: Post Declaration
@@ -125,7 +127,7 @@ struct CreatePostView: View {
                         }
                     }
                 }else{
-                    //TODO: finish
+                    self.presentationMode.wrappedValue.dismiss()
                 }
             }
         }
@@ -227,13 +229,17 @@ struct CreatePostView: View {
                     
                     
                     // MARK: Button
-                    Button(action: {
-                        self.uploadPost()
-                    }){
-                        Text("Post")
+                    if(loadInProgress){
+                        LoadingSpinner()
+                    }else{
+                        Button(action: {
+                            self.uploadPost()
+                        }){
+                            Text("Post")
+                        }
+                        .disabled(!inputOk())
+                        .buttonStyle(StandardButtonStyle(disabled: !inputOk()))
                     }
-                    .disabled(!inputOk())
-                    .buttonStyle(StandardButtonStyle(disabled: !inputOk()))
                 }
                 .onTapGesture { //hide keyboard when background tapped
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)

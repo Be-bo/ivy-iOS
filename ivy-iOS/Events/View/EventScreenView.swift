@@ -70,15 +70,28 @@ struct EventScreenView: View {
                             Text(self.eventVM.event.author_name)
                             Spacer()
                         }
+                         .onTapGesture {
+                            self.selection = 1
+                        }
                         
-                        //TODO when profile ready
-//                        NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle("Profile"), tag: 1, selection: self.$selection) {
-//                            Button(action: {
-//                                self.selection = 1
-//                            }){
-//                                EmptyView()
-//                            }
-//                        }
+                        
+                        if (eventVM.event.author_is_organization) {
+                            NavigationLink(
+                                destination: OrganizationProfile(userRepo: UserRepo(userid: eventVM.event.author_id))
+                                    .navigationBarTitle("Profile"),
+                                tag: 1,
+                                selection: self.$selection) {
+                                    EmptyView()
+                            }
+                        } else {
+                            NavigationLink(
+                                destination: StudentProfile(userRepo: UserRepo(userid: eventVM.event.author_id))
+                                    .navigationBarTitle("Profile"),
+                                tag: 1,
+                                selection: self.$selection) {
+                                    EmptyView()
+                            }
+                        }
                     }
                     
                     

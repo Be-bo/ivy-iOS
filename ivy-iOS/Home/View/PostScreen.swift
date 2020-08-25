@@ -67,20 +67,11 @@ struct PostScreen: View {
                             Spacer()
                         }
                         .onTapGesture {
-                                self.selection = 1
-                                print("selected author")
+                            self.selection = 1
+                            print("selected author")
                         }
-                        //TODO when profile ready
-                        //                        NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle("Profile"), tag: 1, selection: self.$selection) {
-                        //                            Button(action: {
-                        //                                self.selection = 1
-                        //                            }){
-                        //                                EmptyView()
-                        //                            }
-                        //                        }
                         
                         
-                        //TODO: quick and dirty
                         if (postVM.post.author_is_organization) {
                             NavigationLink(
                                 destination: OrganizationProfile(userRepo: UserRepo(userid: postVM.post.author_id))
@@ -88,15 +79,15 @@ struct PostScreen: View {
                                 tag: 1,
                                 selection: self.$selection) {
                                     EmptyView()
-                                }
+                            }
                         } else {
                             NavigationLink(
-                                    destination: StudentProfile(userRepo: UserRepo(userid: postVM.post.author_id))
-                                        .navigationBarTitle("Profile"),
-                                    tag: 1,
-                                    selection: self.$selection) {
-                                            EmptyView()
-                                        }
+                                destination: StudentProfile(userRepo: UserRepo(userid: postVM.post.author_id))
+                                    .navigationBarTitle("Profile"),
+                                tag: 1,
+                                selection: self.$selection) {
+                                    EmptyView()
+                            }
                         }
                         
                     }
@@ -117,7 +108,7 @@ struct PostScreen: View {
                 .padding(.leading)
                 .padding(.trailing)
                 
-
+                
                 Divider().padding(.top, 20).padding(.bottom, 20)
                 Text("Comments coming soon!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
             }

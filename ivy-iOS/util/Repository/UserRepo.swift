@@ -9,12 +9,14 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Firebase
 
 
 class UserRepo: ObservableObject {
     
     @Published var user : User
     @Published var userDocLoaded = false
+    var listenerRegistration: ListenerRegistration?
     
     let db = Firestore.firestore()
     
@@ -46,12 +48,11 @@ class UserRepo: ObservableObject {
     
     // TODO: change to snapshot listener later
     func loadProfile(userid: String) {
-        db.collection("users").document(userid).getDocument { (docSnap, err) in
+        listenerRegistration = db.collection("users").document(userid).addSnapshotListener { (docSnap, err) in
             if err != nil{
                 print("Error getting user profile.")
             }
             if let doc = docSnap{
-                print("GOT THIS USER")
                 self.user.docToObject(doc: doc)
                 self.userDocLoaded = true
             }
@@ -65,6 +66,13 @@ class UserRepo: ObservableObject {
         }
         catch {
             print("Unable to encode task: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    func removeListener(){ //method to remove the user profile realtime listener
+        if let listReg = listenerRegistration{
+            listReg.remove()
         }
     }
 }

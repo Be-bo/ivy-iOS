@@ -16,6 +16,7 @@ struct LoginView: View {
     @State var showingStudentSignup = false
     @State var showingOrgSignup = false
     @State var errorText = ""
+    @State var loadInProgress = false
     @Environment(\.presentationMode) private var presentationMode
     
     
@@ -44,20 +45,27 @@ struct LoginView: View {
                 SecureField("Password", text: $loginVM.password).textContentType(.password)
                 Divider().padding(.bottom)
                 Text(errorText).foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom)
+                
+                
+                
+                
                 Button(action: {
+                    self.loadInProgress = true
                     self.loginVM.attemptLogin()
                 }){
                     Text("Log in")
                 }
-                .disabled(!loginVM.inputOk() || loginVM.waitingForResult) //button is disabled either when input not ok or when we're waiting for a Firebase result
-                .buttonStyle(StandardButtonStyle(disabled: !loginVM.inputOk())) //setting button style where background color changes based on if input is ok
+                .disabled(!loginVM.inputOk() || loginVM.waitingForResult || loadInProgress) //button is disabled either when input not ok or when we're waiting for a Firebase result
+                .buttonStyle(StandardButtonStyle(disabled: !loginVM.inputOk() || loginVM.waitingForResult || loadInProgress)) //setting button style where background color changes based on if input is ok
                 .onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
                     if shouldDismiss {
                         self.presentationMode.wrappedValue.dismiss()
                     }else{
-                        self.errorText = "Your email or password is invalid."
+                        self.errorText = "Login Failed."
+                        self.loadInProgress = false
                     }
                 }
+                
                 
 
 

@@ -33,22 +33,24 @@ struct StudentProfile: View {
         ScrollView {
             VStack (alignment: .leading) {
                 
-                HStack { // Profile image and quick info
+                
+                // MARK: Header
+                HStack {
                     
+                    // MARK: Image
                     FirebaseImage(
                         path: userRepo.user.profileImagePath(),
                         placeholder: Image(systemName: "person.crop.circle.fill"),
-                        width: 100,
-                        height: 100,
+                        width: 150,
+                        height: 150,
                         shape: Circle()
                     )
                         .padding(.trailing, 10)
                     
+                    // MARK: Text Info
                     VStack (alignment: .leading){
-                        
-                        Text(userRepo.user.name)
-                        Text(userRepo.user.degree)
-                            .padding(.bottom)
+                        Text(userRepo.user.name).padding(.bottom, 10)
+                        Text(userRepo.user.degree).padding(.bottom, 10)
                         
                         // If this is thisUserProfile, then show edit button
                         if userRepo is ThisUserRepo {
@@ -58,12 +60,9 @@ struct StudentProfile: View {
                                 Text("Edit").sheet(isPresented: $editProfile){
                                     EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
                                 }
-                            }
+                            }.padding(.bottom, 10)
                         }
-                        Spacer()
                     }
-                    .padding(.top)
-
                     Spacer()
                 }
                 
@@ -127,6 +126,14 @@ struct StudentProfile: View {
                 }
             }
             .padding(.horizontal)
+            .onAppear(perform: {
+                if(!self.userRepo.userDocLoaded){ //if not loaded, start listening again
+                    self.userRepo.loadUserProfile()
+                }
+            })
+                .onDisappear { //stop listening to realtime updates
+                    self.userRepo.removeListener()
+            }
         }
     }
 }
