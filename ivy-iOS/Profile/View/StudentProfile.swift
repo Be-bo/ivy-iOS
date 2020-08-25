@@ -84,35 +84,14 @@ struct StudentProfile: View {
                                 Spacer()
                             }
                             
-                            //TODO: quick and dirty
                             GridView(
                                 cells: self.postListVM.eventVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                             ) //{ geo in
                                 { eventVM in
-                                    ZStack {
-                                            FirebaseImage(
-                                                path: Utils.postPreviewImagePath(postId: eventVM.id),
-                                                placeholder: AssetManager.logoGreen,
-                                                width: 105,
-                                                height: 105,
-                                                shape: RoundedRectangle(cornerRadius: 25)
-                                            )
-                                                .onTapGesture {
-                                                    self.selection = eventVM.event.creation_millis
-                                                    print("selected post: \(eventVM.event.text)")
-                                            }
-
-                                        // TODO: quick and dirty
-                                        NavigationLink(
-                                            destination: EventScreenView(eventVM: eventVM)
-                                                .navigationBarTitle(eventVM.event.author_name+"'s Post"),
-                                            tag: eventVM.event.creation_millis, selection: self.$selection)
-                                        { EmptyView() }
-                                    }
-                                //}
-
-                            }
+                                    ProfileEventItemView(eventVM: eventVM)
+                                }
+                            //}
                         }
                         
                         // POSTS
@@ -122,36 +101,17 @@ struct StudentProfile: View {
                                 Spacer()
                             }
                             
-                            //TODO: quick and dirty
                             GridView(
                                 cells: self.postListVM.postVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                             ) //{ geo in
                                 { postVM in
-                                    ZStack {
-                                            FirebaseImage(
-                                                path: Utils.postPreviewImagePath(postId: postVM.id),
-                                                placeholder: AssetManager.logoGreen,
-                                                width: 105,
-                                                height: 105,
-                                                shape: RoundedRectangle(cornerRadius: 25)
-                                            )
-                                                .onTapGesture {
-                                                    self.selection = postVM.post.creation_millis ?? 1
-                                                    print("selected post: \(postVM.post.text)")
-                                            }
-
-                                        // TODO: quick and dirty
-                                        NavigationLink(
-                                            destination: PostScreen(postVM: postVM)
-                                                .navigationBarTitle(postVM.post.author_name+"'s Post"),
-                                            tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
-                                        { EmptyView() }
-                                    }
-                                //}
-
-                            }
-                        } else if postListVM.eventVMs.count == 0 {
+                                    ProfilePostItemView(postVM: postVM)
+                                }
+                            //}
+                        }
+                        
+                        else if postListVM.eventVMs.count == 0 {
                             Spacer()
                             Text("No Posts yet!")
                                 .foregroundColor(.gray)

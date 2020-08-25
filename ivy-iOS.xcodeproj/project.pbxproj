@@ -16,6 +16,7 @@
 		8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFAB24EF19AC00970050 /* SeeAllUsers.swift */; };
 		8D30BFAE24EF5ECA00970050 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFAD24EF5ECA00970050 /* Post.swift */; };
 		8D30D17E24F55B460020999D /* UserRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30D17D24F55B460020999D /* UserRepo.swift */; };
+		8D30D18024F579180020999D /* UserProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30D17F24F579180020999D /* UserProfileSupport.swift */; };
 		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
 		8D515D1424E73D1E00D67144 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1324E73D1E00D67144 /* User.swift */; };
 		8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */; };
@@ -85,6 +86,7 @@
 		8D30BFAB24EF19AC00970050 /* SeeAllUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllUsers.swift; sourceTree = "<group>"; };
 		8D30BFAD24EF5ECA00970050 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		8D30D17D24F55B460020999D /* UserRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepo.swift; sourceTree = "<group>"; };
+		8D30D17F24F579180020999D /* UserProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSupport.swift; sourceTree = "<group>"; };
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1324E73D1E00D67144 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignupViewModel.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				8D30BFA224EF166000970050 /* GridView.swift */,
 				8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */,
+				8D30D17F24F579180020999D /* UserProfileSupport.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -646,6 +649,7 @@
 				FABA036524F46317007C4878 /* UniInfo.swift in Sources */,
 				FA7DAF7124F1858200B25430 /* Constant.swift in Sources */,
 				FA7274AA24F1E2FA0071A98C /* ExploreAllEventsView.swift in Sources */,
+				8D30D18024F579180020999D /* UserProfileSupport.swift in Sources */,
 				FAD2366C24E48DF300F92637 /* TestView.swift in Sources */,
 				FABA035D24F432E9007C4878 /* StaticDegreesList.swift in Sources */,
 				FA7274AC24F1E3B70071A98C /* ExploreAllEventsItemView.swift in Sources */,
