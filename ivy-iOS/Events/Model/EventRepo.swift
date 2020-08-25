@@ -19,6 +19,8 @@ class EventRepo: ObservableObject{
     @Published var featuredEvents = [Event]()
     @Published var exploreAllEvents = [Event]()
     
+    @Published var eventsLoaded = false
+    
     init() {
         print("calling load events")
         self.loadUpcomingEvents()
@@ -102,6 +104,7 @@ class EventRepo: ObservableObject{
                         featuredEvent.docToObject(doc: doc)
                         self.featuredEvents.append(featuredEvent)
                     }
+                    self.eventsLoaded = true
                 })
             }
         })

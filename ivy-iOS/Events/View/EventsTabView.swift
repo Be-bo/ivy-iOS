@@ -40,8 +40,13 @@ struct EventsTabView: View {
         
         ScrollView(.vertical, showsIndicators: false){
             
+            // MARK: Loading
+            if !eventTabVM.eventRepo.eventsLoaded {
+                LoadingSpinner().padding(160)
+            }
+            
             // MARK: Empty Text
-            if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){
+            else if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){
                 Text("No events on this campus right now!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
             }
             
@@ -86,7 +91,7 @@ struct EventsTabView: View {
             
             
             
-            // MARK: Tuday
+            // MARK: Today
             if(eventTabVM.todayEventVMs.count > 0){
                 VStack(alignment: .leading){
                     Text("Today").font(.system(size: 25)).padding(.leading)
