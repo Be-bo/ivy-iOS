@@ -75,25 +75,30 @@ struct StudentProfile: View {
                                 Spacer()
                             }
                             
+                            //TODO: quick and dirty
                             GridView(
                                 cells: self.postListVM.postVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) { geo in
+                            ) //{ geo in
                                 { postVM in
                                     ZStack {
-                                        Button(action: {
+                                        /*Button(action: {
                                             self.selection = postVM.post.creation_millis ?? 1
                                             print("selected post: \(postVM.post.text)")
-                                        }){
+                                        }){*/
                                             FirebaseImage(
                                                 path: Utils.postPreviewImagePath(postId: postVM.id),
                                                 placeholder: AssetManager.logoGreen,
-                                                width: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT)-10,
-                                                height: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT)-10,
+                                                width: 105,
+                                                height: 105,
                                                 shape: RoundedRectangle(cornerRadius: 25)
                                             )
-                                        }
-                                        .buttonStyle(PlainButtonStyle())
+                                                .onTapGesture {
+                                                    self.selection = postVM.post.creation_millis ?? 1
+                                                    print("selected post: \(postVM.post.text)")
+                                            }
+                                        //}
+                                        //.buttonStyle(PlainButtonStyle())
 
                                         // TODO: quick and dirty
                                         NavigationLink(
@@ -102,11 +107,10 @@ struct StudentProfile: View {
                                             tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
                                         { EmptyView() }
                                     }
-                                }
+                                //}
 
                             }
-                        }
-                        else {
+                        } else {
                             Spacer()
                             Text("No Posts yet!")
                                 .foregroundColor(.gray)

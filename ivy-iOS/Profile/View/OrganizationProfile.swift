@@ -15,6 +15,7 @@ struct OrganizationProfile: View {
     @ObservedObject var postListVM = PostListViewModel()
     @State var editProfile = false
     @State var seeMemberRequests = false
+    @State var selection : Int? = nil
     
     
     init(thisUserRepo: ThisUserRepo) {
@@ -100,30 +101,42 @@ struct OrganizationProfile: View {
                                 Text("Posts")
                                 Spacer()
                             }
-                            /*
-                            NavigationView {
-                                GridView(
-                                    cells: postListVM.postVMs,
-                                    maxCol: 3
-                                ) { geo in
-                                    { postVM in
-                                        //TODO: ASK ROBERT
-                                        //NavigationLink(destination: PostScreen(postVM: )) {
-
-                                         FirebaseImage(
-                                             path: Utils.postPreviewImagePath(postId: postVM.id),
-                                             placeholder: AssetManager.logoGreen,
-                                             width: geo.size.width/3,
-                                             height: geo.size.width/3,
-                                             shape: RoundedRectangle(cornerRadius: 25)
-                                         )
-                                         
+                            //TODO: quick and dirty
+                            GridView(
+                                cells: self.postListVM.postVMs,
+                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                            ) //{ geo in
+                                { postVM in
+                                    ZStack {
+                                        /*Button(action: {
+                                            self.selection = postVM.post.creation_millis ?? 1
+                                            print("selected post: \(postVM.post.text)")
+                                        }){*/
+                                            FirebaseImage(
+                                                path: Utils.postPreviewImagePath(postId: postVM.id),
+                                                placeholder: AssetManager.logoGreen,
+                                                width: 105,
+                                                height: 105,
+                                                shape: RoundedRectangle(cornerRadius: 25)
+                                            )
+                                                .onTapGesture {
+                                                    self.selection = postVM.post.creation_millis ?? 1
+                                                    print("selected post: \(postVM.post.text)")
+                                            }
                                         //}
+                                        //.buttonStyle(PlainButtonStyle())
+
+                                        // TODO: quick and dirty
+                                        NavigationLink(
+                                            destination: PostScreen(postVM: postVM)
+                                                .navigationBarTitle(postVM.post.author_name+"'s Post"),
+                                            tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
+                                        { EmptyView() }
                                     }
-                                }
-                            }*/
-                        }
-                        else {
+                                //}
+
+                            }
+                        } else {
                             Spacer()
                             Text("No Posts yet!")
                                 .foregroundColor(.gray)

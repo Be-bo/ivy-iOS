@@ -15,27 +15,30 @@ import SwiftUI
 struct GridView<T, Label> : View where Label : View, T : Identifiable {
     
     var rows: [Row<T>]
-    var cellView: ((GeometryProxy) -> ((T) -> Label))
+    //var cellView: ((GeometryProxy) -> ((T) -> Label))
+    var cellView: ((T) -> Label)
     
-    init(cells: [T], maxCol: Int, _ cellView: @escaping ((GeometryProxy) -> ((T) -> Label))) {
+    init(cells: [T], maxCol: Int, _ cellView: @escaping ((T) -> Label)) {
         self.rows = Row.makeGrid(numberOfColumns: maxCol, cells: cells)
         self.cellView = cellView
     }
     
     var body: some View {
-        GeometryReader { geo in
+        //GeometryReader { geo in
+
             VStack (alignment: .leading) {
                 ForEach(self.rows) { row in
                     HStack (alignment: .center) {
-                        ForEach(row.cells, content: self.cellView(geo))
+                        ForEach(row.cells, content: self.cellView)
                     }
                 }
             }
-        }
+        //}
     }
 }
 
 // Preview
+/*
 struct GridView_Previews: PreviewProvider {
     static var previews: some View {
         GridView(
@@ -50,6 +53,7 @@ struct GridView_Previews: PreviewProvider {
         }
     }
 }
+ */
 
 
 /* SubViews */
