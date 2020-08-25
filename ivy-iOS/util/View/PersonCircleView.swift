@@ -20,7 +20,6 @@ struct PersonCircleView: View {
             .placeholder(Image(systemName: "person.crop.circle.fill"))
             .frame(width: 60, height: 60)
             .clipShape(Circle())
-            .padding(.leading)
             .onAppear(){
                 let storage = Storage.storage().reference()
                 storage.child(Utils.userPreviewImagePath(userId: self.personId)).downloadURL { (url, err) in

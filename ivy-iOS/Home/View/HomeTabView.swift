@@ -12,12 +12,10 @@ import Firebase
 
 struct HomeTabView: View {
     @ObservedObject var homeTabVM = HomeTabViewModel()
-
+    
     var body: some View {
         ZStack{
-            if(homeTabVM.homePostsVMs.count < 1){
-                Text("No posts on this campus just yet!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
-            }
+            Text(homeTabVM.homePostsVMs.count < 1 ? "No posts on this campus just yet!" : "").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
             
             VStack{
                 List(){

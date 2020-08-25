@@ -7,10 +7,11 @@
 //
 
 import SwiftUI
+import Firebase
 
 
 struct OrganizationProfile: View {
-    
+    let db = Firestore.firestore()
     @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM : PostListViewModel
     @State var editProfile = false
@@ -61,14 +62,14 @@ struct OrganizationProfile: View {
                         }
                         
                         if userRepo is ThisUserRepo { // check if this is 3rd person user
-                        
-    //                        Button(action: {
-    //                            self.seeMemberRequests.toggle()
-    //                        }){
-    //                            Text("Member Requests (\(userRepo.user.request_ids.count))").sheet(isPresented: $seeMemberRequests){
-    //                                SeeAllUsers()
-    //                            }
-    //                        }.padding(.bottom, 10)
+                            
+                            //                        Button(action: {
+                            //                            self.seeMemberRequests.toggle()
+                            //                        }){
+                            //                            Text("Member Requests (\(userRepo.user.request_ids.count))").sheet(isPresented: $seeMemberRequests){
+                            //                                SeeAllUsers()
+                            //                            }
+                            //                        }.padding(.bottom, 10)
                             
                             Button(action: {
                                 self.editProfile.toggle()
@@ -77,14 +78,37 @@ struct OrganizationProfile: View {
                                     EditOrganizationProfile(userProfile: self.userRepo.user, nameInput: self.userRepo.user.name)
                                 }
                             }.padding(.bottom, 10)
+                            
                         }
                         else {
-                            // MARK: TODO: JOIN BUTTON
+                            // MARK: Membership Buttons
+                            if Auth.auth().currentUser != nil && userRepo.user.id != Auth.auth().currentUser!.uid{ //user had to be logged in and not be viewing themselves 3rd party
+                                
+                                // MARK: Student Requesting Buttons
+                                if(!userRepo.user.member_ids.contains(Auth.auth().currentUser!.uid)){ //viewing user not a member
+                                    if(userRepo.user.request_ids.contains(Auth.auth().currentUser!.uid)){ //viewing user already requested membership
+                                        Button(action: {
+                                            self.cancelRequest()
+                                        }){
+                                            Text("Cancel Join Reqest")
+                                        }
+                                    }else{ //neither a mem nor a req -> can request membership
+                                        Button(action: {
+                                            self.requestMembership()
+                                        }){
+                                            Text("Request Membership")
+                                        }
+                                    }
+                                }else{ //viewing user is a member
+                                    Button(action: {
+                                        self.leaveOrganization()
+                                    }){
+                                        Text("Leave Organization")
+                                    }
+                                }
+                            }
                         }
-                        
-                        Spacer()
                     }
-                    .padding(.top)
                     
                     Spacer()
                 }
@@ -92,13 +116,13 @@ struct OrganizationProfile: View {
                 
                 // MARK: Bembers
                 if(userRepo.user.member_ids.count > 0){
-                    MemberListRow(memberIds: userRepo.user.member_ids).padding(.top, 20).padding(.bottom, 10)
+                    MemberListRow(memberIds: userRepo.user.member_ids, orgId: userRepo.user.id ?? "", userIsOrg: false).padding(.top, 20).padding(.bottom, 10)
                 }
                 
                 
                 // MARK: Bember Requests
-                if(userRepo.user.request_ids.count > 0){
-                    MemberListRow(memberIds: userRepo.user.request_ids, titleText: "Member Requests").padding(.top, 20).padding(.bottom, 20)
+                if(userRepo.user.request_ids.count > 0 && Auth.auth().currentUser != nil && userRepo.user.id == Auth.auth().currentUser!.uid){
+                    MemberListRow(memberIds: userRepo.user.request_ids, orgId: userRepo.user.id ?? "", titleText: "Member Requests", userIsOrg: false).padding(.top, 20).padding(.bottom, 20)
                 }
                 
                 
@@ -158,6 +182,42 @@ struct OrganizationProfile: View {
                 }
             }
             .padding(.horizontal)
+            .onAppear(perform: {
+                if(!self.userRepo.userDocLoaded){ //if not loaded, start listening again
+                    self.userRepo.loadUserProfile()
+                }
+            })
+                .onDisappear { //stop listening to realtime updates
+                    self.userRepo.removeListener()
+            }
+        }
+    }
+    
+    
+    
+    
+    // MARK: Membership Functions
+    func requestMembership(){
+        if(Auth.auth().currentUser != nil){
+            db.collection("users").document(userRepo.user.id ?? "").updateData([
+                "request_ids": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
+            ])
+        }
+    }
+    
+    func cancelRequest(){
+        if(Auth.auth().currentUser != nil){
+            db.collection("users").document(userRepo.user.id ?? "").updateData([
+                "request_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
+            ])
+        }
+    }
+    
+    func leaveOrganization(){
+        if(Auth.auth().currentUser != nil){
+            db.collection("users").document(userRepo.user.id ?? "").updateData([
+                "member_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
+            ])
         }
     }
 }
@@ -165,6 +225,5 @@ struct OrganizationProfile: View {
 
 
 
-// MARK: Bus Views
 
 

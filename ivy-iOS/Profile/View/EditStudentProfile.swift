@@ -29,7 +29,7 @@ struct EditStudentProfile: View {
         ScrollView {
             VStack() {
                 
-                // Profile Image
+                // MARK:Profile Image
                 if (editStudentVM.image != nil) {
                     editStudentVM.image!
                         .resizable()
@@ -47,7 +47,7 @@ struct EditStudentProfile: View {
                     )
                 }
                 
-                // Change image
+                // MARK:Change image
                 Button(action: {
                     self.showingImagePicker = true
                 }) {
@@ -57,7 +57,7 @@ struct EditStudentProfile: View {
                     }
                 }
                 
-                // Other Fields
+                // MARK: Other Fields
                 NameField(name: $editStudentVM.name)
                 
                 DropDownMenu(
@@ -72,15 +72,15 @@ struct EditStudentProfile: View {
                 }
                 .padding(.bottom, 30.0)
                 
-                // Birthday
+                // MARK: Birthday
                 HStack{
                     Text("Birthday")
                     Spacer()
                 }
                 DatePicker("", selection: $editStudentVM.selectedBD, in: ...Date(), displayedComponents: .date)
                 
-
-                // Display loading instead of button when waiting for results from Firebase
+                
+                // MARK: Display loading instead of button when waiting for results from Firebase
                 HStack {
                     if (editStudentVM.waitingForResult) {
                         LoadingSpinner()
@@ -91,23 +91,24 @@ struct EditStudentProfile: View {
                         }){
                             Text("Save")
                         }
-                            .disabled(!editStudentVM.inputOk() || editStudentVM.waitingForResult)
-                            .buttonStyle(StandardButtonStyle(disabled: !editStudentVM.inputOk()))
+                        .disabled(!editStudentVM.inputOk() || editStudentVM.waitingForResult)
+                        .buttonStyle(StandardButtonStyle(disabled: !editStudentVM.inputOk()))
                     }
                 } // VM will send a signal whenever shouldDismiss changes value
-                .onReceive(editStudentVM.viewDismissalModePublisher) { shouldDismiss in
-                    if shouldDismiss {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
+                    .onReceive(editStudentVM.viewDismissalModePublisher) { shouldDismiss in
+                        if shouldDismiss {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
                 }
                 
                 Spacer()
             }
-            .padding()
-            .keyboardAdaptive()
+            
+        }
+        .padding()
+        .keyboardAdaptive()
             .onTapGesture { //hide keyboard when background tapped
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
-            }
         }
     }
 }
