@@ -17,6 +17,14 @@ struct ProfileEventItemView: View {
     
     var body: some View {
         ZStack {
+            // No visual?
+            if (eventVM.event.visual.isEmpty || eventVM.event.visual == "nothing") {
+                ProfileNoPicPostItemView(text: eventVM.event.text)
+                .onTapGesture {
+                    self.selection = self.eventVM.event.creation_millis
+                    print("selected post: \(self.eventVM.event.text)")
+                }
+            } else {
                 FirebaseImage(
                     path: Utils.postPreviewImagePath(postId: eventVM.id),
                     placeholder: AssetManager.logoGreen,
@@ -24,10 +32,11 @@ struct ProfileEventItemView: View {
                     height: 105,
                     shape: RoundedRectangle(cornerRadius: 25)
                 )
-                    .onTapGesture {
-                        self.selection = self.eventVM.event.creation_millis
-                        print("selected post: \(self.eventVM.event.text)")
+                .onTapGesture {
+                    self.selection = self.eventVM.event.creation_millis
+                    print("selected post: \(self.eventVM.event.text)")
                 }
+            }
 
             // TODO: quick and dirty
             NavigationLink(
@@ -48,16 +57,25 @@ struct ProfilePostItemView: View {
     
     var body: some View {
         ZStack {
-                FirebaseImage(
-                    path: Utils.postPreviewImagePath(postId: postVM.id),
-                    placeholder: AssetManager.logoGreen,
-                    width: 105,
-                    height: 105,
-                    shape: RoundedRectangle(cornerRadius: 25)
-                )
+                // No visual?
+                if (postVM.post.visual.isEmpty || postVM.post.visual == "nothing") {
+                    ProfileNoPicPostItemView(text: postVM.post.text)
                     .onTapGesture {
-                        self.selection = self.postVM.post.creation_millis ?? 1
+                        self.selection = self.postVM.post.creation_millis
                         print("selected post: \(self.postVM.post.text)")
+                    }
+                } else {
+                    FirebaseImage(
+                        path: Utils.postPreviewImagePath(postId: postVM.id),
+                        placeholder: AssetManager.logoGreen,
+                        width: 105,
+                        height: 105,
+                        shape: RoundedRectangle(cornerRadius: 25)
+                    )
+                    .onTapGesture {
+                        self.selection = self.postVM.post.creation_millis
+                        print("selected post: \(self.postVM.post.text)")
+                    }
                 }
 
             // TODO: quick and dirty
@@ -67,5 +85,24 @@ struct ProfilePostItemView: View {
                 tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
             { EmptyView() }
         }
+    }
+}
+
+// Post/Event item that doesn't have a pic
+struct ProfileNoPicPostItemView: View {
+    
+    var text: String
+    var width: CGFloat? = 105
+    var height: CGFloat? = 105
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 25)
+                .fill(LinearGradient(gradient: .init(colors: [AssetManager.ivyGreen, Color.white]), startPoint: .top, endPoint: .bottom))
+            Text(text)
+                .foregroundColor(.white)
+                .padding(5)
+        }
+        .frame(width: width, height: height)
     }
 }
