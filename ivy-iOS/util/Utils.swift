@@ -71,6 +71,10 @@ final class Utils {
         return  "userfiles/" + userId + "/previewimage.jpg"
     }
     
+    static func userProfileImagePath(userId: String) -> String {
+        return  "userfiles/" + userId + "/profileimage.jpg"
+    }
+    
     static func getEventDate(millis: Int) -> String{
         let date = Date(timeIntervalSince1970: TimeInterval(millis/1000))
         return date.getFormattedDate(format: "yyyy-MM-dd HH:mm")

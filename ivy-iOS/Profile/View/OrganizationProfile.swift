@@ -31,35 +31,45 @@ struct OrganizationProfile: View {
         ScrollView {
             VStack (alignment: .leading){
                 
-                HStack { // Profile image and quick info
+                // MARK: Header
+                HStack {
                     
-                    //MARK: TODO test image
-                    //FirebaseImage(id: "userfiles/testID/test_flower.jpg")
-                    Image("LogoGreen")
-                    .resizable()
-                    .frame(width: 150, height: 150)
                     
+                    // MARK: Profile Image
+                    FirebaseImage(
+                        path: thisUserRepo.thisUser.profileImagePath(),
+                        placeholder: Image(systemName: "person.crop.circle.fill"),
+                        width: 150,
+                        height: 150,
+                        shape: Circle()
+                    ).padding(.trailing, 10)
+                    
+                    
+                    // MARK: Profile Info
                     VStack (alignment: .leading){
-                        
-                        Text(thisUserRepo.thisUser.name)
-                        Text("Members")
-                            .padding(.bottom)
-                        
-                        Button(action: {
-                            self.seeMemberRequests.toggle()
-                        }){
-                            Text("Member Requests").sheet(isPresented: $seeMemberRequests){
-                                SeeAllUsers()
-                            }
+                        Text(thisUserRepo.thisUser.name).padding(.bottom, 10)
+                        if(thisUserRepo.thisUser.member_ids.count == 1){
+                            Text("\(thisUserRepo.thisUser.member_ids.count) Member").padding(.bottom, 10)
+                        }else{
+                            Text("\(thisUserRepo.thisUser.member_ids.count) Members").padding(.bottom, 10)
                         }
+                        
+//                        Button(action: {
+//                            self.seeMemberRequests.toggle()
+//                        }){
+//                            Text("Member Requests (\(thisUserRepo.thisUser.request_ids.count))").sheet(isPresented: $seeMemberRequests){
+//                                SeeAllUsers()
+//                            }
+//                        }.padding(.bottom, 10)
                         
                         Button(action: {
                             self.editProfile.toggle()
                         }){
                             Text("Edit").sheet(isPresented: $editProfile){
-                                EditOrganizationProfile()
+                                EditOrganizationProfile(userProfile: self.thisUserRepo.thisUser, nameInput: self.thisUserRepo.thisUser.name)
                             }
-                        }
+                        }.padding(.bottom, 10)
+                        
                         Spacer()
                     }
                     .padding(.top)
@@ -67,14 +77,29 @@ struct OrganizationProfile: View {
                     Spacer()
                 }
                 
-                SeeMembers()
+                
+                // MARK: Bembers
+                if(thisUserRepo.thisUser.member_ids.count > 0){
+                    MemberListRow(memberIds: thisUserRepo.thisUser.member_ids).padding(.top, 20).padding(.bottom, 10)
+                }
                 
                 
-                // Posts
+                // MARK: Bember Requests
+                if(thisUserRepo.thisUser.request_ids.count > 0){
+                    MemberListRow(memberIds: thisUserRepo.thisUser.request_ids, titleText: "Member Requests").padding(.top, 20).padding(.bottom, 20)
+                }
+                
+                
+                
+                
+                // MARK: Posts
                 VStack() {
                     if (postListVM.postsLoaded == true) {
                         if (postListVM.posts.count > 0) {
-                            Text("Posts")
+                            HStack{
+                                Text("Posts")
+                                Spacer()
+                            }
                             
                             NavigationView {
                                 GridView(
@@ -84,17 +109,17 @@ struct OrganizationProfile: View {
                                     Text(post.text)
                                     
                                     /*
-                                    //TODO: ASK ROBERT
-                                    //NavigationLink(destination: PostScreen()) {
-                                        FirebaseImage(
-                                            path: Utils.postPreviewImagePath(postId: post.id ?? "nil"),
-                                            placeholder: AssetManager.logoWhite,
-                                            width: 150,
-                                            height: 150,
-                                            shape: RoundedRectangle(cornerRadius: 25)
-                                        )
-                                    //}
-                                    */
+                                     //TODO: ASK ROBERT's ipad
+                                     //NavigationLink(destination: PostScreen()) {
+                                     FirebaseImage(
+                                     path: Utils.postPreviewImagePath(postId: post.id ?? "nil"),
+                                     placeholder: AssetManager.logoWhite,
+                                     width: 150,
+                                     height: 150,
+                                     shape: RoundedRectangle(cornerRadius: 25)
+                                     )
+                                     //}
+                                     */
                                 }
                             }
                         }
@@ -118,23 +143,9 @@ struct OrganizationProfile: View {
     }
 }
 
-/* SubViews */
 
-struct SeeMembers: View {
-    var body: some View {
-        VStack {
-            Text("Members")
-            
-            ScrollView {
-                HStack {
-                    ForEach(1...5, id: \.self) {_ in
-                        Image("LogoGreen")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                    }
-                    Spacer()
-                }
-            }
-        }
-    }
-}
+
+
+// MARK: Bus Views
+
+

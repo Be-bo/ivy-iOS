@@ -10,12 +10,8 @@ import SwiftUI
 
 struct SeeAllUsers: View {
     var body: some View {
+        
         Text("See All Users!")
     }
 }
 
-struct SeeAllUsers_Previews: PreviewProvider {
-    static var previews: some View {
-        SeeAllUsers()
-    }
-}

@@ -19,6 +19,7 @@ struct Main: View {
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     @State private var settingsPresented = false
     @State private var createPostOrLoginPresented = false
+    @State private var notificationCenterPresented = false
     @State private var selection = 0
     @State private var showingSignOutAlert = false
     @ObservedObject var uniInfo = UniInfo()
@@ -133,7 +134,8 @@ struct Main: View {
                                             }
                                     }
                                 }
-                        })
+                        }
+                    )
                 }
             .navigationBarHidden(false)
             }
@@ -150,24 +152,47 @@ struct Main: View {
             // MARK: Profile
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
                 VStack{
-                    NavigationView { //TODO: quick and dirty
+                    NavigationView {
                         
                         if thisUserRepo.thisUser.is_organization {
                             OrganizationProfile(thisUserRepo: self.thisUserRepo)
                                 .navigationBarItems(leading:
                                     HStack {
-                                            Button(action: {}) {
+                                            Button(action: {
+                                                self.settingsPresented.toggle()
+                                            }) {
                                                 Image(systemName: "gear").font(.system(size: 25))
+                                                    .sheet(isPresented: $settingsPresented){
+                                                        SettingsView(uniInfo: self.uniInfo)
+                                                }
                                             }
-                                            AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                                            
+                                            WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                                                .resizable()
+                                                .placeholder(AssetManager.uniLogoPlaceholder)
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 40, height: 40)
+                                                .padding(.leading, (UIScreen.screenWidth/2 - 80))
+                                                .onAppear(){
+                                                    let storage = Storage.storage().reference()
+                                                    storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
+                                                        if err != nil{
+                                                            print("Error loading uni logo image.")
+                                                            return
+                                                        }
+                                                        self.uniInfo.uniLogoUrl = "\(url!)"
+                                                    }
+                                            }
+                                            
                                         }.padding(.leading, 0), trailing:
                                         HStack {
                                             Button(action: {
-                                                self.sheetPresented.toggle()
+                                                self.notificationCenterPresented.toggle()
                                             }) {
-                                                Image(systemName: "person.crop.circle").font(.system(size: 25))
-                                            }.sheet(isPresented: $sheetPresented){
-                                                LoginView()
+                                                Image(systemName: "bell").font(.system(size: 25))
+                                                    .sheet(isPresented: $notificationCenterPresented){
+                                                        NotificationCenterView()
+                                                }
                                             }
                                     }
                             )
@@ -175,18 +200,41 @@ struct Main: View {
                             StudentProfile(thisUserRepo: self.thisUserRepo)
                                 .navigationBarItems(leading:
                                     HStack {
-                                            Button(action: {}) {
+                                            Button(action: {
+                                                self.settingsPresented.toggle()
+                                            }) {
                                                 Image(systemName: "gear").font(.system(size: 25))
+                                                    .sheet(isPresented: $settingsPresented){
+                                                        SettingsView(uniInfo: self.uniInfo)
+                                                }
                                             }
-                                            AssetManager.ucInterlock.padding(.leading, UIScreen.screenWidth/2 - 82)
+                                            
+                                            WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                                                .resizable()
+                                                .placeholder(AssetManager.uniLogoPlaceholder)
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 40, height: 40)
+                                                .padding(.leading, (UIScreen.screenWidth/2 - 80))
+                                                .onAppear(){
+                                                    let storage = Storage.storage().reference()
+                                                    storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
+                                                        if err != nil{
+                                                            print("Error loading uni logo image.")
+                                                            return
+                                                        }
+                                                        self.uniInfo.uniLogoUrl = "\(url!)"
+                                                    }
+                                            }
+                                            
                                         }.padding(.leading, 0), trailing:
                                         HStack {
                                             Button(action: {
-                                                self.sheetPresented.toggle()
+                                                self.notificationCenterPresented.toggle()
                                             }) {
-                                                Image(systemName: "person.crop.circle").font(.system(size: 25))
-                                            }.sheet(isPresented: $sheetPresented){
-                                                LoginView()
+                                                Image(systemName: "bell").font(.system(size: 25))
+                                                    .sheet(isPresented: $notificationCenterPresented){
+                                                        NotificationCenterView()
+                                                }
                                             }
                                     }
                             )
