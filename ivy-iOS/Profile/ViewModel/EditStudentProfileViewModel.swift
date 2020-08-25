@@ -14,10 +14,10 @@ import Combine
 
 class EditStudentProfileViewModel: ObservableObject {
     
-    @State var inputImage: UIImage? = nil
+    @Published var inputImage: UIImage? = nil
+    @Published var image: Image? = nil
     @Published var name: String
     @Published var degree: String?
-    @Published var birth_millis: Int
     @Published var is_private: Bool
     
     @Published var selectedBD = Date()
@@ -27,6 +27,7 @@ class EditStudentProfileViewModel: ObservableObject {
     @ObservedObject var thisUserRepo : ThisUserRepo
     
     let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
     
     // Allows us to dismiss LoginView when shouldDismissView changes to true
     var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
@@ -41,7 +42,7 @@ class EditStudentProfileViewModel: ObservableObject {
         self.thisUserRepo = thisUserRepo
         self.name = thisUserRepo.thisUser.name
         self.degree = thisUserRepo.thisUser.degree
-        self.birth_millis = thisUserRepo.thisUser.birth_millis
+        self.selectedBD = Utils.convertMillisToDate(millis: Double(thisUserRepo.thisUser.birth_millis))
         self.is_private = thisUserRepo.thisUser.is_private
     }
         
@@ -51,10 +52,16 @@ class EditStudentProfileViewModel: ObservableObject {
             !name.isEmpty && degree != nil
         )
     }
+  
     
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
+    }
 
 /* FIREBASE */
     
+    // TODO: quick and dirty
     // Update User document in Firebase
     func updateInDB() {
         waitingForResult = true
@@ -68,13 +75,34 @@ class EditStudentProfileViewModel: ObservableObject {
         }
         
         let updatedStudent = thisUserRepo.thisUser
-        
+        updatedStudent.name = self.name
+        if let degree = self.degree {
+            updatedStudent.degree = degree
+        }
+        updatedStudent.birth_millis = Int(Utils.convertDateToMillis(date: self.selectedBD))
+        updatedStudent.is_private = self.is_private
         
         do {
-            let _ = try db.collection("users").document(id).setData(from: newStudent)
+            let _ = try db.collection("users").document(updatedStudent.id ?? "nil").setData(from: updatedStudent)
             
-            print("Student Document created successfully!")
-            self.shouldDismissView = true
+            // Upload image
+            if (self.image != nil) {
+                self.storageRef.child(updatedStudent.profileImagePath()).putData((self.inputImage!.jpegData(compressionQuality: 0.7))!, metadata: nil){ (error, metadata) in
+                    if(error != nil){
+                        print("Could not upload full image: \(error!)")
+                    }
+                    self.storageRef.child(updatedStudent.previewImagePath()).putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (error1, metadata1) in
+                        if(error1 != nil){
+                            print("Could not upload preview image: \(error1!)")
+                        }
+                        self.shouldDismissView = true
+                    }
+                }
+            }
+            else {
+                print("Student updated!")
+                self.shouldDismissView = true
+            }
         }
         catch {
             print("Unable to encode task: \(error.localizedDescription)")

@@ -95,7 +95,7 @@ struct OrganizationProfile: View {
                 // MARK: Posts
                 VStack() {
                     if (postListVM.postsLoaded == true) {
-                        if (postListVM.posts.count > 0) {
+                        if (postListVM.postVMs.count > 0) {
                             HStack{
                                 Text("Posts")
                                 Spacer()

@@ -36,6 +36,14 @@ final class Utils {
         return since1970
     }
     
+    static func convertDateToMillis(date: Date) -> Double {
+        return date.timeIntervalSince1970*1000
+    }
+    
+    static func convertMillisToDate(millis: Double) -> Date {
+        return Date(timeIntervalSince1970: millis)
+    }
+    
     static func getEndOfThisWeekMillis() -> Double{
         if let thisWeekStartDate = Date(timeIntervalSince1970: getCurrentTimeInMillis()/1000).startOfWeek{ //set date to current time and set it to start of this week
             return thisWeekStartDate.timeIntervalSince1970*1000 + Constant.millisInAWeek //set time to exactly 1 week away from now
