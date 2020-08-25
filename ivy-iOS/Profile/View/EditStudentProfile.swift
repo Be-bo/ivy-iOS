@@ -12,14 +12,9 @@ import Firebase
 
 struct EditStudentProfile: View {
     
-    @ObservedObject var thisUserRepo = ThisUserRepo() {
-        didSet {
-            user = thisUserRepo.thisUser
-        }
-    }
+    @ObservedObject var thisUserRepo: ThisUserRepo
     @Environment(\.presentationMode) private var presentationMode
     
-    @State var imgUrl = ""
     @State private var image: Image?
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
@@ -36,22 +31,14 @@ struct EditStudentProfile: View {
         ScrollView {
             VStack() {
                 
-                // Profile Image: TODO quick and dirty
-                WebImage(url: URL(string: imgUrl))
-                    .resizable()
-                    .placeholder(Image(systemName: "person.crop.circle.fill"))
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-                    .onAppear(){
-                        let storage = Storage.storage().reference()
-                        storage.child(Utils.userPreviewImagePath(userId: self.thisUserRepo.thisUser.id ?? "nil")).downloadURL { (url, err) in
-                            if err != nil{
-                                print("Error loading event image.")
-                                return
-                            }
-                            self.imgUrl = "\(url!)"
-                        }
-                }
+                // Profile Image
+                FirebaseImage(
+                    path: thisUserRepo.thisUser.profileImagePath(),
+                    placeholder: Image(systemName: "person.crop.circle.fill"),
+                    width: 200,
+                    height: 200,
+                    shape: Circle()
+                )
                 
                 // Change image
                 Button(action: {
@@ -75,8 +62,8 @@ struct EditStudentProfile: View {
                     list: StaticDegreesList.degree_array,
                     hint: "Degree",
                     background: Color.white
-                )
- */
+                )*/
+ 
                 
                 Toggle(isOn: $user.is_private) {
                     Text("Private Profile")
@@ -133,11 +120,5 @@ struct EditStudentProfile: View {
  */
             }
         }
-    }
-}
-
-struct EditStudentProfile_Previews: PreviewProvider {
-    static var previews: some View {
-        EditStudentProfile()
     }
 }

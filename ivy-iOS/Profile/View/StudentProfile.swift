@@ -13,6 +13,7 @@ struct StudentProfile: View {
     @ObservedObject var thisUserRepo: ThisUserRepo
     @ObservedObject var postListVM = PostListViewModel()
     @State var editProfile = false
+    @State var selection : Int? = nil
     
     
     init(thisUserRepo: ThisUserRepo) {
@@ -26,7 +27,7 @@ struct StudentProfile: View {
     
     var body: some View {
         ScrollView {
-            VStack (alignment: .leading){
+            VStack (alignment: .leading) {
                 
                 HStack { // Profile image and quick info
                     
@@ -50,7 +51,7 @@ struct StudentProfile: View {
                             self.editProfile.toggle()
                         }){
                             Text("Edit").sheet(isPresented: $editProfile){
-                                EditStudentProfile()
+                                EditStudentProfile(thisUserRepo: self.thisUserRepo)
                             }
                         }
                         Spacer()
@@ -64,30 +65,40 @@ struct StudentProfile: View {
                 // Posts
                 VStack() {
                     if (postListVM.postsLoaded == true) {
-                        if (postListVM.posts.count > 0) {
+                        if (postListVM.postVMs.count > 0) {
                             HStack {
                                 Text("Posts")
                                 Spacer()
                             }
                             
                             GridView(
-                                cells: postListVM.posts,
-                                maxCol: 3
-                            ) { post in
-                                GeometryReader { geo in
-                                    //TODO: ASK ROBERT
-                                    //NavigationLink(destination: PostScreen()) {
+                                cells: self.postListVM.postVMs,
+                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                            ) { geo in
+                                { postVM in
+                                    ZStack {
+                                        Button(action: {
+                                            self.selection = 1
+                                        }){
+                                            FirebaseImage(
+                                                path: Utils.postPreviewImagePath(postId: postVM.id),
+                                                placeholder: AssetManager.logoGreen,
+                                                width: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT),
+                                                height: geo.size.width/CGFloat(Constant.PROFILE_POST_GRID_ROW_COUNT),
+                                                shape: RoundedRectangle(cornerRadius: 25)
+                                            )
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
 
-                                     FirebaseImage(
-                                         path: Utils.postPreviewImagePath(postId: post.id ?? "nil"),
-                                         placeholder: AssetManager.logoGreen,
-                                         width: geo.size.width/3,
-                                         height: geo.size.width/3,
-                                         shape: RoundedRectangle(cornerRadius: 25)
-                                     )
-                                     
-                                    //}
+                                        // TODO: quick and dirty
+                                        NavigationLink(
+                                            destination: PostScreen(postVM: postVM)
+                                                .navigationBarTitle(postVM.post.author_name+"'s Post"),
+                                            tag: 1, selection: self.$selection)
+                                        { EmptyView() }
+                                    }
                                 }
+
                             }
                         }
                         else {
@@ -102,7 +113,6 @@ struct StudentProfile: View {
                         Spacer()
                         LoadingSpinner()
                     }
-                    Spacer()
                 }
             }
             .padding(.horizontal)

@@ -103,23 +103,23 @@ struct OrganizationProfile: View {
                             
                             NavigationView {
                                 GridView(
-                                    cells: postListVM.posts,
+                                    cells: postListVM.postVMs,
                                     maxCol: 3
-                                ) { post in
-                                    Text(post.text)
-                                    
-                                    /*
-                                     //TODO: ASK ROBERT's ipad
-                                     //NavigationLink(destination: PostScreen()) {
-                                     FirebaseImage(
-                                     path: Utils.postPreviewImagePath(postId: post.id ?? "nil"),
-                                     placeholder: AssetManager.logoWhite,
-                                     width: 150,
-                                     height: 150,
-                                     shape: RoundedRectangle(cornerRadius: 25)
-                                     )
-                                     //}
-                                     */
+                                ) { geo in
+                                    { postVM in
+                                        //TODO: ASK ROBERT
+                                        //NavigationLink(destination: PostScreen(postVM: )) {
+
+                                         FirebaseImage(
+                                             path: Utils.postPreviewImagePath(postId: postVM.id),
+                                             placeholder: AssetManager.logoGreen,
+                                             width: geo.size.width/3,
+                                             height: geo.size.width/3,
+                                             shape: RoundedRectangle(cornerRadius: 25)
+                                         )
+                                         
+                                        //}
+                                    }
                                 }
                             }
                         }

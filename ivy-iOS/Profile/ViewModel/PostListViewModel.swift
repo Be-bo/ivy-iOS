@@ -14,7 +14,7 @@ import Combine
 
 class PostListViewModel: ObservableObject {
     
-    @Published var posts = [Post]()
+    @Published var postVMs = [HomePostViewModel]()
     @Published var postsLoaded = true
         
     let db = Firestore.firestore()
@@ -64,10 +64,10 @@ class PostListViewModel: ObservableObject {
                     for currentDoc in querSnap.documents{
                         let newPost = Post()
                         newPost.docToObject(doc: currentDoc)
-                        self.posts.append(newPost)
+                        self.postVMs.append(HomePostViewModel(post: newPost))
                     }
                     self.postsLoaded = true
-                    print("\(self.posts.count) posts were uploaded from database")
+                    print("\(self.postVMs.count) posts were uploaded from database")
                 }
         }
     }
