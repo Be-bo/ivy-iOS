@@ -64,16 +64,20 @@ struct MemberListRow: View {
                                     PersonCircleView(personId: currentId)
                                     if(self.userIsOrg){
                                         NavigationLink(
-                                            destination: OrganizationProfile(userRepo: UserRepo(userid: currentId))
-                                                .navigationBarTitle("Profile"),
+                                            destination: OrganizationProfile(
+                                                userRepo: UserRepo(userid: currentId),
+                                                postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_ORG, uni_domain: Utils.getCampusUni(), user_id: currentId)
+                                            ).navigationBarTitle("Profile"),
                                             tag: 1,
                                             selection: self.$selection) {
                                                 EmptyView()
                                         }
                                     }else{
                                         NavigationLink(
-                                            destination: StudentProfile(userRepo: UserRepo(userid: currentId))
-                                                .navigationBarTitle("Profile"),
+                                            destination: StudentProfile(
+                                                userRepo: UserRepo(userid: currentId),
+                                                postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: Utils.getCampusUni(), user_id: currentId)
+                                            ).navigationBarTitle("Profile"),
                                             tag: 1,
                                             selection: self.$selection) {
                                                 EmptyView()

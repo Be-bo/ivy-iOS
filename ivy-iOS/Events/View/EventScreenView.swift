@@ -77,7 +77,10 @@ struct EventScreenView: View {
                         
                         if (eventVM.event.author_is_organization) {
                             NavigationLink(
-                                destination: OrganizationProfile(userRepo: UserRepo(userid: eventVM.event.author_id))
+                                destination: OrganizationProfile(
+                                    userRepo: UserRepo(userid: eventVM.event.author_id),
+                                    postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_ORG, uni_domain: eventVM.event.uni_domain, user_id: eventVM.event.author_id)
+                                )
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
                                 selection: self.$selection) {
@@ -85,12 +88,15 @@ struct EventScreenView: View {
                             }
                         } else {
                             NavigationLink(
-                                destination: StudentProfile(userRepo: UserRepo(userid: eventVM.event.author_id))
-                                    .navigationBarTitle("Profile"),
-                                tag: 1,
-                                selection: self.$selection) {
-                                    EmptyView()
-                            }
+                                    destination: StudentProfile(
+                                        userRepo: UserRepo(userid: eventVM.event.author_id),
+                                        postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: eventVM.event.uni_domain, user_id: eventVM.event.author_id)
+                                    )
+                                        .navigationBarTitle("Profile"),
+                                    tag: 1,
+                                    selection: self.$selection) {
+                                            EmptyView()
+                                        }
                         }
                     }
                     
