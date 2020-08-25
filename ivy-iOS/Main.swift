@@ -154,8 +154,11 @@ struct Main: View {
                 VStack{
                     NavigationView {
                         
+                        //TODO: quick and dirty
                         if thisUserRepo.user.is_organization {
-                            OrganizationProfile(userRepo: self.thisUserRepo)
+                            OrganizationProfile(
+                                userRepo: self.thisUserRepo,
+                                postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_ORG, uni_domain: thisUserRepo.user.uni_domain, user_id: thisUserRepo.user.id ?? ""))
                                 .navigationBarItems(leading:
                                     HStack {
                                             Button(action: {
@@ -197,7 +200,9 @@ struct Main: View {
                                     }
                             )
                         } else {
-                            StudentProfile(userRepo: self.thisUserRepo)
+                            StudentProfile(
+                                userRepo: self.thisUserRepo,
+                                postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: thisUserRepo.user.uni_domain, user_id: thisUserRepo.user.id ?? ""))
                                 .navigationBarItems(leading:
                                     HStack {
                                             Button(action: {

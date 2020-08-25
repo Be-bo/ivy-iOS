@@ -15,17 +15,22 @@ import Firebase
 struct StudentProfile: View {
     
     @ObservedObject var userRepo: UserRepo
-    @ObservedObject var postListVM = PostListViewModel()
+    @ObservedObject var postListVM : PostListViewModel
     @State var editProfile = false
     @State var selection : Int? = nil
         
     
-    init(userRepo: UserRepo) {
+    init(userRepo: UserRepo, postListVM : PostListViewModel) {
         self.userRepo = userRepo
-        self.postListVM.loadPosts(
+        self.postListVM = postListVM
+    }
+    
+    init(userRepo: UserRepo, uni_domain: String, user_id: String) {
+        self.userRepo = userRepo
+        self.postListVM = PostListViewModel(
             limit: Constant.PROFILE_POST_LIMIT_STUDENT,
-            uni_domain: userRepo.user.uni_domain,
-            user_id: userRepo.user.id ?? ""
+            uni_domain: uni_domain,
+            user_id: user_id
         )
     }
     

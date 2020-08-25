@@ -83,7 +83,10 @@ struct PostScreen: View {
                         //TODO: quick and dirty
                         if (postVM.post.author_is_organization) {
                             NavigationLink(
-                                destination: OrganizationProfile(userRepo: UserRepo(userid: postVM.post.author_id))
+                                destination: OrganizationProfile(
+                                    userRepo: UserRepo(userid: postVM.post.author_id),
+                                    postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_ORG, uni_domain: postVM.post.uni_domain, user_id: postVM.post.author_id)
+                                )
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
                                 selection: self.$selection) {
@@ -91,7 +94,10 @@ struct PostScreen: View {
                                 }
                         } else {
                             NavigationLink(
-                                    destination: StudentProfile(userRepo: UserRepo(userid: postVM.post.author_id))
+                                    destination: StudentProfile(
+                                        userRepo: UserRepo(userid: postVM.post.author_id),
+                                        postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: postVM.post.uni_domain, user_id: postVM.post.author_id)
+                                    )
                                         .navigationBarTitle("Profile"),
                                     tag: 1,
                                     selection: self.$selection) {

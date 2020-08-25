@@ -182,8 +182,8 @@
 		8D30BFA824EF197700970050 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				8D30D17C24F55B140020999D /* Repository */,
 				8D515D1124E73CE900D67144 /* Model */,
+				8D30D17C24F55B140020999D /* Repository */,
 				8D30BFAA24EF199400970050 /* ViewModel */,
 				8D30BFA924EF198400970050 /* View */,
 				FA7DAF6E24F1837F00B25430 /* Utils.swift */,

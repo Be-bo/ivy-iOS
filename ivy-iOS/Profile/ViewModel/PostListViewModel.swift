@@ -20,7 +20,7 @@ class PostListViewModel: ObservableObject {
     let db = Firestore.firestore()
     
     
-    func loadPosts(limit: Int, uni_domain: String, user_id: String) {
+    init (limit: Int, uni_domain: String, user_id: String) {
         postsLoaded = false
         let postsPath = "universities/\(uni_domain)/posts"
         if (uni_domain == "" || user_id == "") {
