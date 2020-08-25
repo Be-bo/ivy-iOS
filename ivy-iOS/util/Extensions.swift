@@ -18,9 +18,9 @@ public extension UIResponder {
         UIApplication.shared.sendAction(#selector(UIResponder.findFirstResponder(_:)), to: nil, from: nil, for: nil)
         return _currentFirstResponder
     }
-
+    
     private static weak var _currentFirstResponder: UIResponder?
-
+    
     @objc private func findFirstResponder(_ sender: Any) {
         UIResponder._currentFirstResponder = self
     }
@@ -53,7 +53,7 @@ public extension Notification {
 
 public struct KeyboardAdaptive: ViewModifier {
     @State private var bottomPadding: CGFloat = 0
-
+    
     public func body(content: Content) -> some View {
         GeometryReader { geometry in
             content
@@ -72,6 +72,12 @@ extension View {
     func keyboardAdaptive() -> some View {
         ModifiedContent(content: self, modifier: KeyboardAdaptive())
     }
+}
+
+public extension UIScreen{
+    static let screenWidth = UIScreen.main.bounds.size.width
+    static let screenHeight = UIScreen.main.bounds.size.height
+    static let screenSize = UIScreen.main.bounds.size
 }
 
 

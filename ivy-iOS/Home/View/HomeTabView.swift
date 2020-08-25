@@ -12,20 +12,74 @@ import Firebase
 
 struct HomeTabView: View {
     @ObservedObject var homeTabVM = HomeTabViewModel()
+    @ObservedObject private var thisUserRepo = ThisUserRepo()
+    @State private var settingsPresented = false
+    @State private var createPostOrLoginPresented = false
+    @State private var notificationCenterPresented = false
+    @ObservedObject var uniInfo = UniInfo()
+    
     
     var body: some View {
-        ZStack{
-            Text(homeTabVM.homePostsVMs.count < 1 ? "No posts on this campus just yet!" : "").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
-            
+        
+        // MARK: Post List
+        NavigationView{
             VStack{
-                NavigationView{
+                if(homeTabVM.homePostsVMs.count > 0){
                     List(){
                         ForEach(homeTabVM.homePostsVMs){ postItemVM in
                             HomePostView(postItemVM: postItemVM)
                         }
                     }
+                }else{
+                    Text("No posts on this campus yet!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
                 }
             }
+            // MARK: Nav Bar Stuff
+            .navigationBarItems(leading:
+                HStack {
+                    Button(action: {
+                        self.settingsPresented.toggle()
+                    }) {
+                        Image(systemName: "gear").font(.system(size: 25))
+                            .sheet(isPresented: $settingsPresented){
+                                SettingsView(uniInfo: self.uniInfo)
+                        }
+                    }
+                    
+                    WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                        .resizable()
+                        .placeholder(AssetManager.uniLogoPlaceholder)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40, height: 40)
+                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
+                        .onAppear(){
+                            let storage = Storage.storage().reference()
+                            storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
+                                if err != nil{
+                                    print("Error loading uni logo image.")
+                                    return
+                                }
+                                self.uniInfo.uniLogoUrl = "\(url!)"
+                            }
+                    }
+                    
+                }.padding(.leading, 0), trailing:
+                HStack {
+                    Button(action: {
+                        self.createPostOrLoginPresented.toggle()
+                    }) {
+                        Image(systemName: thisUserRepo.userLoggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
+                            .sheet(isPresented: $createPostOrLoginPresented){
+                                if(self.thisUserRepo.userLoggedIn){
+                                    CreatePostView(thisUser: self.thisUserRepo.user)
+                                }else{
+                                    LoginView()
+                                }
+                        }
+                    }
+            })
         }
+            
+        
     }
 }
