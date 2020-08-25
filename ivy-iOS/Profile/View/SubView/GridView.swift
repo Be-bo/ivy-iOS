@@ -28,8 +28,11 @@ struct GridView<T, Label> : View where Label : View, T : Identifiable {
 
             VStack (alignment: .leading) {
                 ForEach(self.rows) { row in
-                    HStack (alignment: .center) {
+                    HStack () {
                         ForEach(row.cells, content: self.cellView)
+                        if (row.cells.count == 2) {
+                            Spacer()
+                        }
                     }
                 }
             }

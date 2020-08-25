@@ -13,6 +13,7 @@ struct AssetManager {
     static let ivyLightGrey = Color("IvyLightGrey")
     static let ivyNotificationRed = Color("IvyNotification")
     static let ivyHintGreen = Color("IvyHintGreen")
+    static let ivyAccent = Color("IvyAccent")
     
     static let ucInterlock = Image("UCInterlock")
     static let logoWhite = Image("LogoWhite")

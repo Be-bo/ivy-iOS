@@ -16,10 +16,10 @@ struct ProfileEventItemView: View {
     @State private var selection: Int?
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottomLeading) {
             // No visual?
             if (eventVM.event.visual.isEmpty || eventVM.event.visual == "nothing") {
-                ProfileNoPicPostItemView(text: eventVM.event.text)
+                ProfileNoPicPostItemView(text: eventVM.event.name)
                 .onTapGesture {
                     self.selection = self.eventVM.event.creation_millis
                     print("selected post: \(self.eventVM.event.text)")
@@ -37,6 +37,8 @@ struct ProfileEventItemView: View {
                     print("selected post: \(self.eventVM.event.text)")
                 }
             }
+            
+            EventBanner()
 
             // TODO: quick and dirty
             NavigationLink(
@@ -104,5 +106,27 @@ struct ProfileNoPicPostItemView: View {
                 .padding(5)
         }
         .frame(width: width, height: height)
+    }
+}
+
+// For events only
+struct EventBanner: View {
+    var body: some View {
+        
+        ZStack(alignment: .trailing) {
+        
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(width: 20, height: 50)
+                .foregroundColor(AssetManager.ivyAccent)
+                .rotationEffect(.degrees(-90))
+
+            
+            Text("Event")
+                .foregroundColor(.white)
+                .font(.system(size:11.5))
+
+        }
+        
     }
 }
