@@ -24,6 +24,7 @@ class ThisUserRepo: ObservableObject{
         listenToAuthChanges()
     }
     
+    // TODO: change to snapshot listener later
     func loadUserProfile(){
         if let user = Auth.auth().currentUser, let uid = user.uid as String?{
             db.collection("users").document(uid).getDocument { (docSnap, err) in
@@ -35,6 +36,18 @@ class ThisUserRepo: ObservableObject{
                     self.thisUser.docToObject(doc: doc)
                     self.userDocLoaded = true
                 }
+            }
+        }
+    }
+    
+    func updateUserProfile(user: User) {
+        if let id = Auth.auth().currentUser?.uid {
+            do {
+                let _ = try db.collection("users").document(id).setData(from: user)
+                loadUserProfile()
+            }
+            catch {
+                print("Unable to encode task: \(error.localizedDescription)")
             }
         }
     }

@@ -10,7 +10,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class User: Identifiable/*, Codable*/, Encodable {
+class User: Identifiable, Encodable/*, Codable*/ {
     @DocumentID var id: String? //cannot be null
     var email: String = "" //cannot be null
     var name: String = "" //cannot be null
