@@ -145,7 +145,7 @@ struct StudentProfile: View {
                         }) {
                             Image(systemName: "gear").font(.system(size: 25))
                                 .sheet(isPresented: $settingsPresented){
-                                    SettingsView(uniInfo: self.uniInfo)
+                                    SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
                             }
                         }
                         
@@ -154,7 +154,7 @@ struct StudentProfile: View {
                             .placeholder(AssetManager.uniLogoPlaceholder)
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 40, height: 40)
-                            .padding(.leading, (UIScreen.screenWidth/2 - 80))
+                            .padding(.leading, (UIScreen.screenWidth/2 - 75))
                             .onAppear(){
                                 let storage = Storage.storage().reference()
                                 storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
