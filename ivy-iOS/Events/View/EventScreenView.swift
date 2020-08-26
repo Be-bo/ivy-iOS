@@ -77,7 +77,8 @@ struct EventScreenView: View {
                             NavigationLink(
                                 destination: OrganizationProfile(
                                     userRepo: UserRepo(userid: eventVM.event.author_id),
-                                    postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_ORG, uni_domain: eventVM.event.uni_domain, user_id: eventVM.event.author_id)
+                                    uni_domain: eventVM.event.uni_domain,
+                                    user_id: eventVM.event.author_id
                                 )
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
@@ -88,7 +89,8 @@ struct EventScreenView: View {
                             NavigationLink(
                                     destination: StudentProfile(
                                         userRepo: UserRepo(userid: eventVM.event.author_id),
-                                        postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: eventVM.event.uni_domain, user_id: eventVM.event.author_id)
+                                        uni_domain: eventVM.event.uni_domain,
+                                        user_id: eventVM.event.author_id
                                     )
                                         .navigationBarTitle("Profile"),
                                     tag: 1,

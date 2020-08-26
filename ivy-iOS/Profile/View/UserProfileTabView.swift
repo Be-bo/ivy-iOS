@@ -14,23 +14,23 @@ struct UserProfileTabView: View {
     
     @ObservedObject var uniInfo = UniInfo()
     @ObservedObject var thisUserRepo : ThisUserRepo
+    @ObservedObject var postListVM : PostListViewModel
     @State private var settingsPresented = false
     @State private var notificationCenterPresented = false
     
+    
+    init(thisUserRepo: ThisUserRepo) {
+        self.thisUserRepo = thisUserRepo
+        self.postListVM = PostListViewModel()
+    }
     
     var body: some View {
         NavigationView {
             ZStack {
                 if thisUserRepo.user.is_organization {
-                    OrganizationProfile(
-                        userRepo: self.thisUserRepo,
-                        postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_ORG, uni_domain: thisUserRepo.user.uni_domain, user_id: thisUserRepo.user.id ?? ""))
-
-
+                    OrganizationProfile(userRepo: self.thisUserRepo, postListVM: self.postListVM)
                 } else {
-                    StudentProfile(
-                    userRepo: self.thisUserRepo,
-                    postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: thisUserRepo.user.uni_domain, user_id: thisUserRepo.user.id ?? ""))
+                    StudentProfile(userRepo: self.thisUserRepo, postListVM: self.postListVM)
                 }
             }
             // MARK: Nav Bar

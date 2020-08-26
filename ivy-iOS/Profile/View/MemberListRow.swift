@@ -66,7 +66,8 @@ struct MemberListRow: View {
                                         NavigationLink(
                                             destination: OrganizationProfile(
                                                 userRepo: UserRepo(userid: currentId),
-                                                postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_ORG, uni_domain: Utils.getCampusUni(), user_id: currentId)
+                                                uni_domain: Utils.getCampusUni(),
+                                                user_id: currentId
                                             ).navigationBarTitle("Profile"),
                                             tag: 1,
                                             selection: self.$selection) {
@@ -76,7 +77,8 @@ struct MemberListRow: View {
                                         NavigationLink(
                                             destination: StudentProfile(
                                                 userRepo: UserRepo(userid: currentId),
-                                                postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: Utils.getCampusUni(), user_id: currentId)
+                                                uni_domain: Utils.getCampusUni(),
+                                                user_id: currentId
                                             ).navigationBarTitle("Profile"),
                                             tag: 1,
                                             selection: self.$selection) {

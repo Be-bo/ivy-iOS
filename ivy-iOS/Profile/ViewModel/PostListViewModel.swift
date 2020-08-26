@@ -22,7 +22,9 @@ class PostListViewModel: ObservableObject {
     private var listener: ListenerRegistration?
     
     
-    init (limit: Int, uni_domain: String, user_id: String) {
+    init() {}
+    
+    func loadPosts (limit: Int, uni_domain: String, user_id: String) {
                 
         if (uni_domain == "" || user_id == "") {
             print("This user not loaded yet! Cannot load posts for profile")

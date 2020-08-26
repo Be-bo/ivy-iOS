@@ -27,11 +27,11 @@ struct OrganizationProfile: View {
     
     init(userRepo: UserRepo, uni_domain: String, user_id: String) {
         self.userRepo = userRepo
-        self.postListVM = PostListViewModel(
+        self.postListVM = PostListViewModel()
+        self.postListVM.loadPosts(
             limit: Constant.PROFILE_POST_LIMIT_ORG,
             uni_domain: uni_domain,
-            user_id: user_id
-        )
+            user_id: user_id)
     }
     
     
@@ -184,6 +184,12 @@ struct OrganizationProfile: View {
             .onAppear(perform: {
                 if(!self.userRepo.userDocLoaded){ //if not loaded, start listening again
                     self.userRepo.loadUserProfile()
+                }
+                if (!self.postListVM.postsLoaded){ // start listening if not loaded yet
+                    self.postListVM.loadPosts(
+                        limit: Constant.PROFILE_POST_LIMIT_ORG,
+                        uni_domain: self.userRepo.user.uni_domain,
+                        user_id: self.userRepo.user.id ?? "")
                 }
             })
                 .onDisappear { //stop listening to realtime updates

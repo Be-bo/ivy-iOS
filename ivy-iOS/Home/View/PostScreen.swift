@@ -75,7 +75,8 @@ struct PostScreen: View {
                             NavigationLink(
                                 destination: OrganizationProfile(
                                     userRepo: UserRepo(userid: postVM.post.author_id),
-                                    postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_ORG, uni_domain: postVM.post.uni_domain, user_id: postVM.post.author_id)
+                                    uni_domain: postVM.post.uni_domain,
+                                    user_id: postVM.post.author_id
                                 )
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
@@ -86,7 +87,8 @@ struct PostScreen: View {
                             NavigationLink(
                                     destination: StudentProfile(
                                         userRepo: UserRepo(userid: postVM.post.author_id),
-                                        postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: postVM.post.uni_domain, user_id: postVM.post.author_id)
+                                        uni_domain: postVM.post.uni_domain,
+                                        user_id: postVM.post.author_id
                                     )
                                         .navigationBarTitle("Profile"),
                                     tag: 1,
