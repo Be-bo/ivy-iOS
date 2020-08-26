@@ -177,7 +177,7 @@ struct OrganizationProfile: View {
                     Spacer()
                 }
                 else {
-                    LoadingSpinner().padding(160)   // TODO: quick and dirty
+                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)   // TODO: quick and dirty
                 }
             }
             .padding(.horizontal)

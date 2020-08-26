@@ -19,7 +19,7 @@ struct ExploreAllEventsView: View {
         VStack{
             List{
                 ForEach(eventTabVM.exploreAllEventsVMs) { eventItemVM in
-                    ExploreAllEventsItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                    ExploreAllEventsItemView(eventItemVM: eventItemVM)
                 }
             }
         }
