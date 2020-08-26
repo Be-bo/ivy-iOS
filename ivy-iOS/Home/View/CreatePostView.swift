@@ -212,13 +212,13 @@ struct CreatePostView: View {
                     // MARK: Event Fields
                     }else{
                         Group{
-                            TextField("Text", text: $eventName)
+                            TextField("Event Name", text: $eventName)
                             Divider().padding(.bottom, 10)
                             
-                            TextField("Text", text: $location)
+                            TextField("Location", text: $location)
                             Divider().padding(.bottom, 10)
                             
-                            TextField("Text", text: $link)
+                            TextField("Link", text: $link)
                             Divider().padding(.bottom, 10)
                             
                             DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute])

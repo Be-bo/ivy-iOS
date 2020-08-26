@@ -58,6 +58,23 @@ final class Utils {
         return midnightMillis
     }
     
+    static func getHumanTimeFromMillis(millis: Double) -> String {
+        let timeDif = getCurrentTimeInMillis() - millis
+        
+        if (timeDif < Constant.millisInAnHour) { // within last hour
+            return "\(Int(timeDif/Constant.millisInAMinute)) m"
+        }
+        else if (timeDif < Constant.millisInADay) { // within 24 hrs
+            return "\(Int(timeDif/Constant.millisInAnHour)) h"
+        }
+        else if (timeDif < Constant.millisInAWeek) { // within a week
+            return "\(Int(timeDif/Constant.millisInADay)) d"
+        }
+        else { // beyond 1 week in the past
+            return "\(Int(timeDif/Constant.millisInAWeek)) w"
+        }
+    }
+    
     
     static func postPath(postId: String, uni: String) -> String {
         return "universities/\(uni)/posts/\(postId)"

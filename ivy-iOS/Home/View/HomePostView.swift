@@ -37,11 +37,15 @@ struct HomePostView: View {
                             }
                             self.authorUrl = "\(url!)"
                         }
+                    }
+                    
+                    if postItemVM.post.creation_millis != nil {
+                        Text(Utils.getHumanTimeFromMillis(millis: Double(postItemVM.post.creation_millis!)))
+                            .foregroundColor(AssetManager.ivyLightGrey)
+                    }
+                    
+                    Spacer()
                 }
-                //                Text(String(postItemVM.post.creation_millis))
-                //TODO: human time
-                Spacer()
-            }
             
             
             // MARK: Post Content
