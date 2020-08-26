@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class User: Identifiable, Encodable/*, Codable*/ {
+    
     @DocumentID var id: String? //cannot be null
     var email: String = "" //cannot be null
     var name: String = "" //cannot be null
@@ -28,6 +29,10 @@ class User: Identifiable, Encodable/*, Codable*/ {
     var degree: String = ""
     var birth_millis: Int = 0
     
+    
+    init() {
+        
+    }
     
     func docToObject(doc: DocumentSnapshot){
         id = doc.documentID

@@ -37,17 +37,12 @@ class UserRepo: ObservableObject {
         }
     }
     
-    func updateUserProfile(updatedUser: User) {
-        if let id = self.user.id {
-            updateProfile(userid: id, updatedUser: updatedUser)
-        }
-    }
-    
 
 /* FIREBASE functions used by children */
     
     // TODO: change to snapshot listener later
     func loadProfile(userid: String) {
+        removeListener()
         listenerRegistration = db.collection("users").document(userid).addSnapshotListener { (docSnap, err) in
             if err != nil{
                 print("Error getting user profile.")
@@ -58,17 +53,6 @@ class UserRepo: ObservableObject {
             }
         }
     }
-    
-    func updateProfile(userid: String, updatedUser: User) {
-        do {
-            let _ = try db.collection("users").document(userid).setData(from: updatedUser)
-            loadUserProfile()
-        }
-        catch {
-            print("Unable to encode task: \(error.localizedDescription)")
-        }
-    }
-    
     
     func removeListener(){ //method to remove the user profile realtime listener
         if let listReg = listenerRegistration{

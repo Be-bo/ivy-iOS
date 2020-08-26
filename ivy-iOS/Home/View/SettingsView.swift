@@ -11,9 +11,11 @@ import SwiftUI
 import Firebase
 
 struct SettingsView: View {
+    
     @State var uniSelection: String? = Utils.getCampusUni()
     @ObservedObject var uniInfo = UniInfo()
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var thisUserRepo: ThisUserRepo
     
     var body: some View {
         ScrollView(.vertical){
@@ -38,11 +40,13 @@ struct SettingsView: View {
                 }
                 Divider().padding(.bottom).padding(.top)
                 
-                Button(action: {
-                    try? Auth.auth().signOut()
-                    self.presentationMode.wrappedValue.dismiss()
-                }){
-                    Text("Sign Out").foregroundColor(AssetManager.ivyGreen)
+                if (thisUserRepo.userLoggedIn) {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                        try? Auth.auth().signOut()
+                    }){
+                        Text("Sign Out").foregroundColor(AssetManager.ivyGreen)
+                    }
                 }
             }
         .padding()

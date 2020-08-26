@@ -16,6 +16,7 @@ import Firebase
 import SDWebImageSwiftUI
 
 struct Main: View {
+    
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     @State private var settingsPresented = false
     @State private var createPostOrLoginPresented = false
@@ -41,7 +42,7 @@ struct Main: View {
                             }) {
                                 Image(systemName: "gear").font(.system(size: 25))
                                     .sheet(isPresented: $settingsPresented){
-                                        SettingsView(uniInfo: self.uniInfo)
+                                        SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
                                 }
                             }
                             
@@ -99,7 +100,7 @@ struct Main: View {
                                 }) {
                                     Image(systemName: "gear").font(.system(size: 25))
                                         .sheet(isPresented: $settingsPresented){
-                                            SettingsView(uniInfo: self.uniInfo)
+                                            SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
                                     }
                                 }
                                 
@@ -166,7 +167,7 @@ struct Main: View {
                                             }) {
                                                 Image(systemName: "gear").font(.system(size: 25))
                                                     .sheet(isPresented: $settingsPresented){
-                                                        SettingsView(uniInfo: self.uniInfo)
+                                                        SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
                                                 }
                                             }
                                             
@@ -210,7 +211,7 @@ struct Main: View {
                                             }) {
                                                 Image(systemName: "gear").font(.system(size: 25))
                                                     .sheet(isPresented: $settingsPresented){
-                                                        SettingsView(uniInfo: self.uniInfo)
+                                                        SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
                                                 }
                                             }
                                             
