@@ -19,7 +19,6 @@ class ThisUserRepo: UserRepo {
     
     override init(){
         super.init()
-        loadUserProfile()
         listenToAuthChanges()
     }
     
@@ -30,18 +29,14 @@ class ThisUserRepo: UserRepo {
         }
     }
     
-    override func updateUserProfile(updatedUser: User) {
-        if let id = Auth.auth().currentUser?.uid {
-            updateProfile(userid: id, updatedUser: updatedUser)
-        }
-    }
-    
     func listenToAuthChanges () {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in // monitor authentication changes using firebase
             if let _ = user {
                 self.userLoggedIn = true
+                self.loadUserProfile()
             } else {
                 self.userLoggedIn = false
+                self.user = User()
             }
         }
     }

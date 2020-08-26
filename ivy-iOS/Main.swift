@@ -16,6 +16,7 @@ import Firebase
 import SDWebImageSwiftUI
 
 struct Main: View {
+    
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     @State private var selection = 1
     
