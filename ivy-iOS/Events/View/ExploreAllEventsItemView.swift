@@ -15,12 +15,11 @@ struct ExploreAllEventsItemView: View {
     @State var url = ""
     @State var authorUrl = ""
     @State var selection: Int? = nil
-    var screenWidth: CGFloat = 300
     var onCommit: (Event) -> (Void) = {_ in}
     
     var body: some View {
         
-            NavigationLink(destination: EventScreenView(eventVM: eventItemVM, screenWidth: self.screenWidth).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+        NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
                 Button(action: {
                     self.selection = 1
                 }){

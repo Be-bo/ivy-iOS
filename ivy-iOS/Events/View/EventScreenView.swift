@@ -13,7 +13,6 @@ import Firebase
 
 struct EventScreenView: View {
     @ObservedObject var eventVM: EventItemViewModel
-    var screenWidth: CGFloat = 300
     @State var imageUrl = ""
     @State var authorUrl = ""
     @State var selection: Int? = nil
@@ -137,7 +136,7 @@ struct EventScreenView: View {
                         }
                         .padding(.top, 30).padding(.bottom, 30)
                     }
-                    .frame(width: screenWidth)
+                    .frame(width: UIScreen.screenWidth)
                 }
             }
             
