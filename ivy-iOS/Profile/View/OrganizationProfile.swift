@@ -114,19 +114,18 @@ struct OrganizationProfile: View {
                 }
                 
                 
-                // MARK: Bembers
+                // MARK: Members
                 if(userRepo.user.member_ids.count > 0){
                     MemberListRow(memberIds: userRepo.user.member_ids, orgId: userRepo.user.id ?? "", userIsOrg: false).padding(.top, 20).padding(.bottom, 10)
                 }
                 
                 
-                // MARK: Bember Requests
+                // MARK: Member Requests
                 if(userRepo.user.request_ids.count > 0 && Auth.auth().currentUser != nil && userRepo.user.id == Auth.auth().currentUser!.uid){
                     MemberListRow(memberIds: userRepo.user.request_ids, orgId: userRepo.user.id ?? "", titleText: "Member Requests", userIsOrg: false).padding(.top, 20).padding(.bottom, 20)
                 }
                 
-                
-                
+
                 
                 // MARK: Posts
                 if (postListVM.postsLoaded == true) {
@@ -192,7 +191,7 @@ struct OrganizationProfile: View {
                         user_id: self.userRepo.user.id ?? "")
                 }
             })
-                .onDisappear { //stop listening to realtime updates
+            .onDisappear { //stop listening to realtime updates
                     self.userRepo.removeListener()
                     self.postListVM.removeListener()
             }
