@@ -26,7 +26,7 @@ struct HomePostView: View {
                 WebImage(url: URL(string: authorUrl))
                     .resizable()
                     .placeholder(Image(systemName: "person.crop.circle.fill"))
-                    .frame(width: 40, height: 40)
+                    .frame(width: 60, height: 60)
                     .clipShape(Circle())
                     .onAppear(){
                         let storage = Storage.storage().reference()
