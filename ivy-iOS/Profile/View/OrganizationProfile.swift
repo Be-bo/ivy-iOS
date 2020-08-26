@@ -11,6 +11,7 @@ import Firebase
 
 
 struct OrganizationProfile: View {
+    
     let db = Firestore.firestore()
     @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM : PostListViewModel
@@ -40,7 +41,6 @@ struct OrganizationProfile: View {
                 
                 // MARK: Header
                 HStack {
-                    
                     
                     // MARK: Profile Image
                     FirebaseImage(
@@ -188,6 +188,7 @@ struct OrganizationProfile: View {
             })
                 .onDisappear { //stop listening to realtime updates
                     self.userRepo.removeListener()
+                    self.postListVM.removeListener()
             }
         }
     }

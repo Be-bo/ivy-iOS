@@ -28,6 +28,7 @@
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
 		8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13924E5B9F800A8F801 /* SignupSupport.swift */; };
 		8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13B24E5CA5C00A8F801 /* DropDownMenu.swift */; };
+		8DBA49B924F6AAAF00F53F14 /* UserProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBA49B824F6AAAF00F53F14 /* UserProfileTabView.swift */; };
 		8DD2C37324F429FC0067A507 /* EditOrganizationProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37224F429FC0067A507 /* EditOrganizationProfile.swift */; };
 		8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */; };
 		8DD2C37A24F466FB0067A507 /* EditStudentProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37924F466FB0067A507 /* EditStudentProfileViewModel.swift */; };
@@ -98,6 +99,7 @@
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
 		8DABC13924E5B9F800A8F801 /* SignupSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupSupport.swift; sourceTree = "<group>"; };
 		8DABC13B24E5CA5C00A8F801 /* DropDownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownMenu.swift; sourceTree = "<group>"; };
+		8DBA49B824F6AAAF00F53F14 /* UserProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTabView.swift; sourceTree = "<group>"; };
 		8DD2C37224F429FC0067A507 /* EditOrganizationProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrganizationProfile.swift; sourceTree = "<group>"; };
 		8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileSupport.swift; sourceTree = "<group>"; };
 		8DD2C37924F466FB0067A507 /* EditStudentProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStudentProfileViewModel.swift; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				8D98D12424F0668800F58539 /* StudentProfile.swift */,
 				FABA036624F47A33007C4878 /* NotificationCenterView.swift */,
 				FABA036824F47EA9007C4878 /* MemberListRow.swift */,
+				8DBA49B824F6AAAF00F53F14 /* UserProfileTabView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				FAA369D224F1EACC00F6CA63 /* EventScreenView.swift in Sources */,
 				8D515D1424E73D1E00D67144 /* User.swift in Sources */,
 				FA7DAF6F24F1837F00B25430 /* Utils.swift in Sources */,
+				8DBA49B924F6AAAF00F53F14 /* UserProfileTabView.swift in Sources */,
 				FABA036924F47EA9007C4878 /* MemberListRow.swift in Sources */,
 				8DD2C37A24F466FB0067A507 /* EditStudentProfileViewModel.swift in Sources */,
 				FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */,

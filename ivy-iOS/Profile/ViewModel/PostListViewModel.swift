@@ -19,15 +19,25 @@ class PostListViewModel: ObservableObject {
     @Published var postsLoaded = false
         
     let db = Firestore.firestore()
+    private var listener: ListenerRegistration?
     
     
     init (limit: Int, uni_domain: String, user_id: String) {
-        let postsPath = "universities/\(uni_domain)/posts"
+                
         if (uni_domain == "" || user_id == "") {
             print("This user not loaded yet! Cannot load posts for profile")
             postsLoaded = true
             return
         }
+        
+        if (listener != nil) {
+            print("posts already loaded...")
+            postsLoaded = true
+            return
+        }
+        
+        let postsPath = "universities/\(uni_domain)/posts"
+        
         
         /*db.collection(postsPath)
             .whereField("author_id", isEqualTo: user_id as Any)
@@ -54,7 +64,7 @@ class PostListViewModel: ObservableObject {
             }*/
         
         // TODO: this is quick and dirty. must retrieve docs as objects later and apply pagination
-        db.collection(postsPath)
+        listener = db.collection(postsPath)
             .whereField("author_id", isEqualTo: user_id as Any)
             .order(by: "creation_millis", descending: true)
             //.limit(to: limit) //TODO: apply pagination later
@@ -75,6 +85,12 @@ class PostListViewModel: ObservableObject {
                     self.postsLoaded = true
                     print("\(self.postVMs.count) posts and \(self.eventVMs.count) events were uploaded from database")
                 }
+        }
+    }
+    
+    func removeListener(){ //method to remove the user profile realtime listener
+        if let listReg = listener {
+            listReg.remove()
         }
     }
 

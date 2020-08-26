@@ -95,12 +95,12 @@ struct PasswordField: View {
             
             HStack {
             
-                if (visible) {
-                    TextField(hint, text: $password)
+                if visible {
+                    TextField(hint, text: self.$password)
                         .textContentType(.password)
                 }
                 else {
-                    SecureField(hint, text: $password)
+                    SecureField(hint, text: self.$password)
                         .textContentType(.password)
                 }
                 

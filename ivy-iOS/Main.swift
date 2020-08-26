@@ -47,6 +47,19 @@ struct Main: View {
             
             // MARK: Profile
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
+                UserProfileTabView(thisUserRepo: thisUserRepo)
+                .tabItem {
+                    selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
+                    }
+                .tag(2)
+            }
+            
+            
+            
+            
+            
+            
+            /*if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
                 if thisUserRepo.user.is_organization {
                     OrganizationProfile(
                         userRepo: self.thisUserRepo,
@@ -54,18 +67,19 @@ struct Main: View {
                     .tabItem {
                         selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         }
-                    .tag(3)
+                    .tag(2)
 
                 } else {
                     StudentProfile(
                     userRepo: self.thisUserRepo,
                     postListVM: PostListViewModel(limit: Constant.PROFILE_POST_LIMIT_STUDENT, uni_domain: thisUserRepo.user.uni_domain, user_id: thisUserRepo.user.id ?? ""))
                     .tabItem {
-                        selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
+                        selection == 3 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         }
-                    .tag(2)
+                    .tag(3)
                 }
             }
+            */
             
         }
         .accentColor(AssetManager.ivyGreen)
