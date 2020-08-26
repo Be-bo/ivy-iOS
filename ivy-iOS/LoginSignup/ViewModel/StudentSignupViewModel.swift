@@ -113,10 +113,7 @@ class StudentSignupViewModel: ObservableObject {
     func registerinDB() {
         if let id = Auth.auth().currentUser?.uid {
             
-            let newStudent = User()
-            newStudent.id = id
-            newStudent.email = email
-            newStudent.degree = self.degree!
+            let newStudent = User(id: id, email: email, degree: self.degree!)
             
             do {
                 let _ = try db.collection("users").document(id).setData(from: newStudent)

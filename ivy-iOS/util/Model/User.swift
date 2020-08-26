@@ -104,6 +104,7 @@ class User: Identifiable, Encodable/*, Codable*/ {
         if (splitEmail.count > 1) {
             self.uni_domain = String(splitEmail[1])
         }
+        self.registration_millis = Int(Utils.getCurrentTimeInMillis())
         self.name = String(splitEmail[0])   // Set default name
     }
     

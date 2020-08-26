@@ -17,10 +17,12 @@ struct GridView<T, Label> : View where Label : View, T : Identifiable {
     var rows: [Row<T>]
     //var cellView: ((GeometryProxy) -> ((T) -> Label))
     var cellView: ((T) -> Label)
+    var maxCol: Int
     
     init(cells: [T], maxCol: Int, _ cellView: @escaping ((T) -> Label)) {
         self.rows = Row.makeGrid(numberOfColumns: maxCol, cells: cells)
         self.cellView = cellView
+        self.maxCol = maxCol
     }
     
     var body: some View {
@@ -30,7 +32,7 @@ struct GridView<T, Label> : View where Label : View, T : Identifiable {
                 ForEach(self.rows) { row in
                     HStack () {
                         ForEach(row.cells, content: self.cellView)
-                        if (row.cells.count == 2) {
+                        if (row.cells.count < self.maxCol) {
                             Spacer()
                         }
                     }

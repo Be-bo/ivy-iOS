@@ -18,7 +18,6 @@ import SDWebImageSwiftUI
 struct Main: View {
     
     @ObservedObject private var thisUserRepo = ThisUserRepo()
-    @ObservedObject private var postListVM = PostListViewModel()
     @State private var selection = 1
     
     
