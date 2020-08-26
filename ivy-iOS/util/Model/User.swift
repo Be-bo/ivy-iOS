@@ -33,12 +33,12 @@ class User: Identifiable, Encodable/*, Codable*/ {
     // Student
     init(id: String, email: String, degree: String) {
         self.degree = degree
-        //super.init(id: id, email: email, is_organization: false, is_club: false)
+        setInitialData(id: id, email: email, is_organization: false, is_club: false)
     }
     
     // Organization
     init(id: String, email: String, is_club: Bool) {
-        //super.init(id: id, email: email, is_organization: true, is_club: is_club)
+        setInitialData(id: id, email: email, is_organization: true, is_club: is_club)
     }
     
     // Only use in repo
@@ -91,6 +91,20 @@ class User: Identifiable, Encodable/*, Codable*/ {
         if let birth_mil = doc.get("birth_millis") as? Int{
             birth_millis = birth_mil
         }
+    }
+    
+    private func setInitialData(id: String, email: String, is_organization: Bool, is_club: Bool) {
+        self.id = id
+        self.email = email
+        self.is_organization = is_organization
+        self.is_club = is_club
+        
+        // Get Domain
+        let splitEmail = email.split(separator: "@")
+        if (splitEmail.count > 1) {
+            self.uni_domain = String(splitEmail[1])
+        }
+        self.name = String(splitEmail[0])   // Set default name
     }
     
     func profileImagePath() -> String {
