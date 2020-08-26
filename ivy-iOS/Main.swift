@@ -22,7 +22,6 @@ struct Main: View {
     
     var body: some View {
         
-        
         // MARK: Tab Bar
         TabView(selection: self.$selection) {
             
@@ -68,14 +67,6 @@ struct Main: View {
             
         }
         .accentColor(AssetManager.ivyGreen)
-    }
-}
-
-
-
-struct Main_Previews: PreviewProvider {
-    static var previews: some View {
-        Main()
     }
 }
 

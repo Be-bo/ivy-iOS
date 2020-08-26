@@ -17,6 +17,7 @@ struct StudentProfile: View {
     @State private var settingsPresented = false
     @State private var createPostOrLoginPresented = false
     @State private var notificationCenterPresented = false
+    
     @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM : PostListViewModel
     @State var editProfile = false
@@ -38,6 +39,7 @@ struct StudentProfile: View {
     }
     
     var body: some View {
+        
         NavigationView{
             ScrollView {
                 VStack (alignment: .leading) {
@@ -179,6 +181,7 @@ struct StudentProfile: View {
                     })
             
         }
+        
     }
 }
 

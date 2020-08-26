@@ -31,7 +31,9 @@ struct EventsTabView: View {
     @State private var createPostOrLoginPresented = false
     @State private var notificationCenterPresented = false
     @ObservedObject var eventTabVM = EventTabViewModel()
-    var screenWidth: CGFloat = 300.0
+    @ObservedObject var uniInfo = UniInfo()
+    @State private var settingsPresented = false
+    @State private var createPostOrLoginPresented = false
     @State var featuredUrl = ""
     @State var eventScreenPresented = false
     @State var loginPresented = false
@@ -71,7 +73,7 @@ struct EventsTabView: View {
                                     .resizable()
                                     .placeholder(AssetManager.logoWhite)
                                     .background(AssetManager.ivyLightGrey)
-                                    .frame(width: self.screenWidth-20, height: self.screenWidth - 20)
+                                    .frame(width: UIScreen.screenWidth-20, height: UIScreen.screenWidth - 20)
                                     .cornerRadius(30)
                                     .onAppear(){
                                         let storage = Storage.storage().reference()
@@ -102,7 +104,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.todayEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                                    EventsTabItemView(eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -122,7 +124,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.thisWeekEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                                    EventsTabItemView(eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -142,7 +144,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.upcomingEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                                    EventsTabItemView(eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -155,7 +157,7 @@ struct EventsTabView: View {
                     
                     
                     // MARK: Explore All
-                    NavigationLink(destination: ExploreAllEventsView(eventTabVM: self.eventTabVM, screenWidth: self.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
+                    NavigationLink(destination: ExploreAllEventsView(eventTabVM: self.eventTabVM).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
                         Button(action: {
                             self.selection = 2
                             if (self.eventTabVM.exploreAllEventsVMs.count < 1){ //if we haven't loaded explore all events yet, load them now
@@ -188,7 +190,7 @@ struct EventsTabView: View {
                             .placeholder(AssetManager.uniLogoPlaceholder)
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 40, height: 40)
-                            .padding(.leading, (UIScreen.screenWidth/2 - 80))
+                            .padding(.leading, (UIScreen.screenWidth/2 - 75))
                             .onAppear(){
                                 let storage = Storage.storage().reference()
                                 storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
@@ -215,6 +217,7 @@ struct EventsTabView: View {
                             }
                         }
                 })
+            
         }
     }
 }

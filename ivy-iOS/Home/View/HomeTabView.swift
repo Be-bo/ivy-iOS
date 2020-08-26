@@ -17,6 +17,12 @@ struct HomeTabView: View {
     @State private var createPostOrLoginPresented = false
     @State private var notificationCenterPresented = false
     @ObservedObject var homeTabVM = HomeTabViewModel()
+    @ObservedObject private var thisUserRepo = ThisUserRepo()
+    @State private var settingsPresented = false
+    @State private var createPostOrLoginPresented = false
+    @State private var notificationCenterPresented = false
+    @ObservedObject var uniInfo = UniInfo()
+    
     
     var body: some View {
         
@@ -39,6 +45,8 @@ struct HomeTabView: View {
                             }
                         }
                     }
+                }else{
+                    Text("No posts on this campus yet!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
                 }
             }
             

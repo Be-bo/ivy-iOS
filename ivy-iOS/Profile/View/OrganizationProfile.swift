@@ -12,6 +12,12 @@ import Firebase
 
 struct OrganizationProfile: View {
     let db = Firestore.firestore()
+    @ObservedObject var uniInfo = UniInfo()
+    @ObservedObject private var thisUserRepo = ThisUserRepo()
+    @State private var settingsPresented = false
+    @State private var createPostOrLoginPresented = false
+    @State private var notificationCenterPresented = false
+    
     @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM : PostListViewModel
     @State var editProfile = false
@@ -35,75 +41,77 @@ struct OrganizationProfile: View {
     
     
     var body: some View {
-        ScrollView {
-            VStack (alignment: .leading){
-                
-                // MARK: Header
-                HStack {
+        NavigationView{
+            ScrollView {
+                VStack (alignment: .leading){
                     
-                    
-                    // MARK: Profile Image
-                    FirebaseImage(
-                        path: userRepo.user.profileImagePath(),
-                        placeholder: Image(systemName: "person.crop.circle.fill"),
-                        width: 150,
-                        height: 150,
-                        shape: Circle()
-                    ).padding(.trailing, 10)
-                    
-                    
-                    // MARK: Profile Info
-                    VStack (alignment: .leading){
-                        Text(userRepo.user.name).padding(.bottom, 10)
-                        if(userRepo.user.member_ids.count == 1){
-                            Text("\(userRepo.user.member_ids.count) Member").padding(.bottom, 10)
-                        }else{
-                            Text("\(userRepo.user.member_ids.count) Members").padding(.bottom, 10)
-                        }
+                    // MARK: Header
+                    HStack {
                         
-                        if userRepo is ThisUserRepo { // check if this is 3rd person user
+                        
+                        // MARK: Profile Image
+                        FirebaseImage(
+                            path: userRepo.user.profileImagePath(),
+                            placeholder: Image(systemName: "person.crop.circle.fill"),
+                            width: 150,
+                            height: 150,
+                            shape: Circle()
+                        ).padding(.trailing, 10)
+                        
+                        
+                        // MARK: Profile Info
+                        VStack (alignment: .leading){
+                            Text(userRepo.user.name).padding(.bottom, 10)
+                            if(userRepo.user.member_ids.count == 1){
+                                Text("\(userRepo.user.member_ids.count) Member").padding(.bottom, 10)
+                            }else{
+                                Text("\(userRepo.user.member_ids.count) Members").padding(.bottom, 10)
+                            }
                             
-                            //                        Button(action: {
-                            //                            self.seeMemberRequests.toggle()
-                            //                        }){
-                            //                            Text("Member Requests (\(userRepo.user.request_ids.count))").sheet(isPresented: $seeMemberRequests){
-                            //                                SeeAllUsers()
-                            //                            }
-                            //                        }.padding(.bottom, 10)
-                            
-                            Button(action: {
-                                self.editProfile.toggle()
-                            }){
-                                Text("Edit").sheet(isPresented: $editProfile){
-                                    EditOrganizationProfile(userProfile: self.userRepo.user, nameInput: self.userRepo.user.name)
-                                }
-                            }.padding(.bottom, 10)
-                            
-                        }
-                        else {
-                            // MARK: Membership Buttons
-                            if Auth.auth().currentUser != nil && userRepo.user.id != Auth.auth().currentUser!.uid{ //user had to be logged in and not be viewing themselves 3rd party
+                            if userRepo is ThisUserRepo { // check if this is 3rd person user
                                 
-                                // MARK: Student Requesting Buttons
-                                if(!userRepo.user.member_ids.contains(Auth.auth().currentUser!.uid)){ //viewing user not a member
-                                    if(userRepo.user.request_ids.contains(Auth.auth().currentUser!.uid)){ //viewing user already requested membership
-                                        Button(action: {
-                                            self.cancelRequest()
-                                        }){
-                                            Text("Cancel Join Reqest")
-                                        }
-                                    }else{ //neither a mem nor a req -> can request membership
-                                        Button(action: {
-                                            self.requestMembership()
-                                        }){
-                                            Text("Request Membership")
-                                        }
+                                //                        Button(action: {
+                                //                            self.seeMemberRequests.toggle()
+                                //                        }){
+                                //                            Text("Member Requests (\(userRepo.user.request_ids.count))").sheet(isPresented: $seeMemberRequests){
+                                //                                SeeAllUsers()
+                                //                            }
+                                //                        }.padding(.bottom, 10)
+                                
+                                Button(action: {
+                                    self.editProfile.toggle()
+                                }){
+                                    Text("Edit").sheet(isPresented: $editProfile){
+                                        EditOrganizationProfile(userProfile: self.userRepo.user, nameInput: self.userRepo.user.name)
                                     }
-                                }else{ //viewing user is a member
-                                    Button(action: {
-                                        self.leaveOrganization()
-                                    }){
-                                        Text("Leave Organization")
+                                }.padding(.bottom, 10)
+                                
+                            }
+                            else {
+                                // MARK: Membership Buttons
+                                if Auth.auth().currentUser != nil && userRepo.user.id != Auth.auth().currentUser!.uid{ //user had to be logged in and not be viewing themselves 3rd party
+                                    
+                                    // MARK: Student Requesting Buttons
+                                    if(!userRepo.user.member_ids.contains(Auth.auth().currentUser!.uid)){ //viewing user not a member
+                                        if(userRepo.user.request_ids.contains(Auth.auth().currentUser!.uid)){ //viewing user already requested membership
+                                            Button(action: {
+                                                self.cancelRequest()
+                                            }){
+                                                Text("Cancel Join Reqest")
+                                            }
+                                        }else{ //neither a mem nor a req -> can request membership
+                                            Button(action: {
+                                                self.requestMembership()
+                                            }){
+                                                Text("Request Membership")
+                                            }
+                                        }
+                                    }else{ //viewing user is a member
+                                        Button(action: {
+                                            self.leaveOrganization()
+                                        }){
+                                            Text("Leave Organization")
+                                        }
                                     }
                                 }
                             }
@@ -139,39 +147,51 @@ struct OrganizationProfile: View {
                                 Spacer()
                             }
                             
-                            GridView(
-                                cells: self.postListVM.eventVMs,
-                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) //{ geo in
+                            // EVENTS
+                            if (postListVM.eventVMs.count > 0) {
+                                HStack {
+                                    Text("Events")
+                                    Spacer()
+                                }
+                                
+                                GridView(
+                                    cells: self.postListVM.eventVMs,
+                                    maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                                    ) //{ geo in
                                 { eventVM in
                                     ProfileEventItemView(eventVM: eventVM)
                                 }
-                            //}
-                        }
-                        
-                        // POSTS
-                        if (postListVM.postVMs.count > 0) {
-                            HStack {
-                                Text("Posts")
-                                Spacer()
+                                //}
                             }
                             
-                            GridView(
-                                cells: self.postListVM.postVMs,
-                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) //{ geo in
+                            // POSTS
+                            if (postListVM.postVMs.count > 0) {
+                                HStack {
+                                    Text("Posts")
+                                    Spacer()
+                                }
+                                
+                                GridView(
+                                    cells: self.postListVM.postVMs,
+                                    maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                                    ) //{ geo in
                                 { postVM in
                                     ProfilePostItemView(postVM: postVM)
                                 }
-                            //}
+                                //}
+                            }
+                                
+                            else if postListVM.eventVMs.count == 0 {
+                                Spacer()
+                                Text("No Posts yet!")
+                                    .foregroundColor(.gray)
+                                    .padding()
+                                    .frame(alignment: .center)
+                            }
                         }
-                        
-                        else if postListVM.eventVMs.count == 0 {
+                        else {
                             Spacer()
-                            Text("No Posts yet!")
-                                .foregroundColor(.gray)
-                                .padding()
-                                .frame(alignment: .center)
+                            LoadingSpinner()
                         }
                     }
                     Spacer()
@@ -185,10 +205,48 @@ struct OrganizationProfile: View {
                 if(!self.userRepo.userDocLoaded){ //if not loaded, start listening again
                     self.userRepo.loadUserProfile()
                 }
-            })
-                .onDisappear { //stop listening to realtime updates
-                    self.userRepo.removeListener()
             }
+                
+                // MARK: Nav Bar Stuff
+                .navigationBarItems(leading:
+                    HStack {
+                        Button(action: {
+                            self.settingsPresented.toggle()
+                        }) {
+                            Image(systemName: "gear").font(.system(size: 25))
+                                .sheet(isPresented: $settingsPresented){
+                                    SettingsView(uniInfo: self.uniInfo)
+                            }
+                        }
+                        
+                        WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                            .resizable()
+                            .placeholder(AssetManager.uniLogoPlaceholder)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .padding(.leading, (UIScreen.screenWidth/2 - 80))
+                            .onAppear(){
+                                let storage = Storage.storage().reference()
+                                storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
+                                    if err != nil{
+                                        print("Error loading uni logo image.")
+                                        return
+                                    }
+                                    self.uniInfo.uniLogoUrl = "\(url!)"
+                                }
+                        }
+                        
+                    }.padding(.leading, 0), trailing:
+                    HStack {
+                        Button(action: {
+                            self.notificationCenterPresented.toggle()
+                        }) {
+                            Image(systemName: "bell").font(.system(size: 25))
+                                .sheet(isPresented: $notificationCenterPresented){
+                                    NotificationCenterView()
+                            }
+                        }
+                    })
         }
     }
     
