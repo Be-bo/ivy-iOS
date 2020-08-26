@@ -30,9 +30,19 @@ class User: Identifiable, Encodable/*, Codable*/ {
     var birth_millis: Int = 0
     
     
-    init() {
-        
+    // Student
+    init(id: String, email: String, degree: String) {
+        self.degree = degree
+        //super.init(id: id, email: email, is_organization: false, is_club: false)
     }
+    
+    // Organization
+    init(id: String, email: String, is_club: Bool) {
+        //super.init(id: id, email: email, is_organization: true, is_club: is_club)
+    }
+    
+    // Only use in repo
+    init() {}
     
     func docToObject(doc: DocumentSnapshot){
         id = doc.documentID
