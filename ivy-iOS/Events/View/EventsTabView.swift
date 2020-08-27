@@ -207,7 +207,6 @@ struct EventsTabView: View {
                         
                     }.padding(.leading, 0), trailing:
                     HStack {
-                        
                         if thisUserRepo.userLoggedIn {
                             Button(action: {
                                 self.createPostPresented.toggle()

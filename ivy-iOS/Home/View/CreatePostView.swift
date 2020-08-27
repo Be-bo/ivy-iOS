@@ -117,11 +117,11 @@ struct CreatePostView: View {
                 if(self.visualPick == 1 && self.image != nil){
                     self.storageRef.child(newPost["visual"] as! String).putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (error, metadata) in
                         if(error != nil){
-                            print(error)
+                            print(error!)
                         }
                         self.storageRef.child(Utils.postPreviewImagePath(postId: newPost["id"] as! String)).putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (error1, metadata1) in
                             if(error1 != nil){
-                                print(error1)
+                                print(error1!)
                             }
                             self.presentationMode.wrappedValue.dismiss()
                         }
@@ -212,13 +212,13 @@ struct CreatePostView: View {
                     // MARK: Event Fields
                     }else{
                         Group{
-                            TextField("Text", text: $eventName)
+                            TextField("Event Name", text: $eventName)
                             Divider().padding(.bottom, 10)
                             
-                            TextField("Text", text: $location)
+                            TextField("Location", text: $location)
                             Divider().padding(.bottom, 10)
                             
-                            TextField("Text", text: $link)
+                            TextField("Link", text: $link)
                             Divider().padding(.bottom, 10)
                             
                             DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute])

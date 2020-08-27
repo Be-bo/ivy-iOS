@@ -15,10 +15,9 @@ struct LoginView: View {
     @ObservedObject var loginVM = LoginViewModel()
     @State var showingStudentSignup = false
     @State var showingOrgSignup = false
-    @State var errorText = ""
     @State var loadInProgress = false
     @Environment(\.presentationMode) private var presentationMode
-    
+
     
     
     // MARK: Body
@@ -44,7 +43,10 @@ struct LoginView: View {
                 Divider().padding(.bottom)
                 SecureField("Password", text: $loginVM.password).textContentType(.password)
                 Divider().padding(.bottom)
-                Text(errorText).foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom)
+                
+                if (!loginVM.waitingForResult) {
+                    Text(loginVM.errorText).foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom)
+                }
                 
                 
                 
@@ -60,8 +62,7 @@ struct LoginView: View {
                 .onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
                     if shouldDismiss {
                         self.presentationMode.wrappedValue.dismiss()
-                    }else{
-                        self.errorText = "Login Failed."
+                    } else {
                         self.loadInProgress = false
                     }
                 }

@@ -15,8 +15,10 @@ struct HomeTabView: View {
     @ObservedObject var uniInfo = UniInfo()
     var thisUserRepo: ThisUserRepo
     @State private var settingsPresented = false
-    @State private var createPostOrLoginPresented = false
+    @State private var createPostPresented = false
+    @State private var loginPresented = false
     @State private var notificationCenterPresented = false
+    
     @ObservedObject var homeTabVM = HomeTabViewModel()
     
     var body: some View {
@@ -74,21 +76,29 @@ struct HomeTabView: View {
                         
                     }.padding(.leading, 0), trailing:
                     HStack {
-                        Button(action: {
-                            self.createPostOrLoginPresented.toggle()
-                        }) {
-                            Image(systemName: thisUserRepo.userLoggedIn ? "square.and.pencil" : "arrow.right.circle").font(.system(size: 25))
-                                .sheet(isPresented: $createPostOrLoginPresented){
-                                    if(self.thisUserRepo.userLoggedIn){
+                        if thisUserRepo.userLoggedIn {
+                            Button(action: {
+                                self.createPostPresented.toggle()
+                            }) {
+                                Image(systemName: "square.and.pencil")
+                                    .font(.system(size: 25))
+                                    .sheet(isPresented: $createPostPresented) {
                                         CreatePostView(thisUser: self.thisUserRepo.user)
-                                    }else{
-                                        LoginView()
-                                    }
+                                }
                             }
                         }
-                }
-            )
-            
+                        else {
+                            Button(action: {
+                                self.loginPresented.toggle()
+                            }) {
+                                Image(systemName: "arrow.right.circle")
+                                    .font(.system(size: 25))
+                                    .sheet(isPresented: $loginPresented) {
+                                        LoginView()
+                                }
+                            }
+                        }
+                })
         }
         
     }
