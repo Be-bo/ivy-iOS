@@ -50,6 +50,10 @@ class UserRepo: ObservableObject {
             if let doc = docSnap{
                 self.user.docToObject(doc: doc)
                 self.userDocLoaded = true
+                
+                if Auth.auth().currentUser != nil, Auth.auth().currentUser!.uid == self.user.id{ //want to show logged in user's uni by default
+                    Utils.setCampusUni(newUni: self.user.uni_domain)
+                }
             }
         }
     }

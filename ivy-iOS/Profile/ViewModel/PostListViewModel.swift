@@ -85,7 +85,6 @@ class PostListViewModel: ObservableObject {
                         }
                     }
                     self.postsLoaded = true
-                    print("\(self.postVMs.count) posts and \(self.eventVMs.count) events were uploaded from database")
                 }
         }
     }

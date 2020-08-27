@@ -130,15 +130,12 @@ struct EventScreenView: View {
                     Spacer()
                 }.padding(.horizontal).padding(.top, 20)
                 
-                if(eventVM.event.going_ids.count < 1 && !eventVM.thisUserGoing){
+                if(eventVM.event.going_ids.count < 1){
                     Text("Nobody's going to this event yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                 } else {
                     ScrollView(.horizontal){
                         HStack{
-                            if(eventVM.thisUserGoing){ //have this user as going always as the last item but decide whether to make them visible or not based on a bool value
-                                PersonCircleView(personId: Auth.auth().currentUser!.uid)
-                            }
-                            ForEach(eventVM.goingIdsWithoutThisUser, id: \.self) { currentId in
+                            ForEach(eventVM.event.going_ids, id: \.self) { currentId in
                                 ZStack{
                                     PersonCircleView(personId: currentId)
                                         .onTapGesture{
@@ -158,6 +155,7 @@ struct EventScreenView: View {
                                     
                                     
                                 }
+                                .padding(.leading, 10)
                             }
                         }
                         .padding(.top, 10).padding(.bottom, 30)
@@ -211,7 +209,7 @@ struct EventScreenView: View {
                 //MARK: Going
                 if(Auth.auth().currentUser != nil && !thisUserIsOrg){
                     Button(action: {
-                        if(self.eventVM.thisUserGoing){
+                        if(self.eventVM.event.going_ids.contains(Auth.auth().currentUser!.uid)){
                             self.eventVM.removeFromGoing()
                         }else{
                             self.eventVM.addToGoing()

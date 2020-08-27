@@ -38,19 +38,19 @@ class LoginViewModel: ObservableObject{
         waitingForResult = true
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             
-            if (error == nil && result != nil && result!.user.isEmailVerified) { // all g
+            if (error == nil && result != nil/* && result!.user.isEmailVerified*/) { // all g
                 self.errorText = ""
                 print("Signed in!")
                 self.shouldDismissView = true
             }
             else {
-                if (result != nil && !result!.user.isEmailVerified) { // Email not verified yet
-                    self.errorText = "Email not verified yet!"
-                }
-                else { // wrong credentials
+//                if (result != nil && !result!.user.isEmailVerified) { // Email not verified yet
+//                    self.errorText = "Email not verified yet!"
+//                }
+//                else { // wrong credentials
                     self.errorText = "Login failed, invalid email or password."
                     print(error ?? "")
-                }
+//                }
                 print(self.errorText)
                 self.shouldDismissView = false
             }
