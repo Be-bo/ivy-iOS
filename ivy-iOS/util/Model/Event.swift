@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 
 class Event: Identifiable/*, Codable*/ {
     @DocumentID var id: String? //cannot be null
-    var name: String = "Name" //cannot be null
+    var name: String = "" //cannot be null
     var is_event = true //cannot be null
     var uni_domain: String = "" //cannot be null
     var author_id: String = "" //cannot be null

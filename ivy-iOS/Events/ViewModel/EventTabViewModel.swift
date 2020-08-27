@@ -10,6 +10,7 @@ import Foundation
 import Combine
 
 class EventTabViewModel: ObservableObject {
+    var currentUni = Utils.getCampusUni()
     @Published var eventRepo = EventRepo()
     @Published var upcomingEventVMs = [EventItemViewModel]()
     @Published var thisWeekEventVMs = [EventItemViewModel]()
@@ -19,6 +20,7 @@ class EventTabViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init(){
+        
         //explore all
         eventRepo.$exploreAllEvents.map {events in
             events.map{event in
@@ -63,6 +65,13 @@ class EventTabViewModel: ObservableObject {
         }
         .assign(to: \.todayEventVMs, on: self)
         .store(in: &cancellables)
+    }
+    
+    func reloadData(){
+        eventRepo.loadFeatured()
+        eventRepo.loadTodayEvents()
+        eventRepo.loadThisWeekEvents()
+        eventRepo.loadUpcomingEvents()
     }
     
     func refresh(){

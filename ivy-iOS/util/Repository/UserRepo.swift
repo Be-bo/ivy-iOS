@@ -41,20 +41,20 @@ class UserRepo: ObservableObject {
 
 /* FIREBASE functions used by children */
     
-    // TODO: change to snapshot listener later
     func loadProfile(userid: String) {
-        removeListener()
-        listenerRegistration = db.collection("users").document(userid).addSnapshotListener { (docSnap, err) in
-            if err != nil{
-                print("Error getting user profile.")
-            }
-            if let doc = docSnap{
-                self.user.docToObject(doc: doc)
-                self.userDocLoaded = true
-                
-                if Auth.auth().currentUser != nil, Auth.auth().currentUser!.uid == self.user.id{ //want to show logged in user's uni by default
-                    Utils.setCampusUni(newUni: self.user.uni_domain)
-                    Utils.setIsThisUserOrg(isOrg: self.user.is_organization)
+        if(userid != nil && userid != ""){
+            listenerRegistration = db.collection("users").document(userid).addSnapshotListener { (docSnap, err) in
+                if err != nil{
+                    print("Error getting user profile.")
+                }
+                if let doc = docSnap{
+                    self.user.docToObject(doc: doc)
+                    self.userDocLoaded = true
+                    
+                    if Auth.auth().currentUser != nil, Auth.auth().currentUser!.uid == self.user.id{ //want to show logged in user's uni by default
+                        Utils.setCampusUni(newUni: self.user.uni_domain)
+                        Utils.setIsThisUserOrg(isOrg: self.user.is_organization)
+                    }
                 }
             }
         }

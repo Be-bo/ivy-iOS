@@ -19,20 +19,22 @@ class EventRepo: ObservableObject{
     @Published var todayEvents = [Event]()
     @Published var featuredEvents = [Event]()
     @Published var exploreAllEvents = [Event]()
-    
     @Published var eventsLoaded = false
     
     init() {
-        print("calling load events")
-        self.loadUpcomingEvents()
-        self.loadThisWeekEvents()
-        self.loadTodayEvents()
         self.loadFeatured()
+        self.loadTodayEvents()
+        self.loadThisWeekEvents()
+        self.loadUpcomingEvents()
     }
     
     func loadExploreAll(){
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("start_millis", isGreaterThan: Utils.getCurrentTimeInMillis())
             .order(by: "start_millis").getDocuments{(querySnapshot, error) in
+                if error != nil{
+                    print(error ?? "")
+                    return
+                }
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
                         let newEvent = Event()
@@ -44,8 +46,13 @@ class EventRepo: ObservableObject{
     }
     
     func loadUpcomingEvents(){
+        upcomingEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("is_featured", isEqualTo: false).whereField("start_millis", isGreaterThan: Int(Utils.getEndOfThisWeekMillis())) //end of this week's millis
             .order(by: "start_millis").limit(to: 20).getDocuments{(querySnapshot, error) in
+                if error != nil{
+                    print(error ?? "")
+                    return
+                }
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
                         let newEvent = Event()
@@ -58,12 +65,18 @@ class EventRepo: ObservableObject{
                     //                        return try? document.data(as: Event.self)
                     //                    }
                 }
+                self.eventsLoaded = true
         }
     }
     
     func loadThisWeekEvents(){
+        thisWeekEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("start_millis", isGreaterThan: Utils.getTodayMidnightMillis()).whereField("start_millis", isLessThan: Utils.getEndOfThisWeekMillis())
             .order(by: "start_millis").getDocuments{(querySnapshot, error) in
+                if error != nil{
+                    print(error ?? "")
+                    return
+                }
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
                         let newEvent = Event()
@@ -75,8 +88,13 @@ class EventRepo: ObservableObject{
     }
     
     func loadTodayEvents(){
+        todayEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("start_millis", isGreaterThan: Utils.getCurrentTimeInMillis()).whereField("start_millis", isLessThan: Utils.getTodayMidnightMillis())
             .order(by: "start_millis").getDocuments{(querySnapshot, error) in
+                if error != nil{
+                    print(error ?? "")
+                    return
+                }
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
                         let newEvent = Event()
@@ -88,6 +106,8 @@ class EventRepo: ObservableObject{
     }
     
     func loadFeatured(){
+        eventsLoaded = false
+        featuredEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).getDocument(completion: { (docSnap, error) in
             if error != nil{
                 print("Error loading this uni.")
@@ -105,7 +125,6 @@ class EventRepo: ObservableObject{
                         featuredEvent.docToObject(doc: doc)
                         self.featuredEvents.append(featuredEvent)
                     }
-                    self.eventsLoaded = true
                 })
             }
         })

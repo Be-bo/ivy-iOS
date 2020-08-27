@@ -18,35 +18,41 @@ class PostRepo: ObservableObject{
     @Published var postsLoaded = false
     
     init() {
-        print("calling load posts")
         self.loadHomePosts()
     }
     
     func loadHomePosts(){
+        homePosts = [Post]()
+        postsLoaded = false
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: false).order(by: "creation_millis", descending: true).getDocuments{(querySnapshot, error) in
-                if let querSnap = querySnapshot{
-                    for currentDoc in querSnap.documents{
-                        let newPost = Post()
-                        newPost.docToObject(doc: currentDoc)
-                        self.homePosts.append(newPost)
-                    }
-                    self.postsLoaded = true
+            if error != nil{
+                print("Error loading home posts")
+                self.postsLoaded = true
+                return
+            }
+            if let querSnap = querySnapshot{
+                for currentDoc in querSnap.documents{
+                    let newPost = Post()
+                    newPost.docToObject(doc: currentDoc)
+                    self.homePosts.append(newPost)
                 }
+            }
+            self.postsLoaded = true
         }
     }
     
     func refresh(){
         postsLoaded = false
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: false)
-        .whereField("creation_millis", isGreaterThan: creationMillis).order(by: "creation_millis", descending: true).getDocuments{(querySnapshot, error) in
+            .whereField("creation_millis", isGreaterThan: creationMillis).order(by: "creation_millis", descending: true).getDocuments{(querySnapshot, error) in
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
                         let newPost = Post()
                         newPost.docToObject(doc: currentDoc)
                         self.homePosts.insert(newPost, at: 0)
                     }
-                    self.postsLoaded = true
                 }
+                self.postsLoaded = true
         }
     }
     

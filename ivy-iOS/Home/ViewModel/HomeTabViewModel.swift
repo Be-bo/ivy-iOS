@@ -13,6 +13,7 @@ class HomeTabViewModel: ObservableObject {
     @Published var homeRepo = PostRepo()
     @Published var homePostsVMs = [HomePostViewModel]()
     private var cancellables = Set<AnyCancellable>()
+    var currentUni = Utils.getCampusUni()
     
     init(){
         homeRepo.$homePosts.map {posts in
@@ -26,5 +27,9 @@ class HomeTabViewModel: ObservableObject {
     
     func refresh(){
         homeRepo.refresh()
+    }
+    
+    func reloadData(){
+        homeRepo.loadHomePosts()
     }
 }

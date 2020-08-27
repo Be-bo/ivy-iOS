@@ -22,22 +22,29 @@ struct HomeTabView: View {
     var body: some View {
         
         NavigationView{
-            ZStack{
-                if !homeTabVM.homeRepo.postsLoaded {
-                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)
+            VStack{
+                
+//                if !homeTabVM.homeRepo.postsLoaded {
+//                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)
+//                }else {
+//                   EmptyView()
+//                }
+                
+                if(homeTabVM.homePostsVMs.count < 1){
+                    Text("No posts on this campus just yet!")
+                    .font(.system(size: 25))
+                    .foregroundColor(AssetManager.ivyLightGrey)
+                    .multilineTextAlignment(.center)
+                    .padding(30)
+                }else{
+                    EmptyView()
                 }
-                else {
-                    Text(homeTabVM.homePostsVMs.count < 1 ? "No posts on this campus just yet!" : "")
-                        .font(.system(size: 25))
-                        .foregroundColor(AssetManager.ivyLightGrey)
-                        .multilineTextAlignment(.center)
-                        .padding(30)
-                    
-                    VStack{
-                        List(){
-                            ForEach(homeTabVM.homePostsVMs){ postItemVM in
-                                HomePostView(postItemVM: postItemVM)
-                            }
+                
+                
+                VStack{
+                    List(){
+                        ForEach(homeTabVM.homePostsVMs){ postItemVM in
+                            HomePostView(postItemVM: postItemVM)
                         }
                     }
                 }
@@ -50,7 +57,12 @@ struct HomeTabView: View {
                             self.settingsPresented.toggle()
                         }) {
                             Image(systemName: "gear").font(.system(size: 25))
-                                .sheet(isPresented: $settingsPresented){
+                                .sheet(isPresented: $settingsPresented, onDismiss: {
+                                    if(self.homeTabVM.currentUni != Utils.getCampusUni()){ //if uni changed, reload data
+                                        self.homeTabVM.reloadData()
+                                        self.homeTabVM.currentUni = Utils.getCampusUni()
+                                    }
+                                }){
                                     SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
                             }
                         }

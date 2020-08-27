@@ -22,6 +22,7 @@ struct Main: View {
     
     
     init(){
+        print("init main")
         if Auth.auth().currentUser != nil{
             thisUserDataRepo = UserRepo(userid: Auth.auth().currentUser!.uid)
         }else{
@@ -92,6 +93,16 @@ struct Main: View {
             
         }
         .accentColor(AssetManager.ivyGreen)
+        .onDisappear {
+            if(self.thisUserDataRepo.listenerRegistration != nil){
+                self.thisUserDataRepo.removeListener()
+            }
+        }
+        .onAppear {
+            if Auth.auth().currentUser != nil{
+                self.thisUserDataRepo.loadUserProfile()
+            }
+        }
     }
 }
 

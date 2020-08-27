@@ -40,21 +40,27 @@ struct EventsTabView: View {
     @State var selection: Int? = nil
     @State private var loggedIn = false
     var onCommit: (User) -> (Void) = {_ in}
+
     
     
     var body: some View {
         NavigationView{
             ScrollView(.vertical, showsIndicators: false){
                 
-                // MARK: Loading
-                if !eventTabVM.eventRepo.eventsLoaded {
-                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)
-                }
                 
                 // MARK: Empty Text
                 if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){
                     Text("No events on this campus right now!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
                 }
+                
+                // MARK: Loading
+//                if(!eventTabVM.eventRepo.eventsLoaded){
+//                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)
+//                }else{
+//                    EmptyView() //this has to be here!!!
+//                }
+                
+                
                 
                 // MARK: Featured
                 if(eventTabVM.featuredEventVMs.count > 0){
@@ -182,27 +188,26 @@ struct EventsTabView: View {
                             self.settingsPresented.toggle()
                         }) {
                             Image(systemName: "gear").font(.system(size: 25))
-                                .sheet(isPresented: $settingsPresented){
+                                .sheet(isPresented: $settingsPresented, onDismiss: {
+                                    if(self.eventTabVM.currentUni != Utils.getCampusUni()){
+                                        self.eventTabVM.reloadData()
+                                        self.eventTabVM.currentUni = Utils.getCampusUni()
+                                    }
+                                }){
                                     SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
                             }
                         }
                         
-                        WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
-                            .resizable()
-                            .placeholder(AssetManager.uniLogoPlaceholder)
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .padding(.leading, (UIScreen.screenWidth/2 - 75))
-                            .onAppear(){
-                                let storage = Storage.storage().reference()
-                                storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading uni logo image.")
-                                        return
-                                    }
-                                    self.uniInfo.uniLogoUrl = "\(url!)"
-                                }
-                        }
+                        FirebaseImage(
+                            path: uniInfo.uniLogoUrl,
+                            placeholder: AssetManager.uniLogoPlaceholder,
+                            width: 40,
+                            height: 40,
+                            shape: Rectangle()
+                        )
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40, height: 40)
+                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
                         
                     }.padding(.leading, 0), trailing:
                     HStack {
