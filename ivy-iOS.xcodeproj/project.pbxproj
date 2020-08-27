@@ -68,6 +68,7 @@
 		FABA036524F46317007C4878 /* UniInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036424F46317007C4878 /* UniInfo.swift */; };
 		FABA036724F47A33007C4878 /* NotificationCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036624F47A33007C4878 /* NotificationCenterView.swift */; };
 		FABA036924F47EA9007C4878 /* MemberListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036824F47EA9007C4878 /* MemberListRow.swift */; };
+		FAC9825024F71DB800991873 /* StandaloneEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9824F24F71DB800991873 /* StandaloneEventViewModel.swift */; };
 		FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2366924E488E500F92637 /* LoginViewModel.swift */; };
 		FAD2366C24E48DF300F92637 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2366B24E48DF300F92637 /* TestView.swift */; };
 		FAD2366E24E496C200F92637 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAD2366D24E496C200F92637 /* GoogleService-Info.plist */; };
@@ -144,6 +145,7 @@
 		FABA036424F46317007C4878 /* UniInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniInfo.swift; sourceTree = "<group>"; };
 		FABA036624F47A33007C4878 /* NotificationCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterView.swift; sourceTree = "<group>"; };
 		FABA036824F47EA9007C4878 /* MemberListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListRow.swift; sourceTree = "<group>"; };
+		FAC9824F24F71DB800991873 /* StandaloneEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneEventViewModel.swift; sourceTree = "<group>"; };
 		FAD2366924E488E500F92637 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		FAD2366B24E48DF300F92637 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FAD2366D24E496C200F92637 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 		FA96E8B324E5AC7800E33BAD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				FAC9824F24F71DB800991873 /* StandaloneEventViewModel.swift */,
 				FA201E8E24F06234003495DB /* EventItemViewModel.swift */,
 				FA201E9024F06332003495DB /* EventTabViewModel.swift */,
 			);
@@ -644,6 +647,7 @@
 				8D30BFA324EF166000970050 /* GridView.swift in Sources */,
 				8D98D12724F0668800F58539 /* StudentProfile.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
+				FAC9825024F71DB800991873 /* StandaloneEventViewModel.swift in Sources */,
 				8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */,
 				FA8223EE24F058D400042AA2 /* EventsTabView.swift in Sources */,
 				FABA035F24F43631007C4878 /* Extensions.swift in Sources */,

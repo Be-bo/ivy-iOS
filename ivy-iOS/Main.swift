@@ -16,9 +16,18 @@ import Firebase
 import SDWebImageSwiftUI
 
 struct Main: View {
-    
+    @ObservedObject private var thisUserDataRepo: UserRepo
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     @State private var selection = 1
+    
+    
+    init(){
+        if Auth.auth().currentUser != nil{
+            thisUserDataRepo = UserRepo(userid: Auth.auth().currentUser!.uid)
+        }else{
+            thisUserDataRepo = UserRepo()
+        }
+    }
     
     
     var body: some View {
@@ -29,7 +38,7 @@ struct Main: View {
             
             
             // MARK: Events
-            EventsTabView(screenWidth: UIScreen.screenWidth)
+            EventsTabView(thisUserIsOrg: thisUserDataRepo.user.is_organization)
                 .tabItem{
                     selection == 0 ? Image(systemName: "calendar").font(.system(size: 25)) : Image(systemName: "calendar").font(.system(size: 25))
             }
@@ -37,7 +46,7 @@ struct Main: View {
             
             
             // MARK: Home
-            HomeTabView()
+            HomeTabView(thisUserIsOrg: thisUserDataRepo.user.is_organization, thisUserRepo: thisUserRepo)
                 .tabItem {
                     selection == 1 ? Image(systemName: "house.fill").font(.system(size: 25)) : Image(systemName: "house").font(.system(size: 25))
             }
@@ -47,7 +56,7 @@ struct Main: View {
             
             // MARK: Profile
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
-                UserProfileTabView(thisUserRepo: thisUserRepo)
+                UserProfileTabView(thisUserRepo: thisUserRepo, thisUserIsOrg: thisUserDataRepo.user.is_organization)
                 .tabItem {
                     selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                     }

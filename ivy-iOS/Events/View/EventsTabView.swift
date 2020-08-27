@@ -25,7 +25,7 @@ import Firebase
 //}
 
 struct EventsTabView: View {
-    
+    var thisUserIsOrg: Bool
     @ObservedObject var uniInfo = UniInfo()
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     
@@ -36,7 +36,6 @@ struct EventsTabView: View {
     @State var eventScreenPresented = false
     
     @ObservedObject var eventTabVM = EventTabViewModel()
-    var screenWidth: CGFloat = 300.0
     @State var featuredUrl = ""
     
     @State var selection: Int? = nil
@@ -52,8 +51,8 @@ struct EventsTabView: View {
                 if !eventTabVM.eventRepo.eventsLoaded {
                     LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)
                 }
-
-                    // MARK: Empty Text
+                
+                // MARK: Empty Text
                 if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){
                     Text("No events on this campus right now!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
                 }
@@ -64,18 +63,15 @@ struct EventsTabView: View {
                         Text("Featured").font(.system(size: 25))
                         Spacer()
                     }.padding(.leading)
-                }
-                VStack(alignment: .leading){
-                    ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
-                        NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
-                            Button(action: {
-                                self.selection = 1
-                            }){
+                    
+                    VStack(alignment: .leading){
+                        ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
+                            ZStack{
                                 WebImage(url: URL(string: self.featuredUrl))
                                     .resizable()
                                     .placeholder(AssetManager.logoWhite)
                                     .background(AssetManager.ivyLightGrey)
-                                    .frame(width: self.screenWidth-20, height: self.screenWidth - 20)
+                                    .frame(width: UIScreen.screenWidth-20, height: UIScreen.screenWidth-20)
                                     .cornerRadius(30)
                                     .onAppear(){
                                         let storage = Storage.storage().reference()
@@ -86,15 +82,20 @@ struct EventsTabView: View {
                                             }
                                             self.featuredUrl = "\(url!)"
                                         }
+                                }.onTapGesture{
+                                    self.selection = 1
                                 }
-                                    .buttonStyle(PlainButtonStyle()) //an extremely reta*ded situation, only doesn't overlay the image with button color when all 3 of these have PlainButtonStyle applied at the same time
+                                
+                                
+                                NavigationLink(destination: EventScreenView(thisUserIsOrg: self.thisUserIsOrg, eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+                                    EmptyView()
+                                }
+                                
                             }
-                            .buttonStyle(PlainButtonStyle())
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .padding(.bottom, 30)
                     }
                 }
-                .padding(.bottom, 30)
                 
                 
                 
@@ -106,7 +107,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.todayEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                                    EventsTabItemView(thisUserIsOrg: self.thisUserIsOrg, eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -126,7 +127,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.thisWeekEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                                    EventsTabItemView(thisUserIsOrg: self.thisUserIsOrg, eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -146,7 +147,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.upcomingEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM, screenWidth: self.screenWidth)
+                                    EventsTabItemView(thisUserIsOrg: self.thisUserIsOrg, eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -159,7 +160,7 @@ struct EventsTabView: View {
                     
                     
                     // MARK: Explore All
-                    NavigationLink(destination: ExploreAllEventsView(eventTabVM: self.eventTabVM, screenWidth: self.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
+                    NavigationLink(destination: ExploreAllEventsView(thisUserIsOrg: self.thisUserIsOrg, eventTabVM: self.eventTabVM, screenWidth: UIScreen.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
                         Button(action: {
                             self.selection = 2
                             if (self.eventTabVM.exploreAllEventsVMs.count < 1){ //if we haven't loaded explore all events yet, load them now

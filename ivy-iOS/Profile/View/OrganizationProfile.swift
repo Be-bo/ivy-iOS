@@ -11,7 +11,7 @@ import Firebase
 
 
 struct OrganizationProfile: View {
-    
+    var thisUserIsOrg: Bool
     let db = Firestore.firestore()
     @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM : PostListViewModel
@@ -20,14 +20,16 @@ struct OrganizationProfile: View {
     @State var selection : Int? = nil
     
     
-    init(userRepo: UserRepo, postListVM: PostListViewModel) {
+    init(userRepo: UserRepo, postListVM: PostListViewModel, thisUserIsOrg: Bool) {
         self.userRepo = userRepo
         self.postListVM = postListVM
+        self.thisUserIsOrg = thisUserIsOrg
     }
     
-    init(userRepo: UserRepo, uni_domain: String, user_id: String) {
+    init(userRepo: UserRepo, uni_domain: String, user_id: String, thisUserIsOrg: Bool) {
         self.userRepo = userRepo
         self.postListVM = PostListViewModel()
+        self.thisUserIsOrg = thisUserIsOrg
         self.postListVM.loadPosts(
             limit: Constant.PROFILE_POST_LIMIT_ORG,
             uni_domain: uni_domain,
@@ -116,13 +118,13 @@ struct OrganizationProfile: View {
                 
                 // MARK: Members
                 if(userRepo.user.member_ids.count > 0){
-                    MemberListRow(memberIds: userRepo.user.member_ids, orgId: userRepo.user.id ?? "", userIsOrg: false).padding(.top, 20).padding(.bottom, 10)
+                    MemberListRow(thisUserIsOrg: self.thisUserIsOrg, memberIds: userRepo.user.member_ids, orgId: userRepo.user.id ?? "", userIsOrg: false).padding(.top, 20).padding(.bottom, 10)
                 }
                 
                 
                 // MARK: Member Requests
                 if(userRepo.user.request_ids.count > 0 && Auth.auth().currentUser != nil && userRepo.user.id == Auth.auth().currentUser!.uid){
-                    MemberListRow(memberIds: userRepo.user.request_ids, orgId: userRepo.user.id ?? "", titleText: "Member Requests", userIsOrg: false).padding(.top, 20).padding(.bottom, 20)
+                    MemberListRow(thisUserIsOrg: self.thisUserIsOrg, memberIds: userRepo.user.request_ids, orgId: userRepo.user.id ?? "", titleText: "Member Requests", userIsOrg: false).padding(.top, 20).padding(.bottom, 20)
                 }
                 
 
@@ -143,7 +145,7 @@ struct OrganizationProfile: View {
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                             ) //{ geo in
                                 { eventVM in
-                                    ProfileEventItemView(eventVM: eventVM)
+                                    ProfileEventItemView(thisUserIsOrg: self.thisUserIsOrg, eventVM: eventVM)
                                 }
                             //}
                         }
@@ -160,7 +162,7 @@ struct OrganizationProfile: View {
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                             ) //{ geo in
                                 { postVM in
-                                    ProfilePostItemView(postVM: postVM)
+                                    ProfilePostItemView(postVM: postVM, thisUserIsOrg: self.thisUserIsOrg)
                                 }
                             //}
                         }

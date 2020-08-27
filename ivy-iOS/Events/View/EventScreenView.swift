@@ -12,6 +12,7 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct EventScreenView: View {
+    @State var thisUserIsOrg: Bool
     @ObservedObject var eventVM: EventItemViewModel
     @State var imageUrl = ""
     @State var authorUrl = ""
@@ -52,7 +53,7 @@ struct EventScreenView: View {
                             WebImage(url: URL(string: authorUrl))
                                 .resizable()
                                 .placeholder(Image(systemName: "person.crop.circle.fill"))
-                                .frame(width: 60, height: 60)
+                                .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                                 .onAppear(){
                                     let storage = Storage.storage().reference()
@@ -78,7 +79,7 @@ struct EventScreenView: View {
                                 destination: OrganizationProfile(
                                     userRepo: UserRepo(userid: eventVM.event.author_id),
                                     uni_domain: eventVM.event.uni_domain,
-                                    user_id: eventVM.event.author_id
+                                    user_id: eventVM.event.author_id, thisUserIsOrg: self.thisUserIsOrg
                                 )
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
@@ -90,7 +91,7 @@ struct EventScreenView: View {
                                     destination: StudentProfile(
                                         userRepo: UserRepo(userid: eventVM.event.author_id),
                                         uni_domain: eventVM.event.uni_domain,
-                                        user_id: eventVM.event.author_id
+                                        user_id: eventVM.event.author_id, thisUserIsOrg: self.thisUserIsOrg
                                     )
                                         .navigationBarTitle("Profile"),
                                     tag: 1,
@@ -124,7 +125,12 @@ struct EventScreenView: View {
                 
                 
                 //MARK: Going
-                if(eventVM.event.going_ids.count < 1 && !eventVM.thisUserGoing){ //special edge case, when user is the first to go, "thisUserGoing" is listened to and will make sure the Nobody going text disappears
+                HStack{
+                    Text("Who's Going:")
+                    Spacer()
+                }.padding(.horizontal).padding(.top, 20)
+                
+                if(eventVM.event.going_ids.count < 1 && !eventVM.thisUserGoing){
                     Text("Nobody's going to this event yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                 } else {
                     ScrollView(.horizontal){
@@ -133,10 +139,28 @@ struct EventScreenView: View {
                                 PersonCircleView(personId: Auth.auth().currentUser!.uid)
                             }
                             ForEach(eventVM.goingIdsWithoutThisUser, id: \.self) { currentId in
-                                PersonCircleView(personId: currentId)
+                                ZStack{
+                                    PersonCircleView(personId: currentId)
+                                        .onTapGesture{
+                                            self.selection = self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2 //needed to have a unique tag for each going person, so we use their index in the array with an offset
+                                    }
+                                    NavigationLink(
+                                    destination: StudentProfile(
+                                        userRepo: UserRepo(userid: currentId),
+                                        uni_domain: Utils.getCampusUni(),
+                                        user_id: currentId, thisUserIsOrg: self.thisUserIsOrg
+                                    )
+                                        .navigationBarTitle("Profile"),
+                                    tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
+                                    selection: self.$selection) {
+                                            EmptyView()
+                                        }
+                                    
+                                    
+                                }
                             }
                         }
-                        .padding(.top, 30).padding(.bottom, 30)
+                        .padding(.top, 10).padding(.bottom, 30)
                     }
                     .frame(width: UIScreen.screenWidth)
                 }
@@ -149,7 +173,7 @@ struct EventScreenView: View {
                 
                 Spacer()
                 //MARK: Share
-                Button(action: {//TODO: time formatting
+                Button(action: {
                     self.isShareSheetShowing.toggle()
                     let av = UIActivityViewController(activityItems: [self.eventVM.event.name, "from: \(Utils.getEventDate(millis:self.eventVM.event.start_millis)) to: \(Utils.getEventDate(millis:self.eventVM.event.end_millis)),", "at: \(self.eventVM.event.location),", self.eventVM.event.text, "link: \(self.eventVM.event.link)"], applicationActivities: nil)
                     UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true)
@@ -185,7 +209,7 @@ struct EventScreenView: View {
                 
                 
                 //MARK: Going
-                if(Auth.auth().currentUser != nil){
+                if(Auth.auth().currentUser != nil && !thisUserIsOrg){
                     Button(action: {
                         if(self.eventVM.thisUserGoing){
                             self.eventVM.removeFromGoing()

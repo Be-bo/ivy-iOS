@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct HomePostView: View {
+    var thisUserIsOrg: Bool
     @ObservedObject var postItemVM: HomePostViewModel
     @State var url = ""
     @State var authorUrl = ""
@@ -26,7 +27,7 @@ struct HomePostView: View {
                 WebImage(url: URL(string: authorUrl))
                     .resizable()
                     .placeholder(Image(systemName: "person.crop.circle.fill"))
-                    .frame(width: 60, height: 60)
+                    .frame(width: 40, height: 40)
                     .clipShape(Circle())
                     .onAppear(){
                         let storage = Storage.storage().reference()
@@ -55,7 +56,7 @@ struct HomePostView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                     
-                    NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 1, selection: self.$selection) { //both post and image are clickable for post screen transition
+                    NavigationLink(destination: PostScreen(postVM: postItemVM, thisUserIsOrg: self.thisUserIsOrg).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 1, selection: self.$selection) { //both post and image are clickable for post screen transition
                         EmptyView()
                     }
                 }
@@ -65,7 +66,7 @@ struct HomePostView: View {
                 if(self.postItemVM.post.pinned_id != "" && self.postItemVM.post.pinned_id != "nothing"){
                     HStack{
                         Image(systemName: "pin.fill").rotationEffect(Angle(degrees: -45)).padding(.leading, 5)
-                        Text(self.postItemVM.post.pinned_name)
+                        Text(self.postItemVM.post.pinned_name).foregroundColor(AssetManager.ivyGreen)
                         Spacer()
                     }
                 }
@@ -96,7 +97,7 @@ struct HomePostView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 2, selection: self.$selection) { //both post and image are clickable for post screen transition
+                        NavigationLink(destination: PostScreen(postVM: postItemVM, thisUserIsOrg: self.thisUserIsOrg).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 2, selection: self.$selection) { //both post and image are clickable for post screen transition
                             EmptyView()
                         }
                     }

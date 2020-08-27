@@ -11,17 +11,18 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct EventsTabItemView: View {
+    var thisUserIsOrg: Bool
+    @ObservedObject var thisUserRepo = ThisUserRepo()
     @ObservedObject var eventItemVM: EventItemViewModel
     @State var url = ""
     @State var authorUrl = ""
     @State var selection: Int? = nil
-    var screenWidth: CGFloat = 300
     var onCommit: (Event) -> (Void) = {_ in}
     
     var body: some View {
         
         VStack(alignment: .leading){
-            NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+            NavigationLink(destination: EventScreenView(thisUserIsOrg: self.thisUserIsOrg, eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
                 Button(action: {
                     self.selection = 1
                 }){

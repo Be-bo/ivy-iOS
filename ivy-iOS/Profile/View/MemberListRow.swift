@@ -11,6 +11,7 @@ import SwiftUI
 import Firebase
 
 struct MemberListRow: View {
+    var thisUserIsOrg: Bool
     let db = Firestore.firestore()
     @State var memberIds = [String]()
     @State var orgId: String
@@ -67,7 +68,7 @@ struct MemberListRow: View {
                                             destination: OrganizationProfile(
                                                 userRepo: UserRepo(userid: currentId),
                                                 uni_domain: Utils.getCampusUni(),
-                                                user_id: currentId
+                                                user_id: currentId, thisUserIsOrg: self.thisUserIsOrg
                                             ).navigationBarTitle("Profile"),
                                             tag: 1,
                                             selection: self.$selection) {
@@ -78,7 +79,7 @@ struct MemberListRow: View {
                                             destination: StudentProfile(
                                                 userRepo: UserRepo(userid: currentId),
                                                 uni_domain: Utils.getCampusUni(),
-                                                user_id: currentId
+                                                user_id: currentId, thisUserIsOrg: self.thisUserIsOrg
                                             ).navigationBarTitle("Profile"),
                                             tag: 1,
                                             selection: self.$selection) {
