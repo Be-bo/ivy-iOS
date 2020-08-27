@@ -10,7 +10,6 @@ import SwiftUI
 
 
 struct StudentProfile: View {
-    var thisUserIsOrg: Bool
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM : PostListViewModel
@@ -18,16 +17,14 @@ struct StudentProfile: View {
     @State var selection : Int? = nil
     
     
-    init(userRepo: UserRepo, postListVM : PostListViewModel, thisUserIsOrg: Bool) {
+    init(userRepo: UserRepo, postListVM : PostListViewModel) {
         self.userRepo = userRepo
         self.postListVM = postListVM
-        self.thisUserIsOrg = thisUserIsOrg
     }
     
-    init(userRepo: UserRepo, uni_domain: String, user_id: String, thisUserIsOrg: Bool) {
+    init(userRepo: UserRepo, uni_domain: String, user_id: String) {
         self.userRepo = userRepo
         self.postListVM = PostListViewModel()
-        self.thisUserIsOrg = thisUserIsOrg
         self.postListVM.loadPosts(
             limit: Constant.PROFILE_POST_LIMIT_STUDENT,
             uni_domain: uni_domain,
@@ -86,7 +83,7 @@ struct StudentProfile: View {
                             maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                             ) //{ geo in
                         { eventVM in
-                            ProfileEventItemView(thisUserIsOrg: self.thisUserIsOrg, eventVM: eventVM)
+                            ProfileEventItemView(eventVM: eventVM)
                         }
                         //}
                     }
@@ -103,7 +100,7 @@ struct StudentProfile: View {
                             maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                             ) //{ geo in
                         { postVM in
-                            ProfilePostItemView(postVM: postVM, thisUserIsOrg: self.thisUserIsOrg)
+                            ProfilePostItemView(postVM: postVM)
                         }
                         //}
                     }

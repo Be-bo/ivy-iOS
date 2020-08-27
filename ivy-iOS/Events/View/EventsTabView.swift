@@ -25,7 +25,6 @@ import Firebase
 //}
 
 struct EventsTabView: View {
-    var thisUserIsOrg: Bool
     @ObservedObject var uniInfo = UniInfo()
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     
@@ -87,7 +86,7 @@ struct EventsTabView: View {
                                 }
                                 
                                 
-                                NavigationLink(destination: EventScreenView(thisUserIsOrg: self.thisUserIsOrg, eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+                                NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
                                     EmptyView()
                                 }
                                 
@@ -107,7 +106,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.todayEventVMs) { eventItemVM in
-                                    EventsTabItemView(thisUserIsOrg: self.thisUserIsOrg, eventItemVM: eventItemVM)
+                                    EventsTabItemView(eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -127,7 +126,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.thisWeekEventVMs) { eventItemVM in
-                                    EventsTabItemView(thisUserIsOrg: self.thisUserIsOrg, eventItemVM: eventItemVM)
+                                    EventsTabItemView(eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -147,7 +146,7 @@ struct EventsTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
                                 ForEach(eventTabVM.upcomingEventVMs) { eventItemVM in
-                                    EventsTabItemView(thisUserIsOrg: self.thisUserIsOrg, eventItemVM: eventItemVM)
+                                    EventsTabItemView(eventItemVM: eventItemVM)
                                 }
                             }.padding()
                                 .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
@@ -160,7 +159,7 @@ struct EventsTabView: View {
                     
                     
                     // MARK: Explore All
-                    NavigationLink(destination: ExploreAllEventsView(thisUserIsOrg: self.thisUserIsOrg, eventTabVM: self.eventTabVM, screenWidth: UIScreen.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
+                    NavigationLink(destination: ExploreAllEventsView(eventTabVM: self.eventTabVM, screenWidth: UIScreen.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
                         Button(action: {
                             self.selection = 2
                             if (self.eventTabVM.exploreAllEventsVMs.count < 1){ //if we haven't loaded explore all events yet, load them now

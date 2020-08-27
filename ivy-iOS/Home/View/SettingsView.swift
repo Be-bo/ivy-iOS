@@ -42,6 +42,7 @@ struct SettingsView: View {
                 
                 if (thisUserRepo.userLoggedIn) {
                     Button(action: {
+                        //TODO: reset all tabs
                         self.presentationMode.wrappedValue.dismiss()
                         try? Auth.auth().signOut()
                     }){

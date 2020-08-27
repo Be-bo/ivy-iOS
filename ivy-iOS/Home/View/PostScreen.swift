@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct PostScreen: View {
-    var thisUserIsOrg: Bool
     @ObservedObject var postVM: HomePostViewModel
     var pinnedEventVM: EventItemViewModel
     @State var imageUrl = ""
@@ -21,9 +20,8 @@ struct PostScreen: View {
     @State private var selection : Int? = nil
     
     
-    init(postVM: HomePostViewModel, thisUserIsOrg: Bool){
+    init(postVM: HomePostViewModel){
         self.postVM = postVM
-        self.thisUserIsOrg = thisUserIsOrg
         pinnedEventVM = EventItemViewModel(event: postVM.pinnedEvent)
     }
     
@@ -85,7 +83,7 @@ struct PostScreen: View {
                                 destination: OrganizationProfile(
                                     userRepo: UserRepo(userid: postVM.post.author_id),
                                     uni_domain: postVM.post.uni_domain,
-                                    user_id: postVM.post.author_id, thisUserIsOrg: self.thisUserIsOrg
+                                    user_id: postVM.post.author_id
                                 )
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
@@ -97,7 +95,7 @@ struct PostScreen: View {
                                 destination: StudentProfile(
                                     userRepo: UserRepo(userid: postVM.post.author_id),
                                     uni_domain: postVM.post.uni_domain,
-                                    user_id: postVM.post.author_id, thisUserIsOrg: self.thisUserIsOrg
+                                    user_id: postVM.post.author_id
                                 )
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
@@ -117,7 +115,7 @@ struct PostScreen: View {
                                     .onTapGesture {
                                         self.selection = 2
                                 }
-                                NavigationLink(destination: EventScreenView(thisUserIsOrg: self.thisUserIsOrg, eventVM: pinnedEventVM).navigationBarTitle(postVM.post.pinned_name), tag: 2, selection: self.$selection){
+                                NavigationLink(destination: EventScreenView(eventVM: pinnedEventVM).navigationBarTitle(postVM.post.pinned_name), tag: 2, selection: self.$selection){
                                     EmptyView()
                                 }
                                 Spacer()

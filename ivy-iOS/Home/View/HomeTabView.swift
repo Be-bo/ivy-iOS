@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct HomeTabView: View {
-    var thisUserIsOrg: Bool
     @ObservedObject var uniInfo = UniInfo()
     var thisUserRepo: ThisUserRepo
     @State private var settingsPresented = false
@@ -38,7 +37,7 @@ struct HomeTabView: View {
                     VStack{
                         List(){
                             ForEach(homeTabVM.homePostsVMs){ postItemVM in
-                                HomePostView(thisUserIsOrg: self.thisUserIsOrg, postItemVM: postItemVM)
+                                HomePostView(postItemVM: postItemVM)
                             }
                         }
                     }

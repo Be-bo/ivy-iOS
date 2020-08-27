@@ -12,7 +12,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct EventScreenView: View {
-    @State var thisUserIsOrg: Bool
     @ObservedObject var eventVM: EventItemViewModel
     @State var imageUrl = ""
     @State var authorUrl = ""
@@ -79,7 +78,7 @@ struct EventScreenView: View {
                                 destination: OrganizationProfile(
                                     userRepo: UserRepo(userid: eventVM.event.author_id),
                                     uni_domain: eventVM.event.uni_domain,
-                                    user_id: eventVM.event.author_id, thisUserIsOrg: self.thisUserIsOrg
+                                    user_id: eventVM.event.author_id
                                 )
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
@@ -91,7 +90,7 @@ struct EventScreenView: View {
                                     destination: StudentProfile(
                                         userRepo: UserRepo(userid: eventVM.event.author_id),
                                         uni_domain: eventVM.event.uni_domain,
-                                        user_id: eventVM.event.author_id, thisUserIsOrg: self.thisUserIsOrg
+                                        user_id: eventVM.event.author_id
                                     )
                                         .navigationBarTitle("Profile"),
                                     tag: 1,
@@ -145,7 +144,7 @@ struct EventScreenView: View {
                                     destination: StudentProfile(
                                         userRepo: UserRepo(userid: currentId),
                                         uni_domain: Utils.getCampusUni(),
-                                        user_id: currentId, thisUserIsOrg: self.thisUserIsOrg
+                                        user_id: currentId
                                     )
                                         .navigationBarTitle("Profile"),
                                     tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
@@ -207,7 +206,7 @@ struct EventScreenView: View {
                 
                 
                 //MARK: Going
-                if(Auth.auth().currentUser != nil && !thisUserIsOrg){
+                if(Auth.auth().currentUser != nil && !Utils.getIsThisUserOrg()){
                     Button(action: {
                         if(self.eventVM.event.going_ids.contains(Auth.auth().currentUser!.uid)){
                             self.eventVM.removeFromGoing()

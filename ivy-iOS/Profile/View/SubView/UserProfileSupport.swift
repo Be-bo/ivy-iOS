@@ -12,7 +12,6 @@ import SwiftUI
 struct ProfileEventItemView: View {
     
     //var geo : GeometryProxy
-    var thisUserIsOrg: Bool
     var eventVM: EventItemViewModel
     @State private var selection: Int?
     
@@ -43,7 +42,7 @@ struct ProfileEventItemView: View {
 
             // TODO: quick and dirty
             NavigationLink(
-                destination: EventScreenView(thisUserIsOrg: self.thisUserIsOrg, eventVM: eventVM)
+                destination: EventScreenView(eventVM: eventVM)
                     .navigationBarTitle(eventVM.event.author_name+"'s Post"),
                 tag: eventVM.event.creation_millis, selection: self.$selection)
             { EmptyView() }
@@ -58,7 +57,6 @@ struct ProfilePostItemView: View {
     //var geo : GeometryProxy
     var postVM: HomePostViewModel
     @State private var selection: Int?
-    var thisUserIsOrg: Bool
     
     var body: some View {
         ZStack {
@@ -85,7 +83,7 @@ struct ProfilePostItemView: View {
 
             // TODO: quick and dirty
             NavigationLink(
-                destination: PostScreen(postVM: postVM, thisUserIsOrg: self.thisUserIsOrg)
+                destination: PostScreen(postVM: postVM)
                     .navigationBarTitle(postVM.post.author_name+"'s Post"),
                 tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
             { EmptyView() }

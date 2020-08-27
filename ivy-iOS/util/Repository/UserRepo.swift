@@ -17,6 +17,7 @@ class UserRepo: ObservableObject {
     @Published var user : User
     @Published var userDocLoaded = false
     var listenerRegistration: ListenerRegistration?
+    @Published var thisUserIsOrg = false
     
     let db = Firestore.firestore()
     
@@ -53,6 +54,7 @@ class UserRepo: ObservableObject {
                 
                 if Auth.auth().currentUser != nil, Auth.auth().currentUser!.uid == self.user.id{ //want to show logged in user's uni by default
                     Utils.setCampusUni(newUni: self.user.uni_domain)
+                    Utils.setIsThisUserOrg(isOrg: self.user.is_organization)
                 }
             }
         }

@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct ExploreAllEventsItemView: View {
-    var thisUserIsOrg: Bool
     @ObservedObject var eventItemVM: EventItemViewModel
     @State var url = ""
     @State var authorUrl = ""
@@ -20,7 +19,7 @@ struct ExploreAllEventsItemView: View {
     
     var body: some View {
         
-        NavigationLink(destination: EventScreenView(thisUserIsOrg: self.thisUserIsOrg, eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+        NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
                 Button(action: {
                     self.selection = 1
                 }){

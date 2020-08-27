@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct HomePostView: View {
-    var thisUserIsOrg: Bool
     @ObservedObject var postItemVM: HomePostViewModel
     @State var url = ""
     @State var authorUrl = ""
@@ -60,7 +59,7 @@ struct HomePostView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                     
-                    NavigationLink(destination: PostScreen(postVM: postItemVM, thisUserIsOrg: self.thisUserIsOrg).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 1, selection: self.$selection) { //both post and image are clickable for post screen transition
+                    NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 1, selection: self.$selection) { //both post and image are clickable for post screen transition
                         EmptyView()
                     }
                 }
@@ -101,7 +100,7 @@ struct HomePostView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(destination: PostScreen(postVM: postItemVM, thisUserIsOrg: self.thisUserIsOrg).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 2, selection: self.$selection) { //both post and image are clickable for post screen transition
+                        NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 2, selection: self.$selection) { //both post and image are clickable for post screen transition
                             EmptyView()
                         }
                     }

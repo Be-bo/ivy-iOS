@@ -11,7 +11,6 @@ import Firebase
 import SDWebImageSwiftUI
 
 struct UserProfileTabView: View {
-    var thisUserIsOrg: Bool
     @ObservedObject var uniInfo = UniInfo()
     @ObservedObject var thisUserRepo : ThisUserRepo
     @ObservedObject var postListVM : PostListViewModel
@@ -19,19 +18,18 @@ struct UserProfileTabView: View {
     @State private var notificationCenterPresented = false
     
     
-    init(thisUserRepo: ThisUserRepo, thisUserIsOrg: Bool) {
+    init(thisUserRepo: ThisUserRepo) {
         self.thisUserRepo = thisUserRepo
         self.postListVM = PostListViewModel()
-        self.thisUserIsOrg = thisUserIsOrg
     }
     
     var body: some View {
         NavigationView {
             ZStack {
                 if thisUserRepo.user.is_organization {
-                    OrganizationProfile(userRepo: self.thisUserRepo, postListVM: self.postListVM, thisUserIsOrg: self.thisUserIsOrg)
+                    OrganizationProfile(userRepo: self.thisUserRepo, postListVM: self.postListVM)
                 } else {
-                    StudentProfile(userRepo: self.thisUserRepo, postListVM: self.postListVM, thisUserIsOrg: self.thisUserIsOrg)
+                    StudentProfile(userRepo: self.thisUserRepo, postListVM: self.postListVM)
                 }
             }
             // MARK: Nav Bar

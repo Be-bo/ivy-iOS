@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct EventsTabItemView: View {
-    var thisUserIsOrg: Bool
     @ObservedObject var thisUserRepo = ThisUserRepo()
     @ObservedObject var eventItemVM: EventItemViewModel
     @State var url = ""
@@ -22,7 +21,7 @@ struct EventsTabItemView: View {
     var body: some View {
         
         VStack(alignment: .leading){
-            NavigationLink(destination: EventScreenView(thisUserIsOrg: self.thisUserIsOrg, eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+            NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
                 Button(action: {
                     self.selection = 1
                 }){
@@ -68,10 +67,8 @@ struct EventsTabItemView: View {
                             self.authorUrl = "\(url!)"
                         }
                 }
-                TextField("Name", text: $eventItemVM.event.name, onCommit: {
-                    self.onCommit(self.eventItemVM.event)
-                })
-                    .disabled(true)
+                Text(eventItemVM.event.name)
+                    .multilineTextAlignment(.leading)
                     .frame(width: 140, height: 50, alignment: .leading)
                     .padding(.leading, 5)
             }

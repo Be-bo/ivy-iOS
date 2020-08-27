@@ -31,6 +31,16 @@ final class Utils {
         defaults.set(newUni, forKey: "campus_uni")
     }
     
+    static func getIsThisUserOrg() -> Bool{
+        let defaults = UserDefaults.standard
+        return defaults.bool(forKey: "is_this_user_org")
+    }
+    
+    static func setIsThisUserOrg(isOrg: Bool){
+        let defaults = UserDefaults.standard
+        defaults.set(isOrg, forKey: "is_this_user_org")
+    }
+    
     static func getCurrentTimeInMillis() -> Double{
         let since1970 = Date().timeIntervalSince1970*1000
         return since1970
