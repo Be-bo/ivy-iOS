@@ -16,8 +16,9 @@ struct LoginView: View {
     @State var showingStudentSignup = false
     @State var showingOrgSignup = false
     @State var loadInProgress = false
+    @State var showEmailResentAlert = false
     @Environment(\.presentationMode) private var presentationMode
-
+    
     
     
     // MARK: Body
@@ -37,7 +38,7 @@ struct LoginView: View {
             
             
             VStack(alignment: .leading){
-
+                
                 // MARK: Input Fields
                 TextField("Email", text: $loginVM.email).textContentType(.emailAddress).autocapitalization(.none)
                 Divider().padding(.bottom)
@@ -57,33 +58,51 @@ struct LoginView: View {
                 }){
                     Text("Log in")
                 }
-                .disabled(!loginVM.inputOk() || loginVM.waitingForResult || loadInProgress) //button is disabled either when input not ok or when we're waiting for a Firebase result
-                .buttonStyle(StandardButtonStyle(disabled: !loginVM.inputOk() || loginVM.waitingForResult || loadInProgress)) //setting button style where background color changes based on if input is ok
-                .onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
-                    if shouldDismiss {
-                        self.presentationMode.wrappedValue.dismiss()
-                    } else {
-                        self.loadInProgress = false
-                    }
+                    .disabled(!loginVM.inputOk() || loginVM.waitingForResult || loadInProgress) //button is disabled either when input not ok or when we're waiting for a Firebase result
+                    .buttonStyle(StandardButtonStyle(disabled: !loginVM.inputOk() || loginVM.waitingForResult || loadInProgress)) //setting button style where background color changes based on if input is ok
+                    .onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
+                        if shouldDismiss {
+                            self.presentationMode.wrappedValue.dismiss()
+                        } else {
+                            self.loadInProgress = false
+                        }
                 }
                 
                 
-
-
-                // MARK: Signup Buttons
-                HStack{
-                    Spacer()
-                    Button(action: {
-                        self.showingStudentSignup.toggle()
-                    }){
-                        Text("Student Signup").foregroundColor(AssetManager.ivyGreen)
+                
+                
+                
+                
+                // MARK: Resend Verif Email & Signup Buttons
+                Group{
+                    if(self.loginVM.displayResendVerifEmail){
+                        HStack{
+                            Spacer()
+                            Button(action: {
+                                self.showEmailResentAlert.toggle()
+                                self.loginVM.resendVerificationEmail()
+                            }){
+                                Text("Resend Verification Email").foregroundColor(AssetManager.ivyGreen)
+                            }.alert(isPresented: self.$showEmailResentAlert) {
+                                Alert(title: Text("Verification Email Sent"), message: Text(""), dismissButton: .default(Text("OK")))
+                            }
+                        }
                     }
-                    .sheet(isPresented: $showingStudentSignup){
-                        StudentSignup()
+                    
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            self.showingStudentSignup.toggle()
+                        }){
+                            Text("Student Signup").foregroundColor(AssetManager.ivyGreen)
+                        }
+                        .sheet(isPresented: $showingStudentSignup){
+                            StudentSignup()
+                        }
                     }
                 }
                 .padding(.top, 50)
-
+                
                 HStack{
                     Spacer()
                     Button(action: {

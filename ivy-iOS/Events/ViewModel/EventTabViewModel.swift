@@ -64,4 +64,8 @@ class EventTabViewModel: ObservableObject {
         .assign(to: \.todayEventVMs, on: self)
         .store(in: &cancellables)
     }
+    
+    func refresh(){
+        eventRepo.refresh()
+    }
 }

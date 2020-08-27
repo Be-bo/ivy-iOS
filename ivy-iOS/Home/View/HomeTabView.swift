@@ -17,7 +17,6 @@ struct HomeTabView: View {
     @State private var createPostPresented = false
     @State private var loginPresented = false
     @State private var notificationCenterPresented = false
-    
     @ObservedObject var homeTabVM = HomeTabViewModel()
     
     var body: some View {
@@ -81,7 +80,9 @@ struct HomeTabView: View {
                             }) {
                                 Image(systemName: "square.and.pencil")
                                     .font(.system(size: 25))
-                                    .sheet(isPresented: $createPostPresented) {
+                                    .sheet(isPresented: $createPostPresented, onDismiss: {
+                                        self.homeTabVM.refresh()
+                                    }) {
                                         CreatePostView(thisUser: self.thisUserRepo.user)
                                 }
                             }

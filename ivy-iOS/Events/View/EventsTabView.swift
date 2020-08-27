@@ -212,7 +212,9 @@ struct EventsTabView: View {
                             }) {
                                 Image(systemName: "square.and.pencil")
                                     .font(.system(size: 25))
-                                    .sheet(isPresented: $createPostPresented) {
+                                    .sheet(isPresented: $createPostPresented, onDismiss: {
+                                        self.eventTabVM.refresh()
+                                    }) {
                                         CreatePostView(thisUser: self.thisUserRepo.user)
                                 }
                             }

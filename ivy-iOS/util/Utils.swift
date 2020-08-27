@@ -71,6 +71,8 @@ final class Utils {
     static func getHumanTimeFromMillis(millis: Double) -> String {
         let timeDif = getCurrentTimeInMillis() - millis
         
+        print("time dif: " + String(timeDif))
+        
         if (timeDif < Constant.millisInAnHour) { // within last hour
             return "\(Int(timeDif/Constant.millisInAMinute)) m"
         }

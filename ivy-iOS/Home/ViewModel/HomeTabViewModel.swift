@@ -23,4 +23,8 @@ class HomeTabViewModel: ObservableObject {
         .assign(to: \.homePostsVMs, on: self)
         .store(in: &cancellables)
     }
+    
+    func refresh(){
+        homeRepo.refresh()
+    }
 }

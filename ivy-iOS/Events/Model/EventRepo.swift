@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 
 class EventRepo: ObservableObject{
+    let creationMillis = Utils.getCurrentTimeInMillis()
     let db = Firestore.firestore()
     @Published var upcomingEvents = [Event]()
     @Published var thisWeekEvents = [Event]()
@@ -108,6 +109,54 @@ class EventRepo: ObservableObject{
                 })
             }
         })
-        
+    }
+    
+    func refresh(){
+        self.eventsLoaded = false
+        db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("creation_millis", isGreaterThan: creationMillis).whereField("is_featured", isEqualTo: false).getDocuments{(querySnapshot, error) in
+                if let querSnap = querySnapshot{
+                    for currentDoc in querSnap.documents{
+                        let newEvent = Event()
+                        newEvent.docToObject(doc: currentDoc)
+                        var dontAdd = false
+                        
+                        if(newEvent.start_millis > Int(self.creationMillis) && newEvent.start_millis <= Int(Utils.getTodayMidnightMillis())){ //if the refreshed event is today
+                            for todayEvent in self.todayEvents{
+                                if(todayEvent.id == newEvent.id){
+                                    dontAdd = true
+                                    break
+                                }
+                            }
+                            if(!dontAdd){
+                                self.todayEvents.insert(newEvent, at: 0)
+                            }
+                            
+                        }else if(newEvent.start_millis > Int(Utils.getTodayMidnightMillis()) && newEvent.start_millis <= Int(Utils.getEndOfThisWeekMillis())){ //if the refreshed event is this week
+                            for thisWeekEvent in self.thisWeekEvents{
+                                if(thisWeekEvent.id == newEvent.id){
+                                    dontAdd = true
+                                    break
+                                }
+                            }
+                            if(!dontAdd){
+                                self.thisWeekEvents.insert(newEvent, at: 0)
+                            }
+                            
+                        }else{ //if the refreshed event is upcoming
+                            for upcomingEvent in self.upcomingEvents{
+                                if(upcomingEvent.id == newEvent.id){
+                                    dontAdd = true
+                                    break
+                                }
+                            }
+                            if(!dontAdd){
+                                self.upcomingEvents.insert(newEvent, at: 0)
+                            }
+                        }
+                        
+                        self.eventsLoaded = true
+                    }
+                }
+        }
     }
 }
