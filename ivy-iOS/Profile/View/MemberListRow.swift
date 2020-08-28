@@ -51,6 +51,7 @@ struct MemberListRow: View {
                 Text(self.titleText)
                 Spacer()
             }
+            .padding(.leading, 10)
             ScrollView(.horizontal){
                 HStack{
                     ForEach(memberIds, id: \.self) { currentId in
@@ -109,8 +110,10 @@ struct MemberListRow: View {
                             }
                             
                         }
+                        .padding(.leading, 10)
                     }
                 }
+                .padding(.bottom, 10)
             }
         }
     }

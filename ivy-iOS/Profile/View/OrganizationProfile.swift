@@ -29,10 +29,6 @@ struct OrganizationProfile: View {
     init(userRepo: UserRepo, uni_domain: String, user_id: String) {
         self.userRepo = userRepo
         self.postListVM = PostListViewModel()
-        self.postListVM.loadPosts(
-            limit: Constant.PROFILE_POST_LIMIT_ORG,
-            uni_domain: uni_domain,
-            user_id: user_id)
     }
     
     
@@ -60,8 +56,8 @@ struct OrganizationProfile: View {
                                 }
                                 self.userPicUrl = "\(url!)"
                             }
-                    }.padding(.trailing, 10)
-
+                    }.padding(.horizontal, 10)
+                    
                     
                     
                     // MARK: Profile Info
@@ -86,7 +82,7 @@ struct OrganizationProfile: View {
                             Button(action: {
                                 self.editProfile.toggle()
                             }){
-                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: { //refresh profile pic
+                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: { //refresh profile pic & posts
                                     let storage = Storage.storage().reference()
                                     storage.child(self.userRepo.user.profileImagePath()).downloadURL { (url, err) in
                                         if err != nil{
@@ -95,6 +91,13 @@ struct OrganizationProfile: View {
                                         }
                                         self.userPicUrl = "\(url!)"
                                     }
+                                    
+                                    print("userDocLoaded: ",String(self.userRepo.userDocLoaded), " postsLoaded: ", String(self.postListVM.postsLoaded))
+                                    
+                                    self.postListVM.loadPosts(
+                                        limit: Constant.PROFILE_POST_LIMIT_ORG,
+                                        uni_domain: self.userRepo.user.uni_domain,
+                                        user_id: self.userRepo.user.id ?? "")
                                 }){
                                     EditOrganizationProfile(userProfile: self.userRepo.user, nameInput: self.userRepo.user.name)
                                 }
@@ -146,46 +149,48 @@ struct OrganizationProfile: View {
                     MemberListRow(memberIds: userRepo.user.request_ids, orgId: userRepo.user.id ?? "", titleText: "Member Requests", userIsOrg: false).padding(.top, 20).padding(.bottom, 20)
                 }
                 
-
+                
                 
                 // MARK: Posts
-                if (postListVM.postsLoaded == true) {
+                
+                ZStack{
+                    
                     VStack {
-                            
-                        // EVENTS
+                        // MARK: EVENTS
                         if (postListVM.eventVMs.count > 0) {
                             HStack {
                                 Text("Events")
                                 Spacer()
-                            }
+                            }.padding(.horizontal, 10)
                             
                             GridView(
                                 cells: self.postListVM.eventVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) //{ geo in
-                                { eventVM in
-                                    ProfileEventItemView(eventVM: eventVM)
-                                }
+                                ) //{ geo in
+                            { eventVM in
+                                ProfileEventItemView(eventVM: eventVM)
+                            }.padding(.horizontal, 10)
                             //}
                         }
                         
-                        // POSTS
+                        // MARK: POSTS
                         if (postListVM.postVMs.count > 0) {
                             HStack {
                                 Text("Posts")
                                 Spacer()
-                            }
+                            }.padding(.horizontal, 10)
                             
                             GridView(
                                 cells: self.postListVM.postVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) //{ geo in
-                                { postVM in
-                                    ProfilePostItemView(postVM: postVM)
-                                }
+                                ) //{ geo in
+                            { postVM in
+                                ProfilePostItemView(postVM: postVM)
+                            }
+                            .padding(.horizontal, 10)
                             //}
                         }
-                        
+                            
                         else if postListVM.eventVMs.count == 0 {
                             Spacer()
                             Text("No Posts yet!")
@@ -194,11 +199,9 @@ struct OrganizationProfile: View {
                                 .frame(alignment: .center)
                         }
                     }
-                    Spacer()
                 }
-                else {
-                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)   // TODO: quick and dirty
-                }
+                
+                LoadingSpinner().frame(width: UIScreen.screenWidth, height: 5).hidden()   // TODO: quick and dirty
             }
             .padding(.horizontal)
             .onAppear(perform: {
@@ -212,7 +215,7 @@ struct OrganizationProfile: View {
                         user_id: self.userRepo.user.id ?? "")
                 }
             })
-            .onDisappear { //stop listening to realtime updates
+                .onDisappear { //stop listening to realtime updates
                     self.userRepo.removeListener()
                     self.postListVM.removeListener()
             }

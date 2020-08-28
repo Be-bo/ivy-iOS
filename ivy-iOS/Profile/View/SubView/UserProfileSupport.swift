@@ -28,8 +28,8 @@ struct ProfileEventItemView: View {
                 FirebaseImage(
                     path: Utils.postPreviewImagePath(postId: eventVM.id),
                     placeholder: AssetManager.logoGreen,
-                    width: 105,
-                    height: 105,
+                    width: (UIScreen.screenWidth/3 - 20),
+                    height: (UIScreen.screenWidth/3 - 20),
                     shape: RoundedRectangle(cornerRadius: 25)
                 )
                 .onTapGesture {
@@ -71,8 +71,8 @@ struct ProfilePostItemView: View {
                     FirebaseImage(
                         path: Utils.postPreviewImagePath(postId: postVM.id),
                         placeholder: AssetManager.logoGreen,
-                        width: 105,
-                        height: 105,
+                        width: (UIScreen.screenWidth/3 - 20),
+                        height: (UIScreen.screenWidth/3 - 20),
                         shape: RoundedRectangle(cornerRadius: 25)
                     )
                     .onTapGesture {
@@ -96,8 +96,8 @@ struct ProfilePostItemView: View {
 struct ProfileNoPicPostItemView: View {
     
     var text: String
-    var width: CGFloat? = 105
-    var height: CGFloat? = 105
+    var width: CGFloat? = (UIScreen.screenWidth/3 - 20)
+    var height: CGFloat? = (UIScreen.screenWidth/3 - 20)
     
     var body: some View {
         ZStack {

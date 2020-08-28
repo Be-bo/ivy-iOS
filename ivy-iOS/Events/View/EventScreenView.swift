@@ -12,6 +12,7 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct EventScreenView: View {
+    let db = Firestore.firestore()
     @ObservedObject var eventVM: EventItemViewModel
     @State var imageUrl = ""
     @State var authorUrl = ""
@@ -226,6 +227,20 @@ struct EventScreenView: View {
             Text("Comments coming soon!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
             
         }
+    .onAppear(perform: {
+        if(Auth.auth().currentUser != nil){ //if user not nil add their id to view ids
+            print("uni: ",self.eventVM.event.uni_domain, " id: ", self.eventVM.event.id!, " user id: ", Auth.auth().currentUser!.uid)
+            self.db.collection("universities").document(self.eventVM.event.uni_domain).collection("posts").document(self.eventVM.event.id!).updateData([
+                "views_id": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
+            ]){ error in
+                if error != nil{
+                    print("Error adding user to view ids.")
+                    return
+                }
+                print("Successfully added view")
+            }
+        }
+    })
     }
 }
 

@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 
 class User: Identifiable, Encodable/*, Codable*/ {
     
-    @DocumentID var id: String? //cannot be null
+    var id: String? //cannot be null
     var email: String = "" //cannot be null
     var name: String = "" //cannot be null
     var uni_domain: String = "" //cannot be null

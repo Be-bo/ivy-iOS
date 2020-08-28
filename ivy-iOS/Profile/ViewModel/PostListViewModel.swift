@@ -19,13 +19,16 @@ class PostListViewModel: ObservableObject {
     @Published var postsLoaded = false
         
     let db = Firestore.firestore()
-    private var listener: ListenerRegistration?
+    var listener: ListenerRegistration?
     
     
     init() {}
     
     func loadPosts (limit: Int, uni_domain: String, user_id: String) {
-                
+        
+        postVMs = [HomePostViewModel]() //TODO: quick and dirty
+        eventVMs = [EventItemViewModel]()
+        
         if (uni_domain == "" || user_id == "") {
             print("This user not loaded yet! Cannot load posts for profile")
             postsLoaded = true
@@ -40,6 +43,7 @@ class PostListViewModel: ObservableObject {
         
         let postsPath = "universities/\(uni_domain)/posts"
         
+        print("load posts")
         
         /*db.collection(postsPath)
             .whereField("author_id", isEqualTo: user_id as Any)
@@ -73,15 +77,34 @@ class PostListViewModel: ObservableObject {
             .addSnapshotListener { (querySnapshot, error) in
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
+                        print("attempting to add")
                         if (currentDoc.get("is_event") != nil && currentDoc.get("is_event") as! Bool) {
                             let newEvent = Event()
                             newEvent.docToObject(doc: currentDoc)
-                            self.eventVMs.append(EventItemViewModel(event: newEvent))
+                            var dontAdd = false
+                            for eventVM in self.eventVMs{
+                                if(eventVM.event.id == newEvent.id){
+                                    dontAdd = true
+                                    break
+                                }
+                            }
+                            if(!dontAdd){
+                                self.eventVMs.append(EventItemViewModel(event: newEvent))
+                            }
                         }
                         else {
                             let newPost = Post()
                             newPost.docToObject(doc: currentDoc)
-                            self.postVMs.append(HomePostViewModel(post: newPost))
+                            var dontAdd = false
+                            for postVM in self.postVMs{
+                                if(postVM.post.id == newPost.id){
+                                    dontAdd = true
+                                    break
+                                }
+                            }
+                            if(!dontAdd){
+                                self.postVMs.append(HomePostViewModel(post: newPost))
+                            }
                         }
                     }
                     self.postsLoaded = true

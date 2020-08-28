@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct StudentProfile: View {
-    @ObservedObject private var thisUserRepo = ThisUserRepo()
     @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM : PostListViewModel
     @State var editProfile = false
@@ -27,14 +26,10 @@ struct StudentProfile: View {
     init(userRepo: UserRepo, uni_domain: String, user_id: String) {
         self.userRepo = userRepo
         self.postListVM = PostListViewModel()
-        self.postListVM.loadPosts(
-            limit: Constant.PROFILE_POST_LIMIT_STUDENT,
-            uni_domain: uni_domain,
-            user_id: user_id)
     }
     
     var body: some View {
-        ScrollView {
+        ScrollView() {
             VStack (alignment: .leading) {
                 
                 // MARK: Header
@@ -69,7 +64,7 @@ struct StudentProfile: View {
                             Button(action: {
                                 self.editProfile.toggle()
                             }){
-                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: {
+                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: { //refresh pic and posts
                                     let storage = Storage.storage().reference()
                                     storage.child(self.userRepo.user.profileImagePath()).downloadURL { (url, err) in
                                         if err != nil{
@@ -78,65 +73,75 @@ struct StudentProfile: View {
                                         }
                                         self.userPicUrl = "\(url!)"
                                     }
+                                    
+                                    print("userDocLoaded: ",String(self.userRepo.userDocLoaded), " postsLoaded: ", String(self.postListVM.postsLoaded))
+                                    
+                                    self.postListVM.loadPosts(
+                                        limit: Constant.PROFILE_POST_LIMIT_STUDENT,
+                                        uni_domain: self.userRepo.user.uni_domain,
+                                        user_id: self.userRepo.user.id ?? "")
                                 }){
-                                    EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
+//                                    EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
+                                    EditOrganizationProfile(userProfile: self.userRepo.user, nameInput: self.userRepo.user.name)
                                 }
                             }.padding(.bottom, 10)
                         }
                     }
                     Spacer()
                 }
+                .padding(.horizontal, 10)
                 
                 
-                // Posts
-                if (postListVM.postsLoaded == true) {
-                    
-                    // EVENTS
-                    if (postListVM.eventVMs.count > 0) {
-                        HStack {
-                            Text("Events")
+                // MARK: Post & Events
+                
+                ZStack{
+                    VStack(alignment: .center){
+                        // MARK: EVENTS
+                        if (postListVM.eventVMs.count > 0) {
+                            HStack {
+                                Text("Events")
+                                Spacer()
+                            }
+                            
+                            GridView(
+                                cells: self.postListVM.eventVMs,
+                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                                ) //{ geo in
+                            { eventVM in
+                                ProfileEventItemView(eventVM: eventVM)
+                            }
+                            //}
+                        }
+                        
+                        // MARK: POSTS
+                        if (postListVM.postVMs.count > 0) {
+                            HStack {
+                                Text("Posts")
+                                Spacer()
+                            }
+                            
+                            GridView(
+                                cells: self.postListVM.postVMs,
+                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
+                                ) //{ geo in
+                            { postVM in
+                                ProfilePostItemView(postVM: postVM)
+                            }
+                            //}
+                        }
+                        
+                        else if postListVM.eventVMs.count == 0 && postListVM.postVMs.count == 0 {
                             Spacer()
+                            Text("No Posts yet!")
+                                .foregroundColor(.gray)
+                                .padding()
+                                .frame(alignment: .center)
                         }
-                        
-                        GridView(
-                            cells: self.postListVM.eventVMs,
-                            maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) //{ geo in
-                        { eventVM in
-                            ProfileEventItemView(eventVM: eventVM)
-                        }
-                        //}
                     }
-                    
-                    // POSTS
-                    if (postListVM.postVMs.count > 0) {
-                        HStack {
-                            Text("Posts")
-                            Spacer()
-                        }
-                        
-                        GridView(
-                            cells: self.postListVM.postVMs,
-                            maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                            ) //{ geo in
-                        { postVM in
-                            ProfilePostItemView(postVM: postVM)
-                        }
-                        //}
-                    }
-                        
-                    else if postListVM.eventVMs.count == 0 {
-                        Spacer()
-                        Text("No Posts yet!")
-                            .foregroundColor(.gray)
-                            .padding()
-                            .frame(alignment: .center)
-                    }
-                    Spacer()
+                    .padding(.horizontal, 10)
                 }
-                else {
-                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)   // TODO: quick and dirty
-                }
+                LoadingSpinner().frame(width: UIScreen.screenWidth, height: 5, alignment: .center).hidden()   // TODO: quick and dirty
+                
             }
             .padding(.horizontal)
             .onAppear(perform: {
@@ -150,11 +155,12 @@ struct StudentProfile: View {
                         user_id: self.userRepo.user.id ?? "")
                 }
             })
-            .onDisappear { //stop listening to realtime updates
-                self.userRepo.removeListener()
-                self.postListVM.removeListener()
+                .onDisappear { //stop listening to realtime updates
+                    self.userRepo.removeListener()
+                    self.postListVM.removeListener()
             }
         }
     }
+
 }
 

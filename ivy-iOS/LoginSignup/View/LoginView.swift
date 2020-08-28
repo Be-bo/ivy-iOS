@@ -83,6 +83,7 @@ struct LoginView: View {
                         
                         if(self.loginVM.displayResendVerifEmail){
                             Text("Resend Verification Email")
+                                .padding(.top)
                                 .foregroundColor(AssetManager.ivyGreen)
                                 .onTapGesture(perform: {
                                     self.showEmailResentAlert.toggle()
