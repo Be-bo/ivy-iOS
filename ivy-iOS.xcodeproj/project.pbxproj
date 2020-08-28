@@ -461,9 +461,9 @@
 		FA96E8BA24E5ACBF00E33BAD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */,
 				FAD2366B24E48DF300F92637 /* TestView.swift */,
 				FA14D5DE24E1C65600F1D9B1 /* LoginView.swift */,
+				8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */,
 				8DABC13524E5B75A00A8F801 /* StudentSignup.swift */,
 				8DABC13924E5B9F800A8F801 /* SignupSupport.swift */,
 			);

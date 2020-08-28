@@ -35,12 +35,13 @@ class LoginViewModel: ObservableObject{
         }
     }
     
-    func attemptLogin() { //try to log in (async action Firebase)
-        try? Auth.auth().signOut() //to make sure stuff gets refreshed in the main (if email not verified, it logs you in, but doesn't let you in, when the user tries again with a verified email the auth listener needs to refresh)
+    func attemptLogin() { // Sign out first just in case...
         waitingForResult = true
+        
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if (error == nil && result != nil && result!.user.isEmailVerified) {
                 self.errorText = ""
+                self.displayResendVerifEmail = false
                 print("Signed in!")
                 self.shouldDismissView = true
             }
@@ -51,6 +52,7 @@ class LoginViewModel: ObservableObject{
                 }
                 else { // wrong credentials
                     self.errorText = "Login failed, invalid email or password."
+                    self.displayResendVerifEmail = false
                     print(error ?? "")
                 }
                 print(self.errorText)

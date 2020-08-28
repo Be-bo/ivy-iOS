@@ -12,6 +12,7 @@ import Firebase
 struct LoginView: View {
     
     // MARK: Variables
+    @ObservedObject var thisUserRepo : ThisUserRepo
     @ObservedObject var loginVM = LoginViewModel()
     @State var showingStudentSignup = false
     @State var showingOrgSignup = false
@@ -63,6 +64,7 @@ struct LoginView: View {
                     .onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
                         if shouldDismiss {
                             self.presentationMode.wrappedValue.dismiss()
+                            self.thisUserRepo.login()
                         } else {
                             self.loadInProgress = false
                         }
@@ -74,23 +76,24 @@ struct LoginView: View {
                 
                 
                 // MARK: Resend Verif Email & Signup Buttons
-                Group{
-                    if(self.loginVM.displayResendVerifEmail){
-                        HStack{
-                            Spacer()
-                            Button(action: {
-                                self.showEmailResentAlert.toggle()
-                                self.loginVM.resendVerificationEmail()
-                            }){
-                                Text("Resend Verification Email").foregroundColor(AssetManager.ivyGreen)
-                            }.alert(isPresented: self.$showEmailResentAlert) {
-                                Alert(title: Text("Verification Email Sent"), message: Text(""), dismissButton: .default(Text("OK")))
-                            }
-                        }
-                    }
+                HStack {
+                    Spacer()
                     
-                    HStack{
-                        Spacer()
+                    VStack(alignment: .trailing) {
+                        
+                        if(self.loginVM.displayResendVerifEmail){
+                            Text("Resend Verification Email")
+                                .foregroundColor(AssetManager.ivyGreen)
+                                .onTapGesture(perform: {
+                                    self.showEmailResentAlert.toggle()
+                                    self.loginVM.resendVerificationEmail()
+                                })
+                                .alert(isPresented: self.$showEmailResentAlert) {
+                                    Alert(title: Text("Verification Email Sent"), message: Text(""), dismissButton: .default(Text("OK")))
+                                }
+                        
+                        }
+                        
                         Button(action: {
                             self.showingStudentSignup.toggle()
                         }){
@@ -99,21 +102,20 @@ struct LoginView: View {
                         .sheet(isPresented: $showingStudentSignup){
                             StudentSignup()
                         }
+                        .padding(.top, 50)
+                    
+
+                        Button(action: {
+                            self.showingOrgSignup.toggle()
+                        }){
+                            Text("Organization Signup").foregroundColor(AssetManager.ivyGreen)
+                        }.sheet(isPresented: $showingOrgSignup){
+                            OrganizationSignup()
+                        }
+                        .padding(.top)
                     }
                 }
-                .padding(.top, 50)
-                
-                HStack{
-                    Spacer()
-                    Button(action: {
-                        self.showingOrgSignup.toggle()
-                    }){
-                        Text("Organization Signup").foregroundColor(AssetManager.ivyGreen)
-                    }.sheet(isPresented: $showingOrgSignup){
-                        OrganizationSignup()
-                    }
-                }
-                .padding(.top)
+
             }
             .padding()
         }
