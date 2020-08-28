@@ -64,7 +64,7 @@ struct OrganizationSignup: View {
                     .onReceive(orgSignupVM.viewDismissalModePublisher) { shouldDismiss in
                         if shouldDismiss {
                             print("VIEW: should dismiss now!")
-                            self.presentationMode.wrappedValue.dismiss()
+                            self.showAlert = true
                         } else { // There was an error -> identify and give feedback to user
                             if (self.orgSignupVM.uni_domain == nil) {
                                 self.errorText = .noUniSelected
