@@ -12,6 +12,7 @@ import Firebase
 struct LoginView: View {
     
     // MARK: Variables
+    @ObservedObject var thisUserRepo : ThisUserRepo
     @ObservedObject var loginVM = LoginViewModel()
     @State var showingStudentSignup = false
     @State var showingOrgSignup = false
@@ -63,6 +64,7 @@ struct LoginView: View {
                     .onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
                         if shouldDismiss {
                             self.presentationMode.wrappedValue.dismiss()
+                            self.thisUserRepo.login()
                         } else {
                             self.loadInProgress = false
                         }

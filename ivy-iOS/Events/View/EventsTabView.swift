@@ -231,7 +231,7 @@ struct EventsTabView: View {
                                 Image(systemName: "arrow.right.circle")
                                     .font(.system(size: 25))
                                     .sheet(isPresented: $loginPresented) {
-                                        LoginView()
+                                        LoginView(thisUserRepo: self.thisUserRepo)
                                 }
                             }
                         }

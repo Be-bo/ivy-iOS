@@ -41,7 +41,7 @@ class LoginViewModel: ObservableObject{
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if (error == nil && result != nil && result!.user.isEmailVerified) {
                 self.errorText = ""
-                //self.displayResendVerifEmail = false
+                self.displayResendVerifEmail = false
                 print("Signed in!")
                 self.shouldDismissView = true
             }
