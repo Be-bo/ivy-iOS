@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 
 class EventRepo: ObservableObject{
+    
     let creationMillis = Utils.getCurrentTimeInMillis()
     let db = Firestore.firestore()
     @Published var upcomingEvents = [Event]()
@@ -114,6 +115,7 @@ class EventRepo: ObservableObject{
     func loadFeatured(){
         eventsLoaded = false
         featuredEvents = [Event]()
+        
         db.collection("universities").document(Utils.getCampusUni()).getDocument(completion: { (docSnap, error) in
             if error != nil{
                 print("Error loading this uni.")

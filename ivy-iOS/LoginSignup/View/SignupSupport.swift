@@ -122,6 +122,9 @@ struct PasswordField: View {
 // Successful Sign up Alert dialog -> Must be placed in a ZStack!
 struct PopUpAlert: View {
     
+    let screenSize = UIScreen.main.bounds
+    
+    @Binding var isShown: Bool
     var message: String
     var showImage = true
     var buttonText = "Okay"
@@ -139,7 +142,7 @@ struct PopUpAlert: View {
                         .padding(.top, self.showImage ? 50 : 15)
                     
                     Button(action: self.action) {
-                        Text("Okay")
+                        Text(self.buttonText)
                             .foregroundColor(.white)
                     }
                     .buttonStyle(StandardButtonStyle())
@@ -164,6 +167,9 @@ struct PopUpAlert: View {
         }
         .background(Color.black.opacity(0.5)
         .edgesIgnoringSafeArea(.all))
+        // fake hide/show view
+        .opacity(isShown ? 1 : 0)
+        .offset(y: isShown ? 0 : screenSize.height)
     }
 }
 
@@ -174,13 +180,5 @@ struct ErrorImage: View {
             .resizable()
             .frame(width: 10, height: 10)
             .foregroundColor(.red)
-    }
-}
-
-
-// Preview
-struct SignupSupport_Previews: PreviewProvider {
-    static var previews: some View {
-        PopUpAlert(message: "hello!")
     }
 }

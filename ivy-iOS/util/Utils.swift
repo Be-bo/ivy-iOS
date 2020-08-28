@@ -22,8 +22,13 @@ final class Utils {
     }
     
     static func getCampusUni() -> String{
-        let defaults = UserDefaults.standard
-        return defaults.string(forKey: "campus_uni") ?? "ucalgary.ca"
+        let campus_uni = UserDefaults.standard.string(forKey: "campus_uni")
+        
+        if campus_uni == nil || campus_uni!.isEmpty {
+            return "ucalgary.ca"
+        } else {
+            return campus_uni!
+        }
     }
     
     static func setCampusUni(newUni: String){

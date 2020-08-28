@@ -25,6 +25,7 @@ class OrgSignupViewModel: ObservableObject {
     var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
     private var shouldDismissView = false {
         didSet {
+            print("VM: shouldDismiss changed! \(shouldDismissView)")
             viewDismissalModePublisher.send(shouldDismissView)
         }
     }
@@ -79,6 +80,7 @@ class OrgSignupViewModel: ObservableObject {
             if (error == nil) {
                 Auth.auth().currentUser?.sendEmailVerification { (error) in
                     if (error == nil){
+                        print("Verification Email sent!")
                         self.registerinDB()
                     } else {
                         print(error!)
@@ -105,13 +107,14 @@ class OrgSignupViewModel: ObservableObject {
                 let _ = try db.collection("users").document(id).setData(from: newOrg)
                 
                 print("Organization Document created successfully!")
+                self.waitingForResult = false
                 self.shouldDismissView = true
             }
             catch {
                 print("Unable to encode task: \(error.localizedDescription)")
+                self.waitingForResult = false
                 self.shouldDismissView = false
             }
-            self.waitingForResult = false
         }
     }
 }

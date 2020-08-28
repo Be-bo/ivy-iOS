@@ -24,6 +24,7 @@ class StudentSignupViewModel: ObservableObject {
     var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
     private var shouldDismissView = false {
         didSet {
+            print("VM: shouldDismiss changed! \(shouldDismissView)")
             viewDismissalModePublisher.send(shouldDismissView)
         }
     }    
@@ -119,13 +120,14 @@ class StudentSignupViewModel: ObservableObject {
                 let _ = try db.collection("users").document(id).setData(from: newStudent)
                 
                 print("Student Document created successfully!")
+                self.waitingForResult = false
                 self.shouldDismissView = true
             }
             catch {
                 print("Unable to encode task: \(error.localizedDescription)")
+                self.waitingForResult = false
                 self.shouldDismissView = false
             }
-            self.waitingForResult = false
         }
     }
 }
