@@ -48,7 +48,7 @@ class EventRepo: ObservableObject{
     func loadUpcomingEvents(){
         upcomingEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("is_featured", isEqualTo: false).whereField("start_millis", isGreaterThan: Int(Utils.getEndOfThisWeekMillis())) //end of this week's millis
-            .order(by: "start_millis").limit(to: 20).getDocuments{(querySnapshot, error) in
+            .order(by: "start_millis").limit(to: 15).getDocuments{(querySnapshot, error) in
                 if error != nil{
                     print(error ?? "")
                     return
@@ -57,7 +57,9 @@ class EventRepo: ObservableObject{
                     for currentDoc in querSnap.documents{
                         let newEvent = Event()
                         newEvent.docToObject(doc: currentDoc)
-                        self.upcomingEvents.append(newEvent)
+                        if(!newEvent.is_featured){
+                            self.upcomingEvents.append(newEvent)
+                        }
                     }
                     //TODO: set up Codable once we have more time, and add it to the other loads
                     //                    self.events = querSnap.documents.compactMap{document in
@@ -81,7 +83,9 @@ class EventRepo: ObservableObject{
                     for currentDoc in querSnap.documents{
                         let newEvent = Event()
                         newEvent.docToObject(doc: currentDoc)
-                        self.thisWeekEvents.append(newEvent)
+                        if(!newEvent.is_featured){
+                            self.thisWeekEvents.append(newEvent)
+                        }
                     }
                 }
         }
@@ -99,7 +103,9 @@ class EventRepo: ObservableObject{
                     for currentDoc in querSnap.documents{
                         let newEvent = Event()
                         newEvent.docToObject(doc: currentDoc)
-                        self.todayEvents.append(newEvent)
+                        if(!newEvent.is_featured){
+                            self.todayEvents.append(newEvent)
+                        }
                     }
                 }
         }

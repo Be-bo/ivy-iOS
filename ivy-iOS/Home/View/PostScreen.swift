@@ -103,8 +103,7 @@ struct PostScreen: View {
                                     EmptyView()
                             }
                         }
-                        
-                    }
+                    }.padding(.bottom, 10)
                     
                     // MARK: Pinned Layout
                     if(self.postVM.post.pinned_id != "" && self.postVM.post.pinned_id != "nothing"){

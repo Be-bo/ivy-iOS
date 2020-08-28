@@ -14,7 +14,7 @@ struct EditStudentProfile: View {
     
     @ObservedObject var thisUserRepo: ThisUserRepo
     @ObservedObject var editStudentVM: EditStudentProfileViewModel
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var showingImagePicker = false
     
@@ -67,17 +67,17 @@ struct EditStudentProfile: View {
                     background: Color.white
                 )
                 
-                Toggle(isOn: $editStudentVM.is_private) {
-                    Text("Private Profile")
-                }
-                .padding(.bottom, 30.0)
+//                Toggle(isOn: $editStudentVM.is_private) {
+//                    Text("Private Profile")
+//                }
+//                .padding(.bottom, 30.0)
                 
                 // MARK: Birthday
-                HStack{
-                    Text("Birthday")
-                    Spacer()
-                }
-                DatePicker("", selection: $editStudentVM.selectedBD, in: ...Date(), displayedComponents: .date)
+//                HStack{
+//                    Text("Birthday")
+//                    Spacer()
+//                }
+//                DatePicker("", selection: $editStudentVM.selectedBD, in: ...Date(), displayedComponents: .date)
                 
                 
                 // MARK: Display loading instead of button when waiting for results from Firebase

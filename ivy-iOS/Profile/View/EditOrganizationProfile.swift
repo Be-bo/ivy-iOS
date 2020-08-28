@@ -14,6 +14,7 @@ struct EditOrganizationProfile: View {
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     var userProfile = User()
+    @State var loadingInProgress = false
     @State private var imgUrl = ""
     @State var nameInput = ""
     @State private var image: Image?
@@ -113,12 +114,13 @@ struct EditOrganizationProfile: View {
                 
                 // MARK: Save Button
                 Button(action: {
+                    self.loadingInProgress = true
                     self.saveChanges()
                 }){
                     Text("Save")
                 }
-                .disabled(!inputOk())
-                .buttonStyle(StandardButtonStyle(disabled: !inputOk()))
+                .disabled(!inputOk() || loadingInProgress)
+                .buttonStyle(StandardButtonStyle(disabled: !inputOk() || loadingInProgress))
                 
             }
         }

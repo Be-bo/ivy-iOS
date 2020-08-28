@@ -25,6 +25,7 @@ import Firebase
 //}
 
 struct EventsTabView: View {
+    @State var shouldScroll = true
     @ObservedObject var uniInfo = UniInfo()
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     
@@ -40,147 +41,149 @@ struct EventsTabView: View {
     @State var selection: Int? = nil
     @State private var loggedIn = false
     var onCommit: (User) -> (Void) = {_ in}
-
     
+
     
     var body: some View {
         NavigationView{
             ScrollView(.vertical, showsIndicators: false){
                 
-                
-                // MARK: Empty Text
-                if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){
-                    Text("No events on this campus right now!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
-                }
-                
-                // MARK: Loading
-//                if(!eventTabVM.eventRepo.eventsLoaded){
-//                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)
-//                }else{
-//                    EmptyView() //this has to be here!!!
-//                }
-                
-                
-                
-                // MARK: Featured
-                if(eventTabVM.featuredEventVMs.count > 0){
-                    HStack{
-                        Text("Featured").font(.system(size: 25))
-                        Spacer()
-                    }.padding(.leading)
+                VStack{
+                    // MARK: Empty Text
+                    if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){
+                        Text("No events on this campus right now!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
+                    }
                     
-                    VStack(alignment: .leading){
-                        ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
-                            ZStack{
-                                WebImage(url: URL(string: self.featuredUrl))
-                                    .resizable()
-                                    .placeholder(AssetManager.logoWhite)
-                                    .background(AssetManager.ivyLightGrey)
-                                    .frame(width: UIScreen.screenWidth-20, height: UIScreen.screenWidth-20)
-                                    .cornerRadius(30)
-                                    .onAppear(){
-                                        let storage = Storage.storage().reference()
-                                        storage.child(eventItemVM.event.visual).downloadURL { (url, err) in
-                                            if err != nil{
-                                                print("Error loading featured image.")
-                                                return
+                    // MARK: Loading
+                    //                if(!eventTabVM.eventRepo.eventsLoaded){
+                    //                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)
+                    //                }else{
+                    //                    EmptyView() //this has to be here!!!
+                    //                }
+                    
+                    
+                    
+                    // MARK: Featured
+                    if(eventTabVM.featuredEventVMs.count > 0){
+                        HStack{
+                            Text("Featured").font(.system(size: 25))
+                            Spacer()
+                        }.padding(.leading)
+                        
+                        VStack(alignment: .leading){
+                            ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
+                                ZStack{
+                                    WebImage(url: URL(string: self.featuredUrl))
+                                        .resizable()
+                                        .placeholder(AssetManager.logoWhite)
+                                        .background(AssetManager.ivyLightGrey)
+                                        .frame(width: UIScreen.screenWidth-20, height: UIScreen.screenWidth-20)
+                                        .cornerRadius(30)
+                                        .onAppear(){
+                                            let storage = Storage.storage().reference()
+                                            storage.child(eventItemVM.event.visual).downloadURL { (url, err) in
+                                                if err != nil{
+                                                    print("Error loading featured image.")
+                                                    return
+                                                }
+                                                self.featuredUrl = "\(url!)"
                                             }
-                                            self.featuredUrl = "\(url!)"
-                                        }
-                                }.onTapGesture{
-                                    self.selection = 1
+                                    }.onTapGesture{
+                                        self.selection = 1
+                                    }
+                                    
+                                    
+                                    NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+                                        EmptyView()
+                                    }
+                                    
                                 }
-                                
-                                
-                                NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
-                                    EmptyView()
-                                }
-                                
                             }
+                            .padding(.bottom, 30)
                         }
-                        .padding(.bottom, 30)
-                    }
-                }
-                
-                
-                
-                
-                // MARK: Today
-                if(eventTabVM.todayEventVMs.count > 0){
-                    VStack(alignment: .leading){
-                        Text("Today").font(.system(size: 25)).padding(.leading)
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                ForEach(eventTabVM.todayEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM)
-                                }
-                            }.padding()
-                                .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                                    , height: 260, alignment: .leading)
-                        }
-                        .padding(.bottom, 30)
-                    }
-                }
-                
-                
-                
-                
-                // MARK: This Week
-                if(eventTabVM.thisWeekEventVMs.count > 0){
-                    VStack(alignment: .leading){
-                        Text("This Week").font(.system(size: 25)).padding(.leading)
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                ForEach(eventTabVM.thisWeekEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM)
-                                }
-                            }.padding()
-                                .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                                    , height: 260, alignment: .leading)
-                        }
-                        .padding(.bottom, 30)
-                    }
-                }
-                
-                
-                
-                
-                // MARK: Upcoming
-                if(eventTabVM.upcomingEventVMs.count > 0){
-                    VStack(alignment: .leading){
-                        Text("Upcoming").font(.system(size: 25)).padding(.leading)
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                ForEach(eventTabVM.upcomingEventVMs) { eventItemVM in
-                                    EventsTabItemView(eventItemVM: eventItemVM)
-                                }
-                            }.padding()
-                                .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                                    , height: 260, alignment: .leading)
-                        }
-                        .padding(.bottom, 30)
                     }
                     
                     
                     
                     
-                    // MARK: Explore All
-                    NavigationLink(destination: ExploreAllEventsView(eventTabVM: self.eventTabVM, screenWidth: UIScreen.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
-                        Button(action: {
-                            self.selection = 2
-                            if (self.eventTabVM.exploreAllEventsVMs.count < 1){ //if we haven't loaded explore all events yet, load them now
-                                self.eventTabVM.eventRepo.loadExploreAll()
+                    // MARK: Today
+                    if(eventTabVM.todayEventVMs.count > 0){
+                        VStack(alignment: .leading){
+                            Text("Today").font(.system(size: 25)).padding(.leading)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 20) {
+                                    ForEach(eventTabVM.todayEventVMs) { eventItemVM in
+                                        EventsTabItemView(eventItemVM: eventItemVM)
+                                    }
+                                }.padding()
+                                    .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
+                                        , height: 260, alignment: .leading)
                             }
-                        }){
-                            Text("Explore All")
+                            .padding(.bottom, 30)
                         }
-                            .buttonStyle(StandardButtonStyle(disabled: eventTabVM.upcomingEventVMs.count < 1)) //setting button style where background color changes based on if input is ok
-                            .padding()
                     }
-                }
+                    
+                    
+                    
+                    
+                    // MARK: This Week
+                    if(eventTabVM.thisWeekEventVMs.count > 0){
+                        VStack(alignment: .leading){
+                            Text("This Week").font(.system(size: 25)).padding(.leading)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 20) {
+                                    ForEach(eventTabVM.thisWeekEventVMs) { eventItemVM in
+                                        EventsTabItemView(eventItemVM: eventItemVM)
+                                    }
+                                }.padding()
+                                    .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
+                                        , height: 260, alignment: .leading)
+                            }
+                            .padding(.bottom, 30)
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    // MARK: Upcoming
+                    if(eventTabVM.upcomingEventVMs.count > 0){
+                        VStack(alignment: .leading){
+                            Text("Upcoming").font(.system(size: 25)).padding(.leading)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 20) {
+                                    ForEach(eventTabVM.upcomingEventVMs) { eventItemVM in
+                                        EventsTabItemView(eventItemVM: eventItemVM)
+                                    }
+                                }.padding()
+                                    .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
+                                        , height: 260, alignment: .leading)
+                            }
+                            .padding(.bottom, 30)
+                        }
+                        
+                        
+                        
+                        
+                        // MARK: Explore All
+                        NavigationLink(destination: ExploreAllEventsView(eventTabVM: self.eventTabVM, screenWidth: UIScreen.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
+                            Button(action: {
+                                self.selection = 2
+                                if (self.eventTabVM.exploreAllEventsVMs.count < 1){ //if we haven't loaded explore all events yet, load them now
+                                    self.eventTabVM.eventRepo.loadExploreAll()
+                                }
+                            }){
+                                Text("Explore All")
+                            }
+                                .buttonStyle(StandardButtonStyle(disabled: eventTabVM.upcomingEventVMs.count < 1)) //setting button style where background color changes based on if input is ok
+                                .padding()
+                        }
+                    }
+                }.padding(.horizontal, 20)
+                
+                
             }
-                
-                
+            .padding(.horizontal, -20)
                 //MARK: Nav Bar
                 .navigationBarItems(leading:
                     HStack {
@@ -198,16 +201,23 @@ struct EventsTabView: View {
                             }
                         }
                         
-                        FirebaseImage(
-                            path: uniInfo.uniLogoUrl,
-                            placeholder: AssetManager.uniLogoPlaceholder,
-                            width: 40,
-                            height: 40,
-                            shape: Rectangle()
-                        )
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
+                        WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                            .resizable()
+                            .placeholder(AssetManager.uniLogoPlaceholder)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .padding(.leading, (UIScreen.screenWidth/2 - 75))
+                            .onAppear(){
+                                let storage = Storage.storage().reference()
+                                storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
+                                    if err != nil{
+                                        print("Error loading uni logo image.")
+                                        return
+                                    }
+                                    self.uniInfo.uniLogoUrl = "\(url!)"
+                                }
+                        }
+                        
                         
                     }.padding(.leading, 0), trailing:
                     HStack {
@@ -239,4 +249,6 @@ struct EventsTabView: View {
         }
     }
 }
+
+
 

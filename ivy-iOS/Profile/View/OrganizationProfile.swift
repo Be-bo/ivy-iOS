@@ -8,12 +8,14 @@
 
 import SwiftUI
 import Firebase
+import SDWebImageSwiftUI
 
 
 struct OrganizationProfile: View {
     let db = Firestore.firestore()
     @ObservedObject var userRepo: UserRepo
     @ObservedObject var postListVM : PostListViewModel
+    @State var userPicUrl = ""
     @State var editProfile = false
     @State var seeMemberRequests = false
     @State var selection : Int? = nil
@@ -42,13 +44,24 @@ struct OrganizationProfile: View {
                 HStack {
                     
                     // MARK: Profile Image
-                    FirebaseImage(
-                        path: userRepo.user.profileImagePath(),
-                        placeholder: Image(systemName: "person.crop.circle.fill"),
-                        width: 150,
-                        height: 150,
-                        shape: Circle()
-                    ).padding(.trailing, 10)
+                    WebImage(url: URL(string: userPicUrl))
+                        .resizable()
+                        .placeholder(Image(systemName: "person.crop.circle.fill"))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 150, height: 150)
+                        .clipShape(Circle())
+                        .padding(.trailing, 10)
+                        .onAppear(){
+                            let storage = Storage.storage().reference()
+                            storage.child(self.userRepo.user.profileImagePath()).downloadURL { (url, err) in
+                                if err != nil{
+                                    print("Error loading org profile image.")
+                                    return
+                                }
+                                self.userPicUrl = "\(url!)"
+                            }
+                    }.padding(.trailing, 10)
+
                     
                     
                     // MARK: Profile Info
@@ -73,7 +86,16 @@ struct OrganizationProfile: View {
                             Button(action: {
                                 self.editProfile.toggle()
                             }){
-                                Text("Edit").sheet(isPresented: $editProfile){
+                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: { //refresh profile pic
+                                    let storage = Storage.storage().reference()
+                                    storage.child(self.userRepo.user.profileImagePath()).downloadURL { (url, err) in
+                                        if err != nil{
+                                            print("Error loading org profile image.")
+                                            return
+                                        }
+                                        self.userPicUrl = "\(url!)"
+                                    }
+                                }){
                                     EditOrganizationProfile(userProfile: self.userRepo.user, nameInput: self.userRepo.user.name)
                                 }
                             }.padding(.bottom, 10)

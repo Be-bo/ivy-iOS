@@ -49,7 +49,16 @@ class PostRepo: ObservableObject{
                     for currentDoc in querSnap.documents{
                         let newPost = Post()
                         newPost.docToObject(doc: currentDoc)
-                        self.homePosts.insert(newPost, at: 0)
+                        var dontAdd = false
+                        for currentPost in self.homePosts{
+                            if(currentPost.id == newPost.id){
+                                dontAdd = true
+                                break
+                            }
+                        }
+                        if(!dontAdd){
+                            self.homePosts.insert(newPost, at: 0)
+                        }
                     }
                 }
                 self.postsLoaded = true

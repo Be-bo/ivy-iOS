@@ -7,7 +7,8 @@
 //
 
 import SwiftUI
-
+import SDWebImageSwiftUI
+import Firebase
 
 struct StudentProfile: View {
     @ObservedObject private var thisUserRepo = ThisUserRepo()
@@ -15,6 +16,7 @@ struct StudentProfile: View {
     @ObservedObject var postListVM : PostListViewModel
     @State var editProfile = false
     @State var selection : Int? = nil
+    @State var userPicUrl = ""
     
     
     init(userRepo: UserRepo, postListVM : PostListViewModel) {
@@ -38,15 +40,24 @@ struct StudentProfile: View {
                 // MARK: Header
                 HStack {
                     
-                    // MARK: Image
-                    FirebaseImage(
-                        path: userRepo.user.profileImagePath(),
-                        placeholder: Image(systemName: "person.crop.circle.fill"),
-                        width: 130,
-                        height: 130,
-                        shape: Circle()
-                    )
+                    // MARK: Profile Image
+                    WebImage(url: URL(string: userPicUrl))
+                        .resizable()
+                        .placeholder(Image(systemName: "person.crop.circle.fill"))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 150, height: 150)
+                        .clipShape(Circle())
                         .padding(.trailing, 10)
+                        .onAppear(){
+                            let storage = Storage.storage().reference()
+                            storage.child(self.userRepo.user.profileImagePath()).downloadURL { (url, err) in
+                                if err != nil{
+                                    print("Error loading org profile image.")
+                                    return
+                                }
+                                self.userPicUrl = "\(url!)"
+                            }
+                    }.padding(.trailing, 10)
                     
                     // MARK: Text Info
                     VStack (alignment: .leading){
@@ -58,7 +69,16 @@ struct StudentProfile: View {
                             Button(action: {
                                 self.editProfile.toggle()
                             }){
-                                Text("Edit").sheet(isPresented: $editProfile){
+                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: {
+                                    let storage = Storage.storage().reference()
+                                    storage.child(self.userRepo.user.profileImagePath()).downloadURL { (url, err) in
+                                        if err != nil{
+                                            print("Error loading org profile image.")
+                                            return
+                                        }
+                                        self.userPicUrl = "\(url!)"
+                                    }
+                                }){
                                     EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
                                 }
                             }.padding(.bottom, 10)

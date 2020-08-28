@@ -20,34 +20,47 @@ struct SettingsView: View {
     var body: some View {
         ScrollView(.vertical){
             VStack(alignment: .center){
-                Text("Settings").font(.largeTitle).padding(.bottom, 10)
+                Text("Settings").font(.largeTitle).padding(.bottom)
                 
-                DropDownMenu(
-                    selected: $uniSelection,
-                    list: StaticDomainList.available_domain_list,
-                    hint: "Change Campus",
-                    hintColor: AssetManager.ivyHintGreen,
-                    background: Color.white,
-                    expandedHeight: 200
-                )
+                
+                if(Auth.auth().currentUser == nil){
+                    DropDownMenu(
+                        selected: $uniSelection,
+                        list: StaticDomainList.available_domain_list,
+                        hint: "Change Campus",
+                        hintColor: AssetManager.ivyHintGreen,
+                        background: Color.white,
+                        expandedHeight: 200
+                    )
+                    
+                    Button(action: {
+                        Utils.setCampusUni(newUni: self.uniSelection ?? Utils.getCampusUni())
+                        self.uniInfo.uniLogoUrl = Utils.uniLogoPath()
+                        self.presentationMode.wrappedValue.dismiss()
+                    }){
+                        Text("Save Campus").foregroundColor(AssetManager.ivyGreen)
+                    }
+                    Divider().padding(.top).padding(.bottom)
+                }
+                
                 
                 Button(action: {
-                    Utils.setCampusUni(newUni: self.uniSelection ?? Utils.getCampusUni())
-                    self.uniInfo.uniLogoUrl = Utils.uniLogoPath()
-                    self.presentationMode.wrappedValue.dismiss()
+                    UIApplication.shared.open(URL(string: "http://theivysocialnetwork.com/static/Terms-of-Use.docx")!)
                 }){
-                    Text("Save Campus").foregroundColor(AssetManager.ivyGreen)
+                    Text("Terms and Conditions").foregroundColor(AssetManager.ivyGreen)
                 }
-                Divider().padding(.bottom).padding(.top)
+                
+                Divider().padding(.top).padding(.bottom)
+                
                 
                 if (thisUserRepo.userLoggedIn) {
                     Button(action: {
-                        //TODO: reset all tabs
                         self.presentationMode.wrappedValue.dismiss()
                         try? Auth.auth().signOut()
                     }){
                         Text("Sign Out").foregroundColor(AssetManager.ivyGreen)
                     }
+                .padding()
                 }
             }
         .padding()

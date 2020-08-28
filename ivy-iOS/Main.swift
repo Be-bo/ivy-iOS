@@ -42,6 +42,7 @@ struct Main: View {
             EventsTabView()
                 .tabItem{
                     selection == 0 ? Image(systemName: "calendar").font(.system(size: 25)) : Image(systemName: "calendar").font(.system(size: 25))
+                    Text("Events")
             }
             .tag(0)
             
@@ -50,6 +51,7 @@ struct Main: View {
             HomeTabView(thisUserRepo: thisUserRepo)
                 .tabItem {
                     selection == 1 ? Image(systemName: "house.fill").font(.system(size: 25)) : Image(systemName: "house").font(.system(size: 25))
+                    Text("Home")
             }
             .tag(1)
             
@@ -60,6 +62,7 @@ struct Main: View {
                 UserProfileTabView(thisUserRepo: thisUserRepo)
                 .tabItem {
                     selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
+                    Text("Profile")
                     }
                 .tag(2)
             }

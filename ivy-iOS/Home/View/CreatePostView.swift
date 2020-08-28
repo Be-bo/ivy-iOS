@@ -31,7 +31,7 @@ struct CreatePostView: View {
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @Environment(\.presentationMode) var presentationMode
-
+    
     
     
     // MARK: Functions
@@ -39,9 +39,9 @@ struct CreatePostView: View {
     func inputOk() -> Bool{ //TODO: check date
         return ((typePick == 0 && !textInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) || //post
             
-        (typePick == 1 && !textInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && //event
-        !eventName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty))
+            (typePick == 1 && !textInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && //event
+                !eventName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+                !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty))
     }
     
     func loadImage() {
@@ -76,7 +76,7 @@ struct CreatePostView: View {
             
             
             
-        // MARK: Event Declaration
+            // MARK: Event Declaration
         }else{
             newPost["id"] = UUID.init().uuidString
             newPost["name"] = eventName
@@ -169,7 +169,7 @@ struct CreatePostView: View {
                 }.pickerStyle(SegmentedPickerStyle())
                     .padding(.bottom, 10)
                 
-    
+                
                 
                 Group{ // background on click dismisses keyboard, couldn't apply to the entire layout because it bugs the segmented control
                     // MARK: Image Picker
@@ -179,8 +179,8 @@ struct CreatePostView: View {
                                 self.showingImagePicker = true
                             }) {
                                 Text("Add Image").foregroundColor(AssetManager.ivyGreen)
-                                .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                                    ImagePicker(image: self.$inputImage)
+                                    .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                                        ImagePicker(image: self.$inputImage)
                                 }
                             }
                             if(image != nil){
@@ -197,19 +197,17 @@ struct CreatePostView: View {
                     
                     // MARK: Pinned
                     if(typePick == 0){
-                        Group{
-                            DropDownMenu(
-                                selected: $pinnedName,
-                                list: self.createPostRepo.pinnedNames,
-                                hint: "Pinned Event",
-                                hintColor: AssetManager.ivyHintGreen,
-                                expandedHeight: 200
-                            )
+                        DropDownMenu(
+                            selected: $pinnedName,
+                            list: self.createPostRepo.pinnedNames,
+                            hint: "Pinned Event",
+                            hintColor: AssetManager.ivyHintGreen,
+                            expandedHeight: 200
+                        )
                             .padding(.bottom, 10)
-                        }
                         
                         
-                    // MARK: Event Fields
+                        // MARK: Event Fields
                     }else{
                         Group{
                             TextField("Event Name", text: $eventName)
@@ -241,8 +239,8 @@ struct CreatePostView: View {
                         .buttonStyle(StandardButtonStyle(disabled: !inputOk()))
                     }
                 }
-                .onTapGesture { //hide keyboard when background tapped
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+                    .onTapGesture { //hide keyboard when background tapped
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
                 }
                 
             }
