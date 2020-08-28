@@ -74,23 +74,24 @@ struct LoginView: View {
                 
                 
                 // MARK: Resend Verif Email & Signup Buttons
-                Group{
-                    if(self.loginVM.displayResendVerifEmail){
-                        HStack{
-                            Spacer()
-                            Button(action: {
-                                self.showEmailResentAlert.toggle()
-                                self.loginVM.resendVerificationEmail()
-                            }){
-                                Text("Resend Verification Email").foregroundColor(AssetManager.ivyGreen)
-                            }.alert(isPresented: self.$showEmailResentAlert) {
-                                Alert(title: Text("Verification Email Sent"), message: Text(""), dismissButton: .default(Text("OK")))
-                            }
-                        }
-                    }
+                HStack {
+                    Spacer()
                     
-                    HStack{
-                        Spacer()
+                    VStack(alignment: .trailing) {
+                        
+                        if(self.loginVM.displayResendVerifEmail){
+                            Text("Resend Verification Email")
+                                .foregroundColor(AssetManager.ivyGreen)
+                                .onTapGesture(perform: {
+                                    self.showEmailResentAlert.toggle()
+                                    self.loginVM.resendVerificationEmail()
+                                })
+                                .alert(isPresented: self.$showEmailResentAlert) {
+                                    Alert(title: Text("Verification Email Sent"), message: Text(""), dismissButton: .default(Text("OK")))
+                                }
+                        
+                        }
+                        
                         Button(action: {
                             self.showingStudentSignup.toggle()
                         }){
@@ -99,21 +100,20 @@ struct LoginView: View {
                         .sheet(isPresented: $showingStudentSignup){
                             StudentSignup()
                         }
+                        .padding(.top, 50)
+                    
+
+                        Button(action: {
+                            self.showingOrgSignup.toggle()
+                        }){
+                            Text("Organization Signup").foregroundColor(AssetManager.ivyGreen)
+                        }.sheet(isPresented: $showingOrgSignup){
+                            OrganizationSignup()
+                        }
+                        .padding(.top)
                     }
                 }
-                .padding(.top, 50)
-                
-                HStack{
-                    Spacer()
-                    Button(action: {
-                        self.showingOrgSignup.toggle()
-                    }){
-                        Text("Organization Signup").foregroundColor(AssetManager.ivyGreen)
-                    }.sheet(isPresented: $showingOrgSignup){
-                        OrganizationSignup()
-                    }
-                }
-                .padding(.top)
+
             }
             .padding()
         }
