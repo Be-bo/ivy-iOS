@@ -230,7 +230,7 @@ struct EventsTabView: View {
                                     .sheet(isPresented: $createPostPresented, onDismiss: {
                                         self.eventTabVM.refresh()
                                     }) {
-                                        CreatePostView(thisUser: self.thisUserRepo.user)
+                                        CreatePostView()
                                 }
                             }
                         }

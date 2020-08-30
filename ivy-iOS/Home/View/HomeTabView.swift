@@ -85,7 +85,7 @@ struct HomeTabView: View {
                                     .sheet(isPresented: $createPostPresented, onDismiss: {
                                         self.homeTabVM.refresh()
                                     }) {
-                                        CreatePostView(thisUser: self.thisUserRepo.user)
+                                        CreatePostView()
                                 }
                             }
                         }

@@ -33,6 +33,9 @@ class Event: Identifiable/*, Codable*/ {
     var location: String = "Main Campus" //cannot be null
     
     
+    
+    
+    
     func docToObject(doc: DocumentSnapshot){ //TODO: not ideal but good enough for now (use Codable when time available)
         id = doc.documentID
         if let nam = doc.get("name") as? String,
@@ -80,5 +83,31 @@ class Event: Identifiable/*, Codable*/ {
         if let lin = doc.get("link") as? String{
             link = lin
         }
+    }
+    
+    
+    func getMap() -> [String:Any]{
+        var retVal = [String: Any]()
+        retVal["id"] = id ?? ""
+        retVal["uni_domain"] = uni_domain
+        retVal["author_id"] = author_id
+        retVal["author_name"] = author_name
+        retVal["author_is_organization"] = author_is_organization
+        retVal["is_event"] = is_event
+        retVal["main_feed_visible"] = main_feed_visible
+        retVal["creation_millis"] = creation_millis
+        retVal["creation_platform"] = creation_platform
+        retVal["text"] = text
+        retVal["visual"] = visual
+        retVal["start_millis"] = start_millis
+        retVal["end_millis"] = end_millis
+        retVal["views_id"] = views_id
+        retVal["going_ids"] = going_ids
+        retVal["location"] = location
+        retVal["link"] = link
+        retVal["is_featured"] = is_featured
+        retVal["is_active"] = is_active
+        retVal["name"] = name
+        return retVal
     }
 }

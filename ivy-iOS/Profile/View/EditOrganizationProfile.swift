@@ -29,13 +29,17 @@ struct EditOrganizationProfile: View {
     
     func saveChanges(){
         if(image != nil){ //image changed, gotta update that
-            self.storageRef.child(Utils.userProfileImagePath(userId: userProfile.id!)).putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (error, metadata) in
+            print(Utils.userProfileImagePath(userId: userProfile.id!))
+            self.storageRef.child(Utils.userProfileImagePath(userId: userProfile.id!)).putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (metadata, error) in
                 if(error != nil){
-                    print(error)
+                    print("Error updating profile image.")
+                    print(error?.localizedDescription)
+
                 }
-                self.storageRef.child(Utils.userPreviewImagePath(userId: self.userProfile.id!)).putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (error1, metadata1) in
+                self.storageRef.child(Utils.userPreviewImagePath(userId: self.userProfile.id!)).putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (metadata1, error1) in
                     if(error1 != nil){
-                        print(error1)
+                        print("Error updating preview image.")
+                        print(error1?.localizedDescription)
                     }
                     self.presentationMode.wrappedValue.dismiss()
                 }
@@ -47,7 +51,9 @@ struct EditOrganizationProfile: View {
                 if error != nil{
                     print("Error updating username.")
                 }
-                self.presentationMode.wrappedValue.dismiss()
+                if(self.image == nil){ //only dismiss if we're also changing the image (that is guaranteed to take longer)
+                    self.presentationMode.wrappedValue.dismiss()
+                }
             }
         }
     }
@@ -119,8 +125,8 @@ struct EditOrganizationProfile: View {
                 }){
                     Text("Save")
                 }
-                .disabled(!inputOk() || loadingInProgress)
-                .buttonStyle(StandardButtonStyle(disabled: !inputOk() || loadingInProgress))
+                    .disabled(((!inputOk() || nameInput == userProfile.name) && image == nil) || loadingInProgress) //button blocked when either loading or when no changes at all
+                .buttonStyle(StandardButtonStyle(disabled: ((!inputOk() || nameInput == userProfile.name) && image == nil) || loadingInProgress))
                 
             }
         }

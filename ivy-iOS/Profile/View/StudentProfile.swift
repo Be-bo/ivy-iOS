@@ -11,24 +11,24 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct StudentProfile: View {
-    @ObservedObject var userRepo: UserRepo
-    @ObservedObject var postListVM : PostListViewModel
+    @ObservedObject var thisUserRepo = ThisUserRepo()
+    @ObservedObject var profileViewModel: ProfileViewModel
+    @ObservedObject var uniInfo = UniInfo()
+    var uid = ""
     @State var editProfile = false
     @State var selection : Int? = nil
     @State var userPicUrl = ""
+    @State private var settingsPresented = false
+    @State private var notificationCenterPresented = false
     
     
-    init(userRepo: UserRepo, postListVM : PostListViewModel) {
-        self.userRepo = userRepo
-        self.postListVM = postListVM
-    }
-    
-    init(userRepo: UserRepo, uni_domain: String, user_id: String) {
-        self.userRepo = userRepo
-        self.postListVM = PostListViewModel()
+    init(uid: String) {
+        self.profileViewModel = ProfileViewModel(uid: uid)
+        self.uid = uid
     }
     
     var body: some View {
+        
         ScrollView() {
             VStack (alignment: .leading) {
                 
@@ -42,10 +42,9 @@ struct StudentProfile: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 150, height: 150)
                         .clipShape(Circle())
-                        .padding(.trailing, 10)
                         .onAppear(){
                             let storage = Storage.storage().reference()
-                            storage.child(self.userRepo.user.profileImagePath()).downloadURL { (url, err) in
+                            storage.child(Utils.userProfileImagePath(userId: self.uid)).downloadURL { (url, err) in
                                 if err != nil{
                                     print("Error loading org profile image.")
                                     return
@@ -56,33 +55,26 @@ struct StudentProfile: View {
                     
                     // MARK: Text Info
                     VStack (alignment: .leading){
-                        Text(userRepo.user.name).padding(.bottom, 10)
-                        Text(userRepo.user.degree).padding(.bottom, 10)
+                        Text(profileViewModel.userInfoVM.userProfile.name).padding(.bottom, 10)
+                        Text(profileViewModel.userInfoVM.userProfile.degree).padding(.bottom, 10)
                         
                         // If this is thisUserProfile, then show edit button
-                        if userRepo is ThisUserRepo {
+                        if Auth.auth().currentUser != nil && profileViewModel.userInfoVM.userProfile.id ?? "" == Auth.auth().currentUser!.uid {
                             Button(action: {
                                 self.editProfile.toggle()
                             }){
                                 Text("Edit").sheet(isPresented: $editProfile, onDismiss: { //refresh pic and posts
                                     let storage = Storage.storage().reference()
-                                    storage.child(self.userRepo.user.profileImagePath()).downloadURL { (url, err) in
+                                    storage.child(self.profileViewModel.userInfoVM.userProfile.profileImagePath()).downloadURL { (url, err) in
                                         if err != nil{
                                             print("Error loading org profile image.")
                                             return
                                         }
                                         self.userPicUrl = "\(url!)"
                                     }
-                                    
-                                    print("userDocLoaded: ",String(self.userRepo.userDocLoaded), " postsLoaded: ", String(self.postListVM.postsLoaded))
-                                    
-                                    self.postListVM.loadPosts(
-                                        limit: Constant.PROFILE_POST_LIMIT_STUDENT,
-                                        uni_domain: self.userRepo.user.uni_domain,
-                                        user_id: self.userRepo.user.id ?? "")
                                 }){
-//                                    EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
-                                    EditOrganizationProfile(userProfile: self.userRepo.user, nameInput: self.userRepo.user.name)
+                                    //                                    EditStudentProfile(thisUserRepo: self.userRepo as! ThisUserRepo)
+                                    EditOrganizationProfile(userProfile: self.profileViewModel.userInfoVM.userProfile, nameInput: self.profileViewModel.userInfoVM.userProfile.name)
                                 }
                             }.padding(.bottom, 10)
                         }
@@ -97,14 +89,14 @@ struct StudentProfile: View {
                 ZStack{
                     VStack(alignment: .center){
                         // MARK: EVENTS
-                        if (postListVM.eventVMs.count > 0) {
+                        if (self.profileViewModel.userEventVMs.count > 0) {
                             HStack {
                                 Text("Events")
                                 Spacer()
                             }
                             
                             GridView(
-                                cells: self.postListVM.eventVMs,
+                                cells: self.profileViewModel.userEventVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                                 ) //{ geo in
                             { eventVM in
@@ -114,14 +106,14 @@ struct StudentProfile: View {
                         }
                         
                         // MARK: POSTS
-                        if (postListVM.postVMs.count > 0) {
+                        if (self.profileViewModel.userPostVMs.count > 0) {
                             HStack {
                                 Text("Posts")
                                 Spacer()
                             }
                             
                             GridView(
-                                cells: self.postListVM.postVMs,
+                                cells: self.profileViewModel.userPostVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                                 ) //{ geo in
                             { postVM in
@@ -129,10 +121,10 @@ struct StudentProfile: View {
                             }
                             //}
                         }
-                        
-                        else if postListVM.eventVMs.count == 0 && postListVM.postVMs.count == 0 {
+                            
+                        else {
                             Spacer()
-                            Text("No Posts yet!")
+                            Text("No Posts or Events yet!")
                                 .foregroundColor(.gray)
                                 .padding()
                                 .frame(alignment: .center)
@@ -144,23 +136,7 @@ struct StudentProfile: View {
                 
             }
             .padding(.horizontal)
-            .onAppear(perform: {
-                if(!self.userRepo.userDocLoaded){ // if not loaded, start listening again
-                    self.userRepo.loadUserProfile()
-                }
-                if (!self.postListVM.postsLoaded){ // start listening if not loaded yet
-                    self.postListVM.loadPosts(
-                        limit: Constant.PROFILE_POST_LIMIT_STUDENT,
-                        uni_domain: self.userRepo.user.uni_domain,
-                        user_id: self.userRepo.user.id ?? "")
-                }
-            })
-                .onDisappear { //stop listening to realtime updates
-                    self.userRepo.removeListener()
-                    self.postListVM.removeListener()
-            }
         }
     }
-
 }
 

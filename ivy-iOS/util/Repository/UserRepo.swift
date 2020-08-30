@@ -51,9 +51,10 @@ class UserRepo: ObservableObject {
                     self.user.docToObject(doc: doc)
                     self.userDocLoaded = true
                     
-                    if Auth.auth().currentUser != nil, Auth.auth().currentUser!.uid == self.user.id{ //want to show logged in user's uni by default
+                    if Auth.auth().currentUser != nil, Auth.auth().currentUser!.uid == self.user.id{ //want to show logged in user's uni by default + saving some values we need locally
                         Utils.setCampusUni(newUni: self.user.uni_domain)
                         Utils.setIsThisUserOrg(isOrg: self.user.is_organization)
+                        Utils.setThisUserName(name: self.user.name)
                     }
                 }
             }
