@@ -72,8 +72,22 @@ class Post: Identifiable/*, Codable*/ {
         self.pinned_name = name
     }
     
-    
-/* Firebase & Storage Paths */
-
-    //HAVE BEEN MOVED TO UTILS
+    func getMap() -> [String:Any]{
+        var retVal = [String: Any]()
+        retVal["id"] = id ?? ""
+        retVal["uni_domain"] = uni_domain
+        retVal["author_id"] = author_id
+        retVal["author_name"] = author_name
+        retVal["author_is_organization"] = author_is_organization
+        retVal["is_event"] = is_event
+        retVal["main_feed_visible"] = main_feed_visible
+        retVal["creation_millis"] = creation_millis
+        retVal["creation_platform"] = creation_platform
+        retVal["text"] = text
+        retVal["visual"] = visual
+        retVal["pinned_id"] = pinned_id
+        retVal["pinned_name"] = pinned_name
+        retVal["views_id"] = views_id
+        return retVal
+    }
 }

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>679752248399-6mkll4ipvuj3lpokkca989hq1hdmfe38.apps.googleusercontent.com</string>
+	<string>679752248399-k8ufmd0hk3edsga3r79lfrvr88rallon.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.679752248399-6mkll4ipvuj3lpokkca989hq1hdmfe38</string>
+	<string>com.googleusercontent.apps.679752248399-k8ufmd0hk3edsga3r79lfrvr88rallon</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAwHA0-QC2z15qpeqjQX-U2nab3ikW1iDM</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.ivycampusplatform.ivy-iOS</string>
+	<string>com.ivythesocialnetwork.ivy</string>
 	<key>PROJECT_ID</key>
 	<string>ivy2testing</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:679752248399:ios:4b4b3473af8d5f3c7f8e3a</string>
+	<string>1:679752248399:ios:0dcceaedea134cca7f8e3a</string>
 	<key>DATABASE_URL</key>
 	<string>https://ivy2testing.firebaseio.com</string>
 </dict>

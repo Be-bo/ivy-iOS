@@ -10,6 +10,7 @@ target 'ivy-iOS' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Messaging'
   pod 'FirebaseFirestoreSwift'
   pod 'SDWebImageSwiftUI'
 

@@ -19,15 +19,10 @@ class PostListViewModel: ObservableObject {
     @Published var postsLoaded = false
         
     let db = Firestore.firestore()
-    var listener: ListenerRegistration?
+    private var listener: ListenerRegistration?
     
-    
-    init() {}
     
     func loadPosts (limit: Int, uni_domain: String, user_id: String) {
-        
-        postVMs = [HomePostViewModel]() //TODO: quick and dirty
-        eventVMs = [EventItemViewModel]()
         
         if (uni_domain == "" || user_id == "") {
             print("This user not loaded yet! Cannot load posts for profile")
@@ -35,7 +30,7 @@ class PostListViewModel: ObservableObject {
             return
         }
         
-        if (listener != nil) {
+        if (listener != nil || postsLoaded) {
             print("posts already loaded...")
             postsLoaded = true
             return
@@ -43,7 +38,6 @@ class PostListViewModel: ObservableObject {
         
         let postsPath = "universities/\(uni_domain)/posts"
         
-        print("load posts")
         
         /*db.collection(postsPath)
             .whereField("author_id", isEqualTo: user_id as Any)
@@ -77,7 +71,6 @@ class PostListViewModel: ObservableObject {
             .addSnapshotListener { (querySnapshot, error) in
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
-                        print("attempting to add")
                         if (currentDoc.get("is_event") != nil && currentDoc.get("is_event") as! Bool) {
                             let newEvent = Event()
                             newEvent.docToObject(doc: currentDoc)

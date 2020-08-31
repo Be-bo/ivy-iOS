@@ -46,6 +46,16 @@ final class Utils {
         defaults.set(isOrg, forKey: "is_this_user_org")
     }
     
+    static func getThisUserName() -> String{
+        let defaults = UserDefaults.standard
+        return defaults.string(forKey: "this_user_name") ?? ""
+    }
+    
+    static func setThisUserName(name: String){
+        let defaults = UserDefaults.standard
+        defaults.set(name, forKey: "this_user_name")
+    }
+    
     static func getCurrentTimeInMillis() -> Double{
         let since1970 = Date().timeIntervalSince1970*1000
         return since1970
@@ -126,6 +136,10 @@ final class Utils {
     
     static func uniLogoPath() -> String{
         return "unilogos/\(Utils.getCampusUni()).png"
+    }
+    
+    static func commentVisualPath(postId: String, commentId: String) -> String{
+        return "postfiles/\(postId)/comments/\(commentId).jpg"
     }
     
     

@@ -13,12 +13,103 @@ import Firebase
 
 struct EventScreenView: View {
     let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
     @ObservedObject var eventVM: EventItemViewModel
+    @ObservedObject var commentListVM: CommentListViewModel
+    @State var editEventPresented = false
     @State var imageUrl = ""
     @State var authorUrl = ""
     @State var selection: Int? = nil
+    @State var commentAddImage = false
+    @State var commentInput = ""
     @State private var isShareSheetShowing = false
     @State private var showingCalendarAlert = false
+    @State private var inputImage: UIImage?
+    @State private var image: Image?
+    @State private var showingImagePicker = false
+    @State var loadInProgress = false
+    private var notificationSender = NotificationSender()
+    
+    
+    // MARK: Functions
+    func sendCommentNotification(){
+        db.collection("users").document(eventVM.event.author_id).getDocument { (docSnap, err) in
+            if err != nil{
+                print("Error loading post author for comment notification.")
+                return
+            }
+            if let doc = docSnap{
+                let author = User()
+                author.docToObject(doc: doc)
+                self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your event.", body: Utils.getThisUserName() + " commented on " + self.eventVM.event.name, conversationID: "")
+            }
+        }
+    }
+    
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
+    }
+    
+    func uploadComment(){
+        loadInProgress = true
+        let newComment = Comment()
+        newComment.id = UUID.init().uuidString
+        if(commentAddImage){
+            newComment.setInitialData(id: newComment.id!, authorId: Auth.auth().currentUser!.uid, authorIsOrg: Utils.getIsThisUserOrg(), authorNam: Utils.getThisUserName(), txt: Utils.commentVisualPath(postId: eventVM.event.id ?? "", commentId: newComment.id!), typ: 2, uniDom: eventVM.event.uni_domain, creaMil: Int(Utils.getCurrentTimeInMillis()))
+            
+            if(image != nil && inputImage != nil){ //upload image first to make sure it's ready to display once we refresh
+                self.storageRef.child(newComment.text).putData((self.inputImage?.jpegData(compressionQuality: 0.4))!, metadata: nil){ (metadat, error) in
+                    if(error != nil){
+                        print(error!.localizedDescription)
+                        return
+                    }
+                    
+                    self.db.collection("universities").document(self.eventVM.event.uni_domain).collection("posts").document(self.eventVM.event.id ?? "").collection("comments").document().setData(newComment.getMap()){error in
+                        if(error != nil){
+                            print("Error uploading new comment.")
+                            return
+                        }
+                        
+                        self.commentInput = "" //reset comment layout once succesfully added
+                        self.commentAddImage = false
+                        self.image = nil
+                        self.loadInProgress = false
+                        self.commentListVM.refresh() //refresh to show the new comment right away
+                        self.sendCommentNotification()
+                    }
+                }
+            }
+        }else{
+            newComment.setInitialData(id: newComment.id!, authorId: Auth.auth().currentUser!.uid, authorIsOrg: Utils.getIsThisUserOrg(), authorNam: Utils.getThisUserName(), txt: commentInput, typ: 1, uniDom: eventVM.event.uni_domain, creaMil: Int(Utils.getCurrentTimeInMillis()))
+            db.collection("universities").document(eventVM.event.uni_domain).collection("posts").document(eventVM.event.id ?? "").collection("comments").document().setData(newComment.getMap()){error in
+                if(error != nil){
+                    print("Error uploading new comment.")
+                    return
+                }
+                
+                self.commentInput = "" //reset comment layout once succesfully added
+                self.commentAddImage = false
+                self.image = nil
+                self.loadInProgress = false
+                self.commentListVM.refresh()
+                self.sendCommentNotification()
+            }
+        }
+    }
+    
+    init(eventVM: EventItemViewModel){
+        self.eventVM = eventVM
+        commentListVM = CommentListViewModel(uniDom: eventVM.event.uni_domain, postId: eventVM.event.id ?? "")
+    }
+    
+    
+    
+    
+    
+    
+    
+    // MARK: View
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: true){
@@ -68,7 +159,7 @@ struct EventScreenView: View {
                             Text(self.eventVM.event.author_name)
                             Spacer()
                         }
-                         .onTapGesture {
+                        .onTapGesture {
                             self.selection = 1
                         }
                         .padding(.bottom)
@@ -76,11 +167,7 @@ struct EventScreenView: View {
                         
                         if (eventVM.event.author_is_organization) {
                             NavigationLink(
-                                destination: OrganizationProfile(
-                                    userRepo: UserRepo(userid: eventVM.event.author_id),
-                                    uni_domain: eventVM.event.uni_domain,
-                                    user_id: eventVM.event.author_id
-                                )
+                                destination: OrganizationProfile(uid: eventVM.event.author_id)
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
                                 selection: self.$selection) {
@@ -88,16 +175,12 @@ struct EventScreenView: View {
                             }
                         } else {
                             NavigationLink(
-                                    destination: StudentProfile(
-                                        userRepo: UserRepo(userid: eventVM.event.author_id),
-                                        uni_domain: eventVM.event.uni_domain,
-                                        user_id: eventVM.event.author_id
-                                    )
-                                        .navigationBarTitle("Profile"),
-                                    tag: 1,
-                                    selection: self.$selection) {
-                                            EmptyView()
-                                        }
+                                destination: StudentProfile(uid: eventVM.event.author_id)
+                                    .navigationBarTitle("Profile"),
+                                tag: 1,
+                                selection: self.$selection) {
+                                    EmptyView()
+                            }
                         }
                     }
                     
@@ -142,16 +225,12 @@ struct EventScreenView: View {
                                             self.selection = self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2 //needed to have a unique tag for each going person, so we use their index in the array with an offset
                                     }
                                     NavigationLink(
-                                    destination: StudentProfile(
-                                        userRepo: UserRepo(userid: currentId),
-                                        uni_domain: Utils.getCampusUni(),
-                                        user_id: currentId
-                                    )
-                                        .navigationBarTitle("Profile"),
-                                    tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
-                                    selection: self.$selection) {
+                                        destination: StudentProfile(uid: currentId)
+                                            .navigationBarTitle("Profile"),
+                                        tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
+                                        selection: self.$selection) {
                                             EmptyView()
-                                        }
+                                    }
                                     
                                     
                                 }
@@ -220,35 +299,159 @@ struct EventScreenView: View {
                     Spacer()
                 }
             }
-            .padding(.leading)
-            .padding(.trailing)
+            .padding(.horizontal)
             
-            Divider().padding(.top, 20).padding(.bottom, 20)
-            Text("Comments coming soon!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
             
-        }
-    .onAppear(perform: {
-        if(Auth.auth().currentUser != nil){ //if user not nil add their id to view ids
-            print("uni: ",self.eventVM.event.uni_domain, " id: ", self.eventVM.event.id!, " user id: ", Auth.auth().currentUser!.uid)
-            self.db.collection("universities").document(self.eventVM.event.uni_domain).collection("posts").document(self.eventVM.event.id!).updateData([
-                "views_id": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
-            ]){ error in
-                if error != nil{
-                    print("Error adding user to view ids.")
-                    return
+            
+            
+            
+            // MARK: Edit Event
+            if(Auth.auth().currentUser != nil && eventVM.event.author_id == Auth.auth().currentUser!.uid){ //viewer is also author
+                Button(action: {
+                    self.editEventPresented.toggle()
+                }) {
+                    Text("Edit").foregroundColor(AssetManager.ivyGreen)
+                        .sheet(isPresented: $editEventPresented, onDismiss: {
+                            //TODO: refresh on dismiss
+                        }) {
+                            CreatePostView(typePick: 1, alreadyExistingEvent: self.eventVM.event, alreadyExistingPost: Post(), editingMode: true)
+                    }
                 }
-                print("Successfully added view")
+                .padding(.top, 30).padding(.leading)
             }
+            
+            
+            
+            
+            
+            
+            
+           // MARK: Comments
+            HStack{
+                Text("Comments").font(.system(.title)).multilineTextAlignment(.leading).padding(.top, 30).padding(.leading)
+                Spacer()
+            }
+            
+            
+            // MARK: Comment Input
+            if(Auth.auth().currentUser != nil){ //only logged in users can comment
+                ZStack{
+                    HStack(alignment: .center){
+                        
+                        // MARK: Comment Author
+                        WebImage(url: URL(string: authorUrl))
+                            .resizable()
+                            .placeholder(Image(systemName: "person.crop.circle.fill"))
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                            .onAppear(){
+                                let storage = Storage.storage().reference()
+                                storage.child(Utils.userPreviewImagePath(userId: self.eventVM.event.author_id)).downloadURL { (url, err) in
+                                    if err != nil{
+                                        print("Error loading comment author image.")
+                                        return
+                                    }
+                                    self.authorUrl = "\(url!)"
+                                }
+                        }
+                        
+                        
+                        
+                        // MARK: Comment Text/Image
+                        if(commentAddImage){
+                            if(image != nil){
+                                VStack(alignment: .center){
+                                    image?.resizable().aspectRatio(contentMode: .fit)
+                                }
+                            }else{
+                                Spacer()
+                            }
+                        }else{
+                            VStack(alignment: .leading, spacing: 0){
+                                TextField("Your Comment", text: self.$commentInput)
+                                Divider()
+                            }
+                        }
+                        
+                        
+                        
+                        // MARK: Image Button
+                        Button(action: {
+                            self.commentAddImage.toggle()
+                            if(self.commentAddImage){
+                                self.showingImagePicker = true
+                            }
+                        }){
+                            Image(systemName: commentAddImage ? "xmark.circle" : "photo.fill").foregroundColor(AssetManager.ivyGreen).font(.system(size: 25))
+                                .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                                    ImagePicker(image: self.$inputImage)
+                            }
+                        }
+                        
+                        
+                        //MARK: Send Button
+                        Button(action: {
+                            self.uploadComment()
+                        }){
+                            Image(systemName: "paperplane.fill" ).foregroundColor((loadInProgress || (commentInput.isEmpty && !commentAddImage) ||  (image == nil && commentAddImage)) ? AssetManager.ivyLightGrey : AssetManager.ivyGreen).font(.system(size: 25))
+                        }
+                        .disabled(loadInProgress || (commentInput.isEmpty && !commentAddImage) ||  (image == nil && commentAddImage))
+                        
+                    }
+                    .padding()
+                    .background(AssetManager.ivyBackgroundGrey)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    
+                    if(loadInProgress){
+                        LoadingSpinner().frame(width: 50, height: 50, alignment: .center)
+                    }
+                }
+                .padding()
+            }
+            
+            
+            
+            
+            // MARK: Comment List
+            if(self.commentListVM.commentVMs.count > 0){
+                ForEach(commentListVM.commentVMs){ commentVM in
+                    CommentView(commentVM: commentVM).padding(.horizontal, 10)
+                    Divider().padding(.vertical, 20)
+                }
+            }else{
+                Text("No Comments yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            //MARK: onAppear
         }
-    })
+        .onAppear(perform: {
+            if(Auth.auth().currentUser != nil){ //if user not nil add their id to view ids
+                print("uni: ",self.eventVM.event.uni_domain, " id: ", self.eventVM.event.id!, " user id: ", Auth.auth().currentUser!.uid)
+                self.db.collection("universities").document(self.eventVM.event.uni_domain).collection("posts").document(self.eventVM.event.id!).updateData([
+                    "views_id": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
+                ]){ error in
+                    if error != nil{
+                        print("Error adding user to view ids.")
+                        return
+                    }
+                    print("Successfully added view")
+                }
+            }
+        })
+        .keyboardAdaptive()
+            .onTapGesture { //hide keyboard when background tapped
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+        }
     }
 }
 
 
 
-//struct EventScreenView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EventScreenView(eventVM: EventItemViewModel(event: Event()))
-//    }
-//}
 

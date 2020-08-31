@@ -65,22 +65,14 @@ struct MemberListRow: View {
                                     PersonCircleView(personId: currentId)
                                     if(self.userIsOrg){
                                         NavigationLink(
-                                            destination: OrganizationProfile(
-                                                userRepo: UserRepo(userid: currentId),
-                                                uni_domain: Utils.getCampusUni(),
-                                                user_id: currentId
-                                            ).navigationBarTitle("Profile"),
+                                            destination: OrganizationProfile(uid: currentId).navigationBarTitle("Profile"),
                                             tag: 1,
                                             selection: self.$selection) {
                                                 EmptyView()
                                         }
                                     }else{
                                         NavigationLink(
-                                            destination: StudentProfile(
-                                                userRepo: UserRepo(userid: currentId),
-                                                uni_domain: Utils.getCampusUni(),
-                                                user_id: currentId
-                                            ).navigationBarTitle("Profile"),
+                                            destination: StudentProfile(uid: currentId).navigationBarTitle("Profile"),
                                             tag: 1,
                                             selection: self.$selection) {
                                                 EmptyView()
