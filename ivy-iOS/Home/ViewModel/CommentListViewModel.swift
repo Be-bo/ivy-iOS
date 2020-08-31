@@ -13,12 +13,14 @@ class CommentListViewModel: ObservableObject{
     @Published var commentRepo: CommentRepo
     @Published var commentVMs = [CommentViewModel]()
     private var cancellables = Set<AnyCancellable>()
+    private var selectionIndex = 300
     
     init(uniDom: String, postId: String){
         self.commentRepo = CommentRepo(uniDom: uniDom, postId: postId)
         commentRepo.$comments.map {comments in
             comments.map{comment in
-                CommentViewModel(comment: comment)
+                self.selectionIndex = self.selectionIndex + 1
+                return CommentViewModel(comment: comment, selectionId: self.selectionIndex)
             }
         }
         .assign(to: \.commentVMs, on: self)
