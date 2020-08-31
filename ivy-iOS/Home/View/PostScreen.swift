@@ -20,6 +20,7 @@ struct PostScreen: View {
     @State var imageUrl = ""
     @State var authorUrl = ""
     @State var commentInput = ""
+    @State var commentAuthorUrl = ""
     @State var loadInProgress = false
     @State private var selection : Int? = nil
     @State private var inputImage: UIImage?
@@ -33,15 +34,17 @@ struct PostScreen: View {
     
     // MARK: Functions
     func sendCommentNotification(){
-        db.collection("users").document(postVM.post.author_id).getDocument { (docSnap, err) in
-            if err != nil{
-                print("Error loading post author for comment notification.")
-                return
-            }
-            if let doc = docSnap{
-                let author = User()
-                author.docToObject(doc: doc)
-                self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your post.", body: Utils.getThisUserName() + " commented on: " + self.postVM.post.text, conversationID: "")
+        if(Auth.auth().currentUser!.uid != postVM.post.author_id){
+            db.collection("users").document(postVM.post.author_id).getDocument { (docSnap, err) in
+                if err != nil{
+                    print("Error loading post author for comment notification.")
+                    return
+                }
+                if let doc = docSnap{
+                    let author = User()
+                    author.docToObject(doc: doc)
+                    self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your post.", body: Utils.getThisUserName() + " commented on: " + self.postVM.post.text, conversationID: "")
+                }
             }
         }
     }
@@ -164,23 +167,31 @@ struct PostScreen: View {
                         }
                         
                         
-                        if (postVM.post.author_is_organization) {
-                            NavigationLink(
-                                destination: OrganizationProfile(uid: postVM.post.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: 1,
-                                selection: self.$selection) {
-                                    EmptyView()
-                            }
-                        } else {
-                            NavigationLink(
-                                destination: StudentProfile(uid: postVM.post.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: 1,
-                                selection: self.$selection) {
-                                    EmptyView()
-                            }
+                        NavigationLink(
+                            destination: OrganizationProfile(uid: postVM.post.author_id)
+                                .navigationBarTitle("Profile"),
+                            tag: 1,
+                            selection: self.$selection) {
+                                EmptyView()
                         }
+                        
+//                        if (postVM.post.author_is_organization) {
+//                            NavigationLink(
+//                                destination: OrganizationProfile(uid: postVM.post.author_id)
+//                                    .navigationBarTitle("Profile"),
+//                                tag: 1,
+//                                selection: self.$selection) {
+//                                    EmptyView()
+//                            }
+//                        } else {
+//                            NavigationLink(
+//                                destination: StudentProfile(uid: postVM.post.author_id)
+//                                    .navigationBarTitle("Profile"),
+//                                tag: 1,
+//                                selection: self.$selection) {
+//                                    EmptyView()
+//                            }
+//                        }
                     }.padding(.bottom, 10)
                     
                     // MARK: Pinned Layout
@@ -222,7 +233,7 @@ struct PostScreen: View {
                                 CreatePostView(typePick: 0, alreadyExistingEvent: Event(), alreadyExistingPost: self.postVM.post, editingMode: true)
                         }
                     }
-                    .padding(.top, 30).padding(.leading)
+                    .padding(.top, 30)
                 }
                 
                 
@@ -243,19 +254,19 @@ struct PostScreen: View {
                         HStack(alignment: .center){
                             
                             // MARK: Comment Author
-                            WebImage(url: URL(string: authorUrl))
+                            WebImage(url: URL(string: commentAuthorUrl))
                                 .resizable()
                                 .placeholder(Image(systemName: "person.crop.circle.fill"))
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                                 .onAppear(){
                                     let storage = Storage.storage().reference()
-                                    storage.child(Utils.userPreviewImagePath(userId: self.postVM.post.author_id)).downloadURL { (url, err) in
+                                    storage.child(Utils.userPreviewImagePath(userId: Auth.auth().currentUser?.uid ?? "")).downloadURL { (url, err) in
                                         if err != nil{
                                             print("Error loading comment author image.")
                                             return
                                         }
-                                        self.authorUrl = "\(url!)"
+                                        self.commentAuthorUrl = "\(url!)"
                                     }
                             }
                             

@@ -19,6 +19,7 @@ struct EventScreenView: View {
     @State var editEventPresented = false
     @State var imageUrl = ""
     @State var authorUrl = ""
+    @State var commentAuthorUrl = ""
     @State var selection: Int? = nil
     @State var commentAddImage = false
     @State var commentInput = ""
@@ -33,15 +34,17 @@ struct EventScreenView: View {
     
     // MARK: Functions
     func sendCommentNotification(){
-        db.collection("users").document(eventVM.event.author_id).getDocument { (docSnap, err) in
-            if err != nil{
-                print("Error loading post author for comment notification.")
-                return
-            }
-            if let doc = docSnap{
-                let author = User()
-                author.docToObject(doc: doc)
-                self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your event.", body: Utils.getThisUserName() + " commented on " + self.eventVM.event.name, conversationID: "")
+        if(Auth.auth().currentUser!.uid != eventVM.event.author_id){
+            db.collection("users").document(eventVM.event.author_id).getDocument { (docSnap, err) in
+                if err != nil{
+                    print("Error loading post author for comment notification.")
+                    return
+                }
+                if let doc = docSnap{
+                    let author = User()
+                    author.docToObject(doc: doc)
+                    self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your event.", body: Utils.getThisUserName() + " commented on " + self.eventVM.event.name, conversationID: "")
+                }
             }
         }
     }
@@ -165,23 +168,31 @@ struct EventScreenView: View {
                         .padding(.bottom)
                         
                         
-                        if (eventVM.event.author_is_organization) {
-                            NavigationLink(
-                                destination: OrganizationProfile(uid: eventVM.event.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: 1,
-                                selection: self.$selection) {
-                                    EmptyView()
-                            }
-                        } else {
-                            NavigationLink(
-                                destination: StudentProfile(uid: eventVM.event.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: 1,
-                                selection: self.$selection) {
-                                    EmptyView()
-                            }
+                        NavigationLink(
+                            destination: OrganizationProfile(uid: eventVM.event.author_id)
+                                .navigationBarTitle("Profile"),
+                            tag: 1,
+                            selection: self.$selection) {
+                                EmptyView()
                         }
+                        
+//                        if (eventVM.event.author_is_organization) {
+//                            NavigationLink(
+//                                destination: OrganizationProfile(uid: eventVM.event.author_id)
+//                                    .navigationBarTitle("Profile"),
+//                                tag: 1,
+//                                selection: self.$selection) {
+//                                    EmptyView()
+//                            }
+//                        } else {
+//                            NavigationLink(
+//                                destination: StudentProfile(uid: eventVM.event.author_id)
+//                                    .navigationBarTitle("Profile"),
+//                                tag: 1,
+//                                selection: self.$selection) {
+//                                    EmptyView()
+//                            }
+//                        }
                     }
                     
                     //MARK: Time Row
@@ -252,7 +263,7 @@ struct EventScreenView: View {
                 //MARK: Share
                 Button(action: {
                     self.isShareSheetShowing.toggle()
-                    let av = UIActivityViewController(activityItems: [self.eventVM.event.name, "from: \(Utils.getEventDate(millis:self.eventVM.event.start_millis)) to: \(Utils.getEventDate(millis:self.eventVM.event.end_millis)),", "at: \(self.eventVM.event.location),", self.eventVM.event.text, "link: \(self.eventVM.event.link)"], applicationActivities: nil)
+                    let av = UIActivityViewController(activityItems: ["EVENT: \(self.eventVM.event.name), from: \(Utils.getEventDate(millis:self.eventVM.event.start_millis)) to: \(Utils.getEventDate(millis:self.eventVM.event.end_millis)), at: \(self.eventVM.event.location), description: \(self.eventVM.event.text), link: \(self.eventVM.event.link)"], applicationActivities: nil)
                     UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true)
                 }) {
                     Image(systemName: "square.and.arrow.up").font(.system(size: 40)).foregroundColor(AssetManager.ivyGreen).padding(.bottom, 10)
@@ -317,7 +328,7 @@ struct EventScreenView: View {
                             CreatePostView(typePick: 1, alreadyExistingEvent: self.eventVM.event, alreadyExistingPost: Post(), editingMode: true)
                     }
                 }
-                .padding(.top, 30).padding(.leading)
+                .padding(.top, 30)
             }
             
             
@@ -339,19 +350,19 @@ struct EventScreenView: View {
                     HStack(alignment: .center){
                         
                         // MARK: Comment Author
-                        WebImage(url: URL(string: authorUrl))
+                        WebImage(url: URL(string: commentAuthorUrl))
                             .resizable()
                             .placeholder(Image(systemName: "person.crop.circle.fill"))
                             .frame(width: 40, height: 40)
                             .clipShape(Circle())
                             .onAppear(){
                                 let storage = Storage.storage().reference()
-                                storage.child(Utils.userPreviewImagePath(userId: self.eventVM.event.author_id)).downloadURL { (url, err) in
+                                storage.child(Utils.userPreviewImagePath(userId: Auth.auth().currentUser?.uid ?? "")).downloadURL { (url, err) in
                                     if err != nil{
                                         print("Error loading comment author image.")
                                         return
                                     }
-                                    self.authorUrl = "\(url!)"
+                                    self.commentAuthorUrl = "\(url!)"
                                 }
                         }
                         

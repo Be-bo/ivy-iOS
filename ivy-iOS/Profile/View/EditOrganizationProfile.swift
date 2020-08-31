@@ -22,6 +22,37 @@ struct EditOrganizationProfile: View {
     @State private var inputImage: UIImage?
     @Environment(\.presentationMode) var presentationMode
     
+    
+    
+    
+    
+//    private void updatePosts(){// Update posts associated with org if org name has changed
+//           String address = "universities/" + this_user.getUni_domain() + "/posts";
+//           base_database_ref.collection(address).whereEqualTo("author_id", this_user.getId())
+//                   .get().addOnCompleteListener(task -> {
+//               if (task.isSuccessful() && task.getResult() != null){
+//                   for (DocumentSnapshot doc : task.getResult())
+//                       doc.getReference().update("author_name",this_user.getName());
+//               }
+//           });
+//       }
+    
+    func updatePosts(){
+        db.collection("universities").document(userProfile.uni_domain).collection("posts").whereField("author_id", isEqualTo: userProfile.id ?? "").getDocuments { (querySnap, error) in
+            if error != nil{
+                print("We've got a problem hoss.")
+                return
+            }
+            if let snap = querySnap {
+                for doc in snap.documents{
+                    doc.reference.updateData([
+                        "author_name": self.nameInput
+                    ])
+                }
+            }
+        }
+    }
+    
     func loadImage() {
         guard let inputImage = inputImage else { return }
         image = Image(uiImage: inputImage)
@@ -47,6 +78,7 @@ struct EditOrganizationProfile: View {
         }
         
         if(nameInput != userProfile.name){ //name changed, gotta update
+            updatePosts() //also updat posts
             db.collection("users").document(userProfile.id!).updateData(["name" : nameInput]){error in
                 if error != nil{
                     print("Error updating username.")

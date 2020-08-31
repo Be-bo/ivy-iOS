@@ -43,7 +43,7 @@ struct ProfileEventItemView: View {
             // TODO: quick and dirty
             NavigationLink(
                 destination: EventScreenView(eventVM: eventVM)
-                    .navigationBarTitle(eventVM.event.author_name+"'s Post"),
+                    .navigationBarTitle(eventVM.event.name),
                 tag: eventVM.event.creation_millis, selection: self.$selection)
             { EmptyView() }
         }

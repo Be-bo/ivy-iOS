@@ -83,6 +83,8 @@ struct CreatePostView: View {
                             }
                         }
                     }
+                }else{
+                    self.presentationMode.wrappedValue.dismiss()
                 }
             }
         }

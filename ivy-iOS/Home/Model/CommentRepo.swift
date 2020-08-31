@@ -49,8 +49,17 @@ class CommentRepo: ObservableObject{
             if let querySnap = querySnapshot{
                 for currentDoc in querySnap.documents{
                     let newComment = Comment()
+                    var dontAdd = false
                     newComment.docToObject(doc: currentDoc)
-                    self.comments.insert(newComment, at: 0)
+                    for currentComment in self.comments{
+                        if(currentComment.id == newComment.id){
+                            dontAdd = true
+                            break
+                        }
+                    }
+                    if(!dontAdd){
+                        self.comments.insert(newComment, at: 0)
+                    }
                 }
             }
         }

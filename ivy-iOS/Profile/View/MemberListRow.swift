@@ -59,25 +59,33 @@ struct MemberListRow: View {
                             
                             // MARK: Preview Image Button
                             Button(action:{
-                                self.selection = 1
+                                self.selection = self.memberIds.firstIndex(of: currentId)! + 1
                             }){ //circle profile pic button -> transition to profile
                                 ZStack{
                                     PersonCircleView(personId: currentId)
-                                    if(self.userIsOrg){
-                                        NavigationLink(
-                                            destination: OrganizationProfile(uid: currentId).navigationBarTitle("Profile"),
-                                            tag: 1,
-                                            selection: self.$selection) {
-                                                EmptyView()
-                                        }
-                                    }else{
-                                        NavigationLink(
-                                            destination: StudentProfile(uid: currentId).navigationBarTitle("Profile"),
-                                            tag: 1,
-                                            selection: self.$selection) {
-                                                EmptyView()
-                                        }
+                                    
+                                    NavigationLink(
+                                        destination: OrganizationProfile(uid: currentId).navigationBarTitle("Profile"),
+                                        tag: self.memberIds.firstIndex(of: currentId)! + 1,
+                                        selection: self.$selection) {
+                                            EmptyView()
                                     }
+                                    
+//                                    if(self.userIsOrg){
+//                                        NavigationLink(
+//                                            destination: OrganizationProfile(uid: currentId).navigationBarTitle("Profile"),
+//                                            tag: 1,
+//                                            selection: self.$selection) {
+//                                                EmptyView()
+//                                        }
+//                                    }else{
+//                                        NavigationLink(
+//                                            destination: StudentProfile(uid: currentId).navigationBarTitle("Profile"),
+//                                            tag: 1,
+//                                            selection: self.$selection) {
+//                                                EmptyView()
+//                                        }
+//                                    }
                                     
                                 }
                             }

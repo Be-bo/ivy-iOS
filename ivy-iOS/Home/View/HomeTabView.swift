@@ -22,7 +22,8 @@ struct HomeTabView: View {
     var body: some View {
         
         NavigationView{
-                if(homeTabVM.homePostsVMs.count < 1){
+            VStack{
+               if(homeTabVM.homePostsVMs.count < 1){
                     Text("No posts on this campus just yet!")
                     .font(.system(size: 25))
                     .foregroundColor(AssetManager.ivyLightGrey)
@@ -39,8 +40,9 @@ struct HomeTabView: View {
                         }
                     }
                 }
-            
-            
+            }
+                
+ 
                 //MARK: Nav Bar
             .navigationBarItems(leading:
                     HStack {
