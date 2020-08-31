@@ -116,9 +116,9 @@ struct ProfileTabView: View {
                     // Notifications
                     HStack {
                         Button(action: {
-//                            self.notificationCenterPresented.toggle()
+                            self.notificationCenterPresented.toggle()
                         }) {
-                            Image(systemName: "")
+                            Image(systemName: "bell")
                                 .font(.system(size: 25))
                                 .sheet(isPresented: $notificationCenterPresented){
                                     NotificationCenterView()

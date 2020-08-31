@@ -17,7 +17,7 @@ struct CreatePostView: View {
     let storageRef = Storage.storage().reference()
     @ObservedObject private var createPostRepo = CreatePostRepo()
     @State private var loadInProgress = false
-    var typePick = 0
+    @State var typePick = 0
     @State private var visualPick = 0
     @State private var textInput = ""
     @State private var eventName = ""
@@ -31,63 +31,13 @@ struct CreatePostView: View {
     @State private var inputImage: UIImage?
     @Environment(\.presentationMode) var presentationMode
     
-    var alreadyExistingEvent = Event()
-    var alreadyExistingPost = Post()
-    var editingMode = false
-    var editModeType = 0
-    private var notificationSender = NotificationSender()
+    @State var alreadyExistingEvent = Event()
+    @State var alreadyExistingPost = Post()
+    @State var editingMode = false
     
     
     
     // MARK: Functions
-    func sendNotification(){ //send notifications to all members (if this user is org)
-        db.collection("users").document(Auth.auth().currentUser?.uid ?? "").getDocument { (docSnap, err) in
-            if err != nil{
-                print("Can't send notifications, failed to get user profile.")
-                return
-            }
-            if let doc = docSnap{
-                let thisUser = User()
-                thisUser.docToObject(doc: doc)
-                if thisUser.member_ids.count > 0{
-                    let memberCount = thisUser.member_ids.count
-                    var index = 0
-                    for memberId in thisUser.member_ids{
-                        index = index + 1
-                        self.db.collection("users").document(memberId).getDocument { (docSnap1, error1) in
-                            if error1 != nil{
-                                print("Failed to get member to send notification to.")
-                                return
-                            }
-                            if let doc1 = docSnap1{
-                                let member = User()
-                                member.docToObject(doc: doc1)
-                                
-                                if(!self.editingMode){ //the org was creating a new post
-                                    if(self.typePick == 0){ //notifying about post
-                                        self.notificationSender.sendPushNotification(to: member.messaging_token, title: thisUser.name+" added a new post.", body: self.textInput, conversationID: "")
-                                    }else{ //notifying about event
-                                        self.notificationSender.sendPushNotification(to: member.messaging_token, title: thisUser.name+" added a new event.", body: self.eventName, conversationID: "")
-                                    }
-                                }else{ //the org was editing an existing post
-                                    if(self.typePick == 0){ //notifying about post
-                                        self.notificationSender.sendPushNotification(to: member.messaging_token, title: thisUser.name+" made changes to their post.", body: self.textInput, conversationID: "")
-                                    }else{ //notifying about event
-                                        self.notificationSender.sendPushNotification(to: member.messaging_token, title: thisUser.name+" mad changes to their event.", body: self.eventName, conversationID: "")
-                                    }
-                                }
-
-                                if index >= memberCount{
-                                    self.presentationMode.wrappedValue.dismiss()
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
     func inputOk() -> Bool{ //TODO: check date
         return ((typePick == 0 && !textInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) || //post
             
@@ -202,19 +152,11 @@ struct CreatePostView: View {
                                     if(error1 != nil){
                                         print(error1!)
                                     }
-                                    if Utils.getIsThisUserOrg(){
-                                        self.sendNotification()
-                                    }else{
-                                       self.presentationMode.wrappedValue.dismiss()
-                                    }
+                                    self.presentationMode.wrappedValue.dismiss()
                                 }
                             }
                         }else{
-                            if Utils.getIsThisUserOrg(){
-                                self.sendNotification()
-                            }else{
-                               self.presentationMode.wrappedValue.dismiss()
-                            }
+                            self.presentationMode.wrappedValue.dismiss()
                         }
                     }
                 }
@@ -230,19 +172,11 @@ struct CreatePostView: View {
                                     if(error1 != nil){
                                         print(error1!)
                                     }
-                                    if Utils.getIsThisUserOrg(){
-                                        self.sendNotification()
-                                    }else{
-                                       self.presentationMode.wrappedValue.dismiss()
-                                    }
+                                    self.presentationMode.wrappedValue.dismiss()
                                 }
                             }
                         }else{
-                            if Utils.getIsThisUserOrg(){
-                                self.sendNotification()
-                            }else{
-                               self.presentationMode.wrappedValue.dismiss()
-                            }
+                            self.presentationMode.wrappedValue.dismiss()
                         }
                     }
                 }
@@ -261,36 +195,16 @@ struct CreatePostView: View {
                                 if(error1 != nil){
                                     print(error1!)
                                 }
-                                if Utils.getIsThisUserOrg(){
-                                    self.sendNotification()
-                                }else{
-                                   self.presentationMode.wrappedValue.dismiss()
-                                }
+                                self.presentationMode.wrappedValue.dismiss()
                             }
                         }
                     }else{
-                        if Utils.getIsThisUserOrg(){
-                            self.sendNotification()
-                        }else{
-                           self.presentationMode.wrappedValue.dismiss()
-                        }
+                        self.presentationMode.wrappedValue.dismiss()
                     }
                 }
             }
         }
     }
-    
-    
-    
-    
-    
-    init(typePick: Int, alreadyExistingEvent: Event, alreadyExistingPost: Post, editingMode: Bool){
-        self.typePick = typePick
-        self.alreadyExistingEvent = alreadyExistingEvent
-        self.alreadyExistingPost = alreadyExistingPost
-        self.editingMode = editingMode
-    }
-    
     
     
     
@@ -305,33 +219,25 @@ struct CreatePostView: View {
             VStack{
                 
                 if(self.editingMode){
-                    if(typePick == 0){
-                        Text("Edit Post").font(.largeTitle).padding(.bottom, 10)
-                    }else{
-                        Text("Edit Event").font(.largeTitle).padding(.bottom, 10)
-                    }
+                    Text("Edit Post").font(.largeTitle).padding(.bottom, 10)
                     Text("All values will be overwritten! (I.e. You'll have to fill out all the fields again, only comments & going users will be kept.)").foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom, 10)
                 }else{
-                    if(typePick == 0){
-                        Text("Create Post").font(.largeTitle).padding(.bottom, 10)
-                    }else{
-                        Text("Create Event").font(.largeTitle).padding(.bottom, 10)
-                    }
+                    Text("Create Post").font(.largeTitle).padding(.bottom, 10)
                 }
                 
                 // MARK: Type
-//                if(!editingMode){
-//                    HStack{
-//                        Text("Type").font(.system(size: 25))
-//                        Spacer()
-//                    }
-//                    Picker("Type", selection: typePick) {
-//                        Text("Post").tag(0)
-//                        Text("Event").tag(1)
-//                    }
-//                    .pickerStyle(SegmentedPickerStyle())
-//                    .padding(.bottom, 10)
-//                }
+                if(!editingMode){
+                    HStack{
+                        Text("Type").font(.system(size: 25))
+                        Spacer()
+                    }
+                    Picker("Type", selection: $typePick) {
+                        Text("Post").tag(0)
+                        Text("Event").tag(1)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.bottom, 10)
+                }
                 
                 // MARK: Visual
                 HStack{

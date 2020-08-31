@@ -36,8 +36,8 @@ struct Main: View {
         
         // MARK: Tab Bar
         TabView(selection: self.$selection) {
-
-
+            
+            
             // MARK: Events
             EventsTabView()
                 .tabItem{
@@ -45,8 +45,8 @@ struct Main: View {
                     Text("Events")
             }
             .tag(0)
-
-
+            
+            
             // MARK: Home
             HomeTabView(thisUserRepo: thisUserRepo)
                 .tabItem {
@@ -54,9 +54,9 @@ struct Main: View {
                     Text("Home")
             }
             .tag(1)
-
-
-
+            
+            
+            
             // MARK: Profile
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
                 ProfileTabView(thisUserRepo: thisUserRepo)
@@ -66,10 +66,10 @@ struct Main: View {
                 }
                 .tag(2)
             }
-
-
-
-
+            
+            
+            
+            
         }
         .accentColor(AssetManager.ivyGreen)
         .onDisappear {

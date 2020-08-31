@@ -22,24 +22,23 @@ struct HomeTabView: View {
     var body: some View {
         
         NavigationView{
-                if(homeTabVM.homePostsVMs.count < 1){
-                    Text("No posts on this campus just yet!")
-                    .font(.system(size: 25))
-                    .foregroundColor(AssetManager.ivyLightGrey)
-                    .multilineTextAlignment(.center)
-                    .padding(30)
-                }else{
-                    EmptyView()
-                }
-                
-                VStack{
-                    List(){
-                        ForEach(homeTabVM.homePostsVMs){ postItemVM in
-                            HomePostView(postItemVM: postItemVM)
-                        }
+            if(homeTabVM.homePostsVMs.count < 1){
+                Text("No posts on this campus just yet!")
+                .font(.system(size: 25))
+                .foregroundColor(AssetManager.ivyLightGrey)
+                .multilineTextAlignment(.center)
+                .padding(30)
+            }else{
+                EmptyView()
+            }
+            
+            VStack{
+                List(){
+                    ForEach(homeTabVM.homePostsVMs){ postItemVM in
+                        HomePostView(postItemVM: postItemVM)
                     }
                 }
-            
+            }
             
                 //MARK: Nav Bar
             .navigationBarItems(leading:
@@ -86,7 +85,7 @@ struct HomeTabView: View {
                                     .sheet(isPresented: $createPostPresented, onDismiss: {
                                         self.homeTabVM.refresh()
                                     }) {
-                                        CreatePostView(typePick: 0, alreadyExistingEvent: Event(), alreadyExistingPost: Post(), editingMode: false)
+                                        CreatePostView()
                                 }
                             }
                         }
