@@ -230,7 +230,7 @@ struct EventsTabView: View {
                                     .sheet(isPresented: $createPostPresented, onDismiss: {
                                         self.eventTabVM.refresh()
                                     }) {
-                                        CreatePostView()
+                                        CreatePostView(typePick: 1, alreadyExistingEvent: Event(), alreadyExistingPost: Post(), editingMode: false)
                                 }
                             }
                         }

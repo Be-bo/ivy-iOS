@@ -28,9 +28,24 @@ struct EventScreenView: View {
     @State private var image: Image?
     @State private var showingImagePicker = false
     @State var loadInProgress = false
+    private var notificationSender = NotificationSender()
     
     
     // MARK: Functions
+    func sendCommentNotification(){
+        db.collection("users").document(eventVM.event.author_id).getDocument { (docSnap, err) in
+            if err != nil{
+                print("Error loading post author for comment notification.")
+                return
+            }
+            if let doc = docSnap{
+                let author = User()
+                author.docToObject(doc: doc)
+                self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your event.", body: Utils.getThisUserName() + " commented on " + self.eventVM.event.name, conversationID: "")
+            }
+        }
+    }
+    
     func loadImage() {
         guard let inputImage = inputImage else { return }
         image = Image(uiImage: inputImage)
@@ -61,6 +76,7 @@ struct EventScreenView: View {
                         self.image = nil
                         self.loadInProgress = false
                         self.commentListVM.refresh() //refresh to show the new comment right away
+                        self.sendCommentNotification()
                     }
                 }
             }
@@ -77,6 +93,7 @@ struct EventScreenView: View {
                 self.image = nil
                 self.loadInProgress = false
                 self.commentListVM.refresh()
+                self.sendCommentNotification()
             }
         }
     }
@@ -297,7 +314,7 @@ struct EventScreenView: View {
                         .sheet(isPresented: $editEventPresented, onDismiss: {
                             //TODO: refresh on dismiss
                         }) {
-                            CreatePostView(typePick: 1, alreadyExistingEvent: self.eventVM.event, editingMode: true)
+                            CreatePostView(typePick: 1, alreadyExistingEvent: self.eventVM.event, alreadyExistingPost: Post(), editingMode: true)
                     }
                 }
                 .padding(.top, 30).padding(.leading)
