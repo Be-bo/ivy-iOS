@@ -26,11 +26,26 @@ struct PostScreen: View {
     @State private var image: Image?
     @State private var showingImagePicker = false
     @State private var editPostPresented = false
+    private var notificationSender = NotificationSender()
     var onCommit: (Post) -> (Void) = {_ in}
     
     
     
     // MARK: Functions
+    func sendCommentNotification(){
+        db.collection("users").document(postVM.post.author_id).getDocument { (docSnap, err) in
+            if err != nil{
+                print("Error loading post author for comment notification.")
+                return
+            }
+            if let doc = docSnap{
+                let author = User()
+                author.docToObject(doc: doc)
+                self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your post.", body: Utils.getThisUserName() + " commented on: " + self.postVM.post.text, conversationID: "")
+            }
+        }
+    }
+    
     func loadImage() {
         guard let inputImage = inputImage else { return }
         image = Image(uiImage: inputImage)
@@ -61,6 +76,8 @@ struct PostScreen: View {
                         self.image = nil
                         self.loadInProgress = false
                         self.commentListVM.refresh() //refresh to show the new comment right away
+                        
+                        self.sendCommentNotification()
                     }
                 }
             }
@@ -77,6 +94,8 @@ struct PostScreen: View {
                 self.image = nil
                 self.loadInProgress = false
                 self.commentListVM.refresh()
+                
+                self.sendCommentNotification()
             }
         }
     }
@@ -200,7 +219,7 @@ struct PostScreen: View {
                             .sheet(isPresented: $editPostPresented, onDismiss: {
                                 //TODO: refresh on dismiss
                             }) {
-                                CreatePostView(typePick: 0, alreadyExistingPost: self.postVM.post, editingMode: true)
+                                CreatePostView(typePick: 0, alreadyExistingEvent: Event(), alreadyExistingPost: self.postVM.post, editingMode: true)
                         }
                     }
                     .padding(.top, 30).padding(.leading)

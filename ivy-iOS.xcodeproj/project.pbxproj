@@ -60,6 +60,11 @@
 		FA6D77B924FB073C00EA216C /* CommentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77B824FB073C00EA216C /* CommentListViewModel.swift */; };
 		FA6D77BB24FB078C00EA216C /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77BA24FB078C00EA216C /* CommentViewModel.swift */; };
 		FA6D77BD24FB0A9700EA216C /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77BC24FB0A9700EA216C /* CommentView.swift */; };
+		FA6D77BF24FC5A8600EA216C /* NotificationRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77BE24FC5A8600EA216C /* NotificationRepo.swift */; };
+		FA6D77C124FC5A9500EA216C /* NotificationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77C024FC5A9500EA216C /* NotificationListViewModel.swift */; };
+		FA6D77C324FC5AAD00EA216C /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77C224FC5AAD00EA216C /* NotificationViewModel.swift */; };
+		FA6D77C624FC816D00EA216C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA6D77C524FC816D00EA216C /* GoogleService-Info.plist */; };
+		FA6D77C824FCA10800EA216C /* NotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77C724FCA10800EA216C /* NotificationSender.swift */; };
 		FA7274AA24F1E2FA0071A98C /* ExploreAllEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7274A924F1E2FA0071A98C /* ExploreAllEventsView.swift */; };
 		FA7274AC24F1E3B70071A98C /* ExploreAllEventsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7274AB24F1E3B70071A98C /* ExploreAllEventsItemView.swift */; };
 		FA7DAF6F24F1837F00B25430 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DAF6E24F1837F00B25430 /* Utils.swift */; };
@@ -79,7 +84,6 @@
 		FAC9825024F71DB800991873 /* StandaloneEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9824F24F71DB800991873 /* StandaloneEventViewModel.swift */; };
 		FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2366924E488E500F92637 /* LoginViewModel.swift */; };
 		FAD2366C24E48DF300F92637 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2366B24E48DF300F92637 /* TestView.swift */; };
-		FAD2366E24E496C200F92637 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAD2366D24E496C200F92637 /* GoogleService-Info.plist */; };
 		FAE4734A24E1B761003E3991 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAE4734924E1B761003E3991 /* Colors.xcassets */; };
 		FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4734B24E1B7BA003E3991 /* AssetManager.swift */; };
 		FAFC909A24F357E000177273 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC909924F357E000177273 /* CreatePostView.swift */; };
@@ -145,6 +149,12 @@
 		FA6D77B824FB073C00EA216C /* CommentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListViewModel.swift; sourceTree = "<group>"; };
 		FA6D77BA24FB078C00EA216C /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		FA6D77BC24FB0A9700EA216C /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		FA6D77BE24FC5A8600EA216C /* NotificationRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationRepo.swift; path = "ivy-iOS/Home/View/NotificationRepo.swift"; sourceTree = SOURCE_ROOT; };
+		FA6D77C024FC5A9500EA216C /* NotificationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewModel.swift; sourceTree = "<group>"; };
+		FA6D77C224FC5AAD00EA216C /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		FA6D77C424FC808100EA216C /* ivy-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ivy-iOS.entitlements"; sourceTree = "<group>"; };
+		FA6D77C524FC816D00EA216C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FA6D77C724FCA10800EA216C /* NotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSender.swift; sourceTree = "<group>"; };
 		FA7274A924F1E2FA0071A98C /* ExploreAllEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreAllEventsView.swift; sourceTree = "<group>"; };
 		FA7274AB24F1E3B70071A98C /* ExploreAllEventsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreAllEventsItemView.swift; sourceTree = "<group>"; };
 		FA7DAF6E24F1837F00B25430 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -164,7 +174,6 @@
 		FAC9824F24F71DB800991873 /* StandaloneEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneEventViewModel.swift; sourceTree = "<group>"; };
 		FAD2366924E488E500F92637 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		FAD2366B24E48DF300F92637 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
-		FAD2366D24E496C200F92637 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FAE4734924E1B761003E3991 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		FAE4734B24E1B7BA003E3991 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		FAFC909924F357E000177273 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
@@ -213,6 +222,7 @@
 				FA2B0EDE24F2117600B746FB /* CalendarUtil.swift */,
 				FAFC90A024F3736E00177273 /* ImagePicker.swift */,
 				FABA035E24F43631007C4878 /* Extensions.swift */,
+				FA6D77C724FCA10800EA216C /* NotificationSender.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -308,6 +318,7 @@
 		FA5DEF9524B6970D00C397CB /* ivy-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				FA6D77C424FC808100EA216C /* ivy-iOS.entitlements */,
 				FAE4734424E1B0F3003E3991 /* App */,
 				FA96E8AE24E5AC3700E33BAD /* Profile */,
 				FA96E8AD24E5AC2F00E33BAD /* Events */,
@@ -317,8 +328,8 @@
 				8D30BFA824EF197700970050 /* util */,
 				FA14D5E024E1C81700F1D9B1 /* Assets */,
 				FA5DEFA424B6970E00C397CB /* Info.plist */,
+				FA6D77C524FC816D00EA216C /* GoogleService-Info.plist */,
 				FA5DEFA124B6970E00C397CB /* LaunchScreen.storyboard */,
-				FAD2366D24E496C200F92637 /* GoogleService-Info.plist */,
 				FA14D5E324E1CB6D00F1D9B1 /* Preview Content */,
 			);
 			path = "ivy-iOS";
@@ -386,6 +397,8 @@
 				8DD2C37924F466FB0067A507 /* EditStudentProfileViewModel.swift */,
 				FA4F750F24FACA9F009E3275 /* ProfileViewModel.swift */,
 				FA4F751124FACC7D009E3275 /* UserInfoViewModel.swift */,
+				FA6D77C024FC5A9500EA216C /* NotificationListViewModel.swift */,
+				FA6D77C224FC5AAD00EA216C /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -394,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				FA4F750D24FAC6FD009E3275 /* ProfileRepo.swift */,
+				FA6D77BE24FC5A8600EA216C /* NotificationRepo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -582,7 +596,7 @@
 				FAE4734A24E1B761003E3991 /* Colors.xcassets in Resources */,
 				FA5DEFA024B6970E00C397CB /* Preview Assets.xcassets in Resources */,
 				FA5DEF9D24B6970E00C397CB /* Assets.xcassets in Resources */,
-				FAD2366E24E496C200F92637 /* GoogleService-Info.plist in Resources */,
+				FA6D77C624FC816D00EA216C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,10 +667,13 @@
 				8DD2C37324F429FC0067A507 /* EditOrganizationProfile.swift in Sources */,
 				8D30BFAE24EF5ECA00970050 /* Post.swift in Sources */,
 				FA4F751024FACA9F009E3275 /* ProfileViewModel.swift in Sources */,
+				FA6D77BF24FC5A8600EA216C /* NotificationRepo.swift in Sources */,
 				FA201E8F24F06234003495DB /* EventItemViewModel.swift in Sources */,
 				8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */,
 				8D30D17E24F55B460020999D /* UserRepo.swift in Sources */,
 				FAA369D224F1EACC00F6CA63 /* EventScreenView.swift in Sources */,
+				FA6D77C824FCA10800EA216C /* NotificationSender.swift in Sources */,
+				FA6D77C324FC5AAD00EA216C /* NotificationViewModel.swift in Sources */,
 				8D515D1424E73D1E00D67144 /* User.swift in Sources */,
 				FA7DAF6F24F1837F00B25430 /* Utils.swift in Sources */,
 				FABA036924F47EA9007C4878 /* MemberListRow.swift in Sources */,
@@ -675,6 +692,7 @@
 				FAFC90A124F3736E00177273 /* ImagePicker.swift in Sources */,
 				FA4F751824FB00AE009E3275 /* CommentRepo.swift in Sources */,
 				8D30BFA324EF166000970050 /* GridView.swift in Sources */,
+				FA6D77C124FC5A9500EA216C /* NotificationListViewModel.swift in Sources */,
 				8D98D12724F0668800F58539 /* StudentProfile.swift in Sources */,
 				FA6D77B724FB055800EA216C /* Comment.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
@@ -841,6 +859,7 @@
 			baseConfigurationReference = AAD896C101B7ACAF6ED83D6D /* Pods-ivy-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ivy-iOS/ivy-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ivy-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 87U2W3H4TZ;
@@ -851,7 +870,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ivycampusplatform.ivy-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivythesocialnetwork.ivy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -863,6 +882,7 @@
 			baseConfigurationReference = EAA7B1A92334F995822B5EE4 /* Pods-ivy-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "ivy-iOS/ivy-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ivy-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 87U2W3H4TZ;
@@ -873,7 +893,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ivycampusplatform.ivy-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivythesocialnetwork.ivy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
