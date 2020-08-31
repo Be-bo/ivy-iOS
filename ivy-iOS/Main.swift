@@ -45,14 +45,9 @@ struct Main: View {
                     Text("Events")
             }
             .tag(0)
-<<<<<<< HEAD
-            
-            
-            
-=======
 
-
->>>>>>> 616de293bca36a66e5dd64c354f76cd60278b521
+            
+            
             // MARK: Home
             HomeTabView(thisUserRepo: thisUserRepo)
                 .tabItem {
@@ -67,24 +62,13 @@ struct Main: View {
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
                 ProfileTabView(thisUserRepo: thisUserRepo)
                 .tabItem {
-<<<<<<< HEAD
-                    selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
-                    Text("Profile")
-                    }
-                .tag(2)
-            }
-            
-=======
                         selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         Text("Profile")
                 }
                 .tag(2)
             }
 
-
-
-
->>>>>>> 616de293bca36a66e5dd64c354f76cd60278b521
+            
         }
         .accentColor(AssetManager.ivyGreen)
         .onDisappear {

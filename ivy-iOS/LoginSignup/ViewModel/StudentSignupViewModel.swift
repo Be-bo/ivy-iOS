@@ -76,6 +76,7 @@ class StudentSignupViewModel: ObservableObject {
     
     
 /* FIREBASE */
+// ORDER: create auth user -> create user document in db -> dismiss view -> send verification email
     
     // Create auth user
     func attemptSignup() {
@@ -92,14 +93,7 @@ class StudentSignupViewModel: ObservableObject {
         Auth.auth().createUser(withEmail: email, password: password)
         { (result, error) in
             if (error == nil) {
-                self.shouldDismissView = true //TODO this might not be a good fix
-                Auth.auth().currentUser?.sendEmailVerification { (error) in
-                    if (error == nil){
-                        self.registerinDB()
-                    } else {
-                        print(error!)
-                    }
-                }
+                self.registerinDB()
                 print("New user Created!")
             } else {
                 print("Error signing up new user.")
@@ -120,10 +114,20 @@ class StudentSignupViewModel: ObservableObject {
                 let _ = try db.collection("users").document(id).setData(from: newStudent)
                 
                 print("Student Document created successfully!")
+                self.shouldDismissView = true
                 self.waitingForResult = false
+                
+                Auth.auth().currentUser?.sendEmailVerification { (error1) in
+                    if (error1 == nil){
+                        print("Verification Email sent!")
+                    } else {
+                        print(error1!)
+                    }
+                }
             }
             catch {
                 print("Unable to encode task: \(error.localizedDescription)")
+                self.shouldDismissView = false
                 self.waitingForResult = false
             }
         }
