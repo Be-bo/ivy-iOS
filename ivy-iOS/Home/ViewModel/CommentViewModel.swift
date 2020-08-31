@@ -15,9 +15,11 @@ class CommentViewModel: ObservableObject, Identifiable{
     @Published var comment: Comment
     var id = ""
     private var cancellables = Set<AnyCancellable>()
+    var selectionId: Int
     
-    init(comment: Comment){
+    init(comment: Comment, selectionId: Int){
         self.comment = comment
+        self.selectionId = selectionId
         $comment.compactMap { comment in
             comment.id
         }

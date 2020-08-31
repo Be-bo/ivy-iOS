@@ -33,6 +33,15 @@ struct PostScreen: View {
     
     
     // MARK: Functions
+    func addToViewIds(){
+        if(Auth.auth().currentUser != nil && postVM.post.id != nil){
+            db.collection("universities").document(postVM.post.uni_domain).collection("posts").document(postVM.post.id!).updateData([
+                "views_id": FieldValue.arrayUnion([Auth.auth().currentUser?.uid ?? ""])
+            ])
+        }
+    }
+    
+    
     func sendCommentNotification(){
         if(Auth.auth().currentUser!.uid != postVM.post.author_id){
             db.collection("users").document(postVM.post.author_id).getDocument { (docSnap, err) in
@@ -330,13 +339,37 @@ struct PostScreen: View {
                 // MARK: Comment List
                 if(self.commentListVM.commentVMs.count > 0){
                     ForEach(commentListVM.commentVMs){ commentVM in
-                        CommentView(commentVM: commentVM).padding(.horizontal, 10)
-                        Divider().padding(.vertical, 20)
+                        ZStack{
+                            VStack{
+                                CommentView(commentVM: commentVM).padding(.horizontal, 10)
+                                    .onTapGesture {
+                                        self.selection = commentVM.selectionId
+                                }
+                                Divider().padding(.vertical, 20)
+                            }
+                            
+                            NavigationLink(
+                                destination: OrganizationProfile(uid: commentVM.comment.author_id)
+                                    .navigationBarTitle("Profile"),
+                                tag: commentVM.selectionId ,
+                                selection: self.$selection) {
+                                    EmptyView()
+                            }
+                        }
                     }
                 }else{
                     Text("No Comments yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                 }
+
+
+
+
             }
+
+            // MARK: onAppear
+        }
+        .onAppear(){
+            self.addToViewIds()
         }
         .keyboardAdaptive()
             .onTapGesture { //hide keyboard when background tapped
