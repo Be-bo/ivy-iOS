@@ -43,6 +43,7 @@ struct StudentProfile: View {
                         .frame(width: 150, height: 150)
                         .clipShape(Circle())
                         .onAppear(){
+                            self.userPicUrl = ""
                             let storage = Storage.storage().reference()
                             storage.child(Utils.userProfileImagePath(userId: self.uid)).downloadURL { (url, err) in
                                 if err != nil{
@@ -136,6 +137,9 @@ struct StudentProfile: View {
                 
             }
             .padding(.horizontal)
+            .onAppear(){
+                self.userPicUrl = "" //force reload
+            }
         }
     }
 }
