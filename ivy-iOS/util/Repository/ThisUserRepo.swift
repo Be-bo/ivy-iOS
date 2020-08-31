@@ -41,7 +41,10 @@ class ThisUserRepo: UserRepo {
     }
     
     func login() {
-        self.userLoggedIn = true
-        self.loadUserProfile()
+        if (Auth.auth().currentUser != nil && Auth.auth().currentUser!.isEmailVerified) {
+            self.userLoggedIn = true
+            self.loadUserProfile()
+            print("Logged in user: \(Auth.auth().currentUser!.uid)")
+        }
     }
 }

@@ -46,7 +46,8 @@ struct Main: View {
             }
             .tag(0)
 
-
+            
+            
             // MARK: Home
             HomeTabView(thisUserRepo: thisUserRepo)
                 .tabItem {
@@ -67,9 +68,7 @@ struct Main: View {
                 .tag(2)
             }
 
-
-
-
+            
         }
         .accentColor(AssetManager.ivyGreen)
         .onDisappear {
