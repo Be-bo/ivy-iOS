@@ -56,7 +56,7 @@ class LoginViewModel: ObservableObject{
                     print(error ?? "")
                 }
                 print(self.errorText)
-                self.shouldDismissView = false
+//                self.shouldDismissView = false
             }
             self.waitingForResult = false
         }

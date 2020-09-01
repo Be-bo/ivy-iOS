@@ -16,13 +16,11 @@ class ThisUserRepo: UserRepo {
     @Published var userLoggedIn = Auth.auth().currentUser != nil
     var handle: AuthStateDidChangeListenerHandle?
     
-    
     override init(){
         super.init()
         listenToAuthChanges()
     }
     
-    // TODO: change to snapshot listener later
     override func loadUserProfile(){
         if let user = Auth.auth().currentUser, let uid = user.uid as String?{
             loadProfile(userid: uid)

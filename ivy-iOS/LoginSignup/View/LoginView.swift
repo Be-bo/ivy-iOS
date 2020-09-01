@@ -13,112 +13,151 @@ struct LoginView: View {
     
     // MARK: Variables
     @ObservedObject var thisUserRepo : ThisUserRepo
-    @ObservedObject var loginVM = LoginViewModel()
+    //    @ObservedObject var loginVM = LoginViewModel()
     @State var showingStudentSignup = false
     @State var showingOrgSignup = false
     @State var loadInProgress = false
     @State var showEmailResentAlert = false
+    @State var displayResendVerifEmail = false
+    @State var email = ""
+    @State var password = ""
+    @State var errorText = ""
     @Environment(\.presentationMode) private var presentationMode
     
     
     
-    // MARK: Body
+    // MARK: Functions
+    func inputOk() -> Bool{ //if basic input checks are ok return true
+        if(!email.isEmpty && !password.isEmpty && password.count > 6 && email.contains("@") && email.contains(".")){
+            return true
+        }else{
+            return false
+        }
+    }
+    
+    func attemptLogin() { // Sign out first just in case...
+        
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if (error == nil && result != nil && result!.user.isEmailVerified) {
+                self.errorText = ""
+                self.displayResendVerifEmail = false
+                self.presentationMode.wrappedValue.dismiss()
+            }
+            else {
+                if (result != nil && !result!.user.isEmailVerified) { // Email not verified yet
+                    self.errorText = "Email not verified yet!"
+                    self.displayResendVerifEmail = true
+                }
+                else { // wrong credentials
+                    self.errorText = "Login failed, invalid email or password."
+                    self.displayResendVerifEmail = false
+                    print(error ?? "")
+                }
+                print(self.errorText)
+            }
+            self.loadInProgress = false
+        }
+    }
+    
+    func resendVerificationEmail(){
+        print("resending")
+        if Auth.auth().currentUser != nil{
+            Auth.auth().currentUser!.sendEmailVerification { (error) in
+                if error != nil{
+                    print("There was an error resending notification email.")
+                    print(error?.localizedDescription)
+                }
+                print("DONE")
+            }
+        }
+    }
+    
+    
+    
+    
+    // MARK: View
     var body: some View {
         
-        ZStack(){
+        VStack(){
+            // MARK: Logo
+            Logo()
             
-            // MARK: Background and Logo
-            ZStack(alignment: .top){
-                LinearGradient(gradient: .init(colors: [AssetManager.ivyGreen, Color.white, Color.white, Color.white]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
-                AssetManager.logoWhite
-                    .resizable().frame(width: 200, height: 200, alignment: .top)
-            }.onTapGesture { //hide keyboard when background tapped
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+            
+            // MARK: Input Fields
+            TextField("Email", text: $email).textContentType(.emailAddress).autocapitalization(.none)
+            Divider().padding(.bottom)
+            SecureField("Password", text: $password).textContentType(.password)
+            Divider().padding(.bottom)
+            
+            if (errorText != "") {
+                Text(errorText).foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom)
             }
             
             
             
-            VStack(alignment: .leading){
+            
+            Button(action: {
+                self.loadInProgress = true
+                self.attemptLogin()
+            }){
+                Text("Log in")
+            }
+                .disabled(!inputOk() || loadInProgress) //button is disabled either when input not ok or when we're waiting for a Firebase result
+                .buttonStyle(StandardButtonStyle(disabled: !inputOk() || loadInProgress)) //setting button style where background color changes based on if input is ok
+            
+            
+            
+            
+            
+            
+            
+            // MARK: Resend Verif Email & Signup Buttons
+            HStack {
+                Spacer()
                 
-                // MARK: Input Fields
-                TextField("Email", text: $loginVM.email).textContentType(.emailAddress).autocapitalization(.none)
-                Divider().padding(.bottom)
-                SecureField("Password", text: $loginVM.password).textContentType(.password)
-                Divider().padding(.bottom)
-                
-                if (!loginVM.waitingForResult) {
-                    Text(loginVM.errorText).foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom)
-                }
-                
-                
-                
-                
-                Button(action: {
-                    self.loadInProgress = true
-                    self.loginVM.attemptLogin()
-                }){
-                    Text("Log in")
-                }
-                    .disabled(!loginVM.inputOk() || loginVM.waitingForResult || loadInProgress) //button is disabled either when input not ok or when we're waiting for a Firebase result
-                    .buttonStyle(StandardButtonStyle(disabled: !loginVM.inputOk() || loginVM.waitingForResult || loadInProgress)) //setting button style where background color changes based on if input is ok
-                    .onReceive(loginVM.viewDismissalModePublisher) { shouldDismiss in //when shouldDismiss changes to true, dismiss this sheet
-                        if shouldDismiss {
-                            self.presentationMode.wrappedValue.dismiss()
-                            self.thisUserRepo.login()
-                        } else {
-                            self.loadInProgress = false
-                        }
-                }
-                
-                
-                
-                
-                
-                
-                // MARK: Resend Verif Email & Signup Buttons
-                HStack {
-                    Spacer()
+                VStack(alignment: .trailing) {
                     
-                    VStack(alignment: .trailing) {
-                        
-                        if(self.loginVM.displayResendVerifEmail){
-                            Text("Resend Verification Email")
-                                .padding(.top)
-                                .foregroundColor(AssetManager.ivyGreen)
-                                .onTapGesture(perform: {
-                                    self.showEmailResentAlert.toggle()
-                                    self.loginVM.resendVerificationEmail()
-                                })
-                                .alert(isPresented: self.$showEmailResentAlert) {
-                                    Alert(title: Text("Verification Email Sent"), message: Text(""), dismissButton: .default(Text("OK")))
-                                }
-                        
+                    if(self.displayResendVerifEmail){
+                        Text("Resend Verification Email")
+                            .padding(.top)
+                            .foregroundColor(AssetManager.ivyGreen)
+                            .onTapGesture(perform: {
+                                self.showEmailResentAlert.toggle()
+                                self.resendVerificationEmail()
+                            })
+                            .alert(isPresented: self.$showEmailResentAlert) {
+                                Alert(title: Text("Verification Email Sent!"), message: Text("It may take up to 24 hours."), dismissButton: .default(Text("OK")))
                         }
                         
-                        Button(action: {
-                            self.showingStudentSignup.toggle()
-                        }){
-                            Text("Student Signup").foregroundColor(AssetManager.ivyGreen)
-                        }
-                        .sheet(isPresented: $showingStudentSignup){
-                            StudentSignup()
-                        }
-                        .padding(.top, 50)
-                    
-
-                        Button(action: {
-                            self.showingOrgSignup.toggle()
-                        }){
-                            Text("Organization Signup").foregroundColor(AssetManager.ivyGreen)
-                        }.sheet(isPresented: $showingOrgSignup){
-                            OrganizationSignup()
-                        }
-                        .padding(.top)
                     }
+                    
+                    Button(action: {
+                        self.showingStudentSignup.toggle()
+                    }){
+                        Text("Student Signup").foregroundColor(AssetManager.ivyGreen)
+                    }
+                    .sheet(isPresented: $showingStudentSignup){
+                        StudentSignup()
+                    }
+                    .padding(.top, 50)
+                    
+                    
+                    Button(action: {
+                        self.showingOrgSignup.toggle()
+                    }){
+                        Text("Organization Signup").foregroundColor(AssetManager.ivyGreen)
+                    }.sheet(isPresented: $showingOrgSignup){
+                        OrganizationSignup()
+                    }
+                    .padding(.top)
                 }
-
             }
-            .padding()
+            
+            Spacer()
+        }.padding()
+            .keyboardAdaptive()
+            .onTapGesture { //hide keyboard when background tapped
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
         }
     }
 }
@@ -127,15 +166,3 @@ struct LoginView: View {
 
 
 
-
-
-
-
-
-// MARK: Preview
-
-//struct Login_Previews: PreviewProvider {
-//    static var previews: some View {
-//
-//    }
-//}

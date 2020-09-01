@@ -22,12 +22,12 @@ struct Main: View {
     
     
     init(){
-        print("init main")
         if Auth.auth().currentUser != nil{
             thisUserDataRepo = UserRepo(userid: Auth.auth().currentUser!.uid)
         }else{
             thisUserDataRepo = UserRepo()
         }
+        Utils.checkForUnverified()
     }
     
     
