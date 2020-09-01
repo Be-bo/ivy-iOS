@@ -20,6 +20,7 @@ struct AssetManager {
     static let logoWhite = Image("LogoWhite")
     static let logoGreen = Image("LogoGreen")
     static let uniLogoPlaceholder = Image("LogoMask")
+    static let featuredPlaceholder = Image("FeaturedPlaceholder")
     
     static let eventPlaceholder = Image("EventPlaceholder")
     static let pinIcon = Image("PinIcon")

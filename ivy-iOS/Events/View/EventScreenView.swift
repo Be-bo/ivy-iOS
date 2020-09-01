@@ -28,6 +28,7 @@ struct EventScreenView: View {
     @State private var inputImage: UIImage?
     @State private var image: Image?
     @State private var showingImagePicker = false
+    @State private var showNotLoggedInAlert = false
     @State var loadInProgress = false
     private var notificationSender = NotificationSender()
     
@@ -51,7 +52,7 @@ struct EventScreenView: View {
                 if let doc = docSnap{
                     let author = User()
                     author.docToObject(doc: doc)
-                    self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your event.", body: Utils.getThisUserName() + " commented on " + self.eventVM.event.name, conversationID: "")
+                    self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your event.", body: Utils.getThisUserName() + " commented on: " + self.eventVM.event.name, conversationID: "")
                 }
             }
         }
@@ -184,6 +185,18 @@ struct EventScreenView: View {
                                 selection: self.$selection) {
                                     EmptyView()
                             }
+                        }else{
+                            Button(action: {
+                                self.showNotLoggedInAlert = true
+                            }) {
+                                HStack{
+                                    Text("invisible button right here").hidden()
+                                    Spacer()
+                                }
+                            }
+                            .alert(isPresented: $showNotLoggedInAlert) {
+                                Alert(title: Text("Login Required"), message: Text("Log in to see this user's events and posts!"), dismissButton: .default(Text("Got it!")))
+                            }
                         }
                         
 //                        if (eventVM.event.author_is_organization) {
@@ -254,9 +267,19 @@ struct EventScreenView: View {
                                             selection: self.$selection) {
                                                 EmptyView()
                                         }
+                                    }else{
+                                        Button(action: {
+                                            self.showNotLoggedInAlert = true
+                                        }) {
+                                            HStack{
+                                                Text("invisible").hidden()
+                                                Spacer()
+                                            }
+                                        }
+                                        .alert(isPresented: self.$showNotLoggedInAlert) {
+                                            Alert(title: Text("Login Required"), message: Text("Log in to see this user's events and posts!"), dismissButton: .default(Text("Got it!")))
+                                        }
                                     }
-                                    
-                                    
                                 }
                                 .padding(.leading, 10)
                             }

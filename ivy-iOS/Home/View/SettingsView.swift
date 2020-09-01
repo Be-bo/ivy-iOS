@@ -40,9 +40,10 @@ struct SettingsView: View {
                     }){
                         Text("Save Campus").foregroundColor(AssetManager.ivyGreen)
                     }
-                    Divider().padding(.top).padding(.bottom)
+                }else{
+                    Text("Sorry, for now you have to be logged out to be able to switch campuses. :-(")
                 }
-                
+                Divider().padding(.top).padding(.bottom)
                 
                 Button(action: {
                     UIApplication.shared.open(URL(string: "http://theivysocialnetwork.com/static/Terms-of-Use.docx")!)

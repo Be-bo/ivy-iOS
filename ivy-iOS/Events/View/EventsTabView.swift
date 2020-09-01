@@ -37,71 +37,75 @@ struct EventsTabView: View {
     
     @ObservedObject var eventTabVM = EventTabViewModel()
     @State var featuredUrl = ""
-    
+    @State private var showingFeaturedAlert = false
     @State var selection: Int? = nil
     @State private var loggedIn = false
     var onCommit: (User) -> (Void) = {_ in}
     
-
+    
     
     var body: some View {
         NavigationView{
             ScrollView(.vertical, showsIndicators: false){
                 
                 VStack{
+                     
+                    
+                    // MARK: Featured
+                    HStack{
+                        Text("Featured").font(.system(size: 25))
+                        Spacer()
+                    }.padding(.leading)
+                    
+                    VStack(alignment: .leading){
+                        ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
+                            ZStack{
+                                WebImage(url: URL(string: self.featuredUrl))
+                                    .resizable()
+                                    .placeholder(AssetManager.logoWhite)
+                                    .background(AssetManager.ivyLightGrey)
+                                    .frame(width: UIScreen.screenWidth-20, height: UIScreen.screenWidth-20)
+                                    .cornerRadius(30)
+                                    .onAppear(){
+                                        let storage = Storage.storage().reference()
+                                        storage.child(eventItemVM.event.visual).downloadURL { (url, err) in
+                                            if err != nil{
+                                                print("Error loading featured image.")
+                                                return
+                                            }
+                                            self.featuredUrl = "\(url!)"
+                                        }
+                                }.onTapGesture{
+                                    self.selection = 1
+                                }
+                                
+                                
+                                NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+                                    EmptyView()
+                                }
+                                
+                            }
+                        }
+                        .padding(.bottom, 30)
+                        
+                        if(eventTabVM.featuredEventVMs.count < 1){
+                            Button(action: {
+                                self.showingFeaturedAlert = true
+                            }){
+                                AssetManager.featuredPlaceholder.resizable().frame(width: UIScreen.screenWidth-20, height: UIScreen.screenWidth/2)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .alert(isPresented: self.$showingFeaturedAlert) {
+                                Alert(title: Text("Feature Your Event"), message: Text("Interested? Shoot us an email at theivysocialnetwork@gmail.com."), dismissButton: .default(Text("OK")))
+                            }
+                        }
+                    }
+                    
                     // MARK: Empty Text
                     if(eventTabVM.featuredEventVMs.count < 1 && eventTabVM.todayEventVMs.count < 1 && eventTabVM.thisWeekEventVMs.count < 1 && eventTabVM.upcomingEventVMs.count < 1){
                         Text("No events on this campus right now!").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(30)
                     }
                     
-                    // MARK: Loading
-                    //                if(!eventTabVM.eventRepo.eventsLoaded){
-                    //                    LoadingSpinner().frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight, alignment: .center)
-                    //                }else{
-                    //                    EmptyView() //this has to be here!!!
-                    //                }
-                    
-                    
-                    
-                    // MARK: Featured
-                    if(eventTabVM.featuredEventVMs.count > 0){
-                        HStack{
-                            Text("Featured").font(.system(size: 25))
-                            Spacer()
-                        }.padding(.leading)
-                        
-                        VStack(alignment: .leading){
-                            ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
-                                ZStack{
-                                    WebImage(url: URL(string: self.featuredUrl))
-                                        .resizable()
-                                        .placeholder(AssetManager.logoWhite)
-                                        .background(AssetManager.ivyLightGrey)
-                                        .frame(width: UIScreen.screenWidth-20, height: UIScreen.screenWidth-20)
-                                        .cornerRadius(30)
-                                        .onAppear(){
-                                            let storage = Storage.storage().reference()
-                                            storage.child(eventItemVM.event.visual).downloadURL { (url, err) in
-                                                if err != nil{
-                                                    print("Error loading featured image.")
-                                                    return
-                                                }
-                                                self.featuredUrl = "\(url!)"
-                                            }
-                                    }.onTapGesture{
-                                        self.selection = 1
-                                    }
-                                    
-                                    
-                                    NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
-                                        EmptyView()
-                                    }
-                                    
-                                }
-                            }
-                            .padding(.bottom, 30)
-                        }
-                    }
                     
                     
                     
