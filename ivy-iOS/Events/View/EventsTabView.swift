@@ -26,7 +26,7 @@ import Firebase
 
 struct EventsTabView: View {
     @State var shouldScroll = true
-    @ObservedObject var uniInfo = UniInfo()
+    @State private var uniUrl = ""
     @ObservedObject private var thisUserRepo = ThisUserRepo()
     
     @State private var settingsPresented = false
@@ -199,13 +199,14 @@ struct EventsTabView: View {
                                     if(self.eventTabVM.currentUni != Utils.getCampusUni()){
                                         self.eventTabVM.reloadData()
                                         self.eventTabVM.currentUni = Utils.getCampusUni()
+                                        self.uniUrl = "test"
                                     }
                                 }){
-                                    SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
+                                    SettingsView(thisUserRepo: self.thisUserRepo)
                             }
                         }
                         
-                        WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                        WebImage(url: URL(string: self.uniUrl))
                             .resizable()
                             .placeholder(AssetManager.uniLogoPlaceholder)
                             .aspectRatio(contentMode: .fit)
@@ -218,7 +219,7 @@ struct EventsTabView: View {
                                         print("Error loading uni logo image.")
                                         return
                                     }
-                                    self.uniInfo.uniLogoUrl = "\(url!)"
+                                    self.uniUrl = "\(url!)"
                                 }
                         }
                         

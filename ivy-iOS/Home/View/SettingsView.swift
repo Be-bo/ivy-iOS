@@ -13,7 +13,6 @@ import Firebase
 struct SettingsView: View {
     
     @State var uniSelection: String? = Utils.getCampusUni()
-    @ObservedObject var uniInfo = UniInfo()
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var thisUserRepo: ThisUserRepo
     
@@ -35,7 +34,6 @@ struct SettingsView: View {
                     
                     Button(action: {
                         Utils.setCampusUni(newUni: self.uniSelection ?? Utils.getCampusUni())
-                        self.uniInfo.uniLogoUrl = Utils.uniLogoPath()
                         self.presentationMode.wrappedValue.dismiss()
                     }){
                         Text("Save Campus").foregroundColor(AssetManager.ivyGreen)

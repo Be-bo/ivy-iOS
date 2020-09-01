@@ -77,7 +77,6 @@
 		FABA035F24F43631007C4878 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA035E24F43631007C4878 /* Extensions.swift */; };
 		FABA036124F446D1007C4878 /* CreatePostRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036024F446D1007C4878 /* CreatePostRepo.swift */; };
 		FABA036324F457D5007C4878 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036224F457D5007C4878 /* SettingsView.swift */; };
-		FABA036524F46317007C4878 /* UniInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036424F46317007C4878 /* UniInfo.swift */; };
 		FABA036724F47A33007C4878 /* NotificationCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036624F47A33007C4878 /* NotificationCenterView.swift */; };
 		FABA036924F47EA9007C4878 /* MemberListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA036824F47EA9007C4878 /* MemberListRow.swift */; };
 		FAC9825024F71DB800991873 /* StandaloneEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9824F24F71DB800991873 /* StandaloneEventViewModel.swift */; };
@@ -166,7 +165,6 @@
 		FABA035E24F43631007C4878 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FABA036024F446D1007C4878 /* CreatePostRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostRepo.swift; sourceTree = "<group>"; };
 		FABA036224F457D5007C4878 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		FABA036424F46317007C4878 /* UniInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniInfo.swift; sourceTree = "<group>"; };
 		FABA036624F47A33007C4878 /* NotificationCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterView.swift; sourceTree = "<group>"; };
 		FABA036824F47EA9007C4878 /* MemberListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListRow.swift; sourceTree = "<group>"; };
 		FAC9824F24F71DB800991873 /* StandaloneEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneEventViewModel.swift; sourceTree = "<group>"; };
@@ -468,7 +466,6 @@
 			children = (
 				FA2B0EE824F2C74A00B746FB /* PostRepo.swift */,
 				FABA036024F446D1007C4878 /* CreatePostRepo.swift */,
-				FABA036424F46317007C4878 /* UniInfo.swift */,
 				FA4F751724FB00AE009E3275 /* CommentRepo.swift */,
 			);
 			path = Model;
@@ -699,7 +696,6 @@
 				FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */,
 				FA2B0EE124F2C65500B746FB /* HomeTabView.swift in Sources */,
 				A9B0A71D24B8058500A11A1D /* Main.swift in Sources */,
-				FABA036524F46317007C4878 /* UniInfo.swift in Sources */,
 				FA7DAF7124F1858200B25430 /* Constant.swift in Sources */,
 				FA7274AA24F1E2FA0071A98C /* ExploreAllEventsView.swift in Sources */,
 				8D30D18024F579180020999D /* UserProfileSupport.swift in Sources */,

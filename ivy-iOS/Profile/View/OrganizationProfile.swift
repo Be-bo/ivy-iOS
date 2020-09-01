@@ -16,7 +16,6 @@ struct OrganizationProfile: View {
     var uid = ""
     @ObservedObject var thisUserRepo = ThisUserRepo()
     @ObservedObject var profileViewModel: ProfileViewModel
-    @ObservedObject var uniInfo = UniInfo()
     @State var userPicUrl = ""
     @State var editProfile = false
     @State var seeMemberRequests = false

@@ -11,12 +11,12 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct HomeTabView: View {
-    @ObservedObject var uniInfo = UniInfo()
     var thisUserRepo: ThisUserRepo
     @State private var settingsPresented = false
     @State private var createPostPresented = false
     @State private var loginPresented = false
     @State private var notificationCenterPresented = false
+    @State private var uniUrl = ""
     @ObservedObject var homeTabVM = HomeTabViewModel()
     
     var body: some View {
@@ -49,29 +49,31 @@ struct HomeTabView: View {
                         }) {
                             Image(systemName: "gear").font(.system(size: 25))
                                 .sheet(isPresented: $settingsPresented, onDismiss: {
-                                    if(self.homeTabVM.currentUni != Utils.getCampusUni()){ //if uni changed, reload data
+                                    if(self.homeTabVM.currentUni != Utils.getCampusUni()){ //if uni changed, reload data, refresh uni logo
                                         self.homeTabVM.reloadData()
                                         self.homeTabVM.currentUni = Utils.getCampusUni()
+                                        self.uniUrl = "test"
                                     }
                                 }){
-                                    SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
+                                    SettingsView(thisUserRepo: self.thisUserRepo)
                             }
                         }
                         
-                        WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                        WebImage(url: URL(string: self.uniUrl))
                             .resizable()
                             .placeholder(AssetManager.uniLogoPlaceholder)
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 40, height: 40)
                             .padding(.leading, (UIScreen.screenWidth/2 - 75))
                             .onAppear(){
+                                self.uniUrl = "test"
                                 let storage = Storage.storage().reference()
                                 storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
                                     if err != nil{
                                         print("Error loading uni logo image.")
                                         return
                                     }
-                                    self.uniInfo.uniLogoUrl = "\(url!)"
+                                    self.uniUrl = "\(url!)"
                                 }
                         }
                         
