@@ -22,25 +22,23 @@ struct HomeTabView: View {
     var body: some View {
         
         NavigationView{
+            
             VStack{
-               if(homeTabVM.homePostsVMs.count < 1){
-                    Text("No posts on this campus just yet!")
-                    .font(.system(size: 25))
-                    .foregroundColor(AssetManager.ivyLightGrey)
-                    .multilineTextAlignment(.center)
-                    .padding(30)
-                }else{
-                    EmptyView()
-                }
-                
-                VStack{
-                    List(){
-                        ForEach(homeTabVM.homePostsVMs){ postItemVM in
-                            HomePostView(postItemVM: postItemVM)
-                        }
+                List(){
+                    ForEach(homeTabVM.homePostsVMs){ postItemVM in
+                        HomePostView(postItemVM: postItemVM)
                     }
                 }
+                
+                if(homeTabVM.homePostsVMs.count < 1){
+                    Text("No posts on this campus just yet!")
+                        .font(.system(size: 25))
+                        .foregroundColor(AssetManager.ivyLightGrey)
+                        .multilineTextAlignment(.center)
+                        .padding(30)
+                }
             }
+                
                 
  
                 //MARK: Nav Bar

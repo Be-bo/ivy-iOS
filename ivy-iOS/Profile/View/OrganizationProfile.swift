@@ -97,7 +97,7 @@ struct OrganizationProfile: View {
                         }
                         else {
                             // MARK: Membership Buttons
-                            if Auth.auth().currentUser != nil && profileViewModel.userInfoVM.userProfile.id != Auth.auth().currentUser!.uid{ //user had to be logged in and not be viewing themselves 3rd party
+                            if Auth.auth().currentUser != nil && profileViewModel.userInfoVM.userProfile.id != Auth.auth().currentUser!.uid && profileViewModel.userInfoVM.userProfile.is_organization{ //user had to be logged in and not be viewing themselves 3rd party
                                 
                                 // MARK: Student Requesting Buttons
                                 

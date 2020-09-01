@@ -397,7 +397,7 @@ struct CreatePostView: View {
                             TextField("Location", text: $location)
                             Divider().padding(.bottom, 10)
                             
-                            TextField("Link", text: $link)
+                            TextField("Link (optional, include full url)", text: $link)
                             Divider().padding(.bottom, 10)
                             
                             DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute])

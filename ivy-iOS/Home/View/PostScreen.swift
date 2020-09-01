@@ -27,6 +27,7 @@ struct PostScreen: View {
     @State private var image: Image?
     @State private var showingImagePicker = false
     @State private var editPostPresented = false
+    @State private var showNotLoggedInAlert = false
     private var notificationSender = NotificationSender()
     var onCommit: (Post) -> (Void) = {_ in}
     
@@ -182,6 +183,18 @@ struct PostScreen: View {
                                 tag: 1,
                                 selection: self.$selection) {
                                     EmptyView()
+                            }
+                        }else{
+                            Button(action: {
+                                self.showNotLoggedInAlert = true
+                            }) {
+                                HStack{
+                                    Text("invisible button right here").hidden()
+                                    Spacer()
+                                }
+                            }
+                            .alert(isPresented: $showNotLoggedInAlert) {
+                                Alert(title: Text("Login Required"), message: Text("Log in to see this user's events and posts!"), dismissButton: .default(Text("Got it!")))
                             }
                         }
                         
