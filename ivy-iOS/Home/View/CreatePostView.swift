@@ -121,8 +121,8 @@ struct CreatePostView: View {
             }else{ //editing event
                 alreadyExistingEvent.text = textInput
                 alreadyExistingEvent.name = eventName
-                alreadyExistingEvent.start_millis = Int(startDate.timeIntervalSince1970*1000)
-                alreadyExistingEvent.end_millis = Int(endDate.timeIntervalSince1970*1000)
+                alreadyExistingEvent.start_millis = Int(startDate.timeIntervalSince1970)*1000
+                alreadyExistingEvent.end_millis = Int(endDate.timeIntervalSince1970)*1000
                 alreadyExistingEvent.link = link
                 alreadyExistingEvent.location = location
             }
@@ -159,8 +159,8 @@ struct CreatePostView: View {
                 newPost["is_event"] = true
                 newPost["views_id"] = [String]()
                 newPost["going_ids"] = [String]()
-                newPost["start_millis"] = Int(startDate.timeIntervalSince1970*1000)
-                newPost["end_millis"] = Int(endDate.timeIntervalSince1970*1000)
+                newPost["start_millis"] = Int(startDate.timeIntervalSince1970) * 1000
+                newPost["end_millis"] = Int(endDate.timeIntervalSince1970) * 1000
                 newPost["is_active"] = true
                 newPost["is_featured"] = false
                 newPost["link"] = link
@@ -368,7 +368,11 @@ struct CreatePostView: View {
                     }
                     
                     // MARK: Text
-                    TextField("Text", text: $textInput)
+                    if(typePick == 0){
+                        TextField("Text", text: $textInput)
+                    }else{
+                        TextField("Description", text: $textInput)
+                    }
                     Divider().padding(.bottom, 10)
                     
                     
