@@ -44,7 +44,6 @@ class ThisUserRepo: UserRepo {
         if (Auth.auth().currentUser != nil && Auth.auth().currentUser!.isEmailVerified) {
             self.userLoggedIn = true
             self.loadUserProfile()
-            print("Logged in user: \(Auth.auth().currentUser!.uid)")
         }
     }
 }

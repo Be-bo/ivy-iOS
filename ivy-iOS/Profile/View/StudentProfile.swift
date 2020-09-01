@@ -13,7 +13,6 @@ import Firebase
 struct StudentProfile: View {
     @ObservedObject var thisUserRepo = ThisUserRepo()
     @ObservedObject var profileViewModel: ProfileViewModel
-    @ObservedObject var uniInfo = UniInfo()
     var uid = ""
     @State var editProfile = false
     @State var selection : Int? = nil

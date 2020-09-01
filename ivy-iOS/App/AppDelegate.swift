@@ -20,16 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     override init() {
         super.init()
-        
-        
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
     }
     
     
     // MARK: didFinishLaunchingWithOptions
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        FirebaseApp.configure()
         
         UNUserNotificationCenter.current().delegate = self
         if #available(iOS 10.0, *) {
@@ -46,10 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             application.registerUserNotificationSettings(settings)
         }
         
-        application.registerForRemoteNotifications()
-        Messaging.messaging().delegate = self
-        
-        
         
         InstanceID.instanceID().instanceID { (result, error) in
             if let error = error {
@@ -58,6 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 print("Remote instance ID token: \(result.token)")
             }
         }
+        
+        Messaging.messaging().shouldEstablishDirectChannel = true
+        application.registerForRemoteNotifications()
         
         return true
     }

@@ -14,7 +14,7 @@ import SDWebImageSwiftUI
 
 struct ProfileTabView: View {
     @ObservedObject var thisUserRepo: ThisUserRepo
-    @ObservedObject var uniInfo = UniInfo()
+    @State private var uniUrl = ""
     @State private var settingsPresented = false
     @State private var notificationCenterPresented = false
     
@@ -39,12 +39,12 @@ struct ProfileTabView: View {
                         }) {
                             Image(systemName: "gear").font(.system(size: 25))
                                 .sheet(isPresented: $settingsPresented){
-                                    SettingsView(uniInfo: self.uniInfo, thisUserRepo: self.thisUserRepo)
+                                    SettingsView(thisUserRepo: self.thisUserRepo)
                             }
                         }
                         
                         // Uni Logo
-                        WebImage(url: URL(string: self.uniInfo.uniLogoUrl))
+                        WebImage(url: URL(string: self.uniUrl))
                             .resizable()
                             .placeholder(AssetManager.uniLogoPlaceholder)
                             .aspectRatio(contentMode: .fit)
@@ -57,7 +57,7 @@ struct ProfileTabView: View {
                                         print("Error loading uni logo image.")
                                         return
                                     }
-                                    self.uniInfo.uniLogoUrl = "\(url!)"
+                                    self.uniUrl = "\(url!)"
                                 }
                         }
                         
