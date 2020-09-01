@@ -175,13 +175,14 @@ struct PostScreen: View {
                             self.selection = 1
                         }
                         
-                        
-                        NavigationLink(
-                            destination: OrganizationProfile(uid: postVM.post.author_id)
-                                .navigationBarTitle("Profile"),
-                            tag: 1,
-                            selection: self.$selection) {
-                                EmptyView()
+                        if(Auth.auth().currentUser != nil){
+                            NavigationLink(
+                                destination: OrganizationProfile(uid: postVM.post.author_id)
+                                    .navigationBarTitle("Profile"),
+                                tag: 1,
+                                selection: self.$selection) {
+                                    EmptyView()
+                            }
                         }
                         
 //                        if (postVM.post.author_is_organization) {
@@ -337,29 +338,34 @@ struct PostScreen: View {
                 
                 
                 // MARK: Comment List
-                if(self.commentListVM.commentVMs.count > 0){
-                    ForEach(commentListVM.commentVMs){ commentVM in
-                        ZStack{
-                            VStack{
-                                CommentView(commentVM: commentVM).padding(.horizontal, 10)
-                                    .onTapGesture {
-                                        self.selection = commentVM.selectionId
+                if(Auth.auth().currentUser != nil){
+                    if(self.commentListVM.commentVMs.count > 0){
+                        ForEach(commentListVM.commentVMs){ commentVM in
+                            ZStack{
+                                VStack{
+                                    CommentView(commentVM: commentVM).padding(.horizontal, 10)
+                                        .onTapGesture {
+                                            self.selection = commentVM.selectionId
+                                    }
+                                    Divider().padding(.vertical, 20)
                                 }
-                                Divider().padding(.vertical, 20)
-                            }
-                            
-                            NavigationLink(
-                                destination: OrganizationProfile(uid: commentVM.comment.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: commentVM.selectionId ,
-                                selection: self.$selection) {
-                                    EmptyView()
+                                
+                                NavigationLink(
+                                    destination: OrganizationProfile(uid: commentVM.comment.author_id)
+                                        .navigationBarTitle("Profile"),
+                                    tag: commentVM.selectionId ,
+                                    selection: self.$selection) {
+                                        EmptyView()
+                                }
                             }
                         }
+                    }else{
+                        Text("No Comments yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                     }
                 }else{
-                    Text("No Comments yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
+                    Text("Log in to see comments.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                 }
+                
 
 
 

@@ -80,7 +80,7 @@ struct OrganizationProfile: View {
                                 self.editProfile.toggle()
                             }){
                                 Text("Edit").sheet(isPresented: $editProfile, onDismiss: { //refresh profile pic
-                                    self.userPicUrl = "" //to force update
+                                    self.userPicUrl = "test" //to force update even when it's ""
                                     let storage = Storage.storage().reference()
                                     storage.child(self.profileViewModel.userInfoVM.userProfile.profileImagePath()).downloadURL { (url, err) in
                                         if err != nil{
@@ -188,7 +188,7 @@ struct OrganizationProfile: View {
                             //}
                         }
                             
-                        else {
+                        else if profileViewModel.userPostVMs.count == 0 && profileViewModel.userEventVMs.count == 0 {
                             Spacer()
                             Text("No Posts or Events yet!")
                                 .foregroundColor(.gray)

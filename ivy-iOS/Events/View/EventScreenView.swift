@@ -176,12 +176,14 @@ struct EventScreenView: View {
                         .padding(.bottom)
                         
                         
-                        NavigationLink(
-                            destination: OrganizationProfile(uid: eventVM.event.author_id)
-                                .navigationBarTitle("Profile"),
-                            tag: 1,
-                            selection: self.$selection) {
-                                EmptyView()
+                        if(Auth.auth().currentUser != nil){
+                            NavigationLink(
+                                destination: OrganizationProfile(uid: eventVM.event.author_id)
+                                    .navigationBarTitle("Profile"),
+                                tag: 1,
+                                selection: self.$selection) {
+                                    EmptyView()
+                            }
                         }
                         
 //                        if (eventVM.event.author_is_organization) {
@@ -243,12 +245,15 @@ struct EventScreenView: View {
                                         .onTapGesture{
                                             self.selection = self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2 //needed to have a unique tag for each going person, so we use their index in the array with an offset
                                     }
-                                    NavigationLink(
-                                        destination: OrganizationProfile(uid: currentId)
-                                            .navigationBarTitle("Profile"),
-                                        tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
-                                        selection: self.$selection) {
-                                            EmptyView()
+                                    
+                                    if(Auth.auth().currentUser != nil){
+                                        NavigationLink(
+                                            destination: OrganizationProfile(uid: currentId)
+                                                .navigationBarTitle("Profile"),
+                                            tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
+                                            selection: self.$selection) {
+                                                EmptyView()
+                                        }
                                     }
                                     
                                     
@@ -432,29 +437,34 @@ struct EventScreenView: View {
             
             
             // MARK: Comment List
-            if(self.commentListVM.commentVMs.count > 0){
-                ForEach(commentListVM.commentVMs){ commentVM in
-                    ZStack{
-                        VStack{
-                            CommentView(commentVM: commentVM).padding(.horizontal, 10)
-                                .onTapGesture {
-                                    self.selection = commentVM.selectionId
+            if(Auth.auth().currentUser != nil){
+                if(self.commentListVM.commentVMs.count > 0){
+                    ForEach(commentListVM.commentVMs){ commentVM in
+                        ZStack{
+                            VStack{
+                                CommentView(commentVM: commentVM).padding(.horizontal, 10)
+                                    .onTapGesture {
+                                        self.selection = commentVM.selectionId
+                                }
+                                Divider().padding(.vertical, 20)
                             }
-                            Divider().padding(.vertical, 20)
-                        }
-                        
-                        NavigationLink(
-                            destination: OrganizationProfile(uid: commentVM.comment.author_id)
-                                .navigationBarTitle("Profile"),
-                            tag: commentVM.selectionId ,
-                            selection: self.$selection) {
-                                EmptyView()
+                            
+                            NavigationLink(
+                                destination: OrganizationProfile(uid: commentVM.comment.author_id)
+                                    .navigationBarTitle("Profile"),
+                                tag: commentVM.selectionId ,
+                                selection: self.$selection) {
+                                    EmptyView()
+                            }
                         }
                     }
+                }else{
+                    Text("No Comments yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                 }
             }else{
-                Text("No Comments yet.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
+                Text("Log in to see comments.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
             }
+            
             
             
             
