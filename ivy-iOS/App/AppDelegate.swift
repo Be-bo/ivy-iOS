@@ -20,14 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     override init() {
         super.init()
-        FirebaseApp.configure()
-        Messaging.messaging().delegate = self
-        UNUserNotificationCenter.current().delegate = self
     }
     
     
     // MARK: didFinishLaunchingWithOptions
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+        UNUserNotificationCenter.current().delegate = self
         
         UNUserNotificationCenter.current().delegate = self
         if #available(iOS 10.0, *) {
