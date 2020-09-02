@@ -36,7 +36,7 @@ struct LoginView: View {
     }
     
     func attemptLogin() { // Sign out first just in case...
-        
+        try? Auth.auth().signOut()
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if (error == nil && result != nil && result!.user.isEmailVerified) {
                 self.errorText = ""
