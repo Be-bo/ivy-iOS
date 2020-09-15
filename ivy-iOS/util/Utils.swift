@@ -8,9 +8,17 @@
 
 import Foundation
 import SwiftUI
+import Firebase
 
 final class Utils {
     private init(){}
+    
+    static func checkForUnverified(){
+        if(Auth.auth().currentUser != nil && !Auth.auth().currentUser!.isEmailVerified){ //if user opened the app and they're signed in but not verif, have to sign them out
+            print("SIGNING OUT")
+            try? Auth.auth().signOut()
+        }
+    }
     
     static func verifyUrl (urlString: String?) -> Bool {
         if let urlString = urlString {

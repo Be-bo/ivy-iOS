@@ -22,12 +22,12 @@ struct Main: View {
     
     
     init(){
-        print("init main")
         if Auth.auth().currentUser != nil{
             thisUserDataRepo = UserRepo(userid: Auth.auth().currentUser!.uid)
         }else{
             thisUserDataRepo = UserRepo()
         }
+        Utils.checkForUnverified()
     }
     
     
@@ -60,7 +60,10 @@ struct Main: View {
 
             // MARK: Profile
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
-                ProfileTabView(thisUserRepo: thisUserRepo)
+                NavigationView{
+                    OrganizationProfile(uid: Auth.auth().currentUser?.uid ?? "")
+                }
+                
                 .tabItem {
                         selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         Text("Profile")

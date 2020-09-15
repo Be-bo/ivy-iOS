@@ -239,17 +239,19 @@ struct EventsTabView: View {
                                 }
                             }
                         }
-                        else {
-                            Button(action: {
-                                self.loginPresented.toggle()
-                            }) {
-                                Image(systemName: "arrow.right.circle")
-                                    .font(.system(size: 25))
-                                    .sheet(isPresented: $loginPresented) {
-                                        LoginView(thisUserRepo: self.thisUserRepo)
-                                }
-                            }
-                        }
+//                        else {
+//                            Button(action: {
+//                                self.loginPresented.toggle()
+//                            }) {
+//                                Image(systemName: "arrow.right.circle")
+//                                    .font(.system(size: 25))
+//                                    .sheet(isPresented: $loginPresented, onDismiss: {
+//                                        Utils.checkForUnverified()
+//                                    }) {
+//                                        LoginView(thisUserRepo: self.thisUserRepo)
+//                                }
+//                            }
+//                        }
                 })
         }
     }
