@@ -111,22 +111,14 @@ struct EditOrganizationProfile: View {
                         .clipShape(Circle())
                         .padding(.bottom, 10)
                 }else{
-                    WebImage(url: URL(string: imgUrl))
-                        .resizable()
-                        .placeholder(Image(systemName: "person.crop.circle.fill"))
-                        .frame(width: 250, height: 250)
-                        .clipShape(Circle())
-                        .padding(.bottom, 10)
-                        .onAppear(){
-                            let storage = Storage.storage().reference()
-                            storage.child(Utils.userProfileImagePath(userId: self.userProfile.id ?? "")).downloadURL { (url, err) in
-                                if err != nil{
-                                    print("Error loading event image.")
-                                    return
-                                }
-                                self.imgUrl = "\(url!)"
-                            }
-                    }
+                    
+                    FirebaseImage(
+                        path: self.userProfile.profileImagePath(),
+                        placeholder: Image(systemName: "person.crop.circle.fill"),
+                        width: 250,
+                        height: 250,
+                        shape: RoundedRectangle(cornerRadius: 125)
+                    )
                 }
                 
                 
@@ -163,6 +155,7 @@ struct EditOrganizationProfile: View {
             }
         }
         .padding()
+        .foregroundColor(Color.black)
         .keyboardAdaptive()
         .onTapGesture { //hide keyboard when background tapped
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)

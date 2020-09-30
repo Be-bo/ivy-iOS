@@ -30,6 +30,6 @@ class HomeTabViewModel: ObservableObject {
     }
     
     func reloadData(){
-        homeRepo.loadHomePosts()
+        homeRepo.startFetchingPosts()
     }
 }

@@ -23,21 +23,14 @@ struct HomePostView: View {
             
             // MARK: Author & Time
             VStack{
-                WebImage(url: URL(string: authorUrl))
-                    .resizable()
-                    .placeholder(Image(systemName: "person.crop.circle.fill"))
-                    .frame(width: 40, height: 40)
-                    .clipShape(Circle())
-                    .onAppear(){
-                        let storage = Storage.storage().reference()
-                        storage.child(Utils.userPreviewImagePath(userId: self.postItemVM.post.author_id)).downloadURL { (url, err) in
-                            if err != nil{
-                                print("Error loading event image.")
-                                return
-                            }
-                            self.authorUrl = "\(url!)"
-                        }
-                    }
+
+                FirebaseImage(
+                    path: Utils.userPreviewImagePath(userId: self.postItemVM.post.author_id),
+                    placeholder: Image(systemName: "person.crop.circle.fill"),
+                    width: 40,
+                    height: 40,
+                    shape: RoundedRectangle(cornerRadius: 20)
+                )
                     
                     if postItemVM.post.creation_millis != nil {
                         Text(Utils.getHumanTimeFromMillis(millis: Double(postItemVM.post.creation_millis!)))
@@ -59,7 +52,7 @@ struct HomePostView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                     
-                    NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 1, selection: self.$selection) { //both post and image are clickable for post screen transition
+                    NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(Text(postItemVM.post.author_name+"'s Post"), displayMode: .inline), tag: 1, selection: self.$selection) { //both post and image are clickable for post screen transition
                         EmptyView()
                     }
                 }
@@ -81,26 +74,18 @@ struct HomePostView: View {
                         Button(action: {
                             self.selection = 2
                         }){
-                            WebImage(url: URL(string: url)) //TODO: event image
-                                .resizable()
-                                .placeholder(AssetManager.logoWhite)
-                                .background(AssetManager.ivyLightGrey)
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 30))
-                                .onAppear(){
-                                    let storage = Storage.storage().reference()
-                                    storage.child(self.postItemVM.post.visual).downloadURL { (url, err) in
-                                        if err != nil{
-                                            print("Error loading post image.")
-                                            return
-                                        }
-                                        self.url = "\(url!)"
-                                    }
-                            }
+                            FirebaseImage(
+                                path: Utils.postPreviewImagePath(postId: postItemVM.post.id!),
+                                placeholder: AssetManager.logoGreen,
+                                width: (UIScreen.screenWidth - 100),
+                                height: (UIScreen.screenWidth - 100),
+                                shape: RoundedRectangle(cornerRadius: 25)
+                            )
+                        
                         }
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(postItemVM.post.author_name+"'s Post"), tag: 2, selection: self.$selection) { //both post and image are clickable for post screen transition
+                        NavigationLink(destination: PostScreen(postVM: postItemVM).navigationBarTitle(Text(postItemVM.post.author_name+"'s Post"), displayMode: .inline), tag: 2, selection: self.$selection) { //both post and image are clickable for post screen transition
                             EmptyView()
                         }
                     }

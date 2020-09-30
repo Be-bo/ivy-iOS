@@ -38,39 +38,40 @@ struct LoginView: View {
     func attemptLogin() { // Sign out first just in case...
         try? Auth.auth().signOut()
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-            if (error == nil && result != nil && result!.user.isEmailVerified) {
+            if (error == nil && result != nil /* && result!.user.isEmailVerified*/) {
                 self.errorText = ""
                 self.displayResendVerifEmail = false
+                print("LOGGED IN")
                 self.presentationMode.wrappedValue.dismiss()
             }
             else {
-                if (result != nil && !result!.user.isEmailVerified) { // Email not verified yet
-                    self.errorText = "Email not verified yet!"
-                    self.displayResendVerifEmail = true
-                }
-                else { // wrong credentials
+//                if (result != nil && !result!.user.isEmailVerified) { // Email not verified yet
+//                    self.errorText = "Email not verified yet!"
+//                    self.displayResendVerifEmail = true
+//                }
+//                else { // wrong credentials
                     self.errorText = "Login failed, invalid email or password."
                     self.displayResendVerifEmail = false
                     print(error ?? "")
-                }
+//                }
                 print(self.errorText)
             }
             self.loadInProgress = false
         }
     }
     
-    func resendVerificationEmail(){
-        print("resending")
-        if Auth.auth().currentUser != nil{
-            Auth.auth().currentUser!.sendEmailVerification { (error) in
-                if error != nil{
-                    print("There was an error resending notification email.")
-                    print(error?.localizedDescription)
-                }
-                print("DONE")
-            }
-        }
-    }
+//    func resendVerificationEmail(){
+//        print("resending")
+//        if Auth.auth().currentUser != nil{
+//            Auth.auth().currentUser!.sendEmailVerification { (error) in
+//                if error != nil{
+//                    print("There was an error resending notification email.")
+//                    print(error?.localizedDescription)
+//                }
+//                print("DONE")
+//            }
+//        }
+//    }
     
     
     
@@ -117,19 +118,20 @@ struct LoginView: View {
                 
                 VStack(alignment: .trailing) {
                     
-                    if(self.displayResendVerifEmail){
-                        Text("Resend Verification Email")
-                            .padding(.top)
-                            .foregroundColor(AssetManager.ivyGreen)
-                            .onTapGesture(perform: {
-                                self.showEmailResentAlert.toggle()
-                                self.resendVerificationEmail()
-                            })
-                            .alert(isPresented: self.$showEmailResentAlert) {
-                                Alert(title: Text("Verification Email Sent!"), message: Text("It may take up to 24 hours."), dismissButton: .default(Text("OK")))
-                        }
-                        
-                    }
+                    //MARK: commenting out verification email btn
+//                    if(self.displayResendVerifEmail){
+//                        Text("Resend Verification Email")
+//                            .padding(.top)
+//                            .foregroundColor(AssetManager.ivyGreen)
+//                            .onTapGesture(perform: {
+//                                self.showEmailResentAlert.toggle()
+//                                self.resendVerificationEmail()
+//                            })
+//                            .alert(isPresented: self.$showEmailResentAlert) {
+//                                Alert(title: Text("Verification Email Sent!"), message: Text("It may take up to 24 hours."), dismissButton: .default(Text("OK")))
+//                        }
+//
+//                    }
                     
                     Button(action: {
                         self.showingStudentSignup.toggle()
@@ -159,6 +161,7 @@ struct LoginView: View {
             .onTapGesture { //hide keyboard when background tapped
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
         }
+        .foregroundColor(Color.black)
     }
 }
 

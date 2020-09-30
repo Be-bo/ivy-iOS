@@ -33,8 +33,7 @@ struct StudentSignup: View {
                     selected: $studentSignupVM.degree,
                     list: degree_array,
                     hint: "Degree",
-                    hintColor: Color.gray,
-                    background: Color.white,
+                    hintColor: AssetManager.ivyHintGreen,
                     expandedHeight: 200
                 )
                 
@@ -88,12 +87,13 @@ struct StudentSignup: View {
                 Spacer()
             }
             .padding(.horizontal, 30.0)
-            .background(Gradient())
+            .foregroundColor(Color.black)
+//            .background(Gradient())
             
             // Show an alert when successfully signed up TODO: doesn't work
             PopUpAlert(
                 isShown: self.$showAlert,
-                message: "Welcome to Ivy! We've sent you a confirmation email.",
+                message: "Welcome to Ivy!" /*We've sent you a confirmation email."*/,
                 action: {
                     print("Welcom to Ivy!")
                     self.showAlert = false

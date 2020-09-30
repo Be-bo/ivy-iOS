@@ -40,22 +40,14 @@ struct OrganizationProfile: View {
                     
                     // MARK: Profile Image
                     ZStack{
-                        WebImage(url: URL(string: userPicUrl))
-                            .resizable()
-                            .placeholder(Image(systemName: "person.crop.circle.fill"))
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 150, height: 150)
-                            .clipShape(Circle())
-                            .onAppear(){
-                                let storage = Storage.storage().reference()
-                                storage.child(Utils.userProfileImagePath(userId: self.uid)).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading org profile image.")
-                                        return
-                                    }
-                                    self.userPicUrl = "\(url!)"
-                                }
-                        }.padding(.horizontal, 10)
+                        
+                        FirebaseImage(
+                            path: Utils.userProfileImagePath(userId: self.uid),
+                            placeholder: Image(systemName: "person.crop.circle.fill"),
+                            width: 150,
+                            height: 150,
+                            shape: RoundedRectangle(cornerRadius: 75)
+                        ).padding(.horizontal, 10)
                     }
                     
                     
@@ -199,7 +191,7 @@ struct OrganizationProfile: View {
                 
                 LoadingSpinner().frame(width: UIScreen.screenWidth, height: 5).hidden()   // TODO: quick and dirty
             }
-            .padding(.horizontal)
+            .padding(.horizontal).padding(.top)
             .onAppear(){
                 self.userPicUrl = "" //force reload
             }

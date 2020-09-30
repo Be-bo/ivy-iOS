@@ -29,9 +29,10 @@ class ThisUserRepo: UserRepo {
     
     func listenToAuthChanges () {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in // monitor authentication changes using firebase
-            if user != nil && user!.isEmailVerified {
+            if user != nil/* && user!.isEmailVerified */{
                 self.login()
-            } else {
+            }
+            else {
                 self.userLoggedIn = false
                 self.user = User()
             }
@@ -39,7 +40,7 @@ class ThisUserRepo: UserRepo {
     }
     
     func login() {
-        if (Auth.auth().currentUser != nil && Auth.auth().currentUser!.isEmailVerified) {
+        if (Auth.auth().currentUser != nil /* && Auth.auth().currentUser!.isEmailVerified*/) {
             self.userLoggedIn = true
             self.loadUserProfile()
         }

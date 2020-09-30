@@ -15,20 +15,12 @@ struct PersonCircleView: View {
     @State var url = ""
     
     var body: some View {
-        WebImage(url: URL(string: self.url))
-            .resizable()
-            .placeholder(Image(systemName: "person.crop.circle.fill"))
-            .frame(width: 60, height: 60)
-            .clipShape(Circle())
-            .onAppear(){
-                let storage = Storage.storage().reference()
-                storage.child(Utils.userPreviewImagePath(userId: self.personId)).downloadURL { (url, err) in
-                    if err != nil{
-                        print("Error loading person circle image.")
-                        return
-                    }
-                    self.url = "\(url!)"
-                }
-        }
+        FirebaseImage(
+            path: Utils.userPreviewImagePath(userId: self.personId),
+            placeholder: Image(systemName: "person.crop.circle.fill"),
+            width: 60,
+            height: 60,
+            shape: RoundedRectangle(cornerRadius: 30)
+        )
     }
 }

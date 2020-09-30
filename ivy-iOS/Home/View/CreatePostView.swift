@@ -10,7 +10,6 @@
 import SwiftUI
 import SDWebImageSwiftUI
 import Firebase
-import PhotoLibraryPicker
 
 struct CreatePostView: View {
     let db = Firestore.firestore()
@@ -426,6 +425,7 @@ struct CreatePostView: View {
                 
             }
         }
+        .foregroundColor(Color.black)
         .padding()
         .keyboardAdaptive()
     }

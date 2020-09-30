@@ -43,7 +43,7 @@ struct ProfileEventItemView: View {
             // TODO: quick and dirty
             NavigationLink(
                 destination: EventScreenView(eventVM: eventVM)
-                    .navigationBarTitle(eventVM.event.name),
+                .navigationBarTitle(Text(eventVM.event.name), displayMode: .inline),
                 tag: eventVM.event.creation_millis, selection: self.$selection)
             { EmptyView() }
         }
@@ -84,7 +84,7 @@ struct ProfilePostItemView: View {
             // TODO: quick and dirty
             NavigationLink(
                 destination: PostScreen(postVM: postVM)
-                    .navigationBarTitle(postVM.post.author_name+"'s Post"),
+                    .navigationBarTitle(Text(postVM.post.author_name+"'s Post"), displayMode: .inline),
                 tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
             { EmptyView() }
         }

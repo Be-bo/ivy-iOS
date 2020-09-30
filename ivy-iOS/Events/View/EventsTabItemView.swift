@@ -21,27 +21,18 @@ struct EventsTabItemView: View {
     var body: some View {
         
         VStack(alignment: .leading){
-            NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
+            NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(Text(eventItemVM.event.name), displayMode: .inline), tag: 1, selection: self.$selection) {
                 Button(action: {
                     self.selection = 1
                 }){
-                    WebImage(url: URL(string: url))
-                        .resizable()
-                        .placeholder(AssetManager.logoWhite)
-                        .aspectRatio(1, contentMode: .fit)
-                        .background(AssetManager.ivyLightGrey)
-                        .frame(width: 200, height: 200)
-                        .clipShape(RoundedRectangle(cornerRadius: 30))
-                        .onAppear(){
-                            let storage = Storage.storage().reference()
-                            storage.child(self.eventItemVM.event.visual).downloadURL { (url, err) in
-                                if err != nil{
-                                    print("Error loading event image.")
-                                    return
-                                }
-                                self.url = "\(url!)"
-                            }
-                    }
+                    
+                    FirebaseImage(
+                        path: self.eventItemVM.event.visual,
+                        placeholder: AssetManager.logoGreen,
+                        width: 200,
+                        height: 200,
+                        shape: RoundedRectangle(cornerRadius: 25)
+                    )
 
                     .buttonStyle(PlainButtonStyle()) //an extremely reta*ded situation, only doesn't overlay the image with button color when all 3 of these have PlainButtonStyle applied at the same time
                 }
@@ -52,21 +43,15 @@ struct EventsTabItemView: View {
             
         
             HStack{
-                WebImage(url: URL(string: authorUrl))
-                    .resizable()
-                    .placeholder(Image(systemName: "person.crop.circle.fill"))
-                    .frame(width: 40, height: 40)
-                    .clipShape(Circle())
-                    .onAppear(){
-                        let storage = Storage.storage().reference()
-                        storage.child(Utils.userPreviewImagePath(userId: self.eventItemVM.event.author_id)).downloadURL { (url, err) in
-                            if err != nil{
-                                print("Error loading event image.")
-                                return
-                            }
-                            self.authorUrl = "\(url!)"
-                        }
-                }
+                
+                FirebaseImage(
+                    path: Utils.userPreviewImagePath(userId: self.eventItemVM.event.author_id),
+                    placeholder: Image(systemName: "person.crop.circle.fill"),
+                    width: 40,
+                    height: 40,
+                    shape: RoundedRectangle(cornerRadius: 25)
+                )
+                
                 Text(eventItemVM.event.name)
                     .multilineTextAlignment(.leading)
                     .frame(width: 140, height: 50, alignment: .leading)
