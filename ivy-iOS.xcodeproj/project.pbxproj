@@ -69,7 +69,6 @@
 		FA7DAF6F24F1837F00B25430 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DAF6E24F1837F00B25430 /* Utils.swift */; };
 		FA7DAF7124F1858200B25430 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DAF7024F1858200B25430 /* Constant.swift */; };
 		FA8223EE24F058D400042AA2 /* EventsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8223EB24F058D400042AA2 /* EventsTabView.swift */; };
-		FA8223EF24F058D400042AA2 /* EventsTabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8223EC24F058D400042AA2 /* EventsTabItemView.swift */; };
 		FA96E8AA24E5980E00E33BAD /* StandardButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96E8A924E5980E00E33BAD /* StandardButtonStyle.swift */; };
 		FAA369D224F1EACC00F6CA63 /* EventScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA369D124F1EACC00F6CA63 /* EventScreenView.swift */; };
 		FABA035C24F432E9007C4878 /* StaticDomainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA035A24F432E9007C4878 /* StaticDomainList.swift */; };
@@ -551,7 +550,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = ivy;
 				TargetAttributes = {
 					FA5DEF9224B6970D00C397CB = {
@@ -707,7 +706,6 @@
 				8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */,
 				FA96E8AA24E5980E00E33BAD /* StandardButtonStyle.swift in Sources */,
 				FA2B0EEB24F2CC2B00B746FB /* HomePostView.swift in Sources */,
-				FA8223EF24F058D400042AA2 /* EventsTabItemView.swift in Sources */,
 				FA201E9124F06332003495DB /* EventTabViewModel.swift in Sources */,
 				FABA036724F47A33007C4878 /* NotificationCenterView.swift in Sources */,
 				FA2B0ED524F2031D00B746FB /* PersonCircleView.swift in Sources */,
@@ -758,6 +756,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -818,6 +817,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
