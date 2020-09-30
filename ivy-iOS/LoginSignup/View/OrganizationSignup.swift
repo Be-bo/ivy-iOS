@@ -26,7 +26,7 @@ struct OrganizationSignup: View {
                     selected: $orgSignupVM.uni_domain,
                     list: StaticDomainList.available_domain_list,
                     hint: "University",
-                    background: Color.white,
+                    hintColor: AssetManager.ivyHintGreen,
                     expandedHeight: 200
                 )
 
@@ -88,12 +88,13 @@ struct OrganizationSignup: View {
                     Spacer()
                 }
                 .padding(.horizontal, 30.0)
-                .background(Gradient())
+            .foregroundColor(Color.black)
+//                .background(Gradient())
             
             // Show an alert when successfully signed up TODO: doesn't work...
             PopUpAlert(
                 isShown: self.$showAlert,
-                message: "Welcome to Ivy! We've sent you a confirmation email.",
+                message: "Welcome to Ivy!" /* We've sent you a confirmation email."*/,
                 action: {
                     print("Welcom to Ivy!")
                     self.showAlert = false

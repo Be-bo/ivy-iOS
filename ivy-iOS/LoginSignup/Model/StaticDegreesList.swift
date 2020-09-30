@@ -30,6 +30,7 @@ struct StaticDegreesList {
         "Business Technology Management",
         "Canadian Studies",
         "Cellular, Molecular, and Microbial Biology",
+        "Child Studies",
         "Chemical Engineering",
         "Chemistry",
         "Civil Engineering",

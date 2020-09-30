@@ -22,6 +22,7 @@ struct PostScreen: View {
     @State var commentInput = ""
     @State var commentAuthorUrl = ""
     @State var loadInProgress = false
+    @State private var showReportAlert = false
     @State private var selection : Int? = nil
     @State private var inputImage: UIImage?
     @State private var image: Image?
@@ -34,6 +35,17 @@ struct PostScreen: View {
     
     
     // MARK: Functions
+    func reportPost(){
+        var newReport = [String: Any]()
+        let id = UUID.init().uuidString
+        newReport["id"] = UUID.init().uuidString
+        newReport["type"] = "post"
+        newReport["target_id"] = postVM.post.id
+        newReport["uni_domain"] = postVM.post.uni_domain
+        newReport["creation_millis"] = Int(Utils.getCurrentTimeInMillis())
+        db.collection("reports").document(id).setData(newReport)
+    }
+    
     func addToViewIds(){
         if(Auth.auth().currentUser != nil && postVM.post.id != nil){
             db.collection("universities").document(postVM.post.uni_domain).collection("posts").document(postVM.post.id!).updateData([
@@ -131,45 +143,32 @@ struct PostScreen: View {
             VStack{
                 
                 //MARK: Image
-                if(postVM.post.visual != "" && postVM.post.visual != "nothing"){
-                    WebImage(url: URL(string: self.imageUrl))
-                        .resizable()
-                        .placeholder(AssetManager.logoWhite)
-                        .background(AssetManager.ivyLightGrey)
-                        .aspectRatio(contentMode: .fit)
-                        .onAppear(){
-                            let storage = Storage.storage().reference()
-                            storage.child(self.postVM.post.visual).downloadURL { (url, err) in
-                                if err != nil{
-                                    print("Error loading post screen image.")
-                                    return
-                                }
-                                self.imageUrl = "\(url!)"
-                            }
-                    }
+                if (!postVM.post.visual.isEmpty && postVM.post.visual != "nothing") {
+                    FirebaseImage(
+                        path: self.postVM.post.visual,
+                        placeholder: AssetManager.logoGreen,
+                        width: UIScreen.screenWidth,
+                        height: UIScreen.screenWidth,
+                        shape: Rectangle()
+                    )
                 }
+                
                 
                 
                 VStack(alignment: .leading){
                     //MARK: Author Row
                     ZStack{
                         HStack(){
-                            WebImage(url: URL(string: authorUrl))
-                                .resizable()
-                                .placeholder(Image(systemName: "person.crop.circle.fill"))
-                                .frame(width: 40, height: 40)
-                                .clipShape(Circle())
-                                .onAppear(){
-                                    let storage = Storage.storage().reference()
-                                    storage.child(Utils.userPreviewImagePath(userId: self.postVM.post.author_id)).downloadURL { (url, err) in
-                                        if err != nil{
-                                            print("Error loading post screen author image.")
-                                            return
-                                        }
-                                        self.authorUrl = "\(url!)"
-                                    }
-                            }
-                            Text(self.postVM.post.author_name)
+                            
+                            FirebaseImage(
+                                path: Utils.userPreviewImagePath(userId: self.postVM.post.author_id),
+                                placeholder: AssetManager.logoGreen,
+                                width: 40,
+                                height: 40,
+                                shape: RoundedRectangle(cornerRadius: 20)
+                            )
+                            
+                            Text(self.postVM.post.author_name).foregroundColor(AssetManager.ivyGreen)
                             Spacer()
                         }
                         .onTapGesture {
@@ -182,7 +181,7 @@ struct PostScreen: View {
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
                                 selection: self.$selection) {
-                                    EmptyView()
+                                EmptyView()
                             }
                         }else{
                             Button(action: {
@@ -198,23 +197,23 @@ struct PostScreen: View {
                             }
                         }
                         
-//                        if (postVM.post.author_is_organization) {
-//                            NavigationLink(
-//                                destination: OrganizationProfile(uid: postVM.post.author_id)
-//                                    .navigationBarTitle("Profile"),
-//                                tag: 1,
-//                                selection: self.$selection) {
-//                                    EmptyView()
-//                            }
-//                        } else {
-//                            NavigationLink(
-//                                destination: StudentProfile(uid: postVM.post.author_id)
-//                                    .navigationBarTitle("Profile"),
-//                                tag: 1,
-//                                selection: self.$selection) {
-//                                    EmptyView()
-//                            }
-//                        }
+                        //                        if (postVM.post.author_is_organization) {
+                        //                            NavigationLink(
+                        //                                destination: OrganizationProfile(uid: postVM.post.author_id)
+                        //                                    .navigationBarTitle("Profile"),
+                        //                                tag: 1,
+                        //                                selection: self.$selection) {
+                        //                                    EmptyView()
+                        //                            }
+                        //                        } else {
+                        //                            NavigationLink(
+                        //                                destination: StudentProfile(uid: postVM.post.author_id)
+                        //                                    .navigationBarTitle("Profile"),
+                        //                                tag: 1,
+                        //                                selection: self.$selection) {
+                        //                                    EmptyView()
+                        //                            }
+                        //                        }
                     }.padding(.bottom, 10)
                     
                     // MARK: Pinned Layout
@@ -225,7 +224,7 @@ struct PostScreen: View {
                                 Text(self.postVM.post.pinned_name).foregroundColor(AssetManager.ivyGreen).padding(.top, 5)
                                     .onTapGesture {
                                         self.selection = 2
-                                }
+                                    }
                                 NavigationLink(destination: EventScreenView(eventVM: pinnedEventVM).navigationBarTitle(postVM.post.pinned_name), tag: 2, selection: self.$selection){
                                     EmptyView()
                                 }
@@ -236,10 +235,11 @@ struct PostScreen: View {
                     }
                     
                     // MARK: Text
-                    Text(postVM.post.text).multilineTextAlignment(.leading)
-                    
+                    //                    Text(postVM.post.text).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                    MultilineTextView(text: .constant(postVM.post.text), editable: false)
+                        .frame(width: UIScreen.screenWidth - 15, height: postVM.post.text.height(withConstrainedWidth: UIScreen.screenWidth-20, font: UIFont.systemFont(ofSize: 17)) + 30)
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 15)
                 
                 
                 
@@ -254,7 +254,20 @@ struct PostScreen: View {
                                 //TODO: refresh on dismiss
                             }) {
                                 CreatePostView(typePick: 0, alreadyExistingEvent: Event(), alreadyExistingPost: self.postVM.post, editingMode: true)
+                            }
+                    }
+                    .padding(.top, 30)
+                }else{ // if not the author - show editing button
+                    Button(action: {
+                        self.reportPost()
+                        self.showReportAlert = true
+                    }) {
+                        HStack{
+                            Text("Report Post/its Comment Section").foregroundColor(AssetManager.ivyGreen)
                         }
+                    }
+                    .alert(isPresented: $showReportAlert) {
+                        Alert(title: Text("Post Reported"), message: Text("The post has been reported!"), dismissButton: .default(Text("OK")))
                     }
                     .padding(.top, 30)
                 }
@@ -277,21 +290,13 @@ struct PostScreen: View {
                         HStack(alignment: .center){
                             
                             // MARK: Comment Author
-                            WebImage(url: URL(string: commentAuthorUrl))
-                                .resizable()
-                                .placeholder(Image(systemName: "person.crop.circle.fill"))
-                                .frame(width: 40, height: 40)
-                                .clipShape(Circle())
-                                .onAppear(){
-                                    let storage = Storage.storage().reference()
-                                    storage.child(Utils.userPreviewImagePath(userId: Auth.auth().currentUser?.uid ?? "")).downloadURL { (url, err) in
-                                        if err != nil{
-                                            print("Error loading comment author image.")
-                                            return
-                                        }
-                                        self.commentAuthorUrl = "\(url!)"
-                                    }
-                            }
+                            FirebaseImage(
+                                path: Utils.userPreviewImagePath(userId: Auth.auth().currentUser?.uid ?? ""),
+                                placeholder: Image(systemName: "person.crop.circle.fill"),
+                                width: 40,
+                                height: 40,
+                                shape: RoundedRectangle(cornerRadius: 20)
+                            )
                             
                             
                             
@@ -323,7 +328,7 @@ struct PostScreen: View {
                                 Image(systemName: commentAddImage ? "xmark.circle" : "photo.fill").foregroundColor(AssetManager.ivyGreen).font(.system(size: 25))
                                     .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
                                         ImagePicker(image: self.$inputImage)
-                                }
+                                    }
                             }
                             
                             
@@ -337,7 +342,7 @@ struct PostScreen: View {
                             
                         }
                         .padding()
-                        .background(AssetManager.ivyBackgroundGrey)
+                        .background(AssetManager.ivyLightGrey)
                         .clipShape(RoundedRectangle(cornerRadius: 30))
                         
                         if(loadInProgress){
@@ -359,7 +364,7 @@ struct PostScreen: View {
                                     CommentView(commentVM: commentVM).padding(.horizontal, 10)
                                         .onTapGesture {
                                             self.selection = commentVM.selectionId
-                                    }
+                                        }
                                     Divider().padding(.vertical, 20)
                                 }
                                 
@@ -368,7 +373,7 @@ struct PostScreen: View {
                                         .navigationBarTitle("Profile"),
                                     tag: commentVM.selectionId ,
                                     selection: self.$selection) {
-                                        EmptyView()
+                                    EmptyView()
                                 }
                             }
                         }
@@ -379,21 +384,21 @@ struct PostScreen: View {
                     Text("Log in to see comments.").font(.system(size: 25)).foregroundColor(AssetManager.ivyLightGrey).multilineTextAlignment(.center).padding(.top, 30).padding(.bottom, 30)
                 }
                 
-
-
-
-
+                
+                
+                
+                
             }
-
+            
             // MARK: onAppear
         }
         .onAppear(){
             self.addToViewIds()
         }
-        .keyboardAdaptive()
-            .onTapGesture { //hide keyboard when background tapped
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+        .onTapGesture { //hide keyboard when background tapped
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
         }
+        
     }
 }
 

@@ -55,7 +55,7 @@ struct DropDownMenu: View {
                                 Text(item).padding(.vertical)
                             }
                             .padding(.horizontal, 7)
-                            .foregroundColor(.black)
+                            .foregroundColor(AssetManager.ivyGreen)
                             
                             Spacer()
                         }

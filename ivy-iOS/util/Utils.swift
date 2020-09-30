@@ -9,15 +9,16 @@
 import Foundation
 import SwiftUI
 import Firebase
+import UIKit
 
 final class Utils {
     private init(){}
     
     static func checkForUnverified(){
-        if(Auth.auth().currentUser != nil && !Auth.auth().currentUser!.isEmailVerified){ //if user opened the app and they're signed in but not verif, have to sign them out
-            print("SIGNING OUT")
-            try? Auth.auth().signOut()
-        }
+//        if(Auth.auth().currentUser != nil && !Auth.auth().currentUser!.isEmailVerified){ //if user opened the app and they're signed in but not verif, have to sign them out
+//            print("SIGNING OUT")
+//            try? Auth.auth().signOut()
+//        }
     }
     
     static func verifyUrl (urlString: String?) -> Bool {
@@ -170,5 +171,30 @@ extension Date {
         let dateformat = DateFormatter()
         dateformat.dateFormat = format
         return dateformat.string(from: self)
+    }
+}
+
+extension TextField{
+    var foregroundColor: Color {
+        return Color.black
+    }
+}
+
+struct MultilineTextView: UIViewRepresentable {
+    @Binding var text: String
+    var editable: Bool
+    var sizedToFit = false
+
+    func makeUIView(context: Context) -> UITextView {
+        let view = UITextView()
+        view.isScrollEnabled = true
+        view.isEditable = editable
+        view.isUserInteractionEnabled = true
+        return view
+    }
+
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        uiView.text = text
+        uiView.font = .systemFont(ofSize: 17)
     }
 }

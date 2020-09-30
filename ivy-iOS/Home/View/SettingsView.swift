@@ -28,7 +28,6 @@ struct SettingsView: View {
                         list: StaticDomainList.available_domain_list,
                         hint: "Change Campus",
                         hintColor: AssetManager.ivyHintGreen,
-                        background: Color.white,
                         expandedHeight: 200
                     )
                     
@@ -62,6 +61,7 @@ struct SettingsView: View {
                 .padding()
                 }
             }
+            .foregroundColor(Color.black)
         .padding()
         }
         

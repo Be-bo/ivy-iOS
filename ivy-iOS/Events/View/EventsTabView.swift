@@ -49,7 +49,7 @@ struct EventsTabView: View {
             ScrollView(.vertical, showsIndicators: false){
                 
                 VStack{
-                     
+                    
                     
                     // MARK: Featured
                     HStack{
@@ -60,30 +60,20 @@ struct EventsTabView: View {
                     VStack(alignment: .leading){
                         ForEach(eventTabVM.featuredEventVMs){ eventItemVM in
                             ZStack{
-                                WebImage(url: URL(string: self.featuredUrl))
-                                    .resizable()
-                                    .placeholder(AssetManager.logoWhite)
-                                    .background(AssetManager.ivyLightGrey)
-                                    .frame(width: UIScreen.screenWidth-20, height: UIScreen.screenWidth-20)
-                                    .cornerRadius(30)
-                                    .onAppear(){
-                                        let storage = Storage.storage().reference()
-                                        storage.child(eventItemVM.event.visual).downloadURL { (url, err) in
-                                            if err != nil{
-                                                print("Error loading featured image.")
-                                                return
-                                            }
-                                            self.featuredUrl = "\(url!)"
-                                        }
-                                }.onTapGesture{
+                                FirebaseImage(
+                                    path: eventItemVM.event.visual,
+                                    placeholder: AssetManager.logoGreen,
+                                    width: (UIScreen.screenWidth-20),
+                                    height: (UIScreen.screenWidth-20),
+                                    shape: RoundedRectangle(cornerRadius: 25)
+                                )
+                                .onTapGesture{
                                     self.selection = 1
                                 }
-                                
                                 
                                 NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(eventItemVM.event.name), tag: 1, selection: self.$selection) {
                                     EmptyView()
                                 }
-                                
                             }
                         }
                         .padding(.bottom, 30)
@@ -120,8 +110,8 @@ struct EventsTabView: View {
                                         EventsTabItemView(eventItemVM: eventItemVM)
                                     }
                                 }.padding()
-                                    .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                                        , height: 260, alignment: .leading)
+                                .frame(width: CGFloat(eventTabVM.todayEventVMs.count*210 + 200) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
+                                       , height: 260, alignment: .leading)
                             }
                             .padding(.bottom, 30)
                         }
@@ -140,8 +130,8 @@ struct EventsTabView: View {
                                         EventsTabItemView(eventItemVM: eventItemVM)
                                     }
                                 }.padding()
-                                    .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                                        , height: 260, alignment: .leading)
+                                .frame(width: CGFloat(eventTabVM.thisWeekEventVMs.count*210 + 200) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
+                                       , height: 260, alignment: .leading)
                             }
                             .padding(.bottom, 30)
                         }
@@ -160,8 +150,8 @@ struct EventsTabView: View {
                                         EventsTabItemView(eventItemVM: eventItemVM)
                                     }
                                 }.padding()
-                                    .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 10) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding
-                                        , height: 260, alignment: .leading)
+                                .frame(width: CGFloat(eventTabVM.upcomingEventVMs.count*210 + 200) //need specified height, behaves weirdly otherwise, each item is 200 width + 10 for padding, + 10 for trailing padding + extra trial and error padding
+                                       , height: 260, alignment: .leading)
                             }
                             .padding(.bottom, 30)
                         }
@@ -179,8 +169,8 @@ struct EventsTabView: View {
                             }){
                                 Text("Explore All")
                             }
-                                .buttonStyle(StandardButtonStyle(disabled: eventTabVM.upcomingEventVMs.count < 1)) //setting button style where background color changes based on if input is ok
-                                .padding()
+                            .buttonStyle(StandardButtonStyle(disabled: eventTabVM.upcomingEventVMs.count < 1)) //setting button style where background color changes based on if input is ok
+                            .padding()
                         }
                     }
                 }.padding(.horizontal, 20)
@@ -188,72 +178,65 @@ struct EventsTabView: View {
                 
             }
             .padding(.horizontal, -20)
-                //MARK: Nav Bar
-                .navigationBarItems(leading:
-                    HStack {
-                        Button(action: {
-                            self.settingsPresented.toggle()
-                        }) {
-                            Image(systemName: "gear").font(.system(size: 25))
-                                .sheet(isPresented: $settingsPresented, onDismiss: {
-                                    if(self.eventTabVM.currentUni != Utils.getCampusUni()){
-                                        self.eventTabVM.reloadData()
-                                        self.eventTabVM.currentUni = Utils.getCampusUni()
-                                        self.uniUrl = "test"
-                                    }
-                                }){
-                                    SettingsView(thisUserRepo: self.thisUserRepo)
-                            }
-                        }
-                        
-                        WebImage(url: URL(string: self.uniUrl))
-                            .resizable()
-                            .placeholder(AssetManager.uniLogoPlaceholder)
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .padding(.leading, (UIScreen.screenWidth/2 - 75))
-                            .onAppear(){
-                                let storage = Storage.storage().reference()
-                                storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading uni logo image.")
-                                        return
-                                    }
-                                    self.uniUrl = "\(url!)"
-                                }
-                        }
-                        
-                        
-                    }.padding(.leading, 0), trailing:
-                    HStack {
-                        if thisUserRepo.userLoggedIn {
-                            Button(action: {
-                                self.createPostPresented.toggle()
-                            }) {
-                                Image(systemName: "square.and.pencil")
-                                    .font(.system(size: 25))
-                                    .sheet(isPresented: $createPostPresented, onDismiss: {
-                                        self.eventTabVM.refresh()
-                                    }) {
-                                        CreatePostView(typePick: 1, alreadyExistingEvent: Event(), alreadyExistingPost: Post(), editingMode: false)
-                                }
-                            }
-                        }
-//                        else {
-//                            Button(action: {
-//                                self.loginPresented.toggle()
-//                            }) {
-//                                Image(systemName: "arrow.right.circle")
-//                                    .font(.system(size: 25))
-//                                    .sheet(isPresented: $loginPresented, onDismiss: {
-//                                        Utils.checkForUnverified()
-//                                    }) {
-//                                        LoginView(thisUserRepo: self.thisUserRepo)
-//                                }
-//                            }
-//                        }
-                })
+            //MARK: Nav Bar
+            .navigationBarItems(leading:
+                                    HStack {
+                                        Button(action: {
+                                            self.settingsPresented.toggle()
+                                        }) {
+                                            Image(systemName: "gear").font(.system(size: 25))
+                                                .sheet(isPresented: $settingsPresented, onDismiss: {
+                                                    if(self.eventTabVM.currentUni != Utils.getCampusUni()){
+                                                        self.eventTabVM.reloadData()
+                                                        self.eventTabVM.currentUni = Utils.getCampusUni()
+                                                        self.uniUrl = "test"
+                                                    }
+                                                }){
+                                                    SettingsView(thisUserRepo: self.thisUserRepo)
+                                                }
+                                        }
+                                        
+                                        FirebaseImage(
+                                            path: Utils.uniLogoPath(),
+                                            placeholder: AssetManager.uniLogoPlaceholder,
+                                            width: 40,
+                                            height: 40,
+                                            shape: RoundedRectangle(cornerRadius: 0)
+                                        )
+                                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
+                                        
+                                        
+                                    }.padding(.leading, 0), trailing:
+                                        HStack {
+                                            if thisUserRepo.userLoggedIn {
+                                                Button(action: {
+                                                    self.createPostPresented.toggle()
+                                                }) {
+                                                    Image(systemName: "square.and.pencil")
+                                                        .font(.system(size: 25))
+                                                        .sheet(isPresented: $createPostPresented, onDismiss: {
+                                                            self.eventTabVM.refresh()
+                                                        }) {
+                                                            CreatePostView(typePick: 1, alreadyExistingEvent: Event(), alreadyExistingPost: Post(), editingMode: false)
+                                                        }
+                                                }
+                                            }
+                                            //                        else {
+                                            //                            Button(action: {
+                                            //                                self.loginPresented.toggle()
+                                            //                            }) {
+                                            //                                Image(systemName: "arrow.right.circle")
+                                            //                                    .font(.system(size: 25))
+                                            //                                    .sheet(isPresented: $loginPresented, onDismiss: {
+                                            //                                        Utils.checkForUnverified()
+                                            //                                    }) {
+                                            //                                        LoginView(thisUserRepo: self.thisUserRepo)
+                                            //                                }
+                                            //                            }
+                                            //                        }
+                                        })
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

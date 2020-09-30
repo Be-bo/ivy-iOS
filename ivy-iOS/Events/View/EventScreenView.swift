@@ -23,6 +23,7 @@ struct EventScreenView: View {
     @State var selection: Int? = nil
     @State var commentAddImage = false
     @State var commentInput = ""
+    @State private var showReportAlert = false
     @State private var isShareSheetShowing = false
     @State private var showingCalendarAlert = false
     @State private var inputImage: UIImage?
@@ -34,6 +35,17 @@ struct EventScreenView: View {
     
     
     // MARK: Functions
+    func reportPost(){
+        var newReport = [String: Any]()
+        let id = UUID.init().uuidString
+        newReport["id"] = UUID.init().uuidString
+        newReport["type"] = "event"
+        newReport["target_id"] = eventVM.event.id
+        newReport["uni_domain"] = eventVM.event.uni_domain
+        newReport["creation_millis"] = Int(Utils.getCurrentTimeInMillis())
+        db.collection("reports").document(id).setData(newReport)
+    }
+    
     func addToViewIds(){
         if(Auth.auth().currentUser != nil && eventVM.event.id != nil){
             db.collection("universities").document(eventVM.event.uni_domain).collection("posts").document(eventVM.event.id!).updateData([
@@ -131,21 +143,14 @@ struct EventScreenView: View {
                 
                 //MARK: Image
                 if (!eventVM.event.visual.isEmpty && eventVM.event.visual != "nothing") {
-                    WebImage(url: URL(string: self.imageUrl))
-                        .resizable()
-                        .placeholder(AssetManager.logoWhite)
-                        .background(AssetManager.ivyLightGrey)
-                        .aspectRatio(contentMode: .fit)
-                        .onAppear(){
-                            let storage = Storage.storage().reference()
-                            storage.child(self.eventVM.event.visual).downloadURL { (url, err) in
-                                if err != nil{
-                                    print("Error loading featured image.")
-                                    return
-                                }
-                                self.imageUrl = "\(url!)"
-                            }
-                    }
+                    
+                    FirebaseImage(
+                        path: self.eventVM.event.visual,
+                        placeholder: AssetManager.logoGreen,
+                        width: UIScreen.screenWidth,
+                        height: UIScreen.screenWidth,
+                        shape: RoundedRectangle(cornerRadius: 0)
+                    )
                 }
                 
                 
@@ -153,28 +158,21 @@ struct EventScreenView: View {
                     //MARK: Author Row
                     ZStack{
                         HStack(){
-                            WebImage(url: URL(string: authorUrl))
-                                .resizable()
-                                .placeholder(Image(systemName: "person.crop.circle.fill"))
-                                .frame(width: 40, height: 40)
-                                .clipShape(Circle())
-                                .onAppear(){
-                                    let storage = Storage.storage().reference()
-                                    storage.child(Utils.userPreviewImagePath(userId: self.eventVM.event.author_id)).downloadURL { (url, err) in
-                                        if err != nil{
-                                            print("Error loading event image.")
-                                            return
-                                        }
-                                        self.authorUrl = "\(url!)"
-                                    }
-                            }
-                            Text(self.eventVM.event.author_name)
+                            
+                            FirebaseImage(
+                                path: Utils.userPreviewImagePath(userId: self.eventVM.event.author_id),
+                                placeholder: Image(systemName: "person.crop.circle.fill"),
+                                width: 40,
+                                height: 40,
+                                shape: RoundedRectangle(cornerRadius: 20)
+                            )
+                            
+                            Text(self.eventVM.event.author_name).foregroundColor(AssetManager.ivyGreen)
                             Spacer()
                         }
                         .onTapGesture {
                             self.selection = 1
                         }
-                        .padding(.bottom)
                         
                         
                         if(Auth.auth().currentUser != nil){
@@ -183,7 +181,7 @@ struct EventScreenView: View {
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
                                 selection: self.$selection) {
-                                    EmptyView()
+                                EmptyView()
                             }
                         }else{
                             Button(action: {
@@ -199,24 +197,31 @@ struct EventScreenView: View {
                             }
                         }
                         
-//                        if (eventVM.event.author_is_organization) {
-//                            NavigationLink(
-//                                destination: OrganizationProfile(uid: eventVM.event.author_id)
-//                                    .navigationBarTitle("Profile"),
-//                                tag: 1,
-//                                selection: self.$selection) {
-//                                    EmptyView()
-//                            }
-//                        } else {
-//                            NavigationLink(
-//                                destination: StudentProfile(uid: eventVM.event.author_id)
-//                                    .navigationBarTitle("Profile"),
-//                                tag: 1,
-//                                selection: self.$selection) {
-//                                    EmptyView()
-//                            }
-//                        }
+                        //                        if (eventVM.event.author_is_organization) {
+                        //                            NavigationLink(
+                        //                                destination: OrganizationProfile(uid: eventVM.event.author_id)
+                        //                                    .navigationBarTitle("Profile"),
+                        //                                tag: 1,
+                        //                                selection: self.$selection) {
+                        //                                    EmptyView()
+                        //                            }
+                        //                        } else {
+                        //                            NavigationLink(
+                        //                                destination: StudentProfile(uid: eventVM.event.author_id)
+                        //                                    .navigationBarTitle("Profile"),
+                        //                                tag: 1,
+                        //                                selection: self.$selection) {
+                        //                                    EmptyView()
+                        //                            }
+                        //                        }
                     }
+                    
+                    // MARK: Title Row
+                    HStack{
+                        Text(eventVM.event.name).font(.system(.title)).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                    }
+                    .padding(.bottom, 10)
                     
                     //MARK: Time Row
                     HStack{
@@ -234,10 +239,11 @@ struct EventScreenView: View {
                     .padding(.bottom, 10)
                     
                     //MARK: Text
-                    Text(eventVM.event.text)
+                    //                    Text(eventVM.event.text).fixedSize(horizontal: false, vertical: true)
+                    MultilineTextView(text: .constant(eventVM.event.text), editable: false)
+                        .frame(width: UIScreen.screenWidth - 15, height: eventVM.event.text.height(withConstrainedWidth: UIScreen.screenWidth-20, font: UIFont.systemFont(ofSize: 17)) + 30)
                 }
-                .padding(.leading)
-                .padding(.trailing)
+                .padding(.horizontal, 15)
                 
                 
                 
@@ -257,7 +263,7 @@ struct EventScreenView: View {
                                     PersonCircleView(personId: currentId)
                                         .onTapGesture{
                                             self.selection = self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2 //needed to have a unique tag for each going person, so we use their index in the array with an offset
-                                    }
+                                        }
                                     
                                     if(Auth.auth().currentUser != nil){
                                         NavigationLink(
@@ -265,7 +271,7 @@ struct EventScreenView: View {
                                                 .navigationBarTitle("Profile"),
                                             tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
                                             selection: self.$selection) {
-                                                EmptyView()
+                                            EmptyView()
                                         }
                                     }else{
                                         Button(action: {
@@ -362,7 +368,20 @@ struct EventScreenView: View {
                             //TODO: refresh on dismiss
                         }) {
                             CreatePostView(typePick: 1, alreadyExistingEvent: self.eventVM.event, alreadyExistingPost: Post(), editingMode: true)
+                        }
+                }
+                .padding(.top, 30)
+            }else{ // if not the author - show editing button
+                Button(action: {
+                    self.reportPost()
+                    self.showReportAlert = true
+                }) {
+                    HStack{
+                        Text("Report Event/its Comment Section").foregroundColor(AssetManager.ivyGreen)
                     }
+                }
+                .alert(isPresented: $showReportAlert) {
+                    Alert(title: Text("Event Reported"), message: Text("The event has been reported!"), dismissButton: .default(Text("OK")))
                 }
                 .padding(.top, 30)
             }
@@ -373,7 +392,7 @@ struct EventScreenView: View {
             
             
             
-           // MARK: Comments
+            // MARK: Comments
             HStack{
                 Text("Comments").font(.system(.title)).multilineTextAlignment(.leading).padding(.top, 30).padding(.leading)
                 Spacer()
@@ -386,21 +405,13 @@ struct EventScreenView: View {
                     HStack(alignment: .center){
                         
                         // MARK: Comment Author
-                        WebImage(url: URL(string: commentAuthorUrl))
-                            .resizable()
-                            .placeholder(Image(systemName: "person.crop.circle.fill"))
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                            .onAppear(){
-                                let storage = Storage.storage().reference()
-                                storage.child(Utils.userPreviewImagePath(userId: Auth.auth().currentUser?.uid ?? "")).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading comment author image.")
-                                        return
-                                    }
-                                    self.commentAuthorUrl = "\(url!)"
-                                }
-                        }
+                        FirebaseImage(
+                            path: Utils.userPreviewImagePath(userId: Auth.auth().currentUser?.uid ?? ""),
+                            placeholder: Image(systemName: "person.crop.circle.fill"),
+                            width: 40,
+                            height: 40,
+                            shape: RoundedRectangle(cornerRadius: 20)
+                        )
                         
                         
                         
@@ -432,7 +443,7 @@ struct EventScreenView: View {
                             Image(systemName: commentAddImage ? "xmark.circle" : "photo.fill").foregroundColor(AssetManager.ivyGreen).font(.system(size: 25))
                                 .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
                                     ImagePicker(image: self.$inputImage)
-                            }
+                                }
                         }
                         
                         
@@ -446,7 +457,7 @@ struct EventScreenView: View {
                         
                     }
                     .padding()
-                    .background(AssetManager.ivyBackgroundGrey)
+                    .background(AssetManager.ivyLightGrey)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                     
                     if(loadInProgress){
@@ -455,6 +466,7 @@ struct EventScreenView: View {
                 }
                 .padding()
             }
+            
             
             
             
@@ -468,7 +480,7 @@ struct EventScreenView: View {
                                 CommentView(commentVM: commentVM).padding(.horizontal, 10)
                                     .onTapGesture {
                                         self.selection = commentVM.selectionId
-                                }
+                                    }
                                 Divider().padding(.vertical, 20)
                             }
                             
@@ -477,7 +489,7 @@ struct EventScreenView: View {
                                     .navigationBarTitle("Profile"),
                                 tag: commentVM.selectionId ,
                                 selection: self.$selection) {
-                                    EmptyView()
+                                EmptyView()
                             }
                         }
                     }
@@ -501,9 +513,8 @@ struct EventScreenView: View {
         .onAppear(perform: {
             self.addToViewIds()
         })
-        .keyboardAdaptive()
-            .onTapGesture { //hide keyboard when background tapped
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+        .onTapGesture { //hide keyboard when background tapped
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
         }
     }
 }

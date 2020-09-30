@@ -61,9 +61,9 @@ struct Main: View {
             // MARK: Profile
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
                 NavigationView{
-                    OrganizationProfile(uid: Auth.auth().currentUser?.uid ?? "")
+                    OrganizationProfile(uid: Auth.auth().currentUser!.uid) //MARK: todo, sensitive
                 }
-                
+                .navigationViewStyle(StackNavigationViewStyle())
                 .tabItem {
                         selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         Text("Profile")

@@ -17,6 +17,7 @@ struct HomeTabView: View {
     @State private var loginPresented = false
     @State private var notificationCenterPresented = false
     @State private var uniUrl = ""
+    @State private var loadingWheelAnimating = true
     @ObservedObject var homeTabVM = HomeTabViewModel()
     
     var body: some View {
@@ -28,7 +29,19 @@ struct HomeTabView: View {
                     ForEach(homeTabVM.homePostsVMs){ postItemVM in
                         HomePostView(postItemVM: postItemVM)
                     }
+                    
+                    if homeTabVM.homeRepo.postsLoaded == false {
+                        HStack{
+                            Spacer()
+                            ActivityIndicator($loadingWheelAnimating)
+                                .onAppear {
+                                    self.homeTabVM.homeRepo.fetchBatch()
+                                }
+                            Spacer()
+                        }
+                    }
                 }
+
                 
                 if(homeTabVM.homePostsVMs.count < 1){
                     Text("No posts on this campus just yet!")
@@ -59,23 +72,14 @@ struct HomeTabView: View {
                             }
                         }
                         
-                        WebImage(url: URL(string: self.uniUrl))
-                            .resizable()
-                            .placeholder(AssetManager.uniLogoPlaceholder)
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .padding(.leading, (UIScreen.screenWidth/2 - 75))
-                            .onAppear(){
-                                self.uniUrl = "test"
-                                let storage = Storage.storage().reference()
-                                storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading uni logo image.")
-                                        return
-                                    }
-                                    self.uniUrl = "\(url!)"
-                                }
-                        }
+                        FirebaseImage(
+                            path: Utils.uniLogoPath(),
+                            placeholder: AssetManager.uniLogoPlaceholder,
+                            width: 40,
+                            height: 40,
+                            shape: RoundedRectangle(cornerRadius: 0)
+                        )
+                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
                         
                     }.padding(.leading, 0), trailing:
                     HStack {
@@ -107,6 +111,7 @@ struct HomeTabView: View {
                         }
                 })
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         
     }
 }

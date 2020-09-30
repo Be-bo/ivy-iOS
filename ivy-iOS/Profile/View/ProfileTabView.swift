@@ -44,22 +44,14 @@ struct ProfileTabView: View {
                         }
                         
                         // Uni Logo
-                        WebImage(url: URL(string: self.uniUrl))
-                            .resizable()
-                            .placeholder(AssetManager.uniLogoPlaceholder)
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .padding(.leading, (UIScreen.screenWidth/2 - 75))
-                            .onAppear(){
-                                let storage = Storage.storage().reference()
-                                storage.child(Utils.uniLogoPath()).downloadURL { (url, err) in
-                                    if err != nil{
-                                        print("Error loading uni logo image.")
-                                        return
-                                    }
-                                    self.uniUrl = "\(url!)"
-                                }
-                        }
+                        FirebaseImage(
+                            path: Utils.uniLogoPath(),
+                            placeholder: AssetManager.uniLogoPlaceholder,
+                            width: 40,
+                            height: 40,
+                            shape: RoundedRectangle(cornerRadius: 0)
+                        )
+                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
                         
                     }.padding(.leading, 0), trailing:
                     
