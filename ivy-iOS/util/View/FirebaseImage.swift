@@ -36,12 +36,14 @@ struct FirebaseImage<S>: View where S:Shape{
             .frame(width: width, height: height)
             .clipShape(shape)
             .onAppear(){
-                self.storage.child(self.path).downloadURL { (url, err) in
-                    if err != nil{
-                        print("Error loading image from storage: '\(path)'")
-                        return
+                if (!self.path.isEmpty && self.path != "nothing") {
+                    self.storage.child(self.path).downloadURL { (url, err) in
+                        if err != nil{
+                            print("Error loading image from storage: '\(path)'")
+                            return
+                        }
+                        self.imageURL = "\(url!)"
                     }
-                    self.imageURL = "\(url!)"
                 }
         }
     }
@@ -54,7 +56,7 @@ struct FirebasePostImage: View{
     let storage = Storage.storage().reference()
 
     var path: String
-    var placeholder = AssetManager.logoWhite
+    var placeholder = AssetManager.logoGreen
     var width: CGFloat? = 105
     var height: CGFloat? = 105
     var shape = RoundedRectangle(cornerRadius: 25)
@@ -64,16 +66,18 @@ struct FirebasePostImage: View{
         WebImage(url: URL(string: imageURL))
             .resizable()
             .placeholder(placeholder)
-            .background(AssetManager.ivyLightGrey)
+            .background(Color.white)
             .frame(width: width, height: height)
             .clipShape(shape)
             .onAppear(){
-                self.storage.child(self.path).downloadURL { (url, err) in
-                    if err != nil{
-                        print("Error loading Post or Event image from storage: '\(path)'")
-                        return
+                if (!self.path.isEmpty && self.path != "nothing") {
+                    self.storage.child(self.path).downloadURL { (url, err) in
+                        if err != nil{
+                            print("Error loading Post or Event image from storage: '\(path)'")
+                            return
+                        }
+                        self.imageURL = "\(url!)"
                     }
-                    self.imageURL = "\(url!)"
                 }
         }
     }

@@ -22,7 +22,6 @@ struct ProfileEventItemView: View {
                 ProfileNoPicPostItemView(text: eventVM.event.name)
                 .onTapGesture {
                     self.selection = self.eventVM.event.creation_millis
-                    print("selected post: \(self.eventVM.event.text)")
                 }
             } else {
                 FirebaseImage(
@@ -34,7 +33,6 @@ struct ProfileEventItemView: View {
                 )
                 .onTapGesture {
                     self.selection = self.eventVM.event.creation_millis
-                    print("selected post: \(self.eventVM.event.text)")
                 }
             }
             
@@ -65,7 +63,6 @@ struct ProfilePostItemView: View {
                     ProfileNoPicPostItemView(text: postVM.post.text)
                     .onTapGesture {
                         self.selection = self.postVM.post.creation_millis
-                        print("selected post: \(self.postVM.post.text)")
                     }
                 } else {
                     FirebaseImage(
@@ -77,7 +74,6 @@ struct ProfilePostItemView: View {
                     )
                     .onTapGesture {
                         self.selection = self.postVM.post.creation_millis
-                        print("selected post: \(self.postVM.post.text)")
                     }
                 }
 

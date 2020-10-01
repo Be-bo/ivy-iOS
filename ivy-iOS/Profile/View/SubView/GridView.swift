@@ -14,12 +14,15 @@ import SwiftUI
 // Refer to preview for example
 struct GridView<T, Label> : View where Label : View, T : Identifiable {
     
-    var rows: [Row<T>]
+    var array = [T]()
+    var rows : [Row<T>]
     //var cellView: ((GeometryProxy) -> ((T) -> Label))
-    var cellView: ((T) -> Label)
-    var maxCol: Int
+    var cellView : ((T) -> Label)
+    var maxCol : Int
+    
     
     init(cells: [T], maxCol: Int, _ cellView: @escaping ((T) -> Label)) {
+        self.array = cells
         self.rows = Row.makeGrid(numberOfColumns: maxCol, cells: cells)
         self.cellView = cellView
         self.maxCol = maxCol

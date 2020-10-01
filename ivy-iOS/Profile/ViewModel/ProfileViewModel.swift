@@ -12,8 +12,22 @@ import Combine
 class ProfileViewModel: ObservableObject{
     @Published var profileRepo: ProfileRepo
     @Published var userInfoVM: UserInfoViewModel
-    @Published var userEventVMs = [EventItemViewModel]()
-    @Published var userPostVMs = [HomePostViewModel]()
+    @Published var userEventVMs = [EventItemViewModel]() {
+        willSet {
+            print("EVENT VMs ARRAY WILL CHANGE!!! Size: \(userEventVMs.count)")
+        }
+        didSet {
+            print("EVENT VMs ARRAY CHANGED!!! Size: \(userEventVMs.count) \n")
+        }
+    }
+    @Published var userPostVMs = [HomePostViewModel]() {
+        willSet {
+            print("POST VMs ARRAY WILL CHANGE!!! Size: \(userPostVMs.count)")
+        }
+        didSet {
+            print("POST VMs ARRAY CHANGED!!! Size: \(userPostVMs.count) \n")
+        }
+    }
     private var cancellables = Set<AnyCancellable>()
     
     init(uid: String){

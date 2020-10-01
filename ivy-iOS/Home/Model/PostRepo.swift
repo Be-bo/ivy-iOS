@@ -62,7 +62,9 @@ class PostRepo: ObservableObject{
                         self.homePosts.append(newPost)
                     }
                     
-                    self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
+                    if !querSnap.isEmpty {
+                        self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
+                    }
                     if(querSnap.documents.count < self.loadLimit){ //if less docs than limit, we're at the end of the collection
                         self.postsLoaded = true
                     }
