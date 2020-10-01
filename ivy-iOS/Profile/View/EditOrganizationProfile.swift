@@ -64,13 +64,13 @@ struct EditOrganizationProfile: View {
             self.storageRef.child(Utils.userProfileImagePath(userId: userProfile.id!)).putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (metadata, error) in
                 if(error != nil){
                     print("Error updating profile image.")
-                    print(error?.localizedDescription)
+                    print(error?.localizedDescription ?? "")
 
                 }
                 self.storageRef.child(Utils.userPreviewImagePath(userId: self.userProfile.id!)).putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (metadata1, error1) in
                     if(error1 != nil){
                         print("Error updating preview image.")
-                        print(error1?.localizedDescription)
+                        print(error1?.localizedDescription ?? "")
                     }
                     self.presentationMode.wrappedValue.dismiss()
                 }

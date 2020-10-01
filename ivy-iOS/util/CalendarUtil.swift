@@ -25,7 +25,7 @@ final class CalendarUtil {
                     self.insertEvent(store: eventStore, startDate: startDate, endDate: endDate, eventName: eventName, extras: extras)
                 }
                 else{
-                    print(error?.localizedDescription)
+                    print(error?.localizedDescription ?? "")
                 }
             }
             break

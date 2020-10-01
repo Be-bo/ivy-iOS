@@ -38,7 +38,7 @@ struct FirebaseImage<S>: View where S:Shape{
             .onAppear(){
                 self.storage.child(self.path).downloadURL { (url, err) in
                     if err != nil{
-                        print("Error loading image from storage.")
+                        print("Error loading image from storage: '\(path)'")
                         return
                     }
                     self.imageURL = "\(url!)"
@@ -47,8 +47,8 @@ struct FirebaseImage<S>: View where S:Shape{
     }
 }
 
-// For posts only
-struct FirebasePostItem: View{
+// For posts/events only
+struct FirebasePostImage: View{
     
     @State private var imageURL = ""
     let storage = Storage.storage().reference()
@@ -70,7 +70,7 @@ struct FirebasePostItem: View{
             .onAppear(){
                 self.storage.child(self.path).downloadURL { (url, err) in
                     if err != nil{
-                        print("Error loading image from storage.")
+                        print("Error loading Post or Event image from storage: '\(path)'")
                         return
                     }
                     self.imageURL = "\(url!)"

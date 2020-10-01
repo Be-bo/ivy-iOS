@@ -22,30 +22,18 @@ class EventRepo: ObservableObject{
     @Published var exploreAllEvents = [Event]()
     @Published var eventsLoaded = false
     
+    //Pagination
+    let loadLimit = 20
+    var lastPulledDoc: DocumentSnapshot?
+    @Published var exploreAllEventsLoaded = false
+    
     init() {
         self.loadFeatured()
         self.loadTodayEvents()
         self.loadThisWeekEvents()
         self.loadUpcomingEvents()
     }
-    
-    func loadExploreAll(){
-        db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("start_millis", isGreaterThan: Utils.getCurrentTimeInMillis())
-            .order(by: "start_millis").getDocuments{(querySnapshot, error) in
-                if error != nil{
-                    print(error ?? "")
-                    return
-                }
-                if let querSnap = querySnapshot{
-                    for currentDoc in querSnap.documents{
-                        let newEvent = Event()
-                        newEvent.docToObject(doc: currentDoc)
-                        self.exploreAllEvents.append(newEvent)
-                    }
-                }
-        }
-    }
-    
+        
     func loadUpcomingEvents(){
         upcomingEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("is_featured", isEqualTo: false).whereField("start_millis", isGreaterThan: Int(Utils.getEndOfThisWeekMillis())) //end of this week's millis
@@ -138,6 +126,112 @@ class EventRepo: ObservableObject{
         })
     }
     
+    // Pagination: fetch events
+    func loadExploreAll(start: Bool = false){
+        if start {
+            exploreAllEventsLoaded = false
+            exploreAllEvents = [Event]()
+        }
+        
+        var query = db.collection("universities").document(Utils.getCampusUni()).collection("posts")
+            .whereField("is_event", isEqualTo: true)
+            .whereField("start_millis", isGreaterThan: Utils.getCurrentTimeInMillis())
+            .order(by: "start_millis")
+                        
+        // Fetch next batch if this is not the first
+        if (lastPulledDoc != nil && !start) {
+            query = query.start(afterDocument: lastPulledDoc!)
+        }
+                
+        query.limit(to: loadLimit).getDocuments{(querySnapshot, error) in
+            if error != nil{
+                print(error ?? "")
+                self.exploreAllEventsLoaded = true
+                return
+            }
+            if let querSnap = querySnapshot{
+                for currentDoc in querSnap.documents{
+                    let newEvent = Event()
+                    newEvent.docToObject(doc: currentDoc)
+                    self.exploreAllEvents.append(newEvent)
+                }
+                
+                self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
+                
+                // i.e Did we pull all the events?
+                if (querSnap.documents.count < self.loadLimit) {
+                    self.exploreAllEventsLoaded = true
+                }
+            }
+        }
+    }
+
+/*
+    // Start fetching first batch of explore all events
+    func startFetchingExploreAll(){
+        exploreAllEventsLoaded = false
+        
+         db.collection("universities").document(Utils.getCampusUni()).collection("posts")
+            .whereField("is_event", isEqualTo: true)
+            .whereField("start_millis", isGreaterThan: Utils.getCurrentTimeInMillis())
+            .order(by: "start_millis")
+            .limit(to: loadLimit)
+            .getDocuments { (querySnapshot, error) in
+                if error != nil{
+                    print(error ?? "")
+                    self.exploreAllEventsLoaded = true
+                    return
+                }
+                if let querSnap = querySnapshot{
+                    for currentDoc in querSnap.documents{
+                        let newEvent = Event()
+                        newEvent.docToObject(doc: currentDoc)
+                        self.exploreAllEvents.append(newEvent)
+                    }
+                    
+                    self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
+                    
+                    // i.e Did we pull all the events?
+                    if (querSnap.documents.count < self.loadLimit) {
+                        self.exploreAllEventsLoaded = true
+                    }
+                }
+        }
+    }
+    
+    // Start fetching first batch of explore all events
+    func fetchBatchExploreAll(){
+        if let lastDoc = lastPulledDoc {
+             db.collection("universities").document(Utils.getCampusUni()).collection("posts")
+                .whereField("is_event", isEqualTo: true)
+                .whereField("start_millis", isGreaterThan: Utils.getCurrentTimeInMillis())
+                .order(by: "start_millis")
+                .start(afterDocument: lastDoc)
+                .limit(to: loadLimit)
+                .getDocuments { (querySnapshot, error) in
+                    if error != nil{
+                        print(error ?? "")
+                        self.exploreAllEventsLoaded = true
+                        return
+                    }
+                    if let querSnap = querySnapshot{
+                        for currentDoc in querSnap.documents{
+                            let newEvent = Event()
+                            newEvent.docToObject(doc: currentDoc)
+                            self.exploreAllEvents.append(newEvent)
+                        }
+                        
+                        self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
+                        
+                        // i.e Did we pull all the events?
+                        if (querSnap.documents.count < self.loadLimit) {
+                            self.exploreAllEventsLoaded = true
+                        }
+                    }
+            }
+        }
+    }*/
+    
     func refresh(){
         self.eventsLoaded = false
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("creation_millis", isGreaterThan: creationMillis).whereField("is_featured", isEqualTo: false).getDocuments{(querySnapshot, error) in
@@ -180,7 +274,6 @@ class EventRepo: ObservableObject{
                                 self.upcomingEvents.insert(newEvent, at: 0)
                             }
                         }
-                        
                         self.eventsLoaded = true
                     }
                 }

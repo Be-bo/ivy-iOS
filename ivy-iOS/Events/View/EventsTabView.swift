@@ -135,9 +135,7 @@ struct EventsTabView: View {
                             }
                             .padding(.bottom, 30)
                         }
-                    }
-                    
-                    
+                    }       
                     
                     
                     // MARK: Upcoming
@@ -163,9 +161,6 @@ struct EventsTabView: View {
                         NavigationLink(destination: ExploreAllEventsView(eventTabVM: self.eventTabVM, screenWidth: UIScreen.screenWidth).navigationBarTitle("All Events", displayMode: .large), tag: 2, selection: $selection) {
                             Button(action: {
                                 self.selection = 2
-                                if (self.eventTabVM.exploreAllEventsVMs.count < 1){ //if we haven't loaded explore all events yet, load them now
-                                    self.eventTabVM.eventRepo.loadExploreAll()
-                                }
                             }){
                                 Text("Explore All")
                             }

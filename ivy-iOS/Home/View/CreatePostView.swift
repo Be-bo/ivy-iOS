@@ -195,11 +195,13 @@ struct CreatePostView: View {
                 db.collection("universities").document(Utils.getCampusUni()).collection("posts").document(alreadyExistingPost.id ?? "").setData(alreadyExistingPost.getMap()){error in
                     if error == nil{
                         if(self.visualPick == 1 && self.image != nil){
-                            self.storageRef.child(self.alreadyExistingPost.visual ?? "").putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (error, metadata) in
+                            self.storageRef.child(self.alreadyExistingPost.visual)
+                                .putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (error, metadata) in
                                 if(error != nil){
                                     print(error!)
                                 }
-                                self.storageRef.child(Utils.postPreviewImagePath(postId: self.alreadyExistingPost.id ?? "" )).putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (error1, metadata1) in
+                                self.storageRef.child(Utils.postPreviewImagePath(postId: self.alreadyExistingPost.id ?? "" ))
+                                    .putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (error1, metadata1) in
                                     if(error1 != nil){
                                         print(error1!)
                                     }
@@ -223,7 +225,8 @@ struct CreatePostView: View {
                 db.collection("universities").document(Utils.getCampusUni()).collection("posts").document(alreadyExistingEvent.id ?? "").setData(alreadyExistingEvent.getMap()){error in
                     if error == nil{
                         if(self.visualPick == 1 && self.image != nil){
-                            self.storageRef.child(self.alreadyExistingEvent.visual ?? "").putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (error, metadata) in
+                            self.storageRef.child(self.alreadyExistingEvent.visual)
+                                .putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (error, metadata) in
                                 if(error != nil){
                                     print(error!)
                                 }

@@ -19,6 +19,8 @@ class ProfileRepo: ObservableObject{
     @Published var posts = [Post]()
     @Published var events = [Event]()
     
+    // Pagination things
+    
     init(uid: String){
         self.userId = uid
         self.loadData(alsoLoadPosts: true)

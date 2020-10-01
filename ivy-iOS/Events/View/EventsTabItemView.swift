@@ -20,20 +20,17 @@ struct EventsTabItemView: View {
     
     var body: some View {
         
-        VStack(alignment: .leading){
-            NavigationLink(destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(Text(eventItemVM.event.name), displayMode: .inline), tag: 1, selection: self.$selection) {
+        VStack(alignment: .leading) {
+            NavigationLink( destination: EventScreenView(eventVM: eventItemVM).navigationBarTitle(Text(eventItemVM.event.name), displayMode: .inline), tag: 1, selection: self.$selection) {
                 Button(action: {
                     self.selection = 1
                 }){
                     
-                    FirebaseImage(
+                    FirebasePostImage(
                         path: self.eventItemVM.event.visual,
-                        placeholder: AssetManager.logoGreen,
                         width: 200,
-                        height: 200,
-                        shape: RoundedRectangle(cornerRadius: 25)
+                        height: 200
                     )
-
                     .buttonStyle(PlainButtonStyle()) //an extremely reta*ded situation, only doesn't overlay the image with button color when all 3 of these have PlainButtonStyle applied at the same time
                 }
                 .buttonStyle(PlainButtonStyle())
