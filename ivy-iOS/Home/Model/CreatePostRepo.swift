@@ -23,7 +23,6 @@ class CreatePostRepo: ObservableObject{
         func loadPinnedNames(){
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).getDocuments { (querSnapshot, error) in
             if let querSnap = querSnapshot{
-                print("inside")
                 for doc in querSnap.documents{
                     if let id = doc.get("id") as? String, let nam = doc.get("name") as? String{
                         self.pinnedIds.append(id)

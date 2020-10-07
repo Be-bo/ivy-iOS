@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             }
         }
         
-        Messaging.messaging().shouldEstablishDirectChannel = true
+        //Messaging.messaging().shouldEstablishDirectChannel = true
         application.registerForRemoteNotifications()
         
         return true
@@ -90,12 +90,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 "messaging_token": fcmToken
             ])
         }
-        Messaging.messaging().shouldEstablishDirectChannel = true
+        //Messaging.messaging().shouldEstablishDirectChannel = true
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
     }
     
-    func application(application: UIApplication,
+    private func application(application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         Messaging.messaging().apnsToken = deviceToken as Data
     }
@@ -125,9 +125,9 @@ extension AppDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         let userInfo = notification.request.content.userInfo
-        if let messageID = userInfo[gcmMessageIDKey] {
+        //if let messageID = userInfo[gcmMessageIDKey] {
             //            debugPrint("Message ID: \(messageID)")
-        }
+        //}
         //        debugPrint(userInfo)
         //Handle the notification ON APP
         Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -138,7 +138,7 @@ extension AppDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        let baseDatabaseReference = Firestore.firestore()
+        //let baseDatabaseReference = Firestore.firestore()
         
         let userInfo = response.notification.request.content.userInfo
         

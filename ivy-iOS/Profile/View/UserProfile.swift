@@ -11,7 +11,7 @@ import Firebase
 import SDWebImageSwiftUI
 
 
-struct OrganizationProfile: View {
+struct UserProfile: View {
     let db = Firestore.firestore()
     var uid = ""
     @ObservedObject var thisUserRepo = ThisUserRepo()
@@ -62,10 +62,10 @@ struct OrganizationProfile: View {
                         if(profileVM.userInfoVM.userProfile.is_organization){
                             if(profileVM.userInfoVM.userProfile.member_ids.count == 1){
                                 Text("\(profileVM.userInfoVM.userProfile.member_ids.count) Member").padding(.bottom, 10)
-                            }else{
+                            } else {
                                 Text("\(profileVM.userInfoVM.userProfile.member_ids.count) Members").padding(.bottom, 10)
                             }
-                        }else{
+                        } else {
                             Text(self.profileVM.userInfoVM.userProfile.degree).padding(.bottom, 10)
                         }
                    
@@ -104,7 +104,7 @@ struct OrganizationProfile: View {
                                             }){
                                                 Text("Cancel Join Reqest")
                                             }
-                                        }else{ //neither a mem nor a req -> can request membership
+                                        } else { //neither a mem nor a req -> can request membership
                                             Button(action: {
                                                 self.alreadyRequested = true
                                                 self.requestMembership()
@@ -155,13 +155,12 @@ struct OrganizationProfile: View {
                             }.padding(.horizontal, 10)
                             
                             GridView(
-                                cells: self.profileVM.userEventVMs,
+                                cells: self.$profileVM.userEventVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                                ) //{ geo in
+                                )
                             { eventVM in
                                 ProfileEventItemView(eventVM: eventVM)
                             }.padding(.horizontal, 10)
-                            //}
                             
                             // Load next Batch if not all loaded
                             if !profileVM.profileRepo.eventsLoaded {
@@ -188,14 +187,13 @@ struct OrganizationProfile: View {
                             }.padding(.horizontal, 10)
                             
                             GridView(
-                                cells: self.profileVM.userPostVMs,
+                                cells: self.$profileVM.userPostVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                                ) //{ geo in
+                                )
                             { postVM in
                                 ProfilePostItemView(postVM: postVM)
                             }
                             .padding(.horizontal, 10)
-                            //}
                             
                             // Load next Batch if not all loaded
                             if !profileVM.profileRepo.postsLoaded {

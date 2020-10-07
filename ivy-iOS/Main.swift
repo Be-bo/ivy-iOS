@@ -22,9 +22,9 @@ struct Main: View {
     
     
     init(){
-        if Auth.auth().currentUser != nil{
+        if Auth.auth().currentUser != nil {
             thisUserDataRepo = UserRepo(userid: Auth.auth().currentUser!.uid)
-        }else{
+        } else {
             thisUserDataRepo = UserRepo()
         }
         Utils.checkForUnverified()
@@ -61,7 +61,7 @@ struct Main: View {
             // MARK: Profile
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
                 NavigationView{
-                    OrganizationProfile(uid: Auth.auth().currentUser!.uid) //MARK: todo, sensitive
+                    UserProfile(uid: Auth.auth().currentUser!.uid) //MARK: todo, sensitive
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
                 .tabItem {

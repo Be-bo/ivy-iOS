@@ -177,7 +177,7 @@ struct EventScreenView: View {
                         
                         if(Auth.auth().currentUser != nil){
                             NavigationLink(
-                                destination: OrganizationProfile(uid: eventVM.event.author_id)
+                                destination: UserProfile(uid: eventVM.event.author_id)
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
                                 selection: self.$selection) {
@@ -267,7 +267,7 @@ struct EventScreenView: View {
                                     
                                     if(Auth.auth().currentUser != nil){
                                         NavigationLink(
-                                            destination: OrganizationProfile(uid: currentId)
+                                            destination: UserProfile(uid: currentId)
                                                 .navigationBarTitle("Profile"),
                                             tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
                                             selection: self.$selection) {
@@ -485,7 +485,7 @@ struct EventScreenView: View {
                             }
                             
                             NavigationLink(
-                                destination: OrganizationProfile(uid: commentVM.comment.author_id)
+                                destination: UserProfile(uid: commentVM.comment.author_id)
                                     .navigationBarTitle("Profile"),
                                 tag: commentVM.selectionId ,
                                 selection: self.$selection) {

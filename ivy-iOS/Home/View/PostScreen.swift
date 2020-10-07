@@ -177,7 +177,7 @@ struct PostScreen: View {
                         
                         if(Auth.auth().currentUser != nil){
                             NavigationLink(
-                                destination: OrganizationProfile(uid: postVM.post.author_id)
+                                destination: UserProfile(uid: postVM.post.author_id)
                                     .navigationBarTitle("Profile"),
                                 tag: 1,
                                 selection: self.$selection) {
@@ -369,7 +369,7 @@ struct PostScreen: View {
                                 }
                                 
                                 NavigationLink(
-                                    destination: OrganizationProfile(uid: commentVM.comment.author_id)
+                                    destination: UserProfile(uid: commentVM.comment.author_id)
                                         .navigationBarTitle("Profile"),
                                     tag: commentVM.selectionId ,
                                     selection: self.$selection) {

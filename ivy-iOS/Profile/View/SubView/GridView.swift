@@ -13,35 +13,36 @@ import SwiftUI
 // Generic gridview that takes a list [T] and creates a cellView per item
 // Refer to preview for example
 struct GridView<T, Label> : View where Label : View, T : Identifiable {
-    
-    var array = [T]()
-    var rows : [Row<T>]
-    //var cellView: ((GeometryProxy) -> ((T) -> Label))
-    var cellView : ((T) -> Label)
+
+    // Provide Arguments
+    @Binding var cells : [T]
     var maxCol : Int
-    
-    
-    init(cells: [T], maxCol: Int, _ cellView: @escaping ((T) -> Label)) {
-        self.array = cells
-        self.rows = Row.makeGrid(numberOfColumns: maxCol, cells: cells)
-        self.cellView = cellView
-        self.maxCol = maxCol
-    }
+    var cellView : ((T) -> Label)
+
     
     var body: some View {
-        //GeometryReader { geo in
-
-            VStack (alignment: .leading) {
-                ForEach(self.rows) { row in
-                    HStack () {
-                        ForEach(row.cells, content: self.cellView)
-                        if (row.cells.count < self.maxCol) {
-                            Spacer()
-                        }
+        
+        // We're recalculating grid whenever cells change
+        let rows = Binding<[Row<T>]>(
+            get: {
+                Row.makeGrid(numberOfColumns: self.maxCol, cells: self.cells)
+            },
+            set: {
+                print("Tried to change rows to: \($0)") // Shouldn't print!
+            }
+        )
+        
+        return VStack (alignment: .leading) {
+            ForEach(rows.wrappedValue) { row in
+                HStack () {
+                    ForEach(row.cells, content: self.cellView)
+                    if (row.cells.count < self.maxCol) {
+                        Spacer()
                     }
                 }
             }
-        //}
+            Text("Cells Count: \(cells.count)")
+        }
     }
 }
 

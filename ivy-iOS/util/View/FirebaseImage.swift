@@ -30,22 +30,39 @@ struct FirebaseImage<S>: View where S:Shape{
     
         
     var body: some View {
-        WebImage(url: URL(string: imageURL))
-            .resizable()
-            .placeholder(placeholder)
-            .frame(width: width, height: height)
-            .clipShape(shape)
-            .onAppear(){
-                if (!self.path.isEmpty && self.path != "nothing") {
-                    self.storage.child(self.path).downloadURL { (url, err) in
-                        if err != nil{
-                            print("Error loading image from storage: '\(path)'")
-                            return
+        /*if #available(iOS 14.0, *) {
+            WebImage(url: URL(string: imageURL))
+                .placeholder(placeholder)
+                .clipShape(shape)
+                .onAppear(){
+                    if (!self.path.isEmpty && self.path != "nothing") {
+                        self.storage.child(self.path).downloadURL { (url, err) in
+                            if err != nil{
+                                print("Error loading image from storage: '\(path)'")
+                                return
+                            }
+                            self.imageURL = "\(url!)"
                         }
-                        self.imageURL = "\(url!)"
                     }
-                }
-        }
+            }
+        } else {*/
+            WebImage(url: URL(string: imageURL))
+                .resizable()
+                .placeholder(placeholder)
+                .frame(width: width, height: height)
+                .clipShape(shape)
+                .onAppear(){
+                    if (!self.path.isEmpty && self.path != "nothing") {
+                        self.storage.child(self.path).downloadURL { (url, err) in
+                            if err != nil{
+                                print("Error loading image from storage: '\(path)'")
+                                return
+                            }
+                            self.imageURL = "\(url!)"
+                        }
+                    }
+            }
+        //}
     }
 }
 
