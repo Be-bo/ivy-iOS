@@ -32,7 +32,7 @@ struct DropDownMenu: View {
                         .foregroundColor(hintColor)
                 }
                 else {
-                    Text(self.selected!)
+                    Text(self.selected!).foregroundColor(AssetManager.textColor)
                 }
                 Spacer()
                 Image (systemName: expand ? "chevron.up" : "chevron.down")
@@ -45,14 +45,14 @@ struct DropDownMenu: View {
             }
             
             if expand {
-                ScrollView {
+                ScrollView(showsIndicators: true) {
                     ForEach(self.list, id: \.self) { item in
                         HStack{
                             Button(action: {
                                 self.expand.toggle()
                                 self.selected = item
                             }) {
-                                Text(item).padding(.vertical)
+                                Text(item).padding(.top)
                             }
                             .padding(.horizontal, 7)
                             .foregroundColor(AssetManager.ivyGreen)
@@ -61,14 +61,15 @@ struct DropDownMenu: View {
                         }
                     }
                 }
-            .frame(height: expandedHeight)
+                .frame(height: expandedHeight)
+                .background(AssetManager.ivyBackgroundGrey)
+                .cornerRadius(7)
             }
             else {
                 Divider()
                     .background(selected != nil ? Color.green : hintColor)
                     .padding(.bottom)
             }
-            
         }
         .padding(.horizontal, expand ? 7 : 0)
         .padding(.vertical, expand ? 7 : 0)

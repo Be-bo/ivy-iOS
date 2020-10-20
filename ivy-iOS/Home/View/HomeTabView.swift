@@ -63,7 +63,7 @@ struct HomeTabView: View {
                         }) {
                             Image(systemName: "gear").font(.system(size: 25))
                                 .sheet(isPresented: $settingsPresented, onDismiss: {
-                                    if(self.homeTabVM.currentUni != Utils.getCampusUni()){ //if uni changed, reload data, refresh uni logo
+                                    if(self.homeTabVM.currentUni != Utils.getCampusUni()){ // if uni changed, reload data, refresh uni logo
                                         self.homeTabVM.reloadData()
                                         self.homeTabVM.currentUni = Utils.getCampusUni()
                                         self.uniUrl = "test"

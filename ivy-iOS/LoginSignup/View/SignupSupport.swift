@@ -76,6 +76,7 @@ struct EmailField: View {
             TextField(hint, text: $email)
                 .textContentType(.emailAddress)
                 .autocapitalization(.none)
+                .foregroundColor(AssetManager.textColor)
             Divider()
                 .background(email != "" ? Color.green : nil)
                 .padding(.bottom)
@@ -98,10 +99,12 @@ struct PasswordField: View {
                 if visible {
                     TextField(hint, text: self.$password)
                         .textContentType(.password)
+                        .foregroundColor(AssetManager.textColor)
                 }
                 else {
                     SecureField(hint, text: self.$password)
                         .textContentType(.password)
+                        .foregroundColor(AssetManager.textColor)
                 }
                 
                 Button(action: {

@@ -85,9 +85,17 @@ struct LoginView: View {
             
             
             // MARK: Input Fields
-            TextField("Email", text: $email).textContentType(.emailAddress).autocapitalization(.none)
+            TextField("Email", text: $email)
+                .textContentType(.emailAddress)
+                .autocapitalization(.none)
+                .foregroundColor(AssetManager.textColor)
+            
             Divider().padding(.bottom)
-            SecureField("Password", text: $password).textContentType(.password)
+            
+            SecureField("Password", text: $password)
+                .textContentType(.password)
+                .foregroundColor(AssetManager.textColor)
+            
             Divider().padding(.bottom)
             
             if (errorText != "") {

@@ -19,7 +19,9 @@ struct SettingsView: View {
     var body: some View {
         ScrollView(.vertical){
             VStack(alignment: .center){
-                Text("Settings").font(.largeTitle).padding(.bottom)
+                Text("Settings")
+                    .font(.largeTitle).padding(.bottom)
+                    .foregroundColor(AssetManager.textColor)
                 
                 
                 if(Auth.auth().currentUser == nil){
@@ -28,7 +30,7 @@ struct SettingsView: View {
                         list: StaticDomainList.available_domain_list,
                         hint: "Change Campus",
                         hintColor: AssetManager.ivyHintGreen,
-                        expandedHeight: 200
+                        expandedHeight: 100
                     )
                     
                     Button(action: {
@@ -38,7 +40,7 @@ struct SettingsView: View {
                         Text("Save Campus").foregroundColor(AssetManager.ivyGreen)
                     }
                 }else{
-                    Text("Sorry, for now you have to be logged out to be able to switch campuses. :-(")
+                    Text("Sorry, for now you have to be logged out to be able to switch campuses. :-(").foregroundColor(AssetManager.textColor)
                 }
                 Divider().padding(.top).padding(.bottom)
                 

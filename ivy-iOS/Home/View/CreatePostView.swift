@@ -311,15 +311,19 @@ struct CreatePostView: View {
                 if(self.editingMode){
                     if(typePick == 0){
                         Text("Edit Post").font(.largeTitle).padding(.bottom, 10)
+                            .foregroundColor(AssetManager.textColor)
                     }else{
                         Text("Edit Event").font(.largeTitle).padding(.bottom, 10)
+                            .foregroundColor(AssetManager.textColor)
                     }
                     Text("All values will be overwritten! (I.e. You'll have to fill out all the fields again, only comments & going users will be kept.)").foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom, 10)
                 }else{
                     if(typePick == 0){
                         Text("Create Post").font(.largeTitle).padding(.bottom, 10)
+                            .foregroundColor(AssetManager.textColor)
                     }else{
                         Text("Create Event").font(.largeTitle).padding(.bottom, 10)
+                            .foregroundColor(AssetManager.textColor)
                     }
                 }
                 
@@ -339,7 +343,7 @@ struct CreatePostView: View {
                 
                 // MARK: Visual
                 HStack{
-                    Text("Visual").font(.system(size: 25))
+                    Text("Visual").font(.system(size: 25)).foregroundColor(AssetManager.textColor)
                     Spacer()
                 }
                 Picker("Visual", selection: $visualPick) {
@@ -371,9 +375,9 @@ struct CreatePostView: View {
                     
                     // MARK: Text
                     if(typePick == 0){
-                        TextField("Text", text: $textInput)
+                        TextField("Text", text: $textInput).foregroundColor(AssetManager.textColor)
                     }else{
-                        TextField("Description", text: $textInput)
+                        TextField("Description", text: $textInput).foregroundColor(AssetManager.textColor)
                     }
                     Divider().padding(.bottom, 10)
                     
@@ -394,17 +398,20 @@ struct CreatePostView: View {
                     }else{
                         Group{
                             TextField("Event Name", text: $eventName)
+                                .foregroundColor(AssetManager.textColor)
                             Divider().padding(.bottom, 10)
                             
                             TextField("Location", text: $location)
+                                .foregroundColor(AssetManager.textColor)
                             Divider().padding(.bottom, 10)
                             
                             TextField("Link (optional, include full url)", text: $link)
+                                .foregroundColor(AssetManager.textColor)
                             Divider().padding(.bottom, 10)
                             
-                            DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
+                            DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute]).foregroundColor(AssetManager.textColor)
                             
-                            DatePicker("End", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
+                            DatePicker("End", selection: $endDate, displayedComponents: [.date, .hourAndMinute]).foregroundColor(AssetManager.textColor)
                         }
                     }
                     

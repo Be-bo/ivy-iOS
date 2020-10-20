@@ -36,7 +36,7 @@ struct OrganizationSignup: View {
                               password: $orgSignupVM.confirmPassword)
 
                 Toggle(isOn: $orgSignupVM.is_club) {
-                    Text("We are a club")
+                    Text("We are a club").foregroundColor(AssetManager.textColor)
                 }
                 .padding(.bottom, 30.0)
 
