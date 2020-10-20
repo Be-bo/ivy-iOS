@@ -12,7 +12,7 @@ import SDWebImageSwiftUI
 
 
 struct UserProfile: View {
-    let db = Firestore.firestore()
+    
     var uid = ""
     @ObservedObject var thisUserRepo = ThisUserRepo()
     @ObservedObject var profileVM: ProfileViewModel
@@ -24,6 +24,7 @@ struct UserProfile: View {
     @State private var notificationCenterPresented = false
     @State var alreadyRequested = false //this is for member request -> whether it's "request", "cancel", or "leave", it hides right away after click and they have to leave and come back to see the next one
     
+    // for pagination of posts/events
     @State private var postLoadingWheelAnimating = true
     @State private var eventLoadingWheelAnimating = true
     
@@ -43,7 +44,6 @@ struct UserProfile: View {
                     
                     // MARK: Profile Image
                     ZStack{
-                        
                         FirebaseImage(
                             path: Utils.userProfileImagePath(userId: self.uid),
                             placeholder: Image(systemName: "person.crop.circle.fill"),
@@ -59,63 +59,69 @@ struct UserProfile: View {
                     // MARK: Profile Info
                     VStack (alignment: .leading){
                         Text(self.profileVM.userInfoVM.userProfile.name).padding(.bottom, 10)
-                        if(profileVM.userInfoVM.userProfile.is_organization){
-                            if(profileVM.userInfoVM.userProfile.member_ids.count == 1){
-                                Text("\(profileVM.userInfoVM.userProfile.member_ids.count) Member").padding(.bottom, 10)
+                        
+                        // ORG or STUD ?
+                        if (profileVM.userInfoVM.userProfile.is_organization) { // ORGANIZATION
+                            
+                            if (profileVM.userInfoVM.userProfile.member_ids.count == 1) {
+                                Text("1 Member").padding(.bottom, 10)
                             } else {
                                 Text("\(profileVM.userInfoVM.userProfile.member_ids.count) Members").padding(.bottom, 10)
                             }
-                        } else {
+                        } else { // STUDENT
                             Text(self.profileVM.userInfoVM.userProfile.degree).padding(.bottom, 10)
                         }
                    
+                        // 3rd person?
                         if Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id ?? "" == Auth.auth().currentUser!.uid { // check if this is 3rd person user
                             Button(action: {
                                 self.editProfile.toggle()
                             }){
-                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: { //refresh profile pic
-                                    self.userPicUrl = "test" //to force update even when it's ""
-                                    let storage = Storage.storage().reference()
-                                    storage.child(self.profileVM.userInfoVM.userProfile.profileImagePath()).downloadURL { (url, err) in
-                                        if err != nil{
-                                            print("Error loading org profile image.")
-                                            return
-                                        }
-                                        self.userPicUrl = "\(url!)"
-                                    }
+                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: {
+                                    
+                                    // refresh profile pic
+                                    FirebasePostImage.getPicUrl(picUrl: self.$userPicUrl,
+                                        path: self.profileVM.userInfoVM.userProfile.profileImagePath())
+                                    
                                 }){
-                                    EditOrganizationProfile(userProfile: self.profileVM.userInfoVM.userProfile, nameInput: self.profileVM.userInfoVM.userProfile.name)
+                                    EditUserProfile(userProfile: self.profileVM.userInfoVM.userProfile,
+                                                    nameInput: self.profileVM.userInfoVM.userProfile.name)
                                 }
                             }.padding(.bottom, 10)
                             
-                        }
-                        else {
-                            // MARK: Membership Buttons
-                            if Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id != Auth.auth().currentUser!.uid && profileVM.userInfoVM.userProfile.is_organization{ //user had to be logged in and not be viewing themselves 3rd party
+                        } else { // MARK: Membership Buttons
+                            // user had to be logged in and not be viewing themselves 3rd party
+                            if Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id != Auth.auth().currentUser!.uid && profileVM.userInfoVM.userProfile.is_organization {
                                 
                                 // MARK: Student Requesting Buttons
-                                
+
                                 if(!alreadyRequested){
-                                    if(!profileVM.userInfoVM.userProfile.member_ids.contains(Auth.auth().currentUser!.uid)){ //viewing user not a member
-                                        if(profileVM.userInfoVM.userProfile.request_ids.contains(Auth.auth().currentUser!.uid)){ //viewing user already requested membership
+                                    // viewing user not a member
+                                    if(!profileVM.userInfoVM.userProfile.member_ids.contains(Auth.auth().currentUser!.uid)){
+                                        // viewing user already requested membership
+                                        if(profileVM.userInfoVM.userProfile.request_ids.contains(Auth.auth().currentUser!.uid)){
                                             Button(action: {
                                                 self.alreadyRequested = true
-                                                self.cancelRequest()
+                                                self.profileVM.profileRepo.cancelRequest(
+                                                    uid: profileVM.userInfoVM.userProfile.id)
                                             }){
-                                                Text("Cancel Join Reqest")
+                                                Text("Cancel Join Request")
                                             }
-                                        } else { //neither a mem nor a req -> can request membership
+                                        } else { // neither a mem nor a req -> can request membership
                                             Button(action: {
                                                 self.alreadyRequested = true
-                                                self.requestMembership()
+                                                self.profileVM.profileRepo.requestMembership(
+                                                    uid: profileVM.userInfoVM.userProfile.id
+                                                )
                                             }){
                                                 Text("Request Membership")
                                             }
                                         }
-                                    }else{ //viewing user is a member
+                                    } else { // viewing user is a member
                                         Button(action: {
                                             self.alreadyRequested = true
-                                            self.leaveOrganization()
+                                            self.profileVM.profileRepo.leaveOrganization(
+                                                uid: profileVM.userInfoVM.userProfile.id)
                                         }){
                                             Text("Leave Organization")
                                         }
@@ -131,13 +137,19 @@ struct UserProfile: View {
                 
                 // MARK: Members
                 if(profileVM.userInfoVM.userProfile.is_organization && profileVM.userInfoVM.userProfile.member_ids.count > 0){
-                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.member_ids, orgId: profileVM.userInfoVM.userProfile.id ?? "", userIsOrg: false).padding(.top, 20).padding(.bottom, 10)
+                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.member_ids,
+                                  orgId: profileVM.userInfoVM.userProfile.id ?? "",
+                                  userIsOrg: false)
+                        .padding(.top, 20).padding(.bottom, 10)
                 }
                 
                 
                 // MARK: Member Requests
                 if(profileVM.userInfoVM.userProfile.is_organization && profileVM.userInfoVM.userProfile.request_ids.count > 0 && Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id == Auth.auth().currentUser!.uid){
-                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.request_ids, orgId: profileVM.userInfoVM.userProfile.id ?? "", titleText: "Member Requests", userIsOrg: false).padding(.top, 20).padding(.bottom, 20)
+                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.request_ids,
+                                  orgId: profileVM.userInfoVM.userProfile.id ?? "",
+                                  titleText: "Member Requests", userIsOrg: false)
+                        .padding(.top, 20).padding(.bottom, 20)
                 }
                 
                 
@@ -152,7 +164,7 @@ struct UserProfile: View {
                             HStack {
                                 Text("Events")
                                 Spacer()
-                            }.padding(.horizontal, 10)
+                            }
                             
                             GridView(
                                 cells: self.$profileVM.userEventVMs,
@@ -160,31 +172,35 @@ struct UserProfile: View {
                                 )
                             { eventVM in
                                 ProfileEventItemView(eventVM: eventVM)
-                            }.padding(.horizontal, 10)
+                            }
                             
                             // Load next Batch if not all loaded
                             if !profileVM.profileRepo.eventsLoaded {
                                 HStack {
                                     Spacer()
-                                    ActivityIndicator($eventLoadingWheelAnimating)
-                                        .onAppear {
-                                            if (self.profileVM.userEventVMs.count < 1) {
-                                                self.profileVM.profileRepo.loadEvents(start: true)
-                                            } else {
-                                                self.profileVM.profileRepo.loadEvents()
-                                            }
-                                        }
-                                    Spacer()
+                                    Button(action: {
+                                        self.profileVM.profileRepo.loadEvents()
+                                    }) {
+                                        Text("Load More Events")
+                                    }
+                                    /* TODO: Activity Indicator doesn't work properly
+                                     ActivityIndicator($eventLoadingWheelAnimating)
+                                         .onAppear {
+                                             self.profileVM.profileRepo.loadEvents()
+                                         }*/
+                                    
                                 }
                             }
                         }
+                        
+                        
                         
                         // MARK: POSTS
                         if (profileVM.userPostVMs.count > 0) {
                             HStack {
                                 Text("Posts")
                                 Spacer()
-                            }.padding(.horizontal, 10)
+                            }
                             
                             GridView(
                                 cells: self.$profileVM.userPostVMs,
@@ -193,73 +209,40 @@ struct UserProfile: View {
                             { postVM in
                                 ProfilePostItemView(postVM: postVM)
                             }
-                            .padding(.horizontal, 10)
+                            
+                            
                             
                             // Load next Batch if not all loaded
                             if !profileVM.profileRepo.postsLoaded {
                                 HStack {
                                     Spacer()
-                                    ActivityIndicator($postLoadingWheelAnimating)
+                                    Button(action: {
+                                        self.profileVM.profileRepo.loadPosts()
+                                    }) {
+                                        Text("Load More Posts")
+                                    }
+                                    /* TODO: Activity Indicator doesn't work properly
+                                     ActivityIndicator($postLoadingWheelAnimating)
                                         .onAppear {
-                                            if (self.profileVM.userPostVMs.count < 1) {
-                                                self.profileVM.profileRepo.loadPosts(start: true)
-                                            } else {
-                                                self.profileVM.profileRepo.loadPosts()
-                                            }
-                                        }
-                                    Spacer()
+                                            print("onAppear called for posts. POSTS = \(self.profileVM.userPostVMs.count)")
+                                            self.profileVM.profileRepo.loadPosts() }*/
                                 }
                             }
-                        }
-                            
-                        else if profileVM.userPostVMs.count == 0 && profileVM.userEventVMs.count == 0 {
+                        } else if profileVM.userPostVMs.count == 0 && profileVM.userEventVMs.count == 0 {
                             Spacer()
                             Text("No Posts or Events yet!")
                                 .foregroundColor(.gray)
                                 .padding()
                                 .frame(alignment: .center)
                         }
-                    }
+                    } .padding(.horizontal, 10)
                 }
-                
                 LoadingSpinner().frame(width: UIScreen.screenWidth, height: 5).hidden()   // TODO: quick and dirty
             }
             .padding(.horizontal).padding(.top)
             .onAppear(){
                 self.userPicUrl = "" //force reload
             }
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    // MARK: Membership Functions
-    func requestMembership(){
-        if(Auth.auth().currentUser != nil){
-            db.collection("users").document(profileVM.userInfoVM.userProfile.id ?? "").updateData([
-                "request_ids": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
-            ])
-        }
-    }
-    
-    func cancelRequest(){
-        if(Auth.auth().currentUser != nil){
-            db.collection("users").document(profileVM.userInfoVM.userProfile.id ?? "").updateData([
-                "request_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
-            ])
-        }
-    }
-    
-    func leaveOrganization(){
-        if(Auth.auth().currentUser != nil){
-            db.collection("users").document(profileVM.userInfoVM.userProfile.id ?? "").updateData([
-                "member_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
-            ])
         }
     }
 }

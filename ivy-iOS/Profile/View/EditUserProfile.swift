@@ -10,7 +10,8 @@ import SwiftUI
 import SDWebImageSwiftUI
 import Firebase
 
-struct EditOrganizationProfile: View {
+struct EditUserProfile: View {
+    
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     var userProfile = User()
@@ -23,19 +24,7 @@ struct EditOrganizationProfile: View {
     @Environment(\.presentationMode) var presentationMode
     
     
-    
-    
-    
-//    private void updatePosts(){// Update posts associated with org if org name has changed
-//           String address = "universities/" + this_user.getUni_domain() + "/posts";
-//           base_database_ref.collection(address).whereEqualTo("author_id", this_user.getId())
-//                   .get().addOnCompleteListener(task -> {
-//               if (task.isSuccessful() && task.getResult() != null){
-//                   for (DocumentSnapshot doc : task.getResult())
-//                       doc.getReference().update("author_name",this_user.getName());
-//               }
-//           });
-//       }
+
     
     func updatePosts(){
         db.collection("universities").document(userProfile.uni_domain).collection("posts").whereField("author_id", isEqualTo: userProfile.id ?? "").getDocuments { (querySnap, error) in
@@ -98,6 +87,11 @@ struct EditOrganizationProfile: View {
         }
     }
     
+    
+    
+    
+    
+    // MARK: Body
     var body: some View {
         ScrollView {
             VStack() {

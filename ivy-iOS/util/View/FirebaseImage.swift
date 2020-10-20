@@ -98,5 +98,18 @@ struct FirebasePostImage: View{
                 }
         }
     }
+    
+    
+    // Static function to get a picUrl
+    static func getPicUrl(picUrl : Binding<String>, path : String){
+        picUrl.wrappedValue = "test" // to force update even when it's ""
+        let storage = Storage.storage().reference()
+        storage.child(path).downloadURL { (url, err) in
+            if err != nil{
+                print("Error loading org profile image.")
+                return
+            }
+            picUrl.wrappedValue = "\(url!)"
+        }
+    }
 }
-

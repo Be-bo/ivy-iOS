@@ -12,22 +12,8 @@ import Combine
 class ProfileViewModel: ObservableObject{
     @Published var profileRepo: ProfileRepo
     @Published var userInfoVM: UserInfoViewModel
-    @Published var userEventVMs = [EventItemViewModel]() {
-        willSet {
-            print("EVENT VMs ARRAY WILL CHANGE!!! Size: \(userEventVMs.count)")
-        }
-        didSet {
-            print("EVENT VMs ARRAY CHANGED!!! Size: \(userEventVMs.count) \n")
-        }
-    }
-    @Published var userPostVMs = [HomePostViewModel]() {
-        willSet {
-            print("POST VMs ARRAY WILL CHANGE!!! Size: \(userPostVMs.count)")
-        }
-        didSet {
-            print("POST VMs ARRAY CHANGED!!! Size: \(userPostVMs.count) \n")
-        }
-    }
+    @Published var userEventVMs = [EventItemViewModel]()
+    @Published var userPostVMs = [HomePostViewModel]()
     private var cancellables = Set<AnyCancellable>()
     
     init(uid: String){
@@ -48,7 +34,6 @@ class ProfileViewModel: ObservableObject{
         .assign(to: \.userPostVMs, on: self)
         .store(in: &cancellables)
         
-        self.profileRepo = ProfileRepo(uid: uid)
         profileRepo.$events.map {events in
             events.map{event in
                 EventItemViewModel(event: event)

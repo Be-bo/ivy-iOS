@@ -41,7 +41,6 @@ struct GridView<T, Label> : View where Label : View, T : Identifiable {
                     }
                 }
             }
-            Text("Cells Count: \(cells.count)")
         }
     }
 }
