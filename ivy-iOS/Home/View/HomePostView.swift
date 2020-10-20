@@ -32,23 +32,26 @@ struct HomePostView: View {
                     shape: RoundedRectangle(cornerRadius: 20)
                 )
                     
-                    if postItemVM.post.creation_millis != nil {
-                        Text(Utils.getHumanTimeFromMillis(millis: Double(postItemVM.post.creation_millis!)))
-                            .foregroundColor(AssetManager.ivyLightGrey)
-                    }
-                    
-                    Spacer()
+                if postItemVM.post.creation_millis != nil {
+                    Text(Utils.getHumanTimeFromMillis(millis: Double(postItemVM.post.creation_millis!)))
+                        .foregroundColor(AssetManager.ivyLightGrey)
                 }
+                
+                Spacer()
+            }
             
             
             // MARK: Post Content
             VStack{
+                
                 // MARK: Text
                 ZStack(alignment: .leading){ //a little trick to get rid of the default navlink arrow
                     Button(action: {
                         self.selection = 1
                     }){
-                        Text(self.postItemVM.post.text).multilineTextAlignment(.leading).padding(.bottom, 10)
+                        Text(self.postItemVM.post.text)
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(5)
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -56,6 +59,9 @@ struct HomePostView: View {
                         EmptyView()
                     }
                 }
+                .padding(.top, 8)
+                
+                Spacer()
                 
                 
                 // MARK: Pinned Layout
@@ -93,7 +99,6 @@ struct HomePostView: View {
             }
             .padding(.leading, 10)
         }
-        .padding(.top, 15)
-        .padding(.bottom, 15)
+        .padding(.vertical, 10)
     }
 }
