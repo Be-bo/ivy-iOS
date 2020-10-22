@@ -12,18 +12,18 @@ import FirebaseFirestoreSwift
 
 class User: Identifiable, Encodable/*, Codable*/ {
     
-    var id: String? //cannot be null
-    var email: String = "" //cannot be null
-    var name: String = "" //cannot be null
-    var uni_domain: String = "" //cannot be null
-    var registration_millis: Int = 0 //cannot be null
+    var id: String?                     //cannot be null
+    var email: String = ""              //cannot be null
+    var name: String = ""               //cannot be null
+    var uni_domain: String = ""         //cannot be null
+    var registration_millis: Int = 0    //cannot be null
     var messaging_token: String = ""
-    var is_organization: Bool = false //cannot be null
+    var is_organization: Bool = false   //cannot be null
     var is_club: Bool = false
-    var is_banned = false //cannot be null
-    var registration_platform = "" //cannot be null
+    var is_banned = false               //cannot be null
+    var registration_platform = ""      //cannot be null
     var member_ids = [String]()
-    var is_private = false //cannot be null
+    var is_private = false              //cannot be null
     var post_ids = [String]()
     var request_ids = [String]()
     var degree: String = ""

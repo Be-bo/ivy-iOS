@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct PostScreen: View {
+    
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     @ObservedObject var postVM: HomePostViewModel

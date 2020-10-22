@@ -102,7 +102,7 @@ struct UserProfile: View {
                                         if(profileVM.userInfoVM.userProfile.request_ids.contains(Auth.auth().currentUser!.uid)){
                                             Button(action: {
                                                 self.alreadyRequested = true
-                                                self.profileVM.profileRepo.cancelRequest(
+                                                self.profileVM.cancelRequest(
                                                     uid: profileVM.userInfoVM.userProfile.id)
                                             }){
                                                 Text("Cancel Join Request")
@@ -110,7 +110,7 @@ struct UserProfile: View {
                                         } else { // neither a mem nor a req -> can request membership
                                             Button(action: {
                                                 self.alreadyRequested = true
-                                                self.profileVM.profileRepo.requestMembership(
+                                                self.profileVM.requestMembership(
                                                     uid: profileVM.userInfoVM.userProfile.id
                                                 )
                                             }){
@@ -120,7 +120,7 @@ struct UserProfile: View {
                                     } else { // viewing user is a member
                                         Button(action: {
                                             self.alreadyRequested = true
-                                            self.profileVM.profileRepo.leaveOrganization(
+                                            self.profileVM.leaveOrganization(
                                                 uid: profileVM.userInfoVM.userProfile.id)
                                         }){
                                             Text("Leave Organization")
@@ -160,14 +160,14 @@ struct UserProfile: View {
                     
                     VStack {
                         // MARK: EVENTS
-                        if (profileVM.userEventVMs.count > 0) {
+                        if (profileVM.eventVMs.count > 0) {
                             HStack {
                                 Text("Events")
                                 Spacer()
                             }
                             
                             GridView(
-                                cells: self.$profileVM.userEventVMs,
+                                cells: self.$profileVM.eventVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                                 )
                             { eventVM in
@@ -196,14 +196,14 @@ struct UserProfile: View {
                         
                         
                         // MARK: POSTS
-                        if (profileVM.userPostVMs.count > 0) {
+                        if (profileVM.postVMs.count > 0) {
                             HStack {
                                 Text("Posts")
                                 Spacer()
                             }
                             
                             GridView(
-                                cells: self.$profileVM.userPostVMs,
+                                cells: self.$profileVM.postVMs,
                                 maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
                                 )
                             { postVM in
@@ -224,11 +224,11 @@ struct UserProfile: View {
                                     /* TODO: Activity Indicator doesn't work properly
                                      ActivityIndicator($postLoadingWheelAnimating)
                                         .onAppear {
-                                            print("onAppear called for posts. POSTS = \(self.profileVM.userPostVMs.count)")
+                                            print("onAppear called for posts. POSTS = \(self.profileVM.postVMs.count)")
                                             self.profileVM.profileRepo.loadPosts() }*/
                                 }
                             }
-                        } else if profileVM.userPostVMs.count == 0 && profileVM.userEventVMs.count == 0 {
+                        } else if profileVM.postVMs.count == 0 && profileVM.eventVMs.count == 0 {
                             Spacer()
                             Text("No Posts or Events yet!")
                                 .foregroundColor(.gray)

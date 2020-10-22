@@ -10,7 +10,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class Organization: User {
+class Organization: User_new {
     
     var member_ids = [String]()
     var request_ids = [String]()

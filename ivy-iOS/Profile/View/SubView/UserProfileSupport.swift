@@ -53,16 +53,16 @@ struct ProfileEventItemView: View {
 struct ProfilePostItemView: View {
     
     //var geo : GeometryProxy
-    var postVM: HomePostViewModel
+    var postVM: PostViewModel
     @State private var selection: Int?
     
     var body: some View {
         ZStack {
                 // No visual?
-                if (postVM.post.visual.isEmpty || postVM.post.visual == "nothing") {
-                    ProfileNoPicPostItemView(text: postVM.post.text)
+                if (postVM.post_new.visual.isEmpty || postVM.post_new.visual == "nothing") {
+                    ProfileNoPicPostItemView(text: postVM.post_new.text)
                     .onTapGesture {
-                        self.selection = self.postVM.post.creation_millis
+                        self.selection = self.postVM.post_new.creation_millis
                     }
                 } else {
                     FirebaseImage(
@@ -73,15 +73,15 @@ struct ProfilePostItemView: View {
                         shape: RoundedRectangle(cornerRadius: 25)
                     )
                     .onTapGesture {
-                        self.selection = self.postVM.post.creation_millis
+                        self.selection = self.postVM.post_new.creation_millis
                     }
                 }
 
             // TODO: quick and dirty
             NavigationLink(
                 destination: PostScreen(postVM: postVM)
-                    .navigationBarTitle(Text(postVM.post.author_name+"'s Post"), displayMode: .inline),
-                tag: postVM.post.creation_millis ?? 1, selection: self.$selection)
+                    .navigationBarTitle(Text(postVM.post_new.author_name+"'s Post"), displayMode: .inline),
+                tag: postVM.post_new.creation_millis ?? 1, selection: self.$selection)
             { EmptyView() }
         }
         .padding(3)

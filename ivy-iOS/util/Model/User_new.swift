@@ -5,12 +5,16 @@
 //  Created by Zahra Ghavasieh on 2020-08-14.
 //  Copyright © 2020 ivy. All rights reserved.
 //
+//  Meant to be used as an abstract superclass for Student and Organization
+//  Contains their shared attributes
+//  TODO: Eventually make into "User"
+//
 
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class User: Identifiable, Codable {
+class User_new: Identifiable, Codable {
     
     @DocumentID var id: String?
     var email: String
@@ -21,7 +25,7 @@ class User: Identifiable, Codable {
     var is_organization: Bool
     var is_club: Bool
     var is_banned = false
-    let registration_platform = "iOS"
+    var registration_platform = "iOS"
     
     
     init(id: String, email: String, is_organization: Bool, is_club: Bool) {

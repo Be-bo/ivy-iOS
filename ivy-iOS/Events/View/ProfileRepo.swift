@@ -9,7 +9,6 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import FirebaseAuth
 
 class ProfileRepo: ObservableObject{
     
@@ -17,8 +16,8 @@ class ProfileRepo: ObservableObject{
     let db = Firestore.firestore()
     var userId = ""
     @Published var userProfile = User()
-    @Published var posts = [Post]()
-    @Published var events = [Event]()
+    @Published var posts = [Post_new]()
+    @Published var events = [Event_new]()
     
     // Pagination
     let loadLimit = 9 // Must be divisible by 3! (use 3 for testing)
@@ -72,12 +71,24 @@ class ProfileRepo: ObservableObject{
                 self.postsLoaded = true
                 return
             }
+            
             if let snapshot = querySnap {
-                for currentDoc in snapshot.documents{
-                    let newPost = Post()
-                    newPost.docToObject(doc: currentDoc)
+                
+                self.posts.append(contentsOf: snapshot.documents.compactMap { doc in
+                    do {
+                        let x = try doc.data(as: Post_new.self)
+                        return x
+                    }
+                    catch { print(error) }
+                    return nil
+                })
+                
+                /*for currentDoc in snapshot.documents{
+                    let newPost = currentDoc.data(as: Post_new.self)
+                    //newPost.docToObject(doc: currentDoc)
                     self.posts.append(newPost)
-                }
+                }*/
+                
                 if !snapshot.isEmpty {
                     self.lastPulledPostDoc = snapshot.documents[snapshot.documents.count-1]
                 }
@@ -122,11 +133,19 @@ class ProfileRepo: ObservableObject{
             }
             if let snapshot = querySnap {
                 
+                self.events.append(contentsOf: snapshot.documents.compactMap { doc in
+                    do {
+                        let x = try doc.data(as: Event_new.self)
+                        return x
+                    } catch { print(error) }
+                    return nil
+                })
+                /*
                 for currentDoc in snapshot.documents{
                     let newEvent = Event()
                     newEvent.docToObject(doc: currentDoc)
                     self.events.append(newEvent)
-                }
+                }*/
                 
                 if !snapshot.isEmpty {
                     self.lastPulledEventDoc = snapshot.documents[snapshot.documents.count-1]
@@ -136,35 +155,8 @@ class ProfileRepo: ObservableObject{
                 if (snapshot.documents.count < self.loadLimit) {
                     self.eventsLoaded = true
                 }
+
             }
-        }
-    }
-    
-    
-    
-    
-    // MARK: Membership Functions
-    func requestMembership(uid : String?){
-        if(Auth.auth().currentUser != nil){
-            db.collection("users").document(uid ?? "").updateData([
-                "request_ids": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
-            ])
-        }
-    }
-    
-    func cancelRequest(uid : String?){
-        if(Auth.auth().currentUser != nil){
-            db.collection("users").document(uid ?? "").updateData([
-                "request_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
-            ])
-        }
-    }
-    
-    func leaveOrganization(uid : String?){
-        if(Auth.auth().currentUser != nil){
-            db.collection("users").document(uid ?? "").updateData([
-                "member_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
-            ])
         }
     }
 }

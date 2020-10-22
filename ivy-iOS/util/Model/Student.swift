@@ -10,7 +10,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class Student: User {
+class Student: User_new {
     
     var degree: String
     var birth_millis: Int = 0
