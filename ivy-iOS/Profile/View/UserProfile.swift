@@ -193,7 +193,7 @@ struct UserProfile: View {
                             }
                         }*/
                         
-                        UserPosts(
+                       /* UserPosts(
                             title: "Events",
                             array: self.$profileVM.eventVMs,
                             cellView: { eventVM in
@@ -203,7 +203,7 @@ struct UserProfile: View {
                             loadMoreAction: {
                                 self.profileVM.profileRepo.loadEvents()
                             }
-                        )
+                        )*/
                         
                         
                         
@@ -243,7 +243,7 @@ struct UserProfile: View {
                             }
                         } */
                         
-                        UserPosts(
+                        /*UserPosts(
                             title: "Posts",
                             array: self.$profileVM.postVMs,
                             cellView: { postVM in
@@ -253,7 +253,7 @@ struct UserProfile: View {
                             loadMoreAction: {
                                 self.profileVM.profileRepo.loadPosts()
                             }
-                        )
+                        )*/
                         
                         if profileVM.postVMs.count == 0 && profileVM.eventVMs.count == 0 {
                             Spacer()
@@ -274,7 +274,7 @@ struct UserProfile: View {
     }
 }
 
-
+/*
 // Subview of UserProfile
 // Shows a grid of posts or events
 struct UserPosts<T, Label, Action>: View where Label : View {
@@ -295,7 +295,7 @@ struct UserPosts<T, Label, Action>: View where Label : View {
                     Spacer()
                 }
                 
-                /*GridView(
+                GridView(
                     cells: self.array,
                     maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT,
                     cellView: cellView)
@@ -307,19 +307,19 @@ struct UserPosts<T, Label, Action>: View where Label : View {
                         Button(action: loadMoreAction) {
                             Text("Load More \(title ?? "")")
                         }
-                        /* TODO: Activity Indicator doesn't work properly
+                         TODO: Activity Indicator doesn't work properly
                          ActivityIndicator($postLoadingWheelAnimating)
                             .onAppear {
                                 print("onAppear called for posts. POSTS = \(self.profileVM.postVMs.count)")
-                                self.profileVM.profileRepo.loadPosts() }*/
+                                self.profileVM.profileRepo.loadPosts() }
                     }
-                }*/
+                }
             }
         }
     }
 }
 
-
+*/
 
 
 
