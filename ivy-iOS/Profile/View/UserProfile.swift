@@ -160,40 +160,7 @@ struct UserProfile: View {
                     
                     VStack {
                         // MARK: EVENTS
-                        /*if (profileVM.eventVMs.count > 0) {
-                            HStack {
-                                Text("Events")
-                                Spacer()
-                            }
-                            
-                            GridView(
-                                cells: self.$profileVM.eventVMs,
-                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                                )
-                            { eventVM in
-                                ProfileEventItemView(eventVM: eventVM)
-                            }
-                            
-                            // Load next Batch if not all loaded
-                            if !profileVM.profileRepo.eventsLoaded {
-                                HStack {
-                                    Spacer()
-                                    Button(action: {
-                                        self.profileVM.profileRepo.loadEvents()
-                                    }) {
-                                        Text("Load More Events")
-                                    }
-                                    /* TODO: Activity Indicator doesn't work properly
-                                     ActivityIndicator($eventLoadingWheelAnimating)
-                                         .onAppear {
-                                             self.profileVM.profileRepo.loadEvents()
-                                         }*/
-                                    
-                                }
-                            }
-                        }*/
-                        
-                       /* UserPosts(
+                        UserPosts(
                             title: "Events",
                             array: self.$profileVM.eventVMs,
                             cellView: { eventVM in
@@ -203,47 +170,12 @@ struct UserProfile: View {
                             loadMoreAction: {
                                 self.profileVM.profileRepo.loadEvents()
                             }
-                        )*/
+                        )
                         
                         
                         
                         // MARK: POSTS
-                        /*
-                        if (profileVM.postVMs.count > 0) {
-                            HStack {
-                                Text("Posts")
-                                Spacer()
-                            }
-                            
-                            GridView(
-                                cells: self.$profileVM.postVMs,
-                                maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT
-                                )
-                            { postVM in
-                                ProfilePostItemView(postVM: postVM)
-                            }
-                            
-                            
-                            
-                            // Load next Batch if not all loaded
-                            if !profileVM.profileRepo.postsLoaded {
-                                HStack {
-                                    Spacer()
-                                    Button(action: {
-                                        self.profileVM.profileRepo.loadPosts()
-                                    }) {
-                                        Text("Load More Posts")
-                                    }
-                                    /* TODO: Activity Indicator doesn't work properly
-                                     ActivityIndicator($postLoadingWheelAnimating)
-                                        .onAppear {
-                                            print("onAppear called for posts. POSTS = \(self.profileVM.postVMs.count)")
-                                            self.profileVM.profileRepo.loadPosts() }*/
-                                }
-                            }
-                        } */
-                        
-                        /*UserPosts(
+                        UserPosts(
                             title: "Posts",
                             array: self.$profileVM.postVMs,
                             cellView: { postVM in
@@ -253,7 +185,7 @@ struct UserProfile: View {
                             loadMoreAction: {
                                 self.profileVM.profileRepo.loadPosts()
                             }
-                        )*/
+                        )
                         
                         if profileVM.postVMs.count == 0 && profileVM.eventVMs.count == 0 {
                             Spacer()
@@ -274,44 +206,45 @@ struct UserProfile: View {
     }
 }
 
-/*
+
 // Subview of UserProfile
 // Shows a grid of posts or events
-struct UserPosts<T, Label, Action>: View where Label : View {
+struct UserPosts<T, Label>: View where Label : View, T : Identifiable {
     
     var title: String?
     @Binding var array: [T]
     var cellView : ((T) -> Label)
     var loadMoreCond : Bool
-    var loadMoreAction : (() -> Action)
+    var loadMoreAction : (() -> Void)
 
     
     var body: some View {
         
         Group {
-            if (array.value.count > 0) {
+            if (array.count > 0) {
                 HStack {
                     Text(title ?? "")
                     Spacer()
                 }
                 
                 GridView(
-                    cells: self.array,
+                    cells: self.$array,
                     maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT,
                     cellView: cellView)
                 
                 // Load next Batch if not all loaded
-                if loadMoreCond {
+                if (loadMoreCond) {
                     HStack {
                         Spacer()
-                        Button(action: loadMoreAction) {
+                        Button(action: self.loadMoreAction) {
                             Text("Load More \(title ?? "")")
                         }
+                        /*
                          TODO: Activity Indicator doesn't work properly
                          ActivityIndicator($postLoadingWheelAnimating)
                             .onAppear {
                                 print("onAppear called for posts. POSTS = \(self.profileVM.postVMs.count)")
-                                self.profileVM.profileRepo.loadPosts() }
+                                self.profileVM.profileRepo.loadPosts() }*/
                     }
                 }
             }
@@ -319,7 +252,6 @@ struct UserPosts<T, Label, Action>: View where Label : View {
     }
 }
 
-*/
 
 
 
