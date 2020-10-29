@@ -5,6 +5,9 @@
 //  Created by Robert on 2020-08-29.
 //  Copyright © 2020 ivy. All rights reserved.
 //
+//  Point of contact for Firebase and User Profile
+//  This Repo will load all entities needed for User Profile from Firebase
+//
 
 import Foundation
 import FirebaseFirestore
@@ -12,10 +15,9 @@ import FirebaseFirestoreSwift
 
 class ProfileRepo: ObservableObject{
     
-    let creationMillis = Utils.getCurrentTimeInMillis()
     let db = Firestore.firestore()
     var userId = ""
-    @Published var userProfile = User()
+    @Published var userProfile = User_new()
     @Published var posts = [Post_new]()
     @Published var events = [Event_new]()
     
@@ -31,11 +33,14 @@ class ProfileRepo: ObservableObject{
         self.userId = uid
         db.collection("users").document(self.userId).getDocument { (docSnap, err) in
             if err != nil{
-                print("Error loading user profile in profile repo.")
+                print("Error loading user profile in profile repo. \(err!)")
                 return
             }
             if (docSnap) != nil{
-                self.userProfile.docToObject(doc: docSnap!)
+                
+                do { try self.userProfile = docSnap!.data(as: User_new.self)! }
+                catch { print("Could not load User for ProfileRepo: \(error)") }
+                
                 self.loadPosts(start: true)
                 self.loadEvents(start: true)
             }
@@ -51,12 +56,12 @@ class ProfileRepo: ObservableObject{
                 
         if start {
             postsLoaded = false
-            //posts = [Post]() // reset list (maybe for reloading later)
+            posts = [Post_new]() // reset list (maybe for reloading later)
         }
         
         var query =
             db.collection("universities").document(self.userProfile.uni_domain).collection("posts")
-            .whereField("author_id", isEqualTo: self.userProfile.id!)
+            .whereField("author_id", isEqualTo: self.userProfile.id)
             .whereField("is_event", isEqualTo: false)
             .order(by: "creation_millis", descending: true)
             
@@ -79,15 +84,9 @@ class ProfileRepo: ObservableObject{
                         let x = try doc.data(as: Post_new.self)
                         return x
                     }
-                    catch { print(error) }
+                    catch { print("ProfileRepo.loadPosts: \(error)") }
                     return nil
                 })
-                
-                /*for currentDoc in snapshot.documents{
-                    let newPost = currentDoc.data(as: Post_new.self)
-                    //newPost.docToObject(doc: currentDoc)
-                    self.posts.append(newPost)
-                }*/
                 
                 if !snapshot.isEmpty {
                     self.lastPulledPostDoc = snapshot.documents[snapshot.documents.count-1]
@@ -109,14 +108,13 @@ class ProfileRepo: ObservableObject{
         }
         
         if start {
-            //print("\nResetting Events list")
             eventsLoaded = false
-            //events = [Event]() // reset list (maybe for reloading later)
+            events = [Event_new]() // reset list (maybe for reloading later)
         }
         
         var query =
             db.collection("universities").document(self.userProfile.uni_domain).collection("posts")
-            .whereField("author_id", isEqualTo: self.userProfile.id!)
+            .whereField("author_id", isEqualTo: self.userProfile.id)
             .whereField("is_event", isEqualTo: true)
             .order(by: "creation_millis", descending: true)
          

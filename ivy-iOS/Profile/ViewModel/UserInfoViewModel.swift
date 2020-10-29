@@ -12,11 +12,11 @@ import Firebase
 
 class UserInfoViewModel: ObservableObject, Identifiable{
     let db = Firestore.firestore()
-    @Published var userProfile: User //published means that this var will be listened to
+    @Published var userProfile: User_new //published means that this var will be listened to
     var id = ""
     private var cancellables = Set<AnyCancellable>()
     
-    init(user: User){
+    init(user: User_new){
         self.userProfile = user
         $userProfile.compactMap { user in
             user.id

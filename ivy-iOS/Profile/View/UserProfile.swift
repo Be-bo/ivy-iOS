@@ -63,17 +63,17 @@ struct UserProfile: View {
                         // ORG or STUD ?
                         if (profileVM.userInfoVM.userProfile.is_organization) { // ORGANIZATION
                             
-                            if (profileVM.userInfoVM.userProfile.member_ids.count == 1) {
+                            if (profileVM.userInfoVM.userProfile.member_ids?.count == 1) {
                                 Text("1 Member").padding(.bottom, 10)
                             } else {
-                                Text("\(profileVM.userInfoVM.userProfile.member_ids.count) Members").padding(.bottom, 10)
+                                Text("\(profileVM.userInfoVM.userProfile.member_ids!.count) Members").padding(.bottom, 10)
                             }
                         } else { // STUDENT
-                            Text(self.profileVM.userInfoVM.userProfile.degree).padding(.bottom, 10)
+                            Text(self.profileVM.userInfoVM.userProfile.degree ?? "").padding(.bottom, 10)
                         }
                    
                         // 3rd person?
-                        if Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id ?? "" == Auth.auth().currentUser!.uid { // check if this is 3rd person user
+                        if Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id == Auth.auth().currentUser!.uid { // check if this is 3rd person user
                             Button(action: {
                                 self.editProfile.toggle()
                             }){
@@ -97,9 +97,9 @@ struct UserProfile: View {
 
                                 if(!alreadyRequested){
                                     // viewing user not a member
-                                    if(!profileVM.userInfoVM.userProfile.member_ids.contains(Auth.auth().currentUser!.uid)){
+                                    if(profileVM.userInfoVM.userProfile.member_ids!.contains(Auth.auth().currentUser!.uid)){
                                         // viewing user already requested membership
-                                        if(profileVM.userInfoVM.userProfile.request_ids.contains(Auth.auth().currentUser!.uid)){
+                                        if(profileVM.userInfoVM.userProfile.request_ids!.contains(Auth.auth().currentUser!.uid)){
                                             Button(action: {
                                                 self.alreadyRequested = true
                                                 self.profileVM.cancelRequest(
@@ -136,18 +136,18 @@ struct UserProfile: View {
                 
                 
                 // MARK: Members
-                if(profileVM.userInfoVM.userProfile.is_organization && profileVM.userInfoVM.userProfile.member_ids.count > 0){
-                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.member_ids,
-                                  orgId: profileVM.userInfoVM.userProfile.id ?? "",
+                if(profileVM.userInfoVM.userProfile.is_organization && profileVM.userInfoVM.userProfile.member_ids!.count > 0){
+                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.member_ids!,
+                                  orgId: profileVM.userInfoVM.userProfile.id,
                                   userIsOrg: false)
                         .padding(.top, 20).padding(.bottom, 10)
                 }
                 
                 
                 // MARK: Member Requests
-                if(profileVM.userInfoVM.userProfile.is_organization && profileVM.userInfoVM.userProfile.request_ids.count > 0 && Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id == Auth.auth().currentUser!.uid){
-                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.request_ids,
-                                  orgId: profileVM.userInfoVM.userProfile.id ?? "",
+                if(profileVM.userInfoVM.userProfile.is_organization && profileVM.userInfoVM.userProfile.request_ids!.count > 0 && Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id == Auth.auth().currentUser!.uid){
+                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.request_ids!,
+                                  orgId: profileVM.userInfoVM.userProfile.id,
                                   titleText: "Member Requests", userIsOrg: false)
                         .padding(.top, 20).padding(.bottom, 20)
                 }
@@ -156,11 +156,11 @@ struct UserProfile: View {
                 
                 // MARK: Posts & Events
                 
-                ZStack{
+                ZStack {
                     
                     VStack {
                         // MARK: EVENTS
-                        if (profileVM.eventVMs.count > 0) {
+                        /*if (profileVM.eventVMs.count > 0) {
                             HStack {
                                 Text("Events")
                                 Spacer()
@@ -191,11 +191,24 @@ struct UserProfile: View {
                                     
                                 }
                             }
-                        }
+                        }*/
+                        
+                        UserPosts(
+                            title: "Events",
+                            array: self.$profileVM.eventVMs,
+                            cellView: { eventVM in
+                                ProfileEventItemView(eventVM: eventVM)
+                            },
+                            loadMoreCond: !profileVM.profileRepo.eventsLoaded,
+                            loadMoreAction: {
+                                self.profileVM.profileRepo.loadEvents()
+                            }
+                        )
                         
                         
                         
                         // MARK: POSTS
+                        /*
                         if (profileVM.postVMs.count > 0) {
                             HStack {
                                 Text("Posts")
@@ -228,7 +241,21 @@ struct UserProfile: View {
                                             self.profileVM.profileRepo.loadPosts() }*/
                                 }
                             }
-                        } else if profileVM.postVMs.count == 0 && profileVM.eventVMs.count == 0 {
+                        } */
+                        
+                        UserPosts(
+                            title: "Posts",
+                            array: self.$profileVM.postVMs,
+                            cellView: { postVM in
+                                ProfilePostItemView(postVM: postVM)
+                            },
+                            loadMoreCond: !profileVM.profileRepo.postsLoaded,
+                            loadMoreAction: {
+                                self.profileVM.profileRepo.loadPosts()
+                            }
+                        )
+                        
+                        if profileVM.postVMs.count == 0 && profileVM.eventVMs.count == 0 {
                             Spacer()
                             Text("No Posts or Events yet!")
                                 .foregroundColor(.gray)
@@ -247,6 +274,50 @@ struct UserProfile: View {
     }
 }
 
+
+// Subview of UserProfile
+// Shows a grid of posts or events
+struct UserPosts<T, Label, Action>: View where Label : View {
+    
+    var title: String?
+    @Binding var array: [T]
+    var cellView : ((T) -> Label)
+    var loadMoreCond : Bool
+    var loadMoreAction : (() -> Action)
+
+    
+    var body: some View {
+        
+        Group {
+            if (array.value.count > 0) {
+                HStack {
+                    Text(title ?? "")
+                    Spacer()
+                }
+                
+                /*GridView(
+                    cells: self.array,
+                    maxCol: Constant.PROFILE_POST_GRID_ROW_COUNT,
+                    cellView: cellView)
+                
+                // Load next Batch if not all loaded
+                if loadMoreCond {
+                    HStack {
+                        Spacer()
+                        Button(action: loadMoreAction) {
+                            Text("Load More \(title ?? "")")
+                        }
+                        /* TODO: Activity Indicator doesn't work properly
+                         ActivityIndicator($postLoadingWheelAnimating)
+                            .onAppear {
+                                print("onAppear called for posts. POSTS = \(self.profileVM.postVMs.count)")
+                                self.profileVM.profileRepo.loadPosts() }*/
+                    }
+                }*/
+            }
+        }
+    }
+}
 
 
 

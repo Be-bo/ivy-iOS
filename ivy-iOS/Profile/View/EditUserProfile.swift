@@ -14,7 +14,7 @@ struct EditUserProfile: View {
     
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
-    var userProfile = User()
+    var userProfile = User_new()
     @State var loadingInProgress = false
     @State private var imgUrl = ""
     @State var nameInput = ""
@@ -27,7 +27,7 @@ struct EditUserProfile: View {
 
     
     func updatePosts(){
-        db.collection("universities").document(userProfile.uni_domain).collection("posts").whereField("author_id", isEqualTo: userProfile.id ?? "").getDocuments { (querySnap, error) in
+        db.collection("universities").document(userProfile.uni_domain).collection("posts").whereField("author_id", isEqualTo: userProfile.id).getDocuments { (querySnap, error) in
             if error != nil{
                 print("We've got a problem hoss.")
                 return
@@ -49,14 +49,14 @@ struct EditUserProfile: View {
     
     func saveChanges(){
         if(image != nil){ //image changed, gotta update that
-            print(Utils.userProfileImagePath(userId: userProfile.id!))
-            self.storageRef.child(Utils.userProfileImagePath(userId: userProfile.id!)).putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (metadata, error) in
+            print(Utils.userProfileImagePath(userId: userProfile.id))
+            self.storageRef.child(Utils.userProfileImagePath(userId: userProfile.id)).putData((self.inputImage?.jpegData(compressionQuality: 0.7))!, metadata: nil){ (metadata, error) in
                 if(error != nil){
                     print("Error updating profile image.")
                     print(error?.localizedDescription ?? "")
 
                 }
-                self.storageRef.child(Utils.userPreviewImagePath(userId: self.userProfile.id!)).putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (metadata1, error1) in
+                self.storageRef.child(Utils.userPreviewImagePath(userId: self.userProfile.id)).putData((self.inputImage?.jpegData(compressionQuality: 0.1))!, metadata: nil){ (metadata1, error1) in
                     if(error1 != nil){
                         print("Error updating preview image.")
                         print(error1?.localizedDescription ?? "")
@@ -68,7 +68,7 @@ struct EditUserProfile: View {
         
         if(nameInput != userProfile.name){ //name changed, gotta update
             updatePosts() //also updat posts
-            db.collection("users").document(userProfile.id!).updateData(["name" : nameInput]){error in
+            db.collection("users").document(userProfile.id).updateData(["name" : nameInput]){error in
                 if error != nil{
                     print("Error updating username.")
                 }

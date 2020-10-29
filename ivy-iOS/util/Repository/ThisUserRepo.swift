@@ -34,7 +34,7 @@ class ThisUserRepo: UserRepo {
             }
             else {
                 self.userLoggedIn = false
-                self.user = User()
+                self.user = User_new()
             }
         }
     }

@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 
 class User: Identifiable, Encodable/*, Codable*/ {
     
+    // Mutuals
     var id: String?                     //cannot be null
     var email: String = ""              //cannot be null
     var name: String = ""               //cannot be null
@@ -22,10 +23,14 @@ class User: Identifiable, Encodable/*, Codable*/ {
     var is_club: Bool = false
     var is_banned = false               //cannot be null
     var registration_platform = ""      //cannot be null
-    var member_ids = [String]()
     var is_private = false              //cannot be null
     var post_ids = [String]()
+    
+    // Organization
+    var member_ids = [String]()
     var request_ids = [String]()
+    
+    // Student
     var degree: String = ""
     var birth_millis: Int = 0
     

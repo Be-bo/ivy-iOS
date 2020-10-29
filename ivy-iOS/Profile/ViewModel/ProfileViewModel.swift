@@ -28,7 +28,7 @@ class ProfileViewModel: ObservableObject{
     
     init(uid: String){
         self.profileRepo = ProfileRepo(uid: uid)
-        self.userInfoVM = UserInfoViewModel(user: User())
+        self.userInfoVM = UserInfoViewModel(user: User_new())
         
         profileRepo.$userProfile.map{ user in
             UserInfoViewModel(user: self.profileRepo.userProfile)

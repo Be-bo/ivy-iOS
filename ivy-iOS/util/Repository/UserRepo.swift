@@ -14,7 +14,7 @@ import Firebase
 
 class UserRepo: ObservableObject {
     
-    @Published var user : User
+    @Published var user : User_new
     @Published var userDocLoaded = false
     var listenerRegistration: ListenerRegistration?
     @Published var thisUserIsOrg = false
@@ -23,7 +23,7 @@ class UserRepo: ObservableObject {
     
     
     init() { // Used only by children!!!
-        self.user = User()
+        self.user = User_new()
     }
     
     convenience init(userid: String) {
@@ -33,9 +33,7 @@ class UserRepo: ObservableObject {
     }
     
     func loadUserProfile(){
-        if let id = user.id {
-            loadProfile(userid: id)
-        }
+        loadProfile(userid: user.id)
     }
     
 
@@ -48,7 +46,11 @@ class UserRepo: ObservableObject {
                     print("Error getting user profile.")
                 }
                 if let doc = docSnap{
-                    self.user.docToObject(doc: doc)
+                    
+                    do { try self.user = doc.data(as: User_new.self)! }
+                    catch { print("Could not load User for UserRepo: \(error)") }
+                    
+                    //self.user.docToObject(doc: doc)
                     self.userDocLoaded = true
                     
                     if Auth.auth().currentUser != nil, Auth.auth().currentUser!.uid == self.user.id{ //want to show logged in user's uni by default + saving some values we need locally
