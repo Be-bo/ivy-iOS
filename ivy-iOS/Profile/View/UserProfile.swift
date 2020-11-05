@@ -78,7 +78,7 @@ struct UserProfile: View {
                                     
                                     // refresh profile pic
                                     FirebasePostImage.getPicUrl(picUrl: self.$userPicUrl,
-                                                                path: self.profileVM.profileRepo.userProfile.profileImagePath())
+                                                                path: self.profileVM.profileRepo.userProfile.getProfileImgPath())
                                     
                                 }){
                                     EditUserProfile(userProfile: self.profileVM.profileRepo.userProfile,

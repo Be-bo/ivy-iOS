@@ -107,7 +107,7 @@ struct EditUserProfile: View {
                 }else{
                     
                     FirebaseImage(
-                        path: self.userProfile.profileImagePath(),
+                        path: self.userProfile.getProfileImgPath(),
                         placeholder: Image(systemName: "person.crop.circle.fill"),
                         width: 250,
                         height: 250,

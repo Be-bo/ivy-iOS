@@ -102,10 +102,3 @@ struct StudentSignup: View {
         }
     }
 }
-
-// Preview
-struct StudentSignup_Previews: PreviewProvider {
-    static var previews: some View {
-        StudentSignup()
-    }
-}

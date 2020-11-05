@@ -18,7 +18,7 @@ class Post_new: Identifiable, Codable {
     
     // Use DocumentID so we don't have to add id as a field on firestore
     // @DocumentID var doc_id: String?
-    var id: String
+    var id: String = ""
     var uni_domain: String = ""
     var author_id: String = ""
     var author_name: String = ""
@@ -32,6 +32,21 @@ class Post_new: Identifiable, Codable {
     var pinned_id = ""
     var pinned_name = ""
     var views_id = [String]()
+    
+    // Only for existing posts
+    init() {}
+    
+    
+    // Use this for creating new posts
+    init(uni: String, author_id: String, author_name: String, author_is_org: Bool = false, text: String) {
+        self.id = UUID.init().uuidString
+        self.uni_domain = uni
+        self.author_id = author_id
+        self.author_name = author_name
+        self.author_is_organization = author_is_org
+        self.creation_millis = Int(Utils.getCurrentTimeInMillis())
+        self.text = text
+    }
     
     
     // Convenience Method to convert to old version of Post
@@ -80,5 +95,10 @@ class Post_new: Identifiable, Codable {
         retVal["pinned_name"] = pinned_name
         retVal["views_id"] = views_id
         return retVal
+    }
+    
+    // MARK: PATHs
+    func getPostPath() -> String{
+        return "universities/\(Utils.getCampusUni())/posts/\(self.id)" 
     }
 }

@@ -17,7 +17,7 @@ import FirebaseFirestoreSwift
 
 class Event_new: Identifiable, Codable{
     
-    //@DocumentID var id: String? //TODO: convert later
+    @DocumentID var doc_id: String?
     var id: String = ""
     var name: String = ""
     var is_event = true
@@ -68,7 +68,7 @@ class Event_new: Identifiable, Codable{
         return event
     }
     
-    
+    // Maybe delete later?
     func getMap() -> [String:Any]{
         var retVal = [String: Any]()
         retVal["id"] = id

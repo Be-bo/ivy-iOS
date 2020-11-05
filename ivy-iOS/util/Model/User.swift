@@ -88,15 +88,32 @@ class User: Identifiable, Codable {
         self.name = String(splitEmail[0])   // Set default name
     }
     
-    func userPath() -> String {
+    
+    
+    // MARK: PATHs
+    func getUserPath() -> String {
         return "users/\(self.id)"
     }
     
-    func profileImagePath() -> String {
+    func getProfileImgPath() -> String {
         return "userfiles/\(self.id)/profileimage.jpg"
     }
     
-    func previewImagePath() -> String {
+    func getPreviewImagePath() -> String {
         return "userfiles/\(self.id)/previewimage.jpg"
+    }
+    
+    
+    // MARK: Static Functions
+    static func userPath(_ id : String) -> String {
+        return "users/\(id)"
+    }
+    
+    static func profileImgPath(_ id : String) -> String {
+        return "userfiles/\(id)/profileimage.jpg"
+    }
+    
+    static func previewImagePath(_ id : String) -> String {
+        return "userfiles/\(id)/previewimage.jpg"
     }
 }
