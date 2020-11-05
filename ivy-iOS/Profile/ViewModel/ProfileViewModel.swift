@@ -18,7 +18,7 @@ import FirebaseFirestore
 class ProfileViewModel: ObservableObject{
     
     @Published var profileRepo: ProfileRepo
-    @Published var userInfoVM: UserInfoViewModel
+    //@Published var userInfoVM: UserInfoViewModel
     @Published var postVMs = [PostViewModel]()
     @Published var eventVMs = [EventItemViewModel]()
     
@@ -28,13 +28,13 @@ class ProfileViewModel: ObservableObject{
     
     init(uid: String){
         self.profileRepo = ProfileRepo(uid: uid)
-        self.userInfoVM = UserInfoViewModel(user: User_new())
+        //self.userInfoVM = UserInfoViewModel(user: User())
         
-        profileRepo.$userProfile.map{ user in
+        /*profileRepo.$userProfile.map{ user in
             UserInfoViewModel(user: self.profileRepo.userProfile)
         }
         .assign(to: \.userInfoVM, on: self)
-        .store(in: &cancellables)
+        .store(in: &cancellables)*/
         
         profileRepo.$posts.map { posts in
             posts.map { post in

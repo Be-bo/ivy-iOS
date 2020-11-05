@@ -45,14 +45,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             application.registerUserNotificationSettings(settings)
         }
         
-        
-        InstanceID.instanceID().instanceID { (result, error) in
+        Messaging.messaging().token { (token, error) in
             if let error = error {
                 print("Error fetching remote instance ID: \(error)")
-            } else if let result = result {
-                print("Remote instance ID token: \(result.token)")
+            } else if let token = token {
+                print("Remote instance ID token: \(token)")
             }
         }
+        
+        
         
         //Messaging.messaging().shouldEstablishDirectChannel = true
         application.registerForRemoteNotifications()

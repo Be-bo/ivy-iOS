@@ -43,37 +43,34 @@ struct UserProfile: View {
                 HStack {
                     
                     // MARK: Profile Image
-                    ZStack{
-                        FirebaseImage(
-                            path: Utils.userProfileImagePath(userId: self.uid),
-                            placeholder: Image(systemName: "person.crop.circle.fill"),
-                            width: 150,
-                            height: 150,
-                            shape: RoundedRectangle(cornerRadius: 75)
-                        ).padding(.horizontal, 10)
-                    }
-                    
+                    FirebaseImage(
+                        path: Utils.userProfileImagePath(userId: self.uid),
+                        placeholder: Image(systemName: "person.crop.circle.fill"),
+                        width: 150,
+                        height: 150,
+                        shape: RoundedRectangle(cornerRadius: 75)
+                    ).padding(.horizontal, 10)
                     
                     
                     
                     // MARK: Profile Info
                     VStack (alignment: .leading){
-                        Text(self.profileVM.userInfoVM.userProfile.name).padding(.bottom, 10)
+                        Text(self.profileVM.profileRepo.userProfile.name).padding(.bottom, 10)
                         
                         // ORG or STUD ?
-                        if (profileVM.userInfoVM.userProfile.is_organization) { // ORGANIZATION
+                        if (profileVM.profileRepo.userProfile.is_organization) { // ORGANIZATION
                             
-                            if (profileVM.userInfoVM.userProfile.member_ids?.count == 1) {
+                            if (profileVM.profileRepo.userProfile.member_ids?.count == 1) {
                                 Text("1 Member").padding(.bottom, 10)
                             } else {
-                                Text("\(profileVM.userInfoVM.userProfile.member_ids!.count) Members").padding(.bottom, 10)
+                                Text("\(profileVM.profileRepo.userProfile.member_ids!.count) Members").padding(.bottom, 10)
                             }
                         } else { // STUDENT
-                            Text(self.profileVM.userInfoVM.userProfile.degree ?? "").padding(.bottom, 10)
+                            Text(self.profileVM.profileRepo.userProfile.degree ?? "").padding(.bottom, 10)
                         }
                    
                         // 3rd person?
-                        if Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id == Auth.auth().currentUser!.uid { // check if this is 3rd person user
+                        if Auth.auth().currentUser != nil && profileVM.profileRepo.userProfile.id == Auth.auth().currentUser!.uid { // check if this is 3rd person user
                             Button(action: {
                                 self.editProfile.toggle()
                             }){
@@ -81,29 +78,29 @@ struct UserProfile: View {
                                     
                                     // refresh profile pic
                                     FirebasePostImage.getPicUrl(picUrl: self.$userPicUrl,
-                                        path: self.profileVM.userInfoVM.userProfile.profileImagePath())
+                                                                path: self.profileVM.profileRepo.userProfile.profileImagePath())
                                     
                                 }){
-                                    EditUserProfile(userProfile: self.profileVM.userInfoVM.userProfile,
-                                                    nameInput: self.profileVM.userInfoVM.userProfile.name)
+                                    EditUserProfile(userProfile: self.profileVM.profileRepo.userProfile,
+                                                    nameInput: self.profileVM.profileRepo.userProfile.name)
                                 }
                             }.padding(.bottom, 10)
                             
                         } else { // MARK: Membership Buttons
                             // user had to be logged in and not be viewing themselves 3rd party
-                            if Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id != Auth.auth().currentUser!.uid && profileVM.userInfoVM.userProfile.is_organization {
+                            if Auth.auth().currentUser != nil && profileVM.profileRepo.userProfile.id != Auth.auth().currentUser!.uid && profileVM.profileRepo.userProfile.is_organization {
                                 
                                 // MARK: Student Requesting Buttons
 
                                 if(!alreadyRequested){
                                     // viewing user not a member
-                                    if(profileVM.userInfoVM.userProfile.member_ids!.contains(Auth.auth().currentUser!.uid)){
+                                    if(profileVM.profileRepo.userProfile.member_ids!.contains(Auth.auth().currentUser!.uid)){
                                         // viewing user already requested membership
-                                        if(profileVM.userInfoVM.userProfile.request_ids!.contains(Auth.auth().currentUser!.uid)){
+                                        if(profileVM.profileRepo.userProfile.request_ids!.contains(Auth.auth().currentUser!.uid)){
                                             Button(action: {
                                                 self.alreadyRequested = true
                                                 self.profileVM.cancelRequest(
-                                                    uid: profileVM.userInfoVM.userProfile.id)
+                                                    uid: profileVM.profileRepo.userProfile.id)
                                             }){
                                                 Text("Cancel Join Request")
                                             }
@@ -111,7 +108,7 @@ struct UserProfile: View {
                                             Button(action: {
                                                 self.alreadyRequested = true
                                                 self.profileVM.requestMembership(
-                                                    uid: profileVM.userInfoVM.userProfile.id
+                                                    uid: profileVM.profileRepo.userProfile.id
                                                 )
                                             }){
                                                 Text("Request Membership")
@@ -121,7 +118,7 @@ struct UserProfile: View {
                                         Button(action: {
                                             self.alreadyRequested = true
                                             self.profileVM.leaveOrganization(
-                                                uid: profileVM.userInfoVM.userProfile.id)
+                                                uid: profileVM.profileRepo.userProfile.id)
                                         }){
                                             Text("Leave Organization")
                                         }
@@ -136,18 +133,18 @@ struct UserProfile: View {
                 
                 
                 // MARK: Members
-                if(profileVM.userInfoVM.userProfile.is_organization && profileVM.userInfoVM.userProfile.member_ids!.count > 0){
-                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.member_ids!,
-                                  orgId: profileVM.userInfoVM.userProfile.id,
+                if(profileVM.profileRepo.userProfile.is_organization && profileVM.profileRepo.userProfile.member_ids!.count > 0){
+                    MemberListRow(memberIds: profileVM.profileRepo.userProfile.member_ids!,
+                                  orgId: profileVM.profileRepo.userProfile.id,
                                   userIsOrg: false)
                         .padding(.top, 20).padding(.bottom, 10)
                 }
                 
                 
                 // MARK: Member Requests
-                if(profileVM.userInfoVM.userProfile.is_organization && profileVM.userInfoVM.userProfile.request_ids!.count > 0 && Auth.auth().currentUser != nil && profileVM.userInfoVM.userProfile.id == Auth.auth().currentUser!.uid){
-                    MemberListRow(memberIds: profileVM.userInfoVM.userProfile.request_ids!,
-                                  orgId: profileVM.userInfoVM.userProfile.id,
+                if(profileVM.profileRepo.userProfile.is_organization && profileVM.profileRepo.userProfile.request_ids!.count > 0 && Auth.auth().currentUser != nil && profileVM.profileRepo.userProfile.id == Auth.auth().currentUser!.uid){
+                    MemberListRow(memberIds: profileVM.profileRepo.userProfile.request_ids!,
+                                  orgId: profileVM.profileRepo.userProfile.id,
                                   titleText: "Member Requests", userIsOrg: false)
                         .padding(.top, 20).padding(.bottom, 20)
                 }

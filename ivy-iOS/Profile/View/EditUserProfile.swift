@@ -14,7 +14,7 @@ struct EditUserProfile: View {
     
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
-    var userProfile = User_new()
+    var userProfile = User()
     @State var loadingInProgress = false
     @State private var imgUrl = ""
     @State var nameInput = ""

@@ -5,6 +5,8 @@
 //  Created by Zahra Ghavasieh on 2020-08-25.
 //  Copyright © 2020 ivy. All rights reserved.
 //
+// A generic User Repository
+//
 
 import Foundation
 import FirebaseFirestore
@@ -14,7 +16,7 @@ import Firebase
 
 class UserRepo: ObservableObject {
     
-    @Published var user : User_new
+    @Published var user : User
     @Published var userDocLoaded = false
     var listenerRegistration: ListenerRegistration?
     @Published var thisUserIsOrg = false
@@ -23,7 +25,7 @@ class UserRepo: ObservableObject {
     
     
     init() { // Used only by children!!!
-        self.user = User_new()
+        self.user = User()
     }
     
     convenience init(userid: String) {
@@ -47,7 +49,7 @@ class UserRepo: ObservableObject {
                 }
                 if let doc = docSnap{
                     
-                    do { try self.user = doc.data(as: User_new.self)! }
+                    do { try self.user = doc.data(as: User.self)! }
                     catch { print("Could not load User for UserRepo: \(error)") }
                     
                     //self.user.docToObject(doc: doc)

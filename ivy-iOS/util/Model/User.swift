@@ -5,97 +5,72 @@
 //  Created by Zahra Ghavasieh on 2020-08-14.
 //  Copyright © 2020 ivy. All rights reserved.
 //
+//  Meant to be used for both Student and Organization users
+//  Contains their shared attributes
+//  TODO: Eventually make into "User"
+//
 
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class User: Identifiable, Encodable/*, Codable*/ {
+class User: Identifiable, Codable {
     
-    // Mutuals
-    var id: String?                     //cannot be null
-    var email: String = ""              //cannot be null
-    var name: String = ""               //cannot be null
-    var uni_domain: String = ""         //cannot be null
-    var registration_millis: Int = 0    //cannot be null
+    //@DocumentID var doc_id: String?
+    var id: String = ""
+    var email: String = ""
+    var name: String = ""
+    var uni_domain: String = ""
+    //@ServerTimestamp var registration_millis: Timestamp?    // Created automatically when uploaded to Firebase
+    var registration_millis: Int = 0
     var messaging_token: String = ""
-    var is_organization: Bool = false   //cannot be null
+    var is_organization: Bool = false
     var is_club: Bool = false
-    var is_banned = false               //cannot be null
-    var registration_platform = ""      //cannot be null
-    var is_private = false              //cannot be null
+    var is_banned = false
+    var registration_platform = "iOS"
+    
+    // Currently unused
+    var is_private = false
     var post_ids = [String]()
     
     // Organization
-    var member_ids = [String]()
-    var request_ids = [String]()
+    var member_ids: [String]?
+    var request_ids: [String]?
     
     // Student
-    var degree: String = ""
-    var birth_millis: Int = 0
+    var degree: String?
+    var birth_millis: Int?
     
     
     // Student
     init(id: String, email: String, degree: String) {
         self.degree = degree
+        self.birth_millis = 0
         setInitialData(id: id, email: email, is_organization: false, is_club: false)
     }
     
     // Organization
     init(id: String, email: String, is_club: Bool) {
+        self.member_ids = [String]()
+        self.request_ids = [String]()
         setInitialData(id: id, email: email, is_organization: true, is_club: is_club)
     }
     
     // Only use in repo
     init() {}
     
-    func docToObject(doc: DocumentSnapshot){
-        id = doc.documentID
-        if let emai = doc.get("email") as? String,
-            let nam = doc.get("name") as? String,
-            let un_dom = doc.get("uni_domain") as? String,
-            let reg_mil = doc.get("registration_millis") as? Int,
-            let is_org = doc.get("is_organization") as? Bool,
-            let is_bnd = doc.get("is_banned") as? Bool,
-            let reg_plat = doc.get("registration_platform") as? String,
-            let is_priv = doc.get("is_private") as? Bool{
-            email = emai
-            name = nam
-            uni_domain = un_dom
-            registration_millis = reg_mil
-            is_organization = is_org
-            is_banned = is_bnd
-            registration_platform = reg_plat
-            is_private = is_priv
-        }
+    init(id: String, email: String, is_organization: Bool, is_club: Bool) {
+        self.id = id
+        self.email = email
+        self.is_organization = is_organization
+        self.is_club = is_club
         
-        if let msg_token = doc.get("messaging_token") as? String{
-            messaging_token = msg_token
+        // Get Domain
+        let splitEmail = email.split(separator: "@")
+        if (splitEmail.count > 1) {
+            self.uni_domain = String(splitEmail[1])
         }
-        
-        if let is_clb = doc.get("is_club") as? Bool{
-            is_club = is_clb
-        }
-        
-        if let members = doc.get("member_ids") as? [String]{
-            member_ids = members
-        }
-        
-        if let posts = doc.get("post_ids") as? [String]{
-            post_ids = posts
-        }
-        
-        if let requests = doc.get("request_ids") as? [String]{
-            request_ids = requests
-        }
-        
-        if let degr = doc.get("degree") as? String{
-            degree = degr
-        }
-        
-        if let birth_mil = doc.get("birth_millis") as? Int{
-            birth_millis = birth_mil
-        }
+        self.name = String(splitEmail[0])   // Set default name
     }
     
     private func setInitialData(id: String, email: String, is_organization: Bool, is_club: Bool) {
@@ -113,11 +88,15 @@ class User: Identifiable, Encodable/*, Codable*/ {
         self.name = String(splitEmail[0])   // Set default name
     }
     
+    func userPath() -> String {
+        return "users/\(self.id)"
+    }
+    
     func profileImagePath() -> String {
-        return "userfiles/\(self.id ?? "")/profileimage.jpg"
+        return "userfiles/\(self.id)/profileimage.jpg"
     }
     
     func previewImagePath() -> String {
-        return "userfiles/\(self.id ?? "")/previewimage.jpg"
+        return "userfiles/\(self.id)/previewimage.jpg"
     }
 }

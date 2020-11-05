@@ -62,8 +62,10 @@ struct EventScreenView: View {
                     return
                 }
                 if let doc = docSnap{
-                    let author = User()
-                    author.docToObject(doc: doc)
+                    var author = User()
+                    do { try author = doc.data(as: User.self)! }
+                    catch { print("Could not load User for UserRepo: \(error)") }
+                    
                     self.notificationSender.sendPushNotification(to: author.messaging_token, title: Utils.getThisUserName() + " commented on your event.", body: Utils.getThisUserName() + " commented on: " + self.eventVM.event.name, conversationID: "")
                 }
             }

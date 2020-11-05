@@ -17,7 +17,7 @@ class ProfileRepo: ObservableObject{
     
     let db = Firestore.firestore()
     var userId = ""
-    @Published var userProfile = User_new()
+    @Published var userProfile = User()
     @Published var posts = [Post_new]()
     @Published var events = [Event_new]()
     
@@ -38,9 +38,9 @@ class ProfileRepo: ObservableObject{
             }
             if (docSnap) != nil{
                 
-                do { try self.userProfile = docSnap!.data(as: User_new.self)! }
+                do { try self.userProfile = docSnap!.data(as: User.self)! }
                 catch { print("Could not load User for ProfileRepo: \(error)") }
-                
+                                
                 self.loadPosts(start: true)
                 self.loadEvents(start: true)
             }

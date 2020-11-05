@@ -46,21 +46,26 @@ struct CreatePostView: View {
                 return
             }
             if let doc = docSnap{
-                let thisUser = User()
-                thisUser.docToObject(doc: doc)
-                if thisUser.member_ids.count > 0{
-                    let memberCount = thisUser.member_ids.count
+                
+                var thisUser = User()
+                do { try thisUser = doc.data(as: User.self)! }
+                catch { print("Could not load User for UserRepo: \(error)") }
+                
+                if (thisUser.member_ids?.count ?? 0) > 0{
+                    let memberCount = thisUser.member_ids!.count
                     var index = 0
-                    for memberId in thisUser.member_ids{
+                    for memberId in thisUser.member_ids! {
                         index = index + 1
                         self.db.collection("users").document(memberId).getDocument { (docSnap1, error1) in
                             if error1 != nil{
                                 print("Failed to get member to send notification to.")
                                 return
                             }
-                            if let doc1 = docSnap1{
-                                let member = User()
-                                member.docToObject(doc: doc1)
+                            if let doc1 = docSnap1 {
+                                var member = User()
+                                do { try member = doc1.data(as: User.self)! }
+                                catch { print("Could not load User for UserRepo: \(error)") }
+                                
                                 
                                 if(!self.editingMode){ //the org was creating a new post
                                     if(self.typePick == 0){ //notifying about post
