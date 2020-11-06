@@ -32,7 +32,7 @@ class PostViewModel: ObservableObject, Identifiable{
                 if error != nil{
                     print("Failed to load pinned event for post")
                 }
-                if let doc = docSnap {
+                if let doc = docsnap {
                     do { try self.pinnedEvent = doc.data(as: Event_new.self)! }
                     catch { print("Could not load pinned Event for Post: \(error)") }
                 }

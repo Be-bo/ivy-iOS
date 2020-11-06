@@ -48,8 +48,8 @@ struct PostScreen: View {
     }
     
     func addToViewIds(){
-        if(Auth.auth().currentUser != nil && postVM.post.id != nil){
-            db.collection("universities").document(postVM.post.uni_domain).collection("posts").document(postVM.post.id!).updateData([
+        if(Auth.auth().currentUser != nil && postVM.post.id != ""){
+            db.collection("universities").document(postVM.post.uni_domain).collection("posts").document(postVM.post.id).updateData([
                 "views_id": FieldValue.arrayUnion([Auth.auth().currentUser?.uid ?? ""])
             ])
         }
@@ -84,7 +84,7 @@ struct PostScreen: View {
         let newComment = Comment()
         newComment.id = UUID.init().uuidString
         if(commentAddImage){
-            newComment.setInitialData(id: newComment.id!, authorId: Auth.auth().currentUser!.uid, authorIsOrg: Utils.getIsThisUserOrg(), authorNam: Utils.getThisUserName(), txt: Utils.commentVisualPath(postId: postVM.post.id ?? "", commentId: newComment.id!), typ: 2, uniDom: postVM.post.uni_domain, creaMil: Int(Utils.getCurrentTimeInMillis()))
+            newComment.setInitialData(id: newComment.id!, authorId: Auth.auth().currentUser!.uid, authorIsOrg: Utils.getIsThisUserOrg(), authorNam: Utils.getThisUserName(), txt: Utils.commentVisualPath(postId: postVM.post.id, commentId: newComment.id!), typ: 2, uniDom: postVM.post.uni_domain, creaMil: Int(Utils.getCurrentTimeInMillis()))
             
             if(image != nil && inputImage != nil){ //upload image first to make sure it's ready to display once we refresh
                 self.storageRef.child(newComment.text).putData((self.inputImage?.jpegData(compressionQuality: 0.4))!, metadata: nil){ (metadat, error) in
@@ -93,7 +93,7 @@ struct PostScreen: View {
                         return
                     }
                     
-                    self.db.collection("universities").document(self.postVM.post.uni_domain).collection("posts").document(self.postVM.post.id ?? "").collection("comments").document().setData(newComment.getMap()){error in
+                    self.db.document(postVM.post.getPostPath()).collection("comments").document().setData(newComment.getMap()){error in
                         if(error != nil){
                             print("Error uploading new comment.")
                             return
@@ -111,7 +111,8 @@ struct PostScreen: View {
             }
         }else{
             newComment.setInitialData(id: newComment.id!, authorId: Auth.auth().currentUser!.uid, authorIsOrg: Utils.getIsThisUserOrg(), authorNam: Utils.getThisUserName(), txt: commentInput, typ: 1, uniDom: postVM.post.uni_domain, creaMil: Int(Utils.getCurrentTimeInMillis()))
-            db.collection("universities").document(postVM.post.uni_domain).collection("posts").document(postVM.post.id ?? "").collection("comments").document().setData(newComment.getMap()){error in
+            
+            db.document(postVM.post.getPostPath()).collection("comments").document().setData(newComment.getMap()){ error in
                 if(error != nil){
                     print("Error uploading new comment.")
                     return
@@ -132,7 +133,7 @@ struct PostScreen: View {
     init(postVM: PostViewModel){
         self.postVM = postVM
         pinnedEventVM = EventItemViewModel(event: postVM.pinnedEvent)
-        commentListVM = CommentListViewModel(uniDom: postVM.post.uni_domain, postId: postVM.post.id ?? "")
+        commentListVM = CommentListViewModel(uniDom: postVM.post.uni_domain, postId: postVM.post.id)
     }
     
     

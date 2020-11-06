@@ -15,11 +15,11 @@ class EventRepo: ObservableObject{
     
     let creationMillis = Utils.getCurrentTimeInMillis()
     let db = Firestore.firestore()
-    @Published var upcomingEvents = [Event]()
-    @Published var thisWeekEvents = [Event]()
-    @Published var todayEvents = [Event]()
-    @Published var featuredEvents = [Event]()
-    @Published var exploreAllEvents = [Event]()
+    @Published var upcomingEvents = [Event_new]()
+    @Published var thisWeekEvents = [Event_new]()
+    @Published var todayEvents = [Event_new]()
+    @Published var featuredEvents = [Event_new]()
+    @Published var exploreAllEvents = [Event_new]()
     @Published var eventsLoaded = false
     
     //Pagination
@@ -35,7 +35,7 @@ class EventRepo: ObservableObject{
     }
         
     func loadUpcomingEvents(){
-        upcomingEvents = [Event]()
+        upcomingEvents = [Event_new]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("is_featured", isEqualTo: false).whereField("start_millis", isGreaterThan: Int(Utils.getEndOfThisWeekMillis())) //end of this week's millis
             .order(by: "start_millis").limit(to: 15).getDocuments{(querySnapshot, error) in
                 if error != nil{
@@ -43,25 +43,29 @@ class EventRepo: ObservableObject{
                     return
                 }
                 if let querSnap = querySnapshot{
+                    
+                    
+                    /*
                     for currentDoc in querSnap.documents{
                         let newEvent = Event()
                         newEvent.docToObject(doc: currentDoc)
                         if(!newEvent.is_featured){
                             self.upcomingEvents.append(newEvent)
                         }
+                    }*/
+                    self.upcomingEvents = querSnap.documents.compactMap{ document -> Event_new? in
+                        if (document.get("is_featured") ?? false) as! Bool {
+                            return try? document.data(as: Event_new.self)
+                        }
+                        return nil
                     }
-                    //TODO: set up Codable once we have more time, and add it to the other loads
-                    //                    self.events = querSnap.documents.compactMap{document in
-                    //                        print(document.data())
-                    //                        return try? document.data(as: Event.self)
-                    //                    }
                 }
                 self.eventsLoaded = true
         }
     }
     
     func loadThisWeekEvents(){
-        thisWeekEvents = [Event]()
+        thisWeekEvents = [Event_new]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("start_millis", isGreaterThan: Utils.getTodayMidnightMillis()).whereField("start_millis", isLessThan: Utils.getEndOfThisWeekMillis())
             .order(by: "start_millis").getDocuments{(querySnapshot, error) in
                 if error != nil{
@@ -69,19 +73,18 @@ class EventRepo: ObservableObject{
                     return
                 }
                 if let querSnap = querySnapshot{
-                    for currentDoc in querSnap.documents{
-                        let newEvent = Event()
-                        newEvent.docToObject(doc: currentDoc)
-                        if(!newEvent.is_featured){
-                            self.thisWeekEvents.append(newEvent)
+                    self.thisWeekEvents = querSnap.documents.compactMap{ document -> Event_new? in
+                        if (document.get("is_featured") as? Bool) ?? false  {
+                            return try? document.data(as: Event_new.self)
                         }
+                        return nil
                     }
                 }
         }
     }
     
     func loadTodayEvents(){
-        todayEvents = [Event]()
+        todayEvents = [Event_new]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("start_millis", isGreaterThan: Utils.getCurrentTimeInMillis()).whereField("start_millis", isLessThan: Utils.getTodayMidnightMillis())
             .order(by: "start_millis").getDocuments{(querySnapshot, error) in
                 if error != nil{
@@ -89,12 +92,11 @@ class EventRepo: ObservableObject{
                     return
                 }
                 if let querSnap = querySnapshot{
-                    for currentDoc in querSnap.documents{
-                        let newEvent = Event()
-                        newEvent.docToObject(doc: currentDoc)
-                        if(!newEvent.is_featured){
-                            self.todayEvents.append(newEvent)
+                    self.todayEvents = querSnap.documents.compactMap{ document -> Event_new? in
+                        if (document.get("is_featured") as? Bool) ?? false {
+                            return try? document.data(as: Event_new.self)
                         }
+                        return nil
                     }
                 }
         }
@@ -102,7 +104,6 @@ class EventRepo: ObservableObject{
     
     func loadFeatured(){
         eventsLoaded = false
-        featuredEvents = [Event]()
         
         db.collection("universities").document(Utils.getCampusUni()).getDocument(completion: { (docSnap, error) in
             if error != nil{
@@ -111,15 +112,14 @@ class EventRepo: ObservableObject{
             }
             
             if let featuredId = docSnap?.get("featured_id") as? String{
-                self.db.collection("universities").document(Utils.getCampusUni()).collection("posts").document(featuredId).getDocument(completion: { (docSnap1, error1) in
+                self.db.document(Post_new.postPath(featuredId)).getDocument(completion: { (docSnap1, error1) in
                     if error1 != nil{
                         print("Error loading featured event.")
                         return
                     }
                     if let doc = docSnap1 {
-                        let featuredEvent = Event()
-                        featuredEvent.docToObject(doc: doc)
-                        self.featuredEvents.append(featuredEvent)
+                        do { try self.featuredEvents.append(doc.data(as: Event_new.self)!) }
+                        catch { print("Could not load event in EventRepo.refresh(): \(error)") }
                     }
                 })
             }
@@ -130,7 +130,7 @@ class EventRepo: ObservableObject{
     func loadExploreAll(start: Bool = false){
         if start {
             exploreAllEventsLoaded = false
-            exploreAllEvents = [Event]() // reset list (maybe for reloading later)
+            exploreAllEvents = [Event_new]() // reset list (maybe for reloading later)
         }
         
         var query = db.collection("universities").document(Utils.getCampusUni()).collection("posts")
@@ -150,11 +150,12 @@ class EventRepo: ObservableObject{
                 return
             }
             if let querSnap = querySnapshot{
-                for currentDoc in querSnap.documents{
-                    let newEvent = Event()
-                    newEvent.docToObject(doc: currentDoc)
-                    self.exploreAllEvents.append(newEvent)
-                }
+                self.exploreAllEvents.append(contentsOf: querSnap.documents.compactMap { document in
+                    if (document.get("is_featured") as? Bool) ?? false {
+                        return try? document.data(as: Event_new.self)
+                    }
+                    return nil
+                })
                 if !querSnap.isEmpty {
                     self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
                 }
@@ -167,46 +168,56 @@ class EventRepo: ObservableObject{
         }
     }
     
+    // Refresh
     func refresh(){
         self.eventsLoaded = false
-        db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("creation_millis", isGreaterThan: creationMillis).whereField("is_featured", isEqualTo: false).getDocuments{(querySnapshot, error) in
+        db.collection("universities").document(Utils.getCampusUni()).collection("posts")
+            .whereField("is_event", isEqualTo: true)
+            .whereField("creation_millis", isGreaterThan: creationMillis)
+            .whereField("is_featured", isEqualTo: false)
+            .getDocuments{ (querySnapshot, error) in
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
-                        let newEvent = Event()
-                        newEvent.docToObject(doc: currentDoc)
-                        var dontAdd = false
                         
-                        if(newEvent.start_millis > Int(self.creationMillis) && newEvent.start_millis <= Int(Utils.getTodayMidnightMillis())){ //if the refreshed event is today
+                        var newEvent : Event_new? = nil
+                        do { try newEvent = currentDoc.data(as: Event_new.self)! }
+                        catch { print("Could not load event in EventRepo.refresh(): \(error)") }
+                        
+                        if (newEvent == nil) { continue } // Skip the rest if didn't load properly
+                        
+                        var add = false
+                        
+                        if (newEvent!.start_millis > Int(self.creationMillis) && newEvent!.start_millis <= Int(Utils.getTodayMidnightMillis())){ //if the refreshed event is today
                             for todayEvent in self.todayEvents{
-                                if(todayEvent.id == newEvent.id){
-                                    dontAdd = true
+                                if(todayEvent.id == newEvent!.id){
+                                    add = true
                                     break
                                 }
                             }
-                            if(!dontAdd){
-                                self.todayEvents.insert(newEvent, at: 0)
+                            if(add){
+                                self.todayEvents.insert(newEvent!, at: 0)
                             }
                             
-                        }else if(newEvent.start_millis > Int(Utils.getTodayMidnightMillis()) && newEvent.start_millis <= Int(Utils.getEndOfThisWeekMillis())){ //if the refreshed event is this week
+                        } else if (newEvent!.start_millis > Int(Utils.getTodayMidnightMillis()) && newEvent!.start_millis <= Int(Utils.getEndOfThisWeekMillis())){ //if the refreshed event is this week
                             for thisWeekEvent in self.thisWeekEvents{
-                                if(thisWeekEvent.id == newEvent.id){
-                                    dontAdd = true
+                                if(thisWeekEvent.id == newEvent!.id){
+                                    add = true
                                     break
                                 }
                             }
-                            if(!dontAdd){
-                                self.thisWeekEvents.insert(newEvent, at: 0)
+                            if(add){
+                                self.thisWeekEvents.insert(newEvent!, at: 0)
                             }
                             
-                        }else{ //if the refreshed event is upcoming
+                        } else { //if the refreshed event is upcoming
                             for upcomingEvent in self.upcomingEvents{
-                                if(upcomingEvent.id == newEvent.id){
-                                    dontAdd = true
+                                if(upcomingEvent.id == newEvent!.id){
+                                    add = true
                                     break
                                 }
                             }
-                            if(!dontAdd){
-                                self.upcomingEvents.insert(newEvent, at: 0)
+                            if(add){
+                                self.upcomingEvents.insert(newEvent!, at: 0)
                             }
                         }
                         self.eventsLoaded = true

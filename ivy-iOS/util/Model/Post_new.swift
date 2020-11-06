@@ -88,4 +88,8 @@ class Post_new: Identifiable, Codable {
     func getPostPath() -> String{
         return "universities/\(Utils.getCampusUni())/posts/\(self.id)" 
     }
+    
+    static func postPath(_ id: String) -> String{
+        return "universities/\(Utils.getCampusUni())/posts/\(id)"
+    }
 }

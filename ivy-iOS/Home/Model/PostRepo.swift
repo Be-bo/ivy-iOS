@@ -35,7 +35,7 @@ class PostRepo: ObservableObject{
             if let querSnap = querySnapshot{
                 for currentDoc in querSnap.documents{
                     var newPost = Post_new()
-                    do { try newPost = doc.data(as: Post_new.self)! }
+                    do { try newPost = currentDoc.data(as: Post_new.self)! }
                     catch { print("Could not load post in PostRepo: \(error)") }
                     self.homePosts.append(newPost)
                 }
@@ -59,7 +59,7 @@ class PostRepo: ObservableObject{
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
                         var newPost = Post_new()
-                        do { try newPost = doc.data(as: Post_new.self)! }
+                        do { try newPost = currentDoc.data(as: Post_new.self)! }
                         catch { print("Could not load post in PostRepo: \(error)") }
                         self.homePosts.append(newPost)
                     }
@@ -82,7 +82,7 @@ class PostRepo: ObservableObject{
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
                         var newPost = Post_new()
-                        do { try newPost = doc.data(as: Post_new.self)! }
+                        do { try newPost = currentDoc.data(as: Post_new.self)! }
                         catch { print("Could not load post in PostRepo: \(error)") }
                         var dontAdd = false
                         for currentPost in self.homePosts{

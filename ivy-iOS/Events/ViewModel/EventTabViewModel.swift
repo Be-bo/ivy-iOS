@@ -10,6 +10,7 @@ import Foundation
 import Combine
 
 class EventTabViewModel: ObservableObject {
+    
     var currentUni = Utils.getCampusUni()
     @Published var eventRepo = EventRepo()
     @Published var upcomingEventVMs = [EventItemViewModel]()

@@ -24,7 +24,6 @@
 		8D7104032541D83E00F13CCA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104002541D83D00F13CCA /* User.swift */; };
 		8D7104082541DB4500F13CCA /* Post_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104072541DB4500F13CCA /* Post_new.swift */; };
 		8D71040B2541DB5600F13CCA /* Event_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D71040A2541DB5600F13CCA /* Event_new.swift */; };
-		8D71040E2541F12A00F13CCA /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D71040D2541F12A00F13CCA /* PostViewModel.swift */; };
 		8D98D12924F0668800F58539 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12624F0668800F58539 /* UserProfile.swift */; };
 		8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */; };
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
@@ -105,7 +104,6 @@
 		8D7104002541D83D00F13CCA /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8D7104072541DB4500F13CCA /* Post_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post_new.swift; sourceTree = "<group>"; };
 		8D71040A2541DB5600F13CCA /* Event_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event_new.swift; sourceTree = "<group>"; };
-		8D71040D2541F12A00F13CCA /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostViewModel.swift; path = "ivy-iOS/util/Model/PostViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		8D98D12624F0668800F58539 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
@@ -212,7 +210,6 @@
 			children = (
 				8D515D1124E73CE900D67144 /* Model */,
 				8D30D17C24F55B140020999D /* Repository */,
-				8D30BFAA24EF199400970050 /* ViewModel */,
 				8D30BFA924EF198400970050 /* View */,
 				FA7DAF6E24F1837F00B25430 /* Utils.swift */,
 				FA7DAF7024F1858200B25430 /* Constant.swift */,
@@ -233,14 +230,6 @@
 				FA2B0ED424F2031D00B746FB /* PersonCircleView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		8D30BFAA24EF199400970050 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				8D71040D2541F12A00F13CCA /* PostViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		8D30D17C24F55B140020999D /* Repository */ = {
@@ -648,7 +637,6 @@
 				FAFC909A24F357E000177273 /* CreatePostView.swift in Sources */,
 				FA2B0EE924F2C74A00B746FB /* PostRepo.swift in Sources */,
 				8D30BF9F24EF024200970050 /* FirebaseImage.swift in Sources */,
-				8D71040E2541F12A00F13CCA /* PostViewModel.swift in Sources */,
 				8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */,
 				8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */,
 				8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */,

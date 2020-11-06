@@ -81,7 +81,7 @@ struct HomePostView: View {
                             self.selection = 2
                         }){
                             FirebaseImage(
-                                path: Utils.postPreviewImagePath(postId: postItemVM.post.id!),
+                                path: Utils.postPreviewImagePath(postId: postItemVM.post.id),
                                 placeholder: AssetManager.logoGreen,
                                 width: (UIScreen.screenWidth - 100),
                                 height: (UIScreen.screenWidth - 100),

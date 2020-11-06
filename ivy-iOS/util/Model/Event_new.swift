@@ -73,7 +73,7 @@ class Event_new: Identifiable, Codable{
         return "universities/\(Utils.getCampusUni())/posts/\(self.id)"
     }
     
-    static func eventPath(id: String) -> String{
+    static func eventPath(_ id: String) -> String{
         return "universities/\(Utils.getCampusUni())/posts/\(id)"
     }
     

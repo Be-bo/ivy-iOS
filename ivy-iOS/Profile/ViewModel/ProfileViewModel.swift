@@ -46,7 +46,7 @@ class ProfileViewModel: ObservableObject{
         
         profileRepo.$events.map {events in
             events.map{event in
-                EventItemViewModel(event: event.convertNewToOld())
+                EventItemViewModel(event: event)
             }
         }
         .assign(to: \.eventVMs, on: self)

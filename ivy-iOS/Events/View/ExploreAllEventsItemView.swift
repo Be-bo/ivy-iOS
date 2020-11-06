@@ -15,7 +15,7 @@ struct ExploreAllEventsItemView: View {
     @State var url = ""
     @State var authorUrl = ""
     @State var selection: Int? = nil
-    var onCommit: (Event) -> (Void) = {_ in}
+    var onCommit: (Event_new) -> (Void) = {_ in}
     
     var body: some View {
         
