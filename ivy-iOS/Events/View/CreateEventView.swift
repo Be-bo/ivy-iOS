@@ -6,6 +6,7 @@
 //  Copyright © 2020 ivy. All rights reserved.
 //
 //  New Event
+//  TODO: input check -> give feedback
 //
 
 import SwiftUI
@@ -14,39 +15,29 @@ import SDWebImageSwiftUI
 
 struct CreateEventView: View {
     
-    @ObservedObject private var createEventRepo = CreateEventRepo()
-    @State private var loadInProgress = false
-    var typePick = 0
+    @ObservedObject private var createEventVM: CreateEventViewModel
+    @Environment(\.presentationMode) var presentationMode
+
     @State private var visualPick = 0
     @State private var textInput = ""
     @State private var eventName = ""
     @State private var location = ""
     @State private var link = ""
-    @State private var pinnedName: String?
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var image: Image?
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
-    @Environment(\.presentationMode) var presentationMode
     
-    var alreadyExistingEvent = Event()
-    var alreadyExistingPost = Post()
     var editingMode = false
     var editModeType = 0
-    private var notificationSender = NotificationSender()
     
     
-    
-    // MARK: Functions
-    
-    
+    // Check input before posting
     func inputOk() -> Bool{ //TODO: check date
-        return ((typePick == 0 && !textInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) || //post
-            
-            (typePick == 1 && !textInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && //event
+        return (!textInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
                 !eventName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-                !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty))
+                !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
     }
     
     func loadImage() {
@@ -56,38 +47,34 @@ struct CreateEventView: View {
     
     
     
-    init(alreadyExistingPost: Post, editingMode: Bool){
-        self.typePick = typePick
-        self.alreadyExistingPost = alreadyExistingPost
-        self.editingMode = editingMode
+    init(_ alreadyExistingEvent: Event_new? = nil){
+        self.createEventVM = CreateEventViewModel(event: alreadyExistingEvent)
+        self.editingMode = alreadyExistingEvent != nil
     }
     
     
     
 
     // MARK: View
-    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
             VStack{
                 
                 if(self.editingMode){
-                    if(typePick == 0){
-                        Text("Edit Post").font(.largeTitle).padding(.bottom, 10)
-                            .foregroundColor(AssetManager.textColor)
-                    }else{
-                        Text("Edit Event").font(.largeTitle).padding(.bottom, 10)
-                            .foregroundColor(AssetManager.textColor)
-                    }
-                    Text("All values will be overwritten! (I.e. You'll have to fill out all the fields again, only comments & going users will be kept.)").foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom, 10)
-                }else{
-                    if(typePick == 0){
-                        Text("Create Post").font(.largeTitle).padding(.bottom, 10)
-                            .foregroundColor(AssetManager.textColor)
-                    }else{
-                        Text("Create Event").font(.largeTitle).padding(.bottom, 10)
-                            .foregroundColor(AssetManager.textColor)
-                    }
+
+                    Text("Edit Event").font(.largeTitle)
+                        .foregroundColor(AssetManager.textColor)
+                        .padding(.bottom, 10)
+                    
+                    
+                    Text("All values will be overwritten! (I.e. You'll have to fill out all the fields again, only comments & going users will be kept.)")
+                        .foregroundColor(AssetManager.ivyNotificationRed)
+                        .padding(.bottom, 10)
+                }
+                else {
+                    Text("Create Event").font(.largeTitle)
+                        .foregroundColor(AssetManager.textColor)
+                        .padding(.bottom, 10)
                 }
                 
                 // MARK: Type
@@ -136,55 +123,54 @@ struct CreateEventView: View {
                         .padding(.bottom, 10)
                     }
                     
-                    // MARK: Text
-                    if(typePick == 0){
-                        TextField("Text", text: $textInput).foregroundColor(AssetManager.textColor)
-                    }else{
+
+                    Group{
+                        TextField("Event Name", text: $eventName)
+                            .foregroundColor(AssetManager.textColor)
+                        Divider().padding(.bottom, 10)
+                        
                         TextField("Description", text: $textInput).foregroundColor(AssetManager.textColor)
-                    }
-                    Divider().padding(.bottom, 10)
-                    
-                    
-                    // MARK: Pinned
-                    if(typePick == 0){
-                        DropDownMenu(
-                            selected: $pinnedName,
-                            list: self.createPostRepo.pinnedNames,
-                            hint: "Pinned Event",
-                            hintColor: AssetManager.ivyHintGreen,
-                            expandedHeight: 200
-                        )
-                            .padding(.bottom, 10)
+                        Divider().padding(.bottom, 10)
                         
+                        TextField("Location", text: $location)
+                            .foregroundColor(AssetManager.textColor)
+                        Divider().padding(.bottom, 10)
                         
-                        // MARK: Event Fields
-                    }else{
-                        Group{
-                            TextField("Event Name", text: $eventName)
-                                .foregroundColor(AssetManager.textColor)
-                            Divider().padding(.bottom, 10)
-                            
-                            TextField("Location", text: $location)
-                                .foregroundColor(AssetManager.textColor)
-                            Divider().padding(.bottom, 10)
-                            
-                            TextField("Link (optional, include full url)", text: $link)
-                                .foregroundColor(AssetManager.textColor)
-                            Divider().padding(.bottom, 10)
-                            
-                            DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute]).foregroundColor(AssetManager.textColor)
-                            
-                            DatePicker("End", selection: $endDate, displayedComponents: [.date, .hourAndMinute]).foregroundColor(AssetManager.textColor)
-                        }
+                        TextField("Link (optional, include full url)", text: $link)
+                            .foregroundColor(AssetManager.textColor)
+                        Divider().padding(.bottom, 10)
+                        
+                        DatePicker("Start", selection: $startDate, displayedComponents: [.date, .hourAndMinute]).foregroundColor(AssetManager.textColor)
+                        
+                        DatePicker("End", selection: $endDate, displayedComponents: [.date, .hourAndMinute]).foregroundColor(AssetManager.textColor)
                     }
+                    
                     
                     
                     // MARK: Button
-                    if(loadInProgress){
+                    if(createEventVM.loadInProgress){
                         LoadingSpinner()
                     }else{
                         Button(action: {
-                            uploadPost()
+                            if (self.editingMode) {
+                                createEventVM.uploadEdittedEvent(
+                                    text: self.textInput,
+                                    eventName: self.eventName,
+                                    startDate: self.startDate,
+                                    endDate: self.endDate,
+                                    link: self.link,
+                                    location: self.location,
+                                    image: self.inputImage)
+                            } else {
+                                createEventVM.uploadNewEvent(
+                                    text: self.textInput,
+                                    eventName: self.eventName,
+                                    startDate: self.startDate,
+                                    endDate: self.endDate,
+                                    link: self.link,
+                                    location: self.location,
+                                    image: self.inputImage)
+                            }
                         }){
                             Text("Post")
                         }
@@ -201,6 +187,13 @@ struct CreateEventView: View {
         .foregroundColor(Color.black)
         .padding()
         .keyboardAdaptive()
+        
+        // Dismiss View when VM gives the signal
+        .onReceive(self.createEventVM.viewDismissalModePublisher) { shouldDismiss in
+            if shouldDismiss {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }
     }
 }
 

@@ -40,6 +40,44 @@ class Event_new: Identifiable, Codable{
     var location: String = "Main Campus"    
     
     
+    // Only for existing posts
+    init() {}
+    
+    
+    // Use this for creating new posts
+    init(uni: String, name: String, text: String, link: String, location: String) {
+        self.id = UUID.init().uuidString
+        self.uni_domain = uni
+        self.creation_millis = Int(Utils.getCurrentTimeInMillis())
+        self.text = text
+        self.link = link
+        self.location = location
+    }
+    
+    
+    // Convenience Functions
+    func setAuthor(id: String, name: String, is_org: Bool) {
+        self.author_id = id
+        self.author_name = name
+        self.author_is_organization = is_org
+    }
+    
+    func setDates(start: Date, end: Date) {
+        self.start_millis = Int(start.timeIntervalSince1970) * 1000
+        self.end_millis = Int(end.timeIntervalSince1970) * 1000
+    }
+    
+    
+    // MARK: PATHs
+    func getEventPath() -> String{
+        return "universities/\(Utils.getCampusUni())/posts/\(self.id)"
+    }
+    
+    static func eventPath(id: String) -> String{
+        return "universities/\(Utils.getCampusUni())/posts/\(id)"
+    }
+    
+    
     // Convenience Method to convert to old version of event
     // TODO: delete later
     func convertNewToOld() -> Event {

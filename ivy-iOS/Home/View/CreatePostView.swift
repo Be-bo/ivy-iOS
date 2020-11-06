@@ -6,6 +6,7 @@
 //  Copyright © 2020 ivy. All rights reserved.
 //
 //  New Post
+//  TODO: input check -> give feedback
 //
 
 
@@ -18,7 +19,6 @@ struct CreatePostView: View {
     @ObservedObject private var createPostVM: CreatePostViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var loadInProgress = false
     @State private var visualPick = 0
     @State private var textInput = ""
     @State private var pinnedName: String?
@@ -43,9 +43,9 @@ struct CreatePostView: View {
     
     
     // MARK: INIT
-    init(alreadyExistingPost: Post_new, editingMode: Bool){
+    init(_ alreadyExistingPost: Post_new? = nil){
         self.createPostVM = CreatePostViewModel(post: alreadyExistingPost)
-        self.editingMode = editingMode
+        self.editingMode = alreadyExistingPost != nil
     }
     
     
@@ -61,7 +61,9 @@ struct CreatePostView: View {
                         .padding(.bottom, 10)
 
                     
-                    Text("All values will be overwritten! (I.e. You'll have to fill out all the fields again, only comments & going users will be kept.)").foregroundColor(AssetManager.ivyNotificationRed).padding(.bottom, 10)
+                    Text("All values will be overwritten! (I.e. You'll have to fill out all the fields again, only comments & going users will be kept.)")
+                        .foregroundColor(AssetManager.ivyNotificationRed)
+                        .padding(.bottom, 10)
                 }else{
                     Text("Create Post").font(.largeTitle)
                         .foregroundColor(AssetManager.textColor)
@@ -132,7 +134,7 @@ struct CreatePostView: View {
                     
                     
                     // MARK: Button
-                    if(loadInProgress){
+                    if(createPostVM.loadInProgress){
                         LoadingSpinner()
                     } else {
                         Button(action: {

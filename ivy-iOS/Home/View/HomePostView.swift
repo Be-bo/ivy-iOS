@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct HomePostView: View {
-    @ObservedObject var postItemVM: HomePostViewModel
+    @ObservedObject var postItemVM: PostViewModel
     @State var url = ""
     @State var authorUrl = ""
     @State var selection: Int? = nil

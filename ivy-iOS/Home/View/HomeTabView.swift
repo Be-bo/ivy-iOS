@@ -93,7 +93,7 @@ struct HomeTabView: View {
                                     .sheet(isPresented: $createPostPresented, onDismiss: {
                                         self.homeTabVM.refresh()
                                     }) {
-                                        CreatePostView(typePick: 0, alreadyExistingEvent: Event(), alreadyExistingPost: Post(), editingMode: false)
+                                        CreatePostView()
                                 }
                             }
                         }

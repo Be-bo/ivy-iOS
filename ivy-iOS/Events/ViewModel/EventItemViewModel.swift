@@ -12,13 +12,13 @@ import Firebase
 
 class EventItemViewModel: ObservableObject, Identifiable{
     let db = Firestore.firestore()
-    @Published var event: Event //published means that this var will be listened to
+    @Published var event: Event_new //published means that this var will be listened to
     @Published var thisUserGoing = false //need this for the going/not going button, it doesn't work when using indexOf method
     var id = ""
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(event: Event){
+    init(event: Event_new){
         self.event = event
         if Auth.auth().currentUser != nil, let id = Auth.auth().currentUser?.uid{
             if(event.going_ids.contains(id)){
@@ -34,7 +34,7 @@ class EventItemViewModel: ObservableObject, Identifiable{
     
     func addToGoing(){
         if(!event.going_ids.contains(Auth.auth().currentUser!.uid)){
-            db.collection("universities").document(event.uni_domain).collection("posts").document(event.id!).updateData([
+            db.document(Event_new.eventPath(event.id)).updateData([
                 "going_ids": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
             ]){error in
                 if error != nil{
@@ -49,7 +49,7 @@ class EventItemViewModel: ObservableObject, Identifiable{
     
     func removeFromGoing(){
         if(event.going_ids.contains(Auth.auth().currentUser!.uid)){
-            db.collection("universities").document(event.uni_domain).collection("posts").document(event.id!).updateData([
+            db.document(Event_new.eventPath(event.id)).updateData([
                 "going_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
             ]){ error in
                 if error != nil{

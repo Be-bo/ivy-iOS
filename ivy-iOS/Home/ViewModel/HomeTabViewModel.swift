@@ -11,14 +11,14 @@ import Combine
 
 class HomeTabViewModel: ObservableObject {
     @Published var homeRepo = PostRepo()
-    @Published var homePostsVMs = [HomePostViewModel]()
+    @Published var homePostsVMs = [PostViewModel]()
     private var cancellables = Set<AnyCancellable>()
     var currentUni = Utils.getCampusUni()
     
     init(){
         homeRepo.$homePosts.map {posts in
             posts.map{post in
-                HomePostViewModel(post: post)
+                PostViewModel(post: post)
             }
         }
         .assign(to: \.homePostsVMs, on: self)

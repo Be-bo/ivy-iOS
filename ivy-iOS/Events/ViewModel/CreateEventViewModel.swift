@@ -16,17 +16,14 @@ import FirebaseAuth
 import SDWebImageSwiftUI
 
 
-class CreateEventRepo: ObservableObject {
+class CreateEventViewModel: ObservableObject {
     
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     private var notificationSender = NotificationSender()
 
     @Published var event: Event_new
-    @Published var pinnedNames = [String]()
-    @Published var pinnedIds = [String]()
-    
-    private var loadInProgress = false
+    @Published var loadInProgress = false
     // Allows us to dismiss CreatePostView when shouldDismissView changes to true
     var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
     private var shouldDismissView = false {
@@ -41,27 +38,12 @@ class CreateEventRepo: ObservableObject {
     init(event: Event_new?) {
         if (event != nil) { self.event = event! }
         else { self.event = Event_new() }
-        self.loadPinnedNames()
-    }
-    
-    
-    func loadPinnedNames(){
-        db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).getDocuments { (querSnapshot, error) in
-            if let querSnap = querSnapshot{
-                for doc in querSnap.documents{
-                    if let id = doc.get("id") as? String, let nam = doc.get("name") as? String{
-                        self.pinnedIds.append(id)
-                        self.pinnedNames.append(nam)
-                    }
-                }
-            }
-        }
     }
     
     
     
-    // send notifications to all members (if this user is org)
-    func sendNotification(newEvent: Bool, eventText: String){
+    // MARK: Send notifications to all members (if this user is org)
+    func sendNotification(newEvent: Bool){
         
         // Get Current user
         db.collection("users").document(Auth.auth().currentUser?.uid ?? "").getDocument { (docSnap, err) in
@@ -75,7 +57,7 @@ class CreateEventRepo: ObservableObject {
                 
                 var thisUser = User()
                 do { try thisUser = doc.data(as: User.self)! }
-                catch { print("Could not load User for CreatePostVM: \(error)") }
+                catch { print("Could not load User for CreateEventVM: \(error)") }
                 
                 // Send notification to each member
                 if (thisUser.member_ids?.count ?? 0) > 0 {
@@ -97,14 +79,13 @@ class CreateEventRepo: ObservableObject {
                                 
                                 var member = User()
                                 do { try member = doc1.data(as: User.self)! }
-                                catch { print("Could not load User for CreatePostVM: \(error)") }
+                                catch { print("Could not load User for CreateEventVM: \(error)") }
                                 
                                 
-                                if (newPost){ //the org was creating a new post
-                                    self.notificationSender.sendPushNotification(to: member.messaging_token, title: "\(thisUser.name) added a new post.", body: postText, conversationID: "")
-                                    
-                                } else { //the org was editing an existing post
-                                    self.notificationSender.sendPushNotification(to: member.messaging_token, title: "\(thisUser.name) made changes to their post.", body: postText, conversationID: "")
+                                if (newEvent){ //the org was creating a new event
+                                    self.notificationSender.sendPushNotification(to: member.messaging_token, title: "\(thisUser.name) added a new event.", body: self.event.name, conversationID: "")
+                                } else { //the org was editing an existing event
+                                    self.notificationSender.sendPushNotification(to: member.messaging_token, title: "\(thisUser.name) made changes to their event.", body: self.event.name, conversationID: "")
                                    
                                 }
 
@@ -122,20 +103,21 @@ class CreateEventRepo: ObservableObject {
     }
     
     
+    
     // Upload Image to Storage
-    func uploadImage(inputImage: UIImage, newPost: Bool, postText: String){
-        self.storageRef.child(self.post.visual)
+    func uploadImage(inputImage: UIImage, newEvent: Bool){
+        self.storageRef.child(self.event.visual)
             .putData((inputImage.jpegData(compressionQuality: 0.7)!), metadata: nil){ (error, metadata) in
             if(error != nil){
                 print(error!)
             }
-            self.storageRef.child(Utils.postPreviewImagePath(postId: self.post.id))
+            self.storageRef.child(Utils.postPreviewImagePath(postId: self.event.id))
                 .putData((inputImage.jpegData(compressionQuality: 0.1)!), metadata: nil){ (error1, metadata1) in
                 if(error1 != nil){
                     print(error1!)
                 }
                 if Utils.getIsThisUserOrg(){
-                    self.sendNotification(newPost: newPost, postText: postText)
+                    self.sendNotification(newEvent: newEvent)
                 } else {
                    self.shouldDismissView = true
                 }
@@ -144,86 +126,88 @@ class CreateEventRepo: ObservableObject {
     }
     
     
-    // Upload Editted Post to Firebase
-    func uploadEdittedPost(text: String, pin_name: String?, image: UIImage?){
+    
+    // MARK: Upload Editted Post to Firebase
+    func uploadEdittedEvent(text: String, eventName: String, startDate: Date, endDate: Date, link: String, location: String, image: UIImage?){
         loadInProgress = true
-        post.text = text
         
-        if let pinName = pin_name{
-            post.pinned_name = pinName
-            post.pinned_id = self.pinnedIds[self.pinnedNames.firstIndex(of: pinName)!]
+        // Set up new Parameters
+        event.text = text
+        event.name = eventName
+        event.start_millis = Int(startDate.timeIntervalSince1970)*1000
+        event.end_millis = Int(endDate.timeIntervalSince1970)*1000
+        event.link = link
+        event.location = location
+        
+        
+        // Visual
+        if (image != nil){
+            event.visual = Utils.postFullVisualPath(postId: event.id)
         } else {
-            post.pinned_name = ""
-            post.pinned_id = ""
+            event.visual = ""
         }
         
         
-        // MARK: Visual
-        if(image != nil){
-            post.visual = Utils.postFullVisualPath(postId: post.id)
-        } else {
-            post.visual = ""
-        }
-        
-        
-        // MARK: Data Upload
+        // Data Upload
         do {
-            let _ = try db.document(post.getPostPath()).setData(from: post)
+            let _ = try db.document(event.getEventPath()).setData(from: event)
             
             if (image != nil){
-                uploadImage(inputImage: image!)
+                uploadImage(inputImage: image!, newEvent: false)
             } else {
                 if Utils.getIsThisUserOrg(){
-                    self.sendNotification(newPost: false, postText: post.text)
+                    self.sendNotification(newEvent: false)
                 } else {
                    self.shouldDismissView = true
                 }
             }
         } catch {
-            print("Couldn't edit post: \(error.localizedDescription)")
+            print("Couldn't edit event: \(error.localizedDescription)")
         }
     }
     
     
-    func uploadNewPost(text: String, pinnedName: String?, image: UIImage?){
+    
+    // MARK: Upload New Event
+    func uploadNewEvent(text: String, eventName: String, startDate: Date, endDate: Date, link: String, location: String, image: UIImage?){
         loadInProgress = true
         
-        // Build New Post
-        post = Post_new(
+        // Build New Event
+        event = Event_new(
             uni: Utils.getCampusUni(),
-            author_id: Auth.auth().currentUser?.uid ?? "",
-            author_name: Utils.getThisUserName(),
-            author_is_org: Utils.getIsThisUserOrg(),
-            text: text)
+            name: eventName,
+            text: text,
+            link: link,
+            location: location)
         
-        if let pinName = pinnedName{
-            post.addPin(
-                id: self.pinnedIds[self.pinnedNames.firstIndex(of: pinName)!],
-                name: pinName
-            )
-        }
+        event.setAuthor(
+            id: Auth.auth().currentUser?.uid ?? "",
+            name: Utils.getThisUserName(),
+            is_org: Utils.getIsThisUserOrg())
         
-        // MARK: Visual
+        event.setDates(start: startDate, end: endDate)
+        
+        // Visual
         if(image != nil){
-            post.visual = Utils.postFullVisualPath(postId: post.id)
+            event.visual = Utils.postFullVisualPath(postId: event.id)
         }
         
 
-        // MARK: Data Upload
+        // Data Upload
         do {
-            let _ = try db.document(post.getPostPath()).setData(from: post)
+            let _ = try db.document(event.getEventPath()).setData(from: event)
             
             if (image != nil){
-                uploadImage(inputImage: image!)
+                uploadImage(inputImage: image!, newEvent: true)
             } else {
                 if Utils.getIsThisUserOrg(){
-                    self.sendNotification(newPost: true, postText: post.text)
+                    self.sendNotification(newEvent: true)
                 } else {
                    self.shouldDismissView = true
                 }
             }
         } catch {
-            print("Couldn't create new post: \(error.localizedDescription)")
+            print("Couldn't create new event: \(error.localizedDescription)")
         }
     }
 }

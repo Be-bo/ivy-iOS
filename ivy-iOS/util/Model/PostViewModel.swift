@@ -14,7 +14,7 @@ import Foundation
 import Combine
 import Firebase
 
-class PostViewModel: HomePostViewModel {
+class PostViewModel: PostViewModel {
     
     @Published var post_new: Post_new
     private var cancellables = Set<AnyCancellable>()

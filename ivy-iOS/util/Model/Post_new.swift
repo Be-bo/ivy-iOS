@@ -33,17 +33,15 @@ class Post_new: Identifiable, Codable {
     var pinned_name = ""
     var views_id = [String]()
     
+    
     // Only for existing posts
     init() {}
     
     
     // Use this for creating new posts
-    init(uni: String, author_id: String, author_name: String, author_is_org: Bool = false, text: String) {
+    init(uni: String, text: String) {
         self.id = UUID.init().uuidString
         self.uni_domain = uni
-        self.author_id = author_id
-        self.author_name = author_name
-        self.author_is_organization = author_is_org
         self.creation_millis = Int(Utils.getCurrentTimeInMillis())
         self.text = text
     }
@@ -72,30 +70,19 @@ class Post_new: Identifiable, Codable {
     }
     
     
-    // For convenience
+    // Convenience Functions
+    func setAuthor(id: String, name: String, is_org: Bool) {
+        self.author_id = id
+        self.author_name = name
+        self.author_is_organization = is_org
+    }
+    
+    
     func addPin(id: String, name: String) {
         self.pinned_id = id
         self.pinned_name = name
     }
     
-    func getMap() -> [String:Any]{
-        var retVal = [String: Any]()
-        retVal["id"] = id
-        retVal["uni_domain"] = uni_domain
-        retVal["author_id"] = author_id
-        retVal["author_name"] = author_name
-        retVal["author_is_organization"] = author_is_organization
-        retVal["is_event"] = is_event
-        retVal["main_feed_visible"] = main_feed_visible
-        retVal["creation_millis"] = creation_millis
-        retVal["creation_platform"] = creation_platform
-        retVal["text"] = text
-        retVal["visual"] = visual
-        retVal["pinned_id"] = pinned_id
-        retVal["pinned_name"] = pinned_name
-        retVal["views_id"] = views_id
-        return retVal
-    }
     
     // MARK: PATHs
     func getPostPath() -> String{

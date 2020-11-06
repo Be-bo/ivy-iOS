@@ -369,7 +369,7 @@ struct EventScreenView: View {
                         .sheet(isPresented: $editEventPresented, onDismiss: {
                             //TODO: refresh on dismiss
                         }) {
-                            CreatePostView(typePick: 1, alreadyExistingEvent: self.eventVM.event, alreadyExistingPost: Post(), editingMode: true)
+                            CreateEventView(self.eventVM.event)
                         }
                 }
                 .padding(.top, 30)

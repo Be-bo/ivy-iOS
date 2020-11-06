@@ -25,8 +25,8 @@ class CreatePostViewModel: ObservableObject{
     @Published var post: Post_new
     @Published var pinnedNames = [String]()
     @Published var pinnedIds = [String]()
+    @Published var loadInProgress = false
     
-    private var loadInProgress = false
     // Allows us to dismiss CreatePostView when shouldDismissView changes to true
     var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
     private var shouldDismissView = false {
@@ -60,7 +60,7 @@ class CreatePostViewModel: ObservableObject{
     
     
     // send notifications to all members (if this user is org)
-    func sendNotification(newPost: Bool, postText: String){
+    func sendNotification(newPost: Bool){
         
         // Get Current user
         db.collection("users").document(Auth.auth().currentUser?.uid ?? "").getDocument { (docSnap, err) in
@@ -100,10 +100,10 @@ class CreatePostViewModel: ObservableObject{
                                 
                                 
                                 if (newPost){ //the org was creating a new post
-                                    self.notificationSender.sendPushNotification(to: member.messaging_token, title: "\(thisUser.name) added a new post.", body: postText, conversationID: "")
+                                    self.notificationSender.sendPushNotification(to: member.messaging_token, title: "\(thisUser.name) added a new post.", body: self.post.text, conversationID: "")
                                     
                                 } else { //the org was editing an existing post
-                                    self.notificationSender.sendPushNotification(to: member.messaging_token, title: "\(thisUser.name) made changes to their post.", body: postText, conversationID: "")
+                                    self.notificationSender.sendPushNotification(to: member.messaging_token, title: "\(thisUser.name) made changes to their post.", body: self.post.text, conversationID: "")
                                    
                                 }
 
@@ -122,7 +122,7 @@ class CreatePostViewModel: ObservableObject{
     
     
     // Upload Image to Storage
-    func uploadImage(inputImage: UIImage, newPost: Bool, postText: String){
+    func uploadImage(inputImage: UIImage, newPost: Bool){
         self.storageRef.child(self.post.visual)
             .putData((inputImage.jpegData(compressionQuality: 0.7)!), metadata: nil){ (error, metadata) in
             if(error != nil){
@@ -134,7 +134,7 @@ class CreatePostViewModel: ObservableObject{
                     print(error1!)
                 }
                 if Utils.getIsThisUserOrg(){
-                    self.sendNotification(newPost: newPost, postText: postText)
+                    self.sendNotification(newPost: newPost)
                 } else {
                    self.shouldDismissView = true
                 }
@@ -170,10 +170,10 @@ class CreatePostViewModel: ObservableObject{
             let _ = try db.document(post.getPostPath()).setData(from: post)
             
             if (image != nil){
-                uploadImage(inputImage: image!)
+                uploadImage(inputImage: image!, newPost: true)
             } else {
                 if Utils.getIsThisUserOrg(){
-                    self.sendNotification(newPost: false, postText: post.text)
+                    self.sendNotification(newPost: false)
                 } else {
                    self.shouldDismissView = true
                 }
@@ -188,12 +188,11 @@ class CreatePostViewModel: ObservableObject{
         loadInProgress = true
         
         // Build New Post
-        post = Post_new(
-            uni: Utils.getCampusUni(),
-            author_id: Auth.auth().currentUser?.uid ?? "",
-            author_name: Utils.getThisUserName(),
-            author_is_org: Utils.getIsThisUserOrg(),
-            text: text)
+        post = Post_new(uni: Utils.getCampusUni(), text: text)
+        post.setAuthor(
+            id: Auth.auth().currentUser?.uid ?? "",
+            name: Utils.getThisUserName(),
+            is_org: Utils.getIsThisUserOrg())
         
         if let pinName = pinnedName{
             post.addPin(
@@ -213,10 +212,10 @@ class CreatePostViewModel: ObservableObject{
             let _ = try db.document(post.getPostPath()).setData(from: post)
             
             if (image != nil){
-                uploadImage(inputImage: image!)
+                uploadImage(inputImage: image!, newPost: true)
             } else {
                 if Utils.getIsThisUserOrg(){
-                    self.sendNotification(newPost: true, postText: post.text)
+                    self.sendNotification(newPost: true)
                 } else {
                    self.shouldDismissView = true
                 }

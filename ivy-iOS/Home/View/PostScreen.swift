@@ -14,7 +14,7 @@ struct PostScreen: View {
     
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
-    @ObservedObject var postVM: HomePostViewModel
+    @ObservedObject var postVM: PostViewModel
     @ObservedObject var commentListVM: CommentListViewModel
     var pinnedEventVM: EventItemViewModel
     @State var commentAddImage = false
@@ -129,7 +129,7 @@ struct PostScreen: View {
     }
     
     
-    init(postVM: HomePostViewModel){
+    init(postVM: PostViewModel){
         self.postVM = postVM
         pinnedEventVM = EventItemViewModel(event: postVM.pinnedEvent)
         commentListVM = CommentListViewModel(uniDom: postVM.post.uni_domain, postId: postVM.post.id ?? "")
@@ -256,7 +256,7 @@ struct PostScreen: View {
                             .sheet(isPresented: $editPostPresented, onDismiss: {
                                 //TODO: refresh on dismiss
                             }) {
-                                CreatePostView(typePick: 0, alreadyExistingEvent: Event(), alreadyExistingPost: self.postVM.post, editingMode: true)
+                                CreatePostView(alreadyExistingPost: self.postVM.post)
                             }
                     }
                     .padding(.top, 30)
