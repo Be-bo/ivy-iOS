@@ -198,7 +198,7 @@ struct PostScreen: View {
                 }
                 
                 // Comments
-                viewComments(postVM: postVM);
+                postComments(postVM: postVM);
                 
             }
             
@@ -229,8 +229,9 @@ struct postComments: View {
     @State private var image: Image?
     @State private var showingImagePicker = false
     @State var commentInput = ""
+
     
-    @Binding var postVM : PostViewModel
+    @ObservedObject var postVM : PostViewModel
     @ObservedObject var commentListVM: CommentListViewModel
 
     
@@ -401,7 +402,7 @@ struct postComments: View {
             }
             
             // View Old comments
-            viewComments(commentListVM: commentListVM)
+            viewComments(commentListVM: self.commentListVM)
             
         }
     }
@@ -411,7 +412,8 @@ struct postComments: View {
 // MARK: Comment List
 struct viewComments: View {
     
-    @Binding var commentListVM: CommentListViewModel
+    @ObservedObject var commentListVM: CommentListViewModel
+    @State private var selection : Int? = nil
 
     
     var body: some View {
