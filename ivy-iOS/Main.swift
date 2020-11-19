@@ -18,7 +18,7 @@ import SDWebImageSwiftUI
 struct Main: View {
     @ObservedObject private var thisUserDataRepo: UserRepo
     @ObservedObject private var thisUserRepo = ThisUserRepo()
-    @State private var selection = 1
+    @State private var selection = 2
     
     
     init(){
@@ -36,27 +36,43 @@ struct Main: View {
         
         // MARK: Tab Bar
         TabView(selection: self.$selection) {
+            
+            // MARK: CHAT
+            ChatTabView()
+                .tabItem{
+                    selection == 0 ? Image(systemName: "message.fill").font(.system(size: 25)) : Image(systemName: "message").font(.system(size: 25))
+                    Text("Chat")
+            }
+            .tag(0)
 
 
             // MARK: Events
             EventsTabView()
                 .tabItem{
-                    selection == 0 ? Image(systemName: "calendar").font(.system(size: 25)) : Image(systemName: "calendar").font(.system(size: 25))
+                    selection == 1 ? Image(systemName: "calendar").font(.system(size: 25)) : Image(systemName: "calendar").font(.system(size: 25))
                     Text("Events")
             }
-            .tag(0)
+            .tag(1)
 
             
             
             // MARK: Home
             HomeTabView(thisUserRepo: thisUserRepo)
                 .tabItem {
-                    selection == 1 ? Image(systemName: "house.fill").font(.system(size: 25)) : Image(systemName: "house").font(.system(size: 25))
+                    selection == 2 ? Image(systemName: "house.fill").font(.system(size: 25)) : Image(systemName: "house").font(.system(size: 25))
                     Text("Home")
             }
-            .tag(1)
+            .tag(2)
 
-
+            
+            // MARK: QUAD
+            QuadTabView()
+                .tabItem{
+                    selection == 3 ? Image(systemName: "person.3.fill").font(.system(size: 25)) : Image(systemName: "person.3").font(.system(size: 25))
+                    Text("Quad")
+            }
+            .tag(3)
+            
 
             // MARK: Profile
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
@@ -65,10 +81,10 @@ struct Main: View {
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
                 .tabItem {
-                        selection == 2 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
+                        selection == 4 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         Text("Profile")
                 }
-                .tag(2)
+                .tag(4)
             }
 
             

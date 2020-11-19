@@ -19,6 +19,8 @@
 		8D30BFAE24EF5ECA00970050 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFAD24EF5ECA00970050 /* Post.swift */; };
 		8D30D17E24F55B460020999D /* UserRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30D17D24F55B460020999D /* UserRepo.swift */; };
 		8D30D18024F579180020999D /* UserProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30D17F24F579180020999D /* UserProfileSupport.swift */; };
+		8D3195E92566E64F00314B31 /* QuadTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195E82566E64F00314B31 /* QuadTabView.swift */; };
+		8D3195ED2566E65E00314B31 /* ChatTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195EC2566E65E00314B31 /* ChatTabView.swift */; };
 		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
 		8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */; };
 		8D7104032541D83E00F13CCA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104002541D83D00F13CCA /* User.swift */; };
@@ -99,6 +101,8 @@
 		8D30BFAD24EF5ECA00970050 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		8D30D17D24F55B460020999D /* UserRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepo.swift; sourceTree = "<group>"; };
 		8D30D17F24F579180020999D /* UserProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSupport.swift; sourceTree = "<group>"; };
+		8D3195E82566E64F00314B31 /* QuadTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadTabView.swift; sourceTree = "<group>"; };
+		8D3195EC2566E65E00314B31 /* ChatTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTabView.swift; sourceTree = "<group>"; };
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignupViewModel.swift; sourceTree = "<group>"; };
 		8D7104002541D83D00F13CCA /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -241,6 +245,46 @@
 			path = Repository;
 			sourceTree = "<group>";
 		};
+		8D3195E32566E5FB00314B31 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				8D3195E72566E62F00314B31 /* View */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		8D3195E42566E60400314B31 /* Quad */ = {
+			isa = PBXGroup;
+			children = (
+				8D3195E62566E61C00314B31 /* ViewModel */,
+				8D3195E52566E61200314B31 /* View */,
+			);
+			path = Quad;
+			sourceTree = "<group>";
+		};
+		8D3195E52566E61200314B31 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8D3195E82566E64F00314B31 /* QuadTabView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8D3195E62566E61C00314B31 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8D3195E72566E62F00314B31 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8D3195EC2566E65E00314B31 /* ChatTabView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		8D515D1124E73CE900D67144 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,6 +351,8 @@
 		FA5DEF9524B6970D00C397CB /* ivy-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				8D3195E42566E60400314B31 /* Quad */,
+				8D3195E32566E5FB00314B31 /* Chat */,
 				FA6D77C424FC808100EA216C /* ivy-iOS.entitlements */,
 				FAE4734424E1B0F3003E3991 /* App */,
 				FA96E8AE24E5AC3700E33BAD /* Profile */,
@@ -639,6 +685,7 @@
 				8D30BF9F24EF024200970050 /* FirebaseImage.swift in Sources */,
 				8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */,
 				8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */,
+				8D3195E92566E64F00314B31 /* QuadTabView.swift in Sources */,
 				8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */,
 				8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */,
 				8D002D6F24F05FF100518590 /* EventsTabItemView.swift in Sources */,
@@ -669,6 +716,7 @@
 				FA2B0EDF24F2117600B746FB /* CalendarUtil.swift in Sources */,
 				8D7104032541D83E00F13CCA /* User.swift in Sources */,
 				8D71040B2541DB5600F13CCA /* Event_new.swift in Sources */,
+				8D3195ED2566E65E00314B31 /* ChatTabView.swift in Sources */,
 				FABA036324F457D5007C4878 /* SettingsView.swift in Sources */,
 				FA2B0EE324F2C71300B746FB /* HomeTabViewModel.swift in Sources */,
 				FAFC90A124F3736E00177273 /* ImagePicker.swift in Sources */,
