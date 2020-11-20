@@ -13,11 +13,11 @@ import SDWebImageSwiftUI
 
 struct UserProfile: View {
     
-    var uid = ""
-    @ObservedObject var thisUserRepo = ThisUserRepo()
-    @ObservedObject var profileVM: ProfileViewModel
-    @State var userPicUrl = ""
-    @State var editProfile = false
+    @ObservedObject var thisUserRepo : ThisUserRepo
+    @ObservedObject var profileVM : ProfileViewModel
+    @Binding var picUrl : String
+    var uid : String
+    
     @State var seeMemberRequests = false
     @State var selection : Int? = nil
     @State private var settingsPresented = false
@@ -29,11 +29,27 @@ struct UserProfile: View {
     @State private var eventLoadingWheelAnimating = true
     
     
-    init(uid: String) {
-        self.profileVM = ProfileViewModel(uid: uid)
+    
+    // First person profile for tab bar
+    init(thisUserRepo: ThisUserRepo, profileVM: ProfileViewModel, picUrl: Binding<String>, uid: String){
+        self.thisUserRepo = thisUserRepo
+        self.profileVM = profileVM
+        self._picUrl = picUrl
         self.uid = uid
     }
     
+    
+    // Third person Profile
+    init(uid: String){
+        self.init(
+            thisUserRepo: ThisUserRepo(),
+            profileVM: ProfileViewModel(uid: uid),
+            picUrl: Binding.constant(Utils.userProfileImagePath(userId: uid)),
+            uid: uid
+            )
+    }
+    
+
     
     var body: some View {
         ScrollView {
@@ -44,14 +60,13 @@ struct UserProfile: View {
                     
                     // MARK: Profile Image
                     FirebaseImage(
-                        path: Utils.userProfileImagePath(userId: self.uid),
+                        path: self.picUrl,
                         placeholder: Image(systemName: "person.crop.circle.fill"),
                         width: 150,
                         height: 150,
                         shape: RoundedRectangle(cornerRadius: 75)
                     ).padding(.horizontal, 10)
-                    
-                    
+                                        
                     
                     // MARK: Profile Info
                     VStack (alignment: .leading){
@@ -69,24 +84,10 @@ struct UserProfile: View {
                             Text(self.profileVM.profileRepo.userProfile.degree ?? "").padding(.bottom, 10)
                         }
                    
-                        // 3rd person?
-                        if Auth.auth().currentUser != nil && profileVM.profileRepo.userProfile.id == Auth.auth().currentUser!.uid { // check if this is 3rd person user
-                            Button(action: {
-                                self.editProfile.toggle()
-                            }){
-                                Text("Edit").sheet(isPresented: $editProfile, onDismiss: {
-                                    
-                                    // refresh profile pic
-                                    FirebasePostImage.getPicUrl(picUrl: self.$userPicUrl,
-                                                                path: self.profileVM.profileRepo.userProfile.getProfileImgPath())
-                                    
-                                }){
-                                    EditUserProfile(userProfile: self.profileVM.profileRepo.userProfile,
-                                                    nameInput: self.profileVM.profileRepo.userProfile.name)
-                                }
-                            }.padding(.bottom, 10)
-                            
-                        } else { // MARK: Membership Buttons
+                        // 3rd person? -> show membership buttons
+                        if Auth.auth().currentUser == nil || profileVM.profileRepo.userProfile.id != Auth.auth().currentUser!.uid { // check if this is 3rd person user
+
+                            // MARK: Membership Buttons
                             // user had to be logged in and not be viewing themselves 3rd party
                             if Auth.auth().currentUser != nil && profileVM.profileRepo.userProfile.id != Auth.auth().currentUser!.uid && profileVM.profileRepo.userProfile.is_organization {
                                 
@@ -196,9 +197,6 @@ struct UserProfile: View {
                 LoadingSpinner().frame(width: UIScreen.screenWidth, height: 5).hidden()   // TODO: quick and dirty
             }
             .padding(.horizontal).padding(.top)
-            .onAppear(){
-                self.userPicUrl = "" //force reload
-            }
         }
     }
 }

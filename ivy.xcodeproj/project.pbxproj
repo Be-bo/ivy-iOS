@@ -21,6 +21,7 @@
 		8D30D18024F579180020999D /* UserProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30D17F24F579180020999D /* UserProfileSupport.swift */; };
 		8D3195E92566E64F00314B31 /* QuadTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195E82566E64F00314B31 /* QuadTabView.swift */; };
 		8D3195ED2566E65E00314B31 /* ChatTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195EC2566E65E00314B31 /* ChatTabView.swift */; };
+		8D3195F02566EEF700314B31 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195EF2566EEF700314B31 /* ProfileTabView.swift */; };
 		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
 		8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */; };
 		8D7104032541D83E00F13CCA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104002541D83D00F13CCA /* User.swift */; };
@@ -103,6 +104,7 @@
 		8D30D17F24F579180020999D /* UserProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSupport.swift; sourceTree = "<group>"; };
 		8D3195E82566E64F00314B31 /* QuadTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadTabView.swift; sourceTree = "<group>"; };
 		8D3195EC2566E65E00314B31 /* ChatTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTabView.swift; sourceTree = "<group>"; };
+		8D3195EF2566EEF700314B31 /* ProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabView.swift; sourceTree = "<group>"; };
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignupViewModel.swift; sourceTree = "<group>"; };
 		8D7104002541D83D00F13CCA /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -351,10 +353,10 @@
 		FA5DEF9524B6970D00C397CB /* ivy-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				FAE4734424E1B0F3003E3991 /* App */,
+				FA6D77C424FC808100EA216C /* ivy-iOS.entitlements */,
 				8D3195E42566E60400314B31 /* Quad */,
 				8D3195E32566E5FB00314B31 /* Chat */,
-				FA6D77C424FC808100EA216C /* ivy-iOS.entitlements */,
-				FAE4734424E1B0F3003E3991 /* App */,
 				FA96E8AE24E5AC3700E33BAD /* Profile */,
 				FA96E8AD24E5AC2F00E33BAD /* Events */,
 				FA96E8AC24E5AC1A00E33BAD /* Home */,
@@ -418,6 +420,7 @@
 				8D98D12624F0668800F58539 /* UserProfile.swift */,
 				FABA036624F47A33007C4878 /* NotificationCenterView.swift */,
 				FABA036824F47EA9007C4878 /* MemberListRow.swift */,
+				8D3195EF2566EEF700314B31 /* ProfileTabView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				FA7274AC24F1E3B70071A98C /* ExploreAllEventsItemView.swift in Sources */,
 				FABA035C24F432E9007C4878 /* StaticDomainList.swift in Sources */,
 				FA201E8D24F0610B003495DB /* EventRepo.swift in Sources */,
+				8D3195F02566EEF700314B31 /* ProfileTabView.swift in Sources */,
 				8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */,
 				FA96E8AA24E5980E00E33BAD /* StandardButtonStyle.swift in Sources */,
 				FA2B0EEB24F2CC2B00B746FB /* HomePostView.swift in Sources */,

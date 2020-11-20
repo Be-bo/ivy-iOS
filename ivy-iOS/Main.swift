@@ -65,22 +65,20 @@ struct Main: View {
             .tag(2)
 
             
-            // MARK: QUAD
-            QuadTabView()
-                .tabItem{
-                    selection == 3 ? Image(systemName: "person.3.fill").font(.system(size: 25)) : Image(systemName: "person.3").font(.system(size: 25))
-                    Text("Quad")
-            }
-            .tag(3)
+            if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
+                
+                // MARK: QUAD
+                QuadTabView()
+                    .tabItem{
+                        selection == 3 ? Image(systemName: "person.2.square.stack.fill").font(.system(size: 25)) : Image(systemName: "person.2.square.stack").font(.system(size: 25))
+                        Text("Quad")
+                }
+                .tag(3)
             
 
-            // MARK: Profile
-            if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
-                NavigationView{
-                    UserProfile(uid: Auth.auth().currentUser!.uid) //MARK: todo, sensitive
-                }
-                .navigationViewStyle(StackNavigationViewStyle())
-                .tabItem {
+                // MARK: Profile
+                ProfileTabView(uid: Auth.auth().currentUser!.uid)
+                    .tabItem {
                         selection == 4 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         Text("Profile")
                 }
