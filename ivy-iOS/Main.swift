@@ -68,7 +68,7 @@ struct Main: View {
             if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
                 
                 // MARK: QUAD
-                QuadTabView()
+                QuadTabView(thisUserRepo: thisUserRepo)
                     .tabItem{
                         selection == 3 ? Image(systemName: "person.2.square.stack.fill").font(.system(size: 25)) : Image(systemName: "person.2.square.stack").font(.system(size: 25))
                         Text("Quad")

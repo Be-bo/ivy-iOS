@@ -22,6 +22,10 @@
 		8D3195E92566E64F00314B31 /* QuadTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195E82566E64F00314B31 /* QuadTabView.swift */; };
 		8D3195ED2566E65E00314B31 /* ChatTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195EC2566E65E00314B31 /* ChatTabView.swift */; };
 		8D3195F02566EEF700314B31 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195EF2566EEF700314B31 /* ProfileTabView.swift */; };
+		8D3195F5256770AE00314B31 /* QuadTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195F4256770AE00314B31 /* QuadTabViewModel.swift */; };
+		8D3195F9256770DB00314B31 /* QuadRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195F8256770DB00314B31 /* QuadRepo.swift */; };
+		8D31960025677BCE00314B31 /* QuadCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195FF25677BCE00314B31 /* QuadCardView.swift */; };
+		8D31960325677C1C00314B31 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D31960225677C1C00314B31 /* UserViewModel.swift */; };
 		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
 		8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */; };
 		8D7104032541D83E00F13CCA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104002541D83D00F13CCA /* User.swift */; };
@@ -105,6 +109,10 @@
 		8D3195E82566E64F00314B31 /* QuadTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadTabView.swift; sourceTree = "<group>"; };
 		8D3195EC2566E65E00314B31 /* ChatTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTabView.swift; sourceTree = "<group>"; };
 		8D3195EF2566EEF700314B31 /* ProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabView.swift; sourceTree = "<group>"; };
+		8D3195F4256770AE00314B31 /* QuadTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadTabViewModel.swift; sourceTree = "<group>"; };
+		8D3195F8256770DB00314B31 /* QuadRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadRepo.swift; sourceTree = "<group>"; };
+		8D3195FF25677BCE00314B31 /* QuadCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadCardView.swift; sourceTree = "<group>"; };
+		8D31960225677C1C00314B31 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignupViewModel.swift; sourceTree = "<group>"; };
 		8D7104002541D83D00F13CCA /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -258,6 +266,7 @@
 		8D3195E42566E60400314B31 /* Quad */ = {
 			isa = PBXGroup;
 			children = (
+				8D3195F7256770CB00314B31 /* Model */,
 				8D3195E62566E61C00314B31 /* ViewModel */,
 				8D3195E52566E61200314B31 /* View */,
 			);
@@ -268,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				8D3195E82566E64F00314B31 /* QuadTabView.swift */,
+				8D3195FF25677BCE00314B31 /* QuadCardView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -275,6 +285,8 @@
 		8D3195E62566E61C00314B31 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				8D3195F4256770AE00314B31 /* QuadTabViewModel.swift */,
+				8D31960225677C1C00314B31 /* UserViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -285,6 +297,14 @@
 				8D3195EC2566E65E00314B31 /* ChatTabView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		8D3195F7256770CB00314B31 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8D3195F8256770DB00314B31 /* QuadRepo.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		8D515D1124E73CE900D67144 /* Model */ = {
@@ -693,6 +713,7 @@
 				8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */,
 				8D002D6F24F05FF100518590 /* EventsTabItemView.swift in Sources */,
 				8D7104082541DB4500F13CCA /* Post_new.swift in Sources */,
+				8D31960325677C1C00314B31 /* UserViewModel.swift in Sources */,
 				8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */,
 				FA4B722A24F2D96E008A86FC /* PostScreen.swift in Sources */,
 				8DD2C37324F429FC0067A507 /* EditUserProfile.swift in Sources */,
@@ -742,6 +763,7 @@
 				FABA035D24F432E9007C4878 /* StaticDegreesList.swift in Sources */,
 				FA7274AC24F1E3B70071A98C /* ExploreAllEventsItemView.swift in Sources */,
 				FABA035C24F432E9007C4878 /* StaticDomainList.swift in Sources */,
+				8D31960025677BCE00314B31 /* QuadCardView.swift in Sources */,
 				FA201E8D24F0610B003495DB /* EventRepo.swift in Sources */,
 				8D3195F02566EEF700314B31 /* ProfileTabView.swift in Sources */,
 				8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */,
@@ -750,8 +772,10 @@
 				FA201E9124F06332003495DB /* EventTabViewModel.swift in Sources */,
 				FABA036724F47A33007C4878 /* NotificationCenterView.swift in Sources */,
 				FA2B0ED524F2031D00B746FB /* PersonCircleView.swift in Sources */,
+				8D3195F5256770AE00314B31 /* QuadTabViewModel.swift in Sources */,
 				FA5DEF9724B6970D00C397CB /* AppDelegate.swift in Sources */,
 				8D98D12924F0668800F58539 /* UserProfile.swift in Sources */,
+				8D3195F9256770DB00314B31 /* QuadRepo.swift in Sources */,
 				FA6D77BD24FB0A9700EA216C /* CommentView.swift in Sources */,
 				FA5DEF9924B6970D00C397CB /* SceneDelegate.swift in Sources */,
 			);

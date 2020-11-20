@@ -22,47 +22,46 @@ struct FirebaseImage<S>: View where S:Shape{
     @State private var imageURL = ""
     let storage = Storage.storage().reference()
 
-    var path: String
+    @Binding var path: String
     var placeholder: Image
-    var width: CGFloat? = 100
-    var height: CGFloat? = 100
+    var width: CGFloat?
+    var height: CGFloat?
     var shape: S
+    
+    
+    // If you want to use a binding value
+    init(path: Binding<String>, placeholder : Image, width: CGFloat? = 100, height: CGFloat? = 100, shape: S) {
+        self._path = path
+        self.placeholder = placeholder
+        self.width = width
+        self.height = height
+        self.shape = shape
+    }
+    
+    // Convenience
+    init(path: String, placeholder : Image, width: CGFloat? = 100, height: CGFloat? = 100, shape: S) {
+        self.init(path: Binding.constant(path), placeholder: placeholder, width: width, height: height, shape: shape)
+    }
+    
     
         
     var body: some View {
-        /*if #available(iOS 14.0, *) {
-            WebImage(url: URL(string: imageURL))
-                .placeholder(placeholder)
-                .clipShape(shape)
-                .onAppear(){
-                    if (!self.path.isEmpty && self.path != "nothing") {
-                        self.storage.child(self.path).downloadURL { (url, err) in
-                            if err != nil{
-                                print("Error loading image from storage: '\(path)'")
-                                return
-                            }
-                            self.imageURL = "\(url!)"
+        WebImage(url: URL(string: imageURL))
+            .resizable()
+            .placeholder(placeholder)
+            .frame(width: width, height: height)
+            .clipShape(shape)
+            .onAppear(){
+                if (!self.path.isEmpty && self.path != "nothing") {
+                    self.storage.child(self.path).downloadURL { (url, err) in
+                        if err != nil{
+                            print("Error loading image from storage: '\(path)'")
+                            return
                         }
+                        self.imageURL = "\(url!)"
                     }
-            }
-        } else {*/
-            WebImage(url: URL(string: imageURL))
-                .resizable()
-                .placeholder(placeholder)
-                .frame(width: width, height: height)
-                .clipShape(shape)
-                .onAppear(){
-                    if (!self.path.isEmpty && self.path != "nothing") {
-                        self.storage.child(self.path).downloadURL { (url, err) in
-                            if err != nil{
-                                print("Error loading image from storage: '\(path)'")
-                                return
-                            }
-                            self.imageURL = "\(url!)"
-                        }
-                    }
-            }
-        //}
+                }
+        }
     }
 }
 
@@ -96,20 +95,6 @@ struct FirebasePostImage: View{
                         self.imageURL = "\(url!)"
                     }
                 }
-        }
-    }
-    
-    
-    // Static function to get a picUrl
-    static func getPicUrl(picUrl : Binding<String>, path : String){
-        picUrl.wrappedValue = "test" // to force update even when it's ""
-        let storage = Storage.storage().reference()
-        storage.child(path).downloadURL { (url, err) in
-            if err != nil{
-                print("Error loading org profile image.")
-                return
-            }
-            picUrl.wrappedValue = "\(url!)"
         }
     }
 }

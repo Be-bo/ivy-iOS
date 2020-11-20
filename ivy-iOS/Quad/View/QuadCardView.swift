@@ -1,0 +1,26 @@
+//
+//  QuadCardView.swift
+//  ivy
+//
+//  Created by Zahra Ghavasieh on 2020-11-19.
+//  Copyright © 2020 ivy. All rights reserved.
+//
+
+import SwiftUI
+
+struct QuadCardView: View {
+    
+    @ObservedObject var userVM: UserViewModel
+    
+    var body: some View {
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        /* TODO:
+         * display as cards: large event items
+         * person's name, degree, chat button
+         * remove from quad if chat created
+         * if tapped, go to profile
+         
+         */
+    }
+}

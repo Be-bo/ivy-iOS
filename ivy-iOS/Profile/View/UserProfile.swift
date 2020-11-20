@@ -60,7 +60,7 @@ struct UserProfile: View {
                     
                     // MARK: Profile Image
                     FirebaseImage(
-                        path: self.picUrl,
+                        path: self.$picUrl,
                         placeholder: Image(systemName: "person.crop.circle.fill"),
                         width: 150,
                         height: 150,

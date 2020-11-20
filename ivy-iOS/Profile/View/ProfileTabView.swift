@@ -5,6 +5,8 @@
 //  Created by Zahra Ghavasieh on 2020-11-19.
 //  Copyright © 2020 ivy. All rights reserved.
 //
+//  TODO: profile image doesn't update automatically after edit
+//
 
 import SwiftUI
 import FirebaseAuth
@@ -14,6 +16,7 @@ struct ProfileTabView: View {
     var uid = ""
     @ObservedObject var profileVM : ProfileViewModel
     @ObservedObject var thisUserRepo = ThisUserRepo()
+
 
     @State var userPicUrl = ""
     @State var editProfilePresented = false
@@ -71,7 +74,7 @@ struct ProfileTabView: View {
                     }){
                         Image(systemName: "pencil").font(.system(size: 25))
                             .sheet(isPresented: $editProfilePresented, onDismiss: {
-                            self.userPicUrl = ""
+                            self.userPicUrl = "NEW PATH"
                         }){
                             EditUserProfile(
                                 userProfile: self.profileVM.profileRepo.userProfile,
