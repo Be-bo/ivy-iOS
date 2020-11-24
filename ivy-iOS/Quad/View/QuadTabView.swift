@@ -13,11 +13,22 @@ import Firebase
 
 struct QuadTabView: View {
     
-    var thisUserRepo: ThisUserRepo
-    @ObservedObject var quadTabVM = QuadTabViewModel()
+    var thisUserRepo : ThisUserRepo
+    @ObservedObject var quadTabVM : QuadTabViewModel
     @State private var settingsPresented = false
     @State private var loadingWheelAnimating = true
+    @State private var offset = CGSize.zero
+    
 
+    
+    
+    init(thisUserRepo: ThisUserRepo) {
+        self.thisUserRepo = thisUserRepo
+        quadTabVM = QuadTabViewModel(id: thisUserRepo.user.id)
+    }
+    
+    
+    
     
     var body: some View {
         
@@ -25,25 +36,24 @@ struct QuadTabView: View {
             
             // MARK: Horizontal List of people
             HStack {
-                List(){
-                    ForEach(quadTabVM.quadUsersVMs){ userVM in
-                        QuadCardView(userVM: userVM)
-                    }
-                    
-                    if quadTabVM.usersLoaded == false {
-                        HStack{
-                            Spacer()
-                            ActivityIndicator($loadingWheelAnimating)
-                                .onAppear {
-                                    self.quadTabVM.fetchNextBatch()
-                                }
-                            Spacer()
-                        }
+                ForEach(quadTabVM.quadUsersVMs){ userVM in
+                    QuadCardView(userVM: userVM)
+                }
+                
+                if !quadTabVM.usersLoaded {
+                    VStack{
+                        Spacer()
+                        ActivityIndicator($loadingWheelAnimating)
+                            .onAppear {
+                                self.quadTabVM.fetchNextBatch()
+                            }
+                        Spacer()
                     }
                 }
                 
-                if(quadTabVM.quadUsersVMs.count < 1){
-                    Text("No other users on this campus :(")
+                
+                if(quadTabVM.quadUsersVMs.count < 1 && quadTabVM.usersLoaded){
+                    Text("No other users :(")
                         .font(.system(size: 25))
                         .foregroundColor(AssetManager.ivyLightGrey)
                         .multilineTextAlignment(.center)

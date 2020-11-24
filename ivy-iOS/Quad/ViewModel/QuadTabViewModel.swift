@@ -12,16 +12,14 @@ import Combine
 class QuadTabViewModel: ObservableObject {
     
     @Published var quadUsersVMs = [UserViewModel]()
-    @Published var usersLoaded = false {
-        didSet { //TODO: test this
-            print("QuadTabVM: usersLoaded changed! val: \(usersLoaded)")
-        }
-    }
-    private var quadRepo = QuadRepo()
+    @Published var usersLoaded = false
+    private var quadRepo : QuadRepo
     private var cancellables = Set<AnyCancellable>()
 
     
-    init() {
+    // Place a listener for important values
+    init(id: String) {
+        self.quadRepo = QuadRepo(id: id)
         
         quadRepo.$users.map { users in
             users.map{ user in
@@ -31,16 +29,17 @@ class QuadTabViewModel: ObservableObject {
         .assign(to: \.quadUsersVMs, on: self)
         .store(in: &cancellables)
         
-        // TODO: THIS IS WROOOONG
-        $usersLoaded.compactMap { usersLoaded in
-            self.quadRepo.usersLoaded
-        }
+        quadRepo.$usersLoaded
         .assign(to: \.usersLoaded, on: self)
         .store(in: &cancellables)
     }
     
+    
+    // Fetch next batch if not already loading
     func fetchNextBatch() {
-        quadRepo.loadUsers()
+        if (!quadRepo.usersLoading) {
+            quadRepo.loadUsers()
+        }
     }
 
 }

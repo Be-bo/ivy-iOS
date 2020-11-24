@@ -12,8 +12,22 @@ struct QuadCardView: View {
     
     @ObservedObject var userVM: UserViewModel
     
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            
+            FirebaseCardImage(
+                path: Utils.userProfileImagePath(userId: self.userVM.id),
+                width: .infinity,
+                shape: RoundedRectangle(cornerRadius: 25)
+            )
+            
+            VStack {
+                Spacer()
+                Text(userVM.user.name).foregroundColor(.red)
+            }
+
+        }
         
         /* TODO:
          * display as cards: large event items

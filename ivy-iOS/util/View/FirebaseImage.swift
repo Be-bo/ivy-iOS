@@ -98,3 +98,39 @@ struct FirebasePostImage: View{
         }
     }
 }
+
+
+// For users in Quad only
+struct FirebaseCardImage: View{
+    
+    @State private var imageURL = ""
+    let storage = Storage.storage().reference()
+
+    var path: String
+    var placeholder = Image(systemName: "person.crop.square.fill")
+    var width: CGFloat? = .infinity
+    var height: CGFloat? = .infinity
+    let shape = RoundedRectangle(cornerRadius: 25)
+    
+    
+    var body: some View {
+        WebImage(url: URL(string: imageURL))
+            .resizable()
+            .placeholder(placeholder)
+            .background(Color.white)
+            .frame(width: width, height: height)
+            .clipShape(shape)
+            .onAppear(){
+                if (!self.path.isEmpty && self.path != "nothing") {
+                    self.storage.child(self.path).downloadURL { (url, err) in
+                        if err != nil{
+                            print("Error loading Post or Event image from storage: '\(path)'")
+                            return
+                        }
+                        self.imageURL = "\(url!)"
+                    }
+                }
+        }
+    }
+}
+

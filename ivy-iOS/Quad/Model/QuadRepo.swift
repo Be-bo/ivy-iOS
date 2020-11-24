@@ -19,20 +19,32 @@ class QuadRepo: ObservableObject {
     let db = Firestore.firestore()
     let loadLimit = 10
     var lastPulledDoc: DocumentSnapshot?
+    var blackList = [String]()              // User Ids to not fetch
     
     @Published var users = [User]()
-    @Published var usersLoaded = false
+    @Published var usersLoaded = false  // Chack if all users loaded
+    @Published var usersLoading = false // Check if already fetching a batch
     
     
-    init() {
+    
+    init(id: String) {
+        self.blackList.append(id)   // Don't fetch this user
+        loadBlackList()
+    }
+    
+    
+    
+    // Fetch the User's blackList (blocked / already has a conversation with)
+    func loadBlackList() {
+        //TODO: don't fetch blacklist or added users
         self.loadUsers(start: true)
     }
     
     
     //TODO: fetch randomly
-    //TODO: don't fetch blacklist or added users
     // Paginated fetch users
     func loadUsers(start: Bool = false) {
+        self.usersLoading = true
         
         if start {
             usersLoaded = false
@@ -40,7 +52,8 @@ class QuadRepo: ObservableObject {
         }
         
         // Build query
-        var query = db.collection("universities").document(Utils.getCampusUni()).collection("users")
+        var query = db.collection("users")
+            .whereField("id", notIn: self.blackList)
             .order(by: "id")
             
         // Fetch next batch if this is not the first
@@ -52,9 +65,8 @@ class QuadRepo: ObservableObject {
             if error != nil {
                 print(error!)
                 self.usersLoaded = true
-                return
             }
-            if let querSnap = QuerySnapshot {
+            else if let querSnap = QuerySnapshot {
                 self.users.append(contentsOf: querSnap.documents.compactMap { document in
                     return try? document.data(as: User.self)
                 })
@@ -67,7 +79,7 @@ class QuadRepo: ObservableObject {
                     self.usersLoaded = true
                 }
             }
-            
+            self.usersLoading = false
         }
         
     }
