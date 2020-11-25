@@ -31,6 +31,7 @@
 		8D7104032541D83E00F13CCA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104002541D83D00F13CCA /* User.swift */; };
 		8D7104082541DB4500F13CCA /* Post_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104072541DB4500F13CCA /* Post_new.swift */; };
 		8D71040B2541DB5600F13CCA /* Event_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D71040A2541DB5600F13CCA /* Event_new.swift */; };
+		8D8D1002256DF01C00A559DD /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8D1001256DF01C00A559DD /* ChatRoomView.swift */; };
 		8D98D12924F0668800F58539 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12624F0668800F58539 /* UserProfile.swift */; };
 		8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */; };
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
@@ -118,6 +119,7 @@
 		8D7104002541D83D00F13CCA /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8D7104072541DB4500F13CCA /* Post_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post_new.swift; sourceTree = "<group>"; };
 		8D71040A2541DB5600F13CCA /* Event_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event_new.swift; sourceTree = "<group>"; };
+		8D8D1001256DF01C00A559DD /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
 		8D98D12624F0668800F58539 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				8D3195EC2566E65E00314B31 /* ChatTabView.swift */,
+				8D8D1001256DF01C00A559DD /* ChatRoomView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -724,6 +727,7 @@
 				8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */,
 				8D30D17E24F55B460020999D /* UserRepo.swift in Sources */,
 				FAA369D224F1EACC00F6CA63 /* EventScreenView.swift in Sources */,
+				8D8D1002256DF01C00A559DD /* ChatRoomView.swift in Sources */,
 				8D1BD5B62554BB4F00C69105 /* CreateEventViewModel.swift in Sources */,
 				FA6D77C824FCA10800EA216C /* NotificationSender.swift in Sources */,
 				FA6D77C324FC5AAD00EA216C /* NotificationViewModel.swift in Sources */,

@@ -35,29 +35,33 @@ struct QuadTabView: View {
         NavigationView {
             
             // MARK: Horizontal List of people
-            HStack {
-                ForEach(quadTabVM.quadUsersVMs){ userVM in
-                    QuadCardView(userVM: userVM)
-                }
-                
-                if !quadTabVM.usersLoaded {
-                    VStack{
-                        Spacer()
-                        ActivityIndicator($loadingWheelAnimating)
-                            .onAppear {
-                                self.quadTabVM.fetchNextBatch()
+            ScrollView(.horizontal) {
+                HStack {
+                        
+                        ForEach(quadTabVM.quadUsersVMs){ userVM in
+                            QuadCardView(userVM: userVM)
+                                .padding()
+                        }
+                        
+                        if !quadTabVM.usersLoaded {
+                            VStack(alignment: .center){
+                                Spacer()
+                                ActivityIndicator($loadingWheelAnimating)
+                                    .onAppear {
+                                        self.quadTabVM.fetchNextBatch()
+                                    }
+                                Spacer()
                             }
-                        Spacer()
-                    }
-                }
-                
-                
-                if(quadTabVM.quadUsersVMs.count < 1 && quadTabVM.usersLoaded){
-                    Text("No other users :(")
-                        .font(.system(size: 25))
-                        .foregroundColor(AssetManager.ivyLightGrey)
-                        .multilineTextAlignment(.center)
-                        .padding(30)
+                        }
+                        
+                        if(quadTabVM.quadUsersVMs.count < 1 && quadTabVM.usersLoaded){
+                            Text("No other users :(")
+                                .font(.system(size: 25))
+                                .foregroundColor(AssetManager.ivyLightGrey)
+                                .multilineTextAlignment(.center)
+                                .padding(30)
+                        }
+
                 }
             }
             

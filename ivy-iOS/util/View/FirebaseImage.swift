@@ -108,8 +108,8 @@ struct FirebaseCardImage: View{
 
     var path: String
     var placeholder = Image(systemName: "person.crop.square.fill")
-    var width: CGFloat? = .infinity
-    var height: CGFloat? = .infinity
+    var width: CGFloat? = UIScreen.screenWidth - 30
+    var height: CGFloat? = UIScreen.screenHeight - 80
     let shape = RoundedRectangle(cornerRadius: 25)
     
     
@@ -117,14 +117,14 @@ struct FirebaseCardImage: View{
         WebImage(url: URL(string: imageURL))
             .resizable()
             .placeholder(placeholder)
-            .background(Color.white)
+            .aspectRatio(contentMode: .fill)
             .frame(width: width, height: height)
             .clipShape(shape)
             .onAppear(){
                 if (!self.path.isEmpty && self.path != "nothing") {
                     self.storage.child(self.path).downloadURL { (url, err) in
                         if err != nil{
-                            print("Error loading Post or Event image from storage: '\(path)'")
+                            print("Error Card image from storage: '\(path)'")
                             return
                         }
                         self.imageURL = "\(url!)"

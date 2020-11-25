@@ -11,30 +11,64 @@ import SwiftUI
 struct QuadCardView: View {
     
     @ObservedObject var userVM: UserViewModel
+    @State var selection : Int? = nil
     
     
     var body: some View {
         ZStack {
+
+            // MARK: Picture
+            FirebaseCardImage(path: Utils.userProfileImagePath(userId: self.userVM.id))
+
             
-            FirebaseCardImage(
-                path: Utils.userProfileImagePath(userId: self.userVM.id),
-                width: .infinity,
-                shape: RoundedRectangle(cornerRadius: 25)
-            )
-            
-            VStack {
+            // MARK: User Info
+            VStack(alignment: .leading) {
+                
+                // MARK: Chat Button
+                ZStack {
+                    HStack {
+                        Spacer()
+                        
+                        Button(action: {
+                                self.selection = 1
+                        }){
+                            Image(systemName: "message.circle")
+                                .font(.system(size: 35))
+                                .foregroundColor(AssetManager.ivyGreen)
+                        }
+                    }
+                
+                    NavigationLink(destination: ChatRoomView().navigationBarTitle("Message \(userVM.user.name)", displayMode: .inline), tag: 1, selection: self.$selection) {
+                            EmptyView()
+                    }
+                }
+                
                 Spacer()
-                Text(userVM.user.name).foregroundColor(.red)
+                
+                ZStack {
+                    Button(action: {
+                        self.selection = 2
+                    }) {
+                        Text(userVM.user.name).bold()
+                    }
+                    
+                    // Go To User Profile
+                    NavigationLink(destination: UserProfile(uid: userVM.id).navigationBarTitle("Profile", displayMode: .inline),
+                                   tag:2,
+                                   selection: self.$selection) {
+                        EmptyView()
+                    }
+                }
+                
+                Text(userVM.user.degree ?? "")
             }
+            .padding()
+            .padding(.bottom, 40)
+            .background(LinearGradient(
+                            gradient: SwiftUI.Gradient(colors: [Color.white.opacity(0), .white]),
+                            startPoint: .center,
+                            endPoint: .bottom))
 
         }
-        
-        /* TODO:
-         * display as cards: large event items
-         * person's name, degree, chat button
-         * remove from quad if chat created
-         * if tapped, go to profile
-         
-         */
     }
 }
