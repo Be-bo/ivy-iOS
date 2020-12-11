@@ -31,7 +31,6 @@ class User: Identifiable, Codable {
     
     // Currently unused
     var is_private = false
-    var post_ids = [String]()
     
     // Organization
     var member_ids: [String]?

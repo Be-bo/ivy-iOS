@@ -47,29 +47,6 @@ class Post_new: Identifiable, Codable {
     }
     
     
-    // Convenience Method to convert to old version of Post
-    // TODO: delete later
-    func convertNewToOld() -> Post {
-        let post = Post()
-        
-        post.id = id
-        post.uni_domain = uni_domain
-        post.author_id = author_id
-        post.author_name = author_name
-        post.author_is_organization = author_is_organization
-        post.is_event = is_event
-        post.creation_millis = creation_millis
-        post.creation_platform = creation_platform
-        post.text = text
-        post.visual = visual
-        post.pinned_id = pinned_id
-        post.pinned_name = pinned_name
-        post.views_id = views_id
-        
-        return post
-    }
-    
-    
     // Convenience Functions
     func setAuthor(id: String, name: String, is_org: Bool) {
         self.author_id = id

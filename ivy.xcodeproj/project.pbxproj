@@ -32,6 +32,15 @@
 		8D7104082541DB4500F13CCA /* Post_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104072541DB4500F13CCA /* Post_new.swift */; };
 		8D71040B2541DB5600F13CCA /* Event_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D71040A2541DB5600F13CCA /* Event_new.swift */; };
 		8D8D1002256DF01C00A559DD /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8D1001256DF01C00A559DD /* ChatRoomView.swift */; };
+		8D91D7342582D8B60067FAB1 /* ChatTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D7332582D8B60067FAB1 /* ChatTabViewModel.swift */; };
+		8D91D7382582D93E0067FAB1 /* ChatRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D7372582D93E0067FAB1 /* ChatRepo.swift */; };
+		8D91D73B2582D94D0067FAB1 /* ChatRoomRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D73A2582D94D0067FAB1 /* ChatRoomRepo.swift */; };
+		8D91D73E2582D95F0067FAB1 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D73D2582D95F0067FAB1 /* ChatRoomViewModel.swift */; };
+		8D91D7412582F0470067FAB1 /* ChatLobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D7402582F0470067FAB1 /* ChatLobbyView.swift */; };
+		8D91D744258301D50067FAB1 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D743258301D50067FAB1 /* Message.swift */; };
+		8D91D747258303BE0067FAB1 /* Chatroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D746258303BE0067FAB1 /* Chatroom.swift */; };
+		8D91D74A258321420067FAB1 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D749258321420067FAB1 /* MessageViewModel.swift */; };
+		8D91D74D258323720067FAB1 /* ChatRoomItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D74C258323720067FAB1 /* ChatRoomItemView.swift */; };
 		8D98D12924F0668800F58539 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98D12624F0668800F58539 /* UserProfile.swift */; };
 		8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */; };
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
@@ -120,6 +129,15 @@
 		8D7104072541DB4500F13CCA /* Post_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post_new.swift; sourceTree = "<group>"; };
 		8D71040A2541DB5600F13CCA /* Event_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event_new.swift; sourceTree = "<group>"; };
 		8D8D1001256DF01C00A559DD /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
+		8D91D7332582D8B60067FAB1 /* ChatTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTabViewModel.swift; sourceTree = "<group>"; };
+		8D91D7372582D93E0067FAB1 /* ChatRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepo.swift; sourceTree = "<group>"; };
+		8D91D73A2582D94D0067FAB1 /* ChatRoomRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomRepo.swift; sourceTree = "<group>"; };
+		8D91D73D2582D95F0067FAB1 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		8D91D7402582F0470067FAB1 /* ChatLobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLobbyView.swift; sourceTree = "<group>"; };
+		8D91D743258301D50067FAB1 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		8D91D746258303BE0067FAB1 /* Chatroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chatroom.swift; sourceTree = "<group>"; };
+		8D91D749258321420067FAB1 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
+		8D91D74C258323720067FAB1 /* ChatRoomItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomItemView.swift; sourceTree = "<group>"; };
 		8D98D12624F0668800F58539 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		8DABC13324E5B67600A8F801 /* OrganizationSignup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSignup.swift; sourceTree = "<group>"; };
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
@@ -260,6 +278,8 @@
 		8D3195E32566E5FB00314B31 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				8D91D7312582D87C0067FAB1 /* Model */,
+				8D91D7322582D8850067FAB1 /* ViewModel */,
 				8D3195E72566E62F00314B31 /* View */,
 			);
 			path = Chat;
@@ -298,6 +318,8 @@
 			children = (
 				8D3195EC2566E65E00314B31 /* ChatTabView.swift */,
 				8D8D1001256DF01C00A559DD /* ChatRoomView.swift */,
+				8D91D7402582F0470067FAB1 /* ChatLobbyView.swift */,
+				8D91D74C258323720067FAB1 /* ChatRoomItemView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -319,8 +341,29 @@
 				FA6D77B624FB055800EA216C /* Comment.swift */,
 				8D7104072541DB4500F13CCA /* Post_new.swift */,
 				8D71040A2541DB5600F13CCA /* Event_new.swift */,
+				8D91D743258301D50067FAB1 /* Message.swift */,
+				8D91D746258303BE0067FAB1 /* Chatroom.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		8D91D7312582D87C0067FAB1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8D91D7372582D93E0067FAB1 /* ChatRepo.swift */,
+				8D91D73A2582D94D0067FAB1 /* ChatRoomRepo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8D91D7322582D8850067FAB1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				8D91D7332582D8B60067FAB1 /* ChatTabViewModel.swift */,
+				8D91D73D2582D95F0067FAB1 /* ChatRoomViewModel.swift */,
+				8D91D749258321420067FAB1 /* MessageViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		8DD2C37424F432BC0067A507 /* SubView */ = {
@@ -725,15 +768,18 @@
 				FA6D77BF24FC5A8600EA216C /* NotificationRepo.swift in Sources */,
 				FA201E8F24F06234003495DB /* EventItemViewModel.swift in Sources */,
 				8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */,
+				8D91D747258303BE0067FAB1 /* Chatroom.swift in Sources */,
 				8D30D17E24F55B460020999D /* UserRepo.swift in Sources */,
 				FAA369D224F1EACC00F6CA63 /* EventScreenView.swift in Sources */,
 				8D8D1002256DF01C00A559DD /* ChatRoomView.swift in Sources */,
 				8D1BD5B62554BB4F00C69105 /* CreateEventViewModel.swift in Sources */,
 				FA6D77C824FCA10800EA216C /* NotificationSender.swift in Sources */,
+				8D91D744258301D50067FAB1 /* Message.swift in Sources */,
 				FA6D77C324FC5AAD00EA216C /* NotificationViewModel.swift in Sources */,
 				FA7DAF6F24F1837F00B25430 /* Utils.swift in Sources */,
 				FABA036924F47EA9007C4878 /* MemberListRow.swift in Sources */,
 				FA4F750E24FAC6FD009E3275 /* ProfileRepo.swift in Sources */,
+				8D91D7412582F0470067FAB1 /* ChatLobbyView.swift in Sources */,
 				8D1BD5A92554747000C69105 /* CreateEventView.swift in Sources */,
 				FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */,
 				8D002D6124F0349D00518590 /* Event.swift in Sources */,
@@ -751,12 +797,15 @@
 				FA4F751824FB00AE009E3275 /* CommentRepo.swift in Sources */,
 				8D30BFA324EF166000970050 /* GridView.swift in Sources */,
 				FA6D77C124FC5A9500EA216C /* NotificationListViewModel.swift in Sources */,
+				8D91D73B2582D94D0067FAB1 /* ChatRoomRepo.swift in Sources */,
 				FA6D77B724FB055800EA216C /* Comment.swift in Sources */,
 				8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */,
 				FAC9825024F71DB800991873 /* StandaloneEventViewModel.swift in Sources */,
+				8D91D73E2582D95F0067FAB1 /* ChatRoomViewModel.swift in Sources */,
 				8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */,
 				FA8223EE24F058D400042AA2 /* EventsTabView.swift in Sources */,
 				FABA035F24F43631007C4878 /* Extensions.swift in Sources */,
+				8D91D7342582D8B60067FAB1 /* ChatTabViewModel.swift in Sources */,
 				FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */,
 				FA2B0EE124F2C65500B746FB /* HomeTabView.swift in Sources */,
 				A9B0A71D24B8058500A11A1D /* Main.swift in Sources */,
@@ -766,6 +815,7 @@
 				FAD2366C24E48DF300F92637 /* TestView.swift in Sources */,
 				FABA035D24F432E9007C4878 /* StaticDegreesList.swift in Sources */,
 				FA7274AC24F1E3B70071A98C /* ExploreAllEventsItemView.swift in Sources */,
+				8D91D7382582D93E0067FAB1 /* ChatRepo.swift in Sources */,
 				FABA035C24F432E9007C4878 /* StaticDomainList.swift in Sources */,
 				8D31960025677BCE00314B31 /* QuadCardView.swift in Sources */,
 				FA201E8D24F0610B003495DB /* EventRepo.swift in Sources */,
@@ -778,9 +828,11 @@
 				FA2B0ED524F2031D00B746FB /* PersonCircleView.swift in Sources */,
 				8D3195F5256770AE00314B31 /* QuadTabViewModel.swift in Sources */,
 				FA5DEF9724B6970D00C397CB /* AppDelegate.swift in Sources */,
+				8D91D74D258323720067FAB1 /* ChatRoomItemView.swift in Sources */,
 				8D98D12924F0668800F58539 /* UserProfile.swift in Sources */,
 				8D3195F9256770DB00314B31 /* QuadRepo.swift in Sources */,
 				FA6D77BD24FB0A9700EA216C /* CommentView.swift in Sources */,
+				8D91D74A258321420067FAB1 /* MessageViewModel.swift in Sources */,
 				FA5DEF9924B6970D00C397CB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

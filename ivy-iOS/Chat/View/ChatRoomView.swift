@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ChatRoomView: View {
+    
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: true){
             VStack {

@@ -37,13 +37,16 @@ struct Main: View {
         // MARK: Tab Bar
         TabView(selection: self.$selection) {
             
-            // MARK: CHAT
-            ChatTabView()
-                .tabItem{
-                    selection == 0 ? Image(systemName: "message.fill").font(.system(size: 25)) : Image(systemName: "message").font(.system(size: 25))
-                    Text("Chat")
+            if (thisUserRepo.userLoggedIn && thisUserRepo.userDocLoaded) {
+                
+                // MARK: CHAT
+                ChatTabView(thisUserRepo: thisUserRepo)
+                    .tabItem{
+                        selection == 0 ? Image(systemName: "message.fill").font(.system(size: 25)) : Image(systemName: "message").font(.system(size: 25))
+                        Text("Chat")
+                }
+                .tag(0)
             }
-            .tag(0)
 
 
             // MARK: Events

@@ -38,29 +38,29 @@ struct QuadTabView: View {
             ScrollView(.horizontal) {
                 HStack {
                         
-                        ForEach(quadTabVM.quadUsersVMs){ userVM in
-                            QuadCardView(userVM: userVM)
-                                .padding()
+                    ForEach(quadTabVM.quadUsersVMs){ userVM in
+                        QuadCardView(userVM: userVM)
+                            .padding()
+                    }
+                    
+                    if !quadTabVM.usersLoaded {
+                        VStack(alignment: .center){
+                            Spacer()
+                            ActivityIndicator($loadingWheelAnimating)
+                                .onAppear {
+                                    self.quadTabVM.fetchNextBatch()
+                                }
+                            Spacer()
                         }
-                        
-                        if !quadTabVM.usersLoaded {
-                            VStack(alignment: .center){
-                                Spacer()
-                                ActivityIndicator($loadingWheelAnimating)
-                                    .onAppear {
-                                        self.quadTabVM.fetchNextBatch()
-                                    }
-                                Spacer()
-                            }
-                        }
-                        
-                        if(quadTabVM.quadUsersVMs.count < 1 && quadTabVM.usersLoaded){
-                            Text("No other users :(")
-                                .font(.system(size: 25))
-                                .foregroundColor(AssetManager.ivyLightGrey)
-                                .multilineTextAlignment(.center)
-                                .padding(30)
-                        }
+                    }
+                    
+                    if(quadTabVM.quadUsersVMs.count < 1 && quadTabVM.usersLoaded){
+                        Text("No other users :(")
+                            .font(.system(size: 25))
+                            .foregroundColor(AssetManager.ivyLightGrey)
+                            .multilineTextAlignment(.center)
+                            .padding(30)
+                    }
 
                 }
             }
@@ -68,26 +68,26 @@ struct QuadTabView: View {
             // MARK: Nav Bar
             .navigationBarItems(
                 leading:
-                        HStack {
-                            Button(action: {
-                                self.settingsPresented.toggle()
-                            }) {
-                                Image(systemName: "gear").font(.system(size: 25))
-                                    .sheet(isPresented: $settingsPresented){
-                                        SettingsView(thisUserRepo: self.thisUserRepo)
-                                }
+                    HStack {
+                        Button(action: {
+                            self.settingsPresented.toggle()
+                        }) {
+                            Image(systemName: "gear").font(.system(size: 25))
+                                .sheet(isPresented: $settingsPresented){
+                                    SettingsView(thisUserRepo: self.thisUserRepo)
                             }
-                            
-                            FirebaseImage(
-                                path: Utils.uniLogoPath(),
-                                placeholder: AssetManager.uniLogoPlaceholder,
-                                width: 40,
-                                height: 40,
-                                shape: RoundedRectangle(cornerRadius: 0)
-                            )
-                            .padding(.leading, (UIScreen.screenWidth/2 - 75))
-                            
-                        }.padding(.leading, 0)
+                        }
+                        
+                        FirebaseImage(
+                            path: Utils.uniLogoPath(),
+                            placeholder: AssetManager.uniLogoPlaceholder,
+                            width: 40,
+                            height: 40,
+                            shape: RoundedRectangle(cornerRadius: 0)
+                        )
+                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
+                        
+                    }.padding(.leading, 0)
             )
             
         }

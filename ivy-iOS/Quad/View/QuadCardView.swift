@@ -23,43 +23,30 @@ struct QuadCardView: View {
             
             // MARK: User Info
             VStack(alignment: .leading) {
-                
-                // MARK: Chat Button
-                ZStack {
-                    HStack {
-                        Spacer()
-                        
-                        Button(action: {
-                                self.selection = 1
-                        }){
-                            Image(systemName: "message.circle")
-                                .font(.system(size: 35))
-                                .foregroundColor(AssetManager.ivyGreen)
-                        }
-                    }
-                
-                    NavigationLink(destination: ChatRoomView().navigationBarTitle("Message \(userVM.user.name)", displayMode: .inline), tag: 1, selection: self.$selection) {
-                            EmptyView()
-                    }
-                }
-                
+
                 Spacer()
                 
-                ZStack {
+                HStack {
+                    
+                    // User name
                     Button(action: {
-                        self.selection = 2
+                        self.selection = 1
                     }) {
                         Text(userVM.user.name).bold()
                     }
                     
-                    // Go To User Profile
-                    NavigationLink(destination: UserProfile(uid: userVM.id).navigationBarTitle("Profile", displayMode: .inline),
-                                   tag:2,
-                                   selection: self.$selection) {
-                        EmptyView()
+                    // Chat Button
+                    Button(action: {
+                        self.selection = 2
+                    }) {
+                        Image(systemName: "message.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(AssetManager.ivyGreen)
                     }
+                    
+                    Spacer()
                 }
-                
+  
                 Text(userVM.user.degree ?? "")
             }
             .padding()
@@ -68,6 +55,21 @@ struct QuadCardView: View {
                             gradient: SwiftUI.Gradient(colors: [Color.white.opacity(0), .white]),
                             startPoint: .center,
                             endPoint: .bottom))
+            .onTapGesture {
+                self.selection = 1
+            }
+            
+            // Go To User Profile
+            NavigationLink(destination: UserProfile(uid: userVM.id).navigationBarTitle("Profile", displayMode: .inline),
+                           tag:1,
+                           selection: self.$selection) {
+                EmptyView()
+            }
+            
+            // Create a new chatroom with user
+            NavigationLink(destination: ChatRoomView().navigationBarTitle("Message \(userVM.user.name)", displayMode: .inline), tag: 2, selection: self.$selection) {
+                    EmptyView()
+            }
 
         }
     }
