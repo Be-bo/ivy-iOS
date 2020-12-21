@@ -17,9 +17,17 @@ class ChatRepo: ObservableObject {
     private let loadLimit = 10
     private var lastPulledDoc: DocumentSnapshot?
     
-    @Published var chatrooms = [Chatroom]()
+    @Published var chatrooms = [Chatroom]() {
+        didSet {
+            print("CHATROOMS: \(chatrooms.count)")
+        }
+    }
     @Published var lastMessages = [Message?]()
-    @Published var chatroomsLoaded = false
+    @Published var chatroomsLoaded = false {
+        didSet {
+            print("LOADED? \(chatroomsLoaded)")
+        }
+    }
     @Published var chatroomsLoading = false
     
     private var userID : String

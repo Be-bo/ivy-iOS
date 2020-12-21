@@ -43,4 +43,10 @@ class ChatTabViewModel: ObservableObject {
         .store(in: &cancellables)
     }
     
+    // Fetch next batch if not already loading
+    func fetchNextBatch() {
+        if (!chatRepo.chatroomsLoading) {
+            chatRepo.loadChatrooms()
+        }
+    }
 }
