@@ -17,17 +17,8 @@ class ChatRepo: ObservableObject {
     private let loadLimit = 10
     private var lastPulledDoc: DocumentSnapshot?
     
-    @Published var chatrooms = [Chatroom]() {
-        didSet {
-            print("CHATROOMS: \(chatrooms.count)")
-        }
-    }
-    @Published var lastMessages = [Message?]()
-    @Published var chatroomsLoaded = false {
-        didSet {
-            print("LOADED? \(chatroomsLoaded)")
-        }
-    }
+    @Published var chatrooms = [Chatroom]()
+    @Published var chatroomsLoaded = false
     @Published var chatroomsLoading = false
     
     private var userID : String
@@ -46,7 +37,6 @@ class ChatRepo: ObservableObject {
         if start {
             chatroomsLoaded = false
             chatrooms = [Chatroom]()
-            lastMessages = [Message?]()
         }
         
         // Build query
@@ -68,7 +58,6 @@ class ChatRepo: ObservableObject {
                     if let room = try?  diff.document.data(as: Chatroom.self) {
                         if (diff.type == .added) {
                             self.chatrooms.append(room)
-                            self.loadLastMessage(room.getPath())
                         }
                         
                         else if let i = self.chatrooms.firstIndex(of: room){
@@ -86,12 +75,5 @@ class ChatRepo: ObservableObject {
             }
             self.chatroomsLoading = false
         }
-    }
-    
-    
-    // Load the Latest message
-    func loadLastMessage(_ chatPath: String) {
-        //MARK: TODO
-        lastMessages.append(nil) //temp
     }
 }

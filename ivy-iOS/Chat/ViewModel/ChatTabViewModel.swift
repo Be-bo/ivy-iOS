@@ -9,10 +9,10 @@
 import Foundation
 import Combine
 
+
 class ChatTabViewModel: ObservableObject {
     
     @Published var chatRoomVMs = [ChatRoomViewModel]()
-    @Published var lastMsgVMs = [MessageViewModel?]()
     @Published var chatroomsLoaded = false
     private var chatRepo : ChatRepo
     private var cancellables = Set<AnyCancellable>()
@@ -24,22 +24,22 @@ class ChatTabViewModel: ObservableObject {
         // Chatroom
         chatRepo.$chatrooms.map { rooms in
             rooms.map { room in
-                ChatRoomViewModel(chatroom: room)
+                var userid : String
+                if (room.members[0] == userID) {
+                    userid = room.members[1]
+                }
+                else {
+                    userid = room.members[0]
+                }
+                return ChatRoomViewModel(chatroom: room, userID: userid)
             }
         }
         .assign(to: \.chatRoomVMs, on: self)
         .store(in: &cancellables)
         
-        // Last Message
-        chatRepo.$lastMessages.map { msgs in
-            msgs.map { msg -> MessageViewModel? in
-                if msg == nil {
-                    return nil
-                }
-                return MessageViewModel(message: msg!)
-            }
-        }
-        .assign(to: \.lastMsgVMs, on: self)
+        // Loaded?
+        chatRepo.$chatroomsLoaded
+        .assign(to: \.chatroomsLoaded, on: self)
         .store(in: &cancellables)
     }
     

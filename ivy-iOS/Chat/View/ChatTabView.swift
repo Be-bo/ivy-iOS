@@ -26,62 +26,68 @@ struct ChatTabView: View {
     
     
     var body: some View {
-        VStack {
-            List(){
-                ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
-                        ChatRoomItemView(
-                            thisUserRepo: thisUserRepo,
-                            chatRoomVM: chatRoomVM,
-                            lastMsgVM: nil
-                        )
-                }
-                
-                // Pagination: Fetch next batch
-                if !chatTabVM.chatroomsLoaded {
-                    HStack {
-                        Spacer()
-                        ActivityIndicator($loadingWheelAnimating)
-                            .onAppear {
-                                self.chatTabVM.fetchNextBatch()
-                            }
-                        Spacer()
-                    }
-                }
-            }
-            
-            // No Chatrooms
-            if(chatTabVM.chatRoomVMs.count < 1) {
-                Text("No Conversations Available.")
-                    .font(.system(size: 25))
-                    .foregroundColor(AssetManager.ivyLightGrey)
-                    .multilineTextAlignment(.center)
-                    .padding(30)
-            }
-        }
         
-        // MARK: Nav Bar
-        .navigationBarItems(
-            leading:
-                HStack {
-                    Button(action: {
-                        self.settingsPresented.toggle()
-                    }) {
-                        Image(systemName: "gear").font(.system(size: 25))
-                            .sheet(isPresented: $settingsPresented){
-                                SettingsView(thisUserRepo: self.thisUserRepo)
+        NavigationView {
+            
+            VStack {
+                List(){
+                    ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
+                        NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM)) {
+                            ChatRoomItemView(
+                                thisUserRepo: thisUserRepo,
+                                chatRoomVM: chatRoomVM
+                            )
                         }
                     }
                     
-                    FirebaseImage(
-                        path: Utils.uniLogoPath(),
-                        placeholder: AssetManager.uniLogoPlaceholder,
-                        width: 40,
-                        height: 40,
-                        shape: RoundedRectangle(cornerRadius: 0)
-                    )
-                    .padding(.leading, (UIScreen.screenWidth/2 - 75))
-                    
-                }.padding(.leading, 0)
-        )
+                    // Pagination: Fetch next batch
+                    if !chatTabVM.chatroomsLoaded {
+                        HStack {
+                            Spacer()
+                            ActivityIndicator($loadingWheelAnimating)
+                                .onAppear {
+                                    self.chatTabVM.fetchNextBatch()
+                                }
+                            Spacer()
+                        }
+                    }
+                }
+                
+                // No Chatrooms
+                if(chatTabVM.chatRoomVMs.count < 1) {
+                    Text("No Conversations Available.")
+                        .font(.system(size: 25))
+                        .foregroundColor(AssetManager.ivyLightGrey)
+                        .multilineTextAlignment(.center)
+                        .padding(30)
+                }
+            }
+            
+            // MARK: Nav Bar
+            .navigationBarItems(
+                leading:
+                    HStack {
+                        Button(action: {
+                            self.settingsPresented.toggle()
+                        }) {
+                            Image(systemName: "gear").font(.system(size: 25))
+                                .sheet(isPresented: $settingsPresented){
+                                    SettingsView(thisUserRepo: self.thisUserRepo)
+                            }
+                        }
+                        
+                        FirebaseImage(
+                            path: Utils.uniLogoPath(),
+                            placeholder: AssetManager.uniLogoPlaceholder,
+                            width: 40,
+                            height: 40,
+                            shape: RoundedRectangle(cornerRadius: 0)
+                        )
+                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
+                        
+                    }.padding(.leading, 0)
+            )
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }

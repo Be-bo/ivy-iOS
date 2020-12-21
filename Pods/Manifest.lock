@@ -354,10 +354,10 @@ PODS:
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
   - PromisesObjC (1.2.11)
-  - Protobuf (3.13.0)
-  - SDWebImage (5.9.4):
-    - SDWebImage/Core (= 5.9.4)
-  - SDWebImage/Core (5.9.4)
+  - Protobuf (3.14.0)
+  - SDWebImage (5.10.0):
+    - SDWebImage/Core (= 5.10.0)
+  - SDWebImage/Core (5.10.0)
   - SDWebImageSwiftUI (1.5.0):
     - SDWebImage (~> 5.7)
 
@@ -421,8 +421,8 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
-  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
-  SDWebImage: b69257f4ab14e9b6a2ef53e910fdf914d8f757c1
+  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
+  SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
   SDWebImageSwiftUI: 43687ffe232ddd33fe0659498b7ca9884fdd6b35
 
 PODFILE CHECKSUM: 9ad11c6a3e5e188e2611cac8d563042cb74fda62

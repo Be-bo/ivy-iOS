@@ -11,42 +11,43 @@ import SwiftUI
 struct ChatRoomItemView: View {
     
     @ObservedObject var chatRoomVM : ChatRoomViewModel
-    @ObservedObject var lastMsgVM : MessageViewModel
     var thisUserRepo = ThisUserRepo()
     
-    private var msgExists = true
-    private var title = "Chatroom"
     
     
     // MARK: INIT
-    init(thisUserRepo: ThisUserRepo, chatRoomVM: ChatRoomViewModel, lastMsgVM: MessageViewModel?) {
+    init(thisUserRepo: ThisUserRepo, chatRoomVM: ChatRoomViewModel) {
         self.thisUserRepo = thisUserRepo
         self.chatRoomVM = chatRoomVM
-        
-        if (lastMsgVM != nil) {
-            self.lastMsgVM = lastMsgVM!
-        } else {
-            self.lastMsgVM = MessageViewModel(message: Message())
-            self.msgExists = false
-        }
-        
-        // Set Chatroom title
-        let i = chatRoomVM.chatroom.members.firstIndex(of: thisUserRepo.user.id)
-        if (i != nil){
-            if (i! > 0) {
-                self.title = chatRoomVM.chatroom.members[1]
-            } else {
-                self.title = chatRoomVM.chatroom.members[0]
-            }
-        }
-        
     }
     
     
     // MARK: BODY
     var body: some View {
         HStack {
-            Text(title)
+            
+            if (chatRoomVM.partner != nil){
+                FirebaseImage(
+                    path: Utils.userPreviewImagePath(userId: chatRoomVM.partner!.user.id),
+                    placeholder: Image(systemName: "person.crop.circle.fill"),
+                    width: 40,
+                    height: 40,
+                    shape: RoundedRectangle(cornerRadius: 20)
+                )
+            }
+            
+            VStack (alignment: .leading) {
+                
+                Text(chatRoomVM.partner?.user.name ?? "ChatRoom")
+                
+                if (chatRoomVM.messagesVMs.count > 0) {
+                    Text(chatRoomVM.messagesVMs[0].message.text)
+                        .foregroundColor(AssetManager.ivyLightGrey)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                }
+            }
+            
             Spacer()
         }
     }

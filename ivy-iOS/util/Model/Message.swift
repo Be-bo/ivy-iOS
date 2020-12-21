@@ -36,4 +36,9 @@ class Message: Identifiable, Codable, Equatable {
     static func == (lhs: Message, rhs: Message) -> Bool {
         return lhs.id == rhs.id
     }
+    
+    // getPath
+    static func messagesPath(chatroomID : String) -> String {
+        return "conversations/\(chatroomID)/messages"
+    }
 }
