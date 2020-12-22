@@ -14,11 +14,7 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
     
     @Published var chatroom: Chatroom
     @Published var partner : UserViewModel?
-    @Published var messagesVMs = [MessageViewModel](){
-        didSet {
-            print("MESSAGES COUNT: \(messagesVMs.count)")
-        }
-    }
+    @Published var messagesVMs = [MessageViewModel]()
     @Published var messagesLoaded = false
     var id = ""
     private var chatRoomRepo : ChatRoomRepo
@@ -60,11 +56,17 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
         .store(in: &cancellables)
     }
     
+
     
     // Fetch next batch if not already loading
     func fetchNextBatch() {
         if (!chatRoomRepo.messagesLoading) {
             chatRoomRepo.loadMessages()
         }
+    }
+
+    // Send a Message
+    func sendMessage(_ msg: Message) {
+        chatRoomRepo.sendMessage(msg)
     }
 }

@@ -71,7 +71,16 @@ class ChatRepo: ObservableObject {
                         }
                     }
                 }
-                self.chatroomsLoaded = true
+                
+                //Update last pulled Doc
+                if !snapshot.isEmpty {
+                    self.lastPulledDoc = snapshot.documents[snapshot.documents.count - 1]
+                }
+                
+                // Did we pull all rooms?
+                if (snapshot.documents.count < self.loadLimit && !start) {
+                    self.chatroomsLoaded = true
+                }
             }
             self.chatroomsLoading = false
         }

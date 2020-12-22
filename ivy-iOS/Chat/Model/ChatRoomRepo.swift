@@ -88,11 +88,34 @@ class ChatRoomRepo: ObservableObject {
                                     self.messages.remove(at: i)
                                 }
                             }
+                        } else {
+                            print("ChatRoomRepo: Couldn't convert Message object! ID: \(diff.document.documentID)")
                         }
                     }
-                    self.messagesLoaded = true
+                    
+                    // Update last pulled doc
+                    if !snapshot.isEmpty {
+                        self.lastPulledDoc = snapshot.documents[snapshot.documents.count - 1]
+                    }
+                    
+                    // Did we pull all messages?
+                    if (snapshot.documents.count < self.loadLimit && !start) {
+                        self.messagesLoaded = true
+                    }
                 }
                 self.messagesLoading = false
             }
+    }
+    
+    // Send Message
+    func sendMessage(_ msg: Message) {
+        // MARK: TODO
+        // if no messages yet, save chatroom before sending message
+
+    }
+    
+    // Save Chatroom to Firebase
+    private func saveChatroom(_ room: Chatroom) {
+        // MARK: TODO
     }
 }

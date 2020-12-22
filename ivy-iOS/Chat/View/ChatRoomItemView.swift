@@ -42,6 +42,7 @@ struct ChatRoomItemView: View {
                 
                 if (chatRoomVM.messagesVMs.count > 0) {
                     Text(chatRoomVM.messagesVMs[0].message.text)
+                        .font(.system(size: 15))
                         .foregroundColor(AssetManager.ivyLightGrey)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)

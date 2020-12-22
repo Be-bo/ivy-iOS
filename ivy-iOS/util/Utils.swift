@@ -92,6 +92,28 @@ final class Utils {
         return midnightMillis
     }
     
+    static func getExactTimeFromMillis(millis: Double) -> String {
+        
+        let date = convertMillisToDate(millis: millis)
+        let dateFormatter = DateFormatter()
+        let timeDif = getCurrentTimeInMillis() - millis
+        
+        if (timeDif < Constant.millisInADay) { // within 24 hrs
+            dateFormatter.dateFormat = "h:mm a"
+        }
+        else if (timeDif < Constant.millisInAWeek) { // within a week
+            dateFormatter.dateFormat = "EEEE, h:mm a"
+        }
+        else if (timeDif < Constant.millisInAYear) { // within a year
+            dateFormatter.dateFormat = "MMM d"
+        }
+        else {
+            dateFormatter.dateFormat = "MMM yyyy"
+        }
+        
+        return dateFormatter.string(from: date)
+    }
+    
     static func getHumanTimeFromMillis(millis: Double) -> String {
         let timeDif = getCurrentTimeInMillis() - millis
         
