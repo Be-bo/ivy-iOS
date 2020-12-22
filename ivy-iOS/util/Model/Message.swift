@@ -32,10 +32,12 @@ class Message: Identifiable, Codable, Equatable {
         self.time_stamp = Int(Utils.getCurrentTimeInMillis())
     }
     
+    
     // isEqualTo function
     static func == (lhs: Message, rhs: Message) -> Bool {
         return lhs.id == rhs.id
     }
+    
     
     // getPath
     static func messagesPath(chatroomID : String) -> String {
