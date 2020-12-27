@@ -69,27 +69,28 @@ struct UserProfile: View {
                                         
                     
                     // MARK: Profile Info
-                    VStack (alignment: .leading){
-                        Text(self.profileVM.profileRepo.userProfile.name).padding(.bottom, 10)
+                    VStack (alignment: .leading, spacing: 10){
+                        Text(self.profileVM.profileRepo.userProfile.name)
+                            .fontWeight(.semibold)
                         
                         // ORG or STUD ?
                         if (profileVM.profileRepo.userProfile.is_organization) { // ORGANIZATION
                             
                             if (profileVM.profileRepo.userProfile.member_ids?.count == 1) {
-                                Text("1 Member").padding(.bottom, 10)
+                                Text("1 Member")
                             } else {
-                                Text("\(profileVM.profileRepo.userProfile.member_ids!.count) Members").padding(.bottom, 10)
+                                Text("\(profileVM.profileRepo.userProfile.member_ids!.count) Members")
                             }
                         } else { // STUDENT
-                            Text(self.profileVM.profileRepo.userProfile.degree ?? "").padding(.bottom, 10)
+                            Text(self.profileVM.profileRepo.userProfile.degree ?? "")
                         }
                    
-                        // 3rd person? -> show membership buttons
-                        if Auth.auth().currentUser == nil || profileVM.profileRepo.userProfile.id != Auth.auth().currentUser!.uid { // check if this is 3rd person user
+                        // 3rd person? -> show membership buttons / chat
+                        if Auth.auth().currentUser != nil && profileVM.profileRepo.userProfile.id != Auth.auth().currentUser!.uid { // check if this is 3rd person user
 
                             // MARK: Membership Buttons
                             // user had to be logged in and not be viewing themselves 3rd party
-                            if Auth.auth().currentUser != nil && profileVM.profileRepo.userProfile.id != Auth.auth().currentUser!.uid && profileVM.profileRepo.userProfile.is_organization {
+                            if profileVM.profileRepo.userProfile.is_organization {
                                 
                                 // MARK: Student Requesting Buttons
 
@@ -124,6 +125,28 @@ struct UserProfile: View {
                                             Text("Leave Organization")
                                         }
                                     }
+                                }
+                            }
+                            // Student -> Message
+                            else {
+                                Button(action: {
+                                    self.selection = 2
+                                }) {
+                                    HStack {
+                                        Image(systemName: "message.fill")
+                                            .font(.system(size: 20))
+                                            .foregroundColor(AssetManager.ivyGreen)
+                                        Text("Message")
+                                            .foregroundColor(AssetManager.ivyGreen)
+                                    }
+                                }
+                                
+                                // Create a new chatroom with user
+                                NavigationLink(
+                                    destination: ChatRoomView(userID: self.uid, thisUserID: self.thisUserRepo.user.id)
+                                        .navigationBarTitle("Message \(self.profileVM.profileRepo.userProfile.name)", displayMode: .inline),
+                                    tag: 2, selection: self.$selection) {
+                                        EmptyView()
                                 }
                             }
                         }

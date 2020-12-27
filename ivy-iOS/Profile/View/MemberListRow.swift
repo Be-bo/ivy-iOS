@@ -65,7 +65,7 @@ struct MemberListRow: View {
                                     PersonCircleView(personId: currentId)
                                     
                                     NavigationLink(
-                                        destination: UserProfile(uid: currentId).navigationBarTitle("Profile"),
+                                        destination: UserProfile(uid: currentId).navigationBarTitle("Profile", displayMode: .inline),
                                         tag: self.memberIds.firstIndex(of: currentId)! + 1,
                                         selection: self.$selection) {
                                             EmptyView()
