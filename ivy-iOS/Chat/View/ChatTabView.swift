@@ -21,7 +21,7 @@ struct ChatTabView: View {
     
     init(thisUserRepo: ThisUserRepo) {
         self.thisUserRepo = thisUserRepo
-        chatTabVM = ChatTabViewModel(userID: thisUserRepo.user.id)
+        chatTabVM = ChatTabViewModel(thisUserID: thisUserRepo.user.id)
     }
     
     
@@ -32,7 +32,7 @@ struct ChatTabView: View {
             VStack {
                 List(){
                     ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
-                        NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM)) {
+                        NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM, thisUserID: thisUserRepo.user.id)) {
                             ChatRoomItemView(
                                 thisUserRepo: thisUserRepo,
                                 chatRoomVM: chatRoomVM
@@ -57,7 +57,7 @@ struct ChatTabView: View {
                 if(chatTabVM.chatRoomVMs.count < 1) {
                     Text("No Conversations Available.")
                         .font(.system(size: 25))
-                        .foregroundColor(AssetManager.ivyLightGrey)
+                        .foregroundColor(AssetManager.ivyLightGrey.opacity(0.9))
                         .multilineTextAlignment(.center)
                         .padding(30)
                 }

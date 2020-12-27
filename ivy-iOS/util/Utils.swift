@@ -98,6 +98,8 @@ final class Utils {
         let dateFormatter = DateFormatter()
         let timeDif = getCurrentTimeInMillis() - millis
         
+        print(millis)
+        
         if (timeDif < Constant.millisInADay) { // within 24 hrs
             dateFormatter.dateFormat = "h:mm a"
         }

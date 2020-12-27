@@ -78,7 +78,7 @@ class ChatRepo: ObservableObject {
                 }
                 
                 // Did we pull all rooms?
-                if (snapshot.documents.count < self.loadLimit && !start) {
+                if (snapshot.documents.count < self.loadLimit) {
                     self.chatroomsLoaded = true
                 }
             }

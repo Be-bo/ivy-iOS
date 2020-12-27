@@ -9,6 +9,13 @@
 //  https://medium.com/@michael.forrest.music/how-to-make-a-scrollview-or-list-in-swiftui-that-starts-from-the-bottom-b0c4a69beb0d
 //
 
+
+
+// MARK: Bugs
+// thisUser not registered in new chatroom,
+// Sending new message is weird...
+// loading a message too many times???
+
 import SwiftUI
 import SDWebImageSwiftUI
 import Firebase
@@ -16,22 +23,24 @@ import Firebase
 struct ChatRoomView: View {
     
     @ObservedObject var chatRoomVM : ChatRoomViewModel
-    var thisUserRepo = ThisUserRepo()
+    var thisUserID : String
     
     @State private var loadingWheelAnimating = true
-    @State var msgField = ""
+    @State private var loadInProgress = false
 
     
     
     // Existing chatrooms
-    init(chatRoomVM: ChatRoomViewModel) {
+    init(chatRoomVM: ChatRoomViewModel, thisUserID: String) {
+        self.thisUserID = thisUserID
         self.chatRoomVM = chatRoomVM
         chatRoomVM.fetchNextBatch() //Fetch more than just the first item
     }
     
-    // New chatroom
-    init(userID: String) {
-        self.chatRoomVM = ChatRoomViewModel(chatroom: Chatroom(id1: thisUserRepo.user.id, id2: userID), userID: userID)
+    // New chatroom if not existing
+    init(userID: String, thisUserID: String) {
+        self.thisUserID = thisUserID
+        self.chatRoomVM = ChatRoomViewModel(chatroom: Chatroom(id1: thisUserID, id2: userID), userID: userID, thisUserID: thisUserID)
     }
     
     
@@ -42,7 +51,7 @@ struct ChatRoomView: View {
             ScrollView(.vertical, showsIndicators: true){
                 VStack {
                     ForEach(chatRoomVM.messagesVMs) { msgVM in
-                        ChatMessageView(messageVM: msgVM, thisUserID: thisUserRepo.user.id)
+                        ChatMessageView(messageVM: msgVM, thisUserID: thisUserID)
                             .flippedUpsideDown()
                     }
                     
@@ -77,23 +86,32 @@ struct ChatRoomView: View {
             // MARK: Send message
             HStack(spacing: 15) {
                 
-                TextField("A/a", text: $msgField)
+                TextField("A/a", text: $chatRoomVM.msgField)
                     .padding(.horizontal)
                     .frame(height: 45)  // Fixed height for Animation
-                    .background(AssetManager.ivyBackgroundGrey)
+                    .background(AssetManager.ivyLightGrey.opacity(0.6))
                     .clipShape(Capsule())
                 
                 // Send button
-                if msgField != "" {
-                    Button(action: {
-                        chatRoomVM.sendMessage(Message(author: thisUserRepo.user.id, text: msgField))
-                    }){
-                       Image(systemName: "paperplane.fill")
-                        .font(.system(size: 22))
-                        .foregroundColor(.white)
-                        .frame(width:45, height:45)
-                        .background(AssetManager.ivyGreen)
-                        .clipShape(Circle())
+                if chatRoomVM.msgField != "" {
+                    if (chatRoomVM.waitingToSend) {
+                        LoadingSpinner()
+                    }
+                    else {
+                        Button(action: {
+                            self.loadInProgress = true
+                            chatRoomVM.sendMessage(Message(author: thisUserID, text: chatRoomVM.msgField))
+                        }){
+                           Image(systemName: "paperplane.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                            .frame(width:45, height:45)
+                            .background(AssetManager.ivyGreen)
+                            .clipShape(Circle())
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .disabled(chatRoomVM.isEmpty() || chatRoomVM.waitingToSend)
+                        
                     }
                 }
             }
@@ -102,6 +120,10 @@ struct ChatRoomView: View {
                 
         }
         .navigationBarTitle(Text(chatRoomVM.partner?.user.name ?? "ChatRoom"), displayMode: .inline)
+        .keyboardAdaptive()
+        .onTapGesture { //hide keyboard when background tapped
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+        }
     }
 }
 

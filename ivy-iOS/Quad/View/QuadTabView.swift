@@ -39,7 +39,7 @@ struct QuadTabView: View {
                 HStack {
                         
                     ForEach(quadTabVM.quadUsersVMs){ userVM in
-                        QuadCardView(userVM: userVM)
+                        QuadCardView(userVM: userVM, thisUserID: thisUserRepo.user.id)
                             .padding()
                     }
                     

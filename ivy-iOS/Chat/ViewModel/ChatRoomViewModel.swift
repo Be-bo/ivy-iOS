@@ -15,13 +15,20 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
     @Published var chatroom: Chatroom
     @Published var partner : UserViewModel?
     @Published var messagesVMs = [MessageViewModel]()
+    @Published var msgField = ""
     @Published var messagesLoaded = false
+    @Published var waitingToSend = false
+    @Published var sentMsg = false {
+        didSet {
+            self.msgField = ""
+        }
+    }
     var id = ""
     private var chatRoomRepo : ChatRoomRepo
     private var cancellables = Set<AnyCancellable>()
     
     
-    init(chatroom: Chatroom, userID: String) {
+    init(chatroom: Chatroom, userID: String, thisUserID: String) {
         self.chatroom = chatroom
         self.chatRoomRepo = ChatRoomRepo(chatID: chatroom.id, userID: userID)
         
@@ -47,6 +54,15 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
         .assign(to: \.messagesLoaded, on: self)
         .store(in: &cancellables)
         
+        // Sending in progress??
+        chatRoomRepo.$waitingToSend
+        .assign(to: \.waitingToSend, on: self)
+        .store(in: &cancellables)
+        
+        chatRoomRepo.$sentMsg
+        .assign(to: \.sentMsg, on: self)
+        .store(in: &cancellables)
+        
         
         // Partner User
         chatRoomRepo.$partner.compactMap { user in
@@ -57,6 +73,9 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
     }
     
 
+    func isEmpty() -> Bool {
+        return msgField.isEmpty
+    }
     
     // Fetch next batch if not already loading
     func fetchNextBatch() {
@@ -67,6 +86,11 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
 
     // Send a Message
     func sendMessage(_ msg: Message) {
-        chatRoomRepo.sendMessage(msg)
+        if messagesVMs.count > 0 { // Not a new chatroom
+            chatRoomRepo.sendMessage(msg)
+        }
+        else { // Sending a message to a new chatroom
+            chatRoomRepo.saveChatroom(room: chatroom, msg: msg)
+        }
     }
 }

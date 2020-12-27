@@ -14,11 +14,13 @@ import Firebase
 class UserViewModel: ObservableObject, Identifiable {
     
     @Published var user: User
+    @Published var chatroom: Chatroom? = nil
     var id = ""
     private var cancellables = Set<AnyCancellable>()
     
     init(user: User) {
         self.user = user
+        
         $user.compactMap { user in
             user.id
         }

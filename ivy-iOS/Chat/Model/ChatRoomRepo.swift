@@ -6,10 +6,13 @@
 //  Copyright © 2020 ivy. All rights reserved.
 //
 
+
 import Foundation
+import Combine
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
+
 
 class ChatRoomRepo: ObservableObject {
     
@@ -21,7 +24,9 @@ class ChatRoomRepo: ObservableObject {
     @Published var messages = [Message]()
     @Published var messagesLoaded = false
     @Published var messagesLoading = false
-    
+    @Published var waitingToSend = false
+    @Published var sentMsg = false
+
     private var chatroomID : String
     
     
@@ -60,7 +65,7 @@ class ChatRoomRepo: ObservableObject {
         
         // Build query
         var query = db.collection(Message.messagesPath(chatroomID: chatroomID))
-            .order(by: "time_stamp", descending: true)
+            .order(by: "time_stamp", descending: false)
             
         if (lastPulledDoc != nil && !start) {
             query = query.start(afterDocument: lastPulledDoc!).limit(to: loadLimit)
@@ -78,15 +83,8 @@ class ChatRoomRepo: ObservableObject {
                     snapshot.documentChanges.forEach { diff in
                         if let msg = try? diff.document.data(as: Message.self) {
                             if (diff.type == .added){
-                                self.messages.append(msg)
-                            }
-                            else if let i = self.messages.firstIndex(of: msg) {
-                                if (diff.type == .modified){
-                                    self.messages[i] = msg
-                                }
-                                else if (diff.type == .removed){
-                                    self.messages.remove(at: i)
-                                }
+                                // View is flipeed upside down
+                                self.messages.insert(msg, at: 0)
                             }
                         } else {
                             print("ChatRoomRepo: Couldn't convert Message object! ID: \(diff.document.documentID)")
@@ -99,7 +97,8 @@ class ChatRoomRepo: ObservableObject {
                     }
                     
                     // Did we pull all messages?
-                    if (snapshot.documents.count < self.loadLimit && !start) {
+                    // if start -> less than 1? else -> less than load?
+                    if ((!start && snapshot.documents.count < self.loadLimit) || (start && snapshot.documents.count < 1)) {
                         self.messagesLoaded = true
                     }
                 }
@@ -109,13 +108,36 @@ class ChatRoomRepo: ObservableObject {
     
     // Send Message
     func sendMessage(_ msg: Message) {
-        // MARK: TODO
-        // if no messages yet, save chatroom before sending message
-
+        waitingToSend = true
+        sentMsg = false
+        
+        let _ = try! db.document(msg.getPath(chatroomID: chatroomID))
+            .setData(from: msg) { (err) in
+        
+                if err != nil {
+                    print(err!.localizedDescription)
+                    self.waitingToSend = false
+                    return
+                }
+                
+                self.waitingToSend = false
+                self.sentMsg = true
+            }
     }
     
-    // Save Chatroom to Firebase
-    private func saveChatroom(_ room: Chatroom) {
-        // MARK: TODO
+    // Save Chatroom to Firebase before sending message
+    func saveChatroom(room: Chatroom, msg: Message) {
+        waitingToSend = true
+        sentMsg = false
+        
+        let _ = try! db.document(room.getPath()).setData(from: room) { (err) in
+        
+                if err != nil {
+                    print(err!.localizedDescription)
+                    self.waitingToSend = false
+                    return
+                }
+                self.sendMessage(msg)
+            }
     }
 }

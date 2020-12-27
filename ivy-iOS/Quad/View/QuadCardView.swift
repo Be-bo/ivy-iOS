@@ -12,6 +12,7 @@ struct QuadCardView: View {
     
     @ObservedObject var userVM: UserViewModel
     @State var selection : Int? = nil
+    var thisUserID: String
     
     
     var body: some View {
@@ -67,7 +68,10 @@ struct QuadCardView: View {
             }
             
             // Create a new chatroom with user
-            NavigationLink(destination: ChatRoomView(userID: self.userVM.id).navigationBarTitle("Message \(userVM.user.name)", displayMode: .inline), tag: 2, selection: self.$selection) {
+            NavigationLink(
+                destination: ChatRoomView(userID: self.userVM.id, thisUserID: thisUserID)
+                    .navigationBarTitle("Message \(userVM.user.name)", displayMode: .inline),
+                tag: 2, selection: self.$selection) {
                     EmptyView()
             }
 
