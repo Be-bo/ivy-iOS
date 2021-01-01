@@ -27,6 +27,7 @@ struct ChatRoomView: View {
     
     @State private var loadingWheelAnimating = true
     @State private var loadInProgress = false
+    @State private var selection : Int? = nil
 
     
     
@@ -117,9 +118,29 @@ struct ChatRoomView: View {
             }
             .animation(.default)
             .padding()
-                
+            
+            if let partner = chatRoomVM.partner {
+                NavigationLink(
+                    destination: UserProfile(uid: partner.user.id)
+                        .navigationBarTitle("Profile"),
+                    tag: 1,
+                    selection: self.$selection) {
+                    EmptyView()
+                }
+            }
         }
         .navigationBarTitle(Text(chatRoomVM.partner?.user.name ?? "ChatRoom"), displayMode: .inline)
+        .navigationBarItems(trailing: HStack {
+            Text("Profile")
+                .font(.system(size: 16))
+                .multilineTextAlignment(.center)
+                .foregroundColor(AssetManager.ivyGreen)
+                .onTapGesture {
+                    if let _ = chatRoomVM.partner?.user.name {
+                        self.selection = 1
+                    }
+                }
+        })
         .keyboardAdaptive()
         .onTapGesture { //hide keyboard when background tapped
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)

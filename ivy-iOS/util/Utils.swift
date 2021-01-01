@@ -75,7 +75,7 @@ final class Utils {
     }
     
     static func convertMillisToDate(millis: Double) -> Date {
-        return Date(timeIntervalSince1970: millis)
+        return Date(timeIntervalSince1970: millis/1000)
     }
     
     static func getEndOfThisWeekMillis() -> Double{
@@ -98,8 +98,6 @@ final class Utils {
         let dateFormatter = DateFormatter()
         let timeDif = getCurrentTimeInMillis() - millis
         
-        print(millis)
-        
         if (timeDif < Constant.millisInADay) { // within 24 hrs
             dateFormatter.dateFormat = "h:mm a"
         }
@@ -112,7 +110,8 @@ final class Utils {
         else {
             dateFormatter.dateFormat = "MMM yyyy"
         }
-        
+
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
         return dateFormatter.string(from: date)
     }
     
