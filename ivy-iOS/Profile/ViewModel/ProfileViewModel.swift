@@ -57,25 +57,31 @@ class ProfileViewModel: ObservableObject{
     // MARK: Membership Functions
     func requestMembership(uid : String?){
         if(Auth.auth().currentUser != nil){
-            db.collection("users").document(uid ?? "").updateData([
-                "request_ids": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
-            ])
+            if uid != nil && !uid!.isEmpty {
+                db.collection("users").document(uid!).updateData([
+                    "request_ids": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
+                ])
+            }
         }
     }
     
     func cancelRequest(uid : String?){
         if(Auth.auth().currentUser != nil){
-            db.collection("users").document(uid ?? "").updateData([
-                "request_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
-            ])
+            if uid != nil && !uid!.isEmpty {
+                db.collection("users").document(uid!).updateData([
+                    "request_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
+                ])
+            }
         }
     }
     
     func leaveOrganization(uid : String?){
         if(Auth.auth().currentUser != nil){
-            db.collection("users").document(uid ?? "").updateData([
-                "member_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
-            ])
+            if uid != nil && !uid!.isEmpty {
+                db.collection("users").document(uid!).updateData([
+                    "member_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
+                ])
+            }
         }
     }
 }

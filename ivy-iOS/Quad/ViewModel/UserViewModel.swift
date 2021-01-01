@@ -14,7 +14,6 @@ import Firebase
 class UserViewModel: ObservableObject, Identifiable {
     
     @Published var user: User
-    @Published var chatroom: Chatroom? = nil
     var id = ""
     private var cancellables = Set<AnyCancellable>()
     

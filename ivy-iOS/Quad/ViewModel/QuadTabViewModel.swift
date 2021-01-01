@@ -18,8 +18,8 @@ class QuadTabViewModel: ObservableObject {
 
     
     // Place a listener for important values
-    init(id: String) {
-        self.quadRepo = QuadRepo(id: id)
+    init(thisUser: User) {
+        self.quadRepo = QuadRepo(thisUser: thisUser)
         
         quadRepo.$users.map { users in
             users.map{ user in

@@ -12,7 +12,7 @@ import Firebase
 
 struct ChatTabView: View {
     
-    var thisUserRepo = ThisUserRepo()
+    var thisUserRepo : ThisUserRepo
     @ObservedObject var chatTabVM : ChatTabViewModel
     @State private var settingsPresented = false
     @State private var loadingWheelAnimating = true
@@ -30,29 +30,6 @@ struct ChatTabView: View {
         NavigationView {
             
             VStack {
-                List(){
-                    ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
-                        NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM, thisUserID: thisUserRepo.user.id)) {
-                            ChatRoomItemView(
-                                thisUserRepo: thisUserRepo,
-                                chatRoomVM: chatRoomVM
-                            )
-                        }
-                    }
-                    
-                    // Pagination: Fetch next batch
-                    if !chatTabVM.chatroomsLoaded {
-                        HStack {
-                            Spacer()
-                            ActivityIndicator($loadingWheelAnimating)
-                                .onAppear {
-                                    self.chatTabVM.fetchNextBatch()
-                                }
-                            Spacer()
-                        }
-                    }
-                }
-                
                 // No Chatrooms
                 if(chatTabVM.chatRoomVMs.count < 1) {
                     Text("No Conversations Available.")
@@ -60,6 +37,33 @@ struct ChatTabView: View {
                         .foregroundColor(AssetManager.ivyLightGrey.opacity(0.9))
                         .multilineTextAlignment(.center)
                         .padding(30)
+                    
+                    Spacer()
+                }
+                else {
+                    // List of Chatrooms
+                    List(){
+                        ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
+                            NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM, thisUserID: thisUserRepo.user.id)) {
+                                ChatRoomItemView(
+                                    thisUserRepo: thisUserRepo,
+                                    chatRoomVM: chatRoomVM
+                                )
+                            }
+                        }
+                        
+                        // Pagination: Fetch next batch
+                        if !chatTabVM.chatroomsLoaded {
+                            HStack {
+                                Spacer()
+                                ActivityIndicator($loadingWheelAnimating)
+                                    .onAppear {
+                                        self.chatTabVM.fetchNextBatch()
+                                    }
+                                Spacer()
+                            }
+                        }
+                    }
                 }
             }
             

@@ -42,8 +42,8 @@ class UserRepo: ObservableObject {
 /* FIREBASE functions used by children */
     
     func loadProfile(userid: String) {
-        if(userid != ""){
-            listenerRegistration = db.collection("users").document(userid).addSnapshotListener { (docSnap, err) in
+        if(!userid.isEmpty){
+            listenerRegistration = db.document(Utils.getUserPath(userId: userid)).addSnapshotListener { (docSnap, err) in
                 if err != nil{
                     print("Error getting user profile.")
                 }

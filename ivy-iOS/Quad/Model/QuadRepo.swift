@@ -27,21 +27,21 @@ class QuadRepo: ObservableObject {
     
     
     
-    init(id: String) {
-        self.blackList.append(id)   // Don't fetch this user
-        loadBlackList()
-    }
-    
-    
-    
-    // Fetch the User's blackList (blocked / already has a conversation with)
-    func loadBlackList() {
-        //TODO: don't fetch blacklist or added users
+    init(thisUser: User) {
+        // Create single BlackList
+        self.blackList.append(thisUser.id)   // Don't fetch this user
+        if let blocked = thisUser.blockedUsers {
+            self.blackList.append(contentsOf: blocked)
+        }
+        if let messaging = thisUser.messagingUsers {
+            self.blackList.append(contentsOf: messaging)
+        }
+        
         self.loadUsers(start: true)
     }
     
     
-    //TODO: fetch randomly
+    //TODO: fetch randomly??
     // Paginated fetch users
     func loadUsers(start: Bool = false) {
         self.usersLoading = true

@@ -31,18 +31,20 @@ class ProfileRepo: ObservableObject{
     
     init(uid: String){
         self.userId = uid
-        db.collection("users").document(self.userId).getDocument { (docSnap, err) in
-            if err != nil{
-                print("Error loading user profile in profile repo. \(err!)")
-                return
-            }
-            if (docSnap) != nil{
-                
-                do { try self.userProfile = docSnap!.data(as: User.self)! }
-                catch { print("Could not load User for ProfileRepo: \(error)") }
-                                
-                self.loadPosts(start: true)
-                self.loadEvents(start: true)
+        if (!self.userId.isEmpty) {
+            db.collection("users").document(self.userId).getDocument { (docSnap, err) in
+                if err != nil{
+                    print("Error loading user profile in profile repo. \(err!)")
+                    return
+                }
+                if (docSnap) != nil{
+                    
+                    do { try self.userProfile = docSnap!.data(as: User.self)! }
+                    catch { print("Could not load User for ProfileRepo: \(error)") }
+                                    
+                    self.loadPosts(start: true)
+                    self.loadEvents(start: true)
+                }
             }
         }
     }

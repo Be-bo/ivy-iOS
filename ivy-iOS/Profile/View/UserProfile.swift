@@ -128,16 +128,18 @@ struct UserProfile: View {
                                 }
                             }
                             // Student -> Message
-                            else {
-                                Button(action: {
-                                    self.selection = 2
-                                }) {
-                                    HStack {
-                                        Image(systemName: "message.fill")
-                                            .font(.system(size: 20))
-                                            .foregroundColor(AssetManager.ivyGreen)
-                                        Text("Message")
-                                            .foregroundColor(AssetManager.ivyGreen)
+                            else if let messagingUsers = thisUserRepo.user.messagingUsers {
+                                if !messagingUsers.contains(uid){
+                                    Button(action: {
+                                        self.selection = 2
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "message.fill")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(AssetManager.ivyGreen)
+                                            Text("Message")
+                                                .foregroundColor(AssetManager.ivyGreen)
+                                        }
                                     }
                                 }
                                 

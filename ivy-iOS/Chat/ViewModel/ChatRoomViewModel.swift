@@ -26,9 +26,13 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
     var id = ""
     private var chatRoomRepo : ChatRoomRepo
     private var cancellables = Set<AnyCancellable>()
+    private var thisUserID : String
+    private var userID : String
     
     
     init(chatroom: Chatroom, userID: String, thisUserID: String) {
+        self.thisUserID = thisUserID
+        self.userID = userID
         self.chatroom = chatroom
         self.chatRoomRepo = ChatRoomRepo(chatID: chatroom.id, userID: userID)
         
@@ -90,7 +94,7 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
             chatRoomRepo.sendMessage(msg)
         }
         else { // Sending a message to a new chatroom
-            chatRoomRepo.saveChatroom(room: chatroom, msg: msg)
+            chatRoomRepo.saveChatroom(room: chatroom, msg: msg, thisUserID: thisUserID, userID: userID)
         }
     }
 }

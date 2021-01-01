@@ -24,7 +24,7 @@ struct QuadTabView: View {
     
     init(thisUserRepo: ThisUserRepo) {
         self.thisUserRepo = thisUserRepo
-        quadTabVM = QuadTabViewModel(id: thisUserRepo.user.id)
+        quadTabVM = QuadTabViewModel(thisUser: thisUserRepo.user)
     }
     
     

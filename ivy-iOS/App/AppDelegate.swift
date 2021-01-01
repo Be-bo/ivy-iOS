@@ -87,9 +87,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         if(Auth.auth().currentUser != nil){ //update token in db
             let db = Firestore.firestore()
-            db.collection("users").document(Auth.auth().currentUser?.uid ?? "").updateData([
-                "messaging_token": fcmToken
-            ])
+            if let thisUserID = Auth.auth().currentUser?.uid {
+                if !thisUserID.isEmpty {
+                    db.document(Utils.getUserPath(userId: thisUserID)).updateData([
+                        "messaging_token": fcmToken
+                    ])
+                }
+            }
         }
         //Messaging.messaging().shouldEstablishDirectChannel = true
         let dataDict:[String: String] = ["token": fcmToken]

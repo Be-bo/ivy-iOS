@@ -40,6 +40,11 @@ class ChatRoomRepo: ObservableObject {
     
     // Load the other member
     func loadMember(_ userID: String){
+        if userID.isEmpty {
+            print("ChatRoomRepo.loadMember: Empty UserID")
+            return
+        }
+        
         db.document(Utils.getUserPath(userId: userID))
             .getDocument { (docSnapshot, error) in
                 
@@ -169,7 +174,7 @@ class ChatRoomRepo: ObservableObject {
     }
     
     // Save Chatroom to Firebase before sending message
-    func saveChatroom(room: Chatroom, msg: Message) {
+    func saveChatroom(room: Chatroom, msg: Message, thisUserID: String, userID: String) {
         waitingToSend = true
         sentMsg = false
         
@@ -180,7 +185,22 @@ class ChatRoomRepo: ObservableObject {
                     self.waitingToSend = false
                     return
                 }
+            
+                // Chatroom creation successful -> continue to next steps
+                self.addToMessagingList(thisUserID: thisUserID, userID: userID)
                 self.sendMessage(msg)
             }
+        
+    }
+    
+    // Add user to MessagingList
+    func addToMessagingList(thisUserID: String, userID: String) {
+        if (!thisUserID.isEmpty && !userID.isEmpty) {
+            db.document(Utils.getUserPath(userId: thisUserID))
+                .updateData(["messagingUsers" : FieldValue.arrayUnion([userID])])
+        }
+        else {
+            print("ChatRoomRepo.addToMessagingList: empty ids")
+        }
     }
 }
