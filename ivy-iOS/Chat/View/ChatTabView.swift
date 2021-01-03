@@ -17,6 +17,8 @@ struct ChatTabView: View {
     @State private var settingsPresented = false
     @State private var loadingWheelAnimating = true
     @State private var offset = CGSize.zero
+    @State var showingAlert = false
+    @State var deleteIndexSet : IndexSet?
     
     
     init(thisUserRepo: ThisUserRepo) {
@@ -59,7 +61,10 @@ struct ChatTabView: View {
                                 )
                             }
                         }
-                        .onDelete(perform: deleteChatrooms)
+                        .onDelete(perform: { indexSet in
+                            self.showingAlert = true
+                            self.deleteIndexSet = indexSet
+                        })
                         
                         // Pagination: Fetch next batch
                         if !chatTabVM.chatroomsLoaded {
@@ -74,6 +79,13 @@ struct ChatTabView: View {
                         }
                     }
                 }
+            }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Delete Chatroom?"), message: Text("This Chatroom will be permanently removed for you."), primaryButton: .destructive(Text("Delete")) {
+                    if let indexSet = self.deleteIndexSet {
+                        deleteChatrooms(at: indexSet)
+                    }
+                }, secondaryButton: .cancel())
             }
             
             // MARK: Nav Bar
