@@ -173,6 +173,21 @@ class ChatRoomRepo: ObservableObject {
             }
     }
     
+    
+    // Add user to MessagingList
+    func addUserToMessagingList(thisUserID: String, userID: String) {
+        if (!thisUserID.isEmpty && !userID.isEmpty) {
+            db.document(Utils.getUserPath(userId: thisUserID))
+                .updateData(["messaging_users" : FieldValue.arrayUnion([userID])])
+            db.document(Utils.getUserPath(userId: userID))
+                .updateData(["messaging_users" : FieldValue.arrayUnion([thisUserID])])
+        }
+        else {
+            print("ChatRoomRepo.addToMessagingList: empty ids")
+        }
+    }
+    
+    
     // Save Chatroom to Firebase before sending message
     func saveChatroom(room: Chatroom, msg: Message, thisUserID: String, userID: String) {
         waitingToSend = true
@@ -187,20 +202,61 @@ class ChatRoomRepo: ObservableObject {
                 }
             
                 // Chatroom creation successful -> continue to next steps
-                self.addToMessagingList(thisUserID: thisUserID, userID: userID)
+                self.addUserToMessagingList(thisUserID: thisUserID, userID: userID)
                 self.sendMessage(msg)
             }
-        
     }
     
-    // Add user to MessagingList
-    func addToMessagingList(thisUserID: String, userID: String) {
-        if (!thisUserID.isEmpty && !userID.isEmpty) {
-            db.document(Utils.getUserPath(userId: thisUserID))
-                .updateData(["messagingUsers" : FieldValue.arrayUnion([userID])])
+    
+    // Remove Chatroom from database
+    func deleteChatroom(room: Chatroom, thisUserID: String, userID: String) {
+        if (thisUserID.isEmpty || userID.isEmpty){
+            return
         }
-        else {
-            print("ChatRoomRepo.addToMessagingList: empty ids")
+        
+        // Remove from messaging list
+        db.document(Utils.getUserPath(userId: thisUserID))
+            .updateData(["messaging_users" : FieldValue.arrayRemove([userID])])
+        
+        // Remove user from chatroom members. if empty list -> delete document
+        let roomPath = db.document(room.getPath())
+        roomPath.updateData(["members" : FieldValue.arrayRemove([thisUserID])]) { err in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            }
+            roomPath.getDocument { (doc, err1) in
+                if let err1 = err1 {
+                    print(err1.localizedDescription)
+                }
+                else if let doc = doc {
+                    if let room = try? doc.data(as: Chatroom.self) {
+                        // Delete if empty, else do nothing
+                        if room.members.isEmpty {
+                            roomPath.delete()
+                        }
+                    }
+                }
+            }
         }
+    }
+    
+    
+    // Block -> remove chatroom and add to Blocked Users list
+    func blockUser(room: Chatroom, thisUserID: String, userID: String) {
+        if (thisUserID.isEmpty || userID.isEmpty) {
+            return
+        }
+        
+        // Add to this blocked list
+        db.document(Utils.getUserPath(userId: thisUserID))
+            .updateData(["blocked_users" : FieldValue.arrayUnion([userID])])
+        
+        // Add to their blocking list
+        db.document(Utils.getUserPath(userId: userID))
+            .updateData(["blocking_users" : FieldValue.arrayUnion([thisUserID])])
+        
+        // remove chatroom
+        deleteChatroom(room: room, thisUserID: thisUserID, userID: userID)
     }
 }

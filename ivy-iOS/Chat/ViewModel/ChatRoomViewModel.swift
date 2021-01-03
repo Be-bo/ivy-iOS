@@ -97,4 +97,14 @@ class ChatRoomViewModel: ObservableObject, Identifiable {
             chatRoomRepo.saveChatroom(room: chatroom, msg: msg, thisUserID: thisUserID, userID: userID)
         }
     }
+    
+    // Remove Chatroom from database
+    func deleteChatroom() {
+        chatRoomRepo.deleteChatroom(room: chatroom, thisUserID: thisUserID, userID: userID)
+    }
+    
+    // Block -> remove chatroom and add to Blocked Users list
+    func blockUser() {
+        chatRoomRepo.blockUser(room: chatroom, thisUserID: thisUserID, userID: userID)
+    }
 }

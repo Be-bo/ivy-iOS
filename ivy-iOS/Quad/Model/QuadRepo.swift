@@ -28,12 +28,16 @@ class QuadRepo: ObservableObject {
     
     
     init(thisUser: User) {
+        
         // Create single BlackList
         self.blackList.append(thisUser.id)   // Don't fetch this user
-        if let blocked = thisUser.blockedUsers {
+        if let blocked = thisUser.blocked_users {
             self.blackList.append(contentsOf: blocked)
         }
-        if let messaging = thisUser.messagingUsers {
+        if let blocking = thisUser.blocking_users {
+            self.blackList.append(contentsOf: blocking)
+        }
+        if let messaging = thisUser.messaging_users {
             self.blackList.append(contentsOf: messaging)
         }
         

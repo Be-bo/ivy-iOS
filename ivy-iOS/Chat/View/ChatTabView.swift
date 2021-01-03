@@ -25,6 +25,14 @@ struct ChatTabView: View {
     }
     
     
+    func deleteChatrooms(at offsets: IndexSet) {
+        for i in offsets {
+            chatTabVM.chatRoomVMs[i].deleteChatroom()
+        }
+    }
+    
+    
+    // MARK: BODY
     var body: some View {
         
         NavigationView {
@@ -51,6 +59,7 @@ struct ChatTabView: View {
                                 )
                             }
                         }
+                        .onDelete(perform: deleteChatrooms)
                         
                         // Pagination: Fetch next batch
                         if !chatTabVM.chatroomsLoaded {
@@ -90,6 +99,8 @@ struct ChatTabView: View {
                         .padding(.leading, (UIScreen.screenWidth/2 - 75))
                         
                     }.padding(.leading, 0)
+                ,trailing:
+                    EditButton().foregroundColor(AssetManager.ivyGreen)
             )
         }
         .navigationViewStyle(StackNavigationViewStyle())

@@ -128,8 +128,8 @@ struct UserProfile: View {
                                 }
                             }
                             // Student -> Message
-                            else if let messagingUsers = thisUserRepo.user.messagingUsers {
-                                if !messagingUsers.contains(uid){
+                            else if let messaging_users = thisUserRepo.user.messaging_users {
+                                if !messaging_users.contains(uid){
                                     Button(action: {
                                         self.selection = 2
                                     }) {

@@ -28,7 +28,8 @@ class User: Identifiable, Codable {
     var is_club: Bool = false
     var is_banned = false
     var registration_platform = "iOS"
-    var blockedUsers: [String]? = [String]()
+    var blocked_users: [String]? = [String]()    // These can't message you
+    var blocking_users: [String]? = [String]()   // User can't message these folks
 
     
     // Currently unused
@@ -41,14 +42,14 @@ class User: Identifiable, Codable {
     // Student
     var degree: String?
     var birth_millis: Int?
-    var messagingUsers: [String]?
+    var messaging_users: [String]?
     
     
     // Student
     init(id: String, email: String, degree: String) {
         self.degree = degree
         self.birth_millis = 0
-        self.messagingUsers = [String]()
+        self.messaging_users = [String]()
         setInitialData(id: id, email: email, is_organization: false, is_club: false)
     }
     
@@ -74,7 +75,8 @@ class User: Identifiable, Codable {
             self.uni_domain = String(splitEmail[1])
         }
         self.name = String(splitEmail[0])   // Set default name
-        self.blockedUsers = [String]()
+        self.blocked_users = [String]()
+        self.blocking_users = [String]()
     }
     
     private func setInitialData(id: String, email: String, is_organization: Bool, is_club: Bool) {
@@ -90,7 +92,8 @@ class User: Identifiable, Codable {
         }
         self.registration_millis = Int(Utils.getCurrentTimeInMillis())
         self.name = String(splitEmail[0])   // Set default name
-        self.blockedUsers = [String]()
+        self.blocked_users = [String]()
+        self.blocking_users = [String]()
     }
     
     
