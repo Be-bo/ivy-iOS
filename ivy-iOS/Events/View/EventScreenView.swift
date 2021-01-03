@@ -12,6 +12,7 @@ import SDWebImageSwiftUI
 import Firebase
 
 struct EventScreenView: View {
+    
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     @ObservedObject var eventVM: EventItemViewModel
@@ -178,13 +179,9 @@ struct EventScreenView: View {
                         
                         
                         if(Auth.auth().currentUser != nil){
-                            NavigationLink(
-                                destination: UserProfile(uid: eventVM.event.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: 1,
-                                selection: self.$selection) {
-                                EmptyView()
-                            }
+                            NavigationLink(destination: UserProfileNavView(uid: eventVM.event.author_id),
+                                           tag: 1,
+                                           selection: self.$selection) { EmptyView()}
                         }else{
                             Button(action: {
                                 self.showNotLoggedInAlert = true
@@ -268,13 +265,9 @@ struct EventScreenView: View {
                                         }
                                     
                                     if(Auth.auth().currentUser != nil){
-                                        NavigationLink(
-                                            destination: UserProfile(uid: currentId)
-                                                .navigationBarTitle("Profile"),
-                                            tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
-                                            selection: self.$selection) {
-                                            EmptyView()
-                                        }
+                                        NavigationLink(destination: UserProfileNavView(uid: currentId),
+                                                       tag: self.eventVM.event.going_ids.firstIndex(of: currentId)! + 2,
+                                                       selection: self.$selection) { EmptyView()}
                                     }else{
                                         Button(action: {
                                             self.showNotLoggedInAlert = true
@@ -485,14 +478,9 @@ struct EventScreenView: View {
                                     }
                                 Divider().padding(.vertical, 20)
                             }
-                            
-                            NavigationLink(
-                                destination: UserProfile(uid: commentVM.comment.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: commentVM.selectionId ,
-                                selection: self.$selection) {
-                                EmptyView()
-                            }
+                            NavigationLink(destination: UserProfileNavView(uid: commentVM.comment.author_id),
+                                           tag: commentVM.selectionId,
+                                           selection: self.$selection) { EmptyView()}
                         }
                     }
                 }else{

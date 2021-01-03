@@ -119,14 +119,11 @@ struct ChatRoomView: View {
             .animation(.default)
             .padding()
             
+            // Go To User Profile
             if let partner = chatRoomVM.partner {
-                NavigationLink(
-                    destination: UserProfile(uid: partner.user.id)
-                        .navigationBarTitle("Profile"),
-                    tag: 1,
-                    selection: self.$selection) {
-                    EmptyView()
-                }
+                NavigationLink(destination: UserProfileNavView(uid: partner.user.id),
+                               tag:1,
+                               selection: self.$selection) { EmptyView()}
             }
         }
         .navigationBarTitle(Text(chatRoomVM.partner?.user.name ?? "ChatRoom"), displayMode: .inline)

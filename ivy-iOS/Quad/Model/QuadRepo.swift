@@ -34,7 +34,7 @@ class QuadRepo: ObservableObject {
         if let blocked = thisUser.blocked_users {
             self.blackList.append(contentsOf: blocked)
         }
-        if let blocking = thisUser.blocking_users {
+        if let blocking = thisUser.blockers {
             self.blackList.append(contentsOf: blocking)
         }
         if let messaging = thisUser.messaging_users {

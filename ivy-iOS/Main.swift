@@ -80,7 +80,7 @@ struct Main: View {
             
 
                 // MARK: Profile
-                ProfileTabView(uid: Auth.auth().currentUser!.uid)
+                ThisProfileTabView(uid: Auth.auth().currentUser!.uid)
                     .tabItem {
                         selection == 4 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         Text("Profile")

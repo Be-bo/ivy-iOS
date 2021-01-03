@@ -131,7 +131,9 @@ class ChatRoomRepo: ObservableObject {
                         if let msg = try? diff.document.data(as: Message.self) {
                             if (diff.type == .added){
                                 // View is fliped upside down (slot[0] used for latest message)
-                                self.messages.insert(msg, at: 1)
+                                if (self.messages.count > 0) {
+                                    self.messages.insert(msg, at: 1)
+                                }
                             }
                         } else {
                             print("ChatRoomRepo: Couldn't convert Message object! ID: \(diff.document.documentID)")
@@ -254,7 +256,7 @@ class ChatRoomRepo: ObservableObject {
         
         // Add to their blocking list
         db.document(Utils.getUserPath(userId: userID))
-            .updateData(["blocking_users" : FieldValue.arrayUnion([thisUserID])])
+            .updateData(["blockers" : FieldValue.arrayUnion([thisUserID])])
         
         // remove chatroom
         deleteChatroom(room: room, thisUserID: thisUserID, userID: userID)

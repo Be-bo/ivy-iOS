@@ -63,13 +63,10 @@ struct MemberListRow: View {
                             }){ //circle profile pic button -> transition to profile
                                 ZStack{
                                     PersonCircleView(personId: currentId)
-                                    
-                                    NavigationLink(
-                                        destination: UserProfile(uid: currentId).navigationBarTitle("Profile", displayMode: .inline),
-                                        tag: self.memberIds.firstIndex(of: currentId)! + 1,
-                                        selection: self.$selection) {
-                                            EmptyView()
-                                    }
+
+                                    NavigationLink(destination: UserProfileNavView(uid: currentId),
+                                                   tag: self.memberIds.firstIndex(of: currentId)! + 1,
+                                                   selection: self.$selection) { EmptyView()}
                                     
 //                                    if(self.userIsOrg){
 //                                        NavigationLink(

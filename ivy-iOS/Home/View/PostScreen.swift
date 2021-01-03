@@ -101,13 +101,9 @@ struct PostScreen: View {
                         }
                         
                         if(Auth.auth().currentUser != nil){
-                            NavigationLink(
-                                destination: UserProfile(uid: postVM.post.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: 1,
-                                selection: self.$selection) {
-                                EmptyView()
-                            }
+                            NavigationLink(destination: UserProfileNavView(uid: postVM.post.author_id),
+                                           tag: 1,
+                                           selection: self.$selection) { EmptyView()}
                         }else{
                             Button(action: {
                                 self.showNotLoggedInAlert = true
@@ -432,13 +428,9 @@ struct viewComments: View {
                                 Divider().padding(.vertical, 20)
                             }
                             
-                            NavigationLink(
-                                destination: UserProfile(uid: commentVM.comment.author_id)
-                                    .navigationBarTitle("Profile"),
-                                tag: commentVM.selectionId ,
-                                selection: self.$selection) {
-                                EmptyView()
-                            }
+                            NavigationLink(destination: UserProfileNavView(uid: commentVM.comment.author_id),
+                                           tag: commentVM.selectionId,
+                                           selection: self.$selection) { EmptyView()}
                         }
                     }
                 }else{

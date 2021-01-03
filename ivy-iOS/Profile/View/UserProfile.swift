@@ -128,8 +128,10 @@ struct UserProfile: View {
                                 }
                             }
                             // Student -> Message
-                            else if let messaging_users = thisUserRepo.user.messaging_users {
-                                if !messaging_users.contains(uid){
+                            else if !(thisUserRepo.user.messaging_users?.contains(uid) ?? false) &&
+                                    !(thisUserRepo.user.blockers?.contains(uid) ?? false) &&
+                                    !(thisUserRepo.user.blocked_users?.contains(uid) ?? false) {
+                                
                                     Button(action: {
                                         self.selection = 2
                                     }) {
@@ -141,7 +143,6 @@ struct UserProfile: View {
                                                 .foregroundColor(AssetManager.ivyGreen)
                                         }
                                     }
-                                }
                                 
                                 // Create a new chatroom with user
                                 NavigationLink(

@@ -5,13 +5,14 @@
 //  Created by Zahra Ghavasieh on 2020-11-19.
 //  Copyright © 2020 ivy. All rights reserved.
 //
+//  FirstView User Profile
 //  TODO: profile image doesn't update automatically after edit
 //
 
 import SwiftUI
 import FirebaseAuth
 
-struct ProfileTabView: View {
+struct ThisProfileTabView: View {
     
     var uid = ""
     @ObservedObject var profileVM : ProfileViewModel

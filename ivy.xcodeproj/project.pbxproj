@@ -21,7 +21,7 @@
 		8D30D18024F579180020999D /* UserProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30D17F24F579180020999D /* UserProfileSupport.swift */; };
 		8D3195E92566E64F00314B31 /* QuadTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195E82566E64F00314B31 /* QuadTabView.swift */; };
 		8D3195ED2566E65E00314B31 /* ChatTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195EC2566E65E00314B31 /* ChatTabView.swift */; };
-		8D3195F02566EEF700314B31 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195EF2566EEF700314B31 /* ProfileTabView.swift */; };
+		8D3195F02566EEF700314B31 /* ThisProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195EF2566EEF700314B31 /* ThisProfileTabView.swift */; };
 		8D3195F5256770AE00314B31 /* QuadTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195F4256770AE00314B31 /* QuadTabViewModel.swift */; };
 		8D3195F9256770DB00314B31 /* QuadRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195F8256770DB00314B31 /* QuadRepo.swift */; };
 		8D31960025677BCE00314B31 /* QuadCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195FF25677BCE00314B31 /* QuadCardView.swift */; };
@@ -47,6 +47,7 @@
 		8DABC13624E5B75A00A8F801 /* StudentSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13524E5B75A00A8F801 /* StudentSignup.swift */; };
 		8DABC13A24E5B9F800A8F801 /* SignupSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13924E5B9F800A8F801 /* SignupSupport.swift */; };
 		8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DABC13B24E5CA5C00A8F801 /* DropDownMenu.swift */; };
+		8DB454F325A23DFB0017A090 /* UserProfileNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB454F225A23DFB0017A090 /* UserProfileNavView.swift */; };
 		8DD2C37324F429FC0067A507 /* EditUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37224F429FC0067A507 /* EditUserProfile.swift */; };
 		8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */; };
 		A9B0A71D24B8058500A11A1D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B0A71C24B8058500A11A1D /* Main.swift */; };
@@ -119,7 +120,7 @@
 		8D30D17F24F579180020999D /* UserProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSupport.swift; sourceTree = "<group>"; };
 		8D3195E82566E64F00314B31 /* QuadTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadTabView.swift; sourceTree = "<group>"; };
 		8D3195EC2566E65E00314B31 /* ChatTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTabView.swift; sourceTree = "<group>"; };
-		8D3195EF2566EEF700314B31 /* ProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabView.swift; sourceTree = "<group>"; };
+		8D3195EF2566EEF700314B31 /* ThisProfileTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisProfileTabView.swift; sourceTree = "<group>"; };
 		8D3195F4256770AE00314B31 /* QuadTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadTabViewModel.swift; sourceTree = "<group>"; };
 		8D3195F8256770DB00314B31 /* QuadRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadRepo.swift; sourceTree = "<group>"; };
 		8D3195FF25677BCE00314B31 /* QuadCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadCardView.swift; sourceTree = "<group>"; };
@@ -145,6 +146,7 @@
 		8DABC13524E5B75A00A8F801 /* StudentSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignup.swift; sourceTree = "<group>"; };
 		8DABC13924E5B9F800A8F801 /* SignupSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupSupport.swift; sourceTree = "<group>"; };
 		8DABC13B24E5CA5C00A8F801 /* DropDownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownMenu.swift; sourceTree = "<group>"; };
+		8DB454F225A23DFB0017A090 /* UserProfileNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileNavView.swift; sourceTree = "<group>"; };
 		8DD2C37224F429FC0067A507 /* EditUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserProfile.swift; sourceTree = "<group>"; };
 		8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileSupport.swift; sourceTree = "<group>"; };
 		91CD0E2B74606A334338AF5B /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
@@ -489,7 +491,8 @@
 				8D98D12624F0668800F58539 /* UserProfile.swift */,
 				FABA036624F47A33007C4878 /* NotificationCenterView.swift */,
 				FABA036824F47EA9007C4878 /* MemberListRow.swift */,
-				8D3195EF2566EEF700314B31 /* ProfileTabView.swift */,
+				8D3195EF2566EEF700314B31 /* ThisProfileTabView.swift */,
+				8DB454F225A23DFB0017A090 /* UserProfileNavView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -809,6 +812,7 @@
 				8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */,
 				FA8223EE24F058D400042AA2 /* EventsTabView.swift in Sources */,
 				FABA035F24F43631007C4878 /* Extensions.swift in Sources */,
+				8DB454F325A23DFB0017A090 /* UserProfileNavView.swift in Sources */,
 				8D91D7342582D8B60067FAB1 /* ChatTabViewModel.swift in Sources */,
 				FAD2366A24E488E500F92637 /* LoginViewModel.swift in Sources */,
 				FA2B0EE124F2C65500B746FB /* HomeTabView.swift in Sources */,
@@ -823,7 +827,7 @@
 				FABA035C24F432E9007C4878 /* StaticDomainList.swift in Sources */,
 				8D31960025677BCE00314B31 /* QuadCardView.swift in Sources */,
 				FA201E8D24F0610B003495DB /* EventRepo.swift in Sources */,
-				8D3195F02566EEF700314B31 /* ProfileTabView.swift in Sources */,
+				8D3195F02566EEF700314B31 /* ThisProfileTabView.swift in Sources */,
 				8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */,
 				FA96E8AA24E5980E00E33BAD /* StandardButtonStyle.swift in Sources */,
 				FA2B0EEB24F2CC2B00B746FB /* HomePostView.swift in Sources */,

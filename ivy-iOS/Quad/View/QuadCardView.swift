@@ -12,7 +12,7 @@ struct QuadCardView: View {
     
     @ObservedObject var userVM: UserViewModel
     @State var selection : Int? = nil
-    var thisUserID: String
+    var thisUserRepo: ThisUserRepo
     
     
     var body: some View {
@@ -61,20 +61,17 @@ struct QuadCardView: View {
             }
             
             // Go To User Profile
-            NavigationLink(destination: UserProfile(uid: userVM.id).navigationBarTitle("Profile", displayMode: .inline),
+            NavigationLink(destination: UserProfileNavView(uid: userVM.id, thisUserRepo: thisUserRepo),
                            tag:1,
-                           selection: self.$selection) {
-                EmptyView()
-            }
+                           selection: self.$selection) { EmptyView()}
             
             // Create a new chatroom with user
             NavigationLink(
-                destination: ChatRoomView(userID: self.userVM.id, thisUserID: thisUserID)
+                destination: ChatRoomView(userID: self.userVM.id, thisUserID: thisUserRepo.user.id)
                     .navigationBarTitle("Message \(userVM.user.name)", displayMode: .inline),
                 tag: 2, selection: self.$selection) {
                     EmptyView()
             }
-
         }
     }
 }
