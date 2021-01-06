@@ -670,7 +670,7 @@
 				};
 			};
 			buildConfigurationList = FA5DEF8E24B6970D00C397CB /* Build configuration list for PBXProject "ivy" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
