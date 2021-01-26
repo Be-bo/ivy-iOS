@@ -109,7 +109,7 @@ struct FirebaseCardImage: View{
     var path: String
     var placeholder = Image(systemName: "person.fill")
     var width: CGFloat? = UIScreen.screenWidth - (UIScreen.screenWidth * 0.1)
-    var height: CGFloat? = UIScreen.screenHeight - (UIScreen.screenHeight * 0.28)
+    var height: CGFloat? = UIScreen.screenHeight - (UIScreen.screenHeight * 0.29)
     let shape = RoundedRectangle(cornerRadius: 25)
     
     
