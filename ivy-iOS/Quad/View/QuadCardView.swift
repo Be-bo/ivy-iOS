@@ -20,6 +20,9 @@ struct QuadCardView: View {
 
             // MARK: Picture
             FirebaseCardImage(path: Utils.userProfileImagePath(userId: self.userVM.id))
+            .onTapGesture {
+                self.selection = 1
+            }
 
             
             // MARK: User Info
@@ -48,14 +51,10 @@ struct QuadCardView: View {
                     Spacer()
                 }
   
-                Text(userVM.user.degree ?? "")
+                Text(userVM.user.degree ?? "").foregroundColor(.black)
             }
             .padding()
             .padding(.bottom, 40)
-            .background(LinearGradient(
-                            gradient: SwiftUI.Gradient(colors: [Color.white.opacity(0), .white]),
-                            startPoint: .center,
-                            endPoint: .bottom))
             .onTapGesture {
                 self.selection = 1
             }

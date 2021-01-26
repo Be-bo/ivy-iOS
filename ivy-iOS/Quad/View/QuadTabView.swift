@@ -35,7 +35,7 @@ struct QuadTabView: View {
         NavigationView {
             
             // MARK: Horizontal List of people
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                         
                     ForEach(quadTabVM.quadUsersVMs){ userVM in
@@ -89,11 +89,7 @@ struct QuadTabView: View {
                         
                     }.padding(.leading, 0)
             )
-            
         }
-        
-        
-
-        
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }

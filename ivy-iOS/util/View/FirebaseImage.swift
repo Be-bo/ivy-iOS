@@ -107,19 +107,18 @@ struct FirebaseCardImage: View{
     let storage = Storage.storage().reference()
 
     var path: String
-    var placeholder = Image(systemName: "person.crop.square.fill")
-    var width: CGFloat? = UIScreen.screenWidth - 30
-    var height: CGFloat? = UIScreen.screenHeight - 80
+    var placeholder = Image(systemName: "person.fill")
+    var width: CGFloat? = UIScreen.screenWidth - (UIScreen.screenWidth * 0.1)
+    var height: CGFloat? = UIScreen.screenHeight - (UIScreen.screenHeight * 0.28)
     let shape = RoundedRectangle(cornerRadius: 25)
     
     
     var body: some View {
+        ZStack {
         WebImage(url: URL(string: imageURL))
             .resizable()
             .placeholder(placeholder)
             .aspectRatio(contentMode: .fill)
-            .frame(width: width, height: height)
-            .clipShape(shape)
             .onAppear(){
                 if (!self.path.isEmpty && self.path != "nothing") {
                     self.storage.child(self.path).downloadURL { (url, err) in
@@ -130,7 +129,15 @@ struct FirebaseCardImage: View{
                         self.imageURL = "\(url!)"
                     }
                 }
+            }
+            
+            LinearGradient(
+                gradient: SwiftUI.Gradient(colors: [Color.white.opacity(0), .white]),
+                startPoint: .center,
+                endPoint: .bottom)
         }
+        .frame(width: width, height: height)
+        .clipShape(shape)
     }
 }
 
