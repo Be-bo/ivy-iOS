@@ -40,6 +40,33 @@ struct ChatTabView: View {
         NavigationView {
             
             VStack {
+                
+                // List of Chatrooms
+                List(){
+                    ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
+                        NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM, thisUserRepo: thisUserRepo)) {
+                            ChatRoomItemView(chatRoomVM: chatRoomVM)
+                        }
+                    }
+                    .onDelete(perform: { indexSet in
+                        self.showingAlert = true
+                        self.deleteIndexSet = indexSet
+                    })
+                    
+                    // Pagination: Fetch next batch
+                    if !chatTabVM.chatroomsLoaded {
+                        HStack {
+                            Spacer()
+                            ActivityIndicator($loadingWheelAnimating)
+                                .onAppear {
+                                    self.chatTabVM.fetchNextBatch()
+                                }
+                            Spacer()
+                        }
+                    }
+                }
+                
+                
                 // No Chatrooms
                 if(chatTabVM.chatRoomVMs.count < 1) {
                     Text("No Conversations Available.")
@@ -49,33 +76,6 @@ struct ChatTabView: View {
                         .padding(30)
                     
                     Spacer()
-                }
-                else {
-                    // List of Chatrooms
-                    List(){
-                        ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
-                            
-                            NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM, thisUserRepo: thisUserRepo)) {
-                                ChatRoomItemView(chatRoomVM: chatRoomVM)
-                            }
-                        }
-                        .onDelete(perform: { indexSet in
-                            self.showingAlert = true
-                            self.deleteIndexSet = indexSet
-                        })
-                        
-                        // Pagination: Fetch next batch
-                        if !chatTabVM.chatroomsLoaded {
-                            HStack {
-                                Spacer()
-                                ActivityIndicator($loadingWheelAnimating)
-                                    .onAppear {
-                                        self.chatTabVM.fetchNextBatch()
-                                    }
-                                Spacer()
-                            }
-                        }
-                    }
                 }
             }
             .alert(isPresented: $showingAlert) {

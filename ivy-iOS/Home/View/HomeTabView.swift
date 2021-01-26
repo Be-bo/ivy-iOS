@@ -31,7 +31,7 @@ struct HomeTabView: View {
                         HomePostView(postItemVM: postItemVM)
                     }
                     
-                    if homeTabVM.homeRepo.postsLoaded == false {
+                    if !homeTabVM.homeRepo.postsLoaded {
                         HStack{
                             Spacer()
                             ActivityIndicator($loadingWheelAnimating)

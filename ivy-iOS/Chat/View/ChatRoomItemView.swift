@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ChatRoomItemView: View {
     
-    @ObservedObject var chatRoomVM : ChatRoomViewModel    
+    @ObservedObject var chatRoomVM : ChatRoomViewModel
+    @State var selection : Int? = nil
     
     
     // MARK: INIT
@@ -23,7 +24,7 @@ struct ChatRoomItemView: View {
     var body: some View {
         HStack {
             
-            if (chatRoomVM.partner != nil){
+            if ((chatRoomVM.partner?.user.id ?? "") != ""){
                 FirebaseImage(
                     path: Utils.userPreviewImagePath(userId: chatRoomVM.partner!.user.id),
                     placeholder: Image(systemName: "person.crop.circle.fill"),
