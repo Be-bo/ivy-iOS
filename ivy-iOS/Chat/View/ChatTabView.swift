@@ -23,7 +23,7 @@ struct ChatTabView: View {
     
     init(thisUserRepo: ThisUserRepo) {
         self.thisUserRepo = thisUserRepo
-        chatTabVM = ChatTabViewModel(thisUserRepo: thisUserRepo)
+        chatTabVM = ChatTabViewModel(thisUserID: thisUserRepo.user.id, thisUserName: thisUserRepo.user.name)
     }
     
     
@@ -54,11 +54,9 @@ struct ChatTabView: View {
                     // List of Chatrooms
                     List(){
                         ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
+                            
                             NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM, thisUserRepo: thisUserRepo)) {
-                                ChatRoomItemView(
-                                    thisUserRepo: thisUserRepo,
-                                    chatRoomVM: chatRoomVM
-                                )
+                                ChatRoomItemView(chatRoomVM: chatRoomVM)
                             }
                         }
                         .onDelete(perform: { indexSet in

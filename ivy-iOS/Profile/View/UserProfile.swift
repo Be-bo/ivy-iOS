@@ -147,7 +147,7 @@ struct UserProfile: View {
                                 
                                 // Create a new chatroom with user
                                 NavigationLink(
-                                    destination: ChatRoomView(userID: self.uid, thisUserID: self.thisUserRepo.user.id, thisUserName: self.thisUserRepo.user.name)
+                                    destination: ChatRoomView(userID: self.uid, thisUserRepo: self.thisUserRepo)
                                         .navigationBarTitle("Message \(self.profileVM.profileRepo.userProfile.name)", displayMode: .inline),
                                     tag: 2, selection: self.$selection) {
                                         EmptyView()

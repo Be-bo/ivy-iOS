@@ -10,14 +10,11 @@ import SwiftUI
 
 struct ChatRoomItemView: View {
     
-    @ObservedObject var chatRoomVM : ChatRoomViewModel
-    var thisUserRepo = ThisUserRepo()
-    
+    @ObservedObject var chatRoomVM : ChatRoomViewModel    
     
     
     // MARK: INIT
-    init(thisUserRepo: ThisUserRepo, chatRoomVM: ChatRoomViewModel) {
-        self.thisUserRepo = thisUserRepo
+    init(chatRoomVM: ChatRoomViewModel) {
         self.chatRoomVM = chatRoomVM
     }
     
