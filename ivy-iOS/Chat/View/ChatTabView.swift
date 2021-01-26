@@ -12,7 +12,7 @@ import Firebase
 
 struct ChatTabView: View {
     
-    var thisUserRepo : ThisUserRepo
+    @ObservedObject var thisUserRepo : ThisUserRepo
     @ObservedObject var chatTabVM : ChatTabViewModel
     @State private var settingsPresented = false
     @State private var loadingWheelAnimating = true
@@ -23,7 +23,7 @@ struct ChatTabView: View {
     
     init(thisUserRepo: ThisUserRepo) {
         self.thisUserRepo = thisUserRepo
-        chatTabVM = ChatTabViewModel(thisUserID: thisUserRepo.user.id)
+        chatTabVM = ChatTabViewModel(thisUserRepo: thisUserRepo)
     }
     
     
@@ -54,7 +54,7 @@ struct ChatTabView: View {
                     // List of Chatrooms
                     List(){
                         ForEach(chatTabVM.chatRoomVMs) { chatRoomVM in
-                            NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM, thisUserID: thisUserRepo.user.id)) {
+                            NavigationLink(destination: ChatRoomView(chatRoomVM: chatRoomVM, thisUserRepo: thisUserRepo)) {
                                 ChatRoomItemView(
                                     thisUserRepo: thisUserRepo,
                                     chatRoomVM: chatRoomVM
@@ -81,7 +81,7 @@ struct ChatTabView: View {
                 }
             }
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Delete Chatroom?"), message: Text("This Chatroom will be permanently removed for you."), primaryButton: .destructive(Text("Delete")) {
+                Alert(title: Text("Delete Conversation?"), message: Text("This Chatroom will be permanently removed for you."), primaryButton: .destructive(Text("Delete")) {
                     if let indexSet = self.deleteIndexSet {
                         deleteChatrooms(at: indexSet)
                     }

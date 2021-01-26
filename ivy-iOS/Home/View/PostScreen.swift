@@ -87,7 +87,7 @@ struct PostScreen: View {
                             
                             FirebaseImage(
                                 path: Utils.userPreviewImagePath(userId: self.postVM.post.author_id),
-                                placeholder: AssetManager.logoGreen,
+                                placeholder: Image(systemName: "person.crop.circle.fill"),
                                 width: 40,
                                 height: 40,
                                 shape: RoundedRectangle(cornerRadius: 20)

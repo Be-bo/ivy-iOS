@@ -23,7 +23,7 @@ import Firebase
 struct ChatRoomView: View {
     
     @ObservedObject var chatRoomVM : ChatRoomViewModel
-    var thisUserID : String
+    @ObservedObject var thisUserRepo : ThisUserRepo
     
     @State private var loadingWheelAnimating = true
     @State private var loadInProgress = false
@@ -32,16 +32,16 @@ struct ChatRoomView: View {
     
     
     // Existing chatrooms
-    init(chatRoomVM: ChatRoomViewModel, thisUserID: String) {
-        self.thisUserID = thisUserID
+    init(chatRoomVM: ChatRoomViewModel, thisUserRepo: ThisUserRepo) {
+        self.thisUserRepo = thisUserRepo
         self.chatRoomVM = chatRoomVM
         chatRoomVM.fetchNextBatch() //Fetch more than just the first item
     }
     
     // New chatroom if not existing
-    init(userID: String, thisUserID: String) {
-        self.thisUserID = thisUserID
-        self.chatRoomVM = ChatRoomViewModel(chatroom: Chatroom(id1: thisUserID, id2: userID), userID: userID, thisUserID: thisUserID)
+    init(userID: String, thisUserRepo: ThisUserRepo) {
+        self.thisUserRepo = thisUserRepo
+        self.chatRoomVM = ChatRoomViewModel(chatroom: Chatroom(id1: thisUserRepo.user.id, id2: userID), userID: userID, thisUserID: thisUserRepo.user.id, thisUserName: thisUserRepo.user.name)
     }
     
     
@@ -52,7 +52,7 @@ struct ChatRoomView: View {
             ScrollView(.vertical, showsIndicators: true){
                 VStack {
                     ForEach(chatRoomVM.messagesVMs) { msgVM in
-                        ChatMessageView(messageVM: msgVM, thisUserID: thisUserID)
+                        ChatMessageView(messageVM: msgVM, thisUserID: thisUserRepo.user.id)
                             .flippedUpsideDown()
                     }
                     
@@ -101,7 +101,7 @@ struct ChatRoomView: View {
                     else {
                         Button(action: {
                             self.loadInProgress = true
-                            chatRoomVM.sendMessage(Message(author: thisUserID, text: chatRoomVM.msgField))
+                            chatRoomVM.sendMessage(Message(author: thisUserRepo.user.id, text: chatRoomVM.msgField))
                         }){
                            Image(systemName: "paperplane.fill")
                             .font(.system(size: 20))
@@ -138,7 +138,6 @@ struct ChatRoomView: View {
                     }
                 }
         })
-        .keyboardAdaptive()
         .onTapGesture { //hide keyboard when background tapped
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
         }

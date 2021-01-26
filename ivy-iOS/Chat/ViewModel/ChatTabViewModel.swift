@@ -18,20 +18,20 @@ class ChatTabViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     
-    init(thisUserID: String) {
+    init(thisUserID: String, thisUserName: String) {
         self.chatRepo = ChatRepo(id: thisUserID)
         
         // Chatroom
         chatRepo.$chatrooms.map { rooms in
             rooms.map { room in
                 var userID : String
-                if (room.members[0] == thisUserID) {
+                if (room.members[0] == thisUserID && room.members.count > 1) {
                     userID = room.members[1]
                 }
                 else {
                     userID = room.members[0]
                 }
-                return ChatRoomViewModel(chatroom: room, userID: userID, thisUserID: thisUserID)
+                return ChatRoomViewModel(chatroom: room, userID: userID, thisUserID: thisUserID, thisUserName: thisUserName)
             }
         }
         .assign(to: \.chatRoomVMs, on: self)

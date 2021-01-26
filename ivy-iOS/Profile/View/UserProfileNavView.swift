@@ -39,6 +39,7 @@ struct UserProfileNavView: View {
             
             // Block
             .navigationBarItems(trailing:
+                
                 Button(action: {
                     if (thisUserRepo.user.blocked_users?.contains(uid) ?? false) {
                         thisUserRepo.unblockUser(userID: uid)
@@ -46,9 +47,11 @@ struct UserProfileNavView: View {
                         showingAlert = true
                     }
                 }) {
+                    if (thisUserRepo.user.id != uid){
                     Text((thisUserRepo.user.blocked_users?.contains(uid) ?? false) ? "Unblock" : "Block")
                         .fontWeight(.regular)
                         .foregroundColor(.red)
+                    }
                 }
                 .alert(isPresented: $showingAlert) {
                     Alert(title: Text("Block User?"), message: Text("You will not be able to message this user until you unblock them."), primaryButton: .destructive(Text("Block User")) {

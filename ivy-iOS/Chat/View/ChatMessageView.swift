@@ -56,7 +56,6 @@ struct ChatMessageView: View {
                         .font(.system(size: 12))
                         .foregroundColor(AssetManager.ivyLightGrey)
                         .padding(thisUserIsAuthor ? .leading : .trailing, 10)
-                        .onAppear(perform: {print("\(messageVM.message.text) => \(time_stamp)")})
                 }
             }
 

@@ -211,7 +211,7 @@ class ChatRoomRepo: ObservableObject {
     
     
     // Remove Chatroom from database
-    func deleteChatroom(room: Chatroom, thisUserID: String, userID: String) {
+    func deleteChatroom(room: Chatroom, thisUserID: String, userID: String, thisUserName: String) {
         if (thisUserID.isEmpty || userID.isEmpty){
             return
         }
@@ -233,32 +233,15 @@ class ChatRoomRepo: ObservableObject {
                 }
                 else if let doc = doc {
                     if let room = try? doc.data(as: Chatroom.self) {
-                        // Delete if empty, else do nothing
+                        // Delete if empty, else send a message saying you left chatroom
                         if room.members.isEmpty {
                             roomPath.delete()
+                        } else {
+                            self.sendMessage(Message(author: thisUserID, text: "\(thisUserName) left the Conversation."))
                         }
                     }
                 }
             }
         }
-    }
-    
-    
-    // Block -> remove chatroom and add to Blocked Users list
-    func blockUser(room: Chatroom, thisUserID: String, userID: String) {
-        if (thisUserID.isEmpty || userID.isEmpty) {
-            return
-        }
-        
-        // Add to this blocked list
-        db.document(Utils.getUserPath(userId: thisUserID))
-            .updateData(["blocked_users" : FieldValue.arrayUnion([userID])])
-        
-        // Add to their blocking list
-        db.document(Utils.getUserPath(userId: userID))
-            .updateData(["blockers" : FieldValue.arrayUnion([thisUserID])])
-        
-        // remove chatroom
-        deleteChatroom(room: room, thisUserID: thisUserID, userID: userID)
     }
 }

@@ -96,7 +96,7 @@ struct UserProfile: View {
 
                                 if(!alreadyRequested){
                                     // viewing user not a member
-                                    if(profileVM.profileRepo.userProfile.member_ids!.contains(Auth.auth().currentUser!.uid)){
+                                    if(!profileVM.profileRepo.userProfile.member_ids!.contains(Auth.auth().currentUser!.uid)){
                                         // viewing user already requested membership
                                         if(profileVM.profileRepo.userProfile.request_ids!.contains(Auth.auth().currentUser!.uid)){
                                             Button(action: {
@@ -127,8 +127,9 @@ struct UserProfile: View {
                                     }
                                 }
                             }
-                            // Student -> Message
-                            else if !(thisUserRepo.user.messaging_users?.contains(uid) ?? false) &&
+                            
+                            // 3rd View -> Message
+                            if !(thisUserRepo.user.messaging_users?.contains(uid) ?? false) &&
                                     !(thisUserRepo.user.blockers?.contains(uid) ?? false) &&
                                     !(thisUserRepo.user.blocked_users?.contains(uid) ?? false) {
                                 
@@ -146,7 +147,7 @@ struct UserProfile: View {
                                 
                                 // Create a new chatroom with user
                                 NavigationLink(
-                                    destination: ChatRoomView(userID: self.uid, thisUserID: self.thisUserRepo.user.id)
+                                    destination: ChatRoomView(userID: self.uid, thisUserID: self.thisUserRepo.user.id, thisUserName: self.thisUserRepo.user.name)
                                         .navigationBarTitle("Message \(self.profileVM.profileRepo.userProfile.name)", displayMode: .inline),
                                     tag: 2, selection: self.$selection) {
                                         EmptyView()

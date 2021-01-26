@@ -67,7 +67,7 @@ struct QuadCardView: View {
             
             // Create a new chatroom with user
             NavigationLink(
-                destination: ChatRoomView(userID: self.userVM.id, thisUserID: thisUserRepo.user.id)
+                destination: ChatRoomView(userID: self.userVM.id, thisUserRepo: thisUserRepo)
                     .navigationBarTitle("Message \(userVM.user.name)", displayMode: .inline),
                 tag: 2, selection: self.$selection) {
                     EmptyView()
