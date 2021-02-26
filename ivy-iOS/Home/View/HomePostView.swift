@@ -15,7 +15,6 @@ struct HomePostView: View {
     @State var url = ""
     @State var authorUrl = ""
     @State var selection: Int? = nil
-    var onCommit: (Post) -> (Void) = {_ in}
     
     
     var body: some View {

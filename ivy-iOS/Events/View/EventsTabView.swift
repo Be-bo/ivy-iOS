@@ -175,61 +175,61 @@ struct EventsTabView: View {
             .padding(.horizontal, -20)
             //MARK: Nav Bar
             .navigationBarItems(leading:
-                                    HStack {
-                                        Button(action: {
-                                            self.settingsPresented.toggle()
-                                        }) {
-                                            Image(systemName: "gear").font(.system(size: 25))
-                                                .sheet(isPresented: $settingsPresented, onDismiss: {
-                                                    if(self.eventTabVM.currentUni != Utils.getCampusUni()){
-                                                        self.eventTabVM.reloadData()
-                                                        self.eventTabVM.currentUni = Utils.getCampusUni()
-                                                        self.uniUrl = "test"
-                                                    }
-                                                }){
-                                                    SettingsView(thisUserRepo: self.thisUserRepo)
-                                                }
-                                        }
-                                        
-                                        FirebaseImage(
-                                            path: Utils.uniLogoPath(),
-                                            placeholder: AssetManager.uniLogoPlaceholder,
-                                            width: 40,
-                                            height: 40,
-                                            shape: RoundedRectangle(cornerRadius: 0)
-                                        )
-                                        .padding(.leading, (UIScreen.screenWidth/2 - 75))
-                                        
-                                        
-                                    }.padding(.leading, 0), trailing:
-                                        HStack {
-                                            if thisUserRepo.userLoggedIn {
-                                                Button(action: {
-                                                    self.createPostPresented.toggle()
-                                                }) {
-                                                    Image(systemName: "square.and.pencil")
-                                                        .font(.system(size: 25))
-                                                        .sheet(isPresented: $createPostPresented, onDismiss: {
-                                                            self.eventTabVM.refresh()
-                                                        }) {
-                                                            CreateEventView()
-                                                        }
-                                                }
-                                            }
-                                            //                        else {
-                                            //                            Button(action: {
-                                            //                                self.loginPresented.toggle()
-                                            //                            }) {
-                                            //                                Image(systemName: "arrow.right.circle")
-                                            //                                    .font(.system(size: 25))
-                                            //                                    .sheet(isPresented: $loginPresented, onDismiss: {
-                                            //                                        Utils.checkForUnverified()
-                                            //                                    }) {
-                                            //                                        LoginView(thisUserRepo: self.thisUserRepo)
-                                            //                                }
-                                            //                            }
-                                            //                        }
-                                        })
+                HStack {
+                    Button(action: {
+                        self.settingsPresented.toggle()
+                    }) {
+                        Image(systemName: "gear").font(.system(size: 25))
+                            .sheet(isPresented: $settingsPresented, onDismiss: {
+                                if(self.eventTabVM.currentUni != Utils.getCampusUni()){
+                                    self.eventTabVM.reloadData()
+                                    self.eventTabVM.currentUni = Utils.getCampusUni()
+                                    self.uniUrl = "test"
+                                }
+                            }){
+                                SettingsView(thisUserRepo: self.thisUserRepo)
+                            }
+                    }
+                    
+                    FirebaseImage(
+                        path: Utils.uniLogoPath(),
+                        placeholder: AssetManager.uniLogoPlaceholder,
+                        width: 40,
+                        height: 40,
+                        shape: RoundedRectangle(cornerRadius: 0)
+                    )
+                    .padding(.leading, (UIScreen.screenWidth/2 - 75))
+                    
+                    
+                }.padding(.leading, 0), trailing:
+                    HStack {
+                        if thisUserRepo.userLoggedIn {
+                            Button(action: {
+                                self.createPostPresented.toggle()
+                            }) {
+                                Image(systemName: "square.and.pencil")
+                                    .font(.system(size: 25))
+                                    .sheet(isPresented: $createPostPresented, onDismiss: {
+                                        self.eventTabVM.refresh()
+                                    }) {
+                                        CreateEventView()
+                                    }
+                            }
+                        }
+                        //                        else {
+                        //                            Button(action: {
+                        //                                self.loginPresented.toggle()
+                        //                            }) {
+                        //                                Image(systemName: "arrow.right.circle")
+                        //                                    .font(.system(size: 25))
+                        //                                    .sheet(isPresented: $loginPresented, onDismiss: {
+                        //                                        Utils.checkForUnverified()
+                        //                                    }) {
+                        //                                        LoginView(thisUserRepo: self.thisUserRepo)
+                        //                                }
+                        //                            }
+                        //                        }
+                    })
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

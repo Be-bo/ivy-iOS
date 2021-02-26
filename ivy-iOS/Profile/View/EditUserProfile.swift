@@ -27,7 +27,7 @@ struct EditUserProfile: View {
 
     
     func updatePosts(){
-        db.collection("universities").document(userProfile.uni_domain).collection("posts").whereField("author_id", isEqualTo: userProfile.id).getDocuments { (querySnap, error) in
+        db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("author_id", isEqualTo: userProfile.id).getDocuments { (querySnap, error) in
             if error != nil{
                 print("We've got a problem hoss.")
                 return

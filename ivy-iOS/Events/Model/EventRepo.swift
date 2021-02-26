@@ -15,11 +15,11 @@ class EventRepo: ObservableObject{
     
     let creationMillis = Utils.getCurrentTimeInMillis()
     let db = Firestore.firestore()
-    @Published var upcomingEvents = [Event_new]()
-    @Published var thisWeekEvents = [Event_new]()
-    @Published var todayEvents = [Event_new]()
-    @Published var featuredEvents = [Event_new]()
-    @Published var exploreAllEvents = [Event_new]()
+    @Published var upcomingEvents = [Event]()
+    @Published var thisWeekEvents = [Event]()
+    @Published var todayEvents = [Event]()
+    @Published var featuredEvents = [Event]()
+    @Published var exploreAllEvents = [Event]()
     @Published var eventsLoaded = false
     
     //Pagination
@@ -35,7 +35,7 @@ class EventRepo: ObservableObject{
     }
         
     func loadUpcomingEvents(){
-        upcomingEvents = [Event_new]()
+        upcomingEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("is_featured", isEqualTo: false).whereField("start_millis", isGreaterThan: Int(Utils.getEndOfThisWeekMillis())) //end of this week's millis
             .order(by: "start_millis").limit(to: 15).getDocuments{(querySnapshot, error) in
                 if error != nil{
@@ -53,9 +53,9 @@ class EventRepo: ObservableObject{
                             self.upcomingEvents.append(newEvent)
                         }
                     }*/
-                    self.upcomingEvents = querSnap.documents.compactMap{ document -> Event_new? in
+                    self.upcomingEvents = querSnap.documents.compactMap{ document -> Event? in
                         if (document.get("is_featured") ?? false) as! Bool {
-                            return try? document.data(as: Event_new.self)
+                            return try? document.data(as: Event.self)
                         }
                         return nil
                     }
@@ -65,7 +65,7 @@ class EventRepo: ObservableObject{
     }
     
     func loadThisWeekEvents(){
-        thisWeekEvents = [Event_new]()
+        thisWeekEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("start_millis", isGreaterThan: Utils.getTodayMidnightMillis()).whereField("start_millis", isLessThan: Utils.getEndOfThisWeekMillis())
             .order(by: "start_millis").getDocuments{(querySnapshot, error) in
                 if error != nil{
@@ -73,9 +73,9 @@ class EventRepo: ObservableObject{
                     return
                 }
                 if let querSnap = querySnapshot{
-                    self.thisWeekEvents = querSnap.documents.compactMap{ document -> Event_new? in
+                    self.thisWeekEvents = querSnap.documents.compactMap{ document -> Event? in
                         if (document.get("is_featured") as? Bool) ?? false  {
-                            return try? document.data(as: Event_new.self)
+                            return try? document.data(as: Event.self)
                         }
                         return nil
                     }
@@ -84,7 +84,7 @@ class EventRepo: ObservableObject{
     }
     
     func loadTodayEvents(){
-        todayEvents = [Event_new]()
+        todayEvents = [Event]()
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: true).whereField("start_millis", isGreaterThan: Utils.getCurrentTimeInMillis()).whereField("start_millis", isLessThan: Utils.getTodayMidnightMillis())
             .order(by: "start_millis").getDocuments{(querySnapshot, error) in
                 if error != nil{
@@ -92,9 +92,9 @@ class EventRepo: ObservableObject{
                     return
                 }
                 if let querSnap = querySnapshot{
-                    self.todayEvents = querSnap.documents.compactMap{ document -> Event_new? in
+                    self.todayEvents = querSnap.documents.compactMap{ document -> Event? in
                         if (document.get("is_featured") as? Bool) ?? false {
-                            return try? document.data(as: Event_new.self)
+                            return try? document.data(as: Event.self)
                         }
                         return nil
                     }
@@ -112,14 +112,18 @@ class EventRepo: ObservableObject{
             }
             
             if let featuredId = docSnap?.get("featured_id") as? String{
-                self.db.document(Post_new.postPath(featuredId)).getDocument(completion: { (docSnap1, error1) in
+                self.db.document(Post.postPath(featuredId)).getDocument(completion: { (docSnap1, error1) in
                     if error1 != nil{
                         print("Error loading featured event.")
                         return
                     }
                     if let doc = docSnap1 {
-                        do { try self.featuredEvents.append(doc.data(as: Event_new.self)!) }
-                        catch { print("Could not load event in EventRepo.refresh(): \(error)") }
+                        let newEvent = try? doc.data(as: Event.self)
+                        if (newEvent != nil){
+                            self.featuredEvents.append(newEvent!)
+                        } else {
+                            print("Could not load event in EventRepo.refresh(): nil event")
+                        }
                     }
                 })
             }
@@ -130,7 +134,7 @@ class EventRepo: ObservableObject{
     func loadExploreAll(start: Bool = false){
         if start {
             exploreAllEventsLoaded = false
-            exploreAllEvents = [Event_new]() // reset list (maybe for reloading later)
+            exploreAllEvents = [Event]() // reset list (maybe for reloading later)
         }
         
         var query = db.collection("universities").document(Utils.getCampusUni()).collection("posts")
@@ -152,7 +156,7 @@ class EventRepo: ObservableObject{
             if let querSnap = querySnapshot{
                 self.exploreAllEvents.append(contentsOf: querSnap.documents.compactMap { document in
                     if (document.get("is_featured") as? Bool) ?? false {
-                        return try? document.data(as: Event_new.self)
+                        return try? document.data(as: Event.self)
                     }
                     return nil
                 })
@@ -179,8 +183,8 @@ class EventRepo: ObservableObject{
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
                         
-                        var newEvent : Event_new? = nil
-                        do { try newEvent = currentDoc.data(as: Event_new.self)! }
+                        var newEvent : Event? = nil
+                        do { try newEvent = currentDoc.data(as: Event.self)! }
                         catch { print("Could not load event in EventRepo.refresh(): \(error)") }
                         
                         if (newEvent == nil) { continue } // Skip the rest if didn't load properly

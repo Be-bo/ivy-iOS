@@ -28,8 +28,8 @@ class User: Identifiable, Codable {
     var is_club: Bool = false
     var is_banned = false
     var registration_platform = "iOS"
-    var blocked_users: [String]? = [String]()    // These can't message you (you blocked them)
-    var blockers: [String]? = [String]()         // User can't message these folks (they blocked you)
+    var blocked_users: [String]?        // These can't message you (you blocked them)
+    var blockers: [String]?             // User can't message these folks (they blocked you)
 
     
     // Currently unused

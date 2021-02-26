@@ -22,7 +22,6 @@ struct PostScreen: View {
     @State private var selection : Int? = nil
     @State private var editPostPresented = false
     @State private var showNotLoggedInAlert = false
-    var onCommit: (Post) -> (Void) = {_ in}
     
     
     

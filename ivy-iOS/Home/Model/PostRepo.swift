@@ -15,7 +15,7 @@ class PostRepo: ObservableObject{
     let loadLimit = 4
     let creationMillis = Utils.getCurrentTimeInMillis()
     let db = Firestore.firestore()
-    @Published var homePosts = [Post_new]()
+    @Published var homePosts = [Post]()
     @Published var postsLoaded = false
     var lastPulledDoc: DocumentSnapshot?
     
@@ -24,7 +24,7 @@ class PostRepo: ObservableObject{
     }
     
     func startFetchingPosts(){
-        homePosts = [Post_new]()
+        homePosts = [Post]()
         postsLoaded = false
         db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: false).order(by: "creation_millis", descending: true).limit(to: loadLimit).getDocuments{(querySnapshot, error) in
             if error != nil{
@@ -34,8 +34,8 @@ class PostRepo: ObservableObject{
             }
             if let querSnap = querySnapshot{
                 for currentDoc in querSnap.documents{
-                    var newPost = Post_new()
-                    do { try newPost = currentDoc.data(as: Post_new.self)! }
+                    var newPost = Post()
+                    do { try newPost = currentDoc.data(as: Post.self)! }
                     catch { print("Could not load post in PostRepo: \(error)") }
                     self.homePosts.append(newPost)
                 }
@@ -58,8 +58,8 @@ class PostRepo: ObservableObject{
                 }
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
-                        var newPost = Post_new()
-                        do { try newPost = currentDoc.data(as: Post_new.self)! }
+                        var newPost = Post()
+                        do { try newPost = currentDoc.data(as: Post.self)! }
                         catch { print("Could not load post in PostRepo: \(error)") }
                         self.homePosts.append(newPost)
                     }
@@ -81,8 +81,8 @@ class PostRepo: ObservableObject{
             .whereField("creation_millis", isGreaterThan: creationMillis).order(by: "creation_millis", descending: true).getDocuments{(querySnapshot, error) in
                 if let querSnap = querySnapshot{
                     for currentDoc in querSnap.documents{
-                        var newPost = Post_new()
-                        do { try newPost = currentDoc.data(as: Post_new.self)! }
+                        var newPost = Post()
+                        do { try newPost = currentDoc.data(as: Post.self)! }
                         catch { print("Could not load post in PostRepo: \(error)") }
                         var dontAdd = false
                         for currentPost in self.homePosts{

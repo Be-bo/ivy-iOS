@@ -22,7 +22,7 @@ class CreateEventViewModel: ObservableObject {
     let storageRef = Storage.storage().reference()
     private var notificationSender = NotificationSender()
 
-    @Published var event: Event_new
+    @Published var event: Event
     @Published var loadInProgress = false
     // Allows us to dismiss CreatePostView when shouldDismissView changes to true
     var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
@@ -35,9 +35,9 @@ class CreateEventViewModel: ObservableObject {
     
     
     // If id != nil -> editing existing Post
-    init(event: Event_new?) {
+    init(event: Event?) {
         if (event != nil) { self.event = event! }
-        else { self.event = Event_new() }
+        else { self.event = Event() }
     }
     
     
@@ -173,7 +173,7 @@ class CreateEventViewModel: ObservableObject {
         loadInProgress = true
         
         // Build New Event
-        event = Event_new(
+        event = Event(
             uni: Utils.getCampusUni(),
             name: eventName,
             text: text,

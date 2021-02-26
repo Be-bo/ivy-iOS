@@ -22,7 +22,7 @@ class CreatePostViewModel: ObservableObject{
     let storageRef = Storage.storage().reference()
     private var notificationSender = NotificationSender()
 
-    @Published var post: Post_new
+    @Published var post: Post
     @Published var pinnedNames = [String]()
     @Published var pinnedIds = [String]()
     @Published var loadInProgress = false
@@ -38,9 +38,9 @@ class CreatePostViewModel: ObservableObject{
     
     
     // If id != nil -> editing existing Post
-    init(post: Post_new?) {
+    init(post: Post?) {
         if (post != nil) { self.post = post! }
-        else { self.post = Post_new() }
+        else { self.post = Post() }
         self.loadPinnedNames()
     }
     
@@ -188,7 +188,7 @@ class CreatePostViewModel: ObservableObject{
         loadInProgress = true
         
         // Build New Post
-        post = Post_new(uni: Utils.getCampusUni(), text: text)
+        post = Post(uni: Utils.getCampusUni(), text: text)
         post.setAuthor(
             id: Auth.auth().currentUser?.uid ?? "",
             name: Utils.getThisUserName(),

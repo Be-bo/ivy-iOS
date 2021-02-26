@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		487A131F7F8570DC519C497A /* Pods_ivy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8AEC0D4AF55FC1234911191 /* Pods_ivy.framework */; };
-		8D002D6124F0349D00518590 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6024F0349D00518590 /* Event.swift */; };
 		8D002D6F24F05FF100518590 /* EventsTabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D002D6D24F05FF100518590 /* EventsTabItemView.swift */; };
 		8D1BD5A92554747000C69105 /* CreateEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1BD5A82554747000C69105 /* CreateEventView.swift */; };
 		8D1BD5B62554BB4F00C69105 /* CreateEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1BD5B52554BB4F00C69105 /* CreateEventViewModel.swift */; };
@@ -16,7 +15,6 @@
 		8D30BF9F24EF024200970050 /* FirebaseImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BF9E24EF024200970050 /* FirebaseImage.swift */; };
 		8D30BFA324EF166000970050 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFA224EF166000970050 /* GridView.swift */; };
 		8D30BFAC24EF19AC00970050 /* SeeAllUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFAB24EF19AC00970050 /* SeeAllUsers.swift */; };
-		8D30BFAE24EF5ECA00970050 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30BFAD24EF5ECA00970050 /* Post.swift */; };
 		8D30D17E24F55B460020999D /* UserRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30D17D24F55B460020999D /* UserRepo.swift */; };
 		8D30D18024F579180020999D /* UserProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D30D17F24F579180020999D /* UserProfileSupport.swift */; };
 		8D3195E92566E64F00314B31 /* QuadTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3195E82566E64F00314B31 /* QuadTabView.swift */; };
@@ -29,8 +27,8 @@
 		8D515D1024E7311D00D67144 /* OrgSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */; };
 		8D515D1A24EAE90D00D67144 /* StudentSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */; };
 		8D7104032541D83E00F13CCA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104002541D83D00F13CCA /* User.swift */; };
-		8D7104082541DB4500F13CCA /* Post_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104072541DB4500F13CCA /* Post_new.swift */; };
-		8D71040B2541DB5600F13CCA /* Event_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D71040A2541DB5600F13CCA /* Event_new.swift */; };
+		8D7104082541DB4500F13CCA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7104072541DB4500F13CCA /* Post.swift */; };
+		8D71040B2541DB5600F13CCA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D71040A2541DB5600F13CCA /* Event.swift */; };
 		8D8D1002256DF01C00A559DD /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8D1001256DF01C00A559DD /* ChatRoomView.swift */; };
 		8D91D7342582D8B60067FAB1 /* ChatTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D7332582D8B60067FAB1 /* ChatTabViewModel.swift */; };
 		8D91D7382582D93E0067FAB1 /* ChatRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91D7372582D93E0067FAB1 /* ChatRepo.swift */; };
@@ -107,7 +105,6 @@
 
 /* Begin PBXFileReference section */
 		794E406406D8957DF38450FE /* Pods-ivy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.debug.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.debug.xcconfig"; sourceTree = "<group>"; };
-		8D002D6024F0349D00518590 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8D002D6D24F05FF100518590 /* EventsTabItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsTabItemView.swift; path = "ivy-iOS/Events/View/EventsTabItemView.swift"; sourceTree = SOURCE_ROOT; };
 		8D1BD5A82554747000C69105 /* CreateEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventView.swift; sourceTree = "<group>"; };
 		8D1BD5B52554BB4F00C69105 /* CreateEventViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewModel.swift; sourceTree = "<group>"; };
@@ -115,7 +112,6 @@
 		8D30BF9E24EF024200970050 /* FirebaseImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseImage.swift; sourceTree = "<group>"; };
 		8D30BFA224EF166000970050 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = "ivy-iOS/Profile/View/SubView/GridView.swift"; sourceTree = SOURCE_ROOT; };
 		8D30BFAB24EF19AC00970050 /* SeeAllUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllUsers.swift; sourceTree = "<group>"; };
-		8D30BFAD24EF5ECA00970050 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		8D30D17D24F55B460020999D /* UserRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepo.swift; sourceTree = "<group>"; };
 		8D30D17F24F579180020999D /* UserProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSupport.swift; sourceTree = "<group>"; };
 		8D3195E82566E64F00314B31 /* QuadTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadTabView.swift; sourceTree = "<group>"; };
@@ -128,8 +124,8 @@
 		8D515D0F24E7311D00D67144 /* OrgSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignupViewModel.swift; sourceTree = "<group>"; };
 		8D515D1924EAE90D00D67144 /* StudentSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSignupViewModel.swift; sourceTree = "<group>"; };
 		8D7104002541D83D00F13CCA /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		8D7104072541DB4500F13CCA /* Post_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post_new.swift; sourceTree = "<group>"; };
-		8D71040A2541DB5600F13CCA /* Event_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event_new.swift; sourceTree = "<group>"; };
+		8D7104072541DB4500F13CCA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		8D71040A2541DB5600F13CCA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8D8D1001256DF01C00A559DD /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
 		8D91D7332582D8B60067FAB1 /* ChatTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTabViewModel.swift; sourceTree = "<group>"; };
 		8D91D7372582D93E0067FAB1 /* ChatRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepo.swift; sourceTree = "<group>"; };
@@ -341,11 +337,9 @@
 			isa = PBXGroup;
 			children = (
 				8D7104002541D83D00F13CCA /* User.swift */,
-				8D30BFAD24EF5ECA00970050 /* Post.swift */,
-				8D002D6024F0349D00518590 /* Event.swift */,
 				FA6D77B624FB055800EA216C /* Comment.swift */,
-				8D7104072541DB4500F13CCA /* Post_new.swift */,
-				8D71040A2541DB5600F13CCA /* Event_new.swift */,
+				8D7104072541DB4500F13CCA /* Post.swift */,
+				8D71040A2541DB5600F13CCA /* Event.swift */,
 				8D91D743258301D50067FAB1 /* Message.swift */,
 				8D91D746258303BE0067FAB1 /* Chatroom.swift */,
 			);
@@ -764,13 +758,12 @@
 				8DABC13424E5B67600A8F801 /* OrganizationSignup.swift in Sources */,
 				8D30BF9924EC58AA00970050 /* LoadingSpinner.swift in Sources */,
 				8D002D6F24F05FF100518590 /* EventsTabItemView.swift in Sources */,
-				8D7104082541DB4500F13CCA /* Post_new.swift in Sources */,
+				8D7104082541DB4500F13CCA /* Post.swift in Sources */,
 				8D31960325677C1C00314B31 /* UserViewModel.swift in Sources */,
 				8DABC13C24E5CA5C00A8F801 /* DropDownMenu.swift in Sources */,
 				FA4B722A24F2D96E008A86FC /* PostScreen.swift in Sources */,
 				8D963B1C2592A2BA000D69CE /* ChatBubble.swift in Sources */,
 				8DD2C37324F429FC0067A507 /* EditUserProfile.swift in Sources */,
-				8D30BFAE24EF5ECA00970050 /* Post.swift in Sources */,
 				FA4F751024FACA9F009E3275 /* ProfileViewModel.swift in Sources */,
 				FA6D77BF24FC5A8600EA216C /* NotificationRepo.swift in Sources */,
 				FA201E8F24F06234003495DB /* EventItemViewModel.swift in Sources */,
@@ -788,14 +781,13 @@
 				FA4F750E24FAC6FD009E3275 /* ProfileRepo.swift in Sources */,
 				8D1BD5A92554747000C69105 /* CreateEventView.swift in Sources */,
 				FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */,
-				8D002D6124F0349D00518590 /* Event.swift in Sources */,
 				FA2B0EE524F2C72700B746FB /* PostViewModel.swift in Sources */,
 				FAE4734C24E1B7BA003E3991 /* AssetManager.swift in Sources */,
 				FA221D0524F301590067DB80 /* ThisUserRepo.swift in Sources */,
 				FABA036124F446D1007C4878 /* CreatePostViewModel.swift in Sources */,
 				FA2B0EDF24F2117600B746FB /* CalendarUtil.swift in Sources */,
 				8D7104032541D83E00F13CCA /* User.swift in Sources */,
-				8D71040B2541DB5600F13CCA /* Event_new.swift in Sources */,
+				8D71040B2541DB5600F13CCA /* Event.swift in Sources */,
 				8D3195ED2566E65E00314B31 /* ChatTabView.swift in Sources */,
 				FABA036324F457D5007C4878 /* SettingsView.swift in Sources */,
 				FA2B0EE324F2C71300B746FB /* HomeTabViewModel.swift in Sources */,

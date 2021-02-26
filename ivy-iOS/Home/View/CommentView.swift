@@ -15,7 +15,6 @@ struct CommentView: View {
     @State var url = "" //comment image
     @State var authorUrl = "" //author image
     @State var selection: Int? = nil
-    var onCommit: (Post) -> (Void) = {_ in}
     
     
     

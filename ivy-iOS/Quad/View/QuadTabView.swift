@@ -37,23 +37,35 @@ struct QuadTabView: View {
             // MARK: Horizontal List of people
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                        
+                    
                     ForEach(quadTabVM.quadUsersVMs){ userVM in
                         QuadCardView(userVM: userVM, thisUserRepo: thisUserRepo)
                             .padding()
                     }
                     
+                    // Load More Users Button
                     if !quadTabVM.usersLoaded {
-                        VStack(alignment: .center){
-                            Spacer()
-                            ActivityIndicator($loadingWheelAnimating)
-                                .onAppear {
-                                    self.quadTabVM.fetchNextBatch()
-                                }
-                            Spacer()
+                        Button(action:{
+                            self.quadTabVM.fetchNextBatch()
+                            print("FETCHING USERS BATCH") //TODO
+                        }){
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 25)
+                                    .fill(AssetManager.ivyHintGreen)
+                                    
+                                    Image(systemName: "chevron.compact.right")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width:25,height:25)
+                                        .foregroundColor(.white)
+                                        .padding()
+                            }
+                            .padding(.trailing)
+                            .padding(.vertical)
                         }
                     }
                     
+                    // No Users... :(
                     if(quadTabVM.quadUsersVMs.count < 1 && quadTabVM.usersLoaded){
                         Text("No other users :(")
                             .font(.system(size: 25))
@@ -61,7 +73,6 @@ struct QuadTabView: View {
                             .multilineTextAlignment(.center)
                             .padding(30)
                     }
-
                 }
             }
             

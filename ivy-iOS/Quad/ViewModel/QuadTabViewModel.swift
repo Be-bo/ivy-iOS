@@ -15,6 +15,7 @@ class QuadTabViewModel: ObservableObject {
     @Published var usersLoaded = false
     private var quadRepo : QuadRepo
     private var cancellables = Set<AnyCancellable>()
+    private var testNum = 0 //TODO
 
     
     // Place a listener for important values
@@ -23,7 +24,9 @@ class QuadTabViewModel: ObservableObject {
         
         quadRepo.$users.map { users in
             users.map{ user in
-                UserViewModel(user: user)
+                self.testNum += 1
+                print("NEW USER!!! NUM: \(self.testNum)")//TODO
+                return UserViewModel(user: user)
             }
         }
         .assign(to: \.quadUsersVMs, on: self)
@@ -39,6 +42,7 @@ class QuadTabViewModel: ObservableObject {
     func fetchNextBatch() {
         if (!quadRepo.usersLoading) {
             quadRepo.loadUsers()
+            print("FETCHING NEXT BATCH") // TODO
         }
     }
 

@@ -47,7 +47,7 @@ struct CreateEventView: View {
     
     
     
-    init(_ alreadyExistingEvent: Event_new? = nil){
+    init(_ alreadyExistingEvent: Event? = nil){
         self.createEventVM = CreateEventViewModel(event: alreadyExistingEvent)
         self.editingMode = alreadyExistingEvent != nil
     }

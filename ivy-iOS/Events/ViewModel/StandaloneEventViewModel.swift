@@ -26,15 +26,16 @@ class StandaloneEventViewModel: ObservableObject, Identifiable{
             if error != nil{
                 print("Failed to load standalone event for model.")
             }
-            if docsnap != nil{
-                self.event.docToObject(doc: docsnap!)
+            if let doc = docsnap {
+                do { try self.event = doc.data(as: Event.self)! }
+                catch { print("Could not load standalone Event: \(error)") }
             }
         }
     }
     
     func addToGoing(){
         if(!event.going_ids.contains(Auth.auth().currentUser!.uid)){
-            db.collection("universities").document(event.uni_domain).collection("posts").document(event.id!).updateData([
+            db.collection("universities").document(event.uni_domain).collection("posts").document(event.id).updateData([
                 "going_ids": FieldValue.arrayUnion([Auth.auth().currentUser!.uid])
             ]){error in
                 if error == nil{
@@ -45,7 +46,7 @@ class StandaloneEventViewModel: ObservableObject, Identifiable{
     }
     
     func removeFromGoing(){
-        db.collection("universities").document(event.uni_domain).collection("posts").document(event.id!).updateData([
+        db.collection("universities").document(event.uni_domain).collection("posts").document(event.id).updateData([
             "going_ids": FieldValue.arrayRemove([Auth.auth().currentUser!.uid])
         ]){ error in
             if error == nil{

@@ -56,22 +56,25 @@ class QuadRepo: ObservableObject {
         }
         
         // Build query
-        var query = db.collection("users")
-            .whereField("id", notIn: self.blackList)
-            .order(by: "id")
+        // where(notIn:) has a limit of 10...
+        var query = db.collection("users").limit(to: loadLimit)
             
         // Fetch next batch if this is not the first
         if (lastPulledDoc != nil && !start) {
             query = query.start(afterDocument: lastPulledDoc!)
         }
         
-        query.limit(to: loadLimit).getDocuments{ (QuerySnapshot, error) in
+        query.getDocuments{ (QuerySnapshot, error) in
             if error != nil {
                 print(error!)
                 self.usersLoaded = true
             }
             else if let querSnap = QuerySnapshot {
+                
                 self.users.append(contentsOf: querSnap.documents.compactMap { document in
+                    if (self.blackList.contains(document.documentID)){
+                        return nil // Exclude users in blacklist
+                    }
                     return try? document.data(as: User.self)
                 })
                 if !querSnap.isEmpty {
@@ -81,10 +84,10 @@ class QuadRepo: ObservableObject {
                 // Did we pull all users?
                 if (querSnap.documents.count < self.loadLimit) {
                     self.usersLoaded = true
+                    print("DONE FETCHING USERS. USER NUM: \(self.users.count)") //TODO
                 }
             }
             self.usersLoading = false
         }
-        
     }
 }

@@ -43,7 +43,7 @@ struct CreatePostView: View {
     
     
     // MARK: INIT
-    init(_ alreadyExistingPost: Post_new? = nil){
+    init(_ alreadyExistingPost: Post? = nil){
         self.createPostVM = CreatePostViewModel(post: alreadyExistingPost)
         self.editingMode = alreadyExistingPost != nil
     }

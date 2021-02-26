@@ -12,12 +12,12 @@ import Firebase
 
 class PostViewModel: ObservableObject, Identifiable{
     let db = Firestore.firestore()
-    @Published var post: Post_new
-    @Published var pinnedEvent = Event_new()
+    @Published var post: Post
+    @Published var pinnedEvent = Event()
     var id = ""
     private var cancellables = Set<AnyCancellable>()
     
-    init(post: Post_new){
+    init(post: Post){
         self.post = post
         $post.compactMap { post in
             post.id
@@ -28,12 +28,12 @@ class PostViewModel: ObservableObject, Identifiable{
         // Upload pinned event
         if(post.pinned_id != "" && post.pinned_id != "nothing"){
             
-            db.document(Event_new.eventPath(post.pinned_id)).getDocument{(docsnap, error) in
+            db.document(Event.eventPath(post.pinned_id)).getDocument{(docsnap, error) in
                 if error != nil{
                     print("Failed to load pinned event for post")
                 }
                 if let doc = docsnap {
-                    do { try self.pinnedEvent = doc.data(as: Event_new.self)! }
+                    do { try self.pinnedEvent = doc.data(as: Event.self)! }
                     catch { print("Could not load pinned Event for Post: \(error)") }
                 }
             }

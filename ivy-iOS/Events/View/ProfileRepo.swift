@@ -18,8 +18,8 @@ class ProfileRepo: ObservableObject{
     let db = Firestore.firestore()
     var userId = ""
     @Published var userProfile = User()
-    @Published var posts = [Post_new]()
-    @Published var events = [Event_new]()
+    @Published var posts = [Post]()
+    @Published var events = [Event]()
     
     // Pagination
     let loadLimit = 9 // Must be divisible by 3! (use 3 for testing)
@@ -58,11 +58,11 @@ class ProfileRepo: ObservableObject{
                 
         if start {
             postsLoaded = false
-            posts = [Post_new]() // reset list (maybe for reloading later)
+            posts = [Post]() // reset list (maybe for reloading later)
         }
         
         var query =
-            db.collection("universities").document(self.userProfile.uni_domain).collection("posts")
+            db.collection("universities").document(Utils.getCampusUni()).collection("posts")
             .whereField("author_id", isEqualTo: self.userProfile.id)
             .whereField("is_event", isEqualTo: false)
             .order(by: "creation_millis", descending: true)
@@ -83,7 +83,7 @@ class ProfileRepo: ObservableObject{
                 
                 self.posts.append(contentsOf: snapshot.documents.compactMap { doc in
                     do {
-                        let x = try doc.data(as: Post_new.self)
+                        let x = try doc.data(as: Post.self)
                         return x
                     }
                     catch { print("ProfileRepo.loadPosts: \(error)") }
@@ -111,11 +111,11 @@ class ProfileRepo: ObservableObject{
         
         if start {
             eventsLoaded = false
-            events = [Event_new]() // reset list (maybe for reloading later)
+            events = [Event]() // reset list (maybe for reloading later)
         }
         
         var query =
-            db.collection("universities").document(self.userProfile.uni_domain).collection("posts")
+            db.collection("universities").document(Utils.getCampusUni()).collection("posts")
             .whereField("author_id", isEqualTo: self.userProfile.id)
             .whereField("is_event", isEqualTo: true)
             .order(by: "creation_millis", descending: true)
@@ -135,7 +135,7 @@ class ProfileRepo: ObservableObject{
                 
                 self.events.append(contentsOf: snapshot.documents.compactMap { doc in
                     do {
-                        let x = try doc.data(as: Event_new.self)
+                        let x = try doc.data(as: Event.self)
                         return x
                     } catch { print(error) }
                     return nil
