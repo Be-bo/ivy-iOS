@@ -43,18 +43,8 @@ class EventRepo: ObservableObject{
                     return
                 }
                 if let querSnap = querySnapshot{
-                    
-                    
-                    /*
-                    for currentDoc in querSnap.documents{
-                        let newEvent = Event()
-                        newEvent.docToObject(doc: currentDoc)
-                        if(!newEvent.is_featured){
-                            self.upcomingEvents.append(newEvent)
-                        }
-                    }*/
                     self.upcomingEvents = querSnap.documents.compactMap{ document -> Event? in
-                        if (document.get("is_featured") ?? false) as! Bool {
+                        if !((document.get("is_featured") as? Bool) ?? false) {
                             return try? document.data(as: Event.self)
                         }
                         return nil
@@ -74,7 +64,7 @@ class EventRepo: ObservableObject{
                 }
                 if let querSnap = querySnapshot{
                     self.thisWeekEvents = querSnap.documents.compactMap{ document -> Event? in
-                        if (document.get("is_featured") as? Bool) ?? false  {
+                        if !((document.get("is_featured") as? Bool) ?? false)   {
                             return try? document.data(as: Event.self)
                         }
                         return nil
@@ -93,7 +83,7 @@ class EventRepo: ObservableObject{
                 }
                 if let querSnap = querySnapshot{
                     self.todayEvents = querSnap.documents.compactMap{ document -> Event? in
-                        if (document.get("is_featured") as? Bool) ?? false {
+                        if !((document.get("is_featured") as? Bool) ?? false)  {
                             return try? document.data(as: Event.self)
                         }
                         return nil
@@ -118,11 +108,11 @@ class EventRepo: ObservableObject{
                         return
                     }
                     if let doc = docSnap1 {
-                        let newEvent = try? doc.data(as: Event.self)
-                        if (newEvent != nil){
-                            self.featuredEvents.append(newEvent!)
-                        } else {
-                            print("Could not load event in EventRepo.refresh(): nil event")
+                        if let newEvent = try? doc.data(as: Event.self){
+                            self.featuredEvents.append(newEvent)
+                        }
+                        else {
+                            print("Could not load event in EventRepo.LoadFeatured():  \(doc.documentID)")
                         }
                     }
                 })
@@ -155,11 +145,10 @@ class EventRepo: ObservableObject{
             }
             if let querSnap = querySnapshot{
                 self.exploreAllEvents.append(contentsOf: querSnap.documents.compactMap { document in
-                    if (document.get("is_featured") as? Bool) ?? false {
-                        return try? document.data(as: Event.self)
-                    }
-                    return nil
+                    return try? document.data(as: Event.self)
                 })
+                
+                // Update last pulled Doc
                 if !querSnap.isEmpty {
                     self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
                 }

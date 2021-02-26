@@ -230,12 +230,14 @@ struct EventScreenView: View {
                     }
                     
                     //MARK: Location Row
-                    HStack{
-                        Image(systemName: "location.fill")
-                        Text(eventVM.event.location)
-                        Spacer()
+                    if (eventVM.event.location != nil){
+                        HStack{
+                            Image(systemName: "location.fill")
+                            Text(eventVM.event.location!)
+                            Spacer()
+                        }
+                        .padding(.bottom, 10)
                     }
-                    .padding(.bottom, 10)
                     
                     //MARK: Text
                     //                    Text(eventVM.event.text).fixedSize(horizontal: false, vertical: true)
@@ -323,7 +325,7 @@ struct EventScreenView: View {
                 //MARK: Link
                 if(Utils.verifyUrl(urlString: eventVM.event.link)){ //if link is valid, only then show the link button
                     Button(action: {
-                        if let url = URL(string: self.eventVM.event.link) {
+                        if let url = URL(string: self.eventVM.event.link!) {
                             UIApplication.shared.open(url)
                         }
                     }) {

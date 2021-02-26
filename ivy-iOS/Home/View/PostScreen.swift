@@ -15,7 +15,7 @@ struct PostScreen: View {
     let db = Firestore.firestore()
 
     @ObservedObject var postVM: PostViewModel
-    var pinnedEventVM: EventItemViewModel
+    var pinnedEventVM: EventItemViewModel?
     @State var imageUrl = ""
     @State var authorUrl = ""
     @State private var showReportAlert = false
@@ -53,7 +53,9 @@ struct PostScreen: View {
     
     init(postVM: PostViewModel){
         self.postVM = postVM
-        pinnedEventVM = EventItemViewModel(event: postVM.pinnedEvent)
+        if (postVM.pinnedEvent != nil){
+            pinnedEventVM = EventItemViewModel(event: postVM.pinnedEvent!)
+        }
     }
     
     
@@ -116,28 +118,10 @@ struct PostScreen: View {
                                 Alert(title: Text("Login Required"), message: Text("Log in to see this user's events and posts!"), dismissButton: .default(Text("Got it!")))
                             }
                         }
-                        
-                        //                        if (postVM.post.author_is_organization) {
-                        //                            NavigationLink(
-                        //                                destination: OrganizationProfile(uid: postVM.post.author_id)
-                        //                                    .navigationBarTitle("Profile"),
-                        //                                tag: 1,
-                        //                                selection: self.$selection) {
-                        //                                    EmptyView()
-                        //                            }
-                        //                        } else {
-                        //                            NavigationLink(
-                        //                                destination: StudentProfile(uid: postVM.post.author_id)
-                        //                                    .navigationBarTitle("Profile"),
-                        //                                tag: 1,
-                        //                                selection: self.$selection) {
-                        //                                    EmptyView()
-                        //                            }
-                        //                        }
                     }.padding(.bottom, 10)
                     
                     // MARK: Pinned Layout
-                    if(self.postVM.post.pinned_id != "" && self.postVM.post.pinned_id != "nothing"){
+                    if(self.postVM.pinnedEvent != nil){
                         HStack{
                             Image(systemName: "pin.fill").rotationEffect(Angle(degrees: -45))
                             ZStack{
@@ -145,7 +129,7 @@ struct PostScreen: View {
                                     .onTapGesture {
                                         self.selection = 2
                                     }
-                                NavigationLink(destination: EventScreenView(eventVM: pinnedEventVM).navigationBarTitle(postVM.post.pinned_name), tag: 2, selection: self.$selection){
+                                NavigationLink(destination: EventScreenView(eventVM: pinnedEventVM!).navigationBarTitle(postVM.post.pinned_name), tag: 2, selection: self.$selection){
                                     EmptyView()
                                 }
                                 Spacer()

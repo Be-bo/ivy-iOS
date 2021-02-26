@@ -17,7 +17,8 @@ import FirebaseFirestoreSwift
 
 class Event: Identifiable, Codable{
     
-    @DocumentID var doc_id: String?
+    // Use DocumentID so we don't have to add id as a field on firestore
+    //@DocumentID var doc_id: String?
     var id: String = ""
     var name: String = ""
     var is_event = true
@@ -26,18 +27,19 @@ class Event: Identifiable, Codable{
     var author_name: String = "Author"
     var author_is_organization: Bool = false
     var main_feed_visible = true
-    var creation_millis = 0
+    var creation_millis: Int? = 0
     var creation_platform = "iOS"
     var text = "Event Text"
     var visual = ""
     var views_id = [String]()
+    
     var start_millis: Int = 0
     var end_millis: Int = 0
     var going_ids = [String]()
     var is_active = true
     var is_featured = false
-    var link: String = ""
-    var location: String = "Main Campus"    
+    var link: String?
+    var location: String? = "Main Campus"    
     
     
     // Only for existing posts

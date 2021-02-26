@@ -113,6 +113,5 @@ struct HomeTabView: View {
                 })
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        
     }
 }

@@ -140,12 +140,6 @@ class ProfileRepo: ObservableObject{
                     } catch { print(error) }
                     return nil
                 })
-                /*
-                for currentDoc in snapshot.documents{
-                    let newEvent = Event()
-                    newEvent.docToObject(doc: currentDoc)
-                    self.events.append(newEvent)
-                }*/
                 
                 if !snapshot.isEmpty {
                     self.lastPulledEventDoc = snapshot.documents[snapshot.documents.count-1]

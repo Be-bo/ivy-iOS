@@ -21,7 +21,7 @@ struct ProfileEventItemView: View {
             if (eventVM.event.visual.isEmpty || eventVM.event.visual == "nothing") {
                 ProfileNoPicPostItemView(text: eventVM.event.name)
                 .onTapGesture {
-                    self.selection = self.eventVM.event.creation_millis
+                    self.selection = self.eventVM.event.creation_millis ?? 0
                 }
             } else {
                 FirebaseImage(
@@ -32,7 +32,7 @@ struct ProfileEventItemView: View {
                     shape: RoundedRectangle(cornerRadius: 25)
                 )
                 .onTapGesture {
-                    self.selection = self.eventVM.event.creation_millis
+                    self.selection = self.eventVM.event.creation_millis ?? 0
                 }
             }
             
@@ -42,7 +42,7 @@ struct ProfileEventItemView: View {
             NavigationLink(
                 destination: EventScreenView(eventVM: eventVM)
                 .navigationBarTitle(Text(eventVM.event.name), displayMode: .inline),
-                tag: eventVM.event.creation_millis, selection: self.$selection)
+                tag: eventVM.event.creation_millis ?? 0, selection: self.$selection)
             { EmptyView() }
         }
     .padding(3)

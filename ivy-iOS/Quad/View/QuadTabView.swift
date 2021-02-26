@@ -47,7 +47,6 @@ struct QuadTabView: View {
                     if !quadTabVM.usersLoaded {
                         Button(action:{
                             self.quadTabVM.fetchNextBatch()
-                            print("FETCHING USERS BATCH") //TODO
                         }){
                             ZStack{
                                 RoundedRectangle(cornerRadius: 25)

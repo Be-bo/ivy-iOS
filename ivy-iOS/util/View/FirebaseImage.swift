@@ -54,8 +54,10 @@ struct FirebaseImage<S>: View where S:Shape{
             .onAppear(){
                 if (!self.path.isEmpty && self.path != "nothing") {
                     self.storage.child(self.path).downloadURL { (url, err) in
-                        if err != nil{
-                            print("Error loading image from storage: '\(path)'")
+                        if (err != nil){
+                            if (!path.contains("userfiles")){ // Filter out users that don't have a profile pic
+                                print("Error loading image from storage: '\(path)'")
+                            }
                             return
                         }
                         self.imageURL = "\(url!)"
