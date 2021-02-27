@@ -16,7 +16,7 @@ class PostRepo: ObservableObject{
     let creationMillis = Utils.getCurrentTimeInMillis()
     let db = Firestore.firestore()
     @Published var homePosts = [Post]()
-    @Published var postsLoaded = false
+    @Published var postsLoaded = true
     var lastPulledDoc: DocumentSnapshot?
     
     init() {
@@ -26,26 +26,36 @@ class PostRepo: ObservableObject{
     func startFetchingPosts(){
         homePosts = [Post]()
         postsLoaded = false
-        db.collection("universities").document(Utils.getCampusUni()).collection("posts").whereField("is_event", isEqualTo: false).order(by: "creation_millis", descending: true).limit(to: loadLimit).getDocuments{(querySnapshot, error) in
-            if error != nil{
-                print("Error loading first home posts")
-                self.postsLoaded = true
-                return
-            }
-            if let querSnap = querySnapshot{
-                for currentDoc in querSnap.documents{
-                    var newPost = Post()
-                    do { try newPost = currentDoc.data(as: Post.self)! }
-                    catch { print("Could not load post in PostRepo: \(error)") }
-                    self.homePosts.append(newPost)
-                }
-                
-                self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
-                if(querSnap.documents.count < self.loadLimit){ //if less docs than limit, we're at the end of the collection
+        
+        db.collection("universities").document(Utils.getCampusUni()).collection("posts")
+            .whereField("is_event", isEqualTo: false)
+            .order(by: "creation_millis", descending: true)
+            .limit(to: loadLimit)
+            .getDocuments{(querySnapshot, error) in
+                if error != nil{
+                    print("Error loading first home posts")
                     self.postsLoaded = true
+                    return
+                }
+                if let querSnap = querySnapshot{
+                    for currentDoc in querSnap.documents{
+                        var newPost = Post()
+                        do { try newPost = currentDoc.data(as: Post.self)! }
+                        catch { print("Could not load post in PostRepo: \(error)") }
+                        self.homePosts.append(newPost)
+                    }
+                    
+                    // Update last doc
+                    if (!querSnap.isEmpty){
+                        self.lastPulledDoc = querSnap.documents[querSnap.documents.count-1]
+                    }
+                    
+                    //if less docs than limit, we're at the end of the collection
+                    if(querSnap.documents.count < self.loadLimit){
+                        self.postsLoaded = true
+                    }
                 }
             }
-        }
     }
     
     func fetchBatch(){

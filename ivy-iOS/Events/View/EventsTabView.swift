@@ -27,7 +27,7 @@ import Firebase
 struct EventsTabView: View {
     @State var shouldScroll = true
     @State private var uniUrl = ""
-    @ObservedObject private var thisUserRepo = ThisUserRepo()
+    @ObservedObject var thisUserRepo : ThisUserRepo
     
     @State private var settingsPresented = false
     @State private var createPostPresented = false
@@ -40,7 +40,6 @@ struct EventsTabView: View {
     @State private var showingFeaturedAlert = false
     @State var selection: Int? = nil
     @State private var loggedIn = false
-    var onCommit: (User) -> (Void) = {_ in}
     
     
     

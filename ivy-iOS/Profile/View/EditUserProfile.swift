@@ -24,6 +24,8 @@ struct EditUserProfile: View {
     @Environment(\.presentationMode) var presentationMode
     
     
+    
+    
 
     
     func updatePosts(){
@@ -67,7 +69,7 @@ struct EditUserProfile: View {
         }
         
         if(nameInput != userProfile.name){ //name changed, gotta update
-            updatePosts() //also updat posts
+            updatePosts() //also update posts
             db.collection("users").document(userProfile.id).updateData(["name" : nameInput]){error in
                 if error != nil{
                     print("Error updating username.")
@@ -104,8 +106,7 @@ struct EditUserProfile: View {
                         .frame(width: 250, height: 250)
                         .clipShape(Circle())
                         .padding(.bottom, 10)
-                }else{
-                    
+                } else {
                     FirebaseImage(
                         path: self.userProfile.getProfileImgPath(),
                         placeholder: Image(systemName: "person.crop.circle.fill"),

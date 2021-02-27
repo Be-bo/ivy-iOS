@@ -17,7 +17,7 @@ import FirebaseAuth
 class QuadRepo: ObservableObject {
     
     let db = Firestore.firestore()
-    let loadLimit = 15
+    let loadLimit = 5 //CHANGE
     var lastPulledDoc: DocumentSnapshot?
     var blackList = [String]()              // User Ids to not fetch
     
@@ -84,6 +84,9 @@ class QuadRepo: ObservableObject {
                 // Did we pull all users?
                 if (querSnap.documents.count < self.loadLimit) {
                     self.usersLoaded = true
+                }
+                else if (self.users.isEmpty){ // Load next batch if first batch was all filtered out
+                    self.loadUsers()
                 }
             }
             self.usersLoading = false

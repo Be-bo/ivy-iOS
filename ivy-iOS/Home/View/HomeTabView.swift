@@ -12,7 +12,7 @@ import Firebase
 
 struct HomeTabView: View {
     
-    var thisUserRepo: ThisUserRepo
+    @ObservedObject var thisUserRepo: ThisUserRepo
     @State private var settingsPresented = false
     @State private var createPostPresented = false
     @State private var loginPresented = false
@@ -31,6 +31,7 @@ struct HomeTabView: View {
                         HomePostView(postItemVM: postItemVM)
                     }
                     
+                    // Pagination
                     if !homeTabVM.homeRepo.postsLoaded {
                         HStack{
                             Spacer()
@@ -43,7 +44,7 @@ struct HomeTabView: View {
                     }
                 }
 
-                
+                // NO posts
                 if(homeTabVM.homePostsVMs.count < 1){
                     Text("No posts on this campus just yet!")
                         .font(.system(size: 25))

@@ -216,9 +216,11 @@ class ChatRoomRepo: ObservableObject {
             return
         }
         
-        // Remove from messaging list
+        // Remove from messaging lists
         db.document(Utils.getUserPath(userId: thisUserID))
             .updateData(["messaging_users" : FieldValue.arrayRemove([userID])])
+        db.document(Utils.getUserPath(userId: userID))
+            .updateData(["messaging_users" : FieldValue.arrayRemove([thisUserID])])
         
         // Remove user from chatroom members. if empty list -> delete document
         let roomPath = db.document(room.getPath())

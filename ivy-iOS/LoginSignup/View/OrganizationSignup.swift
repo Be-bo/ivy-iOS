@@ -103,10 +103,3 @@ struct OrganizationSignup: View {
         }
     }
 }
-
-// Preview
-struct OrganizationSignup_Previews: PreviewProvider {
-    static var previews: some View {
-        OrganizationSignup()
-    }
-}

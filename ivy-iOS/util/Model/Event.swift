@@ -49,8 +49,9 @@ class Event: Identifiable, Codable{
     // Use this for creating new posts
     init(uni: String, name: String, text: String, link: String, location: String) {
         self.id = UUID.init().uuidString
-        self.uni_domain = uni
         self.creation_millis = Int(Utils.getCurrentTimeInMillis())
+        self.uni_domain = uni
+        self.name = name
         self.text = text
         self.link = link
         self.location = location

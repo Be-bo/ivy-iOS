@@ -13,7 +13,7 @@ import Firebase
 
 struct QuadTabView: View {
     
-    var thisUserRepo : ThisUserRepo
+    @ObservedObject var thisUserRepo : ThisUserRepo
     @ObservedObject var quadTabVM : QuadTabViewModel
     @State private var settingsPresented = false
     @State private var loadingWheelAnimating = true
@@ -43,8 +43,9 @@ struct QuadTabView: View {
                             .padding()
                     }
                     
+                    
                     // Load More Users Button
-                    if !quadTabVM.usersLoaded {
+                    if (!quadTabVM.usersLoaded && !quadTabVM.quadUsersVMs.isEmpty) {
                         Button(action:{
                             self.quadTabVM.fetchNextBatch()
                         }){

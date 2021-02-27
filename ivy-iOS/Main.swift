@@ -16,16 +16,15 @@ import Firebase
 import SDWebImageSwiftUI
 
 struct Main: View {
-    @ObservedObject private var thisUserDataRepo: UserRepo
-    @ObservedObject private var thisUserRepo = ThisUserRepo()
+    @ObservedObject var thisUserRepo : ThisUserRepo
     @State private var selection = 2
     
     
     init(){
         if Auth.auth().currentUser != nil {
-            thisUserDataRepo = UserRepo(userid: Auth.auth().currentUser!.uid)
+            thisUserRepo = ThisUserRepo(userid: Auth.auth().currentUser!.uid)
         } else {
-            thisUserDataRepo = UserRepo()
+            thisUserRepo = ThisUserRepo()
         }
         Utils.checkForUnverified()
     }
@@ -41,6 +40,9 @@ struct Main: View {
                 
                 // MARK: CHAT
                 ChatTabView(thisUserRepo: thisUserRepo)
+                    .onAppear(perform:{
+                        print("CHAT TAB USER: \(thisUserRepo.user.name)")
+                    })
                     .tabItem{
                         selection == 0 ? Image(systemName: "message.fill").font(.system(size: 25)) : Image(systemName: "message").font(.system(size: 25))
                         Text("Chat")
@@ -50,7 +52,10 @@ struct Main: View {
 
 
             // MARK: Events
-            EventsTabView()
+            EventsTabView(thisUserRepo: thisUserRepo)
+                .onAppear(perform:{
+                    print("EVENT TAB USER: \(thisUserRepo.user.name)")
+                })
                 .tabItem{
                     selection == 1 ? Image(systemName: "calendar").font(.system(size: 25)) : Image(systemName: "calendar").font(.system(size: 25))
                     Text("Events")
@@ -61,6 +66,9 @@ struct Main: View {
             
             // MARK: Home
             HomeTabView(thisUserRepo: thisUserRepo)
+                .onAppear(perform:{
+                    print("HOME TAB USER: \(thisUserRepo.user.name)")
+                })
                 .tabItem {
                     selection == 2 ? Image(systemName: "house.fill").font(.system(size: 25)) : Image(systemName: "house").font(.system(size: 25))
                     Text("Home")
@@ -72,6 +80,9 @@ struct Main: View {
                 
                 // MARK: QUAD
                 QuadTabView(thisUserRepo: thisUserRepo)
+                    .onAppear(perform:{
+                        print("QUAD TAB USER: \(thisUserRepo.user.name)")
+                    })
                     .tabItem{
                         selection == 3 ? Image(systemName: "person.2.square.stack.fill").font(.system(size: 25)) : Image(systemName: "person.2.square.stack").font(.system(size: 25))
                         Text("Quad")
@@ -80,7 +91,10 @@ struct Main: View {
             
 
                 // MARK: Profile
-                ThisProfileTabView(uid: Auth.auth().currentUser!.uid)
+                ThisProfileTabView(thisUserRepo: thisUserRepo)
+                    .onAppear(perform:{
+                        print("PROFILE TAB USER: \(thisUserRepo.user.name)")
+                    })
                     .tabItem {
                         selection == 4 ? Image(systemName: "person.crop.circle.fill").font(.system(size: 25)) : Image(systemName: "person.crop.circle").font(.system(size: 25))
                         Text("Profile")
@@ -92,13 +106,13 @@ struct Main: View {
         }
         .accentColor(AssetManager.ivyGreen)
         .onDisappear {
-            if(self.thisUserDataRepo.listenerRegistration != nil){
-                self.thisUserDataRepo.removeListener()
+            if(self.thisUserRepo.listenerRegistration != nil){
+                self.thisUserRepo.removeListener()
             }
         }
         .onAppear {
             if Auth.auth().currentUser != nil{
-                self.thisUserDataRepo.loadUserProfile()
+                self.thisUserRepo.loadUserProfile()
             }
         }
     }

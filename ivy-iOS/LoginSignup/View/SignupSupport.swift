@@ -143,6 +143,7 @@ struct PopUpAlert: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 5)
                         .padding(.top, self.showImage ? 50 : 15)
+                        .foregroundColor(.black)
                     
                     Button(action: self.action) {
                         Text(self.buttonText)

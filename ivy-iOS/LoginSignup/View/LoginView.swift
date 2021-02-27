@@ -22,7 +22,7 @@ struct LoginView: View {
     @State var email = ""
     @State var password = ""
     @State var errorText = ""
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.presentationMode) var presentationMode
     
     
     
@@ -165,9 +165,8 @@ struct LoginView: View {
             
             Spacer()
         }.padding()
-            .keyboardAdaptive()
-            .onTapGesture { //hide keyboard when background tapped
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
+        .onTapGesture { //hide keyboard when background tapped
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
         }
         .foregroundColor(Color.black)
     }

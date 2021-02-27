@@ -16,7 +16,7 @@ struct ThisProfileTabView: View {
     
     var uid = ""
     @ObservedObject var profileVM : ProfileViewModel
-    @ObservedObject var thisUserRepo = ThisUserRepo()
+    @ObservedObject var thisUserRepo : ThisUserRepo
 
 
     @State var userPicUrl = ""
@@ -24,10 +24,11 @@ struct ThisProfileTabView: View {
     @State var settingsPresented = false
 
     
-    init(uid: String) {
+    init(thisUserRepo: ThisUserRepo) {
+        self.thisUserRepo = thisUserRepo
+        self.uid = thisUserRepo.user.id
         self.profileVM = ProfileViewModel(uid: uid)
-        self.userPicUrl = Utils.userProfileImagePath(userId: uid)
-        self.uid = uid
+        self.userPicUrl = Utils.userProfileImagePath(userId: thisUserRepo.user.id)
     }
     
     

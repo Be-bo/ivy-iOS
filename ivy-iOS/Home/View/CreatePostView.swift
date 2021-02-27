@@ -122,14 +122,17 @@ struct CreatePostView: View {
                     
                     
                     // MARK: Pinned
-                    DropDownMenu(
-                        selected: $pinnedName,
-                        list: self.createPostVM.pinnedNames,
-                        hint: "Pinned Event",
-                        hintColor: AssetManager.ivyHintGreen,
-                        expandedHeight: 200
-                    )
-                        .padding(.bottom, 10)
+                    if (self.createPostVM.pinnedNames.count > 0){
+                        DropDownMenu(
+                            selected: $pinnedName,
+                            list: self.createPostVM.pinnedNames,
+                            hint: "Pinned Event",
+                            hintColor: AssetManager.ivyHintGreen,
+                            expandedHeight: 200
+                        )
+                            .padding(.bottom, 10)
+                    }
+                    
                         
                     
                     
@@ -144,7 +147,7 @@ struct CreatePostView: View {
                                 createPostVM.uploadNewPost(text: self.textInput, pinnedName: self.pinnedName, image: self.inputImage)
                             }
                         }){
-                            Text("Post")
+                            Text(editingMode ? "Edit" : "Post")
                         }
                         .disabled(!inputOk())
                         .buttonStyle(StandardButtonStyle(disabled: !inputOk()))
