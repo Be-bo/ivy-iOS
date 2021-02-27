@@ -48,6 +48,7 @@
 		8DB454F325A23DFB0017A090 /* UserProfileNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB454F225A23DFB0017A090 /* UserProfileNavView.swift */; };
 		8DD2C37324F429FC0067A507 /* EditUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37224F429FC0067A507 /* EditUserProfile.swift */; };
 		8DD2C37624F432DF0067A507 /* EditProfileSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */; };
+		8DE2A96D25EA18740029854E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DE2A96C25EA18740029854E /* GoogleService-Info.plist */; };
 		A9B0A71D24B8058500A11A1D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B0A71C24B8058500A11A1D /* Main.swift */; };
 		FA14D5DF24E1C65600F1D9B1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14D5DE24E1C65600F1D9B1 /* LoginView.swift */; };
 		FA14D5E224E1C85100F1D9B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA14D5E124E1C85100F1D9B1 /* Images.xcassets */; };
@@ -78,7 +79,6 @@
 		FA6D77BF24FC5A8600EA216C /* NotificationRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77BE24FC5A8600EA216C /* NotificationRepo.swift */; };
 		FA6D77C124FC5A9500EA216C /* NotificationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77C024FC5A9500EA216C /* NotificationListViewModel.swift */; };
 		FA6D77C324FC5AAD00EA216C /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77C224FC5AAD00EA216C /* NotificationViewModel.swift */; };
-		FA6D77C624FC816D00EA216C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA6D77C524FC816D00EA216C /* GoogleService-Info.plist */; };
 		FA6D77C824FCA10800EA216C /* NotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6D77C724FCA10800EA216C /* NotificationSender.swift */; };
 		FA7274AA24F1E2FA0071A98C /* ExploreAllEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7274A924F1E2FA0071A98C /* ExploreAllEventsView.swift */; };
 		FA7274AC24F1E3B70071A98C /* ExploreAllEventsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7274AB24F1E3B70071A98C /* ExploreAllEventsItemView.swift */; };
@@ -145,6 +145,7 @@
 		8DB454F225A23DFB0017A090 /* UserProfileNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileNavView.swift; sourceTree = "<group>"; };
 		8DD2C37224F429FC0067A507 /* EditUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserProfile.swift; sourceTree = "<group>"; };
 		8DD2C37524F432DF0067A507 /* EditProfileSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileSupport.swift; sourceTree = "<group>"; };
+		8DE2A96C25EA18740029854E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		91CD0E2B74606A334338AF5B /* Pods-ivy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ivy.release.xcconfig"; path = "Target Support Files/Pods-ivy/Pods-ivy.release.xcconfig"; sourceTree = "<group>"; };
 		A8AEC0D4AF55FC1234911191 /* Pods_ivy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ivy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B0A71C24B8058500A11A1D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
@@ -182,7 +183,6 @@
 		FA6D77C024FC5A9500EA216C /* NotificationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewModel.swift; sourceTree = "<group>"; };
 		FA6D77C224FC5AAD00EA216C /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		FA6D77C424FC808100EA216C /* ivy-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ivy-iOS.entitlements"; sourceTree = "<group>"; };
-		FA6D77C524FC816D00EA216C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA6D77C724FCA10800EA216C /* NotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSender.swift; sourceTree = "<group>"; };
 		FA7274A924F1E2FA0071A98C /* ExploreAllEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreAllEventsView.swift; sourceTree = "<group>"; };
 		FA7274AB24F1E3B70071A98C /* ExploreAllEventsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreAllEventsItemView.swift; sourceTree = "<group>"; };
@@ -430,7 +430,7 @@
 				8D30BFA824EF197700970050 /* util */,
 				FA14D5E024E1C81700F1D9B1 /* Assets */,
 				FA5DEFA424B6970E00C397CB /* Info.plist */,
-				FA6D77C524FC816D00EA216C /* GoogleService-Info.plist */,
+				8DE2A96C25EA18740029854E /* GoogleService-Info.plist */,
 				FA5DEFA124B6970E00C397CB /* LaunchScreen.storyboard */,
 				FA14D5E324E1CB6D00F1D9B1 /* Preview Content */,
 			);
@@ -694,7 +694,7 @@
 				FAE4734A24E1B761003E3991 /* Colors.xcassets in Resources */,
 				FA5DEFA024B6970E00C397CB /* Preview Assets.xcassets in Resources */,
 				FA5DEF9D24B6970E00C397CB /* Assets.xcassets in Resources */,
-				FA6D77C624FC816D00EA216C /* GoogleService-Info.plist in Resources */,
+				8DE2A96D25EA18740029854E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

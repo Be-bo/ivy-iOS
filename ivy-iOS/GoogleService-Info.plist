@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>408928471838-frtsvd7msgsggrcjhi4r0l4bbosjma2v.apps.googleusercontent.com</string>
+	<string>679752248399-k8ufmd0hk3edsga3r79lfrvr88rallon.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.408928471838-frtsvd7msgsggrcjhi4r0l4bbosjma2v</string>
+	<string>com.googleusercontent.apps.679752248399-k8ufmd0hk3edsga3r79lfrvr88rallon</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDi2sfXhAuAWIMwtk_60gbOLtUBCBw228M</string>
+	<string>AIzaSyAwHA0-QC2z15qpeqjQX-U2nab3ikW1iDM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>408928471838</string>
+	<string>679752248399</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.ivythesocialnetwork.ivy</string>
 	<key>PROJECT_ID</key>
-	<string>ivy2development</string>
+	<string>ivy2testing</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ivy2development.appspot.com</string>
+	<string>ivy2testing.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:408928471838:ios:e838af6035dcaa5966d70f</string>
+	<string>1:679752248399:ios:0dcceaedea134cca7f8e3a</string>
 	<key>DATABASE_URL</key>
-	<string>https://ivy2development.firebaseio.com</string>
+	<string>https://ivy2testing.firebaseio.com</string>
 </dict>
 </plist>

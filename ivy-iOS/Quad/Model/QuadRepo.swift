@@ -17,7 +17,7 @@ import FirebaseAuth
 class QuadRepo: ObservableObject {
     
     let db = Firestore.firestore()
-    let loadLimit = 5 //CHANGE
+    let loadLimit = 15 
     var lastPulledDoc: DocumentSnapshot?
     var blackList = [String]()              // User Ids to not fetch
     
@@ -57,7 +57,9 @@ class QuadRepo: ObservableObject {
         
         // Build query
         // where(notIn:) has a limit of 10...
-        var query = db.collection("users").limit(to: loadLimit)
+        var query = db.collection("users")
+            .whereField("uni_domain", isEqualTo: Utils.getCampusUni())
+            .limit(to: loadLimit)
             
         // Fetch next batch if this is not the first
         if (lastPulledDoc != nil && !start) {

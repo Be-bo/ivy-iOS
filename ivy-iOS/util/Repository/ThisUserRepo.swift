@@ -67,20 +67,57 @@ class ThisUserRepo: UserRepo {
                 
                 // Remove chatrooms
                 db.collection("conversations")
-                    .whereField("members", arrayContains: userID).getDocuments { (querySnap, err) in
+                    .whereField("members", arrayContains: user.id).getDocuments { (querySnap, err) in
                         if (err != nil || querySnap == nil || querySnap!.isEmpty) {
                             return
                         }
                         querySnap!.documents.forEach { doc in
                             if let room = try?  doc.data(as: Chatroom.self) {
                                 if room.members.contains(userID) {
-                                    self.db.document(room.getPath()).delete()
+                                    self.leaveChatroom(room: room, thisUserID: self.user.id)
                                 }
                             }
                         }
                     }
             }
         }
+    }
+    
+    private func leaveChatroom(room: Chatroom, thisUserID: String){
+        let roomPath = db.document(room.getPath())
+        roomPath.updateData(["members" : FieldValue.arrayRemove([thisUserID])]) { err in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            }
+            roomPath.getDocument { (doc, err1) in
+                if let err1 = err1 {
+                    print(err1.localizedDescription)
+                }
+                else if let doc = doc {
+                    if let room = try? doc.data(as: Chatroom.self) {
+                        // Delete if empty, else send a message saying you left chatroom
+                        if room.members.isEmpty {
+                            roomPath.delete()
+                        } else {
+                            self.sendMessage(
+                                chatroomID: room.id,
+                                msg: Message(author: self.user.id, text: "\(self.user.name) left the Conversation."))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func sendMessage(chatroomID: String, msg: Message){
+        let _ = try! db.document(msg.getPath(chatroomID: chatroomID))
+            .setData(from: msg) { (err) in
+                if err != nil {
+                    print(err!.localizedDescription)
+                    return
+                }
+            }
     }
     
     func unblockUser(userID: String) {
